@@ -2,16 +2,16 @@
 # 실행: 관리자 권한 PowerShell에서 한 번만 실행
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$pythonExe = (Get-Command python).Source
-$script    = Join-Path $here "update_prices.py"
-$taskName  = "Portfolio_Update_Prices"
+$psExe = "powershell.exe"
+$script = Join-Path $here "daily_run.ps1"
+$taskName  = "Portfolio_Daily_Update"
 
-# 매일 오후 6시 (한국 장 마감 + 약간 여유) — 원하면 수정
-$trigger = New-ScheduledTaskTrigger -Daily -At 6:00pm
+# 매일 오후 6시 30분 (한국 장 마감 + 약간 여유) — 원하면 수정
+$trigger = New-ScheduledTaskTrigger -Daily -At 6:30pm
 
 $action = New-ScheduledTaskAction `
-    -Execute $pythonExe `
-    -Argument "`"$script`"" `
+    -Execute $psExe `
+    -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`"" `
     -WorkingDirectory $here
 
 $settings = New-ScheduledTaskSettingsSet `
@@ -21,10 +21,9 @@ $settings = New-ScheduledTaskSettingsSet `
 
 Register-ScheduledTask -TaskName $taskName `
     -Trigger $trigger -Action $action -Settings $settings `
-    -Description "포트폴리오 가격 자동 갱신 (yfinance)" -Force
+    -Description "포트폴리오 가격 자동 갱신 + 암호화 + Git push" -Force
 
 Write-Host "등록 완료: $taskName"
-Write-Host "  Python: $pythonExe"
 Write-Host "  스크립트: $script"
 Write-Host "수동 실행: Start-ScheduledTask -TaskName $taskName"
 Write-Host "확인:      Get-ScheduledTaskInfo -TaskName $taskName"
