@@ -452,6 +452,21 @@ const REGION_COLORS = {
   '이머징': '#ef4444'
 };
 
+// 룩스루 라벨 사전 (민감 데이터 아님 - HTML에 박아둠)
+window.COUNTRY_NAMES = window.COUNTRY_NAMES || {
+  KR: "한국", US: "미국", CN: "중국", JP: "일본", TW: "대만",
+  IN: "인도", BR: "브라질", ZA: "남아공", SA: "사우디", MX: "멕시코",
+  DE: "독일", UK: "영국", FR: "프랑스", IT: "이탈리아", NL: "네덜란드",
+  CH: "스위스", AU: "호주", Other: "기타"
+};
+window.SIZE_NAMES = window.SIZE_NAMES || {
+  large: "대형주", mid: "중형주", small: "소형주"
+};
+window.FACTOR_NAMES = window.FACTOR_NAMES || {
+  value: "Value", growth: "Growth", quality: "Quality", core: "Core",
+  thematic: "Thematic", dividend: "Dividend", esg: "ESG"
+};
+
 const fmt = (v, d = 2) =>
   v == null || isNaN(v) ? '-' : Number(v).toLocaleString('ko-KR', {
     maximumFractionDigits: d, minimumFractionDigits: d
