@@ -1,0 +1,30 @@
+# 이 폴더는 포트폴리오 대시보드 외에 다른 작업도 섞여 있어
+# 관련 없는 파일은 모두 무시한다.
+
+# 평문 포트폴리오 데이터 (Git에는 암호화본만)
+portfolio-data.plain.js
+.password
+
+# 별개 프로젝트 (배당 공시 스크래퍼)
+config.json
+fetch_disclosures.ps1
+monitor.log
+pending.json
+state.json
+
+# 로컬 환경 생성물
+phone_qr.png
+*.log
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# 임시
+_*.py
+*.bak

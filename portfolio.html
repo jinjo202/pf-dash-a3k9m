@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>포트폴리오 분석 대시보드</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="portfolio-data.js"></script>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --panel: #ffffff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --pos: #16a34a;
+    --neg: #dc2626;
+    --kr: #2563eb;
+    --us: #0ea5e9;
+    --eu: #8b5cf6;
+    --gl: #f59e0b;
+    --em: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Segoe UI",
+      "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  header {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  header .meta {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    border: none;
+  }
+  .upload:hover { background: #1d4ed8; }
+  .upload input { display: none; }
+  main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+
+  .drop {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 60px 24px;
+    text-align: center;
+    background: #fff;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .drop.hover {
+    border-color: var(--accent);
+    background: #eff6ff;
+    color: var(--accent);
+  }
+  .drop h2 { margin: 0 0 8px; font-size: 16px; color: var(--text); }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .kpi {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .kpi .label { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+  .kpi .value { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+  .kpi .sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .pos { color: var(--pos); }
+  .neg { color: var(--neg); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .panel h3 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .chart-wrap { position: relative; height: 280px; }
+  .chart-wrap.tall { height: 340px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td {
+    text-align: right;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  th:first-child, td:first-child,
+  th:nth-child(2), td:nth-child(2) {
+    text-align: left;
+  }
+  th {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    background: #fafbfc;
+    position: sticky; top: 0;
+  }
+  tbody tr:hover { background: #f9fafb; }
+  .region-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .region-pill[data-r="한국"] { background: var(--kr); }
+  .region-pill[data-r="미국"] { background: var(--us); }
+  .region-pill[data-r="유럽"] { background: var(--eu); }
+  .region-pill[data-r="글로벌"] { background: var(--gl); }
+  .region-pill[data-r="이머징"] { background: var(--em); }
+  .proxy-tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    vertical-align: middle;
+  }
+
+  .table-scroll {
+    max-height: 540px;
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .chip.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+  .footer-note {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  .hidden { display: none !important; }
+
+  /* ===== 비밀번호 게이트 ===== */
+  .gate-wrap {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .gate {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    max-width: 360px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+  .gate h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+  .gate p {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .gate input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fafbfc;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  .gate input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #fff;
+  }
+  .gate button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .gate button:hover { background: #1d4ed8; }
+  .gate button:disabled { background: #94a3b8; cursor: not-allowed; }
+  .gate .error {
+    color: var(--neg);
+    font-size: 12px;
+    margin-top: 8px;
+    min-height: 16px;
+  }
+  .gate .remember {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ===== 모바일 ===== */
+  @media (max-width: 768px) {
+    body { font-size: 13px; }
+    header { padding: 12px 14px; }
+    header h1 { font-size: 15px; }
+    header .meta { font-size: 11px; }
+    .upload { padding: 6px 10px; font-size: 12px; }
+    main { padding: 12px; }
+    .kpis { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+    .kpi { padding: 10px 12px; }
+    .kpi .label { font-size: 11px; }
+    .kpi .value { font-size: 16px; }
+    .kpi .sub { font-size: 10px; }
+    .grid { gap: 12px; margin-bottom: 12px; grid-template-columns: 1fr; }
+    .panel { padding: 12px; margin-bottom: 12px; }
+    .panel h3 { font-size: 12px; margin-bottom: 8px; }
+    .chart-wrap { height: 240px; }
+    .chart-wrap.tall { height: 320px; }
+    table { font-size: 11px; }
+    th, td { padding: 6px 8px; }
+    th { font-size: 10px; }
+    .table-scroll { max-height: 420px; -webkit-overflow-scrolling: touch; }
+    .toolbar { gap: 6px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+    .chip { white-space: nowrap; flex-shrink: 0; }
+    .region-pill { font-size: 10px; padding: 2px 6px; }
+    .proxy-tag { display: block; margin: 4px 0 0 0; width: max-content; }
+    h2 { font-size: 14px !important; }
+  }
+  @media (max-width: 400px) {
+    .kpis { grid-template-columns: 1fr; }
+    .chart-wrap { height: 220px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>포트폴리오 분석 대시보드</h1>
+    <div class="meta" id="meta">엑셀 파일을 업로드하세요 (.xlsx)</div>
+  </div>
+  <label class="upload">
+    파일 교체 업로드
+    <input type="file" id="file" accept=".xlsx,.xls" />
+  </label>
+</header>
+
+<main>
+  <div id="gate" class="gate-wrap hidden">
+    <form class="gate" id="gateForm">
+      <h2>🔒 포트폴리오 잠금 해제</h2>
+      <p>이 페이지는 비밀번호 없이는 데이터가 복호화되지 않습니다.</p>
+      <input type="password" id="pw" placeholder="비밀번호" autocomplete="current-password" autofocus />
+      <button type="submit" id="pwBtn">열기</button>
+      <div class="error" id="pwError"></div>
+      <label class="remember">
+        <input type="checkbox" id="pwRemember" checked />
+        이 브라우저에서 기억 (로컬에만 저장, 다른 기기엔 전송 안 됨)
+      </label>
+    </form>
+  </div>
+
+  <div id="empty" class="hidden">
+    <div class="drop" id="drop">
+      <h2>포트폴리오 엑셀을 드래그하거나 클릭해 업로드</h2>
+      <div>지역(한국/미국/유럽/글로벌/이머징), 매입가, 장부가, 시가, 변동성, 종목비중 컬럼 인식 · 금액 단위 억원</div>
+    </div>
+  </div>
+
+  <div id="dashboard" class="hidden">
+    <div class="kpis" id="kpis"></div>
+
+    <div class="grid">
+      <div class="panel">
+        <h3>지역별 자산 배분</h3>
+        <div class="chart-wrap"><canvas id="pieRegion"></canvas></div>
+      </div>
+      <div class="panel">
+        <h3>지역별 가중 변동성 (90D / 260D)</h3>
+        <div class="chart-wrap"><canvas id="barVol"></canvas></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <h3>지역별 요약</h3>
+      <div class="table-scroll" style="max-height:none">
+        <table id="regionTable"></table>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <h3>상위 종목 비중 (Top 15)</h3>
+      <div class="chart-wrap tall"><canvas id="barTop"></canvas></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <h3>종목별 손익 기여도 (억원)</h3>
+      <div class="chart-wrap tall"><canvas id="barPnL"></canvas></div>
+      <div class="footer-note">
+        막대 길이 = 종목별 평가손익 (시가 − 매입가). 매입가 0인 미보유 종목은 제외.
+      </div>
+    </div>
+
+    <h2 style="margin:24px 0 12px;font-size:16px;letter-spacing:-.02em">
+      ETF 룩스루 분석
+      <span style="color:var(--muted);font-weight:400;font-size:12px;margin-left:8px">
+        각 ETF/펀드의 underlying 노출 추정 (벤치마크·카테고리 기반 근사)
+      </span>
+    </h2>
+
+    <div class="grid">
+      <div class="panel">
+        <h3>국가별 노출 (Top 12)</h3>
+        <div class="chart-wrap tall"><canvas id="barCountry"></canvas></div>
+      </div>
+      <div class="panel">
+        <h3>사이즈 노출</h3>
+        <div class="chart-wrap tall"><canvas id="pieSize"></canvas></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <h3>팩터 노출</h3>
+      <div class="chart-wrap tall"><canvas id="barFactor"></canvas></div>
+      <div class="footer-note">
+        팩터 분류: Value / Growth / Quality / Core / Thematic / Dividend / ESG ·
+        Barra/MSCI 점수가 아닌 ETF 카테고리·벤치마크 기반 추정치
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <h3>지역 × 국가 매트릭스</h3>
+        <div class="table-scroll" style="max-height:none">
+          <table id="matrixTable"></table>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>국가별 비중 상세</h3>
+        <div class="table-scroll" style="max-height:none">
+          <table id="countryTable"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>보유 종목 상세</h3>
+      <div class="toolbar" id="regionChips"></div>
+      <div class="table-scroll">
+        <table id="holdingsTable"></table>
+      </div>
+      <div class="footer-note">
+        손익 = 시가 − 매입가 (매입가 0 종목은 손익률 계산에서 제외) ·
+        금액 단위는 <strong>억원</strong>, 1,000억 이상은 조원으로 환산 표기.
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const REGIONS = ['한국', '미국', '유럽', '글로벌', '이머징'];
+const REGION_COLORS = {
+  '한국': '#2563eb',
+  '미국': '#0ea5e9',
+  '유럽': '#8b5cf6',
+  '글로벌': '#f59e0b',
+  '이머징': '#ef4444'
+};
+
+const fmt = (v, d = 2) =>
+  v == null || isNaN(v) ? '-' : Number(v).toLocaleString('ko-KR', {
+    maximumFractionDigits: d, minimumFractionDigits: d
+  });
+const fmtPct = (v, d = 2) =>
+  v == null || isNaN(v) ? '-' : (v >= 0 ? '+' : '') + Number(v).toFixed(d) + '%';
+const cls = v => v == null || isNaN(v) ? '' : (v > 0 ? 'pos' : v < 0 ? 'neg' : '');
+// 금액은 입력 단위가 억원. 1,000억원 이상이면 조원으로 환산해 부기 표시.
+const fmtAmt = (v, d = 2) => v == null || isNaN(v) ? '-' : fmt(v, d) + ' 억원';
+const fmtAmtBig = v => {
+  if (v == null || isNaN(v)) return '-';
+  const abs = Math.abs(v);
+  if (abs >= 10000) return fmt(v / 10000, 2) + ' 조원';
+  return fmt(v, 2) + ' 억원';
+};
+
+let charts = {};
+let allHoldings = [];
+let activeRegion = 'ALL';
+
+// 페이지 로드 시 내장 데이터 자동 표시 (평문 또는 암호화)
+window.addEventListener('DOMContentLoaded', async () => {
+  if (window.PORTFOLIO_DATA && window.PORTFOLIO_DATA.holdings) {
+    loadFromData(window.PORTFOLIO_DATA);
+    return;
+  }
+  if (window.PORTFOLIO_ENCRYPTED) {
+    const saved = localStorage.getItem('pf_pw') || sessionStorage.getItem('pf_pw');
+    if (saved) {
+      try {
+        const data = await decryptBlob(window.PORTFOLIO_ENCRYPTED, saved, window.PBKDF2_ITERATIONS || 200000);
+        loadFromData(data);
+        return;
+      } catch (_) {
+        localStorage.removeItem('pf_pw');
+        sessionStorage.removeItem('pf_pw');
+      }
+    }
+    showGate();
+    return;
+  }
+  document.getElementById('empty').classList.remove('hidden');
+});
+
+function loadFromData(d) {
+  if (!d || !d.holdings) return;
+  allHoldings = d.holdings;
+  document.getElementById('meta').textContent =
+    `${d.portfolio_name || 'Portfolio'} · 가격 기준일 ${d.last_updated || '-'} · ${allHoldings.length}개 종목`;
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('empty').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  render();
+}
+
+function showGate() {
+  document.getElementById('gate').classList.remove('hidden');
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('empty').classList.add('hidden');
+  const form = document.getElementById('gateForm');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = document.getElementById('pw').value;
+    const remember = document.getElementById('pwRemember').checked;
+    const errEl = document.getElementById('pwError');
+    const btn = document.getElementById('pwBtn');
+    errEl.textContent = '';
+    btn.disabled = true;
+    btn.textContent = '복호화 중...';
+    try {
+      const data = await decryptBlob(
+        window.PORTFOLIO_ENCRYPTED, pw, window.PBKDF2_ITERATIONS || 200000
+      );
+      (remember ? localStorage : sessionStorage).setItem('pf_pw', pw);
+      loadFromData(data);
+    } catch (err) {
+      errEl.textContent = '비밀번호가 틀렸거나 데이터가 손상되었습니다.';
+      btn.disabled = false;
+      btn.textContent = '열기';
+      document.getElementById('pw').select();
+    }
+  });
+}
+
+async function decryptBlob(b64, password, iterations) {
+  const blob = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+  const salt = blob.slice(0, 16);
+  const nonce = blob.slice(16, 28);
+  const ct = blob.slice(28);
+  const km = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']
+  );
+  const key = await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt, iterations, hash: 'SHA-256' },
+    km,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['decrypt']
+  );
+  const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: nonce }, key, ct);
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+const fileInput = document.getElementById('file');
+const drop = document.getElementById('drop');
+
+fileInput.addEventListener('change', e => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+['dragenter', 'dragover'].forEach(t =>
+  drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('hover'); })
+);
+['dragleave', 'drop'].forEach(t =>
+  drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('hover'); })
+);
+drop.addEventListener('drop', e => {
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+drop.addEventListener('click', () => fileInput.click());
+
+async function handleFile(file) {
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf, { type: 'array' });
+  const holdings = parseWorkbook(wb);
+  if (!holdings.length) {
+    alert('인식 가능한 종목 데이터를 찾지 못했습니다. 시트 형식을 확인해주세요.');
+    return;
+  }
+  allHoldings = holdings;
+  document.getElementById('meta').textContent =
+    `${file.name} · ${holdings.length}개 종목 · ${new Date().toLocaleString('ko-KR')}`;
+  document.getElementById('empty').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  render();
+}
+
+function parseWorkbook(wb) {
+  // 모든 시트를 훑어 가장 많은 종목 데이터를 가진 시트를 사용
+  let best = [];
+  for (const name of wb.SheetNames) {
+    const rows = XLSX.utils.sheet_to_json(wb.Sheets[name], {
+      header: 1, defval: null, blankrows: false
+    });
+    const parsed = parseSheet(rows);
+    if (parsed.length > best.length) best = parsed;
+  }
+  return best;
+}
+
+function parseSheet(rows) {
+  // 헤더 행 찾기: 매입가/장부가/시가/종목비중 키워드가 한 행에 모여있는지
+  let hdrIdx = -1, colMap = null;
+  for (let i = 0; i < rows.length; i++) {
+    const r = (rows[i] || []).map(c => (c == null ? '' : String(c).trim()));
+    const find = (...kws) => r.findIndex(c => kws.some(k => c.includes(k)));
+    const buy = find('매입가');
+    const book = find('장부가');
+    const mkt = find('시가');
+    const w = find('종목비중', 'WEIGHT');
+    const v260 = find('260D');
+    const v90 = find('90D');
+    if (buy >= 0 && book >= 0 && mkt >= 0 && w >= 0) {
+      hdrIdx = i;
+      colMap = { buy, book, mkt, w, v260, v90 };
+      break;
+    }
+  }
+  if (hdrIdx < 0) return [];
+
+  // 종목명/지역 컬럼 추정: 헤더 좌측에서 텍스트 비율 높은 컬럼
+  const sampleEnd = Math.min(rows.length, hdrIdx + 60);
+  const leftCols = colMap.buy;
+  const textScore = Array(leftCols).fill(0);
+  for (let i = hdrIdx + 1; i < sampleEnd; i++) {
+    const r = rows[i] || [];
+    for (let c = 0; c < leftCols; c++) {
+      const v = r[c];
+      if (typeof v === 'string' && v.trim()) textScore[c]++;
+    }
+  }
+  // 우측에서 가장 텍스트 많은 컬럼이 종목명, 좌측에서 지역 키워드 컬럼 탐색
+  let nameCol = -1, maxScore = -1;
+  for (let c = leftCols - 1; c >= 0; c--) {
+    if (textScore[c] > maxScore) { maxScore = textScore[c]; nameCol = c; }
+  }
+  let regionCol = -1;
+  for (let c = 0; c < leftCols; c++) {
+    for (let i = hdrIdx + 1; i < sampleEnd; i++) {
+      const v = rows[i] && rows[i][c];
+      if (typeof v === 'string' && REGIONS.includes(v.trim())) {
+        regionCol = c; break;
+      }
+    }
+    if (regionCol >= 0) break;
+  }
+
+  const out = [];
+  let currentRegion = null;
+  for (let i = hdrIdx + 1; i < rows.length; i++) {
+    const r = rows[i] || [];
+    if (regionCol >= 0) {
+      const rv = r[regionCol];
+      if (typeof rv === 'string' && REGIONS.includes(rv.trim())) {
+        currentRegion = rv.trim();
+      }
+    }
+    const name = r[nameCol];
+    const buy = num(r[colMap.buy]);
+    const book = num(r[colMap.book]);
+    const mkt = num(r[colMap.mkt]);
+    const w = num(r[colMap.w]);
+    const v260 = colMap.v260 >= 0 ? num(r[colMap.v260]) : null;
+    const v90 = colMap.v90 >= 0 ? num(r[colMap.v90]) : null;
+    if (!name || typeof name !== 'string') continue;
+    // 소계 행 거르기: 종목명이 비었거나 비중이 비고 시가만 큰 경우는 위에서 이미 걸러짐
+    if (buy == null && book == null && mkt == null && w == null) continue;
+    out.push({
+      region: currentRegion || '기타',
+      name: String(name).trim(),
+      buy, book, mkt, w, v260, v90
+    });
+  }
+  return out;
+}
+
+function num(v) {
+  if (v == null || v === '') return null;
+  if (typeof v === 'number') return v;
+  const s = String(v).replace(/,/g, '').trim();
+  if (!s || s === '#N/A N/A' || s.startsWith('#')) return null;
+  const n = Number(s);
+  return isNaN(n) ? null : n;
+}
+
+function render() {
+  renderKPIs();
+  renderRegionTable();
+  renderPieRegion();
+  renderBarVol();
+  renderBarTop();
+  renderBarPnL();
+  renderLookthrough();
+  renderRegionChips();
+  renderHoldings();
+}
+
+// ===== 룩스루: 종목별 lookthrough를 시가(억원) 기준으로 가중 합산 =====
+function aggregateLookthrough(dim) {
+  const out = new Map();
+  let totalMkt = 0;
+  for (const h of allHoldings) {
+    const mkt = h.mkt;
+    const lt = h.lookthrough && h.lookthrough[dim];
+    if (!mkt || mkt <= 0 || !lt) continue;
+    totalMkt += mkt;
+    for (const k in lt) {
+      out.set(k, (out.get(k) || 0) + mkt * lt[k]);
+    }
+  }
+  const rows = [...out.entries()].map(([k, v]) => ({
+    key: k, mkt: v, pct: totalMkt > 0 ? (v / totalMkt) * 100 : 0
+  }));
+  rows.sort((a, b) => b.mkt - a.mkt);
+  return { rows, totalMkt };
+}
+
+function renderLookthrough() {
+  renderCountryBar();
+  renderSizePie();
+  renderFactorBar();
+  renderCountryTable();
+  renderMatrixTable();
+}
+
+function renderCountryBar() {
+  const { rows } = aggregateLookthrough('country');
+  const top = rows.slice(0, 12);
+  destroy('barCountry');
+  charts.barCountry = new Chart(document.getElementById('barCountry'), {
+    type: 'bar',
+    data: {
+      labels: top.map(r => (window.COUNTRY_NAMES[r.key] || r.key) + ' (' + r.key + ')'),
+      datasets: [{
+        label: '국가 노출 (억원)',
+        data: top.map(r => r.mkt),
+        backgroundColor: '#2563eb'
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${fmt(top[ctx.dataIndex].mkt, 2)} 억원 · ${fmt(top[ctx.dataIndex].pct, 2)}%`
+          }
+        }
+      },
+      scales: { x: { ticks: { callback: v => fmt(v, 0) + ' 억' } } }
+    }
+  });
+}
+
+function renderSizePie() {
+  const { rows } = aggregateLookthrough('size');
+  const order = ['large', 'mid', 'small'];
+  rows.sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
+  destroy('pieSize');
+  charts.pieSize = new Chart(document.getElementById('pieSize'), {
+    type: 'doughnut',
+    data: {
+      labels: rows.map(r => window.SIZE_NAMES[r.key] || r.key),
+      datasets: [{
+        data: rows.map(r => r.mkt),
+        backgroundColor: ['#1e40af', '#3b82f6', '#93c5fd'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right' },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+              const pct = (ctx.parsed / total * 100).toFixed(1);
+              return `${ctx.label}: ${fmtAmtBig(ctx.parsed)} (${pct}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderFactorBar() {
+  const { rows } = aggregateLookthrough('factor');
+  const colors = {
+    value: '#0ea5e9', growth: '#ef4444', quality: '#16a34a',
+    core: '#6b7280', thematic: '#f59e0b', dividend: '#8b5cf6', esg: '#10b981'
+  };
+  destroy('barFactor');
+  charts.barFactor = new Chart(document.getElementById('barFactor'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => window.FACTOR_NAMES[r.key] || r.key),
+      datasets: [{
+        label: '팩터 노출 (억원)',
+        data: rows.map(r => r.mkt),
+        backgroundColor: rows.map(r => colors[r.key] || '#94a3b8')
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${fmt(rows[ctx.dataIndex].mkt, 2)} 억원 · ${fmt(rows[ctx.dataIndex].pct, 2)}%`
+          }
+        }
+      },
+      scales: { x: { ticks: { callback: v => fmt(v, 0) + ' 억' } } }
+    }
+  });
+}
+
+function renderCountryTable() {
+  const { rows, totalMkt } = aggregateLookthrough('country');
+  const html = `
+    <thead>
+      <tr><th>국가</th><th>코드</th><th>노출 (억원)</th><th>비중</th></tr>
+    </thead>
+    <tbody>
+      ${rows.map(r => `
+        <tr>
+          <td>${window.COUNTRY_NAMES[r.key] || r.key}</td>
+          <td style="color:var(--muted);font-size:11px">${r.key}</td>
+          <td>${fmt(r.mkt, 2)}</td>
+          <td>${fmt(r.pct, 2)}%</td>
+        </tr>
+      `).join('')}
+      <tr style="font-weight:700;background:#fafbfc">
+        <td>합계</td><td></td>
+        <td>${fmt(totalMkt, 2)}</td><td>100.00%</td>
+      </tr>
+    </tbody>
+  `;
+  document.getElementById('countryTable').innerHTML = html;
+}
+
+// 지역 × 국가 매트릭스 (해외 ETF가 어느 국가에 분산되어 있는지)
+function renderMatrixTable() {
+  const regions = [...REGIONS];
+  const countrySet = new Set();
+  // 지역 → 국가 → 금액
+  const mat = new Map();
+  let totalByRegion = new Map();
+  for (const h of allHoldings) {
+    if (!h.mkt || h.mkt <= 0) continue;
+    const lt = h.lookthrough && h.lookthrough.country;
+    if (!lt) continue;
+    if (!mat.has(h.region)) mat.set(h.region, new Map());
+    totalByRegion.set(h.region, (totalByRegion.get(h.region) || 0) + h.mkt);
+    for (const c in lt) {
+      countrySet.add(c);
+      mat.get(h.region).set(c, (mat.get(h.region).get(c) || 0) + h.mkt * lt[c]);
+    }
+  }
+  // 국가 순: 전체 합계 큰 순
+  const ctotal = new Map();
+  for (const r of mat.values()) {
+    for (const [c, v] of r) ctotal.set(c, (ctotal.get(c) || 0) + v);
+  }
+  const countries = [...countrySet].sort((a, b) => (ctotal.get(b) || 0) - (ctotal.get(a) || 0));
+
+  const html = `
+    <thead>
+      <tr>
+        <th>지역 ＼ 국가</th>
+        ${countries.map(c => `<th>${c}</th>`).join('')}
+        <th>소계</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${regions.filter(r => mat.has(r)).map(r => {
+        const row = mat.get(r);
+        const tot = totalByRegion.get(r) || 0;
+        return `
+          <tr>
+            <td><span class="region-pill" data-r="${r}">${r}</span></td>
+            ${countries.map(c => {
+              const v = row.get(c);
+              if (!v || v < tot * 0.001) return '<td style="color:#cbd5e1">—</td>';
+              return `<td>${fmt(v, 1)}</td>`;
+            }).join('')}
+            <td style="font-weight:600">${fmt(tot, 1)}</td>
+          </tr>
+        `;
+      }).join('')}
+      <tr style="font-weight:700;background:#fafbfc">
+        <td>합계</td>
+        ${countries.map(c => `<td>${fmt(ctotal.get(c) || 0, 1)}</td>`).join('')}
+        <td>${fmt([...totalByRegion.values()].reduce((a, b) => a + b, 0), 1)}</td>
+      </tr>
+    </tbody>
+  `;
+  document.getElementById('matrixTable').innerHTML = html;
+}
+
+function renderKPIs() {
+  const h = allHoldings;
+  const totalMkt = sum(h.map(x => x.mkt));
+  const totalBuy = sum(h.filter(x => x.buy && x.buy > 0).map(x => x.buy));
+  const pnl = totalMkt - totalBuy;
+  const pnlPct = totalBuy > 0 ? (pnl / totalBuy) * 100 : null;
+  const totalWeight = sum(h.map(x => x.w));
+  const w260 = weighted(h, 'v260', 'w');
+  const w90 = weighted(h, 'v90', 'w');
+  const owned = h.filter(x => x.mkt > 0).length;
+
+  const kpis = [
+    { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `보유 종목 ${owned}개 / 전체 ${h.length}개` },
+    { label: '총 매입금액', value: fmtAmtBig(totalBuy), sub: `평가금액 대비 ${totalBuy > 0 ? fmt(totalMkt / totalBuy * 100, 1) + '%' : '-'}` },
+    {
+      label: '평가손익',
+      value: fmtAmtBig(pnl),
+      sub: pnlPct != null ? fmtPct(pnlPct) : '-',
+      cls: cls(pnl)
+    },
+    {
+      label: '가중 변동성 (260D)',
+      value: w260 == null ? '-' : fmt(w260, 2),
+      sub: w90 == null ? '' : `90D ${fmt(w90, 2)}`
+    },
+    {
+      label: '종목 비중 합계',
+      value: totalWeight == null ? '-' : fmt(totalWeight * 100, 1) + '%',
+      sub: totalWeight >= 0.99 ? '정상' : '비중 합 100% 미만'
+    }
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(k => `
+    <div class="kpi">
+      <div class="label">${k.label}</div>
+      <div class="value ${k.cls || ''}">${k.value}</div>
+      <div class="sub">${k.sub || ''}</div>
+    </div>
+  `).join('');
+}
+
+function regionAgg() {
+  const by = new Map();
+  for (const h of allHoldings) {
+    if (!by.has(h.region)) by.set(h.region, []);
+    by.get(h.region).push(h);
+  }
+  const out = [];
+  for (const [r, items] of by) {
+    const mkt = sum(items.map(x => x.mkt));
+    const buy = sum(items.filter(x => x.buy && x.buy > 0).map(x => x.buy));
+    out.push({
+      region: r,
+      count: items.length,
+      mkt, buy,
+      pnl: mkt - buy,
+      pnlPct: buy > 0 ? ((mkt - buy) / buy) * 100 : null,
+      weight: sum(items.map(x => x.w)),
+      v260: weighted(items, 'v260', 'w'),
+      v90: weighted(items, 'v90', 'w')
+    });
+  }
+  // 한국→미국→유럽→글로벌→이머징→기타 순
+  const order = [...REGIONS, '기타'];
+  out.sort((a, b) => order.indexOf(a.region) - order.indexOf(b.region));
+  return out;
+}
+
+function renderRegionTable() {
+  const rows = regionAgg();
+  const tot = {
+    mkt: sum(rows.map(r => r.mkt)),
+    buy: sum(rows.map(r => r.buy)),
+    weight: sum(rows.map(r => r.weight)),
+    v260: weighted(allHoldings, 'v260', 'w'),
+    v90: weighted(allHoldings, 'v90', 'w')
+  };
+  tot.pnl = tot.mkt - tot.buy;
+  tot.pnlPct = tot.buy > 0 ? (tot.pnl / tot.buy) * 100 : null;
+
+  const html = `
+    <thead>
+      <tr>
+        <th>지역</th><th>종목</th><th>시가 (억원)</th><th>매입가 (억원)</th>
+        <th>손익 (억원)</th><th>손익률</th><th>비중</th>
+        <th>가중 260D</th><th>가중 90D</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows.map(r => `
+        <tr>
+          <td><span class="region-pill" data-r="${r.region}">${r.region}</span></td>
+          <td>${r.count}</td>
+          <td>${fmt(r.mkt, 2)}</td>
+          <td>${fmt(r.buy, 2)}</td>
+          <td class="${cls(r.pnl)}">${fmt(r.pnl, 2)}</td>
+          <td class="${cls(r.pnlPct)}">${fmtPct(r.pnlPct)}</td>
+          <td>${r.weight == null ? '-' : fmt(r.weight * 100, 1) + '%'}</td>
+          <td>${fmt(r.v260, 1)}</td>
+          <td>${fmt(r.v90, 1)}</td>
+        </tr>
+      `).join('')}
+      <tr style="font-weight:700;background:#fafbfc">
+        <td>합계</td>
+        <td>${allHoldings.length}</td>
+        <td>${fmt(tot.mkt, 2)}</td>
+        <td>${fmt(tot.buy, 2)}</td>
+        <td class="${cls(tot.pnl)}">${fmt(tot.pnl, 2)}</td>
+        <td class="${cls(tot.pnlPct)}">${fmtPct(tot.pnlPct)}</td>
+        <td>${tot.weight == null ? '-' : fmt(tot.weight * 100, 1) + '%'}</td>
+        <td>${fmt(tot.v260, 1)}</td>
+        <td>${fmt(tot.v90, 1)}</td>
+      </tr>
+    </tbody>
+  `;
+  document.getElementById('regionTable').innerHTML = html;
+}
+
+function renderPieRegion() {
+  const rows = regionAgg();
+  destroy('pieRegion');
+  charts.pieRegion = new Chart(document.getElementById('pieRegion'), {
+    type: 'doughnut',
+    data: {
+      labels: rows.map(r => r.region),
+      datasets: [{
+        data: rows.map(r => r.mkt),
+        backgroundColor: rows.map(r => REGION_COLORS[r.region] || '#94a3b8'),
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 12 } } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+              const pct = (ctx.parsed / total * 100).toFixed(1);
+              return `${ctx.label}: ${fmtAmtBig(ctx.parsed)} (${pct}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderBarVol() {
+  const rows = regionAgg();
+  destroy('barVol');
+  charts.barVol = new Chart(document.getElementById('barVol'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => r.region),
+      datasets: [
+        {
+          label: '90D 변동성',
+          data: rows.map(r => r.v90),
+          backgroundColor: '#93c5fd'
+        },
+        {
+          label: '260D 변동성',
+          data: rows.map(r => r.v260),
+          backgroundColor: '#2563eb'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom' } },
+      scales: {
+        y: { beginAtZero: true, ticks: { callback: v => v + '%' } }
+      }
+    }
+  });
+}
+
+function renderBarTop() {
+  const top = [...allHoldings]
+    .filter(h => h.w != null && h.w > 0)
+    .sort((a, b) => b.w - a.w)
+    .slice(0, 15);
+  destroy('barTop');
+  charts.barTop = new Chart(document.getElementById('barTop'), {
+    type: 'bar',
+    data: {
+      labels: top.map(h => h.name),
+      datasets: [{
+        label: '비중 (%)',
+        data: top.map(h => h.w * 100),
+        backgroundColor: top.map(h => REGION_COLORS[h.region] || '#94a3b8')
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.parsed.x.toFixed(2)}%  ·  ${top[ctx.dataIndex].region}`
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { callback: v => v + '%' } }
+      }
+    }
+  });
+}
+
+function renderBarPnL() {
+  const items = allHoldings
+    .filter(h => h.buy != null && h.mkt != null && h.buy > 0)
+    .map(h => ({
+      ...h,
+      pnl: h.mkt - h.buy,
+      pnlPct: ((h.mkt - h.buy) / h.buy) * 100
+    }))
+    .sort((a, b) => b.pnl - a.pnl);
+
+  destroy('barPnL');
+  charts.barPnL = new Chart(document.getElementById('barPnL'), {
+    type: 'bar',
+    data: {
+      labels: items.map(h => h.name),
+      datasets: [{
+        label: '평가손익 (억원)',
+        data: items.map(h => h.pnl),
+        backgroundColor: items.map(h =>
+          h.pnl > 0 ? 'rgba(22, 163, 74, 0.85)' :
+          h.pnl < 0 ? 'rgba(220, 38, 38, 0.85)' : '#cbd5e1'
+        ),
+        borderColor: items.map(h =>
+          h.pnl > 0 ? '#15803d' : h.pnl < 0 ? '#b91c1c' : '#94a3b8'
+        ),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const h = items[ctx.dataIndex];
+              return [
+                `${h.region} · 손익 ${fmt(h.pnl, 2)} 억원`,
+                `손익률 ${fmtPct(h.pnlPct)} · 비중 ${h.w == null ? '-' : fmt(h.w * 100, 2) + '%'}`
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { callback: v => fmt(v, 0) + ' 억' },
+          grid: { color: ctx => ctx.tick.value === 0 ? '#475569' : '#e5e7eb' }
+        },
+        y: { ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function renderRegionChips() {
+  const regions = ['ALL', ...regionAgg().map(r => r.region)];
+  const el = document.getElementById('regionChips');
+  el.innerHTML = regions.map(r =>
+    `<span class="chip ${r === activeRegion ? 'active' : ''}" data-r="${r}">${r === 'ALL' ? '전체' : r}</span>`
+  ).join('');
+  el.querySelectorAll('.chip').forEach(c =>
+    c.addEventListener('click', () => {
+      activeRegion = c.dataset.r;
+      renderRegionChips();
+      renderHoldings();
+    })
+  );
+}
+
+function renderHoldings() {
+  let h = [...allHoldings];
+  if (activeRegion !== 'ALL') h = h.filter(x => x.region === activeRegion);
+  h.sort((a, b) => (b.w || 0) - (a.w || 0));
+
+  const html = `
+    <thead>
+      <tr>
+        <th>지역</th><th>종목명</th>
+        <th>매입가 (억원)</th><th>장부가 (억원)</th><th>시가 (억원)</th>
+        <th>손익 (억원)</th><th>손익률</th>
+        <th>260D</th><th>90D</th><th>비중</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${h.map(x => {
+        const pnl = x.mkt != null && x.buy != null ? x.mkt - x.buy : null;
+        const pnlPct = (x.buy && x.buy > 0) ? (pnl / x.buy) * 100 : null;
+        return `
+          <tr>
+            <td><span class="region-pill" data-r="${x.region}">${x.region}</span></td>
+            <td>${x.name}${x.proxy_ticker ? `<span class="proxy-tag" title="가격 추적 프록시: ${x.proxy_ticker}">proxy: ${x.proxy_ticker}</span>` : ''}</td>
+            <td>${fmt(x.buy, 2)}</td>
+            <td>${fmt(x.book, 2)}</td>
+            <td>${fmt(x.mkt, 2)}</td>
+            <td class="${cls(pnl)}">${fmt(pnl, 2)}</td>
+            <td class="${cls(pnlPct)}">${fmtPct(pnlPct)}</td>
+            <td>${fmt(x.v260, 1)}</td>
+            <td>${fmt(x.v90, 1)}</td>
+            <td>${x.w == null ? '-' : fmt(x.w * 100, 2) + '%'}</td>
+          </tr>
+        `;
+      }).join('')}
+    </tbody>
+  `;
+  document.getElementById('holdingsTable').innerHTML = html;
+}
+
+function sum(arr) {
+  let s = 0, any = false;
+  for (const v of arr) {
+    if (v != null && !isNaN(v)) { s += v; any = true; }
+  }
+  return any ? s : null;
+}
+function weighted(items, valKey, wKey) {
+  let num = 0, den = 0;
+  for (const x of items) {
+    const v = x[valKey], w = x[wKey];
+    if (v != null && w != null && !isNaN(v) && !isNaN(w)) {
+      num += v * w; den += w;
+    }
+  }
+  return den > 0 ? num / den : null;
+}
+function destroy(key) {
+  if (charts[key]) { charts[key].destroy(); delete charts[key]; }
+}
+</script>
+</body>
+</html>
