@@ -169,6 +169,24 @@
   .region-pill[data-r="유럽"] { background: var(--eu); }
   .region-pill[data-r="글로벌"] { background: var(--gl); }
   .region-pill[data-r="이머징"] { background: var(--em); }
+  .holdings-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: #fafbfc;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .holdings-summary .stat { display: flex; flex-direction: column; gap: 2px; padding-left: 8px; }
+  .holdings-summary .stat .lbl { color: var(--muted); font-size: 11px; font-weight: 500; }
+  .holdings-summary .stat .val { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+  .holdings-summary .stat .sub { color: var(--muted); font-size: 11px; }
+  .holdings-summary .stat.daily { border-left: 3px solid var(--accent); }
+  .holdings-summary .stat.ytd   { border-left: 3px solid #8b5cf6; }
+  .holdings-summary .stat.cum   { border-left: 3px solid #6b7280; }
+  .holdings-summary .stat.totals { border-left: 3px solid #16a34a; }
   .proxy-tag {
     display: inline-block;
     margin-left: 6px;
@@ -463,6 +481,7 @@
     <div class="panel" style="margin-top:16px">
       <h3>보유 종목 상세</h3>
       <div class="toolbar" id="regionChips"></div>
+      <div id="holdingsSummary" class="holdings-summary"></div>
       <div class="table-scroll">
         <table id="holdingsTable"></table>
       </div>
@@ -1390,10 +1409,53 @@ function renderRegionChips() {
   );
 }
 
+function renderHoldingsSummary(h) {
+  const today = todayLocalStr();
+  const tBuy  = sum(h.filter(x => x.buy  && x.buy  > 0).map(x => x.buy));
+  const tBook = sum(h.filter(x => x.book && x.book > 0).map(x => x.book));
+  const tMkt  = sum(h.map(x => x.mkt));
+  const pnlCum = (tMkt != null && tBuy != null)  ? tMkt - tBuy  : null;
+  const pnlCumPct = (tBuy && tBuy > 0)  ? (pnlCum / tBuy)  * 100 : null;
+  const pnlYtd    = (tMkt != null && tBook != null) ? tMkt - tBook : null;
+  const pnlYtdPct = (tBook && tBook > 0) ? (pnlYtd / tBook) * 100 : null;
+  const todayItems = h.filter(x => x.daily_close_date === today && x.daily_pnl != null);
+  const dailyPnl  = todayItems.length > 0 ? sum(todayItems.map(x => x.daily_pnl)) : null;
+  const dailyBase = todayItems.length > 0 ? sum(todayItems.map(x => x.mkt - x.daily_pnl)) : null;
+  const dailyPct  = (dailyBase && dailyBase > 0) ? (dailyPnl / dailyBase) * 100 : null;
+  const ownedCnt  = h.filter(x => x.mkt > 0).length;
+  const scope = activeRegion === 'ALL' ? '전체' : activeRegion;
+
+  document.getElementById('holdingsSummary').innerHTML = `
+    <div class="stat totals">
+      <div class="lbl">${scope} 시가 합계</div>
+      <div class="val">${fmtAmtBig(tMkt)}</div>
+      <div class="sub">${ownedCnt}/${h.length}개 보유</div>
+    </div>
+    <div class="stat cum">
+      <div class="lbl">누적 손익 (매입가 대비)</div>
+      <div class="val ${cls(pnlCum)}">${fmtAmtBig(pnlCum)}</div>
+      <div class="sub ${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</div>
+    </div>
+    <div class="stat ytd">
+      <div class="lbl">YTD 손익 (장부가 대비)</div>
+      <div class="val ${cls(pnlYtd)}">${fmtAmtBig(pnlYtd)}</div>
+      <div class="sub ${cls(pnlYtdPct)}">${fmtPct(pnlYtdPct)}</div>
+    </div>
+    <div class="stat daily">
+      <div class="lbl">금일 손익 (${today})</div>
+      <div class="val ${cls(dailyPnl)}">${dailyPnl == null ? '—' : fmtAmtBig(dailyPnl)}</div>
+      <div class="sub ${cls(dailyPct)}">
+        ${dailyPct == null ? '오늘 종가 미반영' : fmtPct(dailyPct) + ` · 반영 ${todayItems.length}종목`}
+      </div>
+    </div>
+  `;
+}
+
 function renderHoldings() {
   let h = [...allHoldings];
   if (activeRegion !== 'ALL') h = h.filter(x => x.region === activeRegion);
   h.sort((a, b) => (b.w || 0) - (a.w || 0));
+  renderHoldingsSummary(h);
 
   const today = todayLocalStr();
   const html = `
