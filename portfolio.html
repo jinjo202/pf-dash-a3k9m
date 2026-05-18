@@ -1330,6 +1330,35 @@ function renderHoldings() {
           </tr>
         `;
       }).join('')}
+      ${(() => {
+        const tBuy  = sum(h.filter(x => x.buy  && x.buy  > 0).map(x => x.buy));
+        const tBook = sum(h.filter(x => x.book && x.book > 0).map(x => x.book));
+        const tMkt  = sum(h.map(x => x.mkt));
+        const tPnlCum = (tMkt != null && tBuy != null)  ? tMkt - tBuy  : null;
+        const tPnlCumPct = (tBuy && tBuy > 0)  ? (tPnlCum / tBuy)  * 100 : null;
+        const tPnlYtd    = (tMkt != null && tBook != null) ? tMkt - tBook : null;
+        const tPnlYtdPct = (tBook && tBook > 0) ? (tPnlYtd / tBook) * 100 : null;
+        const tV260 = weighted(h, 'v260', 'w');
+        const tV90  = weighted(h, 'v90', 'w');
+        const tW    = sum(h.map(x => x.w));
+        const label = activeRegion === 'ALL' ? '합계' : `${activeRegion} 합계`;
+        return `
+          <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
+            <td>${label}</td>
+            <td>${h.length}개</td>
+            <td>${fmt(tBuy, 2)}</td>
+            <td>${fmt(tBook, 2)}</td>
+            <td>${fmt(tMkt, 2)}</td>
+            <td class="${cls(tPnlCum)}">${fmt(tPnlCum, 2)}</td>
+            <td class="${cls(tPnlCumPct)}">${fmtPct(tPnlCumPct)}</td>
+            <td class="${cls(tPnlYtd)}">${fmt(tPnlYtd, 2)}</td>
+            <td class="${cls(tPnlYtdPct)}">${fmtPct(tPnlYtdPct)}</td>
+            <td>${fmt(tV260, 1)}</td>
+            <td>${fmt(tV90, 1)}</td>
+            <td>${tW == null ? '-' : fmt(tW * 100, 2) + '%'}</td>
+          </tr>
+        `;
+      })()}
     </tbody>
   `;
   document.getElementById('holdingsTable').innerHTML = html;
