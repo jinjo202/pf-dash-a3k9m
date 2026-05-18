@@ -22,6 +22,10 @@ if ($LASTEXITCODE -ne 0) { Write-Warning "compute_corr_vol 실패 — 변동성 
 python fetch_benchmarks.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_benchmarks 실패 — 지수 띠는 직전 값 유지" }
 
+# 2d) Historical YTD 시리즈 (포트폴리오 vs ACWI 백테스트 + 스냅샷용)
+python compute_historical.py
+if ($LASTEXITCODE -ne 0) { Write-Warning "compute_historical 실패 — 백테스트는 직전 값 유지" }
+
 # 3) 재암호화 (plain → portfolio-data.js)
 python encrypt_data.py encrypt
 if ($LASTEXITCODE -ne 0) { throw "encrypt 실패" }
