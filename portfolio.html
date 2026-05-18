@@ -371,6 +371,29 @@
   .bm-sum.bad { color: var(--neg); font-weight: 600; }
   .bm-current { margin-left: auto; font-size: 12px; color: var(--muted); }
 
+  /* ===== 알파 기여 요약 ===== */
+  .attrib-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .attrib-summary .a {
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    border-top: 3px solid #94a3b8;
+  }
+  .attrib-summary .a.total { border-top-color: var(--text); background: #fafbfc; }
+  .attrib-summary .a.alloc-region { border-top-color: var(--accent); }
+  .attrib-summary .a.alloc-sector { border-top-color: #8b5cf6; }
+  .attrib-summary .a.select-region { border-top-color: #16a34a; }
+  .attrib-summary .a.select-sector { border-top-color: #d97706; }
+  .attrib-summary .a .l { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .attrib-summary .a .v { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .attrib-summary .a .s { color: var(--muted); font-size: 10px; margin-top: 3px; font-weight: 500; }
+
   /* ===== 알파 분해 펼침 행 ===== */
   #alphaTable tbody tr.alpha-row { cursor: pointer; transition: background 0.12s; }
   #alphaTable tbody tr.alpha-row:hover { background: var(--accent-soft) !important; }
@@ -742,6 +765,19 @@
       </div>
     </div>
 
+    <!-- 통합 알파 기여 요약 -->
+    <div class="panel" style="margin-bottom:16px">
+      <h3>성과 기여도 요약 (vs MSCI ACWI)</h3>
+      <div id="attribSummary" class="attrib-summary"></div>
+      <div class="footer-note">
+        <b>국가배분</b> = (PF 지역비중 − ACWI 지역비중) × 지역 인덱스 수익률 → 어디에 베팅했나<br>
+        <b>섹터배분</b> = (PF 섹터노출 − ACWI 섹터비중) × 섹터 ETF 수익률(XL* SPDR) → 어느 산업에 베팅했나<br>
+        <b>종목선택 (지역 내)</b> = Σ ACWI지역비중 × (PF지역수익률 − 지역인덱스수익률) → 같은 지역 안에서 더 좋은 종목 골랐는지<br>
+        <b>종목선택 (섹터 내)</b> = Σ ACWI섹터비중 × (PF섹터수익률 − 섹터ETF수익률) → 같은 섹터 안에서 더 좋은 종목 골랐는지<br>
+        ※ 지역 분해와 섹터 분해는 <b>같은 총알파를 다른 각도로 본 것</b> — 두 분해 모두 alloc + selection + interaction = 총알파.
+      </div>
+    </div>
+
     <!-- Brinson 지역 성과 분해 패널 -->
     <div class="panel" style="margin-bottom:16px">
       <h3>성과 기여도 분해 — Brinson (vs MSCI ACWI 지역구성)</h3>
@@ -756,6 +792,20 @@
         ・ <b>상호작용</b> = Σ (w<sub>p,i</sub> − w<sub>b,i</sub>) × (r<sub>p,i</sub> − r<sub>b,i</sub>) — 두 효과의 상호작용<br>
         ※ 벤치마크는 항상 MSCI ACWI (벤치마크 선택 컨트롤과 무관). 지역 대표지수: KR=KOSPI, US=S&P 500, EU=STOXX 600, 글로벌=니케이 225, EM=MSCI EM.
         ACWI 지역 비중은 2025년 근사치 — 정확도 ±1~2%p.
+      </div>
+    </div>
+
+    <!-- Brinson 섹터 성과 분해 패널 -->
+    <div class="panel" style="margin-bottom:16px">
+      <h3>성과 기여도 분해 — Brinson (vs MSCI ACWI 섹터구성)</h3>
+      <div id="brinsonSecSummary" class="backtest-metrics"></div>
+      <div class="table-scroll" style="max-height:none; margin-top:14px">
+        <table id="brinsonSecTable"></table>
+      </div>
+      <div class="footer-note">
+        섹터 인덱스는 US 섹터 SPDR ETF로 대용: IT=XLK, Financials=XLF, Healthcare=XLV, Industrials=XLI, Materials=XLB,
+        Cons Disc=XLY, Cons Staples=XLP, Communication=XLC, Energy=XLE, Utilities=XLU. ACWI 섹터 비중은 2025년 근사.<br>
+        각 종목의 섹터 노출은 광범위 ETF는 인덱스 섹터 분포, 단일섹터 ETF는 100% 그 섹터로 매핑.
       </div>
     </div>
 
@@ -1459,7 +1509,9 @@ function render() {
   renderBenchmarks();
   renderBacktest();
   renderRiskMetrics();
+  renderAttributionSummary();
   renderBrinsonAttribution();
+  renderBrinsonSector();
   renderAlphaContribution();
   renderKPIs();
   renderRegionTable();
@@ -2227,6 +2279,162 @@ function computeBrinson() {
       bmReturn: rb_total * 100,
     },
   };
+}
+
+function computeBrinsonSector() {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.holdings_mkt || !hist.sector_returns || !hist.acwi_sector_weights) return null;
+
+  const acwiSec = hist.acwi_sector_weights;
+  const secRet = hist.sector_returns;  // {sector: ytd_pct}
+  const pfStart = hist.portfolio_total[0];
+
+  // 포트폴리오의 섹터 노출 + 섹터 수익률
+  // PF sector weight: Σ (holding YTD 시작 비중 × 그 holding의 sector_exposure[s])
+  // PF sector return: Σ (holding YTD 시작 비중 × sector_exposure × holding 수익률) / PF sector weight
+  const pfSecW = {};
+  const pfSecRetNumer = {};  // weighted sum of returns
+  for (const h of allHoldings) {
+    const ser = hist.holdings_mkt[h.name];
+    if (!ser || ser.length < 2) continue;
+    const startVal = ser[0];
+    if (!startVal) continue;
+    const wH = startVal / pfStart;
+    const rH = (ser[ser.length - 1] / startVal) - 1;
+    const exp = h.sector_exposure || {};
+    for (const [sec, e] of Object.entries(exp)) {
+      const contrib = wH * e;
+      pfSecW[sec] = (pfSecW[sec] || 0) + contrib;
+      pfSecRetNumer[sec] = (pfSecRetNumer[sec] || 0) + contrib * rH;
+    }
+  }
+  const pfSecRet = {};
+  for (const sec in pfSecW) {
+    if (pfSecW[sec] > 0) pfSecRet[sec] = pfSecRetNumer[sec] / pfSecW[sec];
+  }
+
+  // 전체 BM 수익률
+  const sectors = Object.keys(acwiSec);
+  let rb_total = 0;
+  for (const s of sectors) {
+    const r = (secRet[s] || 0) / 100;
+    rb_total += acwiSec[s] * r;
+  }
+
+  const rows = [];
+  let alloc = 0, sel = 0, inter = 0;
+  for (const s of sectors) {
+    const wp = pfSecW[s] || 0;
+    const wb = acwiSec[s];
+    const rp = pfSecRet[s] || 0;
+    const rbi = (secRet[s] || 0) / 100;
+    const a = (wp - wb) * (rbi - rb_total);
+    const sl = wb * (rp - rbi);
+    const it = (wp - wb) * (rp - rbi);
+    rows.push({
+      sector: s,
+      wp: wp * 100, wb: wb * 100,
+      rp: rp * 100, rbi: rbi * 100,
+      allocation: a * 100, selection: sl * 100, interaction: it * 100,
+      total: (a + sl + it) * 100,
+    });
+    alloc += a; sel += sl; inter += it;
+  }
+  // 합계 정렬 큰 순
+  rows.sort((a, b) => b.total - a.total);
+
+  const pfTotalRet = (hist.portfolio_total[hist.portfolio_total.length - 1] / pfStart - 1);
+  return {
+    rows,
+    totals: {
+      allocation: alloc * 100, selection: sel * 100, interaction: inter * 100,
+      excess: (alloc + sel + inter) * 100,
+      pfReturn: pfTotalRet * 100, bmReturn: rb_total * 100,
+    },
+  };
+}
+
+function renderBrinsonSector() {
+  const r = computeBrinsonSector();
+  const sumEl = document.getElementById('brinsonSecSummary');
+  const tableEl = document.getElementById('brinsonSecTable');
+  if (!r) {
+    if (sumEl) sumEl.innerHTML = '<div style="color:var(--muted);padding:8px">섹터 데이터 부족</div>';
+    return;
+  }
+  const t = r.totals;
+  const card = (l, v, k = '', c = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
+  sumEl.innerHTML = [
+    card('포트폴리오 YTD',      fmtPct(t.pfReturn, 2),   'pf', cls(t.pfReturn)),
+    card('ACWI(섹터 가중) YTD', fmtPct(t.bmReturn, 2),   'bm', cls(t.bmReturn)),
+    card('초과수익',            fmtPct(t.excess, 2),     'alpha', cls(t.excess)),
+    card('섹터배분 효과',       fmtPct(t.allocation, 2), 'pf', cls(t.allocation)),
+    card('종목선택 (섹터 내)',  fmtPct(t.selection, 2),  'pf', cls(t.selection)),
+    card('상호작용',            fmtPct(t.interaction, 2),'bm', cls(t.interaction)),
+  ].join('');
+
+  const html = `
+    <thead>
+      <tr>
+        <th rowspan="2">섹터</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">비중</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD 수익률</th>
+        <th rowspan="2">섹터배분</th>
+        <th rowspan="2">종목선택</th>
+        <th rowspan="2">상호작용</th>
+        <th rowspan="2">기여 합</th>
+      </tr>
+      <tr><th>PF</th><th>ACWI</th><th>PF</th><th>섹터 ETF</th></tr>
+    </thead>
+    <tbody>
+      ${r.rows.map(row => `
+        <tr>
+          <td>${row.sector}</td>
+          <td>${fmt(row.wp, 2)}%</td>
+          <td>${fmt(row.wb, 2)}%</td>
+          <td class="${cls(row.rp)}">${fmtPct(row.rp, 2)}</td>
+          <td class="${cls(row.rbi)}">${fmtPct(row.rbi, 2)}</td>
+          <td class="${cls(row.allocation)}">${fmtPct(row.allocation, 2)}</td>
+          <td class="${cls(row.selection)}">${fmtPct(row.selection, 2)}</td>
+          <td class="${cls(row.interaction)}">${fmtPct(row.interaction, 2)}</td>
+          <td class="${cls(row.total)}" style="font-weight:600">${fmtPct(row.total, 2)}</td>
+        </tr>
+      `).join('')}
+      <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
+        <td>합계</td>
+        <td>${fmt(r.rows.reduce((s, x) => s + x.wp, 0), 2)}%</td>
+        <td>${fmt(r.rows.reduce((s, x) => s + x.wb, 0), 2)}%</td>
+        <td class="${cls(t.pfReturn)}">${fmtPct(t.pfReturn, 2)}</td>
+        <td class="${cls(t.bmReturn)}">${fmtPct(t.bmReturn, 2)}</td>
+        <td class="${cls(t.allocation)}">${fmtPct(t.allocation, 2)}</td>
+        <td class="${cls(t.selection)}">${fmtPct(t.selection, 2)}</td>
+        <td class="${cls(t.interaction)}">${fmtPct(t.interaction, 2)}</td>
+        <td class="${cls(t.excess)}">${fmtPct(t.excess, 2)}</td>
+      </tr>
+    </tbody>
+  `;
+  tableEl.innerHTML = html;
+}
+
+function renderAttributionSummary() {
+  const region = computeBrinson();
+  const sector = computeBrinsonSector();
+  const wrap = document.getElementById('attribSummary');
+  if (!wrap) return;
+  if (!region) {
+    wrap.innerHTML = '<div style="color:var(--muted);padding:8px">데이터 부족</div>';
+    return;
+  }
+  const totalAlpha = region.totals.excess;  // 지역·섹터 분해 모두 같은 총알파
+  const card = (l, v, k, sub, c) => `<div class="a ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div><div class="s">${sub}</div></div>`;
+  const items = [
+    card('총 알파 (vs ACWI)',  fmtPct(totalAlpha, 2), 'total', '지역·섹터 분해 동일', cls(totalAlpha)),
+    card('국가배분 효과',      fmtPct(region.totals.allocation, 2), 'alloc-region', '어디에 베팅했나', cls(region.totals.allocation)),
+    sector ? card('섹터배분 효과', fmtPct(sector.totals.allocation, 2), 'alloc-sector', '어느 산업에 베팅했나', cls(sector.totals.allocation)) : '',
+    card('종목선택 (지역 내)', fmtPct(region.totals.selection + region.totals.interaction, 2), 'select-region', '같은 지역에서 더 좋은 ETF', cls(region.totals.selection + region.totals.interaction)),
+    sector ? card('종목선택 (섹터 내)', fmtPct(sector.totals.selection + sector.totals.interaction, 2), 'select-sector', '같은 섹터에서 더 좋은 ETF', cls(sector.totals.selection + sector.totals.interaction)) : '',
+  ].filter(Boolean);
+  wrap.innerHTML = items.join('');
 }
 
 function renderBrinsonAttribution() {

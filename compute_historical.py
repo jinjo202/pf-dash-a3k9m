@@ -92,11 +92,18 @@ def main():
         if yt and (h.get("book") or 0) > 0:
             holding_tickers.append((h, yt))
 
-    BM_TICKERS = [("MSCI ACWI", "ACWI"), ("S&P 500", "^GSPC"), ("KOSPI", "^KS11")]
+    BM_TICKERS = [("MSCI ACWI", "ACWI"), ("S&P 500", "^GSPC"), ("KOSPI", "^KS11"),
+                  ("STOXX 600", "^STOXX"), ("니케이 225", "^N225"), ("MSCI EM", "EEM")]
+    # 섹터 proxy ETF (US sector SPDRs)
+    SECTOR_TICKERS = [("IT","XLK"), ("Communication","XLC"), ("Industrials","XLI"),
+                      ("Materials","XLB"), ("Healthcare","XLV"), ("Cons Disc","XLY"),
+                      ("Cons Staples","XLP"), ("Financials","XLF"), ("Energy","XLE"),
+                      ("Utilities","XLU")]
     unique = sorted(set(t for _, t in holding_tickers))
     bm_yt = [t for _, t in BM_TICKERS]
-    fetch_list = sorted(set(unique + bm_yt))
-    print(f"받을 티커: 종목 {len(unique)}개 + 벤치마크 {len(bm_yt)}개")
+    sec_yt = [t for _, t in SECTOR_TICKERS]
+    fetch_list = sorted(set(unique + bm_yt + sec_yt))
+    print(f"받을 티커: 종목 {len(unique)}개 + 지역BM {len(bm_yt)}개 + 섹터 {len(sec_yt)}개")
 
     prices = yf.download(
         fetch_list,
@@ -184,6 +191,23 @@ def main():
             "ytd_return": round(ret, 4),
         }
 
+    # 섹터 ETF YTD 수익률 (proxy for sector returns)
+    sector_returns = {}
+    for sec_name, sec_ticker in SECTOR_TICKERS:
+        if sec_ticker not in close.columns:
+            continue
+        series = close[sec_ticker]
+        v0 = None
+        for d in ytd_dates:
+            if d in series.index and not pd.isna(series.loc[d]):
+                v0 = float(series.loc[d]); break
+        vN = float(series.loc[ytd_dates[-1]]) if ytd_dates[-1] in series.index and not pd.isna(series.loc[ytd_dates[-1]]) else None
+        if v0 and vN and v0 > 0:
+            sector_returns[sec_name] = round((vN / v0 - 1) * 100, 4)
+            print(f"  [Sec] {sec_name:14s} {sec_ticker:6s}  YTD {sector_returns[sec_name]:+6.2f}%")
+
+    # 기존 attribution 메타 보존
+    prev_hist = data.get("historical") or {}
     data["historical"] = {
         "from": dates_str[0],
         "to": dates_str[-1],
@@ -191,6 +215,9 @@ def main():
         "portfolio_total": [round(v, 2) for v in portfolio_total],
         "holdings_mkt": holdings_mkt,
         "benchmarks": benchmarks,
+        "sector_returns": sector_returns,
+        "acwi_sector_weights": prev_hist.get("acwi_sector_weights"),
+        "sector_proxy_tickers": prev_hist.get("sector_proxy_tickers"),
         "computed_at": today.isoformat(),
     }
     save_data(text, data)
