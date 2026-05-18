@@ -860,6 +860,9 @@
     <!-- Brinson 지역 성과 분해 패널 -->
     <div class="panel" style="margin-bottom:16px">
       <h3>성과 기여도 분해 — Brinson (vs MSCI ACWI 지역구성)</h3>
+      <div style="color:var(--muted);font-size:11px;margin:-4px 0 12px;line-height:1.5">
+        💡 <b>PF 비중은 YTD 시작 시점(연초 1/2)</b> 기준입니다. 성과 측정 시 시작 시점 비중을 쓰는 게 표준 — 그래야 "그동안 잘 간 종목 비중이 커진 효과"가 분리됩니다. 각 셀에 작게 표시된 <span style="color:var(--accent)">(현재 X.X%)</span>가 시가 변동 반영 후 현재 비중.
+      </div>
       <div id="brinsonSummary" class="backtest-metrics"></div>
       <div class="table-scroll" style="max-height:none; margin-top:14px">
         <table id="brinsonTable"></table>
@@ -879,6 +882,9 @@
     <!-- Brinson 섹터 성과 분해 패널 -->
     <div class="panel" style="margin-bottom:16px">
       <h3>성과 기여도 분해 — Brinson (vs MSCI ACWI 섹터구성)</h3>
+      <div style="color:var(--muted);font-size:11px;margin:-4px 0 12px;line-height:1.5">
+        💡 PF 비중은 <b>YTD 시작 시점</b> 기준 (성과 측정 표준). 각 셀의 <span style="color:var(--accent)">(현재 X.X%, ±%p)</span>는 시가 변동 반영 후 현재 비중.
+      </div>
       <div id="brinsonSecSummary" class="backtest-metrics"></div>
       <div class="table-scroll" style="max-height:none; margin-top:14px">
         <table id="brinsonSecTable"></table>
@@ -2344,7 +2350,7 @@ function computeBrinson() {
     if (idx.ytd_pct != null) bmRetByName[idx.name] = idx.ytd_pct / 100;
   }
 
-  // 포트폴리오 지역별 시작합/끝합
+  // 포트폴리오 지역별 시작합/끝합 (YTD 기준)
   const pfStart = hist.portfolio_total[0];
   const pfByRegion = {};
   for (const [region] of Object.entries(ACWI_REGION_WEIGHTS)) {
@@ -2357,6 +2363,16 @@ function computeBrinson() {
       sN += ser[ser.length - 1];
     }
     if (s0 > 0) pfByRegion[region] = { wp: s0 / pfStart, rp: sN / s0 - 1, s0, sN };
+  }
+  // 현재 시가 기준 지역 비중 (참조용)
+  const totalCurMkt = allHoldings.reduce((s, h) => s + (h.mkt || 0), 0);
+  const pfCurByRegion = {};
+  for (const region of Object.keys(ACWI_REGION_WEIGHTS)) {
+    let sum = 0;
+    for (const h of allHoldings) {
+      if (h.region === region) sum += (h.mkt || 0);
+    }
+    pfCurByRegion[region] = totalCurMkt > 0 ? sum / totalCurMkt : 0;
   }
 
   // 전체 벤치마크 수익률
@@ -2379,6 +2395,7 @@ function computeBrinson() {
     rows.push({
       region, indexName: idxName,
       wp: pf.wp * 100, wb: wb * 100,
+      wp_now: (pfCurByRegion[region] || 0) * 100,
       rp: pf.rp * 100, rbi: rbi * 100,
       allocation: alloc * 100,
       selection: sel * 100,
@@ -2434,6 +2451,18 @@ function computeBrinsonSector() {
   for (const sec in pfSecW) {
     if (pfSecW[sec] > 0) pfSecRet[sec] = pfSecRetNumer[sec] / pfSecW[sec];
   }
+  // 현재 시가 기준 섹터 비중 (참조용)
+  const totalCurMkt = allHoldings.reduce((s, h) => s + (h.mkt || 0), 0);
+  const pfSecW_now = {};
+  for (const h of allHoldings) {
+    const mkt = h.mkt || 0;
+    if (mkt <= 0 || totalCurMkt <= 0) continue;
+    const wH = mkt / totalCurMkt;
+    const exp = h.sector_exposure || {};
+    for (const [sec, e] of Object.entries(exp)) {
+      pfSecW_now[sec] = (pfSecW_now[sec] || 0) + wH * e;
+    }
+  }
 
   // 전체 BM 수익률
   const sectors = Object.keys(acwiSec);
@@ -2456,6 +2485,7 @@ function computeBrinsonSector() {
     rows.push({
       sector: s,
       wp: wp * 100, wb: wb * 100,
+      wp_now: (pfSecW_now[s] || 0) * 100,
       rp: rp * 100, rbi: rbi * 100,
       allocation: a * 100, selection: sl * 100, interaction: it * 100,
       total: (a + sl + it) * 100,
@@ -2509,10 +2539,14 @@ function renderBrinsonSector() {
       <tr><th>PF</th><th>ACWI</th><th>PF</th><th>섹터 ETF</th></tr>
     </thead>
     <tbody>
-      ${r.rows.map(row => `
+      ${r.rows.map(row => {
+        const diff = row.wp_now - row.wp;
+        const diffSign = diff > 0 ? '+' : '';
+        const diffHtml = `<div style="color:var(--accent);font-size:10px;font-weight:500;margin-top:2px">현재 ${fmt(row.wp_now, 2)}% (${diffSign}${diff.toFixed(2)}%p)</div>`;
+        return `
         <tr>
           <td>${row.sector}</td>
-          <td>${fmt(row.wp, 2)}%</td>
+          <td>${fmt(row.wp, 2)}%${diffHtml}</td>
           <td>${fmt(row.wb, 2)}%</td>
           <td class="${cls(row.rp)}">${fmtPct(row.rp, 2)}</td>
           <td class="${cls(row.rbi)}">${fmtPct(row.rbi, 2)}</td>
@@ -2520,8 +2554,8 @@ function renderBrinsonSector() {
           <td class="${cls(row.selection)}">${fmtPct(row.selection, 2)}</td>
           <td class="${cls(row.interaction)}">${fmtPct(row.interaction, 2)}</td>
           <td class="${cls(row.total)}" style="font-weight:600">${fmtPct(row.total, 2)}</td>
-        </tr>
-      `).join('')}
+        </tr>`;
+      }).join('')}
       <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
         <td>합계</td>
         <td>${fmt(r.rows.reduce((s, x) => s + x.wp, 0), 2)}%</td>
@@ -2598,10 +2632,14 @@ function renderBrinsonAttribution() {
       </tr>
     </thead>
     <tbody>
-      ${r.rows.map(row => `
+      ${r.rows.map(row => {
+        const diff = row.wp_now - row.wp;
+        const diffSign = diff > 0 ? '+' : '';
+        const diffHtml = `<div style="color:var(--accent);font-size:10px;font-weight:500;margin-top:2px">현재 ${fmt(row.wp_now, 2)}% (${diffSign}${diff.toFixed(2)}%p)</div>`;
+        return `
         <tr>
           <td><span class="region-pill" data-r="${row.region}">${row.region}</span> <span style="color:var(--muted);font-size:10px">${REGION_BM_LABEL[row.region] || row.indexName}</span></td>
-          <td>${fmt(row.wp, 2)}%</td>
+          <td>${fmt(row.wp, 2)}%${diffHtml}</td>
           <td>${fmt(row.wb, 2)}%</td>
           <td class="${cls(row.rp)}">${fmtPct(row.rp, 2)}</td>
           <td class="${cls(row.rbi)}">${fmtPct(row.rbi, 2)}</td>
@@ -2609,8 +2647,8 @@ function renderBrinsonAttribution() {
           <td class="${cls(row.selection)}">${fmtPct(row.selection, 2)}</td>
           <td class="${cls(row.interaction)}">${fmtPct(row.interaction, 2)}</td>
           <td class="${cls(row.total)}" style="font-weight:600">${fmtPct(row.total, 2)}</td>
-        </tr>
-      `).join('')}
+        </tr>`;
+      }).join('')}
       <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
         <td>합계</td>
         <td>${fmt(r.rows.reduce((s, x) => s + x.wp, 0), 2)}%</td>
