@@ -314,6 +314,96 @@
   .snapshot-bar.historic { background: linear-gradient(180deg, #fffbeb 0%, #fff7e0 100%); border-color: #fde68a; }
   .snapshot-bar.historic .snap-info { color: #92400e; font-weight: 600; }
 
+  /* ===== 벤치마크 컨트롤 ===== */
+  .bm-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+    flex-wrap: wrap;
+  }
+  .bm-controls .bm-lbl { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .bm-controls .bm-select {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    background: #fff;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .bm-controls .bm-select:focus { outline: none; border-color: var(--accent); }
+  .bm-custom {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .bm-custom span { font-size: 12px; color: var(--text-soft); }
+  .bm-custom input[type="number"] {
+    width: 52px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 12px;
+    font-family: inherit;
+    text-align: right;
+  }
+  .bm-apply {
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .bm-apply:hover { background: #1d4ed8; }
+  .bm-sum { font-size: 11px; color: var(--muted); }
+  .bm-sum.bad { color: var(--neg); font-weight: 600; }
+  .bm-current { margin-left: auto; font-size: 12px; color: var(--muted); }
+
+  /* ===== 위험 메트릭 패널 ===== */
+  .risk-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .risk-metrics .m {
+    padding: 12px 14px;
+    background: #fafbfc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .risk-metrics .m .l {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .risk-metrics .m .v {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .risk-metrics .m .s {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
   /* ===== 백테스트 메트릭 ===== */
   .backtest-metrics {
     display: grid;
@@ -516,30 +606,67 @@
 
     <div class="kpis" id="kpis"></div>
 
+    <!-- 벤치마크 선택 컨트롤 -->
+    <div class="bm-controls">
+      <label class="bm-lbl">📊 벤치마크</label>
+      <select id="bmPreset" class="bm-select">
+        <option value="ACWI">MSCI ACWI</option>
+        <option value="SPX">S&P 500</option>
+        <option value="KOSPI">KOSPI</option>
+        <option value="ACWI50_KOSPI50">50% ACWI + 50% KOSPI</option>
+        <option value="SPX50_KOSPI50">50% S&P 500 + 50% KOSPI</option>
+        <option value="ACWI70_KOSPI30">70% ACWI + 30% KOSPI</option>
+        <option value="ACWI_SPX_KOSPI_eq">균등 (1/3씩)</option>
+        <option value="CUSTOM">사용자 정의…</option>
+      </select>
+      <div id="bmCustom" class="bm-custom hidden">
+        <span>ACWI <input type="number" id="wACWI" min="0" max="100" step="5" value="33" />%</span>
+        <span>S&P <input type="number" id="wSPX" min="0" max="100" step="5" value="33" />%</span>
+        <span>KOSPI <input type="number" id="wKOSPI" min="0" max="100" step="5" value="34" />%</span>
+        <button id="bmApply" class="bm-apply">적용</button>
+        <span id="bmCustomSum" class="bm-sum"></span>
+      </div>
+      <span class="bm-current" id="bmCurrentLabel"></span>
+    </div>
+
     <!-- YTD 백테스트 패널 -->
     <div class="panel" style="margin-bottom:16px">
-      <h3>YTD 백테스트: 포트폴리오 vs MSCI ACWI</h3>
+      <h3>YTD 백테스트: 포트폴리오 vs <span id="backtestBmLabel">벤치마크</span></h3>
       <div id="backtestMetrics" class="backtest-metrics"></div>
       <div class="chart-wrap tall"><canvas id="backtestChart"></canvas></div>
       <div class="footer-note">
         포트폴리오 가치 = Σ(종목별 장부가 × <i>현재가</i> / <i>YTD 시작가</i>) ·
-        ACWI는 <code>ACWI</code> ETF(MSCI ACWI 추적) 종가, 포트폴리오 시작값에 정규화.
+        벤치마크는 일별 수익률을 가중 블렌드 후 포트폴리오 시작값에 정규화.
         <br>※ 리밸런싱 없는 buy-and-hold 가정. 프록시 추적 종목은 실제 펀드 NAV와 차이 있을 수 있음.
+      </div>
+    </div>
+
+    <!-- 위험·수익 메트릭 패널 -->
+    <div class="panel" style="margin-bottom:16px">
+      <h3>위험·수익 메트릭 (vs <span id="riskBmLabel">벤치마크</span>)</h3>
+      <div id="riskMetrics" class="risk-metrics"></div>
+      <div class="footer-note">
+        일별 수익률 기반 (YTD ~ <span id="riskNDays">N</span>거래일) · 무위험금리 0% 가정 · 연환산 √252 적용<br>
+        <b>α</b> Jensen's: r<sub>p</sub> − β × r<sub>b</sub> &nbsp;·&nbsp;
+        <b>β</b> Cov(p,b)/Var(b) &nbsp;·&nbsp;
+        <b>샤프</b> 평균/표준편차 × √252 &nbsp;·&nbsp;
+        <b>추적오차</b> std(r<sub>p</sub>−r<sub>b</sub>) × √252 &nbsp;·&nbsp;
+        <b>IR</b> 평균초과/추적오차
       </div>
     </div>
 
     <!-- 알파 기여도 분해 패널 -->
     <div class="panel" style="margin-bottom:16px">
-      <h3>알파 기여도 분해 (vs MSCI ACWI)</h3>
+      <h3>알파 기여도 분해 (vs <span id="alphaBmLabel">벤치마크</span>)</h3>
       <div id="alphaSummary" class="backtest-metrics"></div>
       <div class="chart-wrap tall"><canvas id="alphaChart"></canvas></div>
       <div class="table-scroll" style="max-height:none; margin-top:14px">
         <table id="alphaTable"></table>
       </div>
       <div class="footer-note">
-        <b>계산식</b>: α<sub>i</sub> = w<sub>i</sub> × (r<sub>i</sub> − r<sub>ACWI</sub>) &nbsp;·&nbsp;
-        w<sub>i</sub> = YTD 시작 시점 비중, r<sub>i</sub> = 종목 YTD 수익률, r<sub>ACWI</sub> = ACWI YTD 수익률 (+8.51%)<br>
-        모든 종목의 α<sub>i</sub> 합 = 포트폴리오 총 alpha. 양수면 ACWI 대비 기여, 음수면 drag.
+        <b>계산식</b>: α<sub>i</sub> = w<sub>i</sub> × (r<sub>i</sub> − r<sub>BM</sub>) &nbsp;·&nbsp;
+        w<sub>i</sub> = YTD 시작 시점 비중, r<sub>i</sub> = 종목 YTD 수익률, r<sub>BM</sub> = 선택 벤치마크 YTD 수익률<br>
+        모든 종목의 α<sub>i</sub> 합 = 포트폴리오 총 alpha. 양수면 벤치마크 대비 기여, 음수면 drag.
       </div>
     </div>
 
@@ -709,6 +836,139 @@ let snapshotDate = null;       // null = 최신, "YYYY-MM-DD" = 스냅샷 모드
 let activeRegion = 'ALL';
 let pnlMode = 'cum';  // 'cum' | 'ytd'
 
+// 벤치마크 프리셋
+const BM_PRESETS = {
+  'ACWI':              { 'MSCI ACWI': 1 },
+  'SPX':               { 'S&P 500': 1 },
+  'KOSPI':             { 'KOSPI': 1 },
+  'ACWI50_KOSPI50':    { 'MSCI ACWI': 0.5, 'KOSPI': 0.5 },
+  'SPX50_KOSPI50':     { 'S&P 500': 0.5, 'KOSPI': 0.5 },
+  'ACWI70_KOSPI30':    { 'MSCI ACWI': 0.7, 'KOSPI': 0.3 },
+  'ACWI_SPX_KOSPI_eq': { 'MSCI ACWI': 1/3, 'S&P 500': 1/3, 'KOSPI': 1/3 },
+};
+let benchmarkState = {
+  preset: 'ACWI',
+  weights: BM_PRESETS['ACWI'],
+};
+
+function benchmarkLabel() {
+  const w = benchmarkState.weights;
+  const active = Object.entries(w).filter(([_, v]) => v > 0);
+  if (active.length === 1) return active[0][0];
+  return active.map(([n, v]) => `${Math.round(v * 100)}% ${n}`).join(' + ');
+}
+
+// 선택된 벤치마크의 일별 가치 시리즈 (포트폴리오 시작값에 정규화)
+function buildBenchmarkSeries() {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.benchmarks) return null;
+  const dates = hist.dates;
+  const N = dates.length;
+  const pfStart = hist.portfolio_total[0];
+  if (!pfStart || pfStart <= 0) return null;
+
+  // 활성 벤치마크
+  const sources = [];
+  let totalW = 0;
+  for (const [name, w] of Object.entries(benchmarkState.weights)) {
+    if (w <= 0) continue;
+    const bm = hist.benchmarks[name];
+    if (!bm || !bm.values) continue;
+    sources.push({ name, w, raw: bm.values });
+    totalW += w;
+  }
+  if (!sources.length || totalW <= 0) return null;
+
+  // 각 벤치마크의 일별 수익률
+  const dailyReturns = sources.map(s => {
+    const r = new Array(N);
+    r[0] = 0;
+    for (let i = 1; i < N; i++) {
+      r[i] = (s.raw[i] && s.raw[i-1] && s.raw[i-1] > 0)
+        ? (s.raw[i] / s.raw[i-1] - 1) : 0;
+    }
+    return r;
+  });
+
+  // 블렌드된 일별 수익률을 누적
+  const values = new Array(N);
+  values[0] = pfStart;
+  let cum = pfStart;
+  for (let i = 1; i < N; i++) {
+    let r = 0;
+    for (let k = 0; k < sources.length; k++) {
+      r += (sources[k].w / totalW) * dailyReturns[k][i];
+    }
+    cum *= (1 + r);
+    values[i] = Math.round(cum * 100) / 100;
+  }
+  return values;
+}
+
+// 일별 수익률 기반 위험·수익 메트릭
+function computeRiskMetrics() {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist) return null;
+  const pf = hist.portfolio_total;
+  const bm = buildBenchmarkSeries();
+  if (!pf || !bm || pf.length < 5) return null;
+
+  const N = pf.length;
+  const pr = [], br = [], er = [];
+  for (let i = 1; i < N; i++) {
+    if (pf[i-1] > 0 && bm[i-1] > 0) {
+      const p = pf[i] / pf[i-1] - 1;
+      const b = bm[i] / bm[i-1] - 1;
+      pr.push(p); br.push(b); er.push(p - b);
+    }
+  }
+  if (pr.length < 5) return null;
+
+  const meanA = a => a.reduce((s, v) => s + v, 0) / a.length;
+  const varA = a => { const m = meanA(a); return a.reduce((s, v) => s + (v - m) ** 2, 0) / a.length; };
+  const stdA = a => Math.sqrt(varA(a));
+  const covAB = (a, b) => { const ma = meanA(a), mb = meanA(b); let s = 0; for (let i = 0; i < a.length; i++) s += (a[i] - ma) * (b[i] - mb); return s / a.length; };
+
+  const A = 252, S = Math.sqrt(A);
+  const mp = meanA(pr), mb_ = meanA(br), me = meanA(er);
+  const sp = stdA(pr), sb = stdA(br), se = stdA(er);
+  const cpb = covAB(pr, br), vb = varA(br);
+
+  const beta = vb > 0 ? cpb / vb : null;
+  const alphaJ = beta != null ? (mp - beta * mb_) * A * 100 : null;  // 연환산 %
+  const r2 = (sp > 0 && sb > 0) ? Math.pow(cpb / (sp * sb), 2) : null;
+  const sharpe = sp > 0 ? (mp / sp) * S : null;
+  const sharpeBm = sb > 0 ? (mb_ / sb) * S : null;
+  const trackErr = se * S * 100;
+  const ir = se > 0 ? (me / se) * S : null;
+  const volP = sp * S * 100;
+  const volB = sb * S * 100;
+
+  // MDD
+  const maxDD = arr => {
+    let peak = arr[0], dd = 0;
+    for (const v of arr) {
+      if (v > peak) peak = v;
+      const c = v - peak;
+      if (c < dd) dd = c;
+    }
+    return dd;
+  };
+  const cumP = pf.map(v => v / pf[0]);
+  const cumB = bm.map(v => v / bm[0]);
+  const mddP = maxDD(cumP) * 100;
+  const mddB = maxDD(cumB) * 100;
+
+  const pfYtd = (pf[pf.length-1] / pf[0] - 1) * 100;
+  const bmYtd = (bm[bm.length-1] / bm[0] - 1) * 100;
+
+  return {
+    nDays: pr.length, pfYtd, bmYtd, excessYtd: pfYtd - bmYtd,
+    beta, alphaJ, r2, sharpe, sharpeBm,
+    volP, volB, trackErr, ir, mddP, mddB,
+  };
+}
+
 // Chart.js 전역 기본값 — 대시보드 팔레트와 통일
 if (typeof Chart !== 'undefined') {
   Chart.defaults.font.family = '"Pretendard Variable", Pretendard, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
@@ -760,7 +1020,80 @@ function loadFromData(d) {
   document.getElementById('empty').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
   initSnapshotControls();
+  initBenchmarkControls();
   render();
+}
+
+function initBenchmarkControls() {
+  const sel = document.getElementById('bmPreset');
+  const custom = document.getElementById('bmCustom');
+  const apply = document.getElementById('bmApply');
+  const label = document.getElementById('bmCurrentLabel');
+  const sumEl = document.getElementById('bmCustomSum');
+  if (!sel) return;
+
+  // 사용 가능한 벤치마크에 따라 옵션 disable
+  const have = (portfolioData && portfolioData.historical && portfolioData.historical.benchmarks) || {};
+  const presetUses = {
+    'ACWI': ['MSCI ACWI'],
+    'SPX': ['S&P 500'],
+    'KOSPI': ['KOSPI'],
+    'ACWI50_KOSPI50': ['MSCI ACWI', 'KOSPI'],
+    'SPX50_KOSPI50': ['S&P 500', 'KOSPI'],
+    'ACWI70_KOSPI30': ['MSCI ACWI', 'KOSPI'],
+    'ACWI_SPX_KOSPI_eq': ['MSCI ACWI', 'S&P 500', 'KOSPI'],
+  };
+  for (const opt of sel.options) {
+    if (opt.value === 'CUSTOM') continue;
+    const needs = presetUses[opt.value] || [];
+    if (needs.some(n => !have[n])) opt.disabled = true;
+  }
+
+  const updateLabel = () => { if (label) label.textContent = `현재: ${benchmarkLabel()}`; };
+  const checkSum = () => {
+    const a = +document.getElementById('wACWI').value || 0;
+    const s = +document.getElementById('wSPX').value || 0;
+    const k = +document.getElementById('wKOSPI').value || 0;
+    const total = a + s + k;
+    sumEl.textContent = `합계 ${total}%`;
+    sumEl.classList.toggle('bad', total !== 100);
+    return { a, s, k, total };
+  };
+
+  sel.addEventListener('change', () => {
+    if (sel.value === 'CUSTOM') {
+      custom.classList.remove('hidden');
+      checkSum();
+      return;
+    }
+    custom.classList.add('hidden');
+    benchmarkState.preset = sel.value;
+    benchmarkState.weights = { ...BM_PRESETS[sel.value] };
+    updateLabel();
+    render();
+  });
+
+  ['wACWI', 'wSPX', 'wKOSPI'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', checkSum);
+  });
+
+  apply.addEventListener('click', () => {
+    const { a, s, k, total } = checkSum();
+    if (total !== 100) {
+      alert(`비중 합계가 100%여야 합니다 (현재 ${total}%)`);
+      return;
+    }
+    benchmarkState.preset = 'CUSTOM';
+    benchmarkState.weights = {};
+    if (a > 0) benchmarkState.weights['MSCI ACWI'] = a / 100;
+    if (s > 0) benchmarkState.weights['S&P 500'] = s / 100;
+    if (k > 0) benchmarkState.weights['KOSPI'] = k / 100;
+    updateLabel();
+    render();
+  });
+
+  updateLabel();
 }
 
 function initSnapshotControls() {
@@ -1018,6 +1351,7 @@ function num(v) {
 function render() {
   renderBenchmarks();
   renderBacktest();
+  renderRiskMetrics();
   renderAlphaContribution();
   renderKPIs();
   renderRegionTable();
@@ -1322,54 +1656,49 @@ function renderBacktest() {
   const hist = portfolioData && portfolioData.historical;
   const canvas = document.getElementById('backtestChart');
   const metricsEl = document.getElementById('backtestMetrics');
+  const labelEl = document.getElementById('backtestBmLabel');
   if (!hist || !hist.dates || !canvas) {
     if (metricsEl) metricsEl.innerHTML = '<div style="color:var(--muted);padding:8px">백테스트 데이터 없음 — compute_historical.py 실행 필요</div>';
     return;
   }
+  if (labelEl) labelEl.textContent = benchmarkLabel();
+
   const dates = hist.dates;
   const pf = hist.portfolio_total || [];
-  const acwi = hist.acwi_normalized || [];
+  const bm = buildBenchmarkSeries();
   if (!pf.length) return;
 
-  // 누적 수익률 변환 (시작=0%)
+  // 누적 수익률 (% from start)
   const pfRet = pf.map(v => (v / pf[0] - 1) * 100);
-  const acwiRet = acwi.length ? acwi.map(v => (v / acwi[0] - 1) * 100) : null;
+  const bmRet = bm ? bm.map(v => (v / bm[0] - 1) * 100) : null;
 
-  // 메트릭 계산
   const pfLast = pf[pf.length - 1];
   const pfTotalRet = pfRet[pfRet.length - 1];
-  const acwiTotalRet = acwiRet ? acwiRet[acwiRet.length - 1] : null;
-  const alpha = acwiTotalRet != null ? pfTotalRet - acwiTotalRet : null;
+  const bmTotalRet = bmRet ? bmRet[bmRet.length - 1] : null;
+  const excess = bmTotalRet != null ? pfTotalRet - bmTotalRet : null;
 
-  // 최대 낙폭 (drawdown)
   const maxDD = arr => {
     let peak = arr[0], dd = 0;
     for (const v of arr) {
       if (v > peak) peak = v;
-      const cur = (v - peak);
+      const cur = v - peak;
       if (cur < dd) dd = cur;
     }
     return dd;
   };
   const pfDD = maxDD(pfRet);
-  const acwiDD = acwiRet ? maxDD(acwiRet) : null;
+  const bmDD = bmRet ? maxDD(bmRet) : null;
 
-  // 메트릭 박스
-  const metricCard = (label, val, cls, kind = '') => `
-    <div class="m ${kind}">
-      <div class="l">${label}</div>
-      <div class="v ${cls}">${val}</div>
-    </div>`;
+  const card = (l, v, c, k = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
   metricsEl.innerHTML = [
-    metricCard('포트폴리오 YTD', fmtPct(pfTotalRet), cls(pfTotalRet), 'pf'),
-    acwiTotalRet != null ? metricCard('MSCI ACWI YTD', fmtPct(acwiTotalRet), cls(acwiTotalRet), 'bm') : '',
-    alpha != null ? metricCard('초과수익 (Alpha)', fmtPct(alpha), cls(alpha), 'alpha') : '',
-    metricCard('포트폴리오 MDD', fmtPct(pfDD), 'neg', 'pf'),
-    acwiDD != null ? metricCard('ACWI MDD', fmtPct(acwiDD), 'neg', 'bm') : '',
-    metricCard('현재 평가액', fmtAmtBig(pfLast), '', 'pf'),
+    card('포트폴리오 YTD', fmtPct(pfTotalRet), cls(pfTotalRet), 'pf'),
+    bmTotalRet != null ? card(`${benchmarkLabel()} YTD`, fmtPct(bmTotalRet), cls(bmTotalRet), 'bm') : '',
+    excess != null ? card('초과수익', fmtPct(excess), cls(excess), 'alpha') : '',
+    card('포트폴리오 MDD', fmtPct(pfDD), 'neg', 'pf'),
+    bmDD != null ? card('벤치마크 MDD', fmtPct(bmDD), 'neg', 'bm') : '',
+    card('현재 평가액', fmtAmtBig(pfLast), '', 'pf'),
   ].filter(Boolean).join('');
 
-  // 차트
   destroy('backtestChart');
   charts.backtestChart = new Chart(canvas, {
     type: 'line',
@@ -1387,9 +1716,9 @@ function renderBacktest() {
           pointHoverRadius: 4,
           tension: 0.15,
         },
-        acwiRet ? {
-          label: 'MSCI ACWI',
-          data: acwiRet,
+        bmRet ? {
+          label: benchmarkLabel(),
+          data: bmRet,
           borderColor: '#94a3b8',
           backgroundColor: 'rgba(148, 163, 184, 0.05)',
           fill: false,
@@ -1418,10 +1747,7 @@ function renderBacktest() {
         x: {
           ticks: {
             maxTicksLimit: 8,
-            callback: function (val) {
-              const d = this.getLabelForValue(val);
-              return d ? d.slice(5) : ''; // MM-DD
-            },
+            callback: function (val) { const d = this.getLabelForValue(val); return d ? d.slice(5) : ''; },
           },
           grid: { display: false },
         },
@@ -1432,8 +1758,42 @@ function renderBacktest() {
       },
     },
   });
+}
 
-  // 스냅샷 모드일 때 차트에 세로 마커 추가 — 간단히는 적용 X (Chart.js 플러그인 필요)
+function renderRiskMetrics() {
+  const wrap = document.getElementById('riskMetrics');
+  const labelEl = document.getElementById('riskBmLabel');
+  const nDaysEl = document.getElementById('riskNDays');
+  if (!wrap) return;
+  if (labelEl) labelEl.textContent = benchmarkLabel();
+
+  const m = computeRiskMetrics();
+  if (!m) {
+    wrap.innerHTML = '<div style="color:var(--muted);padding:8px">데이터 부족</div>';
+    return;
+  }
+  if (nDaysEl) nDaysEl.textContent = m.nDays;
+
+  const fmtN = (v, d = 2) => v == null || isNaN(v) ? '-' : v.toFixed(d);
+  const fmtP = (v, d = 2) => v == null || isNaN(v) ? '-' : (v >= 0 ? '+' : '') + v.toFixed(d) + '%';
+  const c = v => v == null || isNaN(v) ? '' : (v > 0 ? 'pos' : v < 0 ? 'neg' : '');
+
+  const card = (l, v, s, cl = '') => `<div class="m"><div class="l">${l}</div><div class="v ${cl}">${v}</div>${s ? `<div class="s">${s}</div>` : ''}</div>`;
+
+  wrap.innerHTML = [
+    card('α (Jensen, 연환산)', fmtP(m.alphaJ), '회귀 기반 알파', c(m.alphaJ)),
+    card('β (베타)',           fmtN(m.beta, 3), m.beta != null ? (m.beta > 1 ? '벤치마크보다 민감' : m.beta < 0.5 ? '낮은 민감도' : '중간') : ''),
+    card('R²',                  fmtN(m.r2, 3), m.r2 != null ? (m.r2 > 0.7 ? '높음 — β 신뢰' : m.r2 < 0.3 ? '낮음 — β 의미 약함' : '중간') : ''),
+    card('샤프비율 (PF)',       fmtN(m.sharpe, 2), '평균/표준편차 × √252'),
+    card('샤프비율 (BM)',       fmtN(m.sharpeBm, 2), '비교'),
+    card('정보비율 (IR)',       fmtN(m.ir, 2), '초과수익 효율성', c(m.ir)),
+    card('변동성 (PF, 연)',     fmtN(m.volP, 2) + '%', ''),
+    card('변동성 (BM, 연)',     fmtN(m.volB, 2) + '%', ''),
+    card('추적오차 (연)',       fmtN(m.trackErr, 2) + '%', '낮을수록 BM 추종'),
+    card('포트폴리오 MDD',      fmtP(m.mddP), '', 'neg'),
+    card('벤치마크 MDD',        fmtP(m.mddB), '', 'neg'),
+    card('YTD 초과수익',         fmtP(m.excessYtd), `${fmtP(m.pfYtd)} − ${fmtP(m.bmYtd)}`, c(m.excessYtd)),
+  ].join('');
 }
 
 function renderAlphaContribution() {
@@ -1441,15 +1801,21 @@ function renderAlphaContribution() {
   const chartEl = document.getElementById('alphaChart');
   const tableEl = document.getElementById('alphaTable');
   const summaryEl = document.getElementById('alphaSummary');
-  if (!hist || !hist.dates || !hist.holdings_mkt || !hist.portfolio_total || !hist.acwi_normalized) {
+  const labelEl = document.getElementById('alphaBmLabel');
+  if (!hist || !hist.dates || !hist.holdings_mkt || !hist.portfolio_total) {
     if (summaryEl) summaryEl.innerHTML = '<div style="color:var(--muted);padding:8px">알파 데이터 없음</div>';
     return;
   }
-  const pf = hist.portfolio_total;
-  const acwi = hist.acwi_normalized;
-  if (!pf.length || !acwi.length) return;
+  if (labelEl) labelEl.textContent = benchmarkLabel();
 
-  const acwiRet = (acwi[acwi.length - 1] / acwi[0]) - 1;     // 소수
+  const pf = hist.portfolio_total;
+  const bm = buildBenchmarkSeries();
+  if (!pf.length || !bm || !bm.length) {
+    if (summaryEl) summaryEl.innerHTML = '<div style="color:var(--muted);padding:8px">벤치마크 데이터 없음</div>';
+    return;
+  }
+
+  const acwiRet = (bm[bm.length - 1] / bm[0]) - 1;     // 선택 벤치마크 YTD (변수명은 호환 유지)
   const pfRet = (pf[pf.length - 1] / pf[0]) - 1;
   const startTotal = pf[0];
 

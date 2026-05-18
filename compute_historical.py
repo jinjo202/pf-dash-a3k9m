@@ -92,9 +92,11 @@ def main():
         if yt and (h.get("book") or 0) > 0:
             holding_tickers.append((h, yt))
 
+    BM_TICKERS = [("MSCI ACWI", "ACWI"), ("S&P 500", "^GSPC"), ("KOSPI", "^KS11")]
     unique = sorted(set(t for _, t in holding_tickers))
-    fetch_list = unique + ["ACWI"]
-    print(f"받을 티커: {len(unique)}개 + ACWI = {len(fetch_list)}개")
+    bm_yt = [t for _, t in BM_TICKERS]
+    fetch_list = sorted(set(unique + bm_yt))
+    print(f"받을 티커: 종목 {len(unique)}개 + 벤치마크 {len(bm_yt)}개")
 
     prices = yf.download(
         fetch_list,
@@ -155,23 +157,32 @@ def main():
         ret = (mkt_series[-1] / book - 1) * 100
         print(f"  [ok]    {h['name']:42s} {yt:12s}  YTD {ret:+6.2f}%")
 
-    # ACWI 정규화 — 포트폴리오 시작값에 맞춤
-    acwi_normalized = None
-    if "ACWI" in close.columns:
-        acwi_series = close["ACWI"]
-        acwi_start_price = None
+    # 벤치마크별 일별 종가 시리즈 (forward-fill, 정규화 X — 클라이언트에서 블렌드)
+    benchmarks = {}
+    for bm_name, bm_ticker in BM_TICKERS:
+        if bm_ticker not in close.columns:
+            print(f"  [skip BM] {bm_name} ({bm_ticker})")
+            continue
+        series = close[bm_ticker]
+        last = None
+        values = []
         for d in ytd_dates:
-            if d in acwi_series.index and not pd.isna(acwi_series.loc[d]):
-                acwi_start_price = float(acwi_series.loc[d])
-                break
-        if acwi_start_price and acwi_start_price > 0:
-            portfolio_start = portfolio_total[0] if portfolio_total[0] > 0 else 1
-            acwi_normalized = []
-            last_acwi = acwi_start_price
-            for d in ytd_dates:
-                if d in acwi_series.index and not pd.isna(acwi_series.loc[d]):
-                    last_acwi = float(acwi_series.loc[d])
-                acwi_normalized.append(round(portfolio_start * (last_acwi / acwi_start_price), 2))
+            if d in series.index and not pd.isna(series.loc[d]):
+                last = float(series.loc[d])
+            values.append(round(last, 4) if last else None)
+        # 첫 값이 비어있으면 못 씀
+        if values[0] is None:
+            print(f"  [skip BM] {bm_name} — YTD 시작 데이터 없음")
+            continue
+        v0 = values[0]
+        vN = values[-1]
+        ret = (vN / v0 - 1) * 100
+        print(f"  [BM ok] {bm_name:12s} {bm_ticker:8s}  YTD {ret:+6.2f}%")
+        benchmarks[bm_name] = {
+            "ticker": bm_ticker,
+            "values": values,
+            "ytd_return": round(ret, 4),
+        }
 
     data["historical"] = {
         "from": dates_str[0],
@@ -179,7 +190,7 @@ def main():
         "dates": dates_str,
         "portfolio_total": [round(v, 2) for v in portfolio_total],
         "holdings_mkt": holdings_mkt,
-        "acwi_normalized": acwi_normalized,
+        "benchmarks": benchmarks,
         "computed_at": today.isoformat(),
     }
     save_data(text, data)
@@ -189,13 +200,10 @@ def main():
     p_ret = (pN / p0 - 1) * 100 if p0 > 0 else 0
     print("")
     print(f"포트폴리오 YTD: {p0:,.2f} → {pN:,.2f}  ({p_ret:+.2f}%)")
-    if acwi_normalized:
-        a0, aN = acwi_normalized[0], acwi_normalized[-1]
-        a_ret = (aN / a0 - 1) * 100
-        alpha = p_ret - a_ret
-        print(f"ACWI    YTD:   {a0:,.2f} → {aN:,.2f}  ({a_ret:+.2f}%)")
-        print(f"초과수익 (alpha): {alpha:+.2f}%p")
-    print(f"\n저장: {PLAIN.name}  ({len(dates_str)} 거래일, {len(holdings_mkt)} 종목)")
+    for bm_name, bm_data in benchmarks.items():
+        a_ret = bm_data["ytd_return"]
+        print(f"  vs {bm_name:12s}: {a_ret:+6.2f}%   초과 {p_ret - a_ret:+6.2f}%p")
+    print(f"\n저장: {PLAIN.name}  ({len(dates_str)} 거래일, {len(holdings_mkt)} 종목, {len(benchmarks)} 벤치마크)")
 
 
 if __name__ == "__main__":
