@@ -1045,6 +1045,15 @@ function todayLocalStr() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
+function todayShort() {
+  // 데이터에 오늘 종가 반영된 종목이 있으면 그 날짜를, 아니면 브라우저 오늘 → "M/D"
+  const today = todayLocalStr();
+  const dataDate = (allHoldings.find(h => h.daily_close_date === today) || {}).daily_close_date
+    || (allHoldings.find(h => h.daily_close_date) || {}).daily_close_date
+    || today;
+  const [, m, d] = dataDate.split('-');
+  return `${parseInt(m, 10)}/${parseInt(d, 10)}`;
+}
 
 function renderKPIs() {
   const h = allHoldings;
@@ -1087,7 +1096,7 @@ function renderKPIs() {
     },
     // ── 금일 (오늘 종가 반영된 종목만 합산) ─────────────────────
     {
-      label: `금일 평가손익 (${today})`,
+      label: `금일 평가손익 (${todayShort()})`,
       value: todayHoldings.length > 0 ? fmtAmtBig(todayPnl) : '—',
       sub: todayHoldings.length > 0
         ? `${fmtPct(todayPnlPct)} · 오늘 종가 반영 ${todayHoldings.length}종목`
@@ -1442,7 +1451,7 @@ function renderHoldingsSummary(h) {
       <div class="sub ${cls(pnlYtdPct)}">${fmtPct(pnlYtdPct)}</div>
     </div>
     <div class="stat daily">
-      <div class="lbl">금일 손익 (${today})</div>
+      <div class="lbl">금일 손익 (${todayShort()})</div>
       <div class="val ${cls(dailyPnl)}">${dailyPnl == null ? '—' : fmtAmtBig(dailyPnl)}</div>
       <div class="sub ${cls(dailyPct)}">
         ${dailyPct == null ? '오늘 종가 미반영' : fmtPct(dailyPct) + ` · 반영 ${todayItems.length}종목`}
@@ -1465,7 +1474,7 @@ function renderHoldings() {
         <th rowspan="2">매입가</th><th rowspan="2">장부가</th><th rowspan="2">시가</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
-        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">금일 (전일 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">금일 ${todayShort()} (전일 대비)</th>
         <th rowspan="2">260D</th><th rowspan="2">90D</th><th rowspan="2">비중</th>
       </tr>
       <tr>
