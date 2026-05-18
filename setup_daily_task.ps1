@@ -6,8 +6,8 @@ $psExe = "powershell.exe"
 $script = Join-Path $here "daily_run.ps1"
 $taskName  = "Portfolio_Daily_Update"
 
-# 매일 오후 6시 30분 (한국 장 마감 + 약간 여유) — 원하면 수정
-$trigger = New-ScheduledTaskTrigger -Daily -At 6:30pm
+# 매일 오후 3시 35분 (KOSPI 마감 15:30 직후) — 한국 종목 금일 손익 즉시 반영
+$trigger = New-ScheduledTaskTrigger -Daily -At 3:35pm
 
 $action = New-ScheduledTaskAction `
     -Execute $psExe `
