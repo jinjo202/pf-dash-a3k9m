@@ -184,9 +184,9 @@
   tbody tr:nth-child(even) { background: var(--row-alt); }
   tbody tr:hover { background: var(--row-hover); }
   /* 정렬 가능한 헤더 */
-  th.sortable { cursor: pointer; user-select: none; transition: background 0.12s; }
-  th.sortable:hover { background: var(--accent-soft); color: var(--accent); }
-  th.sortable .active-sort { color: var(--accent); font-weight: 700; }
+  th.sortable, th.alpha-sortable { cursor: pointer; user-select: none; transition: background 0.12s; }
+  th.sortable:hover, th.alpha-sortable:hover { background: var(--accent-soft); color: var(--accent); }
+  th.sortable .active-sort, th.alpha-sortable .active-sort { color: var(--accent); font-weight: 700; }
   .region-pill {
     display: inline-block;
     padding: 2px 8px;
@@ -908,7 +908,8 @@
         <b>계산식</b>: α<sub>i</sub> = w<sub>i</sub> × (r<sub>i</sub> − r<sub>BM</sub>) &nbsp;·&nbsp;
         w<sub>i</sub> = YTD 시작 시점 비중, r<sub>i</sub> = 종목 YTD 수익률, r<sub>BM</sub> = 선택 벤치마크 YTD 수익률<br>
         모든 종목의 α<sub>i</sub> 합 = 포트폴리오 총 alpha. 양수면 벤치마크 대비 기여, 음수면 drag.<br>
-        💡 <b>각 종목 행을 클릭</b>하면 해당 ETF의 상위 5 구성종목과 어떤 underlying이 기여했는지 펼쳐서 표시.
+        💡 <b>컬럼 헤더 클릭</b>으로 정렬 가능 (지역 / 비중 / YTD 수익률 / ACWI 대비 / 포트폴리오 기여 / α 기여도, 오름·내림 토글).<br>
+        💡 <b>각 종목 행 클릭</b>으로 해당 ETF의 상위 5 구성종목 펼침 표시.
       </div>
     </div>
 
@@ -1079,7 +1080,9 @@ let snapshotDate = null;       // null = 최신, "YYYY-MM-DD" = 스냅샷 모드
 let activeRegion = 'ALL';
 let pnlMode = 'ytd';  // 'cum' | 'ytd' (손익 기여도 차트용 — 디폴트 YTD)
 let basisMode = 'ytd';  // 'cum' | 'ytd' (KPI 카드 기준 — 디폴트 YTD)
-let expandedAlphaIdx = null;  // 알파 분해 테이블에서 펼쳐진 행 인덱스
+let expandedAlphaName = null;  // 알파 분해 테이블에서 펼쳐진 행 (종목명으로 추적)
+let alphaSortKey = 'alpha';    // 알파 분해 정렬 기준
+let alphaSortDir = 'desc';     // 'asc' | 'desc'
 let holdingsSortKey = 'w';      // 보유종목 상세 정렬 기준 컬럼
 let holdingsSortDir = 'desc';   // 'asc' | 'desc'
 
@@ -2127,7 +2130,19 @@ function renderAlphaContribution() {
       topSource: h.top_holdings_source || 'auto',
     });
   }
-  contributions.sort((a, b) => b.alpha - a.alpha);
+  // 정렬 — alphaSortKey/alphaSortDir에 따라
+  const ALPHA_SORTERS = {
+    region:     (a, b) => REGIONS.indexOf(a.region) - REGIONS.indexOf(b.region),
+    name:       (a, b) => (a.name || '').localeCompare(b.name || '', 'ko'),
+    weight:     (a, b) => (a.weight || 0) - (b.weight || 0),
+    retPct:     (a, b) => (a.retPct || 0) - (b.retPct || 0),
+    excessPct:  (a, b) => (a.excessPct || 0) - (b.excessPct || 0),
+    totalContrib: (a, b) => (a.totalContrib || 0) - (b.totalContrib || 0),
+    alpha:      (a, b) => (a.alpha || 0) - (b.alpha || 0),
+  };
+  const sortFn = ALPHA_SORTERS[alphaSortKey] || ALPHA_SORTERS.alpha;
+  contributions.sort(sortFn);
+  if (alphaSortDir === 'desc') contributions.reverse();
 
   const totalAlpha = contributions.reduce((s, c) => s + c.alpha, 0);
   const totalContribSum = contributions.reduce((s, c) => s + c.totalContrib, 0);
@@ -2262,25 +2277,30 @@ function renderAlphaContribution() {
     `;
   };
 
+  // 정렬 가능한 헤더 (알파 테이블)
+  const aArrow = key => key === alphaSortKey ? (alphaSortDir === 'desc' ? ' ▼' : ' ▲') : '';
+  const ah = (key, label) => `<th class="alpha-sortable" data-sk="${key}" title="클릭하여 정렬"><span class="${key === alphaSortKey ? 'active-sort' : ''}">${label}${aArrow(key)}</span></th>`;
   const html = `
     <thead>
       <tr>
-        <th>지역</th><th>종목명</th>
-        <th>시작 비중</th><th>YTD 수익률</th>
-        <th>ACWI 대비 초과</th>
-        <th>포트폴리오 기여</th>
-        <th>α 기여도</th>
+        ${ah('region', '지역')}
+        ${ah('name', '종목명')}
+        ${ah('weight', '시작 비중')}
+        ${ah('retPct', 'YTD 수익률')}
+        ${ah('excessPct', 'ACWI 대비 초과')}
+        ${ah('totalContrib', '포트폴리오 기여')}
+        ${ah('alpha', 'α 기여도')}
       </tr>
     </thead>
     <tbody>
       ${contributions.map((c, i) => {
-        const isOpen = expandedAlphaIdx === i;
+        const isOpen = expandedAlphaName === c.name;
         const hasHoldings = c.topHoldings && c.topHoldings.length;
         const indicator = hasHoldings
           ? `<span style="color:var(--muted);font-size:10px;margin-right:4px">${isOpen ? '▼' : '▶'}</span>`
           : `<span style="color:#cbd5e1;font-size:10px;margin-right:4px">·</span>`;
         return `
-          <tr class="alpha-row ${isOpen ? 'expanded' : ''}" data-idx="${i}">
+          <tr class="alpha-row ${isOpen ? 'expanded' : ''}" data-name="${c.name.replace(/"/g, '&quot;')}">
             <td><span class="region-pill" data-r="${c.region}">${c.region}</span></td>
             <td>${indicator}${c.name}${c.proxy ? ' <span style="color:var(--muted);font-size:10px">†</span>' : ''}</td>
             <td>${fmt(c.weight, 2)}%</td>
@@ -2305,11 +2325,25 @@ function renderAlphaContribution() {
   `;
   tableEl.innerHTML = html;
 
-  // 클릭 핸들러
+  // 행 클릭 = 펼침 토글 (종목명 기준)
   tableEl.querySelectorAll('.alpha-row').forEach(tr => {
     tr.addEventListener('click', () => {
-      const idx = +tr.dataset.idx;
-      expandedAlphaIdx = (expandedAlphaIdx === idx) ? null : idx;
+      const nm = tr.dataset.name;
+      expandedAlphaName = (expandedAlphaName === nm) ? null : nm;
+      renderAlphaContribution();
+    });
+  });
+  // 헤더 클릭 = 정렬 토글
+  tableEl.querySelectorAll('th.alpha-sortable').forEach(th => {
+    th.addEventListener('click', e => {
+      e.stopPropagation();
+      const k = th.dataset.sk;
+      if (alphaSortKey === k) {
+        alphaSortDir = (alphaSortDir === 'desc') ? 'asc' : 'desc';
+      } else {
+        alphaSortKey = k;
+        alphaSortDir = (k === 'region' || k === 'name') ? 'asc' : 'desc';
+      }
       renderAlphaContribution();
     });
   });
