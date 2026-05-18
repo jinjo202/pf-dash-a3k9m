@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>대시보드 디자인 옵션 비교</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ========== Global ========== */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Segoe UI",
+      "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    background: #f0f0f3;
+    color: #111;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: sticky; top: 0; z-index: 10;
+    background: #1a1a1f; color: #fff;
+    padding: 14px 24px;
+    display: flex; gap: 12px; align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .nav h1 { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+  .nav .tabs { display: flex; gap: 4px; margin-left: auto; }
+  .nav button {
+    background: transparent; color: #94a3b8; border: 1px solid #334155;
+    padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    transition: all 0.15s;
+  }
+  .nav button:hover { color: #fff; border-color: #475569; }
+  .nav button.active { background: #fff; color: #1a1a1f; border-color: #fff; }
+  .section { padding: 32px 24px; min-height: 100vh; display: none; }
+  .section.active { display: block; }
+  .section-header {
+    max-width: 1400px; margin: 0 auto 24px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .section-header .title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .section-header .desc { color: #6b7280; font-size: 13px; max-width: 600px; }
+  .section-body { max-width: 1400px; margin: 0 auto; }
+  .pos { color: #16a34a; }
+  .neg { color: #dc2626; }
+
+  /* ========== Option A: Refined Minimal (Linear/Stripe) ========== */
+  .mockup-a {
+    background: #f6f7f9;
+    font-feature-settings: "tnum";
+  }
+  .mockup-a .bench-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .mockup-a .bench {
+    background: #fff;
+    border: 1px solid #e6e8eb;
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+    transition: all 0.15s;
+  }
+  .mockup-a .bench:hover { box-shadow: 0 4px 12px rgba(15,23,42,0.06); transform: translateY(-1px); }
+  .mockup-a .bench .name { font-size: 11px; color: #64748b; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mockup-a .bench .val { font-size: 17px; font-weight: 700; letter-spacing: -0.025em; color: #0f172a; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .mockup-a .bench .ytd { font-size: 12px; font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .mockup-a .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .mockup-a .kpi {
+    background: #fff;
+    border: 1px solid #e6e8eb;
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+    transition: all 0.15s;
+  }
+  .mockup-a .kpi:hover { box-shadow: 0 4px 12px rgba(15,23,42,0.08); transform: translateY(-1px); }
+  .mockup-a .kpi .lbl { color: #64748b; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mockup-a .kpi .v { font-size: 24px; font-weight: 700; letter-spacing: -0.025em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .mockup-a .kpi .sub { color: #64748b; font-size: 11px; margin-top: 4px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .mockup-a .panel {
+    background: #fff;
+    border: 1px solid #e6e8eb;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+  }
+  .mockup-a .panel h3 {
+    margin: 0 0 16px; font-size: 11px; font-weight: 600;
+    color: #64748b; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .mockup-a table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .mockup-a th, .mockup-a td {
+    padding: 10px 12px; text-align: right;
+    border-bottom: 1px solid #f1f3f5;
+  }
+  .mockup-a th:first-child, .mockup-a td:first-child,
+  .mockup-a th:nth-child(2), .mockup-a td:nth-child(2) { text-align: left; }
+  .mockup-a th {
+    color: #64748b; font-weight: 600; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    background: #fafbfc; border-bottom: 1px solid #e6e8eb;
+  }
+  .mockup-a tbody tr:nth-child(even) { background: #fafbfc; }
+  .mockup-a tbody tr:hover { background: #eff6ff; }
+  .mockup-a .pill {
+    display: inline-block; padding: 2px 9px; border-radius: 12px;
+    font-size: 10px; font-weight: 600; color: #fff;
+  }
+  .mockup-a .pill.kr { background: #2563eb; }
+  .mockup-a .pill.us { background: #0891b2; }
+  .mockup-a .pill.eu { background: #7c3aed; }
+
+  /* ========== Option B: Editorial Financial (Bloomberg/FT) ========== */
+  .mockup-b {
+    background: #fbf9f5;
+    font-family: "Source Serif 4", Georgia, "Pretendard Variable", serif;
+  }
+  .mockup-b .bench-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    border-top: 2px solid #0a0a0a;
+    border-bottom: 1px solid #0a0a0a;
+    margin-bottom: 24px;
+    background: #fff;
+  }
+  .mockup-b .bench {
+    padding: 14px 16px;
+    border-right: 1px solid #e0dcd1;
+  }
+  .mockup-b .bench:last-child { border-right: none; }
+  .mockup-b .bench .name {
+    font-family: "Pretendard Variable", sans-serif;
+    font-size: 10px; color: #555; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .mockup-b .bench .val {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 18px; font-weight: 500; color: #0a0a0a;
+    margin-top: 4px; letter-spacing: -0.02em;
+  }
+  .mockup-b .bench .ytd {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px; font-weight: 500; margin-top: 2px;
+  }
+  .mockup-b .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    margin-bottom: 24px;
+    background: #fff;
+    border: 1px solid #0a0a0a;
+  }
+  .mockup-b .kpi {
+    padding: 16px 20px;
+    border-right: 1px solid #e0dcd1;
+    border-bottom: 1px solid #e0dcd1;
+  }
+  .mockup-b .kpi .lbl {
+    font-family: "Pretendard Variable", sans-serif;
+    color: #555; font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .mockup-b .kpi .v {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 22px; font-weight: 500; letter-spacing: -0.02em;
+    margin-top: 8px; color: #0a0a0a;
+  }
+  .mockup-b .kpi .sub {
+    font-family: "JetBrains Mono", monospace;
+    color: #555; font-size: 11px; margin-top: 4px;
+  }
+  .mockup-b .panel {
+    background: #fff;
+    border: 1px solid #0a0a0a;
+    padding: 0;
+  }
+  .mockup-b .panel h3 {
+    margin: 0; padding: 14px 20px;
+    font-family: "Source Serif 4", serif;
+    font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+    color: #0a0a0a;
+    border-bottom: 1px solid #0a0a0a;
+  }
+  .mockup-b table {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+    font-family: "JetBrains Mono", monospace;
+  }
+  .mockup-b th, .mockup-b td {
+    padding: 8px 16px; text-align: right;
+    border-bottom: 1px solid #e0dcd1;
+  }
+  .mockup-b th:first-child, .mockup-b td:first-child,
+  .mockup-b th:nth-child(2), .mockup-b td:nth-child(2) { text-align: left; }
+  .mockup-b th {
+    font-family: "Pretendard Variable", sans-serif;
+    color: #555; font-weight: 600; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    background: #f5f1e8;
+  }
+  .mockup-b tbody tr td:nth-child(2) {
+    font-family: "Source Serif 4", serif; font-weight: 600;
+  }
+  .mockup-b .pill {
+    display: inline-block; padding: 1px 6px;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #0a0a0a;
+    background: transparent;
+    color: #0a0a0a;
+    font-family: "Pretendard Variable", sans-serif;
+  }
+
+  /* ========== Option C: Modern Bold (Robinhood/Webull) ========== */
+  .mockup-c {
+    background: linear-gradient(180deg, #fafbff 0%, #f0f2f8 100%);
+    min-height: 100vh;
+  }
+  .mockup-c .bench-strip {
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px;
+    margin-bottom: 24px;
+  }
+  .mockup-c .bench {
+    flex: 0 0 auto; min-width: 150px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 12px rgba(99,102,241,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    border-left: 4px solid #6366f1;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .mockup-c .bench.up { border-left-color: #10b981; background: linear-gradient(135deg, #fff 60%, #ecfdf5 100%); }
+  .mockup-c .bench.down { border-left-color: #ef4444; background: linear-gradient(135deg, #fff 60%, #fef2f2 100%); }
+  .mockup-c .bench:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.12); }
+  .mockup-c .bench .name { font-size: 11px; color: #64748b; font-weight: 600; }
+  .mockup-c .bench .val { font-size: 18px; font-weight: 800; color: #1e293b; margin-top: 4px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .mockup-c .bench .ytd { font-size: 13px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .mockup-c .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .mockup-c .kpi {
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    position: relative; overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .mockup-c .kpi:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(99,102,241,0.12); }
+  .mockup-c .kpi.accent::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  }
+  .mockup-c .kpi.pos::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #10b981, #14b8a6);
+  }
+  .mockup-c .kpi.neg::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #ef4444, #f97316);
+  }
+  .mockup-c .kpi .lbl { color: #64748b; font-size: 12px; font-weight: 600; }
+  .mockup-c .kpi .v { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-top: 8px; color: #1e293b; font-variant-numeric: tabular-nums; }
+  .mockup-c .kpi .v.pos { color: #047857; }
+  .mockup-c .kpi .v.neg { color: #b91c1c; }
+  .mockup-c .kpi .sub { color: #64748b; font-size: 12px; margin-top: 4px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .mockup-c .panel {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .mockup-c .panel h3 {
+    margin: 0 0 18px; font-size: 16px; font-weight: 700;
+    color: #1e293b; letter-spacing: -0.01em;
+  }
+  .mockup-c table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .mockup-c th, .mockup-c td {
+    padding: 12px 14px; text-align: right;
+  }
+  .mockup-c th:first-child, .mockup-c td:first-child,
+  .mockup-c th:nth-child(2), .mockup-c td:nth-child(2) { text-align: left; }
+  .mockup-c th {
+    color: #64748b; font-weight: 700; font-size: 11px;
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  .mockup-c th:first-child { border-top-left-radius: 10px; }
+  .mockup-c th:last-child { border-top-right-radius: 10px; }
+  .mockup-c tbody tr { transition: background 0.15s; }
+  .mockup-c tbody tr:hover { background: #f8fafc; }
+  .mockup-c tbody td { border-bottom: 1px solid #f1f5f9; }
+  .mockup-c .pill {
+    display: inline-block; padding: 3px 10px; border-radius: 999px;
+    font-size: 10px; font-weight: 700;
+  }
+  .mockup-c .pill.kr { background: rgba(37,99,235,0.12); color: #1e40af; }
+  .mockup-c .pill.us { background: rgba(8,145,178,0.12); color: #0e7490; }
+  .mockup-c .pill.eu { background: rgba(124,58,237,0.12); color: #6d28d9; }
+  .mockup-c .pos { color: #047857; font-weight: 700; }
+  .mockup-c .neg { color: #b91c1c; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <h1>대시보드 디자인 옵션</h1>
+  <div class="tabs">
+    <button class="active" data-tab="a">A — Refined Minimal</button>
+    <button data-tab="b">B — Editorial</button>
+    <button data-tab="c">C — Modern Bold</button>
+  </div>
+</div>
+
+<!-- ============== Option A: Refined Minimal ============== -->
+<section class="section active mockup-a" data-section="a">
+  <div class="section-header">
+    <div>
+      <div class="title">A — Refined Minimal</div>
+      <div class="desc">Linear / Stripe 계열. 흰색 카드 + 미세 그림자 + tabular-nums. 차분하고 정보 집약적. 현재 디자인의 정제된 진화.</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="bench-strip">
+      <div class="bench"><div class="name">KOSPI</div><div class="val">7,516</div><div class="ytd pos">▲ +78.35%</div></div>
+      <div class="bench"><div class="name">KOSDAQ</div><div class="val">1,111.09</div><div class="ytd pos">▲ +20.06%</div></div>
+      <div class="bench"><div class="name">S&P 500</div><div class="val">7,408.50</div><div class="ytd pos">▲ +8.22%</div></div>
+      <div class="bench"><div class="name">NASDAQ</div><div class="val">26,225.14</div><div class="ytd pos">▲ +12.84%</div></div>
+      <div class="bench"><div class="name">필반도체</div><div class="val">11,588.46</div><div class="ytd pos">▲ +63.61%</div></div>
+      <div class="bench"><div class="name">USD/KRW</div><div class="val">1,495.05</div><div class="ytd pos">▲ +3.97%</div></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">총 평가금액</div><div class="v">4,724.70 억</div><div class="sub">보유 25개 / 전체 26개</div></div>
+      <div class="kpi"><div class="lbl">누적 평가손익</div><div class="v pos">+1,234.12 억</div><div class="sub pos">+35.42% (매입가 대비)</div></div>
+      <div class="kpi"><div class="lbl">YTD 평가손익</div><div class="v pos">+421.50 억</div><div class="sub pos">+9.81% (장부가 대비)</div></div>
+      <div class="kpi"><div class="lbl">금일 손익 (5/18)</div><div class="v neg">-23.48 억</div><div class="sub neg">-0.93% · 반영 8종목</div></div>
+    </div>
+    <div class="panel">
+      <h3>보유 종목 상세</h3>
+      <table>
+        <thead>
+          <tr><th>지역</th><th>종목명</th><th>매입가</th><th>시가</th><th>YTD 손익</th><th>YTD %</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="pill kr">한국</span></td><td>KODEX 200 ETF</td><td>349.74</td><td>495.25</td><td class="pos">+145.51</td><td class="pos">+41.61%</td><td>10.33%</td></tr>
+          <tr><td><span class="pill kr">한국</span></td><td>KoAct 바이오헬스케어</td><td>199.96</td><td>150.61</td><td class="neg">-49.35</td><td class="neg">-24.68%</td><td>3.15%</td></tr>
+          <tr><td><span class="pill us">미국</span></td><td>State Street Tech ETF (XLK)</td><td>150.67</td><td>187.13</td><td class="pos">+36.46</td><td class="pos">+24.20%</td><td>3.92%</td></tr>
+          <tr><td><span class="pill us">미국</span></td><td>T.Rowe Capital Appreciation</td><td>98.98</td><td>154.50</td><td class="pos">+55.52</td><td class="pos">+56.09%</td><td>3.23%</td></tr>
+          <tr><td><span class="pill eu">유럽</span></td><td>iShares FTSE MIB (CSMIB)</td><td>101.12</td><td>112.37</td><td class="pos">+11.25</td><td class="pos">+11.12%</td><td>2.35%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Option B: Editorial ============== -->
+<section class="section mockup-b" data-section="b">
+  <div class="section-header">
+    <div>
+      <div class="title">B — Editorial Financial</div>
+      <div class="desc">Bloomberg / FT 계열. Serif 헤드라인 + JetBrains Mono 숫자 + 하드 보더 + 크림색 배경. 신문처럼 밀도 높고 진지한 느낌.</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="bench-strip">
+      <div class="bench"><div class="name">KOSPI</div><div class="val">7,516</div><div class="ytd pos">+78.35%</div></div>
+      <div class="bench"><div class="name">KOSDAQ</div><div class="val">1,111.09</div><div class="ytd pos">+20.06%</div></div>
+      <div class="bench"><div class="name">S&P 500</div><div class="val">7,408.50</div><div class="ytd pos">+8.22%</div></div>
+      <div class="bench"><div class="name">NASDAQ</div><div class="val">26,225.14</div><div class="ytd pos">+12.84%</div></div>
+      <div class="bench"><div class="name">필반도체</div><div class="val">11,588.46</div><div class="ytd pos">+63.61%</div></div>
+      <div class="bench"><div class="name">USD/KRW</div><div class="val">1,495.05</div><div class="ytd pos">+3.97%</div></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">총 평가금액</div><div class="v">4,724.70 억</div><div class="sub">보유 25 / 전체 26</div></div>
+      <div class="kpi"><div class="lbl">누적 평가손익</div><div class="v pos">+1,234.12 억</div><div class="sub pos">+35.42%</div></div>
+      <div class="kpi"><div class="lbl">YTD 평가손익</div><div class="v pos">+421.50 억</div><div class="sub pos">+9.81%</div></div>
+      <div class="kpi"><div class="lbl">금일 손익 (5/18)</div><div class="v neg">-23.48 억</div><div class="sub neg">-0.93%</div></div>
+    </div>
+    <div style="height: 16px"></div>
+    <div class="panel">
+      <h3>보유 종목 상세</h3>
+      <table>
+        <thead>
+          <tr><th>지역</th><th>종목명</th><th>매입가</th><th>시가</th><th>YTD 손익</th><th>YTD %</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="pill">KR</span></td><td>KODEX 200 ETF</td><td>349.74</td><td>495.25</td><td class="pos">+145.51</td><td class="pos">+41.61%</td><td>10.33%</td></tr>
+          <tr><td><span class="pill">KR</span></td><td>KoAct 바이오헬스케어</td><td>199.96</td><td>150.61</td><td class="neg">-49.35</td><td class="neg">-24.68%</td><td>3.15%</td></tr>
+          <tr><td><span class="pill">US</span></td><td>State Street Tech ETF</td><td>150.67</td><td>187.13</td><td class="pos">+36.46</td><td class="pos">+24.20%</td><td>3.92%</td></tr>
+          <tr><td><span class="pill">US</span></td><td>T.Rowe Capital Appreciation</td><td>98.98</td><td>154.50</td><td class="pos">+55.52</td><td class="pos">+56.09%</td><td>3.23%</td></tr>
+          <tr><td><span class="pill">EU</span></td><td>iShares FTSE MIB</td><td>101.12</td><td>112.37</td><td class="pos">+11.25</td><td class="pos">+11.12%</td><td>2.35%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Option C: Modern Bold ============== -->
+<section class="section mockup-c" data-section="c">
+  <div class="section-header">
+    <div>
+      <div class="title">C — Modern Bold</div>
+      <div class="desc">Robinhood / Webull 계열. 큰 숫자 + 부드러운 그림자 + 컬러 액센트 띠 + 둥근 모서리. 시각적으로 가장 화려하고 모바일에서 강한 인상.</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="bench-strip">
+      <div class="bench up"><div class="name">KOSPI</div><div class="val">7,516</div><div class="ytd pos">▲ +78.35%</div></div>
+      <div class="bench up"><div class="name">KOSDAQ</div><div class="val">1,111.09</div><div class="ytd pos">▲ +20.06%</div></div>
+      <div class="bench up"><div class="name">S&P 500</div><div class="val">7,408.50</div><div class="ytd pos">▲ +8.22%</div></div>
+      <div class="bench up"><div class="name">NASDAQ</div><div class="val">26,225.14</div><div class="ytd pos">▲ +12.84%</div></div>
+      <div class="bench up"><div class="name">필반도체</div><div class="val">11,588.46</div><div class="ytd pos">▲ +63.61%</div></div>
+      <div class="bench up"><div class="name">USD/KRW</div><div class="val">1,495.05</div><div class="ytd pos">▲ +3.97%</div></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi accent"><div class="lbl">총 평가금액</div><div class="v">4,724.70 억</div><div class="sub">보유 25 / 전체 26</div></div>
+      <div class="kpi pos"><div class="lbl">누적 평가손익</div><div class="v pos">+1,234.12 억</div><div class="sub pos">+35.42% · 매입가 대비</div></div>
+      <div class="kpi pos"><div class="lbl">YTD 평가손익</div><div class="v pos">+421.50 억</div><div class="sub pos">+9.81% · 장부가 대비</div></div>
+      <div class="kpi neg"><div class="lbl">금일 손익 (5/18)</div><div class="v neg">-23.48 억</div><div class="sub neg">-0.93% · 반영 8종목</div></div>
+    </div>
+    <div class="panel">
+      <h3>보유 종목 상세</h3>
+      <table>
+        <thead>
+          <tr><th>지역</th><th>종목명</th><th>매입가</th><th>시가</th><th>YTD 손익</th><th>YTD %</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="pill kr">한국</span></td><td>KODEX 200 ETF</td><td>349.74</td><td>495.25</td><td class="pos">+145.51</td><td class="pos">+41.61%</td><td>10.33%</td></tr>
+          <tr><td><span class="pill kr">한국</span></td><td>KoAct 바이오헬스케어</td><td>199.96</td><td>150.61</td><td class="neg">-49.35</td><td class="neg">-24.68%</td><td>3.15%</td></tr>
+          <tr><td><span class="pill us">미국</span></td><td>State Street Tech ETF (XLK)</td><td>150.67</td><td>187.13</td><td class="pos">+36.46</td><td class="pos">+24.20%</td><td>3.92%</td></tr>
+          <tr><td><span class="pill us">미국</span></td><td>T.Rowe Capital Appreciation</td><td>98.98</td><td>154.50</td><td class="pos">+55.52</td><td class="pos">+56.09%</td><td>3.23%</td></tr>
+          <tr><td><span class="pill eu">유럽</span></td><td>iShares FTSE MIB (CSMIB)</td><td>101.12</td><td>112.37</td><td class="pos">+11.25</td><td class="pos">+11.12%</td><td>2.35%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.dataset.section === tab));
+      window.scrollTo(0, 0);
+    });
+  });
+</script>
+
+</body>
+</html>
