@@ -943,12 +943,12 @@
     <div class="panel" style="margin-bottom:16px">
       <h3>종목별 손익 기여도 (억원)</h3>
       <div class="toolbar" id="pnlModeChips">
-        <span class="chip active" data-m="cum">누적 (매입가 대비)</span>
-        <span class="chip" data-m="ytd">YTD (장부가 대비)</span>
+        <span class="chip" data-m="cum">누적 (매입가 대비)</span>
+        <span class="chip active" data-m="ytd">YTD (장부가 대비)</span>
       </div>
       <div class="chart-wrap tall"><canvas id="barPnL"></canvas></div>
       <div class="footer-note" id="pnlFooter">
-        막대 길이 = 종목별 평가손익 (시가 − 매입가). 매입가 0인 미보유 종목은 제외.
+        막대 길이 = 종목별 YTD 손익 (시가 − <b>장부가</b>). 장부가 0인 미보유 종목 제외.
       </div>
     </div>
 
@@ -1061,7 +1061,7 @@ let portfolioData = null;      // 전체 포트폴리오 데이터 (correlation_
 let viewHoldings = [];         // 현재 화면에 그리는 holdings (스냅샷 적용)
 let snapshotDate = null;       // null = 최신, "YYYY-MM-DD" = 스냅샷 모드
 let activeRegion = 'ALL';
-let pnlMode = 'cum';  // 'cum' | 'ytd' (손익 기여도 차트용)
+let pnlMode = 'ytd';  // 'cum' | 'ytd' (손익 기여도 차트용 — 디폴트 YTD)
 let basisMode = 'ytd';  // 'cum' | 'ytd' (KPI 카드 기준 — 디폴트 YTD)
 let expandedAlphaIdx = null;  // 알파 분해 테이블에서 펼쳐진 행 인덱스
 let holdingsSortKey = 'w';      // 보유종목 상세 정렬 기준 컬럼
