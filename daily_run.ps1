@@ -30,6 +30,10 @@ if ($LASTEXITCODE -ne 0) { Write-Warning "compute_historical 실패 — 백테�
 python fetch_etf_holdings.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_etf_holdings 실패 — 직전 값 유지" }
 
+# 2f) Underlying 종목별 YTD 수익률 (알파 분해 펼침 행용)
+python fetch_underlying_returns.py
+if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_underlying_returns 실패 — 직전 값 유지" }
+
 # 3) 재암호화 (plain → portfolio-data.js)
 python encrypt_data.py encrypt
 if ($LASTEXITCODE -ne 0) { throw "encrypt 실패" }

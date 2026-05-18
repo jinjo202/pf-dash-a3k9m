@@ -2018,29 +2018,44 @@ function renderAlphaContribution() {
       const sumW = c.topHoldings.reduce((s, x) => s + x.weight, 0) * 100;
       // 각 구성종목의 '포트폴리오 α 기여' 추정 = (ETF α 기여) × (ETF 내 비중 / Σ상위5 비중)
       // 정확하진 않지만 "상위 5 중에서의 상대 기여" 비율은 맞음
+      const uYtd = (portfolioData && portfolioData.underlying_ytd) || {};
+      const bmYtdRow = (() => {
+        const hist = portfolioData && portfolioData.historical;
+        const bm = buildBenchmarkSeries && buildBenchmarkSeries();
+        if (!bm || !bm.length) return 0;
+        return (bm[bm.length-1] / bm[0] - 1) * 100;
+      })();
       body = `
         <div class="alpha-holdings">
           ${c.topHoldings.map(x => {
             const wEtf = x.weight * 100;
             const barW = maxW > 0 ? (x.weight / maxW * 100) : 0;
-            // ETF YTD 수익률 × ETF 내 비중 = 그 종목이 ETF에 기여한 (대략적인) 수익 기여
-            const inEtfContrib = wEtf * c.retPct / 100; // %p
-            // 포트폴리오 α 기여 = ETF α × (ETF 내 비중 / 상위5 비중 합)
-            const inAlpha = sumW > 0 ? c.alpha * (wEtf / sumW) : 0;
+            // 개별 종목 실제 YTD
+            const u = uYtd[x.name];
+            const stockYtd = u ? u.ytd : null;
+            const ticker = u ? u.ticker : null;
+            // 정확한 ETF 기여 = ETF 내 비중 × 그 종목 YTD
+            const inEtfContrib = stockYtd != null ? (wEtf * stockYtd / 100) : null;
+            // 정확한 PF α 기여 = (ETF 포트폴리오 비중) × (ETF 내 비중) × (종목 YTD − 벤치마크 YTD)
+            const pfAlpha = (stockYtd != null)
+              ? (c.weight / 100) * (wEtf / 100) * (stockYtd - bmYtdRow) * 100
+              : null;
             return `
               <div class="alpha-h-card">
-                <div class="nm" title="${x.name}">${x.name}</div>
+                <div class="nm" title="${x.name}${ticker ? ' · ' + ticker : ''}">${x.name}${ticker ? ` <span style="color:var(--muted);font-size:9px;font-weight:400">(${ticker})</span>` : ''}</div>
+                <div class="row"><span>종목 YTD 수익률</span><span class="v ${cls(stockYtd)}">${stockYtd != null ? fmtPct(stockYtd, 2) : '—'}</span></div>
                 <div class="row"><span>ETF 내 비중</span><span class="v">${wEtf.toFixed(2)}%</span></div>
                 <div class="bar" style="width:${barW.toFixed(1)}%"></div>
-                <div class="row" style="margin-top:6px"><span>ETF 기여 추정</span><span class="v ${cls(inEtfContrib)}">${fmtPct(inEtfContrib, 2)}</span></div>
-                <div class="row"><span>PF α 안분</span><span class="v ${cls(inAlpha)}">${fmtPct(inAlpha, 2)}</span></div>
+                <div class="row" style="margin-top:6px"><span>ETF 수익 기여</span><span class="v ${cls(inEtfContrib)}">${inEtfContrib != null ? fmtPct(inEtfContrib, 2) : '—'}</span></div>
+                <div class="row"><span>PF α 기여</span><span class="v ${cls(pfAlpha)}">${pfAlpha != null ? fmtPct(pfAlpha, 2) : '—'}</span></div>
               </div>
             `;
           }).join('')}
         </div>
         <div style="font-size:10px;color:var(--muted);margin-top:8px;line-height:1.5">
-          <b>ETF 기여 추정</b> = ETF 내 비중 × ETF YTD 수익률 (해당 종목이 ETF 수익에 기여한 추정치, 종목 개별 수익률을 별도 산정하지 않은 근사).<br>
-          <b>PF α 안분</b> = ETF의 포트폴리오 α 기여를 상위 5 구성종목 비중 비율로 안분 (이 ETF의 α중 이 종목 몫의 근사).
+          <b>종목 YTD 수익률</b>: 개별 종목의 실제 YTD 수익률 (yfinance, 미매핑 종목은 "—").<br>
+          <b>ETF 수익 기여</b> = ETF 내 비중 × 종목 YTD 수익률 (해당 underlying이 이 ETF 수익에 기여한 실제값).<br>
+          <b>PF α 기여</b> = (ETF의 포트폴리오 비중) × (ETF 내 비중) × (종목 YTD − 벤치마크 YTD) — 포트폴리오 alpha 중 이 underlying의 정확한 몫.
         </div>
       `;
     }
