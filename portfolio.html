@@ -263,6 +263,76 @@
   }
   .hidden { display: none !important; }
 
+  /* ===== 스냅샷 컨트롤 바 ===== */
+  .snapshot-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+    flex-wrap: wrap;
+  }
+  .snapshot-bar .snap-lbl { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .snapshot-bar input[type="date"] {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    background: #fff;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .snapshot-bar input[type="date"]:focus { outline: none; border-color: var(--accent); }
+  .snapshot-bar .snap-btn, .snapshot-bar .snap-icon {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .snapshot-bar .snap-icon { padding: 5px 9px; font-size: 11px; }
+  .snapshot-bar .snap-btn:hover, .snapshot-bar .snap-icon:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .snapshot-bar .snap-info {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .snapshot-bar.historic { background: linear-gradient(180deg, #fffbeb 0%, #fff7e0 100%); border-color: #fde68a; }
+  .snapshot-bar.historic .snap-info { color: #92400e; font-weight: 600; }
+
+  /* ===== 백테스트 메트릭 ===== */
+  .backtest-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .backtest-metrics .m {
+    padding: 10px 12px;
+    background: #fafbfc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .backtest-metrics .m .l { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .backtest-metrics .m .v { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .backtest-metrics .m.pf { border-left: 3px solid var(--accent); }
+  .backtest-metrics .m.bm { border-left: 3px solid #94a3b8; }
+  .backtest-metrics .m.alpha { border-left: 3px solid var(--pos); }
+
   /* ===== 시장 지수 띠 (최상단) ===== */
   .benchmarks {
     display: grid;
@@ -433,7 +503,30 @@
 
   <div id="dashboard" class="hidden">
     <div id="benchmarks" class="benchmarks"></div>
+
+    <!-- 스냅샷 컨트롤 -->
+    <div id="snapshotBar" class="snapshot-bar">
+      <label class="snap-lbl">📅 스냅샷 날짜</label>
+      <input type="date" id="snapshotDate" />
+      <button id="snapshotToday" class="snap-btn">최신</button>
+      <button id="snapshotPrev" class="snap-icon" title="직전 거래일">◀</button>
+      <button id="snapshotNext" class="snap-icon" title="다음 거래일">▶</button>
+      <span id="snapshotInfo" class="snap-info"></span>
+    </div>
+
     <div class="kpis" id="kpis"></div>
+
+    <!-- YTD 백테스트 패널 -->
+    <div class="panel" style="margin-bottom:16px">
+      <h3>YTD 백테스트: 포트폴리오 vs MSCI ACWI</h3>
+      <div id="backtestMetrics" class="backtest-metrics"></div>
+      <div class="chart-wrap tall"><canvas id="backtestChart"></canvas></div>
+      <div class="footer-note">
+        포트폴리오 가치 = Σ(종목별 장부가 × <i>현재가</i> / <i>YTD 시작가</i>) ·
+        ACWI는 <code>ACWI</code> ETF(MSCI ACWI 추적) 종가, 포트폴리오 시작값에 정규화.
+        <br>※ 리밸런싱 없는 buy-and-hold 가정. 프록시 추적 종목은 실제 펀드 NAV와 차이 있을 수 있음.
+      </div>
+    </div>
 
     <div class="grid">
       <div class="panel">
@@ -594,8 +687,10 @@ const fmtAmtBig = v => {
 };
 
 let charts = {};
-let allHoldings = [];
-let portfolioData = null;  // 전체 포트폴리오 데이터 (correlation_vol 등 메타)
+let allHoldings = [];          // 원본 (최신) 보유 종목
+let portfolioData = null;      // 전체 포트폴리오 데이터 (correlation_vol, historical 등 메타)
+let viewHoldings = [];         // 현재 화면에 그리는 holdings (스냅샷 적용)
+let snapshotDate = null;       // null = 최신, "YYYY-MM-DD" = 스냅샷 모드
 let activeRegion = 'ALL';
 let pnlMode = 'cum';  // 'cum' | 'ytd'
 
@@ -643,11 +738,86 @@ function loadFromData(d) {
   if (!d || !d.holdings) return;
   portfolioData = d;
   allHoldings = d.holdings;
+  viewHoldings = allHoldings;
   document.getElementById('meta').textContent =
     `${d.portfolio_name || 'Portfolio'} · 가격 기준일 ${d.last_updated || '-'} · ${allHoldings.length}개 종목`;
   document.getElementById('gate').classList.add('hidden');
   document.getElementById('empty').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
+  initSnapshotControls();
+  render();
+}
+
+function initSnapshotControls() {
+  const hist = portfolioData && portfolioData.historical;
+  const input = document.getElementById('snapshotDate');
+  if (!input || !hist) {
+    if (input) input.disabled = true;
+    return;
+  }
+  input.min = hist.from;
+  input.max = hist.to;
+  input.value = hist.to;
+  document.getElementById('snapshotInfo').textContent = `데이터 범위: ${hist.from} ~ ${hist.to} · ${hist.dates.length}거래일`;
+
+  input.addEventListener('change', () => applySnapshot(input.value));
+  document.getElementById('snapshotToday').addEventListener('click', () => {
+    input.value = hist.to;
+    applySnapshot(null);
+  });
+  document.getElementById('snapshotPrev').addEventListener('click', () => shiftSnapshot(-1));
+  document.getElementById('snapshotNext').addEventListener('click', () => shiftSnapshot(+1));
+}
+
+function shiftSnapshot(delta) {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist) return;
+  const input = document.getElementById('snapshotDate');
+  let curIdx = hist.dates.indexOf(input.value);
+  if (curIdx < 0) curIdx = hist.dates.length - 1;
+  const newIdx = Math.max(0, Math.min(hist.dates.length - 1, curIdx + delta));
+  input.value = hist.dates[newIdx];
+  applySnapshot(input.value);
+}
+
+function applySnapshot(dateStr) {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist) return;
+  // 최신 = 마지막 날짜 = null 처리
+  if (!dateStr || dateStr === hist.to) {
+    snapshotDate = null;
+    viewHoldings = allHoldings;
+  } else {
+    // 입력 날짜와 가장 가까운(이전) 거래일로 스냅
+    let idx = hist.dates.indexOf(dateStr);
+    if (idx < 0) {
+      // 가장 가까운 이전 거래일 찾기
+      for (let i = hist.dates.length - 1; i >= 0; i--) {
+        if (hist.dates[i] <= dateStr) { idx = i; break; }
+      }
+      if (idx < 0) idx = 0;
+      dateStr = hist.dates[idx];
+      document.getElementById('snapshotDate').value = dateStr;
+    }
+    snapshotDate = dateStr;
+    viewHoldings = allHoldings.map(h => {
+      const series = hist.holdings_mkt && hist.holdings_mkt[h.name];
+      if (!series || idx >= series.length) return h;
+      return { ...h, mkt: series[idx] };
+    });
+    // 비중 재계산
+    const totalMkt = viewHoldings.reduce((s, x) => s + (x.mkt || 0), 0);
+    if (totalMkt > 0) viewHoldings.forEach(h => { h.w = h.mkt / totalMkt; });
+  }
+  // 스냅샷 바 시각 표시
+  const bar = document.getElementById('snapshotBar');
+  if (snapshotDate) {
+    bar.classList.add('historic');
+    document.getElementById('snapshotInfo').textContent = `🕒 과거 스냅샷: ${snapshotDate}`;
+  } else {
+    bar.classList.remove('historic');
+    document.getElementById('snapshotInfo').textContent = `데이터 범위: ${hist.from} ~ ${hist.to} · ${hist.dates.length}거래일`;
+  }
   render();
 }
 
@@ -832,6 +1002,7 @@ function num(v) {
 
 function render() {
   renderBenchmarks();
+  renderBacktest();
   renderKPIs();
   renderRegionTable();
   renderPieRegion();
@@ -903,7 +1074,7 @@ function renderCorrVolTable() {
 function aggregateLookthrough(dim) {
   const out = new Map();
   let totalMkt = 0;
-  for (const h of allHoldings) {
+  for (const h of viewHoldings) {
     const mkt = h.mkt;
     const lt = h.lookthrough && h.lookthrough[dim];
     if (!mkt || mkt <= 0 || !lt) continue;
@@ -1058,7 +1229,7 @@ function renderMatrixTable() {
   // 지역 → 국가 → 금액
   const mat = new Map();
   let totalByRegion = new Map();
-  for (const h of allHoldings) {
+  for (const h of viewHoldings) {
     if (!h.mkt || h.mkt <= 0) continue;
     const lt = h.lookthrough && h.lookthrough.country;
     if (!lt) continue;
@@ -1131,6 +1302,124 @@ function todayShort() {
   return `${parseInt(m, 10)}/${parseInt(d, 10)}`;
 }
 
+function renderBacktest() {
+  const hist = portfolioData && portfolioData.historical;
+  const canvas = document.getElementById('backtestChart');
+  const metricsEl = document.getElementById('backtestMetrics');
+  if (!hist || !hist.dates || !canvas) {
+    if (metricsEl) metricsEl.innerHTML = '<div style="color:var(--muted);padding:8px">백테스트 데이터 없음 — compute_historical.py 실행 필요</div>';
+    return;
+  }
+  const dates = hist.dates;
+  const pf = hist.portfolio_total || [];
+  const acwi = hist.acwi_normalized || [];
+  if (!pf.length) return;
+
+  // 누적 수익률 변환 (시작=0%)
+  const pfRet = pf.map(v => (v / pf[0] - 1) * 100);
+  const acwiRet = acwi.length ? acwi.map(v => (v / acwi[0] - 1) * 100) : null;
+
+  // 메트릭 계산
+  const pfLast = pf[pf.length - 1];
+  const pfTotalRet = pfRet[pfRet.length - 1];
+  const acwiTotalRet = acwiRet ? acwiRet[acwiRet.length - 1] : null;
+  const alpha = acwiTotalRet != null ? pfTotalRet - acwiTotalRet : null;
+
+  // 최대 낙폭 (drawdown)
+  const maxDD = arr => {
+    let peak = arr[0], dd = 0;
+    for (const v of arr) {
+      if (v > peak) peak = v;
+      const cur = (v - peak);
+      if (cur < dd) dd = cur;
+    }
+    return dd;
+  };
+  const pfDD = maxDD(pfRet);
+  const acwiDD = acwiRet ? maxDD(acwiRet) : null;
+
+  // 메트릭 박스
+  const metricCard = (label, val, cls, kind = '') => `
+    <div class="m ${kind}">
+      <div class="l">${label}</div>
+      <div class="v ${cls}">${val}</div>
+    </div>`;
+  metricsEl.innerHTML = [
+    metricCard('포트폴리오 YTD', fmtPct(pfTotalRet), cls(pfTotalRet), 'pf'),
+    acwiTotalRet != null ? metricCard('MSCI ACWI YTD', fmtPct(acwiTotalRet), cls(acwiTotalRet), 'bm') : '',
+    alpha != null ? metricCard('초과수익 (Alpha)', fmtPct(alpha), cls(alpha), 'alpha') : '',
+    metricCard('포트폴리오 MDD', fmtPct(pfDD), 'neg', 'pf'),
+    acwiDD != null ? metricCard('ACWI MDD', fmtPct(acwiDD), 'neg', 'bm') : '',
+    metricCard('현재 평가액', fmtAmtBig(pfLast), '', 'pf'),
+  ].filter(Boolean).join('');
+
+  // 차트
+  destroy('backtestChart');
+  charts.backtestChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: '포트폴리오',
+          data: pfRet,
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37, 99, 235, 0.08)',
+          fill: true,
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.15,
+        },
+        acwiRet ? {
+          label: 'MSCI ACWI',
+          data: acwiRet,
+          borderColor: '#94a3b8',
+          backgroundColor: 'rgba(148, 163, 184, 0.05)',
+          fill: false,
+          borderWidth: 2,
+          borderDash: [4, 4],
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.15,
+        } : null,
+      ].filter(Boolean),
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', align: 'end' },
+        tooltip: {
+          callbacks: {
+            title: ctx => ctx[0].label,
+            label: ctx => `${ctx.dataset.label}: ${fmtPct(ctx.parsed.y)}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 8,
+            callback: function (val) {
+              const d = this.getLabelForValue(val);
+              return d ? d.slice(5) : ''; // MM-DD
+            },
+          },
+          grid: { display: false },
+        },
+        y: {
+          ticks: { callback: v => v.toFixed(0) + '%' },
+          grid: { color: 'rgba(148, 163, 184, 0.15)' },
+        },
+      },
+    },
+  });
+
+  // 스냅샷 모드일 때 차트에 세로 마커 추가 — 간단히는 적용 X (Chart.js 플러그인 필요)
+}
+
 function renderBenchmarks() {
   const wrap = document.getElementById('benchmarks');
   if (!wrap) return;
@@ -1162,7 +1451,7 @@ function renderBenchmarks() {
 }
 
 function renderKPIs() {
-  const h = allHoldings;
+  const h = viewHoldings;
   const totalMkt = sum(h.map(x => x.mkt));
   const totalBuy = sum(h.filter(x => x.buy && x.buy > 0).map(x => x.buy));
   const totalBook = sum(h.filter(x => x.book && x.book > 0).map(x => x.book));
@@ -1232,7 +1521,7 @@ function renderKPIs() {
 
 function regionAgg() {
   const by = new Map();
-  for (const h of allHoldings) {
+  for (const h of viewHoldings) {
     if (!by.has(h.region)) by.set(h.region, []);
     by.get(h.region).push(h);
   }
@@ -1267,8 +1556,8 @@ function renderRegionTable() {
     buy: sum(rows.map(r => r.buy)),
     book: sum(rows.map(r => r.book)),
     weight: sum(rows.map(r => r.weight)),
-    v260: weighted(allHoldings, 'v260', 'w'),
-    v90: weighted(allHoldings, 'v90', 'w')
+    v260: weighted(viewHoldings, 'v260', 'w'),
+    v90: weighted(viewHoldings, 'v90', 'w')
   };
   tot.pnlCum = tot.mkt - tot.buy;
   tot.pnlCumPct = tot.buy > 0 ? (tot.pnlCum / tot.buy) * 100 : null;
@@ -1312,7 +1601,7 @@ function renderRegionTable() {
       `).join('')}
       <tr style="font-weight:700;background:#fafbfc">
         <td>합계</td>
-        <td>${allHoldings.length}</td>
+        <td>${viewHoldings.length}</td>
         <td>${fmt(tot.mkt, 2)}</td>
         <td>${fmt(tot.buy, 2)}</td>
         <td>${fmt(tot.book, 2)}</td>
@@ -1394,7 +1683,7 @@ function renderBarVol() {
 }
 
 function renderBarTop() {
-  const top = [...allHoldings]
+  const top = [...viewHoldings]
     .filter(h => h.w != null && h.w > 0)
     .sort((a, b) => b.w - a.w)
     .slice(0, 15);
@@ -1431,7 +1720,7 @@ function renderBarTop() {
 function renderBarPnL() {
   const useYtd = pnlMode === 'ytd';
   const baseKey = useYtd ? 'book' : 'buy';
-  const items = allHoldings
+  const items = viewHoldings
     .filter(h => h.mkt != null && h[baseKey] != null && h[baseKey] > 0)
     .map(h => {
       const base = h[baseKey];
@@ -1567,7 +1856,7 @@ function renderHoldingsSummary(h) {
 }
 
 function renderHoldings() {
-  let h = [...allHoldings];
+  let h = [...viewHoldings];
   if (activeRegion !== 'ALL') h = h.filter(x => x.region === activeRegion);
   h.sort((a, b) => (b.w || 0) - (a.w || 0));
   renderHoldingsSummary(h);
