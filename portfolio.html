@@ -852,7 +852,8 @@
         <b>섹터배분</b> = (PF 섹터노출 − ACWI 섹터비중) × 섹터 ETF 수익률(XL* SPDR) → 어느 산업에 베팅했나<br>
         <b>종목선택 (지역 내)</b> = Σ ACWI지역비중 × (PF지역수익률 − 지역인덱스수익률) → 같은 지역 안에서 더 좋은 종목 골랐는지<br>
         <b>종목선택 (섹터 내)</b> = Σ ACWI섹터비중 × (PF섹터수익률 − 섹터ETF수익률) → 같은 섹터 안에서 더 좋은 종목 골랐는지<br>
-        ※ 지역 분해와 섹터 분해는 <b>같은 총알파를 다른 각도로 본 것</b> — 두 분해 모두 alloc + selection + interaction = 총알파.
+        ※ 지역 분해와 섹터 분해는 <b>같은 총알파를 다른 각도로 본 것</b> — 두 분해 모두 alloc + selection + interaction = 총알파.<br>
+        ※ Brinson PF 비중은 <b>YTD 시작 시점 기준</b>(연초 1/2 비중) — 도넛/지역요약의 "현재 시가 비중"과 다를 수 있음 (성과 측정엔 시작 비중이 표준).
       </div>
     </div>
 
@@ -868,8 +869,10 @@
         ・ <b>국가배분</b> = Σ (w<sub>p,i</sub> − w<sub>b,i</sub>) × (r<sub>b,i</sub> − r<sub>b</sub>) — 잘 가는 지역에 BM보다 많이 베팅한 효과<br>
         ・ <b>종목선택</b> = Σ w<sub>b,i</sub> × (r<sub>p,i</sub> − r<sub>b,i</sub>) — 같은 지역에서 BM 인덱스보다 잘 골랐는지 효과<br>
         ・ <b>상호작용</b> = Σ (w<sub>p,i</sub> − w<sub>b,i</sub>) × (r<sub>p,i</sub> − r<sub>b,i</sub>) — 두 효과의 상호작용<br>
-        ※ 벤치마크는 항상 MSCI ACWI (벤치마크 선택 컨트롤과 무관). 지역 대표지수: KR=KOSPI, US=S&P 500, EU=STOXX 600, 글로벌=니케이 225, EM=MSCI EM.
-        ACWI 지역 비중은 2025년 근사치 — 정확도 ±1~2%p.
+        ※ 벤치마크는 항상 MSCI ACWI (벤치마크 선택 컨트롤과 무관). 지역 대표지수: KR=KOSPI, US=S&P 500, EU=STOXX 600,
+        <b>글로벌=니케이 225 (일본·호주·홍콩 등 선진국 ex-US/EU 대용)</b>, EM=MSCI EM.
+        ACWI 지역 비중은 2025년 근사치 — 정확도 ±1~2%p.<br>
+        <b>비중 기준</b>: Brinson은 <b>YTD 시작 시점</b> 비중 사용 (지역요약/도넛은 현재 시가 비중과 다를 수 있음).
       </div>
     </div>
 
@@ -2318,7 +2321,15 @@ const REGION_TO_BENCHMARK = {
   '한국':   'KOSPI',
   '미국':   'S&P 500',
   '유럽':   'STOXX 600',
-  '글로벌': '니케이 225',
+  '글로벌': '니케이 225',   // 일본·호주·홍콩 등 선진국 ex-US/EU 대용
+  '이머징': 'MSCI EM',
+};
+// 테이블 표시용 라벨 (계산 키와 분리)
+const REGION_BM_LABEL = {
+  '한국':   'KOSPI',
+  '미국':   'S&P 500',
+  '유럽':   'STOXX 600',
+  '글로벌': '니케이 (일본·호주·홍콩 대용)',
   '이머징': 'MSCI EM',
 };
 
@@ -2589,7 +2600,7 @@ function renderBrinsonAttribution() {
     <tbody>
       ${r.rows.map(row => `
         <tr>
-          <td><span class="region-pill" data-r="${row.region}">${row.region}</span> <span style="color:var(--muted);font-size:10px">${row.indexName}</span></td>
+          <td><span class="region-pill" data-r="${row.region}">${row.region}</span> <span style="color:var(--muted);font-size:10px">${REGION_BM_LABEL[row.region] || row.indexName}</span></td>
           <td>${fmt(row.wp, 2)}%</td>
           <td>${fmt(row.wb, 2)}%</td>
           <td class="${cls(row.rp)}">${fmtPct(row.rp, 2)}</td>
