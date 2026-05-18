@@ -568,45 +568,52 @@
   .backtest-metrics .m.bm { border-left: 3px solid #94a3b8; }
   .backtest-metrics .m.alpha { border-left: 3px solid var(--pos); }
 
-  /* ===== 시장 지수 띠 (최상단, 카테고리별) ===== */
+  /* ===== 시장 지수 띠 (최상단, 카테고리별 한 줄 가로 배치) ===== */
   .benchmarks {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 12px;
     margin-bottom: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
   }
   .bench-group {
     display: flex;
-    align-items: stretch;
-    gap: 10px;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .bench-group:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -7px;
+    top: 18px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
   }
   .bench-group-label {
-    flex: 0 0 64px;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    border-right: 2px solid var(--border);
+    letter-spacing: 0.1em;
+    padding: 0 4px;
   }
   .bench-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 8px;
-    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+  }
+  .bench-cards .bench {
+    flex: 0 0 130px;
   }
   @media (max-width: 768px) {
-    .bench-group { flex-direction: column; gap: 4px; }
-    .bench-group-label {
-      flex: none; padding-right: 0; border-right: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 4px; justify-content: flex-start;
-    }
-    .bench-cards { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; }
+    .bench-cards .bench { flex: 0 0 115px; }
+    .bench-group-label { font-size: 8px; }
   }
   .bench {
     background: #fff;
