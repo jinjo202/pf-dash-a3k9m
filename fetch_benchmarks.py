@@ -20,12 +20,17 @@ HERE = Path(__file__).parent
 OUT = HERE / "benchmarks.js"
 
 BENCHMARKS = [
-    ("KOSPI",            "^KS11",   0),  # (이름, yahoo 티커, 소수자리)
-    ("KOSDAQ",           "^KQ11",   2),
-    ("S&P 500",          "^GSPC",   2),
-    ("NASDAQ",           "^IXIC",   2),
-    ("필라델피아 반도체",  "^SOX",    2),
-    ("USD/KRW",          "KRW=X",   2),
+    ("KOSPI",            "^KS11",     0),  # (이름, yahoo 티커, 소수자리)
+    ("KOSDAQ",           "^KQ11",     2),
+    ("니케이 225",        "^N225",     0),
+    ("상해종합",          "000001.SS", 2),
+    ("STOXX 600",        "^STOXX",    2),
+    ("S&P 500",          "^GSPC",     2),
+    ("NASDAQ",           "^IXIC",     2),
+    ("필라델피아 반도체",  "^SOX",      2),
+    ("MSCI ACWI",        "ACWI",      2),  # ACWI ETF (지수 직접 티커 없음)
+    ("MSCI EM",          "EEM",       2),  # EEM ETF (지수 직접 티커 없음)
+    ("USD/KRW",          "KRW=X",     2),
 ]
 
 

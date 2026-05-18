@@ -237,15 +237,12 @@
   /* ===== 시장 지수 띠 (최상단) ===== */
   .benchmarks {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 8px;
     margin-bottom: 16px;
   }
   @media (max-width: 768px) {
-    .benchmarks { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  }
-  @media (max-width: 480px) {
-    .benchmarks { grid-template-columns: repeat(2, 1fr); }
+    .benchmarks { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; }
   }
   .bench {
     background: #fff;

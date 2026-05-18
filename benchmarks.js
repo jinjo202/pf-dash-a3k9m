@@ -23,6 +23,36 @@ window.BENCHMARKS = {
       "decimals": 2
     },
     {
+      "name": "니케이 225",
+      "ticker": "^N225",
+      "current": 60815.9492,
+      "baseline": 50339.4805,
+      "ytd_pct": 20.8116,
+      "daily_pct": -0.9662,
+      "as_of": "2026-05-18",
+      "decimals": 0
+    },
+    {
+      "name": "상해종합",
+      "ticker": "000001.SS",
+      "current": 4131.5278,
+      "baseline": 3968.8401,
+      "ytd_pct": 4.0991,
+      "daily_pct": -0.0934,
+      "as_of": "2026-05-18",
+      "decimals": 2
+    },
+    {
+      "name": "STOXX 600",
+      "ticker": "^STOXX",
+      "current": 610.88,
+      "baseline": 592.78,
+      "ytd_pct": 3.0534,
+      "daily_pct": 0.6525,
+      "as_of": "2026-05-18",
+      "decimals": 2
+    },
+    {
       "name": "S&P 500",
       "ticker": "^GSPC",
       "current": 7408.5,
@@ -53,12 +83,32 @@ window.BENCHMARKS = {
       "decimals": 2
     },
     {
+      "name": "MSCI ACWI",
+      "ticker": "ACWI",
+      "current": 154.08,
+      "baseline": 141.49,
+      "ytd_pct": 8.8982,
+      "daily_pct": -1.6406,
+      "as_of": "2026-05-15",
+      "decimals": 2
+    },
+    {
+      "name": "MSCI EM",
+      "ticker": "EEM",
+      "current": 65.07,
+      "baseline": 54.71,
+      "ytd_pct": 18.9362,
+      "daily_pct": -3.4283,
+      "as_of": "2026-05-15",
+      "decimals": 2
+    },
+    {
       "name": "USD/KRW",
       "ticker": "KRW=X",
-      "current": 1494.48,
+      "current": 1494.49,
       "baseline": 1437.91,
-      "ytd_pct": 3.9342,
-      "daily_pct": 0.0763,
+      "ytd_pct": 3.9349,
+      "daily_pct": 0.077,
       "as_of": "2026-05-18",
       "decimals": 2
     }
