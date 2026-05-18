@@ -376,6 +376,20 @@
     </div>
 
     <div class="panel" style="margin-bottom:16px">
+      <h3>실제 포트폴리오 변동성 (상관 반영) <span id="corrVolMeta" style="color:var(--muted);font-weight:400;font-size:11px"></span></h3>
+      <div class="table-scroll" style="max-height:none">
+        <table id="corrVolTable"></table>
+      </div>
+      <div class="footer-note">
+        <b>계산식</b>: σ<sub>p</sub>² = Σᵢ Σⱼ wᵢ · wⱼ · σᵢ · σⱼ · ρᵢⱼ &nbsp;·&nbsp;
+        ρᵢⱼ = 종목 i,j의 일별 수익률 상관계수 (yfinance 1년치)<br>
+        종목별 σᵢ는 Bloomberg 기준 v260/v90 유지, 비중은 그룹 내에서 정규화 (지역 standalone σ).<br>
+        <b>분산효과</b> = 상관 반영 σ / 단순 가중 σ − 1 &nbsp;·&nbsp;
+        <span style="color:var(--muted)">상관이 낮을수록 음수 폭 커짐 (분산 잘 됨)</span>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
       <h3>지역별 요약</h3>
       <div class="table-scroll" style="max-height:none">
         <table id="regionTable"></table>
@@ -503,6 +517,7 @@ const fmtAmtBig = v => {
 
 let charts = {};
 let allHoldings = [];
+let portfolioData = null;  // 전체 포트폴리오 데이터 (correlation_vol 등 메타)
 let activeRegion = 'ALL';
 let pnlMode = 'cum';  // 'cum' | 'ytd'
 
@@ -532,6 +547,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 function loadFromData(d) {
   if (!d || !d.holdings) return;
+  portfolioData = d;
   allHoldings = d.holdings;
   document.getElementById('meta').textContent =
     `${d.portfolio_name || 'Portfolio'} · 가격 기준일 ${d.last_updated || '-'} · ${allHoldings.length}개 종목`;
@@ -725,11 +741,67 @@ function render() {
   renderRegionTable();
   renderPieRegion();
   renderBarVol();
+  renderCorrVolTable();
   renderBarTop();
   renderBarPnL();
   renderLookthrough();
   renderRegionChips();
   renderHoldings();
+}
+
+function renderCorrVolTable() {
+  const cv = portfolioData && portfolioData.correlation_vol;
+  const tbl = document.getElementById('corrVolTable');
+  const meta = document.getElementById('corrVolMeta');
+  if (!cv || !cv.regions) {
+    if (tbl) tbl.innerHTML = '<tr><td style="padding:16px;color:var(--muted);text-align:center">상관 반영 데이터 없음 — compute_corr_vol.py 실행 필요</td></tr>';
+    if (meta) meta.textContent = '';
+    return;
+  }
+  if (meta) {
+    meta.textContent = `· 계산일 ${cv.computed_at || '-'} · ${cv.trading_days || '?'} 거래일 · ${cv.tickers_used || '?'} 종목`;
+  }
+  const order = ['한국', '미국', '유럽', '글로벌', '이머징'];
+  const rows = order.filter(r => cv.regions[r]).map(r => ({ label: r, ...cv.regions[r] }));
+  rows.push({ label: '전체 포트폴리오', ...cv.total, isTotal: true });
+  const diffCls = pct => pct == null || isNaN(pct) ? '' : (pct <= -1 ? 'pos' : (pct >= 1 ? 'neg' : ''));
+  tbl.innerHTML = `
+    <thead>
+      <tr>
+        <th rowspan="2">구분</th><th rowspan="2">종목</th>
+        <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)">260D</th>
+        <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)">90D</th>
+      </tr>
+      <tr>
+        <th>단순 가중</th><th>상관 반영</th><th>분산효과</th>
+        <th>단순 가중</th><th>상관 반영</th><th>분산효과</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows.map(r => {
+        const d260 = r.simple_v260 ? (r.corr_v260 / r.simple_v260 - 1) * 100 : null;
+        const d90  = r.simple_v90  ? (r.corr_v90  / r.simple_v90  - 1) * 100 : null;
+        const labelCell = r.isTotal
+          ? `<td style="font-weight:700">${r.label}</td>`
+          : `<td><span class="region-pill" data-r="${r.label}">${r.label}</span></td>`;
+        const trStyle = r.isTotal
+          ? 'style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)"'
+          : '';
+        return `
+          <tr ${trStyle}>
+            ${labelCell}
+            <td>${r.count}</td>
+            <td>${fmt(r.simple_v260, 2)}</td>
+            <td>${fmt(r.corr_v260, 2)}</td>
+            <td class="${diffCls(d260)}">${d260 == null ? '-' : fmtPct(d260, 1)}</td>
+            <td>${fmt(r.simple_v90, 2)}</td>
+            <td>${fmt(r.corr_v90, 2)}</td>
+            <td class="${diffCls(d90)}">${d90 == null ? '-' : fmtPct(d90, 1)}</td>
+          </tr>
+        `;
+      }).join('')}
+    </tbody>
+  `;
 }
 
 // ===== 룩스루: 종목별 lookthrough를 시가(억원) 기준으로 가중 합산 =====

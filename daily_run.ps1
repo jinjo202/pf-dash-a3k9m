@@ -14,6 +14,10 @@ if ($LASTEXITCODE -ne 0) { throw "decrypt 실패" }
 python update_prices.py
 if ($LASTEXITCODE -ne 0) { throw "update_prices 실패" }
 
+# 2b) 상관 반영 변동성 재계산 (주중에만 의미 있음 — 실패해도 전체는 진행)
+python compute_corr_vol.py
+if ($LASTEXITCODE -ne 0) { Write-Warning "compute_corr_vol 실패 — 변동성 표는 직전 값 유지" }
+
 # 3) 재암호화 (plain → portfolio-data.js)
 python encrypt_data.py encrypt
 if ($LASTEXITCODE -ne 0) { throw "encrypt 실패" }
