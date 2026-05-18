@@ -57,6 +57,15 @@ def resolve(h):
     return to_yahoo(h.get("ticker")) or to_yahoo(h.get("proxy_ticker", ""))
 
 
+def resolve_with_fallback(h):
+    """direct yahoo ticker + (있다면) proxy yahoo ticker 모두 반환"""
+    direct = to_yahoo(h.get("ticker"))
+    proxy = to_yahoo(h.get("proxy_ticker", ""))
+    primary = direct or proxy
+    fallback = (proxy if proxy and proxy != primary else None)
+    return primary, fallback
+
+
 def load_data():
     text = PLAIN.read_text(encoding="utf-8")
     m = re.search(r"window\.PORTFOLIO_DATA\s*=\s*(\{.*?\n\});", text, re.DOTALL)
@@ -85,12 +94,12 @@ def main():
 
     print(f"=== Historical 데이터 수집 ({year_start} ~ {today}) ===")
 
-    # 각 holding의 yahoo ticker 매핑 (book > 0 인 것만)
-    holding_tickers = []
+    # 각 holding의 yahoo ticker 매핑 (book > 0 인 것만) — primary + fallback(proxy)
+    holding_tickers = []  # [(holding, primary_yt, fallback_yt_or_None)]
     for h in holdings:
-        yt = resolve(h)
-        if yt and (h.get("book") or 0) > 0:
-            holding_tickers.append((h, yt))
+        primary, fallback = resolve_with_fallback(h)
+        if primary and (h.get("book") or 0) > 0:
+            holding_tickers.append((h, primary, fallback))
 
     BM_TICKERS = [("MSCI ACWI", "ACWI"), ("S&P 500", "^GSPC"), ("KOSPI", "^KS11"),
                   ("STOXX 600", "^STOXX"), ("니케이 225", "^N225"), ("MSCI EM", "EEM")]
@@ -99,7 +108,8 @@ def main():
                       ("Materials","XLB"), ("Healthcare","XLV"), ("Cons Disc","XLY"),
                       ("Cons Staples","XLP"), ("Financials","XLF"), ("Energy","XLE"),
                       ("Utilities","XLU")]
-    unique = sorted(set(t for _, t in holding_tickers))
+    # primary + fallback 모두 fetch
+    unique = sorted(set([p for _, p, _ in holding_tickers] + [f for _, _, f in holding_tickers if f]))
     bm_yt = [t for _, t in BM_TICKERS]
     sec_yt = [t for _, t in SECTOR_TICKERS]
     fetch_list = sorted(set(unique + bm_yt + sec_yt))
@@ -134,35 +144,47 @@ def main():
     holdings_mkt = {}
     portfolio_total = [0.0] * len(ytd_dates)
 
-    for h, yt in holding_tickers:
+    def get_ytd_start(yt):
+        """주어진 티커의 YTD 시작 가격 (없으면 None)"""
         if yt not in close.columns:
-            print(f"  [skip]  {h['name']} ({yt})")
-            continue
-        series = close[yt]
-        # YTD 첫 거래일 가격
-        ytd_start_price = None
+            return None
+        s = close[yt]
         for d in ytd_dates:
-            if d in series.index and not pd.isna(series.loc[d]):
-                ytd_start_price = float(series.loc[d])
-                break
-        if not ytd_start_price or ytd_start_price <= 0:
-            print(f"  [skip]  {h['name']} — YTD 시작가 없음")
+            if d in s.index and not pd.isna(s.loc[d]):
+                return float(s.loc[d]), s
+        return None
+
+    for h, primary, fallback in holding_tickers:
+        # 1) primary 티커 시도
+        chosen_yt = primary
+        result = get_ytd_start(primary)
+        # 2) 안 되면 proxy로 폴백
+        used_proxy = False
+        if result is None and fallback:
+            result = get_ytd_start(fallback)
+            if result is not None:
+                chosen_yt = fallback
+                used_proxy = True
+
+        if result is None:
+            print(f"  [skip]  {h['name']:42s} (no YTD data for {primary}{' / ' + fallback if fallback else ''})")
             continue
+        ytd_start_price, series = result
+
         book = h.get("book") or 0
-        # 일별 mkt 계산
         mkt_series = []
         last_price = ytd_start_price
         for d in ytd_dates:
             if d in series.index and not pd.isna(series.loc[d]):
                 last_price = float(series.loc[d])
-            # last_price 가 직전 가용 가격 (forward-fill)
             mkt_t = book * (last_price / ytd_start_price)
             mkt_series.append(round(mkt_t, 2))
         holdings_mkt[h["name"]] = mkt_series
         for i, v in enumerate(mkt_series):
             portfolio_total[i] += v
         ret = (mkt_series[-1] / book - 1) * 100
-        print(f"  [ok]    {h['name']:42s} {yt:12s}  YTD {ret:+6.2f}%")
+        tag = "proxy" if used_proxy else "ok   "
+        print(f"  [{tag}] {h['name']:42s} {chosen_yt:12s}  YTD {ret:+6.2f}%")
 
     # 벤치마크별 일별 종가 시리즈 (forward-fill, 정규화 X — 클라이언트에서 블렌드)
     benchmarks = {}
