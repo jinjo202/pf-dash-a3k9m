@@ -1210,7 +1210,7 @@ function loadFromData(d) {
   allHoldings = d.holdings;
   viewHoldings = allHoldings;
   document.getElementById('meta').textContent =
-    `${d.portfolio_name || 'Portfolio'} · 가격 기준일 ${d.last_updated || '-'} · ${allHoldings.length}개 종목`;
+    `${d.portfolio_name || 'Portfolio'} · 가격 기준일 ${d.last_updated || '-'} · 현재 보유 ${allHoldings.filter(h => h.mkt > 0).length}개 종목`;
   document.getElementById('gate').classList.add('hidden');
   document.getElementById('empty').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
@@ -2242,7 +2242,7 @@ function renderAlphaContribution() {
       }).join('')}
       <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
         <td>합계</td>
-        <td>${contributions.length}개</td>
+        <td title="현재 보유 ${allHoldings.filter(h => h.mkt > 0).length}개 중 YTD 시작가 데이터가 있는 종목만 분석">${contributions.length}개<span style="font-weight:400;color:var(--muted);font-size:10px"> / ${allHoldings.filter(h => h.mkt > 0).length}</span></td>
         <td>${fmt(contributions.reduce((s, c) => s + c.weight, 0), 2)}%</td>
         <td class="${cls(pfRet)}">${fmtPct(pfRet * 100, 2)}</td>
         <td class="${cls(pfRet - acwiRet)}">${fmtPct((pfRet - acwiRet) * 100, 2)}</td>
@@ -2641,7 +2641,7 @@ function renderKPIs() {
     : '-';
 
   const kpis = [
-    { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `보유 종목 ${owned}개 / 전체 ${h.length}개` },
+    { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `현재 보유 ${owned}개 종목` },
     { label: baseLabel, value: fmtAmtBig(baseAmt), sub: baseSub },
     { label: pnlLabel,  value: fmtAmtBig(basePnl), sub: pnlSub, cls: cls(basePnl) },
     // ── 금일 (가장 최신 마감된 시장만 합산) ─────────────────────
@@ -2685,9 +2685,10 @@ function regionAgg() {
     const mkt = sum(items.map(x => x.mkt));
     const buy = sum(items.filter(x => x.buy && x.buy > 0).map(x => x.buy));
     const book = sum(items.filter(x => x.book && x.book > 0).map(x => x.book));
+    const ownedCount = items.filter(x => x.mkt > 0).length;
     out.push({
       region: r,
-      count: items.length,
+      count: ownedCount,
       mkt, buy, book,
       pnlCum: mkt - buy,
       pnlCumPct: buy > 0 ? ((mkt - buy) / buy) * 100 : null,
@@ -2756,7 +2757,7 @@ function renderRegionTable() {
       `).join('')}
       <tr style="font-weight:700;background:#fafbfc">
         <td>합계</td>
-        <td>${viewHoldings.length}</td>
+        <td>${viewHoldings.filter(x => x.mkt > 0).length}</td>
         <td>${fmt(tot.mkt, 2)}</td>
         <td>${fmt(tot.buy, 2)}</td>
         <td>${fmt(tot.book, 2)}</td>
@@ -3086,10 +3087,11 @@ function renderHoldings() {
         const label = activeRegion === 'ALL' ? '합계' : `${activeRegion} 합계`;
         const dailyNote = todayItems.length > 0 && todayItems.length < h.filter(x => x.mkt > 0).length
           ? `<span style="font-weight:400;color:var(--muted);font-size:10px">(${todayItems.length}종목)</span>` : '';
+        const ownedH = h.filter(x => x.mkt > 0).length;
         return `
           <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
             <td>${label}</td>
-            <td>${h.length}개</td>
+            <td>${ownedH}개</td>
             <td>${fmt(tBuy, 2)}</td>
             <td>${fmt(tBook, 2)}</td>
             <td>${fmt(tMkt, 2)}</td>
