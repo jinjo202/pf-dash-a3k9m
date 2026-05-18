@@ -380,8 +380,12 @@
 
     <div class="panel" style="margin-bottom:16px">
       <h3>종목별 손익 기여도 (억원)</h3>
+      <div class="toolbar" id="pnlModeChips">
+        <span class="chip active" data-m="cum">누적 (매입가 대비)</span>
+        <span class="chip" data-m="ytd">YTD (장부가 대비)</span>
+      </div>
       <div class="chart-wrap tall"><canvas id="barPnL"></canvas></div>
-      <div class="footer-note">
+      <div class="footer-note" id="pnlFooter">
         막대 길이 = 종목별 평가손익 (시가 − 매입가). 매입가 0인 미보유 종목은 제외.
       </div>
     </div>
@@ -491,6 +495,7 @@ const fmtAmtBig = v => {
 let charts = {};
 let allHoldings = [];
 let activeRegion = 'ALL';
+let pnlMode = 'cum';  // 'cum' | 'ytd'
 
 // 페이지 로드 시 내장 데이터 자동 표시 (평문 또는 암호화)
 window.addEventListener('DOMContentLoaded', async () => {
@@ -940,8 +945,11 @@ function renderKPIs() {
   const h = allHoldings;
   const totalMkt = sum(h.map(x => x.mkt));
   const totalBuy = sum(h.filter(x => x.buy && x.buy > 0).map(x => x.buy));
-  const pnl = totalMkt - totalBuy;
-  const pnlPct = totalBuy > 0 ? (pnl / totalBuy) * 100 : null;
+  const totalBook = sum(h.filter(x => x.book && x.book > 0).map(x => x.book));
+  const pnlCum = totalMkt - totalBuy;
+  const pnlCumPct = totalBuy > 0 ? (pnlCum / totalBuy) * 100 : null;
+  const pnlYtd = totalMkt - totalBook;
+  const pnlYtdPct = totalBook > 0 ? (pnlYtd / totalBook) * 100 : null;
   const totalWeight = sum(h.map(x => x.w));
   const w260 = weighted(h, 'v260', 'w');
   const w90 = weighted(h, 'v90', 'w');
@@ -949,12 +957,19 @@ function renderKPIs() {
 
   const kpis = [
     { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `보유 종목 ${owned}개 / 전체 ${h.length}개` },
-    { label: '총 매입금액', value: fmtAmtBig(totalBuy), sub: `평가금액 대비 ${totalBuy > 0 ? fmt(totalMkt / totalBuy * 100, 1) + '%' : '-'}` },
+    { label: '총 매입금액', value: fmtAmtBig(totalBuy), sub: '매입 시점 누적 기준' },
+    { label: '총 장부가 (YTD)', value: fmtAmtBig(totalBook), sub: '연초 기준' },
     {
-      label: '평가손익',
-      value: fmtAmtBig(pnl),
-      sub: pnlPct != null ? fmtPct(pnlPct) : '-',
-      cls: cls(pnl)
+      label: '누적 평가손익',
+      value: fmtAmtBig(pnlCum),
+      sub: pnlCumPct != null ? fmtPct(pnlCumPct) + ' (매입가 대비)' : '-',
+      cls: cls(pnlCum)
+    },
+    {
+      label: 'YTD 평가손익',
+      value: fmtAmtBig(pnlYtd),
+      sub: pnlYtdPct != null ? fmtPct(pnlYtdPct) + ' (장부가 대비)' : '-',
+      cls: cls(pnlYtd)
     },
     {
       label: '가중 변동성 (260D)',
@@ -986,12 +1001,15 @@ function regionAgg() {
   for (const [r, items] of by) {
     const mkt = sum(items.map(x => x.mkt));
     const buy = sum(items.filter(x => x.buy && x.buy > 0).map(x => x.buy));
+    const book = sum(items.filter(x => x.book && x.book > 0).map(x => x.book));
     out.push({
       region: r,
       count: items.length,
-      mkt, buy,
-      pnl: mkt - buy,
-      pnlPct: buy > 0 ? ((mkt - buy) / buy) * 100 : null,
+      mkt, buy, book,
+      pnlCum: mkt - buy,
+      pnlCumPct: buy > 0 ? ((mkt - buy) / buy) * 100 : null,
+      pnlYtd: mkt - book,
+      pnlYtdPct: book > 0 ? ((mkt - book) / book) * 100 : null,
       weight: sum(items.map(x => x.w)),
       v260: weighted(items, 'v260', 'w'),
       v90: weighted(items, 'v90', 'w')
@@ -1008,19 +1026,32 @@ function renderRegionTable() {
   const tot = {
     mkt: sum(rows.map(r => r.mkt)),
     buy: sum(rows.map(r => r.buy)),
+    book: sum(rows.map(r => r.book)),
     weight: sum(rows.map(r => r.weight)),
     v260: weighted(allHoldings, 'v260', 'w'),
     v90: weighted(allHoldings, 'v90', 'w')
   };
-  tot.pnl = tot.mkt - tot.buy;
-  tot.pnlPct = tot.buy > 0 ? (tot.pnl / tot.buy) * 100 : null;
+  tot.pnlCum = tot.mkt - tot.buy;
+  tot.pnlCumPct = tot.buy > 0 ? (tot.pnlCum / tot.buy) * 100 : null;
+  tot.pnlYtd = tot.mkt - tot.book;
+  tot.pnlYtdPct = tot.book > 0 ? (tot.pnlYtd / tot.book) * 100 : null;
 
   const html = `
     <thead>
       <tr>
-        <th>지역</th><th>종목</th><th>시가 (억원)</th><th>매입가 (억원)</th>
-        <th>손익 (억원)</th><th>손익률</th><th>비중</th>
-        <th>가중 260D</th><th>가중 90D</th>
+        <th rowspan="2">지역</th><th rowspan="2">종목</th>
+        <th rowspan="2">시가 (억원)</th>
+        <th rowspan="2">매입가 (억원)</th>
+        <th rowspan="2">장부가 (억원)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
+        <th rowspan="2">비중</th>
+        <th rowspan="2">가중 260D</th>
+        <th rowspan="2">가중 90D</th>
+      </tr>
+      <tr>
+        <th>손익</th><th>%</th>
+        <th>손익</th><th>%</th>
       </tr>
     </thead>
     <tbody>
@@ -1030,8 +1061,11 @@ function renderRegionTable() {
           <td>${r.count}</td>
           <td>${fmt(r.mkt, 2)}</td>
           <td>${fmt(r.buy, 2)}</td>
-          <td class="${cls(r.pnl)}">${fmt(r.pnl, 2)}</td>
-          <td class="${cls(r.pnlPct)}">${fmtPct(r.pnlPct)}</td>
+          <td>${fmt(r.book, 2)}</td>
+          <td class="${cls(r.pnlCum)}">${fmt(r.pnlCum, 2)}</td>
+          <td class="${cls(r.pnlCumPct)}">${fmtPct(r.pnlCumPct)}</td>
+          <td class="${cls(r.pnlYtd)}">${fmt(r.pnlYtd, 2)}</td>
+          <td class="${cls(r.pnlYtdPct)}">${fmtPct(r.pnlYtdPct)}</td>
           <td>${r.weight == null ? '-' : fmt(r.weight * 100, 1) + '%'}</td>
           <td>${fmt(r.v260, 1)}</td>
           <td>${fmt(r.v90, 1)}</td>
@@ -1042,8 +1076,11 @@ function renderRegionTable() {
         <td>${allHoldings.length}</td>
         <td>${fmt(tot.mkt, 2)}</td>
         <td>${fmt(tot.buy, 2)}</td>
-        <td class="${cls(tot.pnl)}">${fmt(tot.pnl, 2)}</td>
-        <td class="${cls(tot.pnlPct)}">${fmtPct(tot.pnlPct)}</td>
+        <td>${fmt(tot.book, 2)}</td>
+        <td class="${cls(tot.pnlCum)}">${fmt(tot.pnlCum, 2)}</td>
+        <td class="${cls(tot.pnlCumPct)}">${fmtPct(tot.pnlCumPct)}</td>
+        <td class="${cls(tot.pnlYtd)}">${fmt(tot.pnlYtd, 2)}</td>
+        <td class="${cls(tot.pnlYtdPct)}">${fmtPct(tot.pnlYtdPct)}</td>
         <td>${tot.weight == null ? '-' : fmt(tot.weight * 100, 1) + '%'}</td>
         <td>${fmt(tot.v260, 1)}</td>
         <td>${fmt(tot.v90, 1)}</td>
@@ -1153,22 +1190,26 @@ function renderBarTop() {
 }
 
 function renderBarPnL() {
+  const useYtd = pnlMode === 'ytd';
+  const baseKey = useYtd ? 'book' : 'buy';
   const items = allHoldings
-    .filter(h => h.buy != null && h.mkt != null && h.buy > 0)
-    .map(h => ({
-      ...h,
-      pnl: h.mkt - h.buy,
-      pnlPct: ((h.mkt - h.buy) / h.buy) * 100
-    }))
+    .filter(h => h.mkt != null && h[baseKey] != null && h[baseKey] > 0)
+    .map(h => {
+      const base = h[baseKey];
+      const pnl = h.mkt - base;
+      const pnlPct = (pnl / base) * 100;
+      return { ...h, pnl, pnlPct };
+    })
     .sort((a, b) => b.pnl - a.pnl);
 
   destroy('barPnL');
+  const baseLabel = useYtd ? '장부가' : '매입가';
   charts.barPnL = new Chart(document.getElementById('barPnL'), {
     type: 'bar',
     data: {
       labels: items.map(h => h.name),
       datasets: [{
-        label: '평가손익 (억원)',
+        label: `${useYtd ? 'YTD' : '누적'} 손익 (억원)`,
         data: items.map(h => h.pnl),
         backgroundColor: items.map(h =>
           h.pnl > 0 ? 'rgba(22, 163, 74, 0.85)' :
@@ -1192,7 +1233,7 @@ function renderBarPnL() {
               const h = items[ctx.dataIndex];
               return [
                 `${h.region} · 손익 ${fmt(h.pnl, 2)} 억원`,
-                `손익률 ${fmtPct(h.pnlPct)} · 비중 ${h.w == null ? '-' : fmt(h.w * 100, 2) + '%'}`
+                `수익률 ${fmtPct(h.pnlPct)} (${baseLabel} 대비) · 비중 ${h.w == null ? '-' : fmt(h.w * 100, 2) + '%'}`
               ];
             }
           }
@@ -1207,6 +1248,26 @@ function renderBarPnL() {
       }
     }
   });
+
+  const footer = document.getElementById('pnlFooter');
+  if (footer) {
+    footer.innerHTML = useYtd
+      ? '막대 길이 = 종목별 YTD 손익 (시가 − <b>장부가</b>). 장부가 0인 미보유 종목 제외.'
+      : '막대 길이 = 종목별 누적 손익 (시가 − <b>매입가</b>). 매입가 0인 미보유 종목 제외.';
+  }
+
+  // 칩 활성화 표시 + 클릭 핸들러 (1회만 등록)
+  const chips = document.getElementById('pnlModeChips');
+  if (chips && !chips._wired) {
+    chips._wired = true;
+    chips.querySelectorAll('.chip').forEach(c => {
+      c.addEventListener('click', () => {
+        pnlMode = c.dataset.m;
+        chips.querySelectorAll('.chip').forEach(o => o.classList.toggle('active', o === c));
+        renderBarPnL();
+      });
+    });
+  }
 }
 
 function renderRegionChips() {
@@ -1232,16 +1293,23 @@ function renderHoldings() {
   const html = `
     <thead>
       <tr>
-        <th>지역</th><th>종목명</th>
-        <th>매입가 (억원)</th><th>장부가 (억원)</th><th>시가 (억원)</th>
-        <th>YTD 손익 (억원)</th><th>YTD 수익률</th>
-        <th>260D</th><th>90D</th><th>비중</th>
+        <th rowspan="2">지역</th><th rowspan="2">종목명</th>
+        <th rowspan="2">매입가</th><th rowspan="2">장부가</th><th rowspan="2">시가</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
+        <th rowspan="2">260D</th><th rowspan="2">90D</th><th rowspan="2">비중</th>
+      </tr>
+      <tr>
+        <th>손익</th><th>%</th>
+        <th>손익</th><th>%</th>
       </tr>
     </thead>
     <tbody>
       ${h.map(x => {
-        const pnl = x.mkt != null && x.book != null ? x.mkt - x.book : null;
-        const pnlPct = (x.book && x.book > 0) ? (pnl / x.book) * 100 : null;
+        const pnlCum    = x.mkt != null && x.buy  != null ? x.mkt - x.buy  : null;
+        const pnlCumPct = (x.buy  && x.buy  > 0)  ? (pnlCum / x.buy)  * 100 : null;
+        const pnlYtd    = x.mkt != null && x.book != null ? x.mkt - x.book : null;
+        const pnlYtdPct = (x.book && x.book > 0) ? (pnlYtd / x.book) * 100 : null;
         return `
           <tr>
             <td><span class="region-pill" data-r="${x.region}">${x.region}</span></td>
@@ -1249,8 +1317,10 @@ function renderHoldings() {
             <td>${fmt(x.buy, 2)}</td>
             <td>${fmt(x.book, 2)}</td>
             <td>${fmt(x.mkt, 2)}</td>
-            <td class="${cls(pnl)}">${fmt(pnl, 2)}</td>
-            <td class="${cls(pnlPct)}">${fmtPct(pnlPct)}</td>
+            <td class="${cls(pnlCum)}">${fmt(pnlCum, 2)}</td>
+            <td class="${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</td>
+            <td class="${cls(pnlYtd)}">${fmt(pnlYtd, 2)}</td>
+            <td class="${cls(pnlYtdPct)}">${fmtPct(pnlYtdPct)}</td>
             <td>${fmt(x.v260, 1)}</td>
             <td>${fmt(x.v90, 1)}</td>
             <td>${x.w == null ? '-' : fmt(x.w * 100, 2) + '%'}</td>
