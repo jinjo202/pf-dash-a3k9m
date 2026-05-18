@@ -1467,6 +1467,8 @@ function renderHoldings() {
   renderHoldingsSummary(h);
 
   const today = todayLocalStr();
+  const dateLabel = todayShort();
+  const dailyHeader = `금일 <span style="color:var(--accent);font-weight:700">${dateLabel}</span> (전일 대비)`;
   const html = `
     <thead>
       <tr>
@@ -1474,7 +1476,7 @@ function renderHoldings() {
         <th rowspan="2">매입가</th><th rowspan="2">장부가</th><th rowspan="2">시가</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
-        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">금일 ${todayShort()} (전일 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">${dailyHeader}</th>
         <th rowspan="2">260D</th><th rowspan="2">90D</th><th rowspan="2">비중</th>
       </tr>
       <tr>
