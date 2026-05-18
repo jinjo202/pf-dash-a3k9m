@@ -1457,8 +1457,8 @@ function renderCountryBar() {
     data: {
       labels: top.map(r => (window.COUNTRY_NAMES[r.key] || r.key) + ' (' + r.key + ')'),
       datasets: [{
-        label: '국가 노출 (억원)',
-        data: top.map(r => r.mkt),
+        label: '국가 비중 (%)',
+        data: top.map(r => r.pct),
         backgroundColor: '#2563eb'
       }]
     },
@@ -1470,11 +1470,11 @@ function renderCountryBar() {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: ctx => `${fmt(top[ctx.dataIndex].mkt, 2)} 억원 · ${fmt(top[ctx.dataIndex].pct, 2)}%`
+            label: ctx => `${fmt(top[ctx.dataIndex].pct, 2)}%  ·  ${fmt(top[ctx.dataIndex].mkt, 2)} 억원`
           }
         }
       },
-      scales: { x: { ticks: { callback: v => fmt(v, 0) + ' 억' } } }
+      scales: { x: { ticks: { callback: v => fmt(v, 1) + '%' } } }
     }
   });
 }
@@ -1526,8 +1526,8 @@ function renderFactorBar() {
     data: {
       labels: rows.map(r => window.FACTOR_NAMES[r.key] || r.key),
       datasets: [{
-        label: '팩터 노출 (억원)',
-        data: rows.map(r => r.mkt),
+        label: '팩터 비중 (%)',
+        data: rows.map(r => r.pct),
         backgroundColor: rows.map(r => colors[r.key] || '#94a3b8')
       }]
     },
@@ -1539,11 +1539,11 @@ function renderFactorBar() {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: ctx => `${fmt(rows[ctx.dataIndex].mkt, 2)} 억원 · ${fmt(rows[ctx.dataIndex].pct, 2)}%`
+            label: ctx => `${fmt(rows[ctx.dataIndex].pct, 2)}%  ·  ${fmt(rows[ctx.dataIndex].mkt, 2)} 억원`
           }
         }
       },
-      scales: { x: { ticks: { callback: v => fmt(v, 0) + ' 억' } } }
+      scales: { x: { ticks: { callback: v => fmt(v, 1) + '%' } } }
     }
   });
 }
@@ -1552,20 +1552,20 @@ function renderCountryTable() {
   const { rows, totalMkt } = aggregateLookthrough('country');
   const html = `
     <thead>
-      <tr><th>국가</th><th>코드</th><th>노출 (억원)</th><th>비중</th></tr>
+      <tr><th>국가</th><th>코드</th><th>비중</th><th>노출 (억원)</th></tr>
     </thead>
     <tbody>
       ${rows.map(r => `
         <tr>
           <td>${window.COUNTRY_NAMES[r.key] || r.key}</td>
           <td style="color:var(--muted);font-size:11px">${r.key}</td>
+          <td style="font-weight:600">${fmt(r.pct, 2)}%</td>
           <td>${fmt(r.mkt, 2)}</td>
-          <td>${fmt(r.pct, 2)}%</td>
         </tr>
       `).join('')}
       <tr style="font-weight:700;background:#fafbfc">
         <td>합계</td><td></td>
-        <td>${fmt(totalMkt, 2)}</td><td>100.00%</td>
+        <td>100.00%</td><td>${fmt(totalMkt, 2)}</td>
       </tr>
     </tbody>
   `;
