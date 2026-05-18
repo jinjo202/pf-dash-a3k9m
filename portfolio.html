@@ -263,6 +263,37 @@
   }
   .hidden { display: none !important; }
 
+  /* ===== KPI 기준 토글 ===== */
+  .kpi-basis-toggle {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .kpi-basis-toggle .lbl {
+    font-size: 11px; color: var(--muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .kpi-basis-toggle button {
+    padding: 5px 14px;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .kpi-basis-toggle button:hover {
+    color: var(--text-soft); border-color: var(--text-soft);
+  }
+  .kpi-basis-toggle button.active {
+    background: var(--text); color: #fff; border-color: var(--text);
+  }
+  .kpi-basis-toggle .hint {
+    color: var(--muted); font-size: 11px; margin-left: 8px;
+  }
+
   /* ===== 스냅샷 컨트롤 바 ===== */
   .snapshot-bar {
     display: flex;
@@ -714,6 +745,12 @@
       <span id="snapshotInfo" class="snap-info"></span>
     </div>
 
+    <div class="kpi-basis-toggle">
+      <span class="lbl">📊 평가 기준</span>
+      <button data-basis="cum">누적 (매입가 기준)</button>
+      <button data-basis="ytd" class="active">YTD (장부가 기준)</button>
+      <span class="hint" id="kpiBasisHint">연초 대비 — 올해 들어 수익률</span>
+    </div>
     <div class="kpis" id="kpis"></div>
 
     <!-- 벤치마크 선택 컨트롤 -->
@@ -990,7 +1027,8 @@ let portfolioData = null;      // 전체 포트폴리오 데이터 (correlation_
 let viewHoldings = [];         // 현재 화면에 그리는 holdings (스냅샷 적용)
 let snapshotDate = null;       // null = 최신, "YYYY-MM-DD" = 스냅샷 모드
 let activeRegion = 'ALL';
-let pnlMode = 'cum';  // 'cum' | 'ytd'
+let pnlMode = 'cum';  // 'cum' | 'ytd' (손익 기여도 차트용)
+let basisMode = 'ytd';  // 'cum' | 'ytd' (KPI 카드 기준 — 디폴트 YTD)
 let expandedAlphaIdx = null;  // 알파 분해 테이블에서 펼쳐진 행 인덱스
 
 // 벤치마크 프리셋 (KOSPI-우선 표기)
@@ -1178,7 +1216,29 @@ function loadFromData(d) {
   document.getElementById('dashboard').classList.remove('hidden');
   initSnapshotControls();
   initBenchmarkControls();
+  initKpiBasisToggle();
   render();
+}
+
+function initKpiBasisToggle() {
+  const wrap = document.querySelector('.kpi-basis-toggle');
+  if (!wrap) return;
+  const hint = document.getElementById('kpiBasisHint');
+  const updateHint = () => {
+    if (!hint) return;
+    hint.textContent = basisMode === 'ytd'
+      ? '연초 대비 — 올해 들어 수익률'
+      : '매입 시점 대비 — 보유 시작 이후 누적 수익률';
+  };
+  wrap.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => {
+      basisMode = b.dataset.basis;
+      wrap.querySelectorAll('button').forEach(o => o.classList.toggle('active', o === b));
+      updateHint();
+      renderKPIs();
+    });
+  });
+  updateHint();
 }
 
 function initBenchmarkControls() {
@@ -2556,24 +2616,22 @@ function renderKPIs() {
   const todayPnlBase = sum(todayHoldings.map(x => x.mkt - x.daily_pnl));
   const todayPnlPct = todayPnlBase > 0 ? (todayPnl / todayPnlBase) * 100 : null;
 
+  // 기준 (YTD 디폴트) — basisMode = 'cum' | 'ytd'
+  const isYtd = basisMode === 'ytd';
+  const baseAmt    = isYtd ? totalBook   : totalBuy;
+  const basePnl    = isYtd ? pnlYtd      : pnlCum;
+  const basePnlPct = isYtd ? pnlYtdPct   : pnlCumPct;
+  const baseLabel  = isYtd ? '총 매입금액 (YTD)'  : '총 매입금액 (누적)';
+  const baseSub    = isYtd ? '연초 장부가 기준'    : '매입 시점 취득원가';
+  const pnlLabel   = isYtd ? 'YTD 평가손익'        : '누적 평가손익';
+  const pnlSub     = basePnlPct != null
+    ? fmtPct(basePnlPct) + (isYtd ? ' (장부가 대비)' : ' (매입가 대비)')
+    : '-';
+
   const kpis = [
     { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `보유 종목 ${owned}개 / 전체 ${h.length}개` },
-    // ── 누적 (매입가 기준) ─────────────────────
-    { label: '총 매입금액 (누적)', value: fmtAmtBig(totalBuy), sub: '매입 시점 취득원가' },
-    {
-      label: '누적 평가손익',
-      value: fmtAmtBig(pnlCum),
-      sub: pnlCumPct != null ? fmtPct(pnlCumPct) + ' (매입가 대비)' : '-',
-      cls: cls(pnlCum)
-    },
-    // ── YTD (장부가 기준) ─────────────────────
-    { label: '총 매입금액 (YTD)', value: fmtAmtBig(totalBook), sub: '연초 장부가 기준' },
-    {
-      label: 'YTD 평가손익',
-      value: fmtAmtBig(pnlYtd),
-      sub: pnlYtdPct != null ? fmtPct(pnlYtdPct) + ' (장부가 대비)' : '-',
-      cls: cls(pnlYtd)
-    },
+    { label: baseLabel, value: fmtAmtBig(baseAmt), sub: baseSub },
+    { label: pnlLabel,  value: fmtAmtBig(basePnl), sub: pnlSub, cls: cls(basePnl) },
     // ── 금일 (오늘 종가 반영된 종목만 합산) ─────────────────────
     {
       label: `금일 평가손익 (${todayShort()})`,
