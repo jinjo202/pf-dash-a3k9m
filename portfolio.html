@@ -757,8 +757,8 @@
         <h3>지역 × 국가 매트릭스</h3>
         <div style="color:var(--muted);font-size:11px;margin:-4px 0 8px;line-height:1.5">
           내가 <b>한국/미국/유럽/글로벌/이머징</b>으로 분류해서 산 ETF·펀드가
-          룩스루 시 실제로 어느 <b>국가</b>에 노출되는지 (단위: 억원).<br>
-          예) 이머징 ETF 중 약 132억원이 사실은 중국에 들어가 있음.
+          룩스루 시 실제로 어느 <b>국가</b>에 노출되는지 (단위: 전체 포트폴리오 대비 %).<br>
+          예) 이머징 카테고리 중 약 2.8%가 사실은 중국에 들어가 있음. 셀에 마우스를 올리면 억원 환산값도 표시.
         </div>
         <div class="table-scroll" style="max-height:none">
           <table id="matrixTable"></table>
@@ -1598,10 +1598,11 @@ function renderMatrixTable() {
   const countries = [...countrySet].sort((a, b) => (ctotal.get(b) || 0) - (ctotal.get(a) || 0));
 
   const grandTotal = [...totalByRegion.values()].reduce((a, b) => a + b, 0);
+  const toPct = v => grandTotal > 0 ? (v / grandTotal) * 100 : 0;
   const html = `
     <thead>
       <tr>
-        <th>지역 ＼ 국가 (억원)</th>
+        <th>지역 ＼ 국가 (비중 %)</th>
         ${countries.map(c => `<th title="${(window.COUNTRY_NAMES[c] || c)}">${c}</th>`).join('')}
         <th>소계</th>
       </tr>
@@ -1614,13 +1615,13 @@ function renderMatrixTable() {
           <tr>
             <td><span class="region-pill" data-r="${r}">${r}</span></td>
             ${countries.map(c => {
-              const v = row.get(c);
-              if (!v || v < tot * 0.001) return '<td style="color:#cbd5e1">—</td>';
-              const pctTot = grandTotal > 0 ? (v / grandTotal * 100).toFixed(2) : '0';
+              const v = row.get(c) || 0;
+              const pctTot = toPct(v);
+              if (pctTot < 0.05) return '<td style="color:#cbd5e1">—</td>';
               const pctRow = tot > 0 ? (v / tot * 100).toFixed(1) : '0';
-              return `<td title="${r} → ${(window.COUNTRY_NAMES[c] || c)}: ${fmt(v,2)} 억원 · 지역 내 ${pctRow}% · 전체 ${pctTot}%">${fmt(v, 1)}</td>`;
+              return `<td title="${r} → ${(window.COUNTRY_NAMES[c] || c)}: ${fmt(v,2)} 억원 · 지역 내 ${pctRow}% · 전체 ${pctTot.toFixed(2)}%">${fmt(pctTot, 2)}%</td>`;
             }).join('')}
-            <td style="font-weight:600" title="${r} 총합">${fmt(tot, 1)}</td>
+            <td style="font-weight:600" title="${r} 총합 ${fmt(tot,2)} 억원">${fmt(toPct(tot), 2)}%</td>
           </tr>
         `;
       }).join('')}
@@ -1628,10 +1629,10 @@ function renderMatrixTable() {
         <td>합계</td>
         ${countries.map(c => {
           const v = ctotal.get(c) || 0;
-          const pct = grandTotal > 0 ? (v / grandTotal * 100).toFixed(1) : '0';
-          return `<td title="${(window.COUNTRY_NAMES[c] || c)} 총노출: ${fmt(v,2)} 억원 · ${pct}%">${fmt(v, 1)}</td>`;
+          const pct = toPct(v);
+          return `<td title="${(window.COUNTRY_NAMES[c] || c)} 총노출: ${fmt(v,2)} 억원">${fmt(pct, 2)}%</td>`;
         }).join('')}
-        <td>${fmt(grandTotal, 1)}</td>
+        <td>100.00%</td>
       </tr>
     </tbody>
   `;
