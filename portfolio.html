@@ -371,7 +371,57 @@
   .bm-sum.bad { color: var(--neg); font-weight: 600; }
   .bm-current { margin-left: auto; font-size: 12px; color: var(--muted); }
 
-  /* ===== ETF 상위 5 구성종목 그리드 ===== */
+  /* ===== 알파 분해 펼침 행 ===== */
+  #alphaTable tbody tr.alpha-row { cursor: pointer; transition: background 0.12s; }
+  #alphaTable tbody tr.alpha-row:hover { background: var(--accent-soft) !important; }
+  #alphaTable tbody tr.alpha-row.expanded { background: var(--accent-soft) !important; }
+  #alphaTable tbody tr.alpha-row.expanded td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+  #alphaTable tbody tr.alpha-detail { background: #fafbfc !important; }
+  #alphaTable tbody tr.alpha-detail:hover { background: #fafbfc !important; }
+  #alphaTable tbody tr.alpha-detail td {
+    padding: 14px 18px;
+    border-bottom: 2px solid var(--border);
+    text-align: left;
+    white-space: normal;
+  }
+  .alpha-detail-head {
+    display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed var(--border);
+  }
+  .alpha-detail-head .ttl { font-size: 13px; font-weight: 700; color: var(--text); }
+  .alpha-detail-head .stat { font-size: 11px; color: var(--muted); }
+  .alpha-detail-head .stat b { color: var(--text); font-weight: 600; }
+  .alpha-detail-head .badge {
+    display: inline-block; padding: 1px 6px; border-radius: 3px;
+    font-size: 9px; font-weight: 600;
+  }
+  .alpha-detail-head .badge.auto { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+  .alpha-detail-head .badge.manual { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .alpha-holdings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+  }
+  .alpha-h-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .alpha-h-card .nm {
+    font-size: 12px; font-weight: 600; color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    margin-bottom: 4px;
+  }
+  .alpha-h-card .row {
+    display: flex; justify-content: space-between; font-size: 10px; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .alpha-h-card .row .v { color: var(--text); font-weight: 600; }
+  .alpha-h-card .bar { height: 3px; background: var(--accent); border-radius: 2px; margin-top: 4px; opacity: 0.5; }
+  .alpha-na { color: var(--muted); font-style: italic; font-size: 12px; padding: 8px 0; }
+
+  /* ===== ETF 상위 5 구성종목 그리드 (사용 X — 인라인 드릴다운으로 대체) ===== */
   .etf-holdings-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -703,25 +753,11 @@
       <div class="footer-note">
         <b>계산식</b>: α<sub>i</sub> = w<sub>i</sub> × (r<sub>i</sub> − r<sub>BM</sub>) &nbsp;·&nbsp;
         w<sub>i</sub> = YTD 시작 시점 비중, r<sub>i</sub> = 종목 YTD 수익률, r<sub>BM</sub> = 선택 벤치마크 YTD 수익률<br>
-        모든 종목의 α<sub>i</sub> 합 = 포트폴리오 총 alpha. 양수면 벤치마크 대비 기여, 음수면 drag.
+        모든 종목의 α<sub>i</sub> 합 = 포트폴리오 총 alpha. 양수면 벤치마크 대비 기여, 음수면 drag.<br>
+        💡 <b>각 종목 행을 클릭</b>하면 해당 ETF의 상위 5 구성종목과 어떤 underlying이 기여했는지 펼쳐서 표시.
       </div>
     </div>
 
-    <!-- ETF별 상위 5 구성종목 -->
-    <div class="panel" style="margin-bottom:16px">
-      <h3>ETF별 상위 5 구성종목 (실제 보유 룩스루)</h3>
-      <div style="color:var(--muted);font-size:11px;margin:-4px 0 12px;line-height:1.5">
-        각 ETF의 underlying 보유 종목 Top 5 — 내 포트폴리오가 실제로 어떤 회사들에 노출되어 있는지 가장 직접적으로 보여줍니다.
-        포트폴리오 비중이 큰 순서로 정렬.
-      </div>
-      <div id="etfHoldingsGrid" class="etf-holdings-grid"></div>
-      <div class="footer-note">
-        데이터 출처:
-        <span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:600;background:#dbeafe;color:#1e40af;border:1px solid #93c5fd">자동</span> yfinance (미국·유럽 ETF) ·
-        <span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:600;background:#fef3c7;color:#92400e;border:1px solid #fde68a">수동</span> 운용사 fact sheet 기반 1회 큐레이션 (한국 ETF·FFSM·XDAX) — 일부 stale 가능.
-        † 프록시 추적 종목.
-      </div>
-    </div>
 
     <div class="grid">
       <div class="panel">
@@ -888,6 +924,7 @@ let viewHoldings = [];         // 현재 화면에 그리는 holdings (스냅샷
 let snapshotDate = null;       // null = 최신, "YYYY-MM-DD" = 스냅샷 모드
 let activeRegion = 'ALL';
 let pnlMode = 'cum';  // 'cum' | 'ytd'
+let expandedAlphaIdx = null;  // 알파 분해 테이블에서 펼쳐진 행 인덱스
 
 // 벤치마크 프리셋 (KOSPI-우선 표기)
 const BM_PRESETS = {
@@ -1406,7 +1443,6 @@ function render() {
   renderBacktest();
   renderRiskMetrics();
   renderAlphaContribution();
-  renderEtfHoldings();
   renderKPIs();
   renderRegionTable();
   renderPieRegion();
@@ -1884,17 +1920,21 @@ function renderAlphaContribution() {
     if (!startVal || startVal <= 0) continue;
     const weight = startVal / startTotal;
     const r = (endVal / startVal) - 1;
-    const totalContrib = weight * r * 100;             // 포트폴리오 수익에 대한 기여 (%)
-    const alpha = weight * (r - acwiRet) * 100;        // 포트폴리오 alpha 기여 (%p)
+    const totalContrib = weight * r * 100;
+    const alpha = weight * (r - acwiRet) * 100;
     contributions.push({
       name: h.name,
       region: h.region,
       proxy: !!h.proxy_ticker,
+      proxyTicker: h.proxy_ticker || null,
+      ticker: h.ticker || null,
       weight: weight * 100,
       retPct: r * 100,
       excessPct: (r - acwiRet) * 100,
       totalContrib,
       alpha,
+      topHoldings: h.top_holdings || null,
+      topSource: h.top_holdings_source || 'auto',
     });
   }
   contributions.sort((a, b) => b.alpha - a.alpha);
@@ -1965,7 +2005,58 @@ function renderAlphaContribution() {
     },
   });
 
-  // 테이블
+  // 테이블 — 행 클릭 시 펼침
+  const detailRow = (c) => {
+    const sourceBadge = c.topSource === 'manual'
+      ? `<span class="badge manual" title="운용사 fact sheet 기반 1회 수동 큐레이션 — 일부 stale 가능">수동</span>`
+      : `<span class="badge auto" title="yfinance 자동 수집">자동</span>`;
+    let body;
+    if (!c.topHoldings || !c.topHoldings.length) {
+      body = `<div class="alpha-na">— 구성종목 데이터 없음</div>`;
+    } else {
+      const maxW = Math.max(...c.topHoldings.map(x => x.weight));
+      const sumW = c.topHoldings.reduce((s, x) => s + x.weight, 0) * 100;
+      // 각 구성종목의 '포트폴리오 α 기여' 추정 = (ETF α 기여) × (ETF 내 비중 / Σ상위5 비중)
+      // 정확하진 않지만 "상위 5 중에서의 상대 기여" 비율은 맞음
+      body = `
+        <div class="alpha-holdings">
+          ${c.topHoldings.map(x => {
+            const wEtf = x.weight * 100;
+            const barW = maxW > 0 ? (x.weight / maxW * 100) : 0;
+            // ETF YTD 수익률 × ETF 내 비중 = 그 종목이 ETF에 기여한 (대략적인) 수익 기여
+            const inEtfContrib = wEtf * c.retPct / 100; // %p
+            // 포트폴리오 α 기여 = ETF α × (ETF 내 비중 / 상위5 비중 합)
+            const inAlpha = sumW > 0 ? c.alpha * (wEtf / sumW) : 0;
+            return `
+              <div class="alpha-h-card">
+                <div class="nm" title="${x.name}">${x.name}</div>
+                <div class="row"><span>ETF 내 비중</span><span class="v">${wEtf.toFixed(2)}%</span></div>
+                <div class="bar" style="width:${barW.toFixed(1)}%"></div>
+                <div class="row" style="margin-top:6px"><span>ETF 기여 추정</span><span class="v ${cls(inEtfContrib)}">${fmtPct(inEtfContrib, 2)}</span></div>
+                <div class="row"><span>PF α 안분</span><span class="v ${cls(inAlpha)}">${fmtPct(inAlpha, 2)}</span></div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:8px;line-height:1.5">
+          <b>ETF 기여 추정</b> = ETF 내 비중 × ETF YTD 수익률 (해당 종목이 ETF 수익에 기여한 추정치, 종목 개별 수익률을 별도 산정하지 않은 근사).<br>
+          <b>PF α 안분</b> = ETF의 포트폴리오 α 기여를 상위 5 구성종목 비중 비율로 안분 (이 ETF의 α중 이 종목 몫의 근사).
+        </div>
+      `;
+    }
+    return `
+      <div class="alpha-detail-head">
+        <span class="ttl">${c.name}</span>
+        <span class="stat">티커 <b>${c.ticker || '-'}</b>${c.proxy ? ` · 프록시 추적 <b>${c.proxyTicker}</b>` : ''}</span>
+        <span class="stat">ETF YTD: <b class="${cls(c.retPct)}">${fmtPct(c.retPct, 2)}</b></span>
+        <span class="stat">ETF 시작 비중: <b>${fmt(c.weight, 2)}%</b></span>
+        <span class="stat">α 기여: <b class="${cls(c.alpha)}">${fmtPct(c.alpha, 2)}</b></span>
+        ${sourceBadge}
+      </div>
+      ${body}
+    `;
+  };
+
   const html = `
     <thead>
       <tr>
@@ -1977,17 +2068,25 @@ function renderAlphaContribution() {
       </tr>
     </thead>
     <tbody>
-      ${contributions.map(c => `
-        <tr>
-          <td><span class="region-pill" data-r="${c.region}">${c.region}</span></td>
-          <td>${c.name}${c.proxy ? ' <span style="color:var(--muted);font-size:10px">†</span>' : ''}</td>
-          <td>${fmt(c.weight, 2)}%</td>
-          <td class="${cls(c.retPct)}">${fmtPct(c.retPct, 2)}</td>
-          <td class="${cls(c.excessPct)}">${fmtPct(c.excessPct, 2)}</td>
-          <td class="${cls(c.totalContrib)}">${fmtPct(c.totalContrib, 2)}</td>
-          <td class="${cls(c.alpha)}" style="font-weight:600">${fmtPct(c.alpha, 2)}</td>
-        </tr>
-      `).join('')}
+      ${contributions.map((c, i) => {
+        const isOpen = expandedAlphaIdx === i;
+        const hasHoldings = c.topHoldings && c.topHoldings.length;
+        const indicator = hasHoldings
+          ? `<span style="color:var(--muted);font-size:10px;margin-right:4px">${isOpen ? '▼' : '▶'}</span>`
+          : `<span style="color:#cbd5e1;font-size:10px;margin-right:4px">·</span>`;
+        return `
+          <tr class="alpha-row ${isOpen ? 'expanded' : ''}" data-idx="${i}">
+            <td><span class="region-pill" data-r="${c.region}">${c.region}</span></td>
+            <td>${indicator}${c.name}${c.proxy ? ' <span style="color:var(--muted);font-size:10px">†</span>' : ''}</td>
+            <td>${fmt(c.weight, 2)}%</td>
+            <td class="${cls(c.retPct)}">${fmtPct(c.retPct, 2)}</td>
+            <td class="${cls(c.excessPct)}">${fmtPct(c.excessPct, 2)}</td>
+            <td class="${cls(c.totalContrib)}">${fmtPct(c.totalContrib, 2)}</td>
+            <td class="${cls(c.alpha)}" style="font-weight:600">${fmtPct(c.alpha, 2)}</td>
+          </tr>
+          ${isOpen ? `<tr class="alpha-detail"><td colspan="7">${detailRow(c)}</td></tr>` : ''}
+        `;
+      }).join('')}
       <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
         <td>합계</td>
         <td>${contributions.length}개</td>
@@ -2000,6 +2099,15 @@ function renderAlphaContribution() {
     </tbody>
   `;
   tableEl.innerHTML = html;
+
+  // 클릭 핸들러
+  tableEl.querySelectorAll('.alpha-row').forEach(tr => {
+    tr.addEventListener('click', () => {
+      const idx = +tr.dataset.idx;
+      expandedAlphaIdx = (expandedAlphaIdx === idx) ? null : idx;
+      renderAlphaContribution();
+    });
+  });
 }
 
 function renderEtfHoldings() {
