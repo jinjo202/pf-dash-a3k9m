@@ -43,12 +43,12 @@ window.BENCHMARKS = {
       "decimals": 2
     },
     {
-      "name": "Euro STOXX 50",
-      "ticker": "^STOXX50E",
-      "current": 5874.5801,
-      "baseline": 5796.2202,
-      "ytd_pct": 1.3519,
-      "daily_pct": 0.8034,
+      "name": "STOXX 600",
+      "ticker": "^STOXX",
+      "current": 610.83,
+      "baseline": 592.78,
+      "ytd_pct": 3.045,
+      "daily_pct": 0.6442,
       "as_of": "2026-05-18",
       "decimals": 2
     },
@@ -105,10 +105,10 @@ window.BENCHMARKS = {
     {
       "name": "USD/KRW",
       "ticker": "KRW=X",
-      "current": 1495.28,
+      "current": 1495.05,
       "baseline": 1437.91,
-      "ytd_pct": 3.9898,
-      "daily_pct": 0.1299,
+      "ytd_pct": 3.9738,
+      "daily_pct": 0.1145,
       "as_of": "2026-05-18",
       "decimals": 2
     }

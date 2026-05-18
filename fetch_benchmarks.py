@@ -24,7 +24,7 @@ BENCHMARKS = [
     ("KOSDAQ",           "^KQ11",     2),
     ("니케이 225",        "^N225",     0),
     ("상해종합",          "000001.SS", 2),
-    ("Euro STOXX 50",    "^STOXX50E", 2),
+    ("STOXX 600",        "^STOXX",    2),
     ("S&P 500",          "^GSPC",     2),
     ("NASDAQ",           "^IXIC",     2),
     ("필라델피아 반도체",  "^SOX",      2),
