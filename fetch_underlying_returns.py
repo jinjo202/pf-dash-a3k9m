@@ -208,21 +208,31 @@ def main():
 
     # 티커별 YTD 수익률 계산
     ticker_ytd = {}
+    ticker_asof = {}
     for yt in unique_tickers:
         if yt not in close.columns:
             continue
         series = close[yt]
-        # YTD 시작 가격 (forward-fill)
+        # YTD 시작 가격 (forward-fill: 처음부터 첫 non-NaN)
         first_price = None
         for d in all_dates[ytd_idx:]:
             v = series.loc[d] if d in series.index else None
             if v is not None and not pd.isna(v):
                 first_price = float(v)
                 break
-        last_price = float(series.loc[ytd_last]) if ytd_last in series.index and not pd.isna(series.loc[ytd_last]) else None
+        # YTD 끝 가격 (backward-fill: 마지막부터 거슬러 올라가 첫 non-NaN)
+        last_price = None
+        last_date = None
+        for d in reversed(all_dates[ytd_idx:]):
+            v = series.loc[d] if d in series.index else None
+            if v is not None and not pd.isna(v):
+                last_price = float(v)
+                last_date = d.date()
+                break
         if first_price and last_price and first_price > 0:
             ytd = (last_price / first_price - 1) * 100
             ticker_ytd[yt] = round(ytd, 4)
+            ticker_asof[yt] = last_date.isoformat() if last_date else str(ytd_last.date())
 
     print(f"\n티커별 YTD: {len(ticker_ytd)}개 수익률 계산")
 
@@ -233,7 +243,7 @@ def main():
             underlying_ytd[name] = {
                 "ticker": yt,
                 "ytd": ticker_ytd[yt],
-                "as_of": str(ytd_last.date()),
+                "as_of": ticker_asof.get(yt, str(ytd_last.date())),
             }
 
     print(f"이름별 YTD: {len(underlying_ytd)}개\n")
