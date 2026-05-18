@@ -183,6 +183,10 @@
   }
   tbody tr:nth-child(even) { background: var(--row-alt); }
   tbody tr:hover { background: var(--row-hover); }
+  /* 정렬 가능한 헤더 */
+  th.sortable { cursor: pointer; user-select: none; transition: background 0.12s; }
+  th.sortable:hover { background: var(--accent-soft); color: var(--accent); }
+  th.sortable .active-sort { color: var(--accent); font-weight: 700; }
   .region-pill {
     display: inline-block;
     padding: 2px 8px;
@@ -1030,6 +1034,8 @@ let activeRegion = 'ALL';
 let pnlMode = 'cum';  // 'cum' | 'ytd' (손익 기여도 차트용)
 let basisMode = 'ytd';  // 'cum' | 'ytd' (KPI 카드 기준 — 디폴트 YTD)
 let expandedAlphaIdx = null;  // 알파 분해 테이블에서 펼쳐진 행 인덱스
+let holdingsSortKey = 'w';      // 보유종목 상세 정렬 기준 컬럼
+let holdingsSortDir = 'desc';   // 'asc' | 'desc'
 
 // 벤치마크 프리셋 (KOSPI-우선 표기)
 const BM_PRESETS = {
@@ -3014,28 +3020,58 @@ function renderHoldingsSummary(h) {
 }
 
 function renderHoldings() {
-  let h = [...viewHoldings];
+  // 미보유(mkt=0) 종목 제외 — 보유종목 상세는 보유 중인 25개만 표시
+  let h = viewHoldings.filter(x => (x.mkt || 0) > 0);
   if (activeRegion !== 'ALL') h = h.filter(x => x.region === activeRegion);
-  h.sort((a, b) => (b.w || 0) - (a.w || 0));
+
+  // 정렬
+  const SORTERS = {
+    region:    (a, b) => REGIONS.indexOf(a.region) - REGIONS.indexOf(b.region),
+    name:      (a, b) => (a.name || '').localeCompare(b.name || '', 'ko'),
+    buy:       (a, b) => (a.buy || 0) - (b.buy || 0),
+    book:      (a, b) => (a.book || 0) - (b.book || 0),
+    mkt:       (a, b) => (a.mkt || 0) - (b.mkt || 0),
+    pnlCum:    (a, b) => ((a.mkt - a.buy) || 0) - ((b.mkt - b.buy) || 0),
+    pnlCumPct: (a, b) => ((a.buy > 0 ? (a.mkt - a.buy) / a.buy : 0) - (b.buy > 0 ? (b.mkt - b.buy) / b.buy : 0)),
+    pnlYtd:    (a, b) => ((a.mkt - a.book) || 0) - ((b.mkt - b.book) || 0),
+    pnlYtdPct: (a, b) => ((a.book > 0 ? (a.mkt - a.book) / a.book : 0) - (b.book > 0 ? (b.mkt - b.book) / b.book : 0)),
+    daily:     (a, b) => (a.daily_pnl || 0) - (b.daily_pnl || 0),
+    dailyPct:  (a, b) => (a.daily_chg_pct || 0) - (b.daily_chg_pct || 0),
+    v260:      (a, b) => (a.v260 || 0) - (b.v260 || 0),
+    v90:       (a, b) => (a.v90 || 0) - (b.v90 || 0),
+    w:         (a, b) => (a.w || 0) - (b.w || 0),
+  };
+  const sortFn = SORTERS[holdingsSortKey] || SORTERS.w;
+  h.sort(sortFn);
+  if (holdingsSortDir === 'desc') h.reverse();
   renderHoldingsSummary(h);
 
   const today = effectiveDataDate();
   const dateLabel = todayShort();
   const dailyHeader = `금일 <span style="color:var(--accent);font-weight:700">${dateLabel}</span> (전일 대비)`;
+  // 정렬 가능한 헤더 — 정렬 키 + 화살표 표시
+  const arrow = key => key === holdingsSortKey ? (holdingsSortDir === 'desc' ? ' ▼' : ' ▲') : '';
+  const sh = (key, label) => `<th class="sortable" data-sk="${key}" title="클릭하여 정렬"><span class="${key === holdingsSortKey ? 'active-sort' : ''}">${label}${arrow(key)}</span></th>`;
+  const sh2 = (key, label, attrs) => `<th class="sortable" data-sk="${key}" title="클릭하여 정렬" ${attrs}><span class="${key === holdingsSortKey ? 'active-sort' : ''}">${label}${arrow(key)}</span></th>`;
   const html = `
     <thead>
       <tr>
-        <th rowspan="2">지역</th><th rowspan="2">종목명</th>
-        <th rowspan="2">매입가</th><th rowspan="2">장부가</th><th rowspan="2">시가</th>
+        ${sh2('region', '지역', 'rowspan="2"')}
+        ${sh2('name', '종목명', 'rowspan="2"')}
+        ${sh2('buy', '매입가', 'rowspan="2"')}
+        ${sh2('book', '장부가', 'rowspan="2"')}
+        ${sh2('mkt', '시가', 'rowspan="2"')}
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">${dailyHeader}</th>
-        <th rowspan="2">260D</th><th rowspan="2">90D</th><th rowspan="2">비중</th>
+        ${sh2('v260', '260D', 'rowspan="2"')}
+        ${sh2('v90', '90D', 'rowspan="2"')}
+        ${sh2('w', '비중', 'rowspan="2"')}
       </tr>
       <tr>
-        <th>손익</th><th>%</th>
-        <th>손익</th><th>%</th>
-        <th>손익</th><th>%</th>
+        ${sh('pnlCum', '손익')}${sh('pnlCumPct', '%')}
+        ${sh('pnlYtd', '손익')}${sh('pnlYtdPct', '%')}
+        ${sh('daily', '손익')}${sh('dailyPct', '%')}
       </tr>
     </thead>
     <tbody>
@@ -3109,7 +3145,22 @@ function renderHoldings() {
       })()}
     </tbody>
   `;
-  document.getElementById('holdingsTable').innerHTML = html;
+  const tbl = document.getElementById('holdingsTable');
+  tbl.innerHTML = html;
+  // 정렬 헤더 클릭 핸들러
+  tbl.querySelectorAll('th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const k = th.dataset.sk;
+      if (holdingsSortKey === k) {
+        holdingsSortDir = (holdingsSortDir === 'desc') ? 'asc' : 'desc';
+      } else {
+        holdingsSortKey = k;
+        // 텍스트 컬럼은 asc 기본, 숫자 컬럼은 desc 기본
+        holdingsSortDir = (k === 'region' || k === 'name') ? 'asc' : 'desc';
+      }
+      renderHoldings();
+    });
+  });
 }
 
 function sum(arr) {
