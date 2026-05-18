@@ -15,6 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="portfolio-data.js"></script>
+<script src="benchmarks.js"></script>
 <style>
   :root {
     --bg: #f7f8fa;
@@ -233,6 +234,34 @@
   }
   .hidden { display: none !important; }
 
+  /* ===== 시장 지수 띠 (최상단) ===== */
+  .benchmarks {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 768px) {
+    .benchmarks { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  }
+  @media (max-width: 480px) {
+    .benchmarks { grid-template-columns: repeat(2, 1fr); }
+  }
+  .bench {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .bench .name { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .bench .value { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+  .bench .ytd { font-size: 12px; font-weight: 600; }
+  .bench .daily { font-size: 10px; color: var(--muted); margin-top: 1px; }
+  .bench .asof { font-size: 9px; color: #cbd5e1; margin-top: 1px; }
+
   /* ===== 비밀번호 게이트 ===== */
   .gate-wrap {
     min-height: 70vh;
@@ -374,6 +403,7 @@
   </div>
 
   <div id="dashboard" class="hidden">
+    <div id="benchmarks" class="benchmarks"></div>
     <div class="kpis" id="kpis"></div>
 
     <div class="grid">
@@ -756,6 +786,7 @@ function num(v) {
 }
 
 function render() {
+  renderBenchmarks();
   renderKPIs();
   renderRegionTable();
   renderPieRegion();
@@ -1053,6 +1084,36 @@ function todayShort() {
     || today;
   const [, m, d] = dataDate.split('-');
   return `${parseInt(m, 10)}/${parseInt(d, 10)}`;
+}
+
+function renderBenchmarks() {
+  const wrap = document.getElementById('benchmarks');
+  if (!wrap) return;
+  const b = window.BENCHMARKS;
+  if (!b || !b.indices || !b.indices.length) {
+    wrap.innerHTML = '<div style="grid-column:1/-1;padding:8px;color:var(--muted);font-size:12px">benchmarks.js 없음 — fetch_benchmarks.py 실행 필요</div>';
+    return;
+  }
+  wrap.innerHTML = b.indices.map(idx => {
+    const ytd = idx.ytd_pct;
+    const day = idx.daily_pct;
+    const ytdCls = ytd == null ? '' : (ytd > 0 ? 'pos' : ytd < 0 ? 'neg' : '');
+    const dayCls = day == null ? '' : (day > 0 ? 'pos' : day < 0 ? 'neg' : '');
+    const arrow = ytd == null ? '' : (ytd > 0 ? '▲' : ytd < 0 ? '▼' : '·');
+    const dec = idx.decimals ?? 2;
+    const cur = Number(idx.current).toLocaleString('ko-KR', {
+      maximumFractionDigits: dec, minimumFractionDigits: dec
+    });
+    return `
+      <div class="bench" title="${idx.ticker} · 기준 ${Number(idx.baseline).toLocaleString('ko-KR',{maximumFractionDigits:2})}">
+        <div class="name">${idx.name}</div>
+        <div class="value">${cur}</div>
+        <div class="ytd ${ytdCls}">${arrow} YTD ${fmtPct(ytd, 2)}</div>
+        <div class="daily ${dayCls}">Δ ${fmtPct(day, 2)}</div>
+        <div class="asof">${idx.as_of || ''}</div>
+      </div>
+    `;
+  }).join('');
 }
 
 function renderKPIs() {
