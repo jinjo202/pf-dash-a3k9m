@@ -742,6 +742,23 @@
       </div>
     </div>
 
+    <!-- Brinson 지역 성과 분해 패널 -->
+    <div class="panel" style="margin-bottom:16px">
+      <h3>성과 기여도 분해 — Brinson (vs MSCI ACWI 지역구성)</h3>
+      <div id="brinsonSummary" class="backtest-metrics"></div>
+      <div class="table-scroll" style="max-height:none; margin-top:14px">
+        <table id="brinsonTable"></table>
+      </div>
+      <div class="footer-note">
+        <b>분해식</b>: 초과수익 = <span class="pos">국가배분(Allocation)</span> + <span class="pos">종목선택(Selection)</span> + <span style="color:var(--muted)">상호작용(Interaction)</span><br>
+        ・ <b>국가배분</b> = Σ (w<sub>p,i</sub> − w<sub>b,i</sub>) × (r<sub>b,i</sub> − r<sub>b</sub>) — 잘 가는 지역에 BM보다 많이 베팅한 효과<br>
+        ・ <b>종목선택</b> = Σ w<sub>b,i</sub> × (r<sub>p,i</sub> − r<sub>b,i</sub>) — 같은 지역에서 BM 인덱스보다 잘 골랐는지 효과<br>
+        ・ <b>상호작용</b> = Σ (w<sub>p,i</sub> − w<sub>b,i</sub>) × (r<sub>p,i</sub> − r<sub>b,i</sub>) — 두 효과의 상호작용<br>
+        ※ 벤치마크는 항상 MSCI ACWI (벤치마크 선택 컨트롤과 무관). 지역 대표지수: KR=KOSPI, US=S&P 500, EU=STOXX 600, 글로벌=니케이 225, EM=MSCI EM.
+        ACWI 지역 비중은 2025년 근사치 — 정확도 ±1~2%p.
+      </div>
+    </div>
+
     <!-- 알파 기여도 분해 패널 -->
     <div class="panel" style="margin-bottom:16px">
       <h3>알파 기여도 분해 (vs <span id="alphaBmLabel">벤치마크</span>)</h3>
@@ -1442,6 +1459,7 @@ function render() {
   renderBenchmarks();
   renderBacktest();
   renderRiskMetrics();
+  renderBrinsonAttribution();
   renderAlphaContribution();
   renderKPIs();
   renderRegionTable();
@@ -2123,6 +2141,160 @@ function renderAlphaContribution() {
       renderAlphaContribution();
     });
   });
+}
+
+// MSCI ACWI 지역별 추정 비중 (2025년 근사 — 정확도 ±1~2%p)
+const ACWI_REGION_WEIGHTS = {
+  '한국':   0.015,
+  '미국':   0.625,
+  '유럽':   0.170,
+  '글로벌': 0.085,  // Japan + 기타 선진국
+  '이머징': 0.105,  // EM ex-KR
+};
+const REGION_TO_BENCHMARK = {
+  '한국':   'KOSPI',
+  '미국':   'S&P 500',
+  '유럽':   'STOXX 600',
+  '글로벌': '니케이 225',
+  '이머징': 'MSCI EM',
+};
+
+function computeBrinson() {
+  const hist = portfolioData && portfolioData.historical;
+  const bms = window.BENCHMARKS && window.BENCHMARKS.indices;
+  if (!hist || !hist.holdings_mkt || !bms) return null;
+
+  // 벤치마크 인덱스 YTD 수익률 (소수)
+  const bmRetByName = {};
+  for (const idx of bms) {
+    if (idx.ytd_pct != null) bmRetByName[idx.name] = idx.ytd_pct / 100;
+  }
+
+  // 포트폴리오 지역별 시작합/끝합
+  const pfStart = hist.portfolio_total[0];
+  const pfByRegion = {};
+  for (const [region] of Object.entries(ACWI_REGION_WEIGHTS)) {
+    let s0 = 0, sN = 0;
+    for (const h of allHoldings) {
+      if (h.region !== region) continue;
+      const ser = hist.holdings_mkt[h.name];
+      if (!ser || ser.length < 2) continue;
+      s0 += ser[0];
+      sN += ser[ser.length - 1];
+    }
+    if (s0 > 0) pfByRegion[region] = { wp: s0 / pfStart, rp: sN / s0 - 1, s0, sN };
+  }
+
+  // 전체 벤치마크 수익률
+  let rb_total = 0;
+  for (const [region, wb] of Object.entries(ACWI_REGION_WEIGHTS)) {
+    const idxName = REGION_TO_BENCHMARK[region];
+    const r = bmRetByName[idxName];
+    if (r != null) rb_total += wb * r;
+  }
+
+  const rows = [];
+  let allocSum = 0, selSum = 0, intSum = 0;
+  for (const [region, wb] of Object.entries(ACWI_REGION_WEIGHTS)) {
+    const pf = pfByRegion[region] || { wp: 0, rp: 0 };
+    const idxName = REGION_TO_BENCHMARK[region];
+    const rbi = bmRetByName[idxName] || 0;
+    const alloc = (pf.wp - wb) * (rbi - rb_total);
+    const sel = wb * (pf.rp - rbi);
+    const inter = (pf.wp - wb) * (pf.rp - rbi);
+    rows.push({
+      region, indexName: idxName,
+      wp: pf.wp * 100, wb: wb * 100,
+      rp: pf.rp * 100, rbi: rbi * 100,
+      allocation: alloc * 100,
+      selection: sel * 100,
+      interaction: inter * 100,
+      total: (alloc + sel + inter) * 100,
+    });
+    allocSum += alloc; selSum += sel; intSum += inter;
+  }
+  // 포트폴리오 전체 수익률
+  const pfTotalRet = (hist.portfolio_total[hist.portfolio_total.length - 1] / pfStart - 1);
+
+  return {
+    rows,
+    totals: {
+      allocation: allocSum * 100,
+      selection: selSum * 100,
+      interaction: intSum * 100,
+      excess: (allocSum + selSum + intSum) * 100,
+      pfReturn: pfTotalRet * 100,
+      bmReturn: rb_total * 100,
+    },
+  };
+}
+
+function renderBrinsonAttribution() {
+  const r = computeBrinson();
+  const sumEl = document.getElementById('brinsonSummary');
+  const tableEl = document.getElementById('brinsonTable');
+  if (!r) {
+    if (sumEl) sumEl.innerHTML = '<div style="color:var(--muted);padding:8px">데이터 부족</div>';
+    return;
+  }
+  const t = r.totals;
+
+  // 요약 카드
+  const card = (l, v, k = '', c = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
+  sumEl.innerHTML = [
+    card('포트폴리오 YTD',  fmtPct(t.pfReturn, 2),    'pf', cls(t.pfReturn)),
+    card('ACWI(지역 가중) YTD', fmtPct(t.bmReturn, 2),    'bm', cls(t.bmReturn)),
+    card('초과수익',         fmtPct(t.excess, 2),       'alpha', cls(t.excess)),
+    card('국가배분 효과',   fmtPct(t.allocation, 2),   'pf', cls(t.allocation)),
+    card('종목선택 효과',   fmtPct(t.selection, 2),    'pf', cls(t.selection)),
+    card('상호작용',         fmtPct(t.interaction, 2),  'bm', cls(t.interaction)),
+  ].join('');
+
+  // 테이블
+  const html = `
+    <thead>
+      <tr>
+        <th rowspan="2">지역</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">비중</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD 수익률</th>
+        <th rowspan="2">국가배분</th>
+        <th rowspan="2">종목선택</th>
+        <th rowspan="2">상호작용</th>
+        <th rowspan="2">기여 합</th>
+      </tr>
+      <tr>
+        <th>PF</th><th>ACWI</th>
+        <th>PF</th><th>BM 인덱스</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${r.rows.map(row => `
+        <tr>
+          <td><span class="region-pill" data-r="${row.region}">${row.region}</span> <span style="color:var(--muted);font-size:10px">${row.indexName}</span></td>
+          <td>${fmt(row.wp, 2)}%</td>
+          <td>${fmt(row.wb, 2)}%</td>
+          <td class="${cls(row.rp)}">${fmtPct(row.rp, 2)}</td>
+          <td class="${cls(row.rbi)}">${fmtPct(row.rbi, 2)}</td>
+          <td class="${cls(row.allocation)}">${fmtPct(row.allocation, 2)}</td>
+          <td class="${cls(row.selection)}">${fmtPct(row.selection, 2)}</td>
+          <td class="${cls(row.interaction)}">${fmtPct(row.interaction, 2)}</td>
+          <td class="${cls(row.total)}" style="font-weight:600">${fmtPct(row.total, 2)}</td>
+        </tr>
+      `).join('')}
+      <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
+        <td>합계</td>
+        <td>${fmt(r.rows.reduce((s, x) => s + x.wp, 0), 2)}%</td>
+        <td>${fmt(r.rows.reduce((s, x) => s + x.wb, 0), 2)}%</td>
+        <td class="${cls(t.pfReturn)}">${fmtPct(t.pfReturn, 2)}</td>
+        <td class="${cls(t.bmReturn)}">${fmtPct(t.bmReturn, 2)}</td>
+        <td class="${cls(t.allocation)}">${fmtPct(t.allocation, 2)}</td>
+        <td class="${cls(t.selection)}">${fmtPct(t.selection, 2)}</td>
+        <td class="${cls(t.interaction)}">${fmtPct(t.interaction, 2)}</td>
+        <td class="${cls(t.excess)}">${fmtPct(t.excess, 2)}</td>
+      </tr>
+    </tbody>
+  `;
+  tableEl.innerHTML = html;
 }
 
 function renderBenchmarks() {
