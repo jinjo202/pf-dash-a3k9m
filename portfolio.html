@@ -440,7 +440,7 @@
         <table id="holdingsTable"></table>
       </div>
       <div class="footer-note">
-        손익 = 시가 − 매입가 (매입가 0 종목은 손익률 계산에서 제외) ·
+        YTD 손익 = 시가 − <strong>장부가</strong>(연초 기준) · 장부가 0 종목은 수익률 계산에서 제외 ·
         금액 단위는 <strong>억원</strong>, 1,000억 이상은 조원으로 환산 표기.
       </div>
     </div>
@@ -1234,14 +1234,14 @@ function renderHoldings() {
       <tr>
         <th>지역</th><th>종목명</th>
         <th>매입가 (억원)</th><th>장부가 (억원)</th><th>시가 (억원)</th>
-        <th>손익 (억원)</th><th>손익률</th>
+        <th>YTD 손익 (억원)</th><th>YTD 수익률</th>
         <th>260D</th><th>90D</th><th>비중</th>
       </tr>
     </thead>
     <tbody>
       ${h.map(x => {
-        const pnl = x.mkt != null && x.buy != null ? x.mkt - x.buy : null;
-        const pnlPct = (x.buy && x.buy > 0) ? (pnl / x.buy) * 100 : null;
+        const pnl = x.mkt != null && x.book != null ? x.mkt - x.book : null;
+        const pnlPct = (x.book && x.book > 0) ? (pnl / x.book) * 100 : null;
         return `
           <tr>
             <td><span class="region-pill" data-r="${x.region}">${x.region}</span></td>
