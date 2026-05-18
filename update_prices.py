@@ -103,7 +103,6 @@ def fetch_history(ticker: str, start: date, end: date):
 def close_on_or_before(hist, target: date) -> float | None:
     if hist is None or hist.empty:
         return None
-    # target 이하 날짜의 마지막 종가
     target_ts = str(target)
     try:
         sub = hist[hist.index.strftime("%Y-%m-%d") <= target_ts]
@@ -118,6 +117,16 @@ def last_close(hist) -> float | None:
     if hist is None or hist.empty:
         return None
     return float(hist["Close"].iloc[-1])
+
+
+def last_two_closes(hist) -> tuple[float | None, float | None]:
+    """가장 최근 종가, 그 전 거래일 종가"""
+    if hist is None or hist.empty:
+        return None, None
+    closes = hist["Close"].tolist()
+    latest = float(closes[-1]) if len(closes) >= 1 else None
+    prev = float(closes[-2]) if len(closes) >= 2 else None
+    return latest, prev
 
 
 def main():
@@ -158,17 +167,23 @@ def main():
             print(f"  [skip] {name}  (ticker={bbg}, proxy={proxy_bbg})")
             continue
 
-        # 히스토리는 last_updated부터 today까지 한 번에
-        start = min(last_updated, today) - timedelta(days=5)
+        # 히스토리는 last_updated부터 today까지 한 번에 (최소 7일은 받아 직전 거래일도 확보)
+        start = min(last_updated, today) - timedelta(days=10)
         hist = fetch_history(yt, start, today)
-        today_close = last_close(hist)
+        today_close, prev_trading_close = last_two_closes(hist)
+        last_close_dt = None
+        if hist is not None and not hist.empty:
+            try:
+                last_close_dt = hist.index[-1].date()
+            except Exception:
+                last_close_dt = None
 
         # direct ticker로 시도했는데 데이터 없으면 proxy로 폴백
         if today_close is None and not use_proxy and proxy_bbg:
             yt_fallback = to_yahoo_ticker(proxy_bbg)
             if yt_fallback:
                 hist = fetch_history(yt_fallback, start, today)
-                today_close = last_close(hist)
+                today_close, prev_trading_close = last_two_closes(hist)
                 if today_close is not None:
                     yt = yt_fallback
                     use_proxy = True
@@ -192,13 +207,32 @@ def main():
             new_mkt = cur_mkt * ratio
             h["mkt"] = round(new_mkt, 2)
             chg_pct = (ratio - 1) * 100
+
+            # 금일(직전 거래일 대비) 변동: 가장 최근 2개 거래일 종가로 계산
+            if prev_trading_close and prev_trading_close > 0 and today_close != prev_trading_close:
+                daily_chg = (today_close / prev_trading_close - 1) * 100
+                yesterday_mkt = new_mkt * prev_trading_close / today_close
+                daily_pnl = new_mkt - yesterday_mkt
+                h["daily_chg_pct"] = round(daily_chg, 4)
+                h["daily_pnl"] = round(daily_pnl, 4)
+                daily_str = f"  Δ {daily_chg:+.2f}% ({daily_pnl:+.2f}억)"
+            else:
+                h["daily_chg_pct"] = 0
+                h["daily_pnl"] = 0
+                daily_str = "  Δ 0.00%"
+            h["daily_close_date"] = last_close_dt.isoformat() if last_close_dt else None
+            if last_close_dt and last_close_dt < today:
+                daily_str += f"  ⚠ 최근 종가 {last_close_dt}"
+
             print(
-                f"  [{tag}] {name:48s}  {yt:14s}  base {baseline:>12,.4f} → {today_close:>12,.4f}  "
-                f"mkt {cur_mkt:>8,.2f} → {h['mkt']:>8,.2f} ({chg_pct:+.2f}%)"
+                f"  [{tag}] {name:42s}  {yt:14s}  base {baseline:>10,.2f} → {today_close:>10,.2f}  "
+                f"mkt {cur_mkt:>7,.2f} → {h['mkt']:>7,.2f} ({chg_pct:+5.2f}%){daily_str}"
             )
             updated_count += 1
         else:
             print(f"  [zero] {name}  (mkt={cur_mkt}, base={baseline})")
+            h["daily_chg_pct"] = 0
+            h["daily_pnl"] = 0
 
         new_prices[name] = round(today_close, 6)
 

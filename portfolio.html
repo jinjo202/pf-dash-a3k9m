@@ -944,6 +944,11 @@ function renderMatrixTable() {
   document.getElementById('matrixTable').innerHTML = html;
 }
 
+function todayLocalStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
 function renderKPIs() {
   const h = allHoldings;
   const totalMkt = sum(h.map(x => x.mkt));
@@ -957,6 +962,13 @@ function renderKPIs() {
   const w260 = weighted(h, 'v260', 'w');
   const w90 = weighted(h, 'v90', 'w');
   const owned = h.filter(x => x.mkt > 0).length;
+
+  // 금일 손익 — 오늘 종가가 들어온 종목(국내·이미 마감된 시장)만 합산
+  const today = todayLocalStr();
+  const todayHoldings = h.filter(x => x.daily_close_date === today && x.daily_pnl != null);
+  const todayPnl = sum(todayHoldings.map(x => x.daily_pnl));
+  const todayPnlBase = sum(todayHoldings.map(x => x.mkt - x.daily_pnl));
+  const todayPnlPct = todayPnlBase > 0 ? (todayPnl / todayPnlBase) * 100 : null;
 
   const kpis = [
     { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `보유 종목 ${owned}개 / 전체 ${h.length}개` },
@@ -975,6 +987,15 @@ function renderKPIs() {
       value: fmtAmtBig(pnlYtd),
       sub: pnlYtdPct != null ? fmtPct(pnlYtdPct) + ' (장부가 대비)' : '-',
       cls: cls(pnlYtd)
+    },
+    // ── 금일 (오늘 종가 반영된 종목만 합산) ─────────────────────
+    {
+      label: `금일 평가손익 (${today})`,
+      value: todayHoldings.length > 0 ? fmtAmtBig(todayPnl) : '—',
+      sub: todayHoldings.length > 0
+        ? `${fmtPct(todayPnlPct)} · 오늘 종가 반영 ${todayHoldings.length}종목`
+        : '오늘 종가 미반영',
+      cls: cls(todayPnl)
     },
     // ── 위험·구성 ─────────────────────
     {
@@ -1296,6 +1317,7 @@ function renderHoldings() {
   if (activeRegion !== 'ALL') h = h.filter(x => x.region === activeRegion);
   h.sort((a, b) => (b.w || 0) - (a.w || 0));
 
+  const today = todayLocalStr();
   const html = `
     <thead>
       <tr>
@@ -1303,9 +1325,11 @@ function renderHoldings() {
         <th rowspan="2">매입가</th><th rowspan="2">장부가</th><th rowspan="2">시가</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">금일 (전일 대비)</th>
         <th rowspan="2">260D</th><th rowspan="2">90D</th><th rowspan="2">비중</th>
       </tr>
       <tr>
+        <th>손익</th><th>%</th>
         <th>손익</th><th>%</th>
         <th>손익</th><th>%</th>
       </tr>
@@ -1316,6 +1340,11 @@ function renderHoldings() {
         const pnlCumPct = (x.buy  && x.buy  > 0)  ? (pnlCum / x.buy)  * 100 : null;
         const pnlYtd    = x.mkt != null && x.book != null ? x.mkt - x.book : null;
         const pnlYtdPct = (x.book && x.book > 0) ? (pnlYtd / x.book) * 100 : null;
+        const todayOK   = x.daily_close_date === today && x.daily_pnl != null;
+        const dPnl      = todayOK ? x.daily_pnl : null;
+        const dPct      = todayOK ? x.daily_chg_pct : null;
+        const dDate     = x.daily_close_date;
+        const stale     = (!todayOK && dDate) ? `title="마지막 종가 ${dDate} — 아직 오늘 미마감"` : '';
         return `
           <tr>
             <td><span class="region-pill" data-r="${x.region}">${x.region}</span></td>
@@ -1327,6 +1356,8 @@ function renderHoldings() {
             <td class="${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</td>
             <td class="${cls(pnlYtd)}">${fmt(pnlYtd, 2)}</td>
             <td class="${cls(pnlYtdPct)}">${fmtPct(pnlYtdPct)}</td>
+            <td class="${cls(dPnl)}" ${stale}>${todayOK ? fmt(dPnl, 2) : '<span style="color:#cbd5e1">—</span>'}</td>
+            <td class="${cls(dPct)}" ${stale}>${todayOK ? fmtPct(dPct) : '<span style="color:#cbd5e1">—</span>'}</td>
             <td>${fmt(x.v260, 1)}</td>
             <td>${fmt(x.v90, 1)}</td>
             <td>${x.w == null ? '-' : fmt(x.w * 100, 2) + '%'}</td>
@@ -1341,10 +1372,17 @@ function renderHoldings() {
         const tPnlCumPct = (tBuy && tBuy > 0)  ? (tPnlCum / tBuy)  * 100 : null;
         const tPnlYtd    = (tMkt != null && tBook != null) ? tMkt - tBook : null;
         const tPnlYtdPct = (tBook && tBook > 0) ? (tPnlYtd / tBook) * 100 : null;
+        // 금일: 오늘 종가 반영된 종목만
+        const todayItems = h.filter(x => x.daily_close_date === today && x.daily_pnl != null);
+        const tDailyPnl = todayItems.length > 0 ? sum(todayItems.map(x => x.daily_pnl)) : null;
+        const tDailyBase = todayItems.length > 0 ? sum(todayItems.map(x => x.mkt - x.daily_pnl)) : null;
+        const tDailyPct = (tDailyBase && tDailyBase > 0) ? (tDailyPnl / tDailyBase) * 100 : null;
         const tV260 = weighted(h, 'v260', 'w');
         const tV90  = weighted(h, 'v90', 'w');
         const tW    = sum(h.map(x => x.w));
         const label = activeRegion === 'ALL' ? '합계' : `${activeRegion} 합계`;
+        const dailyNote = todayItems.length > 0 && todayItems.length < h.filter(x => x.mkt > 0).length
+          ? `<span style="font-weight:400;color:var(--muted);font-size:10px">(${todayItems.length}종목)</span>` : '';
         return `
           <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
             <td>${label}</td>
@@ -1356,6 +1394,8 @@ function renderHoldings() {
             <td class="${cls(tPnlCumPct)}">${fmtPct(tPnlCumPct)}</td>
             <td class="${cls(tPnlYtd)}">${fmt(tPnlYtd, 2)}</td>
             <td class="${cls(tPnlYtdPct)}">${fmtPct(tPnlYtdPct)}</td>
+            <td class="${cls(tDailyPnl)}">${tDailyPnl == null ? '—' : fmt(tDailyPnl, 2)} ${dailyNote}</td>
+            <td class="${cls(tDailyPct)}">${tDailyPct == null ? '—' : fmtPct(tDailyPct)}</td>
             <td>${fmt(tV260, 1)}</td>
             <td>${fmt(tV90, 1)}</td>
             <td>${tW == null ? '-' : fmt(tW * 100, 2) + '%'}</td>
