@@ -13,24 +13,35 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 try:
     import yfinance as yf
+    import pandas as pd
 except ImportError:
-    sys.exit("필요: pip install yfinance")
+    sys.exit("필요: pip install yfinance pandas")
 
 HERE = Path(__file__).parent
 OUT = HERE / "benchmarks.js"
 
 BENCHMARKS = [
-    ("KOSPI",            "^KS11",     0),  # (이름, yahoo 티커, 소수자리)
-    ("KOSDAQ",           "^KQ11",     2),
-    ("니케이 225",        "^N225",     0),
-    ("상해종합",          "000001.SS", 2),
-    ("STOXX 600",        "^STOXX",    2),
-    ("S&P 500",          "^GSPC",     2),
-    ("NASDAQ",           "^IXIC",     2),
-    ("필라델피아 반도체",  "^SOX",      2),
-    ("MSCI ACWI",        "ACWI",      2),  # ACWI ETF (지수 직접 티커 없음)
-    ("MSCI EM",          "EEM",       2),  # EEM ETF (지수 직접 티커 없음)
-    ("USD/KRW",          "KRW=X",     2),
+    # (이름, yahoo 티커, 소수자리, 카테고리)
+    # MSCI 글로벌 (최상단 우선)
+    ("MSCI ACWI",        "ACWI",      2, "MSCI"),
+    ("MSCI EM",          "EEM",       2, "MSCI"),
+    # 한국
+    ("KOSPI",            "^KS11",     0, "한국"),
+    ("KOSDAQ",           "^KQ11",     2, "한국"),
+    # 미국
+    ("S&P 500",          "^GSPC",     2, "미국"),
+    ("NASDAQ",           "^IXIC",     2, "미국"),
+    ("필라델피아 반도체",  "^SOX",      2, "미국"),
+    # 유럽
+    ("STOXX 600",        "^STOXX",    2, "유럽"),
+    # 아시아
+    ("니케이 225",        "^N225",     0, "아시아"),
+    ("상해종합",          "000001.SS", 2, "아시아"),
+    # 환율
+    ("USD/KRW",          "KRW=X",     2, "환율"),
+    # 변동성·기타
+    ("VIX",              "^VIX",      2, "변동성"),
+    # VKOSPI는 Yahoo 안정 티커 없음 — Investing.com 스크래핑이나 KRX OpenAPI 필요 (별도)
 ]
 
 
@@ -41,7 +52,7 @@ def main():
 
     out = {"as_of": today.isoformat(), "indices": []}
     print(f"=== 시장 지수 ({today}) ===")
-    for name, ticker, decimals in BENCHMARKS:
+    for name, ticker, decimals, category in BENCHMARKS:
         try:
             hist = yf.Ticker(ticker).history(
                 start=start.isoformat(), end=end.isoformat(), auto_adjust=False
@@ -56,22 +67,45 @@ def main():
                 if ts.year >= today.year:
                     this_year_start = i
                     break
-            baseline_idx = max(0, (this_year_start or len(hist)) - 1)
-            baseline = float(hist["Close"].iloc[baseline_idx])
-            current = float(hist["Close"].iloc[-1])
+            # NaN-safe: 베이스라인 + 현재가 + 이전가를 NaN 건너뛰며 찾기
+            closes = hist["Close"]
+            # baseline: 올해 시작 직전 마지막 거래일 (NaN 아닌 첫 값 찾기 - 뒤에서 앞으로)
+            baseline = None
+            for j in range(max(0, (this_year_start or len(hist)) - 1), -1, -1):
+                v = closes.iloc[j]
+                if not pd.isna(v):
+                    baseline = float(v)
+                    break
+            # current: 마지막 NaN 아닌 값
+            current = None
+            current_idx = None
+            for j in range(len(closes) - 1, -1, -1):
+                v = closes.iloc[j]
+                if not pd.isna(v):
+                    current = float(v)
+                    current_idx = j
+                    break
+            if baseline is None or current is None:
+                print(f"  [miss] {name} ({ticker}) — 유효 가격 없음")
+                continue
             ytd_pct = (current / baseline - 1) * 100 if baseline > 0 else None
 
-            # 직전 거래일 대비
+            # 직전 거래일 대비 (current 바로 앞 NaN 아닌 값)
             daily_pct = None
-            if len(hist) >= 2:
-                prev = float(hist["Close"].iloc[-2])
-                if prev > 0:
-                    daily_pct = (current / prev - 1) * 100
+            if current_idx is not None and current_idx > 0:
+                for j in range(current_idx - 1, -1, -1):
+                    v = closes.iloc[j]
+                    if not pd.isna(v):
+                        prev = float(v)
+                        if prev > 0:
+                            daily_pct = (current / prev - 1) * 100
+                        break
 
-            asof = str(hist.index[-1].date())
+            asof = str(hist.index[current_idx].date()) if current_idx is not None else str(hist.index[-1].date())
             out["indices"].append({
                 "name": name,
                 "ticker": ticker,
+                "category": category,
                 "current": round(current, 4),
                 "baseline": round(baseline, 4),
                 "ytd_pct": round(ytd_pct, 4) if ytd_pct is not None else None,

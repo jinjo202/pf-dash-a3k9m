@@ -568,15 +568,45 @@
   .backtest-metrics .m.bm { border-left: 3px solid #94a3b8; }
   .backtest-metrics .m.alpha { border-left: 3px solid var(--pos); }
 
-  /* ===== 시장 지수 띠 (최상단) ===== */
+  /* ===== 시장 지수 띠 (최상단, 카테고리별) ===== */
   .benchmarks {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 8px;
     margin-bottom: 16px;
   }
+  .bench-group {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .bench-group-label {
+    flex: 0 0 64px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    border-right: 2px solid var(--border);
+  }
+  .bench-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+    flex: 1;
+  }
   @media (max-width: 768px) {
-    .benchmarks { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; }
+    .bench-group { flex-direction: column; gap: 4px; }
+    .bench-group-label {
+      flex: none; padding-right: 0; border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px; justify-content: flex-start;
+    }
+    .bench-cards { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; }
   }
   .bench {
     background: #fff;
@@ -2584,10 +2614,34 @@ function renderBenchmarks() {
   if (!wrap) return;
   const b = window.BENCHMARKS;
   if (!b || !b.indices || !b.indices.length) {
-    wrap.innerHTML = '<div style="grid-column:1/-1;padding:8px;color:var(--muted);font-size:12px">benchmarks.js 없음 — fetch_benchmarks.py 실행 필요</div>';
+    wrap.innerHTML = '<div style="padding:8px;color:var(--muted);font-size:12px">benchmarks.js 없음 — fetch_benchmarks.py 실행 필요</div>';
     return;
   }
-  wrap.innerHTML = b.indices.map(idx => {
+
+  // 카테고리 표시 순서 + 카테고리 내 우선 정렬
+  const CAT_ORDER = ['MSCI', '한국', '미국', '유럽', '아시아', '환율', '변동성'];
+  const TOP_PRIORITY = ['MSCI ACWI', 'KOSPI', 'S&P 500'];  // 카테고리 내 맨 앞에 위치
+
+  // 카테고리별 그룹핑
+  const groups = {};
+  for (const idx of b.indices) {
+    const cat = idx.category || '기타';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(idx);
+  }
+  // 각 카테고리 내 정렬
+  for (const cat in groups) {
+    groups[cat].sort((a, b) => {
+      const ai = TOP_PRIORITY.indexOf(a.name);
+      const bi = TOP_PRIORITY.indexOf(b.name);
+      if (ai >= 0 && bi >= 0) return ai - bi;
+      if (ai >= 0) return -1;
+      if (bi >= 0) return 1;
+      return 0;
+    });
+  }
+
+  const benchCard = idx => {
     const ytd = idx.ytd_pct;
     const day = idx.daily_pct;
     const ytdCls = ytd == null ? '' : (ytd > 0 ? 'pos' : ytd < 0 ? 'neg' : '');
@@ -2606,7 +2660,21 @@ function renderBenchmarks() {
         <div class="asof">${idx.as_of || ''}</div>
       </div>
     `;
-  }).join('');
+  };
+
+  // 카테고리 순서대로 렌더
+  const orderedCats = CAT_ORDER.filter(c => groups[c]);
+  // 누락된 카테고리도 (만약 새 카테고리 추가 시 뒤에 붙음)
+  for (const c of Object.keys(groups)) if (!orderedCats.includes(c)) orderedCats.push(c);
+
+  wrap.innerHTML = orderedCats.map(cat => `
+    <div class="bench-group">
+      <div class="bench-group-label">${cat}</div>
+      <div class="bench-cards">
+        ${groups[cat].map(benchCard).join('')}
+      </div>
+    </div>
+  `).join('');
 }
 
 function renderKPIs() {
