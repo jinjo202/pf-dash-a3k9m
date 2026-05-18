@@ -18,19 +18,25 @@
 <script src="benchmarks.js"></script>
 <style>
   :root {
-    --bg: #f7f8fa;
+    --bg: #f6f7f9;
     --panel: #ffffff;
-    --border: #e5e7eb;
-    --text: #111827;
-    --muted: #6b7280;
+    --border: #e6e8eb;
+    --row-alt: #fafbfc;
+    --row-hover: #eff6ff;
+    --text: #0f172a;
+    --text-soft: #334155;
+    --muted: #64748b;
     --accent: #2563eb;
-    --pos: #16a34a;
-    --neg: #dc2626;
+    --accent-soft: #eff6ff;
+    --pos: #15803d;
+    --neg: #b91c1c;
     --kr: #2563eb;
-    --us: #0ea5e9;
-    --eu: #8b5cf6;
-    --gl: #f59e0b;
-    --em: #ef4444;
+    --us: #0891b2;
+    --eu: #7c3aed;
+    --gl: #ea580c;
+    --em: #e11d48;
+    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
   }
   * { box-sizing: border-box; }
   html, body {
@@ -41,7 +47,11 @@
       "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     font-size: 14px;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  /* 숫자는 tabular-nums로 컬럼 정렬 */
+  .value, .val, .ytd, .daily, .bench .value, .bench .ytd, .kpi .sub, td, th { font-variant-numeric: tabular-nums; }
   header {
     background: #fff;
     border-bottom: 1px solid var(--border);
@@ -51,12 +61,14 @@
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
+    box-shadow: var(--shadow-sm);
   }
   header h1 {
     margin: 0;
     font-size: 18px;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+    color: var(--text);
   }
   header .meta {
     color: var(--muted);
@@ -104,12 +116,22 @@
   .kpi {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
   }
-  .kpi .label { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
-  .kpi .value { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
-  .kpi .sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .kpi:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .kpi .label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .kpi .value { font-size: 22px; font-weight: 700; letter-spacing: -0.025em; color: var(--text); }
+  .kpi .sub { color: var(--muted); font-size: 11px; margin-top: 4px; font-weight: 500; }
   .pos { color: var(--pos); }
   .neg { color: var(--neg); }
 
@@ -123,16 +145,17 @@
   .panel {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
   }
   .panel h3 {
-    margin: 0 0 12px;
-    font-size: 13px;
+    margin: 0 0 14px;
+    font-size: 11px;
     font-weight: 600;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
   }
   .chart-wrap { position: relative; height: 280px; }
   .chart-wrap.tall { height: 340px; }
@@ -140,8 +163,8 @@
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th, td {
     text-align: right;
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f3f5;
     white-space: nowrap;
   }
   th:first-child, td:first-child,
@@ -151,12 +174,15 @@
   th {
     color: var(--muted);
     font-weight: 600;
-    font-size: 11px;
+    font-size: 10px;
     text-transform: uppercase;
+    letter-spacing: 0.06em;
     background: #fafbfc;
+    border-bottom: 1px solid var(--border);
     position: sticky; top: 0;
   }
-  tbody tr:hover { background: #f9fafb; }
+  tbody tr:nth-child(even) { background: var(--row-alt); }
+  tbody tr:hover { background: var(--row-hover); }
   .region-pill {
     display: inline-block;
     padding: 2px 8px;
@@ -173,12 +199,12 @@
   .holdings-summary {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 8px;
-    margin-bottom: 12px;
-    padding: 12px;
-    background: #fafbfc;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, #fafbfc 0%, #f6f7f9 100%);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 10px;
   }
   .holdings-summary .stat { display: flex; flex-direction: column; gap: 2px; padding-left: 8px; }
   .holdings-summary .stat .lbl { color: var(--muted); font-size: 11px; font-weight: 500; }
@@ -216,12 +242,15 @@
   .chip {
     border: 1px solid var(--border);
     background: #fff;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 999px;
     font-size: 12px;
+    font-weight: 500;
     cursor: pointer;
     color: var(--muted);
+    transition: all 0.15s ease;
   }
+  .chip:hover { border-color: var(--text-soft); color: var(--text-soft); }
   .chip.active {
     background: var(--text);
     color: #fff;
@@ -247,14 +276,17 @@
   .bench {
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px 12px;
+    border-radius: 10px;
+    padding: 12px 14px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
   }
-  .bench .name { font-size: 11px; color: var(--muted); font-weight: 500; }
-  .bench .value { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+  .bench:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .bench .name { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+  .bench .value { font-size: 17px; font-weight: 700; letter-spacing: -0.025em; color: var(--text); margin-top: 2px; }
   .bench .ytd { font-size: 12px; font-weight: 600; }
   .bench .daily { font-size: 10px; color: var(--muted); margin-top: 1px; }
   .bench .asof { font-size: 9px; color: #cbd5e1; margin-top: 1px; }
@@ -566,6 +598,22 @@ let allHoldings = [];
 let portfolioData = null;  // 전체 포트폴리오 데이터 (correlation_vol 등 메타)
 let activeRegion = 'ALL';
 let pnlMode = 'cum';  // 'cum' | 'ytd'
+
+// Chart.js 전역 기본값 — 대시보드 팔레트와 통일
+if (typeof Chart !== 'undefined') {
+  Chart.defaults.font.family = '"Pretendard Variable", Pretendard, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#64748b';
+  Chart.defaults.borderColor = '#e6e8eb';
+  Chart.defaults.plugins.legend.labels.boxWidth = 12;
+  Chart.defaults.plugins.legend.labels.boxHeight = 12;
+  Chart.defaults.plugins.legend.labels.padding = 12;
+  Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(15, 23, 42, 0.92)';
+  Chart.defaults.plugins.tooltip.titleFont = { weight: '600' };
+  Chart.defaults.plugins.tooltip.padding = 10;
+  Chart.defaults.plugins.tooltip.cornerRadius = 6;
+  Chart.defaults.plugins.tooltip.boxPadding = 4;
+}
 
 // 페이지 로드 시 내장 데이터 자동 표시 (평문 또는 암호화)
 window.addEventListener('DOMContentLoaded', async () => {
