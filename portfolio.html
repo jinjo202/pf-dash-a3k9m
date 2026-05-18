@@ -1863,12 +1863,20 @@ function todayLocalStr() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
+function effectiveDataDate() {
+  // 데이터에서 가장 최신 daily_close_date를 반환. 데이터 없으면 브라우저 오늘.
+  if (!allHoldings || !allHoldings.length) return todayLocalStr();
+  let maxDate = null;
+  for (const x of allHoldings) {
+    if (x.daily_close_date && (!maxDate || x.daily_close_date > maxDate)) {
+      maxDate = x.daily_close_date;
+    }
+  }
+  return maxDate || todayLocalStr();
+}
 function todayShort() {
-  // 데이터에 오늘 종가 반영된 종목이 있으면 그 날짜를, 아니면 브라우저 오늘 → "M/D"
-  const today = todayLocalStr();
-  const dataDate = (allHoldings.find(h => h.daily_close_date === today) || {}).daily_close_date
-    || (allHoldings.find(h => h.daily_close_date) || {}).daily_close_date
-    || today;
+  // 데이터의 가장 최신 daily_close_date를 M/D로
+  const dataDate = effectiveDataDate();
   const [, m, d] = dataDate.split('-');
   return `${parseInt(m, 10)}/${parseInt(d, 10)}`;
 }
@@ -2609,12 +2617,16 @@ function renderKPIs() {
   const w90 = weighted(h, 'v90', 'w');
   const owned = h.filter(x => x.mkt > 0).length;
 
-  // 금일 손익 — 오늘 종가가 들어온 종목(국내·이미 마감된 시장)만 합산
-  const today = todayLocalStr();
-  const todayHoldings = h.filter(x => x.daily_close_date === today && x.daily_pnl != null);
+  // 금일 손익 — 데이터의 가장 최신 daily_close_date 기준으로 마감된 시장만 합산
+  // (예: 5/19 오전이고 한국 5/18 종가만 있으면 한국장만, 미국 5/15 데이터는 제외)
+  const effDate = effectiveDataDate();
+  const todayHoldings = h.filter(x => x.daily_close_date === effDate && x.daily_pnl != null);
   const todayPnl = sum(todayHoldings.map(x => x.daily_pnl));
   const todayPnlBase = sum(todayHoldings.map(x => x.mkt - x.daily_pnl));
   const todayPnlPct = todayPnlBase > 0 ? (todayPnl / todayPnlBase) * 100 : null;
+  // 어떤 지역들이 반영됐는지
+  const todayRegions = [...new Set(todayHoldings.map(x => x.region))];
+  const regionsLabel = todayRegions.length > 0 ? todayRegions.join('/') : '없음';
 
   // 기준 (YTD 디폴트) — basisMode = 'cum' | 'ytd'
   const isYtd = basisMode === 'ytd';
@@ -2632,13 +2644,13 @@ function renderKPIs() {
     { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `보유 종목 ${owned}개 / 전체 ${h.length}개` },
     { label: baseLabel, value: fmtAmtBig(baseAmt), sub: baseSub },
     { label: pnlLabel,  value: fmtAmtBig(basePnl), sub: pnlSub, cls: cls(basePnl) },
-    // ── 금일 (오늘 종가 반영된 종목만 합산) ─────────────────────
+    // ── 금일 (가장 최신 마감된 시장만 합산) ─────────────────────
     {
       label: `금일 평가손익 (${todayShort()})`,
       value: todayHoldings.length > 0 ? fmtAmtBig(todayPnl) : '—',
       sub: todayHoldings.length > 0
-        ? `${fmtPct(todayPnlPct)} · 오늘 종가 반영 ${todayHoldings.length}종목`
-        : '오늘 종가 미반영',
+        ? `${fmtPct(todayPnlPct)} · ${regionsLabel} ${todayHoldings.length}종목`
+        : '종가 반영 종목 없음',
       cls: cls(todayPnl)
     },
     // ── 위험·구성 ─────────────────────
@@ -2957,7 +2969,7 @@ function renderRegionChips() {
 }
 
 function renderHoldingsSummary(h) {
-  const today = todayLocalStr();
+  const effDate = effectiveDataDate();
   const tBuy  = sum(h.filter(x => x.buy  && x.buy  > 0).map(x => x.buy));
   const tBook = sum(h.filter(x => x.book && x.book > 0).map(x => x.book));
   const tMkt  = sum(h.map(x => x.mkt));
@@ -2965,10 +2977,12 @@ function renderHoldingsSummary(h) {
   const pnlCumPct = (tBuy && tBuy > 0)  ? (pnlCum / tBuy)  * 100 : null;
   const pnlYtd    = (tMkt != null && tBook != null) ? tMkt - tBook : null;
   const pnlYtdPct = (tBook && tBook > 0) ? (pnlYtd / tBook) * 100 : null;
-  const todayItems = h.filter(x => x.daily_close_date === today && x.daily_pnl != null);
+  const todayItems = h.filter(x => x.daily_close_date === effDate && x.daily_pnl != null);
   const dailyPnl  = todayItems.length > 0 ? sum(todayItems.map(x => x.daily_pnl)) : null;
   const dailyBase = todayItems.length > 0 ? sum(todayItems.map(x => x.mkt - x.daily_pnl)) : null;
   const dailyPct  = (dailyBase && dailyBase > 0) ? (dailyPnl / dailyBase) * 100 : null;
+  const todayRegions = [...new Set(todayItems.map(x => x.region))];
+  const regionsLabel = todayRegions.length > 0 ? todayRegions.join('/') : '없음';
   const ownedCnt  = h.filter(x => x.mkt > 0).length;
   const scope = activeRegion === 'ALL' ? '전체' : activeRegion;
 
@@ -2992,7 +3006,7 @@ function renderHoldingsSummary(h) {
       <div class="lbl">금일 손익 (${todayShort()})</div>
       <div class="val ${cls(dailyPnl)}">${dailyPnl == null ? '—' : fmtAmtBig(dailyPnl)}</div>
       <div class="sub ${cls(dailyPct)}">
-        ${dailyPct == null ? '오늘 종가 미반영' : fmtPct(dailyPct) + ` · 반영 ${todayItems.length}종목`}
+        ${dailyPct == null ? '종가 반영 없음' : fmtPct(dailyPct) + ` · ${regionsLabel} ${todayItems.length}종목`}
       </div>
     </div>
   `;
@@ -3004,7 +3018,7 @@ function renderHoldings() {
   h.sort((a, b) => (b.w || 0) - (a.w || 0));
   renderHoldingsSummary(h);
 
-  const today = todayLocalStr();
+  const today = effectiveDataDate();
   const dateLabel = todayShort();
   const dailyHeader = `금일 <span style="color:var(--accent);font-weight:700">${dateLabel}</span> (전일 대비)`;
   const html = `
