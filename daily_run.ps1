@@ -26,6 +26,10 @@ if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_benchmarks 실패 — 지수 띠
 python compute_historical.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "compute_historical 실패 — 백테스트는 직전 값 유지" }
 
+# 2e) ETF 상위 5 구성종목 (yfinance funds_data) — 주 1~2회면 충분하나 매일 시도
+python fetch_etf_holdings.py
+if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_etf_holdings 실패 — 직전 값 유지" }
+
 # 3) 재암호화 (plain → portfolio-data.js)
 python encrypt_data.py encrypt
 if ($LASTEXITCODE -ne 0) { throw "encrypt 실패" }
