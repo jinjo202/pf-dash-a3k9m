@@ -366,6 +366,12 @@
       <div class="panel">
         <h3>지역별 가중 변동성 (90D / 260D)</h3>
         <div class="chart-wrap"><canvas id="barVol"></canvas></div>
+        <div class="footer-note">
+          <b>계산식</b>: 지역 내 각 종목의 변동성을 <b>종목 비중(w)</b>으로 가중 평균<br>
+          σ<sub>region</sub> = Σ(σ<sub>i</sub> × w<sub>i</sub>) / Σ(w<sub>i</sub>) &nbsp;·&nbsp;
+          종목 i ∈ 해당 지역, w<sub>i</sub> = 전체 포트폴리오 대비 비중<br>
+          <span style="color:var(--muted)">※ 종목 간 상관관계는 미반영 — 단순 가중 평균이라 실제 포트폴리오 변동성 상한선(보수적) 근사치</span>
+        </div>
       </div>
     </div>
 
@@ -1414,6 +1420,9 @@ function sum(arr) {
   }
   return any ? s : null;
 }
+// 가중 평균: Σ(value × weight) / Σ(weight)
+// 변동성 계산에 사용 — 종목 비중(w)을 가중치로 단순 가중 평균.
+// 종목 간 상관관계는 반영하지 않으므로 실제 포트폴리오 σ의 상한선(보수적 추정).
 function weighted(items, valKey, wKey) {
   let num = 0, den = 0;
   for (const x of items) {
