@@ -957,20 +957,23 @@ function renderKPIs() {
 
   const kpis = [
     { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `보유 종목 ${owned}개 / 전체 ${h.length}개` },
-    { label: '총 매입금액', value: fmtAmtBig(totalBuy), sub: '매입 시점 누적 기준' },
-    { label: '총 장부가 (YTD)', value: fmtAmtBig(totalBook), sub: '연초 기준' },
+    // ── 누적 (매입가 기준) ─────────────────────
+    { label: '총 매입금액 (누적)', value: fmtAmtBig(totalBuy), sub: '매입 시점 취득원가' },
     {
       label: '누적 평가손익',
       value: fmtAmtBig(pnlCum),
       sub: pnlCumPct != null ? fmtPct(pnlCumPct) + ' (매입가 대비)' : '-',
       cls: cls(pnlCum)
     },
+    // ── YTD (장부가 기준) ─────────────────────
+    { label: '총 매입금액 (YTD)', value: fmtAmtBig(totalBook), sub: '연초 장부가 기준' },
     {
       label: 'YTD 평가손익',
       value: fmtAmtBig(pnlYtd),
       sub: pnlYtdPct != null ? fmtPct(pnlYtdPct) + ' (장부가 대비)' : '-',
       cls: cls(pnlYtd)
     },
+    // ── 위험·구성 ─────────────────────
     {
       label: '가중 변동성 (260D)',
       value: w260 == null ? '-' : fmt(w260, 2),
