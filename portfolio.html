@@ -631,6 +631,14 @@
   .bench .value { font-size: 17px; font-weight: 700; letter-spacing: -0.025em; color: var(--text); margin-top: 2px; }
   .bench .ytd { font-size: 12px; font-weight: 600; }
   .bench .daily { font-size: 10px; color: var(--muted); margin-top: 1px; }
+  .bench .val-row {
+    font-size: 9px; color: var(--muted); margin-top: 3px;
+    padding-top: 3px; border-top: 1px dashed var(--border);
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
+  .bench .val-row .v-key { color: #94a3b8; font-weight: 600; }
+  .bench .val-row .v-val { color: var(--text-soft); font-weight: 600; }
   .bench .asof { font-size: 9px; color: #cbd5e1; margin-top: 1px; }
 
   /* ===== 비밀번호 게이트 ===== */
@@ -2748,12 +2756,22 @@ function renderBenchmarks() {
     const cur = Number(idx.current).toLocaleString('ko-KR', {
       maximumFractionDigits: dec, minimumFractionDigits: dec
     });
+    // PER / PBR / ROE
+    const val = idx.valuation || {};
+    const has = val.pe != null || val.pb != null || val.roe != null;
+    const valRow = has ? `
+      <div class="val-row" title="${val.src ? '대표 ETF: ' + val.src : ''}">
+        ${val.pe != null ? `<span class="v-key">PE</span> <span class="v-val">${val.pe.toFixed(1)}</span>` : ''}
+        ${val.pb != null ? ` <span class="v-key">PB</span> <span class="v-val">${val.pb.toFixed(2)}</span>` : ''}
+        ${val.roe != null ? `<br><span class="v-key">ROE</span> <span class="v-val">${val.roe.toFixed(1)}%</span>` : ''}
+      </div>` : '';
     return `
       <div class="bench" title="${idx.ticker} · 기준 ${Number(idx.baseline).toLocaleString('ko-KR',{maximumFractionDigits:2})}">
         <div class="name">${idx.name}</div>
         <div class="value">${cur}</div>
         <div class="ytd ${ytdCls}">${arrow} YTD ${fmtPct(ytd, 2)}</div>
         <div class="daily ${dayCls}">Δ ${fmtPct(day, 2)}</div>
+        ${valRow}
         <div class="asof">${idx.as_of || ''}</div>
       </div>
     `;

@@ -20,6 +20,23 @@ except ImportError:
 HERE = Path(__file__).parent
 OUT = HERE / "benchmarks.js"
 
+# 지수 → 대표 ETF (PER/PBR/ROE 가져올 때 사용). None = 해당 없음.
+VAL_PROXY = {
+    "ACWI":      "ACWI",
+    "EEM":       "EEM",
+    "^KS11":     "EWY",      # iShares MSCI Korea (US)
+    "^KQ11":     None,        # KOSDAQ 직접 ETF 없음
+    "^GSPC":     "SPY",       # SPDR S&P 500
+    "^IXIC":     "QQQ",       # Invesco QQQ
+    "^SOX":      "SOXX",      # iShares Semiconductor
+    "^STOXX":    "IEUR",      # iShares Core MSCI Europe
+    "^N225":     "EWJ",       # iShares MSCI Japan
+    "000001.SS": "MCHI",      # iShares MSCI China
+    "KRW=X":     None,
+    "^VIX":      None,
+}
+
+
 BENCHMARKS = [
     # (이름, yahoo 티커, 소수자리, 카테고리)
     # MSCI 글로벌 (최상단 우선)
@@ -102,6 +119,26 @@ def main():
                         break
 
             asof = str(hist.index[current_idx].date()) if current_idx is not None else str(hist.index[-1].date())
+            # 밸류에이션 (대응 ETF에서 수집, 가능한 것만)
+            val = {"pe": None, "pb": None, "roe": None, "src": None}
+            proxy = VAL_PROXY.get(ticker)
+            if proxy:
+                try:
+                    pinfo = yf.Ticker(proxy).info or {}
+                    pe = pinfo.get("trailingPE") or pinfo.get("forwardPE")
+                    pb = pinfo.get("priceToBook")
+                    roe = pinfo.get("returnOnEquity")
+                    # sanity 필터
+                    if pe is not None and (pe <= 0 or pe > 300): pe = None
+                    if pb is not None and (pb <= 0 or pb > 100): pb = None
+                    if roe is not None and (roe > 3 or roe < -3): roe = None
+                    val["pe"]  = round(float(pe), 2) if pe else None
+                    val["pb"]  = round(float(pb), 2) if pb else None
+                    val["roe"] = round(float(roe) * 100, 2) if roe is not None else None
+                    val["src"] = proxy if any([val["pe"], val["pb"], val["roe"]]) else None
+                except Exception:
+                    pass
+
             out["indices"].append({
                 "name": name,
                 "ticker": ticker,
@@ -112,6 +149,7 @@ def main():
                 "daily_pct": round(daily_pct, 4) if daily_pct is not None else None,
                 "as_of": asof,
                 "decimals": decimals,
+                "valuation": val,
             })
             print(f"  [ok]  {name:18s} {ticker:10s} {current:>10.2f}  "
                   f"YTD {ytd_pct:+6.2f}%  Δ {daily_pct:+5.2f}% ({asof})")
