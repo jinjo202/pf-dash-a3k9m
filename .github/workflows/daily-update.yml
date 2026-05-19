@@ -1,0 +1,74 @@
+name: Daily Portfolio Update
+
+on:
+  schedule:
+    # 매일 06:35 UTC = 15:35 KST (한국 KOSPI 마감 직후)
+    - cron: '35 6 * * *'
+  workflow_dispatch:  # 수동 실행 가능
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install yfinance pandas numpy cryptography
+
+      - name: Decrypt portfolio data
+        env:
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+        run: python encrypt_data.py decrypt
+
+      - name: Update prices (yfinance)
+        run: python update_prices.py
+
+      - name: Compute correlation-adjusted volatility
+        run: python compute_corr_vol.py
+        continue-on-error: true
+
+      - name: Fetch benchmark indices (KOSPI, S&P, VIX, etc.)
+        run: python fetch_benchmarks.py
+        continue-on-error: true
+
+      - name: Compute historical YTD series + sector returns
+        run: python compute_historical.py
+        continue-on-error: true
+
+      - name: Fetch ETF top holdings (yfinance funds_data)
+        run: python fetch_etf_holdings.py
+        continue-on-error: true
+
+      - name: Fetch underlying stocks YTD returns
+        run: python fetch_underlying_returns.py
+        continue-on-error: true
+
+      - name: Fetch PER/PBR/ROE valuations
+        run: python fetch_valuations.py
+        continue-on-error: true
+
+      - name: Re-encrypt portfolio data
+        env:
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+        run: python encrypt_data.py encrypt
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 평문 파일 절대 commit 안 되도록 명시적 add
+          git add portfolio-data.js prices_log.json benchmarks.js
+          if git diff --staged --quiet; then
+            echo "변경 없음."
+          else
+            git commit -m "auto: daily update $(date -u +%Y-%m-%d)"
+            git push
+          fi
