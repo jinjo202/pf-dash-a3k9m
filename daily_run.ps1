@@ -34,6 +34,10 @@ if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_etf_holdings 실패 — 직전 �
 python fetch_underlying_returns.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_underlying_returns 실패 — 직전 값 유지" }
 
+# 2g) PER/PBR/ROE (밸류에이션) — 주 1~2회면 충분하나 매일 시도
+python fetch_valuations.py
+if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_valuations 실패 — 직전 값 유지" }
+
 # 3) 재암호화 (plain → portfolio-data.js)
 python encrypt_data.py encrypt
 if ($LASTEXITCODE -ne 0) { throw "encrypt 실패" }

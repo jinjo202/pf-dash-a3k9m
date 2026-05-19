@@ -2224,6 +2224,7 @@ function renderAlphaContribution() {
       // 각 구성종목의 '포트폴리오 α 기여' 추정 = (ETF α 기여) × (ETF 내 비중 / Σ상위5 비중)
       // 정확하진 않지만 "상위 5 중에서의 상대 기여" 비율은 맞음
       const uYtd = (portfolioData && portfolioData.underlying_ytd) || {};
+      const uVal = (portfolioData && portfolioData.underlying_valuations) || {};
       const bmYtdRow = (() => {
         const hist = portfolioData && portfolioData.historical;
         const bm = buildBenchmarkSeries && buildBenchmarkSeries();
@@ -2245,6 +2246,7 @@ function renderAlphaContribution() {
             const pfAlpha = (stockYtd != null)
               ? (c.weight / 100) * (wEtf / 100) * (stockYtd - bmYtdRow) * 100
               : null;
+            const val = uVal[x.name] || {};
             return `
               <div class="alpha-h-card">
                 <div class="nm" title="${x.name}${ticker ? ' · ' + ticker : ''}">${x.name}${ticker ? ` <span style="color:var(--muted);font-size:9px;font-weight:400">(${ticker})</span>` : ''}</div>
@@ -2253,6 +2255,11 @@ function renderAlphaContribution() {
                 <div class="bar" style="width:${barW.toFixed(1)}%"></div>
                 <div class="row" style="margin-top:6px"><span>ETF 수익 기여</span><span class="v ${cls(inEtfContrib)}">${inEtfContrib != null ? fmtPct(inEtfContrib, 2) : '—'}</span></div>
                 <div class="row"><span>PF α 기여</span><span class="v ${cls(pfAlpha)}">${pfAlpha != null ? fmtPct(pfAlpha, 2) : '—'}</span></div>
+                <div style="border-top:1px dashed var(--border);margin-top:6px;padding-top:4px">
+                  <div class="row"><span>PER</span><span class="v">${val.pe ? val.pe.toFixed(1) + 'x' : '—'}</span></div>
+                  <div class="row"><span>PBR</span><span class="v">${val.pb ? val.pb.toFixed(2) + 'x' : '—'}</span></div>
+                  <div class="row"><span>ROE</span><span class="v ${cls(val.roe)}">${val.roe != null ? val.roe.toFixed(1) + '%' : '—'}</span></div>
+                </div>
               </div>
             `;
           }).join('')}
@@ -2817,6 +2824,32 @@ function renderKPIs() {
         : '종가 반영 종목 없음',
       cls: cls(todayPnl)
     },
+    // ── 밸류에이션 (포트폴리오 가중 평균) ─────────────────────
+    (() => {
+      const v = (portfolioData && portfolioData.portfolio_valuation) || null;
+      return {
+        label: 'PER (포트폴리오)',
+        value: v && v.pe ? v.pe.toFixed(2) + 'x' : '—',
+        sub: v ? `시가 비중 가중 (커버리지 ${v.coverage_pe}%)` : '데이터 없음',
+      };
+    })(),
+    (() => {
+      const v = (portfolioData && portfolioData.portfolio_valuation) || null;
+      return {
+        label: 'PBR (포트폴리오)',
+        value: v && v.pb ? v.pb.toFixed(2) + 'x' : '—',
+        sub: v ? `커버리지 ${v.coverage_pb}%` : '데이터 없음',
+      };
+    })(),
+    (() => {
+      const v = (portfolioData && portfolioData.portfolio_valuation) || null;
+      return {
+        label: 'ROE (포트폴리오)',
+        value: v && v.roe != null ? v.roe.toFixed(2) + '%' : '—',
+        sub: v ? `커버리지 ${v.coverage_roe}%` : '데이터 없음',
+        cls: v && v.roe > 0 ? 'pos' : (v && v.roe < 0 ? 'neg' : ''),
+      };
+    })(),
     // ── 위험·구성 ─────────────────────
     {
       label: '가중 변동성 (260D)',
@@ -3198,6 +3231,8 @@ function renderHoldings() {
     v260:      (a, b) => (a.v260 || 0) - (b.v260 || 0),
     v90:       (a, b) => (a.v90 || 0) - (b.v90 || 0),
     w:         (a, b) => (a.w || 0) - (b.w || 0),
+    pe:        (a, b) => ((a.valuation && a.valuation.pe) || 999) - ((b.valuation && b.valuation.pe) || 999),
+    pb:        (a, b) => ((a.valuation && a.valuation.pb) || 999) - ((b.valuation && b.valuation.pb) || 999),
   };
   const sortFn = SORTERS[holdingsSortKey] || SORTERS.w;
   h.sort(sortFn);
@@ -3225,6 +3260,8 @@ function renderHoldings() {
         ${sh2('v260', '260D', 'rowspan="2"')}
         ${sh2('v90', '90D', 'rowspan="2"')}
         ${sh2('w', '비중', 'rowspan="2"')}
+        ${sh2('pe', 'PER', 'rowspan="2"')}
+        ${sh2('pb', 'PBR', 'rowspan="2"')}
       </tr>
       <tr>
         ${sh('pnlCum', '손익')}${sh('pnlCumPct', '%')}
@@ -3259,6 +3296,8 @@ function renderHoldings() {
             <td>${fmt(x.v260, 1)}</td>
             <td>${fmt(x.v90, 1)}</td>
             <td>${x.w == null ? '-' : fmt(x.w * 100, 2) + '%'}</td>
+            <td title="${x.valuation && x.valuation.pe_src ? '추정 (top5 가중)' : '직접'}">${(x.valuation && x.valuation.pe) ? x.valuation.pe.toFixed(1) + (x.valuation.pe_src ? '*' : '') : '—'}</td>
+            <td title="${x.valuation && x.valuation.pb_src ? '추정 (top5 가중)' : '직접'}">${(x.valuation && x.valuation.pb) ? x.valuation.pb.toFixed(2) + (x.valuation.pb_src ? '*' : '') : '—'}</td>
           </tr>
         `;
       }).join('')}
@@ -3298,6 +3337,14 @@ function renderHoldings() {
             <td>${fmt(tV260, 1)}</td>
             <td>${fmt(tV90, 1)}</td>
             <td>${tW == null ? '-' : fmt(tW * 100, 2) + '%'}</td>
+            <td>${(() => {
+              const v = portfolioData && portfolioData.portfolio_valuation;
+              return v && v.pe ? v.pe.toFixed(1) : '—';
+            })()}</td>
+            <td>${(() => {
+              const v = portfolioData && portfolioData.portfolio_valuation;
+              return v && v.pb ? v.pb.toFixed(2) : '—';
+            })()}</td>
           </tr>
         `;
       })()}
