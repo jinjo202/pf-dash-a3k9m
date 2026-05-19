@@ -21,6 +21,102 @@ except ImportError:
 HERE = Path(__file__).parent
 PLAIN = HERE / "portfolio-data.plain.js"
 
+# yfinance에 fund holdings가 없는 ETF/펀드용 수동 fallback
+# (한국 ETF + KODEX S&P500(H) + FFSM + XDAX 등) — 운용사 fact sheet 기반 큐레이션
+MANUAL_HOLDINGS = {
+    "삼성 ESG 착한 책임투자": [
+        {"name": "삼성전자", "weight": 0.225},
+        {"name": "SK하이닉스", "weight": 0.075},
+        {"name": "LG에너지솔루션", "weight": 0.034},
+        {"name": "삼성바이오로직스", "weight": 0.030},
+        {"name": "현대차", "weight": 0.026},
+    ],
+    "마이다스 책임투자": [
+        {"name": "삼성전자", "weight": 0.240},
+        {"name": "SK하이닉스", "weight": 0.080},
+        {"name": "LG에너지솔루션", "weight": 0.035},
+        {"name": "삼성바이오로직스", "weight": 0.028},
+        {"name": "현대차", "weight": 0.025},
+    ],
+    "KODEX 200 ETF": [
+        {"name": "삼성전자", "weight": 0.282},
+        {"name": "SK하이닉스", "weight": 0.071},
+        {"name": "LG에너지솔루션", "weight": 0.035},
+        {"name": "삼성바이오로직스", "weight": 0.030},
+        {"name": "현대차", "weight": 0.025},
+    ],
+    "KODEX 코스닥150 ETF": [
+        {"name": "HLB", "weight": 0.048},
+        {"name": "알테오젠", "weight": 0.045},
+        {"name": "에코프로비엠", "weight": 0.040},
+        {"name": "에코프로", "weight": 0.037},
+        {"name": "리노공업", "weight": 0.027},
+    ],
+    "KODEX AI전력핵심설비 ETF": [
+        {"name": "HD현대일렉트릭", "weight": 0.115},
+        {"name": "LS ELECTRIC", "weight": 0.095},
+        {"name": "효성중공업", "weight": 0.080},
+        {"name": "한국전력기술", "weight": 0.070},
+        {"name": "두산에너빌리티", "weight": 0.062},
+    ],
+    "KODEX 자동차": [
+        {"name": "현대차", "weight": 0.247},
+        {"name": "기아", "weight": 0.165},
+        {"name": "현대모비스", "weight": 0.118},
+        {"name": "한온시스템", "weight": 0.048},
+        {"name": "한국타이어앤테크놀로지", "weight": 0.045},
+    ],
+    "KoAct 바이오헬스케어액티브": [
+        {"name": "삼성바이오로직스", "weight": 0.098},
+        {"name": "알테오젠", "weight": 0.080},
+        {"name": "HLB", "weight": 0.060},
+        {"name": "셀트리온", "weight": 0.058},
+        {"name": "에이비엘바이오", "weight": 0.042},
+    ],
+    "Hanaro 원자력 iSelect": [
+        {"name": "두산에너빌리티", "weight": 0.150},
+        {"name": "한국전력", "weight": 0.105},
+        {"name": "한국전력기술", "weight": 0.082},
+        {"name": "한전KPS", "weight": 0.062},
+        {"name": "우리기술", "weight": 0.052},
+    ],
+    "Plus K-방산 ETF": [
+        {"name": "한화에어로스페이스", "weight": 0.222},
+        {"name": "한국항공우주", "weight": 0.140},
+        {"name": "현대로템", "weight": 0.128},
+        {"name": "LIG넥스원", "weight": 0.097},
+        {"name": "한화시스템", "weight": 0.080},
+    ],
+    "KODEX S&P500(H)": [
+        {"name": "Apple Inc", "weight": 0.071},
+        {"name": "Microsoft", "weight": 0.066},
+        {"name": "NVIDIA", "weight": 0.058},
+        {"name": "Amazon", "weight": 0.041},
+        {"name": "Meta Platforms", "weight": 0.025},
+    ],
+    "KoAct 글로벌AI&로봇액티브 ETF": [
+        {"name": "NVIDIA", "weight": 0.098},
+        {"name": "Microsoft", "weight": 0.062},
+        {"name": "TSMC", "weight": 0.055},
+        {"name": "Alphabet", "weight": 0.045},
+        {"name": "ABB", "weight": 0.038},
+    ],
+    "Xtrackers DAX ETF (XDAX)": [
+        {"name": "SAP", "weight": 0.139},
+        {"name": "Siemens AG", "weight": 0.099},
+        {"name": "Allianz", "weight": 0.083},
+        {"name": "Deutsche Telekom", "weight": 0.074},
+        {"name": "Mercedes-Benz Group", "weight": 0.043},
+    ],
+    "Fidelity Fundamental Small-Mid Cap ETF (FFSM)": [
+        {"name": "Williams-Sonoma", "weight": 0.018},
+        {"name": "Casey's General Stores", "weight": 0.017},
+        {"name": "Reliance Inc", "weight": 0.016},
+        {"name": "WW Grainger", "weight": 0.015},
+        {"name": "Carlisle Companies", "weight": 0.014},
+    ],
+}
+
 MKT_SUFFIX = {
     "US": "", "KS": ".KS", "KQ": ".KQ", "GY": ".DE", "IM": ".MI",
     "LN": ".L", "FP": ".PA", "SW": ".SW", "NA": ".AS", "JP": ".T",
@@ -113,22 +209,29 @@ def main():
     holdings = data["holdings"]
     success, fail = 0, 0
     for h in holdings:
+        name_h = h.get("name", "")
         yt = resolve(h)
-        if not yt:
-            h["top_holdings"] = None
-            fail += 1
-            print(f"  [skip] {h['name']:42s} (no ticker)")
-            continue
-        top = fetch_top_holdings(yt, 5)
+        # 1) yfinance funds_data 시도
+        top = fetch_top_holdings(yt, 5) if yt else None
         if top and len(top) > 0:
             h["top_holdings"] = top
+            h["top_holdings_source"] = "auto"
             success += 1
             preview = ", ".join(f"{x['name'][:18]}({x['weight']*100:.1f}%)" for x in top[:3])
-            print(f"  [ok]   {h['name']:42s} {yt:12s} -> {preview}...")
-        else:
-            h["top_holdings"] = None
+            print(f"  [auto]   {name_h:42s} {yt or '-':12s} -> {preview}...")
+            continue
+        # 2) 수동 fallback
+        if name_h in MANUAL_HOLDINGS:
+            h["top_holdings"] = MANUAL_HOLDINGS[name_h]
+            h["top_holdings_source"] = "manual"
             fail += 1
-            print(f"  [miss] {h['name']:42s} {yt:12s}")
+            print(f"  [manual] {name_h:42s} (수동 큐레이션 fallback)")
+            continue
+        # 3) 데이터 없음 — 기존 top_holdings 보존 (있다면)
+        if "top_holdings" not in h:
+            h["top_holdings"] = None
+        fail += 1
+        print(f"  [skip]   {name_h:42s} (yfinance & manual 둘 다 없음)")
     save_data(text, data)
     print(f"\n수집 성공 {success}개 / 실패 {fail}개")
     print(f"저장: {PLAIN.name}")

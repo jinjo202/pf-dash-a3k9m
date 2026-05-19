@@ -20,6 +20,23 @@ except ImportError:
 HERE = Path(__file__).parent
 OUT = HERE / "benchmarks.js"
 
+# 수동 입력 데이터 (Yahoo에 안정 티커가 없는 항목)
+# 변경 시: 이 dict를 수정 → fetch_benchmarks.py 실행 → push.
+# KR 10년 국고채 yield는 한국은행 ECOS API 키 받기 전엔 수동 갱신.
+MANUAL_OVERRIDES = {
+    "KR 10Y": {
+        "category": "금리",
+        "current": 3.30,         # 현재 yield (%) — 한국은행/금융투자협회 채권시세에서 확인 후 업데이트
+        "baseline": 2.95,        # 연초(1/2) yield (%)
+        "prev_close": 3.27,      # 직전 거래일 yield (%) — 일일 변동 계산용
+        "as_of": "2026-05-19",   # 마지막 수동 업데이트 날짜
+        "decimals": 2,
+        "ticker": "MANUAL",
+        "manual": True,
+    },
+}
+
+
 # 지수 → 대표 ETF (PER/PBR/ROE 가져올 때 사용). None = 해당 없음.
 VAL_PROXY = {
     "ACWI":      "ACWI",
@@ -163,8 +180,29 @@ def main():
         except Exception as e:
             print(f"  [err] {name} ({ticker}): {e}")
 
+    # 수동 override 적용 (Yahoo에 없는 KR 10Y 등)
+    for name, m in MANUAL_OVERRIDES.items():
+        ytd_pct = (m["current"] / m["baseline"] - 1) * 100 if m["baseline"] else None
+        daily_pct = (m["current"] / m["prev_close"] - 1) * 100 if m.get("prev_close") else None
+        out["indices"].append({
+            "name": name,
+            "ticker": m["ticker"],
+            "category": m["category"],
+            "current": m["current"],
+            "baseline": m["baseline"],
+            "ytd_pct": round(ytd_pct, 4) if ytd_pct is not None else None,
+            "daily_pct": round(daily_pct, 4) if daily_pct is not None else None,
+            "as_of": m["as_of"],
+            "decimals": m.get("decimals", 2),
+            "valuation": {"pe": None, "pb": None, "roe": None, "src": None},
+            "manual": True,
+        })
+        print(f"  [수동] {name:18s} {m['ticker']:10s} {m['current']:>8.2f}  "
+              f"YTD {ytd_pct:+5.2f}%  Δ {daily_pct:+5.2f}% (as of {m['as_of']})")
+
     OUT.write_text(
         "// 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.\n"
+        "// KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.\n"
         f"window.BENCHMARKS = {json.dumps(out, ensure_ascii=False, indent=2)};\n",
         encoding="utf-8",
     )
