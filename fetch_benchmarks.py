@@ -34,6 +34,8 @@ VAL_PROXY = {
     "000001.SS": "MCHI",      # iShares MSCI China
     "KRW=X":     None,
     "^VIX":      None,
+    "^TNX":      None,        # US 10Y Treasury Yield (직접)
+    "CL=F":      None,        # WTI Crude Oil
 }
 
 
@@ -56,6 +58,11 @@ BENCHMARKS = [
     ("상해종합",          "000001.SS", 2, "아시아"),
     # 환율
     ("USD/KRW",          "KRW=X",     2, "환율"),
+    # 금리
+    ("US 10Y",           "^TNX",      2, "금리"),
+    # KR 10Y는 Yahoo에 없음 — 한국은행 OpenAPI 또는 KRX 데이터 필요 (별도)
+    # 원자재
+    ("WTI 유가",          "CL=F",      2, "원자재"),
     # 변동성·기타
     ("VIX",              "^VIX",      2, "변동성"),
     # VKOSPI는 Yahoo 안정 티커 없음 — Investing.com 스크래핑이나 KRX OpenAPI 필요 (별도)
