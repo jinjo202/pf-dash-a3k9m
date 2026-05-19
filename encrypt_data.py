@@ -48,16 +48,16 @@ def derive_key(password: str, salt: bytes) -> bytes:
 
 def get_password(arg: str | None) -> str:
     if arg:
-        return arg
+        return arg.strip()
     env = os.environ.get("PORTFOLIO_PASSWORD")
     if env:
-        return env
+        return env.strip()
     if PW_FILE.exists():
         return PW_FILE.read_text(encoding="utf-8").strip()
     pw = getpass.getpass("비밀번호: ")
     if not pw:
         sys.exit("비밀번호가 비어 있습니다.")
-    return pw
+    return pw.strip()
 
 
 def encrypt(password: str) -> None:
