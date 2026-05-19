@@ -2756,6 +2756,21 @@ function renderBenchmarks() {
     const cur = Number(idx.current).toLocaleString('ko-KR', {
       maximumFractionDigits: dec, minimumFractionDigits: dec
     });
+    // 금리 카테고리는 bps 단위로 변동 표시
+    const isYield = idx.category === '금리';
+    const bpsStr = b => (b > 0 ? '+' : '') + Math.round(b) + 'bps';
+    let ytdLine, dailyLine;
+    if (isYield) {
+      const ytdBps = (idx.baseline != null && idx.current != null)
+        ? (idx.current - idx.baseline) * 100 : null;
+      const dailyBps = (day != null && idx.current != null)
+        ? idx.current * day / (100 + day) * 100 : null;
+      ytdLine = `<div class="ytd ${ytdCls}">${arrow} YTD ${ytdBps != null ? bpsStr(ytdBps) : '—'}</div>`;
+      dailyLine = `<div class="daily ${dayCls}">Δ ${dailyBps != null ? bpsStr(dailyBps) : '—'}</div>`;
+    } else {
+      ytdLine = `<div class="ytd ${ytdCls}">${arrow} YTD ${fmtPct(ytd, 2)}</div>`;
+      dailyLine = `<div class="daily ${dayCls}">Δ ${fmtPct(day, 2)}</div>`;
+    }
     // PER / PBR / ROE
     const val = idx.valuation || {};
     const has = val.pe != null || val.pb != null || val.roe != null;
@@ -2768,9 +2783,9 @@ function renderBenchmarks() {
     return `
       <div class="bench" title="${idx.ticker} · 기준 ${Number(idx.baseline).toLocaleString('ko-KR',{maximumFractionDigits:2})}">
         <div class="name">${idx.name}</div>
-        <div class="value">${cur}</div>
-        <div class="ytd ${ytdCls}">${arrow} YTD ${fmtPct(ytd, 2)}</div>
-        <div class="daily ${dayCls}">Δ ${fmtPct(day, 2)}</div>
+        <div class="value">${cur}${isYield ? '%' : ''}</div>
+        ${ytdLine}
+        ${dailyLine}
         ${valRow}
         <div class="asof">${idx.as_of || ''}</div>
       </div>
