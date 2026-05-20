@@ -46,18 +46,24 @@ def derive_key(password: str, salt: bytes) -> bytes:
     return kdf.derive(password.encode("utf-8"))
 
 
+def _clean(s: str) -> str:
+    """공백 + BOM(U+FEFF) 제거. str.strip()은 BOM을 제거하지 못함."""
+    return s.lstrip("﻿").strip().lstrip("﻿")
+
+
 def get_password(arg: str | None) -> str:
     if arg:
-        return arg.strip()
+        return _clean(arg)
     env = os.environ.get("PORTFOLIO_PASSWORD")
     if env:
-        return env.strip()
+        return _clean(env)
     if PW_FILE.exists():
-        return PW_FILE.read_text(encoding="utf-8").strip()
+        # utf-8-sig: BOM 자동 제거 (Windows에서 Notepad로 저장 시 BOM 흔함)
+        return _clean(PW_FILE.read_text(encoding="utf-8-sig"))
     pw = getpass.getpass("비밀번호: ")
     if not pw:
         sys.exit("비밀번호가 비어 있습니다.")
-    return pw.strip()
+    return _clean(pw)
 
 
 def encrypt(password: str) -> None:
