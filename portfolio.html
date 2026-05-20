@@ -267,6 +267,59 @@
   }
   .hidden { display: none !important; }
 
+  /* ===== 지수 1년 차트 모달 ===== */
+  .chart-modal {
+    position: fixed; inset: 0;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .chart-modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(2px);
+  }
+  .chart-modal-box {
+    position: relative;
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 20px 22px;
+    width: 100%; max-width: 900px;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  }
+  .chart-modal-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .chart-modal-head .ttl { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+  .chart-modal-head .sub { font-size: 11px; color: var(--muted); }
+  .chart-modal-head .close {
+    border: 1px solid var(--border); background: #fff; cursor: pointer;
+    width: 30px; height: 30px; border-radius: 6px; font-size: 18px;
+    color: var(--muted); line-height: 1;
+  }
+  .chart-modal-head .close:hover { color: var(--text); border-color: var(--text-soft); }
+  .chart-modal-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 8px; margin-bottom: 14px;
+  }
+  .chart-modal-stats .s {
+    background: #fafbfc; border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .chart-modal-stats .s .l {
+    font-size: 10px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.04em; font-weight: 600;
+  }
+  .chart-modal-stats .s .v {
+    font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px;
+  }
+  .chart-modal-canvas-wrap { position: relative; height: 380px; }
+  .bench { cursor: pointer; }
+
   /* ===== KPI 기준 토글 ===== */
   .kpi-basis-toggle {
     display: flex; align-items: center; gap: 8px;
@@ -778,6 +831,24 @@
     <div class="drop" id="drop">
       <h2>포트폴리오 엑셀을 드래그하거나 클릭해 업로드</h2>
       <div>지역(한국/미국/유럽/글로벌/이머징), 매입가, 장부가, 시가, 변동성, 종목비중 컬럼 인식 · 금액 단위 억원</div>
+    </div>
+  </div>
+
+  <!-- 1년 차트 모달 -->
+  <div id="chartModal" class="chart-modal hidden">
+    <div class="chart-modal-backdrop"></div>
+    <div class="chart-modal-box">
+      <div class="chart-modal-head">
+        <div>
+          <div class="ttl" id="chartModalTitle">지수 차트</div>
+          <div class="sub" id="chartModalSub"></div>
+        </div>
+        <button class="close" id="chartModalClose" type="button">✕</button>
+      </div>
+      <div class="chart-modal-stats" id="chartModalStats"></div>
+      <div class="chart-modal-canvas-wrap">
+        <canvas id="chartModalCanvas"></canvas>
+      </div>
     </div>
   </div>
 
@@ -2781,7 +2852,7 @@ function renderBenchmarks() {
         ${val.roe != null ? `<br><span class="v-key">ROE</span> <span class="v-val">${val.roe.toFixed(1)}%</span>` : ''}
       </div>` : '';
     return `
-      <div class="bench" title="${idx.ticker} · 기준 ${Number(idx.baseline).toLocaleString('ko-KR',{maximumFractionDigits:2})}">
+      <div class="bench" data-name="${idx.name.replace(/"/g, '&quot;')}" title="${idx.ticker} · 클릭하여 1년 차트 보기">
         <div class="name">${idx.name}</div>
         <div class="value">${cur}${isYield ? '%' : ''}</div>
         ${ytdLine}
@@ -2805,7 +2876,120 @@ function renderBenchmarks() {
       </div>
     </div>
   `).join('');
+
+  // 카드 클릭 → 1년 차트 모달
+  wrap.querySelectorAll('.bench').forEach(el => {
+    el.addEventListener('click', () => {
+      const name = el.dataset.name;
+      const idx = b.indices.find(i => i.name === name);
+      if (idx) showIndexChart(idx);
+    });
+  });
 }
+
+let _indexChart = null;
+function showIndexChart(idx) {
+  const modal = document.getElementById('chartModal');
+  const titleEl = document.getElementById('chartModalTitle');
+  const subEl = document.getElementById('chartModalSub');
+  const statsEl = document.getElementById('chartModalStats');
+  const canvas = document.getElementById('chartModalCanvas');
+  if (!modal || !canvas) return;
+
+  titleEl.textContent = `${idx.name} — 1년 차트`;
+  subEl.textContent = `${idx.ticker} · ${idx.category || ''}`;
+
+  const h = idx.history;
+  if (!h || !h.dates || !h.values || h.values.length < 2) {
+    statsEl.innerHTML = '<div style="grid-column:1/-1;padding:8px;color:var(--muted);font-size:12px">차트 데이터 없음 (수동 입력 항목 또는 미수집)</div>';
+    if (_indexChart) { _indexChart.destroy(); _indexChart = null; }
+    modal.classList.remove('hidden');
+    return;
+  }
+  const v = h.values, d = h.dates;
+  const first = v[0], last = v[v.length - 1];
+  const min = Math.min(...v), max = Math.max(...v);
+  const yearChg = (last / first - 1) * 100;
+  const minIdx = v.indexOf(min), maxIdx = v.indexOf(max);
+  const dec = idx.decimals ?? 2;
+  const fmtN = n => n.toLocaleString('ko-KR', { maximumFractionDigits: dec, minimumFractionDigits: dec });
+  const isYield = idx.category === '금리';
+  const suffix = isYield ? '%' : '';
+
+  const stat = (l, v, c = '') => `<div class="s"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
+  statsEl.innerHTML = [
+    stat('1년 변동', (yearChg >= 0 ? '+' : '') + yearChg.toFixed(2) + '%', cls(yearChg)),
+    stat('현재', fmtN(last) + suffix),
+    stat('최고', fmtN(max) + suffix + ` (${d[maxIdx].slice(5)})`),
+    stat('최저', fmtN(min) + suffix + ` (${d[minIdx].slice(5)})`),
+    stat('1년 전', fmtN(first) + suffix + ` (${d[0]})`),
+  ].join('');
+
+  if (_indexChart) _indexChart.destroy();
+  const colorPositive = yearChg >= 0;
+  _indexChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: d,
+      datasets: [{
+        label: idx.name,
+        data: v,
+        borderColor: colorPositive ? '#2563eb' : '#dc2626',
+        backgroundColor: colorPositive ? 'rgba(37, 99, 235, 0.10)' : 'rgba(220, 38, 38, 0.08)',
+        fill: true,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        borderWidth: 2,
+        tension: 0.15,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: ctx => ctx[0].label,
+            label: ctx => `${idx.name}: ${fmtN(ctx.parsed.y)}${suffix}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 8,
+            callback: function (val) { const dd = this.getLabelForValue(val); return dd ? dd.slice(2, 7) : ''; },
+          },
+          grid: { display: false },
+        },
+        y: {
+          ticks: { callback: val => fmtN(val) + suffix },
+          grid: { color: 'rgba(148, 163, 184, 0.15)' },
+        },
+      },
+    },
+  });
+
+  modal.classList.remove('hidden');
+}
+
+function closeChartModal() {
+  document.getElementById('chartModal').classList.add('hidden');
+  if (_indexChart) { _indexChart.destroy(); _indexChart = null; }
+}
+// 닫기 버튼/배경 클릭/ESC
+document.addEventListener('DOMContentLoaded', () => {
+  const m = document.getElementById('chartModal');
+  if (m) {
+    m.querySelector('.chart-modal-backdrop')?.addEventListener('click', closeChartModal);
+    document.getElementById('chartModalClose')?.addEventListener('click', closeChartModal);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !m.classList.contains('hidden')) closeChartModal();
+    });
+  }
+});
 
 function renderKPIs() {
   const h = viewHoldings;
