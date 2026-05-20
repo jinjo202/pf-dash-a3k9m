@@ -1108,6 +1108,25 @@
         금액 단위는 <strong>억원</strong>, 1,000억 이상은 조원으로 환산 표기.
       </div>
     </div>
+
+    <!-- 매매내역 패널 -->
+    <div class="panel" style="margin-top:16px">
+      <h3>매매내역 (YTD)</h3>
+      <div id="tradesSummary" class="backtest-metrics"></div>
+      <div class="toolbar" id="tradesFilter" style="margin-top:14px">
+        <span class="chip active" data-tf="all">전체</span>
+        <span class="chip" data-tf="buy">매입</span>
+        <span class="chip" data-tf="sell">매도</span>
+      </div>
+      <div class="table-scroll">
+        <table id="tradesTable"></table>
+      </div>
+      <div class="footer-note">
+        ※ 거래대금 단위는 <strong>억원</strong> · 거래통화는 원본 (USD/KRW/EUR).
+        매도 금액은 시가 기준 처분 금액.<br>
+        ⚠️ 5/13 이후 거래(예: KoAct 바이오 5/18 매도 76.8억)는 portfolio 매입가에 자동 반영되지 않음 — 필요 시 알려주세요.
+      </div>
+    </div>
   </div>
 </main>
 
@@ -1165,6 +1184,7 @@ let alphaSortKey = 'alpha';    // 알파 분해 정렬 기준
 let alphaSortDir = 'desc';     // 'asc' | 'desc'
 let holdingsSortKey = 'w';      // 보유종목 상세 정렬 기준 컬럼
 let holdingsSortDir = 'desc';   // 'asc' | 'desc'
+let tradesFilter = 'all';        // 'all' | 'buy' | 'sell'
 
 // 벤치마크 프리셋 (KOSPI-우선 표기)
 const BM_PRESETS = {
@@ -1702,6 +1722,7 @@ function num(v) {
 
 function render() {
   renderBenchmarks();
+  renderTrades();
   renderBacktest();
   renderRiskMetrics();
   renderAttributionSummary();
@@ -2784,6 +2805,95 @@ function renderBrinsonAttribution() {
     </tbody>
   `;
   tableEl.innerHTML = html;
+}
+
+function renderTrades() {
+  const tableEl = document.getElementById('tradesTable');
+  const sumEl = document.getElementById('tradesSummary');
+  const trades = (portfolioData && portfolioData.trades) || [];
+  if (!tableEl) return;
+  if (!trades.length) {
+    sumEl.innerHTML = '<div style="color:var(--muted);padding:8px">매매내역 데이터 없음</div>';
+    tableEl.innerHTML = '';
+    return;
+  }
+  // 종목별 집계
+  const agg = {};
+  for (const t of trades) {
+    agg[t.name] = agg[t.name] || { buy: 0, sell: 0, count: 0, region: '' };
+    agg[t.name][t.type] += t.amount;
+    agg[t.name].count += 1;
+    const h = allHoldings.find(x => x.name === t.name);
+    if (h) agg[t.name].region = h.region;
+  }
+  const totalBuy = trades.filter(t => t.type === 'buy').reduce((s, t) => s + t.amount, 0);
+  const totalSell = trades.filter(t => t.type === 'sell').reduce((s, t) => s + t.amount, 0);
+  const net = totalBuy - totalSell;
+  const buyCount = trades.filter(t => t.type === 'buy').length;
+  const sellCount = trades.filter(t => t.type === 'sell').length;
+  const dates = trades.map(t => t.date).sort();
+
+  const card = (l, v, k = '', c = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
+  sumEl.innerHTML = [
+    card('총 거래 건수', `${trades.length}건`, 'pf'),
+    card('매입 건수', `${buyCount}건`, 'pf', 'pos'),
+    card('매도 건수', `${sellCount}건`, 'pf', 'neg'),
+    card('매입 합계', fmtAmtBig(totalBuy), 'pf', 'pos'),
+    card('매도 합계', fmtAmtBig(totalSell), 'pf', 'neg'),
+    card('순 매수', fmtAmtBig(net), 'alpha', cls(net)),
+  ].join('');
+
+  // 필터링된 내역 (시간 역순 — 최근 먼저)
+  let list = [...trades];
+  if (tradesFilter === 'buy') list = list.filter(t => t.type === 'buy');
+  if (tradesFilter === 'sell') list = list.filter(t => t.type === 'sell');
+  list.sort((a, b) => b.date.localeCompare(a.date));
+
+  // 거래 테이블
+  const html = `
+    <thead>
+      <tr>
+        <th>날짜</th><th>지역</th><th>종목명</th>
+        <th>유형</th><th>통화</th>
+        <th>금액 (억원)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${list.map(t => {
+        const h = allHoldings.find(x => x.name === t.name);
+        const reg = h ? h.region : '';
+        const typeLabel = t.type === 'buy'
+          ? '<span style="color:var(--pos);font-weight:600">매입</span>'
+          : '<span style="color:var(--neg);font-weight:600">매도</span>';
+        const sign = t.type === 'buy' ? '+' : '−';
+        const amtCls = t.type === 'buy' ? 'pos' : 'neg';
+        return `
+          <tr>
+            <td>${t.date.slice(5)}</td>
+            <td>${reg ? `<span class="region-pill" data-r="${reg}">${reg}</span>` : ''}</td>
+            <td>${t.name}</td>
+            <td>${typeLabel}</td>
+            <td style="color:var(--muted);font-size:11px">${t.currency || ''}</td>
+            <td class="${amtCls}" style="font-weight:600">${sign} ${fmt(t.amount, 2)}</td>
+          </tr>
+        `;
+      }).join('')}
+    </tbody>
+  `;
+  tableEl.innerHTML = html;
+
+  // 필터 칩 핸들러 (1회만)
+  const filterEl = document.getElementById('tradesFilter');
+  if (filterEl && !filterEl._wired) {
+    filterEl._wired = true;
+    filterEl.querySelectorAll('.chip').forEach(c => {
+      c.addEventListener('click', () => {
+        tradesFilter = c.dataset.tf;
+        filterEl.querySelectorAll('.chip').forEach(o => o.classList.toggle('active', o === c));
+        renderTrades();
+      });
+    });
+  }
 }
 
 function renderBenchmarks() {
