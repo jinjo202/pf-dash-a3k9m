@@ -2,9 +2,13 @@ name: Daily Portfolio Update
 
 on:
   schedule:
-    # 매일 두 번 실행
-    - cron: '0 22 * * *'   # 22:00 UTC = 07:00 KST (다음날 아침, 미국장 마감 후)
-    - cron: '35 6 * * *'   # 06:35 UTC = 15:35 KST (한국 KOSPI 마감 직후)
+    # GitHub Actions cron은 정시 분이 자주 지연/스킵됨. 분 단위 fragmented 사용.
+    # KOSPI 마감 직후 (15:35 KST 전후) — 여러 번 시도해 신뢰성 확보
+    - cron: '43 6 * * *'    # 06:43 UTC = 15:43 KST
+    - cron: '17 7 * * *'    # 07:17 UTC = 16:17 KST (안전망)
+    # 미국장 마감 후 (07:00 KST = 22:00 UTC 전날)
+    - cron: '7 22 * * *'    # 22:07 UTC = 07:07 KST (다음날)
+    - cron: '23 23 * * *'   # 23:23 UTC = 08:23 KST (안전망)
   workflow_dispatch:  # 수동 실행 가능
 
 permissions:
