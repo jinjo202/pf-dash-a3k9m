@@ -3759,27 +3759,15 @@ function sum(arr) {
 }
 
 // ── YTD 수익률 (Modified Dietz) + 실현/미실현 분해 ─────────────
-// start_2026 : 2026/1/1 시작 시가 (없으면 book fallback)
-// ytd_buy/sell : 2026년 중 매매 (억원, 누적)
-//
-// 분해 (평균원가 방식 — per-share 수량이 없어 가치비율로 cost 분배):
-//   cost  = start + buy                 (YTD 총 투입 cost)
-//   endV  = mkt   + sell                (YTD 총 처분/평가 가치)
-//   costSold = cost × sell/endV         (매각된 cost — 평균비율)
-//   costRem  = cost - costSold          (보유 잔여 cost)
-//   realized   = sell - costSold        ← 매각이익 (실현)
-//   unrealized = mkt  - costRem         ← 평가손익 (미실현, YTD baseline 기준)
-//   total      = realized + unrealized  = mkt + sell - start - buy
+// 한국식 평균매입가 회계 (xlsx Sheet1 5/13 장부가 ground truth + post-5/13 매매 반영):
+//   book_basis : 현재 보유분의 cost basis (장부가)
+//   cost_sold  : YTD 중 매도된 부분의 cost basis = (start + buy) - book_basis
+//   realized   = ytd_sell - cost_sold     ← 매각이익 (실현)
+//   unrealized = mkt      - book_basis    ← 평가손익 (미실현)
+//   total      = realized + unrealized    = mkt + sell - start - buy
 // 수익률:
-//   base = start + 0.5 × (buy - sell)   ← Modified Dietz 평균투입자본
+//   base = start + 0.5 × (buy - sell)     ← Modified Dietz 평균투입자본
 //   pct  = total / base × 100  (base > 0 일 때만)
-function _split(cost, sell, mkt) {
-  const endV = mkt + sell;
-  if (sell <= 0) return { costSold: 0,    costRem: cost };
-  if (endV <= 0) return { costSold: cost, costRem: 0 };
-  const costSold = cost * (sell / endV);
-  return { costSold, costRem: cost - costSold };
-}
 function ytdMetrics(x) {
   const start = (x && x.start_2026 != null) ? x.start_2026 : ((x && x.book) || 0);
   const buy   = (x && x.ytd_buy)  || 0;
@@ -3787,7 +3775,18 @@ function ytdMetrics(x) {
   const mkt   = (x && x.mkt) || 0;
   const netCf = buy - sell;
   const cost  = start + buy;
-  const { costSold, costRem } = _split(cost, sell, mkt);
+  // book_basis가 데이터에 있으면 사용 (한국식 장부가 ground truth), 없으면 fallback
+  let costRem, costSold;
+  if (x && x.book_basis != null) {
+    costRem  = x.book_basis;
+    costSold = cost - costRem;
+  } else if (sell > 0 && (mkt + sell) > 0) {
+    // fallback: 평균원가 비례 분배
+    costSold = cost * sell / (mkt + sell);
+    costRem  = cost - costSold;
+  } else {
+    costSold = 0; costRem = cost;
+  }
   const realized   = sell - costSold;
   const unrealized = mkt  - costRem;
   const pnl        = realized + unrealized;
