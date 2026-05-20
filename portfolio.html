@@ -683,6 +683,7 @@
   .bench .name { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
   .bench .value { font-size: 17px; font-weight: 700; letter-spacing: -0.025em; color: var(--text); margin-top: 2px; }
   .bench .ytd { font-size: 12px; font-weight: 600; }
+  .bench .mtd { font-size: 11px; font-weight: 600; }
   .bench .daily { font-size: 10px; color: var(--muted); margin-top: 1px; }
   .bench .val-row {
     font-size: 9px; color: var(--muted); margin-top: 3px;
@@ -2830,16 +2831,22 @@ function renderBenchmarks() {
     // 금리 카테고리는 bps 단위로 변동 표시
     const isYield = idx.category === '금리';
     const bpsStr = b => (b > 0 ? '+' : '') + Math.round(b) + 'bps';
-    let ytdLine, dailyLine;
+    const mtd = idx.mtd_pct;
+    const mtdCls = mtd == null ? '' : (mtd > 0 ? 'pos' : mtd < 0 ? 'neg' : '');
+    let ytdLine, mtdLine, dailyLine;
     if (isYield) {
       const ytdBps = (idx.baseline != null && idx.current != null)
         ? (idx.current - idx.baseline) * 100 : null;
+      const mtdBps = (idx.mtd_baseline != null && idx.current != null)
+        ? (idx.current - idx.mtd_baseline) * 100 : null;
       const dailyBps = (day != null && idx.current != null)
         ? idx.current * day / (100 + day) * 100 : null;
       ytdLine = `<div class="ytd ${ytdCls}">${arrow} YTD ${ytdBps != null ? bpsStr(ytdBps) : '—'}</div>`;
+      mtdLine = `<div class="mtd ${mtdCls}">MTD ${mtdBps != null ? bpsStr(mtdBps) : '—'}</div>`;
       dailyLine = `<div class="daily ${dayCls}">Δ ${dailyBps != null ? bpsStr(dailyBps) : '—'}</div>`;
     } else {
       ytdLine = `<div class="ytd ${ytdCls}">${arrow} YTD ${fmtPct(ytd, 2)}</div>`;
+      mtdLine = `<div class="mtd ${mtdCls}">MTD ${fmtPct(mtd, 2)}</div>`;
       dailyLine = `<div class="daily ${dayCls}">Δ ${fmtPct(day, 2)}</div>`;
     }
     // PER / PBR / ROE
@@ -2856,6 +2863,7 @@ function renderBenchmarks() {
         <div class="name">${idx.name}</div>
         <div class="value">${cur}${isYield ? '%' : ''}</div>
         ${ytdLine}
+        ${mtdLine}
         ${dailyLine}
         ${valRow}
         <div class="asof">${idx.as_of || ''}</div>

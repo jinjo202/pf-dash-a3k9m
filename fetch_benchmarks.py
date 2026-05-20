@@ -28,6 +28,7 @@ MANUAL_OVERRIDES = {
         "category": "금리",
         "current": 3.30,         # 현재 yield (%) — 한국은행/금융투자협회 채권시세에서 확인 후 업데이트
         "baseline": 2.95,        # 연초(1/2) yield (%)
+        "mtd_baseline": 3.18,    # 5/1 직전 거래일 yield (%) — MTD 계산용
         "prev_close": 3.27,      # 직전 거래일 yield (%) — 일일 변동 계산용
         "as_of": "2026-05-19",   # 마지막 수동 업데이트 날짜
         "decimals": 2,
@@ -117,6 +118,19 @@ def main():
                 if not pd.isna(v):
                     baseline = float(v)
                     break
+            # MTD baseline: 이번 달 1일 직전 마지막 거래일
+            this_month_start_idx = None
+            for i, ts in enumerate(hist.index):
+                if ts.year == today.year and ts.month == today.month:
+                    this_month_start_idx = i
+                    break
+            mtd_baseline = None
+            if this_month_start_idx is not None:
+                for j in range(max(0, this_month_start_idx - 1), -1, -1):
+                    v = closes.iloc[j]
+                    if not pd.isna(v):
+                        mtd_baseline = float(v)
+                        break
             # current: 마지막 NaN 아닌 값
             current = None
             current_idx = None
@@ -130,6 +144,7 @@ def main():
                 print(f"  [miss] {name} ({ticker}) — 유효 가격 없음")
                 continue
             ytd_pct = (current / baseline - 1) * 100 if baseline > 0 else None
+            mtd_pct = (current / mtd_baseline - 1) * 100 if (mtd_baseline and mtd_baseline > 0) else None
 
             # 직전 거래일 대비 (current 바로 앞 NaN 아닌 값)
             daily_pct = None
@@ -187,7 +202,9 @@ def main():
                 "category": category,
                 "current": round(current, 4),
                 "baseline": round(baseline, 4),
+                "mtd_baseline": round(mtd_baseline, 4) if mtd_baseline else None,
                 "ytd_pct": round(ytd_pct, 4) if ytd_pct is not None else None,
+                "mtd_pct": round(mtd_pct, 4) if mtd_pct is not None else None,
                 "daily_pct": round(daily_pct, 4) if daily_pct is not None else None,
                 "as_of": asof,
                 "decimals": decimals,
@@ -202,6 +219,7 @@ def main():
     # 수동 override 적용 (Yahoo에 없는 KR 10Y 등)
     for name, m in MANUAL_OVERRIDES.items():
         ytd_pct = (m["current"] / m["baseline"] - 1) * 100 if m["baseline"] else None
+        mtd_pct = (m["current"] / m["mtd_baseline"] - 1) * 100 if m.get("mtd_baseline") else None
         daily_pct = (m["current"] / m["prev_close"] - 1) * 100 if m.get("prev_close") else None
         out["indices"].append({
             "name": name,
@@ -209,7 +227,9 @@ def main():
             "category": m["category"],
             "current": m["current"],
             "baseline": m["baseline"],
+            "mtd_baseline": m.get("mtd_baseline"),
             "ytd_pct": round(ytd_pct, 4) if ytd_pct is not None else None,
+            "mtd_pct": round(mtd_pct, 4) if mtd_pct is not None else None,
             "daily_pct": round(daily_pct, 4) if daily_pct is not None else None,
             "as_of": m["as_of"],
             "decimals": m.get("decimals", 2),
@@ -217,7 +237,7 @@ def main():
             "manual": True,
         })
         print(f"  [수동] {name:18s} {m['ticker']:10s} {m['current']:>8.2f}  "
-              f"YTD {ytd_pct:+5.2f}%  Δ {daily_pct:+5.2f}% (as of {m['as_of']})")
+              f"YTD {ytd_pct:+5.2f}%  MTD {mtd_pct:+5.2f}%  Δ {daily_pct:+5.2f}% (as of {m['as_of']})")
 
     OUT.write_text(
         "// 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.\n"
