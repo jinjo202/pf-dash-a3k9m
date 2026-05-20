@@ -3116,8 +3116,10 @@ function renderKPIs() {
   const totalBook = sum(h.filter(x => x.book && x.book > 0).map(x => x.book));
   const pnlCum = totalMkt - totalBuy;
   const pnlCumPct = totalBuy > 0 ? (pnlCum / totalBuy) * 100 : null;
-  const pnlYtd = totalMkt - totalBook;
-  const pnlYtdPct = totalBook > 0 ? (pnlYtd / totalBook) * 100 : null;
+  // YTD: 1/1/2026 시작가치 + 연중 매매 (Modified Dietz)
+  const ytdA = ytdAgg(h);
+  const pnlYtd = ytdA.pnl;
+  const pnlYtdPct = ytdA.pct;
   const totalWeight = sum(h.map(x => x.w));
   const w260 = weighted(h, 'v260', 'w');
   const w90 = weighted(h, 'v90', 'w');
@@ -3136,19 +3138,22 @@ function renderKPIs() {
 
   // 기준 (YTD 디폴트) — basisMode = 'cum' | 'ytd'
   const isYtd = basisMode === 'ytd';
-  const baseAmt    = isYtd ? totalBook   : totalBuy;
   const basePnl    = isYtd ? pnlYtd      : pnlCum;
   const basePnlPct = isYtd ? pnlYtdPct   : pnlCumPct;
-  const baseLabel  = isYtd ? '총 매입금액 (YTD)'  : '총 매입금액 (누적)';
-  const baseSub    = isYtd ? '연초 장부가 기준'    : '매입 시점 취득원가';
-  const pnlLabel   = isYtd ? 'YTD 평가손익'        : '누적 평가손익';
+  // YTD 모드는 1/1 시작가치 기준; 누적 모드는 매입가 기준
+  const baseAmtForUI = isYtd ? ytdA.start : totalBuy;
+  const baseLabel  = isYtd ? '1/1/2026 시작가치'  : '총 매입금액 (누적)';
+  const baseSub    = isYtd
+    ? `YTD 순투입 ${fmtAmtBig(ytdA.netCf)} (매입 ${fmtAmtBig(ytdA.buy)} / 매도 ${fmtAmtBig(ytdA.sell)})`
+    : '매입 시점 취득원가';
+  const pnlLabel   = isYtd ? 'YTD 평가손익 (Mod.Dietz)' : '누적 평가손익';
   const pnlSub     = basePnlPct != null
-    ? fmtPct(basePnlPct) + (isYtd ? ' (장부가 대비)' : ' (매입가 대비)')
+    ? fmtPct(basePnlPct) + (isYtd ? ` (평균투입 ${fmtAmtBig(ytdA.base)})` : ' (매입가 대비)')
     : '-';
 
   const kpis = [
     { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `현재 보유 ${owned}개 종목` },
-    { label: baseLabel, value: fmtAmtBig(baseAmt), sub: baseSub },
+    { label: baseLabel, value: fmtAmtBig(baseAmtForUI), sub: baseSub },
     { label: pnlLabel,  value: fmtAmtBig(basePnl), sub: pnlSub, cls: cls(basePnl) },
     // ── 금일 (가장 최신 마감된 시장만 합산) ─────────────────────
     {
@@ -3218,14 +3223,17 @@ function regionAgg() {
     const buy = sum(items.filter(x => x.buy && x.buy > 0).map(x => x.buy));
     const book = sum(items.filter(x => x.book && x.book > 0).map(x => x.book));
     const ownedCount = items.filter(x => x.mkt > 0).length;
+    const yA = ytdAgg(items);
     out.push({
       region: r,
       count: ownedCount,
       mkt, buy, book,
       pnlCum: mkt - buy,
       pnlCumPct: buy > 0 ? ((mkt - buy) / buy) * 100 : null,
-      pnlYtd: mkt - book,
-      pnlYtdPct: book > 0 ? ((mkt - book) / book) * 100 : null,
+      // YTD: Modified Dietz (start_2026 baseline + ytd cashflow)
+      start: yA.start, ytdBuy: yA.buy, ytdSell: yA.sell, netCf: yA.netCf,
+      pnlYtd: yA.pnl,
+      pnlYtdPct: yA.pct,
       weight: sum(items.map(x => x.w)),
       v260: weighted(items, 'v260', 'w'),
       v90: weighted(items, 'v90', 'w')
@@ -3239,6 +3247,7 @@ function regionAgg() {
 
 function renderRegionTable() {
   const rows = regionAgg();
+  const yA = ytdAgg(viewHoldings);
   const tot = {
     mkt: sum(rows.map(r => r.mkt)),
     buy: sum(rows.map(r => r.buy)),
@@ -3249,8 +3258,9 @@ function renderRegionTable() {
   };
   tot.pnlCum = tot.mkt - tot.buy;
   tot.pnlCumPct = tot.buy > 0 ? (tot.pnlCum / tot.buy) * 100 : null;
-  tot.pnlYtd = tot.mkt - tot.book;
-  tot.pnlYtdPct = tot.book > 0 ? (tot.pnlYtd / tot.book) * 100 : null;
+  // YTD: Modified Dietz
+  tot.pnlYtd = yA.pnl;
+  tot.pnlYtdPct = yA.pct;
 
   const html = `
     <thead>
@@ -3260,7 +3270,7 @@ function renderRegionTable() {
         <th rowspan="2">매입가 (억원)</th>
         <th rowspan="2">장부가 (억원)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
-        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (Mod.Dietz)</th>
         <th rowspan="2">비중</th>
         <th rowspan="2">가중 260D</th>
         <th rowspan="2">가중 90D</th>
@@ -3508,8 +3518,10 @@ function renderHoldingsSummary(h) {
   const tMkt  = sum(h.map(x => x.mkt));
   const pnlCum = (tMkt != null && tBuy != null)  ? tMkt - tBuy  : null;
   const pnlCumPct = (tBuy && tBuy > 0)  ? (pnlCum / tBuy)  * 100 : null;
-  const pnlYtd    = (tMkt != null && tBook != null) ? tMkt - tBook : null;
-  const pnlYtdPct = (tBook && tBook > 0) ? (pnlYtd / tBook) * 100 : null;
+  // YTD: Modified Dietz (1/1/2026 시작가치 + 연중 매매 반영)
+  const ytdA = ytdAgg(h);
+  const pnlYtd    = ytdA.pnl;
+  const pnlYtdPct = ytdA.pct;
   const todayItems = h.filter(x => x.daily_close_date === effDate && x.daily_pnl != null);
   const dailyPnl  = todayItems.length > 0 ? sum(todayItems.map(x => x.daily_pnl)) : null;
   const dailyBase = todayItems.length > 0 ? sum(todayItems.map(x => x.mkt - x.daily_pnl)) : null;
@@ -3531,9 +3543,9 @@ function renderHoldingsSummary(h) {
       <div class="sub ${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</div>
     </div>
     <div class="stat ytd">
-      <div class="lbl">YTD 손익 (장부가 대비)</div>
+      <div class="lbl">YTD 손익 (Mod.Dietz)</div>
       <div class="val ${cls(pnlYtd)}">${fmtAmtBig(pnlYtd)}</div>
-      <div class="sub ${cls(pnlYtdPct)}">${fmtPct(pnlYtdPct)}</div>
+      <div class="sub ${cls(pnlYtdPct)}" title="1/1 시작 ${fmtAmtBig(ytdA.start)} · 순투입 ${fmtAmtBig(ytdA.netCf)} · 평균투입 ${fmtAmtBig(ytdA.base)}">${fmtPct(pnlYtdPct)}</div>
     </div>
     <div class="stat daily">
       <div class="lbl">금일 손익 (${todayShort()})</div>
@@ -3559,8 +3571,8 @@ function renderHoldings() {
     mkt:       (a, b) => (a.mkt || 0) - (b.mkt || 0),
     pnlCum:    (a, b) => ((a.mkt - a.buy) || 0) - ((b.mkt - b.buy) || 0),
     pnlCumPct: (a, b) => ((a.buy > 0 ? (a.mkt - a.buy) / a.buy : 0) - (b.buy > 0 ? (b.mkt - b.buy) / b.buy : 0)),
-    pnlYtd:    (a, b) => ((a.mkt - a.book) || 0) - ((b.mkt - b.book) || 0),
-    pnlYtdPct: (a, b) => ((a.book > 0 ? (a.mkt - a.book) / a.book : 0) - (b.book > 0 ? (b.mkt - b.book) / b.book : 0)),
+    pnlYtd:    (a, b) => (ytdMetrics(a).pnl - ytdMetrics(b).pnl),
+    pnlYtdPct: (a, b) => ((ytdMetrics(a).pct || -9e9) - (ytdMetrics(b).pct || -9e9)),
     daily:     (a, b) => (a.daily_pnl || 0) - (b.daily_pnl || 0),
     dailyPct:  (a, b) => (a.daily_chg_pct || 0) - (b.daily_chg_pct || 0),
     v260:      (a, b) => (a.v260 || 0) - (b.v260 || 0),
@@ -3590,7 +3602,7 @@ function renderHoldings() {
         ${sh2('book', '장부가', 'rowspan="2"')}
         ${sh2('mkt', '시가', 'rowspan="2"')}
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
-        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">YTD (장부가 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (Mod.Dietz)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">${dailyHeader}</th>
         ${sh2('v260', '260D', 'rowspan="2"')}
         ${sh2('v90', '90D', 'rowspan="2"')}
@@ -3608,8 +3620,11 @@ function renderHoldings() {
       ${h.map(x => {
         const pnlCum    = x.mkt != null && x.buy  != null ? x.mkt - x.buy  : null;
         const pnlCumPct = (x.buy  && x.buy  > 0)  ? (pnlCum / x.buy)  * 100 : null;
-        const pnlYtd    = x.mkt != null && x.book != null ? x.mkt - x.book : null;
-        const pnlYtdPct = (x.book && x.book > 0) ? (pnlYtd / x.book) * 100 : null;
+        // YTD: Modified Dietz per-holding
+        const yM        = ytdMetrics(x);
+        const pnlYtd    = yM.pnl;
+        const pnlYtdPct = yM.pct;
+        const ytdTip    = `1/1 시작 ${fmt(yM.start, 2)} · 매입 ${fmt(yM.buy, 2)} · 매도 ${fmt(yM.sell, 2)} · 평균투입 ${fmt(yM.base, 2)}`;
         const todayOK   = x.daily_close_date === today && x.daily_pnl != null;
         const dPnl      = todayOK ? x.daily_pnl : null;
         const dPct      = todayOK ? x.daily_chg_pct : null;
@@ -3624,8 +3639,8 @@ function renderHoldings() {
             <td>${fmt(x.mkt, 2)}</td>
             <td class="${cls(pnlCum)}">${fmt(pnlCum, 2)}</td>
             <td class="${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</td>
-            <td class="${cls(pnlYtd)}">${fmt(pnlYtd, 2)}</td>
-            <td class="${cls(pnlYtdPct)}">${fmtPct(pnlYtdPct)}</td>
+            <td class="${cls(pnlYtd)}" title="${ytdTip}">${fmt(pnlYtd, 2)}</td>
+            <td class="${cls(pnlYtdPct)}" title="${ytdTip}">${fmtPct(pnlYtdPct)}</td>
             <td class="${cls(dPnl)}" ${stale}>${todayOK ? fmt(dPnl, 2) : '<span style="color:#cbd5e1">—</span>'}</td>
             <td class="${cls(dPct)}" ${stale}>${todayOK ? fmtPct(dPct) : '<span style="color:#cbd5e1">—</span>'}</td>
             <td>${fmt(x.v260, 1)}</td>
@@ -3642,8 +3657,11 @@ function renderHoldings() {
         const tMkt  = sum(h.map(x => x.mkt));
         const tPnlCum = (tMkt != null && tBuy != null)  ? tMkt - tBuy  : null;
         const tPnlCumPct = (tBuy && tBuy > 0)  ? (tPnlCum / tBuy)  * 100 : null;
-        const tPnlYtd    = (tMkt != null && tBook != null) ? tMkt - tBook : null;
-        const tPnlYtdPct = (tBook && tBook > 0) ? (tPnlYtd / tBook) * 100 : null;
+        // YTD: Modified Dietz
+        const tYA        = ytdAgg(h);
+        const tPnlYtd    = tYA.pnl;
+        const tPnlYtdPct = tYA.pct;
+        const tYtdTip    = `1/1 시작 ${fmt(tYA.start, 2)} · 매입 ${fmt(tYA.buy, 2)} · 매도 ${fmt(tYA.sell, 2)} · 평균투입 ${fmt(tYA.base, 2)}`;
         // 금일: 오늘 종가 반영된 종목만
         const todayItems = h.filter(x => x.daily_close_date === today && x.daily_pnl != null);
         const tDailyPnl = todayItems.length > 0 ? sum(todayItems.map(x => x.daily_pnl)) : null;
@@ -3665,8 +3683,8 @@ function renderHoldings() {
             <td>${fmt(tMkt, 2)}</td>
             <td class="${cls(tPnlCum)}">${fmt(tPnlCum, 2)}</td>
             <td class="${cls(tPnlCumPct)}">${fmtPct(tPnlCumPct)}</td>
-            <td class="${cls(tPnlYtd)}">${fmt(tPnlYtd, 2)}</td>
-            <td class="${cls(tPnlYtdPct)}">${fmtPct(tPnlYtdPct)}</td>
+            <td class="${cls(tPnlYtd)}" title="${tYtdTip}">${fmt(tPnlYtd, 2)}</td>
+            <td class="${cls(tPnlYtdPct)}" title="${tYtdTip}">${fmtPct(tPnlYtdPct)}</td>
             <td class="${cls(tDailyPnl)}">${tDailyPnl == null ? '—' : fmt(tDailyPnl, 2)} ${dailyNote}</td>
             <td class="${cls(tDailyPct)}">${tDailyPct == null ? '—' : fmtPct(tDailyPct)}</td>
             <td>${fmt(tV260, 1)}</td>
@@ -3709,6 +3727,38 @@ function sum(arr) {
     if (v != null && !isNaN(v)) { s += v; any = true; }
   }
   return any ? s : null;
+}
+
+// ── YTD 수익률 (Modified Dietz) ─────────────────────────────
+// start_2026 : 2026/1/1 시작 시가 (없으면 book fallback)
+// ytd_buy/sell : 2026년 중 매매 (억원, 누적)
+// pnl  = mkt - start - (buy - sell)
+// base = start + 0.5 * (buy - sell)   ← 평균 투입자본 (Modified Dietz)
+// pct  = pnl / base * 100   (base > 0 일 때만; 매도 우위로 음수면 null)
+function ytdMetrics(x) {
+  const start = (x && x.start_2026 != null) ? x.start_2026 : ((x && x.book) || 0);
+  const buy   = (x && x.ytd_buy)  || 0;
+  const sell  = (x && x.ytd_sell) || 0;
+  const netCf = buy - sell;
+  const mkt   = (x && x.mkt) || 0;
+  const pnl   = mkt - start - netCf;
+  const base  = start + 0.5 * netCf;
+  const pct   = base > 0 ? (pnl / base) * 100 : null;
+  return { start, buy, sell, netCf, mkt, pnl, base, pct };
+}
+function ytdAgg(items) {
+  let start = 0, buy = 0, sell = 0, mkt = 0;
+  for (const x of items) {
+    start += (x.start_2026 != null ? x.start_2026 : (x.book || 0));
+    buy   += (x.ytd_buy  || 0);
+    sell  += (x.ytd_sell || 0);
+    mkt   += (x.mkt || 0);
+  }
+  const netCf = buy - sell;
+  const pnl   = mkt - start - netCf;
+  const base  = start + 0.5 * netCf;
+  const pct   = base > 0 ? (pnl / base) * 100 : null;
+  return { start, buy, sell, netCf, mkt, pnl, base, pct };
 }
 // 가중 평균: Σ(value × weight) / Σ(weight)
 // 변동성 계산에 사용 — 종목 비중(w)을 가중치로 단순 가중 평균.
