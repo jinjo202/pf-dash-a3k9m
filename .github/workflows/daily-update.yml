@@ -19,11 +19,21 @@ on:
 permissions:
   contents: write
 
+# 같은 시점에 여러 cron이 동시 firing 시 race condition으로 인한 checkout 실패 방지.
+# 첫 번째만 실행되고 나머지는 cancel (이미 데이터 갱신됐으므로 OK).
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # rebase/pull 안전성: shallow checkout 대신 full history (push race 방지)
+          fetch-depth: 0
+          persist-credentials: true
 
       - uses: actions/setup-python@v5
         with:
@@ -78,7 +88,19 @@ jobs:
           git add portfolio-data.js prices_log.json benchmarks.js
           if git diff --staged --quiet; then
             echo "변경 없음."
-          else
-            git commit -m "auto: daily update $(date -u +%Y-%m-%d)"
-            git push
+            exit 0
           fi
+          git commit -m "auto: daily update $(date -u +%Y-%m-%d)"
+          # push race condition 대비: 충돌 시 rebase 후 재시도 (최대 3회)
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "push 성공 (attempt $attempt)"
+              exit 0
+            fi
+            echo "push 실패 — rebase 후 재시도 ($attempt/3)"
+            git fetch origin main
+            git rebase origin/main || git rebase --abort
+            sleep 5
+          done
+          echo "::error::3회 시도 후 push 실패"
+          exit 1
