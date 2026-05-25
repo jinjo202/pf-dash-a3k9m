@@ -5457,12 +5457,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1512.28,
+      "current": 1512.13,
       "baseline": 1437.91,
       "mtd_baseline": 1487.38,
-      "ytd_pct": 5.1721,
-      "mtd_pct": 1.6741,
-      "daily_pct": 0.5238,
+      "ytd_pct": 5.1617,
+      "mtd_pct": 1.664,
+      "daily_pct": 0.5138,
       "as_of": "2026-05-25",
       "decimals": 2,
       "valuation": {
@@ -5994,7 +5994,7 @@ window.BENCHMARKS = {
           1507.85,
           1499.77,
           1504.4,
-          1512.28
+          1512.13
         ]
       }
     },
