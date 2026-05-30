@@ -24,8 +24,15 @@
 />
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="portfolio-data.js"></script>
-<script src="benchmarks.js"></script>
+<!-- 캐시 무력화: portfolio-data.js / benchmarks.js는 cron에 의해 자주 바뀜.
+     쿼리스트링에 분 단위 timestamp 붙여 GitHub Pages CDN 캐시 우회. -->
+<script>
+  (function() {
+    var v = Math.floor(Date.now() / 60000);  // 분 단위로 변경
+    document.write('<script src="portfolio-data.js?v=' + v + '"></scr' + 'ipt>');
+    document.write('<script src="benchmarks.js?v=' + v + '"></scr' + 'ipt>');
+  })();
+</script>
 <style>
   :root {
     --bg: #f6f7f9;
@@ -1458,8 +1465,15 @@ function loadFromData(d) {
   portfolioData = d;
   allHoldings = d.holdings;
   viewHoldings = allHoldings;
+  // 데이터 버전 hash (캐시 디버깅용 — 사용자가 진짜 최신 데이터를 받았는지 확인 가능)
+  const hist = d.historical || {};
+  const trades = d.trades || [];
+  const histLast = (hist.dates && hist.dates.length) ? hist.dates[hist.dates.length-1] : '-';
   document.getElementById('meta').textContent =
-    `${d.portfolio_name || 'Portfolio'} · 가격 기준일 ${d.last_updated || '-'} · 현재 보유 ${allHoldings.filter(h => h.mkt > 0).length}개 종목`;
+    `${d.portfolio_name || 'Portfolio'} · 가격 기준일 ${d.last_updated || '-'} · `
+    + `${allHoldings.filter(h => h.mkt > 0).length}종목 보유 · `
+    + `historical ${histLast} (${(hist.dates||[]).length}일) · `
+    + `trades ${trades.length}건`;
   document.getElementById('gate').classList.add('hidden');
   document.getElementById('empty').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
