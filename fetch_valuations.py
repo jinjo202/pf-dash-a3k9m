@@ -76,21 +76,29 @@ def fetch_one(yt):
     try:
         info = yf.Ticker(yt).info or {}
     except Exception:
-        return {"pe": None, "pb": None, "roe": None}
-    pe = info.get("trailingPE") or info.get("forwardPE")
+        return {"pe": None, "pb": None, "roe": None, "pe_kind": None}
+    # 12개월 Forward PER 우선 (forwardPE = 향후 12M EPS 컨센서스 기반)
+    # 없으면 trailing (지난 12M 실적 EPS 기반)로 fallback
+    forward_pe = info.get("forwardPE")
+    trailing_pe = info.get("trailingPE")
+    pe = forward_pe if forward_pe is not None else trailing_pe
+    pe_kind = "fwd" if forward_pe is not None else ("ttm" if trailing_pe is not None else None)
     pb = info.get("priceToBook")
     roe = info.get("returnOnEquity")
     # sanity 필터: 비현실적 값 제거 (yfinance 데이터 오류 케이스)
     pe_v = float(pe) if pe is not None else None
     pb_v = float(pb) if pb is not None else None
     roe_v = float(roe) if roe is not None else None
-    if pe_v is not None and (pe_v <= 0 or pe_v > 300): pe_v = None
+    if pe_v is not None and (pe_v <= 0 or pe_v > 300):
+        pe_v = None
+        pe_kind = None
     if pb_v is not None and (pb_v <= 0 or pb_v > 100): pb_v = None
     if roe_v is not None and (roe_v > 3 or roe_v < -3): roe_v = None  # ±300%
     return {
         "pe": round(pe_v, 2) if pe_v else None,
         "pb": round(pb_v, 2) if pb_v else None,
         "roe": round(roe_v * 100, 2) if roe_v is not None else None,  # %
+        "pe_kind": pe_kind,  # 'fwd' = 12M forward, 'ttm' = trailing 12M
     }
 
 
@@ -108,7 +116,8 @@ def main():
             continue
         v = fetch_one(yt)
         h["valuation"] = v
-        print(f"  [{yt:12s}] {h['name'][:38]:38s}  PE={v['pe']}, PB={v['pb']}, ROE={v['roe']}%")
+        pe_lbl = f"{v['pe']}({v.get('pe_kind') or '-'})" if v['pe'] else "-"
+        print(f"  [{yt:12s}] {h['name'][:38]:38s}  PE={pe_lbl}, PB={v['pb']}, ROE={v['roe']}%")
 
     # 2. underlying별
     print("\n-- Underlying 종목 valuation --")
@@ -135,7 +144,7 @@ def main():
         need = {k: v.get(k) is None for k in ["pe", "pb", "roe"]}
         if not any(need.values()):
             continue
-        pe_ys, pe_ws_l = [], []
+        pe_ys, pe_ws_l, pe_kinds_l = [], [], []
         pb_vs_l, pb_ws_l = [], []
         roe_vs_l, roe_ws_l = [], []
         for t in tops:
@@ -145,6 +154,7 @@ def main():
             wt = t.get("weight", 0)
             if uv.get("pe") and uv["pe"] > 0:
                 pe_ys.append(1.0 / uv["pe"]); pe_ws_l.append(wt)
+                pe_kinds_l.append(uv.get("pe_kind"))
             if uv.get("pb") and uv["pb"] > 0:
                 pb_vs_l.append(uv["pb"]); pb_ws_l.append(wt)
             if uv.get("roe") is not None:
@@ -154,6 +164,14 @@ def main():
             avg_y = sum(y*w for y,w in zip(pe_ys, pe_ws_l)) / sum(pe_ws_l)
             v["pe"] = round(1.0/avg_y, 2) if avg_y > 0 else None
             v["pe_src"] = "top5"
+            # underlying의 pe_kind 다수결 (대부분 fwd면 fwd, 혼합이면 mixed)
+            kinds_present = [k for k in pe_kinds_l if k]
+            if kinds_present and all(k == "fwd" for k in kinds_present):
+                v["pe_kind"] = "fwd"
+            elif kinds_present and all(k == "ttm" for k in kinds_present):
+                v["pe_kind"] = "ttm"
+            elif kinds_present:
+                v["pe_kind"] = "mixed"
             derived["pe"] = v["pe"]
         if need["pb"] and pb_vs_l:
             v["pb"] = round(sum(x*w for x,w in zip(pb_vs_l, pb_ws_l)) / sum(pb_ws_l), 2)
@@ -195,10 +213,22 @@ def main():
     pb_port = wavg(pb_vs, pb_ws)
     roe_port = wavg(roe_vs, roe_ws)
 
+    # 포트폴리오 PE의 종류 (대부분이 fwd면 fwd로 표시; 혼합이면 mixed)
+    pe_kinds = [(h.get("valuation") or {}).get("pe_kind") for h in holdings if (h.get("valuation") or {}).get("pe")]
+    if pe_kinds and all(k == "fwd" for k in pe_kinds):
+        port_pe_kind = "fwd"
+    elif pe_kinds and all(k == "ttm" for k in pe_kinds):
+        port_pe_kind = "ttm"
+    elif pe_kinds:
+        port_pe_kind = "mixed"
+    else:
+        port_pe_kind = None
+
     data["portfolio_valuation"] = {
         "pe": round(pe_port, 2) if pe_port else None,
         "pb": round(pb_port, 2) if pb_port else None,
         "roe": round(roe_port, 2) if roe_port is not None else None,
+        "pe_kind": port_pe_kind,  # 'fwd' | 'ttm' | 'mixed'
         "coverage_pe": round(sum(pe_ws) * 100, 1),
         "coverage_pb": round(sum(pb_ws) * 100, 1),
         "coverage_roe": round(sum(roe_ws) * 100, 1),

@@ -177,21 +177,28 @@ def main():
                 pass
 
             # 밸류에이션 (대응 ETF에서 수집, 가능한 것만)
-            val = {"pe": None, "pb": None, "roe": None, "src": None}
+            # 12개월 Forward PER 우선 (없으면 trailing 12M으로 fallback)
+            val = {"pe": None, "pb": None, "roe": None, "src": None, "pe_kind": None}
             proxy = VAL_PROXY.get(ticker)
             if proxy:
                 try:
                     pinfo = yf.Ticker(proxy).info or {}
-                    pe = pinfo.get("trailingPE") or pinfo.get("forwardPE")
+                    fwd_pe = pinfo.get("forwardPE")
+                    ttm_pe = pinfo.get("trailingPE")
+                    pe = fwd_pe if fwd_pe is not None else ttm_pe
+                    pe_kind = "fwd" if fwd_pe is not None else ("ttm" if ttm_pe is not None else None)
                     pb = pinfo.get("priceToBook")
                     roe = pinfo.get("returnOnEquity")
                     # sanity 필터
-                    if pe is not None and (pe <= 0 or pe > 300): pe = None
+                    if pe is not None and (pe <= 0 or pe > 300):
+                        pe = None
+                        pe_kind = None
                     if pb is not None and (pb <= 0 or pb > 100): pb = None
                     if roe is not None and (roe > 3 or roe < -3): roe = None
                     val["pe"]  = round(float(pe), 2) if pe else None
                     val["pb"]  = round(float(pb), 2) if pb else None
                     val["roe"] = round(float(roe) * 100, 2) if roe is not None else None
+                    val["pe_kind"] = pe_kind
                     val["src"] = proxy if any([val["pe"], val["pb"], val["roe"]]) else None
                 except Exception:
                     pass

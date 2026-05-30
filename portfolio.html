@@ -3176,12 +3176,13 @@ function renderBenchmarks() {
       mtdLine = `<div class="mtd ${mtdCls}">MTD ${fmtPct(mtd, 2)}</div>`;
       dailyLine = `<div class="daily ${dayCls}">Δ ${fmtPct(day, 2)}</div>`;
     }
-    // PER / PBR / ROE
+    // PER / PBR / ROE — PE는 12M Forward 우선
     const val = idx.valuation || {};
     const has = val.pe != null || val.pb != null || val.roe != null;
+    const peLabel = val.pe_kind === 'ttm' ? 'PE(TTM)' : 'PE(Fwd)';
     const valRow = has ? `
-      <div class="val-row" title="${val.src ? '대표 ETF: ' + val.src : ''}">
-        ${val.pe != null ? `<span class="v-key">PE</span> <span class="v-val">${val.pe.toFixed(1)}</span>` : ''}
+      <div class="val-row" title="${(val.src ? '대표 ETF: ' + val.src : '') + (val.pe_kind === 'ttm' ? ' · Trailing 12M' : ' · 12M Forward 추정')}">
+        ${val.pe != null ? `<span class="v-key">${peLabel}</span> <span class="v-val">${val.pe.toFixed(1)}</span>` : ''}
         ${val.pb != null ? ` <span class="v-key">PB</span> <span class="v-val">${val.pb.toFixed(2)}</span>` : ''}
         ${val.roe != null ? `<br><span class="v-key">ROE</span> <span class="v-val">${val.roe.toFixed(1)}%</span>` : ''}
       </div>` : '';
@@ -3395,8 +3396,10 @@ function renderKPIs() {
     // ── 밸류에이션 (포트폴리오 가중 평균) ─────────────────────
     (() => {
       const v = (portfolioData && portfolioData.portfolio_valuation) || null;
+      const kind = v && v.pe_kind;
+      const kindLbl = kind === 'fwd' ? '12M Fwd' : (kind === 'ttm' ? 'TTM' : (kind === 'mixed' ? 'Mixed' : ''));
       return {
-        label: 'PER (포트폴리오)',
+        label: `PER (${kindLbl || '12M Fwd'})`,
         value: v && v.pe ? v.pe.toFixed(2) + 'x' : '—',
         sub: v ? `시가 비중 가중 (커버리지 ${v.coverage_pe}%)` : '데이터 없음',
       };
@@ -3851,7 +3854,7 @@ function renderHoldings() {
         ${sh2('v260', '260D', 'rowspan="2"')}
         ${sh2('v90', '90D', 'rowspan="2"')}
         ${sh2('w', '비중', 'rowspan="2"')}
-        ${sh2('pe', 'PER', 'rowspan="2"')}
+        ${sh2('pe', 'PER<br><span style="font-weight:400;color:var(--muted);font-size:9px;letter-spacing:0">12M Fwd</span>', 'rowspan="2"')}
         ${sh2('pb', 'PBR', 'rowspan="2"')}
       </tr>
       <tr>
@@ -3891,7 +3894,13 @@ function renderHoldings() {
             <td>${fmt(x.v260, 1)}</td>
             <td>${fmt(x.v90, 1)}</td>
             <td>${x.w == null ? '-' : fmt(x.w * 100, 2) + '%'}</td>
-            <td title="${x.valuation && x.valuation.pe_src ? '추정 (top5 가중)' : '직접'}">${(x.valuation && x.valuation.pe) ? x.valuation.pe.toFixed(1) + (x.valuation.pe_src ? '*' : '') : '—'}</td>
+            <td title="${(() => {
+              const v = x.valuation || {};
+              const kindNote = v.pe_kind === 'fwd' ? '12M Forward (컨센서스)'
+                              : v.pe_kind === 'ttm' ? 'Trailing 12M (실적)' : 'PER';
+              const srcNote = v.pe_src ? ' · 추정 (top5 가중)' : ' · 직접';
+              return kindNote + srcNote;
+            })()}">${(x.valuation && x.valuation.pe) ? x.valuation.pe.toFixed(1) + (x.valuation.pe_src ? '*' : '') : '—'}</td>
             <td title="${x.valuation && x.valuation.pb_src ? '추정 (top5 가중)' : '직접'}">${(x.valuation && x.valuation.pb) ? x.valuation.pb.toFixed(2) + (x.valuation.pb_src ? '*' : '') : '—'}</td>
           </tr>
         `;

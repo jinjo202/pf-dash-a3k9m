@@ -19,7 +19,8 @@ window.BENCHMARKS = {
         "pe": 24.0,
         "pb": null,
         "roe": null,
-        "src": "ACWI"
+        "src": "ACWI",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -564,7 +565,8 @@ window.BENCHMARKS = {
         "pe": 18.61,
         "pb": 1.31,
         "roe": null,
-        "src": "EEM"
+        "src": "EEM",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1109,7 +1111,8 @@ window.BENCHMARKS = {
         "pe": 27.01,
         "pb": 2.33,
         "roe": null,
-        "src": "EWY"
+        "src": "EWY",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1654,7 +1657,8 @@ window.BENCHMARKS = {
         "pe": null,
         "pb": null,
         "roe": null,
-        "src": null
+        "src": null,
+        "pe_kind": null
       },
       "history": {
         "dates": [
@@ -2199,7 +2203,8 @@ window.BENCHMARKS = {
         "pe": 28.42,
         "pb": 1.76,
         "roe": null,
-        "src": "SPY"
+        "src": "SPY",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -2744,7 +2749,8 @@ window.BENCHMARKS = {
         "pe": 36.02,
         "pb": 2.06,
         "roe": null,
-        "src": "QQQ"
+        "src": "QQQ",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -3289,7 +3295,8 @@ window.BENCHMARKS = {
         "pe": 52.24,
         "pb": 1.34,
         "roe": null,
-        "src": "SOXX"
+        "src": "SOXX",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -3834,7 +3841,8 @@ window.BENCHMARKS = {
         "pe": 18.34,
         "pb": null,
         "roe": null,
-        "src": "IEUR"
+        "src": "IEUR",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -4379,7 +4387,8 @@ window.BENCHMARKS = {
         "pe": 19.03,
         "pb": 1.37,
         "roe": null,
-        "src": "EWJ"
+        "src": "EWJ",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -4924,7 +4933,8 @@ window.BENCHMARKS = {
         "pe": 12.34,
         "pb": null,
         "roe": null,
-        "src": "MCHI"
+        "src": "MCHI",
+        "pe_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -5469,7 +5479,8 @@ window.BENCHMARKS = {
         "pe": null,
         "pb": null,
         "roe": null,
-        "src": null
+        "src": null,
+        "pe_kind": null
       },
       "history": {
         "dates": [
@@ -6014,7 +6025,8 @@ window.BENCHMARKS = {
         "pe": null,
         "pb": null,
         "roe": null,
-        "src": null
+        "src": null,
+        "pe_kind": null
       },
       "history": {
         "dates": [
@@ -6559,7 +6571,8 @@ window.BENCHMARKS = {
         "pe": null,
         "pb": null,
         "roe": null,
-        "src": null
+        "src": null,
+        "pe_kind": null
       },
       "history": {
         "dates": [
@@ -7104,7 +7117,8 @@ window.BENCHMARKS = {
         "pe": null,
         "pb": null,
         "roe": null,
-        "src": null
+        "src": null,
+        "pe_kind": null
       },
       "history": {
         "dates": [
