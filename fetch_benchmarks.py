@@ -87,6 +87,48 @@ BENCHMARKS = [
 ]
 
 
+def derive_forward_pe_from_etf(etf_ticker, max_holdings=15):
+    """ETF top holdings의 individual forwardPE → 가중 earnings yield 방식으로 ETF의 forward PE 도출.
+    개별 종목은 yfinance forwardPE를 잘 주므로, ETF의 forward PE도 충분히 정확하게 도출 가능.
+    """
+    try:
+        fd = yf.Ticker(etf_ticker).funds_data
+        if not fd:
+            return None
+        tops = fd.top_holdings
+        if tops is None or tops.empty:
+            return None
+        ys, ws = [], []  # earnings yield (1/PE) + weight
+        for sym in list(tops.index)[:max_holdings]:
+            row = tops.loc[sym]
+            w = row.get("Holding Percent")
+            if w is None or w <= 0:
+                continue
+            try:
+                info = yf.Ticker(sym).info or {}
+            except Exception:
+                continue
+            fwd = info.get("forwardPE")
+            if fwd is None or fwd <= 0 or fwd > 200:
+                continue
+            ys.append(1.0 / fwd)
+            ws.append(float(w))
+        if not ys:
+            return None
+        # 가중 earnings yield → invert → forward PE
+        # (sum 정규화: top N만으로도 비례 보존)
+        avg_y = sum(y * w for y, w in zip(ys, ws)) / sum(ws)
+        if avg_y <= 0:
+            return None
+        derived = 1.0 / avg_y
+        # sanity
+        if derived <= 0 or derived > 300:
+            return None
+        return derived
+    except Exception:
+        return None
+
+
 def main():
     today = date.today()
     start = today - timedelta(days=400)  # 1년치 차트 + YTD baseline 확보
@@ -177,8 +219,10 @@ def main():
                 pass
 
             # 밸류에이션 (대응 ETF에서 수집, 가능한 것만)
-            # 12개월 Forward PER 우선 (없으면 trailing 12M으로 fallback)
-            # PBR은 yfinance priceToBook 정의상 항상 trailing (latest reported book value)
+            # 12M Forward PER 우선:
+            #   1) yfinance.info.forwardPE 직접 시도 (개별 종목은 잘 옴, ETF는 보통 None)
+            #   2) None이면 top holdings의 forwardPE 가중 earnings yield → 도출
+            # PBR은 yfinance priceToBook 정의상 항상 trailing
             val = {"pe": None, "pb": None, "roe": None, "src": None,
                    "pe_kind": None, "pb_kind": None}
             proxy = VAL_PROXY.get(ticker)
@@ -191,7 +235,6 @@ def main():
                     pe_kind = "fwd" if fwd_pe is not None else ("ttm" if ttm_pe is not None else None)
                     pb = pinfo.get("priceToBook")
                     roe = pinfo.get("returnOnEquity")
-                    # sanity 필터
                     if pe is not None and (pe <= 0 or pe > 300):
                         pe = None
                         pe_kind = None
@@ -203,6 +246,15 @@ def main():
                     val["pe_kind"] = pe_kind
                     val["pb_kind"] = "ttm" if val["pb"] else None
                     val["src"] = proxy if any([val["pe"], val["pb"], val["roe"]]) else None
+
+                    # forwardPE 직접 못 받았으면 ETF top holdings → derive
+                    if val["pe_kind"] != "fwd":
+                        derived = derive_forward_pe_from_etf(proxy)
+                        if derived is not None:
+                            val["pe"] = round(derived, 2)
+                            val["pe_kind"] = "fwd"
+                            val["src"] = f"{proxy} (top derived)"
+                            print(f"    └ {name}: fwd derived from {proxy} top holdings = {derived:.2f}")
                 except Exception:
                     pass
 

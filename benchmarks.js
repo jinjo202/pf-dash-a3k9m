@@ -16,11 +16,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 24.0,
+        "pe": 23.53,
         "pb": null,
         "roe": null,
-        "src": "ACWI",
-        "pe_kind": "ttm",
+        "src": "ACWI (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": null
       },
       "history": {
@@ -563,11 +563,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 18.61,
+        "pe": 10.98,
         "pb": 1.31,
         "roe": null,
-        "src": "EEM",
-        "pe_kind": "ttm",
+        "src": "EEM (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": "ttm"
       },
       "history": {
@@ -1110,11 +1110,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 0,
       "valuation": {
-        "pe": 27.01,
+        "pe": 6.75,
         "pb": 2.33,
         "roe": null,
-        "src": "EWY",
-        "pe_kind": "ttm",
+        "src": "EWY (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": "ttm"
       },
       "history": {
@@ -2204,11 +2204,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 28.42,
+        "pe": 23.85,
         "pb": 1.76,
         "roe": null,
-        "src": "SPY",
-        "pe_kind": "ttm",
+        "src": "SPY (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": "ttm"
       },
       "history": {
@@ -2751,11 +2751,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 36.02,
+        "pe": 25.02,
         "pb": 2.06,
         "roe": null,
-        "src": "QQQ",
-        "pe_kind": "ttm",
+        "src": "QQQ (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": "ttm"
       },
       "history": {
@@ -3298,11 +3298,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 52.24,
+        "pe": 22.81,
         "pb": 1.34,
         "roe": null,
-        "src": "SOXX",
-        "pe_kind": "ttm",
+        "src": "SOXX (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": "ttm"
       },
       "history": {
@@ -3845,11 +3845,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 18.34,
+        "pe": 14.2,
         "pb": null,
         "roe": null,
-        "src": "IEUR",
-        "pe_kind": "ttm",
+        "src": "IEUR (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": null
       },
       "history": {
@@ -4392,11 +4392,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 0,
       "valuation": {
-        "pe": 19.03,
+        "pe": 20.64,
         "pb": 1.37,
         "roe": null,
-        "src": "EWJ",
-        "pe_kind": "ttm",
+        "src": "EWJ (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": "ttm"
       },
       "history": {
@@ -4939,11 +4939,11 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 12.34,
+        "pe": 11.28,
         "pb": null,
         "roe": null,
-        "src": "MCHI",
-        "pe_kind": "ttm",
+        "src": "MCHI (top derived)",
+        "pe_kind": "fwd",
         "pb_kind": null
       },
       "history": {

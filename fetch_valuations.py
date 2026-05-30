@@ -72,17 +72,51 @@ def save_data(text, data):
     PLAIN.write_text(new_text, encoding="utf-8")
 
 
+def derive_forward_pe_from_etf(etf_ticker, max_holdings=15):
+    """ETF top holdings의 individual forwardPE → 가중 earnings yield 도출."""
+    try:
+        fd = yf.Ticker(etf_ticker).funds_data
+        if not fd: return None
+        tops = fd.top_holdings
+        if tops is None or tops.empty: return None
+        ys, ws = [], []
+        for sym in list(tops.index)[:max_holdings]:
+            w = tops.loc[sym].get("Holding Percent")
+            if w is None or w <= 0: continue
+            try:
+                fwd = (yf.Ticker(sym).info or {}).get("forwardPE")
+            except Exception:
+                continue
+            if fwd is None or fwd <= 0 or fwd > 200: continue
+            ys.append(1.0 / fwd); ws.append(float(w))
+        if not ys: return None
+        avg_y = sum(y*w for y, w in zip(ys, ws)) / sum(ws)
+        if avg_y <= 0: return None
+        derived = 1.0 / avg_y
+        return derived if 0 < derived < 300 else None
+    except Exception:
+        return None
+
+
 def fetch_one(yt):
     try:
         info = yf.Ticker(yt).info or {}
     except Exception:
         return {"pe": None, "pb": None, "roe": None, "pe_kind": None}
-    # 12개월 Forward PER 우선 (forwardPE = 향후 12M EPS 컨센서스 기반)
-    # 없으면 trailing (지난 12M 실적 EPS 기반)로 fallback
+    # 12개월 Forward PER 우선:
+    #   1) yfinance forwardPE 직접 (개별 종목은 잘 옴)
+    #   2) None이면 ETF top holdings → forward PE 도출 (가중 earnings yield)
+    #   3) 둘 다 안되면 trailingPE로 fallback
     forward_pe = info.get("forwardPE")
     trailing_pe = info.get("trailingPE")
     pe = forward_pe if forward_pe is not None else trailing_pe
     pe_kind = "fwd" if forward_pe is not None else ("ttm" if trailing_pe is not None else None)
+    # ETF인 경우 funds_data로 derive 시도 (직접 forwardPE 없을 때)
+    if pe_kind != "fwd":
+        derived = derive_forward_pe_from_etf(yt)
+        if derived is not None:
+            pe = derived
+            pe_kind = "fwd"
     pb = info.get("priceToBook")
     roe = info.get("returnOnEquity")
     # sanity 필터: 비현실적 값 제거 (yfinance 데이터 오류 케이스)
