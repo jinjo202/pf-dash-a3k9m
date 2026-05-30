@@ -1712,15 +1712,26 @@ function applySnapshot(dateStr) {
       }
       // 4) 평균잔액 (시간가중 시장가치) — historical 시리즈에서 직접
       const avgInv = computeAvgBalanceFromHistorical(h.name, 0, idx);
-      // 5) book_basis/cost_sold는 null 처리 → ytdMetrics fallback(평균원가 비례) 사용
+      // 5) 매각이익(realized)은 매도 시점에 고정 — mkt에 의존하면 안 됨!
+      //    broker가 계산한 최종 cost_sold(h.cost_sold)를 스냅샷까지 매도된 비율로 안분.
+      //    (각 종목은 단일 매도라 비율이 0 또는 1 → 매도 후 realized 고정)
+      const startAt = (h.start_2026 != null) ? h.start_2026 : (h.book || 0);
+      const fullSell = h.ytd_sell || 0;          // 전체 기간 매도 합
+      const fullCostSold = h.cost_sold || 0;     // broker 최종 매각 cost
+      let costSoldAt = 0;
+      if (fullSell > 0 && sell > 0) {
+        // 스냅샷까지 매도된 비율만큼 cost 차감 (locked at sale)
+        costSoldAt = fullCostSold * (sell / fullSell);
+      }
+      const bookBasisAt = (startAt + buy) - costSoldAt;  // 보유 잔여 cost
       return {
         ...h,
         mkt: mktAt,
         ytd_buy: round2(buy),
         ytd_sell: round2(sell),
         ytd_net_cf: round2(buy - sell),
-        book_basis: null,
-        cost_sold: null,
+        book_basis: round2(bookBasisAt),   // null 대신 명시적 cost basis → realized 고정
+        cost_sold: round2(costSoldAt),
         avg_invested: avgInv != null ? round2(avgInv) : null,
         daily_pnl: dailyPnl != null ? round2(dailyPnl) : null,
         daily_chg_pct: dailyPct != null ? round2(dailyPct) : null,
