@@ -1363,13 +1363,18 @@ function computeRiskMetrics() {
   // 스냅샷 모드면 [YTD start, snapshot] 구간으로 시계열 truncate
   const pf = snapSlice(hist.portfolio_total);
   const bm = snapSlice(buildBenchmarkSeries());
+  const dates = snapSlice(hist.dates);
   if (!pf || !bm || pf.length < 5) return null;
+
+  // cashflow 제외한 일별 수익률 (TWR-style)
+  const cfByDate = buildCashflowByDate(portfolioData.trades);
 
   const N = pf.length;
   const pr = [], br = [], er = [];
   for (let i = 1; i < N; i++) {
     if (pf[i-1] > 0 && bm[i-1] > 0) {
-      const p = pf[i] / pf[i-1] - 1;
+      const cf = (cfByDate[dates[i]]) || 0;
+      const p = (pf[i] - cf) / pf[i-1] - 1;
       const b = bm[i] / bm[i-1] - 1;
       pr.push(p); br.push(b); er.push(p - b);
     }
@@ -1406,12 +1411,15 @@ function computeRiskMetrics() {
     }
     return dd;
   };
-  const cumP = pf.map(v => v / pf[0]);
+  // 누적 수익률 시리즈 (TWR 기반) — MDD 계산용
+  const twrPct = computeTwrSeries(pf, dates, cfByDate);
+  const cumP = twrPct ? twrPct.map(v => 1 + v/100) : pf.map(() => 1);
   const cumB = bm.map(v => v / bm[0]);
   const mddP = maxDD(cumP) * 100;
   const mddB = maxDD(cumB) * 100;
 
-  const pfYtd = (pf[pf.length-1] / pf[0] - 1) * 100;
+  // YTD return = TWR 마지막 값 (포트폴리오), 단순 ratio (벤치마크)
+  const pfYtd = twrPct ? twrPct[twrPct.length - 1] : 0;
   const bmYtd = (bm[bm.length-1] / bm[0] - 1) * 100;
 
   return {
@@ -2242,8 +2250,9 @@ function renderBacktest() {
   const bm = snapSlice(buildBenchmarkSeries());
   if (!pf.length) return;
 
-  // 누적 수익률 (% from start)
-  const pfRet = pf.map(v => (v / pf[0] - 1) * 100);
+  // 누적 수익률 — 포트폴리오는 TWR(cashflow 제외), 벤치마크는 단순 ratio (cashflow 없음)
+  const cfByDate = buildCashflowByDate(portfolioData.trades);
+  const pfRet = computeTwrSeries(pf, dates, cfByDate) || pf.map(v => 0);
   const bmRet = bm ? bm.map(v => (v / bm[0] - 1) * 100) : null;
 
   const pfLast = pf[pf.length - 1];
@@ -2392,10 +2401,14 @@ function renderAlphaContribution() {
   const endIdx = pf.length - 1;
 
   const acwiRet = (bm[bm.length - 1] / bm[0]) - 1;     // 선택 벤치마크 YTD-to-snapshot
-  const pfRet = (pf[pf.length - 1] / pf[0]) - 1;
+  // 포트폴리오 YTD는 TWR 사용 (cashflow 제외)
+  const cfByDateA = buildCashflowByDate(portfolioData.trades);
+  const datesA = snapSlice(hist.dates);
+  const pfTwrSeries = computeTwrSeries(pf, datesA, cfByDateA);
+  const pfRet = pfTwrSeries ? pfTwrSeries[pfTwrSeries.length - 1] / 100 : 0;
   const startTotal = pf[0];
 
-  // 종목별 기여도 — 시계열을 스냅샷까지로 truncate
+  // 종목별 기여도 — 시계열을 스냅샷까지로 truncate + 종목별 TWR
   const contributions = [];
   for (const h of allHoldings) {
     const fullSeries = hist.holdings_mkt[h.name];
@@ -2404,8 +2417,11 @@ function renderAlphaContribution() {
     const startVal = series[0];
     const endVal = series[series.length - 1];
     if (!startVal || startVal <= 0) continue;
+    // 종목별 cashflow 제외 TWR
+    const cfH = buildCashflowByDate(portfolioData.trades, h.isin);
+    const twrH = computeTwrSeries(series, datesA, cfH);
+    const r = twrH ? twrH[twrH.length - 1] / 100 : (endVal / startVal - 1);
     const weight = startVal / startTotal;
-    const r = (endVal / startVal) - 1;
     const totalContrib = weight * r * 100;
     const alpha = weight * (r - acwiRet) * 100;
     contributions.push({
@@ -2694,19 +2710,30 @@ function computeBrinson() {
     }
   }
 
-  // 포트폴리오 지역별 시작합/끝합 (YTD-to-snapshot 기준)
+  // 포트폴리오 지역별 시작합/TWR 수익률 (YTD-to-snapshot, cashflow 제외)
   const pfStart = hist.portfolio_total[0];
+  const datesB = hist.dates.slice(0, endIdx + 1);
   const pfByRegion = {};
   for (const [region] of Object.entries(ACWI_REGION_WEIGHTS)) {
-    let s0 = 0, sN = 0;
-    for (const h of allHoldings) {
-      if (h.region !== region) continue;
+    let s0 = 0;
+    const regionHoldings = allHoldings.filter(h => h.region === region);
+    // 지역 합산 시계열 + 지역 cashflow
+    const regionSeries = new Array(endIdx + 1).fill(0);
+    const regionCfByDate = {};
+    for (const h of regionHoldings) {
       const ser = hist.holdings_mkt[h.name];
       if (!ser || ser.length < 2) continue;
+      const end = Math.min(endIdx, ser.length - 1);
+      for (let i = 0; i <= end; i++) regionSeries[i] += (ser[i] || 0);
+      const cfH = buildCashflowByDate(portfolioData.trades, h.isin);
+      for (const dt in cfH) regionCfByDate[dt] = (regionCfByDate[dt] || 0) + cfH[dt];
       s0 += ser[0];
-      sN += ser[Math.min(endIdx, ser.length - 1)];
     }
-    if (s0 > 0) pfByRegion[region] = { wp: s0 / pfStart, rp: sN / s0 - 1, s0, sN };
+    if (s0 > 0) {
+      const twr = computeTwrSeries(regionSeries, datesB, regionCfByDate);
+      const rp = twr ? twr[twr.length - 1] / 100 : 0;
+      pfByRegion[region] = { wp: s0 / pfStart, rp, s0, sN: regionSeries[regionSeries.length - 1] };
+    }
   }
   // 시가 기준 지역 비중 (스냅샷 모드는 viewHoldings 사용)
   const ref = (typeof viewHoldings !== 'undefined' && viewHoldings.length) ? viewHoldings : allHoldings;
@@ -2749,9 +2776,11 @@ function computeBrinson() {
     });
     allocSum += alloc; selSum += sel; intSum += inter;
   }
-  // 포트폴리오 전체 수익률 (YTD-to-snapshot)
-  const pfEnd = hist.portfolio_total[Math.min(endIdx, hist.portfolio_total.length - 1)];
-  const pfTotalRet = (pfEnd / pfStart - 1);
+  // 포트폴리오 전체 TWR (YTD-to-snapshot, cashflow 제외)
+  const pfSliceB = hist.portfolio_total.slice(0, endIdx + 1);
+  const cfByDateB = buildCashflowByDate(portfolioData.trades);
+  const pfTwrB = computeTwrSeries(pfSliceB, datesB, cfByDateB);
+  const pfTotalRet = pfTwrB ? pfTwrB[pfTwrB.length - 1] / 100 : 0;
 
   return {
     rows,
@@ -2778,7 +2807,8 @@ function computeBrinsonSector() {
   const N = snapEndLength() || (hist.dates ? hist.dates.length : 0);
   const endIdx = N - 1;
 
-  // 포트폴리오의 섹터 노출 + 섹터 수익률 (YTD-to-snapshot)
+  // 포트폴리오의 섹터 노출 + 섹터별 TWR 수익률 (YTD-to-snapshot, cashflow 제외)
+  const datesS = hist.dates.slice(0, endIdx + 1);
   const pfSecW = {};
   const pfSecRetNumer = {};
   for (const h of allHoldings) {
@@ -2787,7 +2817,10 @@ function computeBrinsonSector() {
     const startVal = ser[0];
     if (!startVal) continue;
     const wH = startVal / pfStart;
-    const rH = (ser[Math.min(endIdx, ser.length - 1)] / startVal) - 1;
+    // 종목별 TWR
+    const cfH = buildCashflowByDate(portfolioData.trades, h.isin);
+    const twrH = computeTwrSeries(ser.slice(0, endIdx + 1), datesS, cfH);
+    const rH = twrH ? twrH[twrH.length - 1] / 100 : (ser[Math.min(endIdx, ser.length - 1)] / startVal - 1);
     const exp = h.sector_exposure || {};
     for (const [sec, e] of Object.entries(exp)) {
       const contrib = wH * e;
@@ -4073,6 +4106,41 @@ function computeAvgBalanceFromHistorical(name, fromIdx, toIdx) {
     if (v != null && !isNaN(v)) { sum += v; n++; }
   }
   return n > 0 ? sum / n : null;
+}
+
+// ── TWR (Time-Weighted Return) — cashflow 제외 일별 수익률 누적 ─
+// pfSeries[t]는 시점 t의 portfolio_total (cashflow 포함된 mkt).
+// daily return r_t = (pf_t - cf_t) / pf_{t-1} - 1
+// cumulative TWR[t] = ∏(1 + r_i) - 1, % 단위 반환.
+// 종목별로도 쓸 수 있도록 cashflowByDate를 옵션 인자로 받음.
+function computeTwrSeries(pfSeries, dates, cashflowByDate) {
+  if (!pfSeries || pfSeries.length < 2 || !dates) return null;
+  const N = pfSeries.length;
+  const out = new Array(N).fill(0);
+  let acc = 1.0;
+  for (let i = 1; i < N; i++) {
+    const prev = pfSeries[i-1];
+    const cur  = pfSeries[i];
+    const cf   = (cashflowByDate && cashflowByDate[dates[i]]) || 0;
+    if (prev > 0) {
+      const r = (cur - cf) / prev - 1;
+      acc *= (1 + r);
+    }
+    out[i] = (acc - 1) * 100;
+  }
+  return out;
+}
+
+// 전체 trades → date별 net cashflow (매입 +, 매도 -). 종목 필터 옵션.
+function buildCashflowByDate(trades, isinFilter) {
+  const out = {};
+  for (const t of (trades || [])) {
+    if (!t.date) continue;
+    if (isinFilter && t.isin !== isinFilter) continue;
+    const sign = (t.action === '매입' || t.type === 'buy') ? 1 : -1;
+    out[t.date] = (out[t.date] || 0) + sign * (t.amount || 0);
+  }
+  return out;
 }
 
 // 모든 holding에 x.avg_invested (= 평균 시장가치) 부착
