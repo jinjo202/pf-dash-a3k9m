@@ -3397,19 +3397,31 @@ function renderValuationChart(idx, kind /* 'pe' | 'pb' */) {
   const ctx2 = canvas.getContext('2d');
   ctx2.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (!series || !series.dates || series.dates.length < 12) {
+  if (!series || !series.dates || series.dates.length < 6) {
     // 데이터 없음 — 안내 메시지
-    if (noteEl) noteEl.textContent = `${idx.name}의 ${kind.toUpperCase()} 히스토리는 아직 미수집입니다. (현재 S&P 500만 지원 — 향후 추가 예정)`;
+    if (noteEl) noteEl.textContent = `${idx.name}의 ${kind.toUpperCase()} 히스토리는 아직 미수집입니다.`;
     return;
   }
-  if (noteEl) noteEl.textContent = `출처: ${hv[idx.name].source || 'multpl.com'} · ${series.dates[0]} ~ ${series.dates[series.dates.length - 1]} (${series.dates.length}건)`;
+  const srcInfo = hv[idx.name] || {};
+  const manualTag = srcInfo.manual ? ' · 분기 추정(공개통계)' : '';
+  if (noteEl) noteEl.textContent = `출처: ${srcInfo.source || 'multpl.com'}${manualTag} · ${series.dates[0]} ~ ${series.dates[series.dates.length - 1]} (${series.dates.length}건)`;
 
   const dates = series.dates;
   const values = series.values;
-  // 1년 (12개월) rolling mean ± 1σ ± 2σ
-  // monthly 시리즈 가정. 만약 annual이면 더 긴 window 사용.
-  const isMonthly = dates.length > 30;
-  const W = isMonthly ? 12 : 5;  // monthly: 1년 / annual: 5년
+  // 데이터 빈도 자동 감지 → 1년치 rolling window 결정
+  // 날짜 간격 중앙값으로 월별/분기별/연별 판단
+  let medianGapDays = 30;
+  if (dates.length >= 2) {
+    const gaps = [];
+    for (let i = 1; i < dates.length; i++) {
+      gaps.push((new Date(dates[i]) - new Date(dates[i-1])) / 86400000);
+    }
+    gaps.sort((a, b) => a - b);
+    medianGapDays = gaps[Math.floor(gaps.length / 2)] || 30;
+  }
+  // 1년 window = 365 / 간격. 월별≈12, 분기별≈4, 연별≈1(최소 3으로)
+  const W = Math.max(3, Math.round(365 / medianGapDays));
+  const freqLbl = medianGapDays <= 45 ? '월별' : (medianGapDays <= 135 ? '분기별' : '연별');
   const mean = new Array(dates.length).fill(null);
   const sd = new Array(dates.length).fill(null);
   for (let i = 0; i < dates.length; i++) {
@@ -3426,6 +3438,18 @@ function renderValuationChart(idx, kind /* 'pe' | 'pb' */) {
   const p2 = mean.map((m, i) => m == null ? null : m + 2 * sd[i]);
   const m2 = mean.map((m, i) => m == null ? null : m - 2 * sd[i]);
 
+  // 현재 값 (벤치마크 valuation) vs 전체기간 mean/sd → z-score
+  const curVal = (idx.valuation || {})[kind];
+  if (curVal != null && noteEl) {
+    const allMean = values.reduce((a, b) => a + b, 0) / values.length;
+    const allSd = Math.sqrt(values.reduce((a, b) => a + (b - allMean) ** 2, 0) / values.length);
+    const z = allSd > 0 ? (curVal - allMean) / allSd : 0;
+    const zone = z > 2 ? '🔴 +2σ 초과 (고평가)' : z > 1 ? '🟠 +1σ~+2σ' :
+                 z < -2 ? '🔵 -2σ 미만 (저평가)' : z < -1 ? '🟢 -1σ~-2σ' : '⚪ ±1σ 이내 (적정)';
+    noteEl.innerHTML = noteEl.textContent
+      + `<br>현재 ${kind.toUpperCase()} <b>${curVal.toFixed(2)}x</b> · 전기간 평균 ${allMean.toFixed(2)}x · z=${z >= 0 ? '+' : ''}${z.toFixed(2)} · ${zone}`;
+  }
+
   const chart = new Chart(canvas, {
     type: 'line',
     data: {
@@ -3434,7 +3458,7 @@ function renderValuationChart(idx, kind /* 'pe' | 'pb' */) {
         // 메인 시리즈
         { label: kind.toUpperCase(), data: values, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.06)', fill: false, pointRadius: 0, borderWidth: 2, tension: 0.1, order: 0 },
         // 평균/표준편차 밴드 (점선 회색계열)
-        { label: `${W}${isMonthly?'M':'Y'} 평균`,    data: mean, borderColor: '#475569', borderWidth: 1, borderDash: [6,3], pointRadius: 0, fill: false, tension: 0.1, order: 5 },
+        { label: `1년 평균 (${freqLbl})`,    data: mean, borderColor: '#475569', borderWidth: 1, borderDash: [6,3], pointRadius: 0, fill: false, tension: 0.1, order: 5 },
         { label: '+1σ',  data: p1,   borderColor: '#94a3b8', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false, tension: 0.1, order: 6 },
         { label: '-1σ',  data: m1,   borderColor: '#94a3b8', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false, tension: 0.1, order: 6 },
         { label: '+2σ',  data: p2,   borderColor: '#cbd5e1', borderWidth: 1, borderDash: [2,4], pointRadius: 0, fill: false, tension: 0.1, order: 7 },
