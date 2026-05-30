@@ -59,6 +59,10 @@ jobs:
         run: python fetch_benchmarks.py
         continue-on-error: true
 
+      - name: Fetch historical valuations (S&P 500 PE/PB from multpl.com)
+        run: python fetch_historical_valuations.py
+        continue-on-error: true
+
       - name: Compute historical YTD series + sector returns
         run: python compute_historical.py
         continue-on-error: true

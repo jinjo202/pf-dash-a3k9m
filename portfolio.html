@@ -413,6 +413,23 @@
     font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px;
   }
   .chart-modal-canvas-wrap { position: relative; height: 380px; }
+  .chart-modal-tabs {
+    display: flex; gap: 6px; margin: 4px 0 12px;
+    border-bottom: 1px solid var(--border); padding-bottom: 8px;
+  }
+  .cmt-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cmt-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+  .cmt-btn.active { color: var(--panel); background: var(--accent); border-color: var(--accent); }
   .bench { cursor: pointer; }
 
   /* ===== KPI 기준 토글 ===== */
@@ -948,9 +965,22 @@
         <button class="close" id="chartModalClose" type="button">✕</button>
       </div>
       <div class="chart-modal-stats" id="chartModalStats"></div>
-      <div class="chart-modal-canvas-wrap">
+      <!-- 탭: 가격 / PER / PBR -->
+      <div class="chart-modal-tabs" id="chartModalTabs">
+        <button data-tab="price" class="cmt-btn active">📈 가격 (1Y)</button>
+        <button data-tab="pe"    class="cmt-btn">📊 PE History</button>
+        <button data-tab="pb"    class="cmt-btn">📊 PB History</button>
+      </div>
+      <div class="chart-modal-canvas-wrap" data-pane="price">
         <canvas id="chartModalCanvas"></canvas>
       </div>
+      <div class="chart-modal-canvas-wrap hidden" data-pane="pe">
+        <canvas id="chartModalCanvasPE"></canvas>
+      </div>
+      <div class="chart-modal-canvas-wrap hidden" data-pane="pb">
+        <canvas id="chartModalCanvasPB"></canvas>
+      </div>
+      <div id="chartModalValNote" style="margin-top:8px;font-size:11px;color:var(--muted);text-align:center"></div>
     </div>
   </div>
 
@@ -3344,12 +3374,122 @@ function showIndexChart(idx) {
     },
   });
 
+  // PE / PB 차트
+  renderValuationChart(idx, 'pe');
+  renderValuationChart(idx, 'pb');
+  setupChartModalTabs();
+
   modal.classList.remove('hidden');
+}
+
+let _peChart = null, _pbChart = null;
+function renderValuationChart(idx, kind /* 'pe' | 'pb' */) {
+  const canvasId = kind === 'pe' ? 'chartModalCanvasPE' : 'chartModalCanvasPB';
+  const canvas = document.getElementById(canvasId);
+  const noteEl = document.getElementById('chartModalValNote');
+  if (!canvas) return;
+  // 기존 차트 destroy
+  if (kind === 'pe' && _peChart) { _peChart.destroy(); _peChart = null; }
+  if (kind === 'pb' && _pbChart) { _pbChart.destroy(); _pbChart = null; }
+
+  const hv = (portfolioData && portfolioData.historical_valuations) || {};
+  const series = (hv[idx.name] || {})[kind];
+  const ctx2 = canvas.getContext('2d');
+  ctx2.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!series || !series.dates || series.dates.length < 12) {
+    // 데이터 없음 — 안내 메시지
+    if (noteEl) noteEl.textContent = `${idx.name}의 ${kind.toUpperCase()} 히스토리는 아직 미수집입니다. (현재 S&P 500만 지원 — 향후 추가 예정)`;
+    return;
+  }
+  if (noteEl) noteEl.textContent = `출처: ${hv[idx.name].source || 'multpl.com'} · ${series.dates[0]} ~ ${series.dates[series.dates.length - 1]} (${series.dates.length}건)`;
+
+  const dates = series.dates;
+  const values = series.values;
+  // 1년 (12개월) rolling mean ± 1σ ± 2σ
+  // monthly 시리즈 가정. 만약 annual이면 더 긴 window 사용.
+  const isMonthly = dates.length > 30;
+  const W = isMonthly ? 12 : 5;  // monthly: 1년 / annual: 5년
+  const mean = new Array(dates.length).fill(null);
+  const sd = new Array(dates.length).fill(null);
+  for (let i = 0; i < dates.length; i++) {
+    const lo = Math.max(0, i - W + 1);
+    const slice = values.slice(lo, i + 1);
+    if (slice.length < Math.min(W, 3)) continue;
+    const m = slice.reduce((a, b) => a + b, 0) / slice.length;
+    const v = slice.reduce((a, b) => a + (b - m) ** 2, 0) / slice.length;
+    mean[i] = m;
+    sd[i] = Math.sqrt(v);
+  }
+  const p1 = mean.map((m, i) => m == null ? null : m + sd[i]);
+  const m1 = mean.map((m, i) => m == null ? null : m - sd[i]);
+  const p2 = mean.map((m, i) => m == null ? null : m + 2 * sd[i]);
+  const m2 = mean.map((m, i) => m == null ? null : m - 2 * sd[i]);
+
+  const chart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        // 메인 시리즈
+        { label: kind.toUpperCase(), data: values, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.06)', fill: false, pointRadius: 0, borderWidth: 2, tension: 0.1, order: 0 },
+        // 평균/표준편차 밴드 (점선 회색계열)
+        { label: `${W}${isMonthly?'M':'Y'} 평균`,    data: mean, borderColor: '#475569', borderWidth: 1, borderDash: [6,3], pointRadius: 0, fill: false, tension: 0.1, order: 5 },
+        { label: '+1σ',  data: p1,   borderColor: '#94a3b8', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false, tension: 0.1, order: 6 },
+        { label: '-1σ',  data: m1,   borderColor: '#94a3b8', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false, tension: 0.1, order: 6 },
+        { label: '+2σ',  data: p2,   borderColor: '#cbd5e1', borderWidth: 1, borderDash: [2,4], pointRadius: 0, fill: false, tension: 0.1, order: 7 },
+        { label: '-2σ',  data: m2,   borderColor: '#cbd5e1', borderWidth: 1, borderDash: [2,4], pointRadius: 0, fill: false, tension: 0.1, order: 7 },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: true, position: 'right', labels: { boxWidth: 18, font: { size: 10 } } },
+        tooltip: {
+          callbacks: {
+            title: ctx => ctx[0].label,
+            label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y != null ? ctx.parsed.y.toFixed(2) : '—'}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 12,
+            callback: function (val) { const d = this.getLabelForValue(val); return d ? d.slice(0, 4) : ''; },
+          },
+          grid: { display: false },
+        },
+        y: { grid: { color: 'rgba(148,163,184,0.15)' }, title: { display: true, text: kind === 'pe' ? 'PER (x)' : 'PBR (x)' } },
+      },
+    },
+  });
+  if (kind === 'pe') _peChart = chart; else _pbChart = chart;
+}
+
+function setupChartModalTabs() {
+  const tabs = document.querySelectorAll('#chartModalTabs .cmt-btn');
+  const panes = document.querySelectorAll('[data-pane]');
+  tabs.forEach(btn => {
+    if (btn._wired) return; btn._wired = true;
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      tabs.forEach(b => b.classList.toggle('active', b === btn));
+      panes.forEach(p => p.classList.toggle('hidden', p.dataset.pane !== tab));
+    });
+  });
+  // 기본 탭 = 가격
+  tabs.forEach(b => b.classList.toggle('active', b.dataset.tab === 'price'));
+  panes.forEach(p => p.classList.toggle('hidden', p.dataset.pane !== 'price'));
 }
 
 function closeChartModal() {
   document.getElementById('chartModal').classList.add('hidden');
   if (_indexChart) { _indexChart.destroy(); _indexChart = null; }
+  if (_peChart)    { _peChart.destroy();    _peChart    = null; }
+  if (_pbChart)    { _pbChart.destroy();    _pbChart    = null; }
 }
 // 닫기 버튼/배경 클릭/ESC
 document.addEventListener('DOMContentLoaded', () => {
