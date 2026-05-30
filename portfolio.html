@@ -7,6 +7,16 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
+<!-- FOUC 방지: CSS 로드 전에 테마 적용 (localStorage 또는 시스템 설정) -->
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('pf_theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 <link
   href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css"
@@ -20,13 +30,16 @@
   :root {
     --bg: #f6f7f9;
     --panel: #ffffff;
+    --panel-soft: #fafbfc;          /* 부드러운 panel (table 합계 row 등) */
     --border: #e6e8eb;
     --row-alt: #fafbfc;
     --row-hover: #eff6ff;
     --text: #0f172a;
     --text-soft: #334155;
     --muted: #64748b;
+    --muted-soft: #cbd5e1;          /* dash/placeholder 색 */
     --accent: #2563eb;
+    --accent-hover: #1d4ed8;
     --accent-soft: #eff6ff;
     --pos: #15803d;
     --neg: #b91c1c;
@@ -35,9 +48,84 @@
     --eu: #7c3aed;
     --gl: #ea580c;
     --em: #e11d48;
+    --warn-bg: #fef3c7;
+    --warn-fg: #92400e;
+    --warn-bd: #fde68a;
+    --warn-grad-from: #fffbeb;
+    --warn-grad-to:   #fff7e0;
+    --info-bg: #dbeafe;
+    --info-fg: #1e40af;
+    --info-bd: #93c5fd;
     --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
     --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+    color-scheme: light;
   }
+  /* ===== Dark mode ===== */
+  [data-theme="dark"] {
+    --bg: #0b1020;
+    --panel: #141a2e;
+    --panel-soft: #1a2138;
+    --border: #2a324a;
+    --row-alt: #1a2138;
+    --row-hover: #1e2942;
+    --text: #e2e8f0;
+    --text-soft: #cbd5e1;
+    --muted: #94a3b8;
+    --muted-soft: #475569;
+    --accent: #60a5fa;
+    --accent-hover: #3b82f6;
+    --accent-soft: #1e3a8a55;
+    --pos: #22c55e;
+    --neg: #f87171;
+    --kr: #60a5fa;
+    --us: #22d3ee;
+    --eu: #a78bfa;
+    --gl: #fb923c;
+    --em: #fb7185;
+    --warn-bg: #422006;
+    --warn-fg: #fde68a;
+    --warn-bd: #854d0e;
+    --warn-grad-from: #2e1d05;
+    --warn-grad-to:   #3a2408;
+    --info-bg: #172554;
+    --info-fg: #93c5fd;
+    --info-bd: #1e3a8a;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
+    color-scheme: dark;
+  }
+  /* 부드러운 테마 전환 */
+  html { transition: background-color 200ms, color 200ms; }
+  body, header, .kpi, .panel, table, tr, td, th, .stat, .bench,
+  .snapshot-bar, .bm-controls, .gate, .drop, .upload {
+    transition: background-color 200ms, color 200ms, border-color 200ms;
+  }
+  /* 테마 토글 버튼 */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .theme-toggle:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .theme-toggle .icon { font-size: 14px; line-height: 1; }
+  .theme-toggle .label { font-size: 12px; }
+  .header-actions { display: inline-flex; align-items: center; gap: 10px; }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
@@ -53,7 +141,7 @@
   /* 숫자는 tabular-nums로 컬럼 정렬 */
   .value, .val, .ytd, .daily, .bench .value, .bench .ytd, .kpi .sub, td, th { font-variant-numeric: tabular-nums; }
   header {
-    background: #fff;
+    background: var(--panel);
     border-bottom: 1px solid var(--border);
     padding: 16px 24px;
     display: flex;
@@ -87,22 +175,22 @@
     font-size: 13px;
     border: none;
   }
-  .upload:hover { background: #1d4ed8; }
+  .upload:hover { background: var(--accent-hover); }
   .upload input { display: none; }
   main { padding: 24px; max-width: 1400px; margin: 0 auto; }
 
   .drop {
-    border: 2px dashed #cbd5e1;
+    border: 2px dashed var(--muted-soft);
     border-radius: 12px;
     padding: 60px 24px;
     text-align: center;
-    background: #fff;
+    background: var(--panel);
     color: var(--muted);
     transition: all 0.15s;
   }
   .drop.hover {
     border-color: var(--accent);
-    background: #eff6ff;
+    background: var(--accent-soft);
     color: var(--accent);
   }
   .drop h2 { margin: 0 0 8px; font-size: 16px; color: var(--text); }
@@ -164,7 +252,7 @@
   th, td {
     text-align: right;
     padding: 10px 12px;
-    border-bottom: 1px solid #f1f3f5;
+    border-bottom: 1px solid var(--border);
     white-space: nowrap;
   }
   th:first-child, td:first-child,
@@ -177,7 +265,7 @@
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    background: #fafbfc;
+    background: var(--panel-soft);
     border-bottom: 1px solid var(--border);
     position: sticky; top: 0;
   }
@@ -225,9 +313,9 @@
     border-radius: 4px;
     font-size: 10px;
     font-weight: 600;
-    background: #fef3c7;
-    color: #92400e;
-    border: 1px solid #fde68a;
+    background: var(--warn-bg);
+    color: var(--warn-fg);
+    border: 1px solid var(--warn-bd);
     vertical-align: middle;
   }
 
@@ -245,7 +333,7 @@
   }
   .chip {
     border: 1px solid var(--border);
-    background: #fff;
+    background: var(--panel);
     padding: 5px 12px;
     border-radius: 999px;
     font-size: 12px;
@@ -296,7 +384,7 @@
   .chart-modal-head .ttl { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
   .chart-modal-head .sub { font-size: 11px; color: var(--muted); }
   .chart-modal-head .close {
-    border: 1px solid var(--border); background: #fff; cursor: pointer;
+    border: 1px solid var(--border); background: var(--panel); cursor: pointer;
     width: 30px; height: 30px; border-radius: 6px; font-size: 18px;
     color: var(--muted); line-height: 1;
   }
@@ -307,7 +395,7 @@
     gap: 8px; margin-bottom: 14px;
   }
   .chart-modal-stats .s {
-    background: #fafbfc; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--panel-soft); border: 1px solid var(--border); border-radius: 8px;
     padding: 8px 10px;
   }
   .chart-modal-stats .s .l {
@@ -332,7 +420,7 @@
   .kpi-basis-toggle button {
     padding: 5px 14px;
     border: 1px solid var(--border);
-    background: #fff;
+    background: var(--panel);
     border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
@@ -371,7 +459,7 @@
     padding: 5px 10px;
     font-size: 13px;
     font-family: inherit;
-    background: #fff;
+    background: var(--panel);
     color: var(--text);
     cursor: pointer;
   }
@@ -379,7 +467,7 @@
   .snapshot-bar .snap-btn, .snapshot-bar .snap-icon {
     padding: 5px 12px;
     border: 1px solid var(--border);
-    background: #fff;
+    background: var(--panel);
     border-radius: 6px;
     font-size: 12px;
     font-weight: 600;
@@ -399,8 +487,8 @@
     font-size: 12px;
     color: var(--muted);
   }
-  .snapshot-bar.historic { background: linear-gradient(180deg, #fffbeb 0%, #fff7e0 100%); border-color: #fde68a; }
-  .snapshot-bar.historic .snap-info { color: #92400e; font-weight: 600; }
+  .snapshot-bar.historic { background: linear-gradient(180deg, var(--warn-grad-from) 0%, var(--warn-grad-to) 100%); border-color: var(--warn-bd); }
+  .snapshot-bar.historic .snap-info { color: var(--warn-fg); font-weight: 600; }
 
   /* ===== 벤치마크 컨트롤 ===== */
   .bm-controls {
@@ -422,7 +510,7 @@
     padding: 5px 10px;
     font-size: 13px;
     font-family: inherit;
-    background: #fff;
+    background: var(--panel);
     color: var(--text);
     cursor: pointer;
   }
@@ -454,7 +542,7 @@
     cursor: pointer;
     font-family: inherit;
   }
-  .bm-apply:hover { background: #1d4ed8; }
+  .bm-apply:hover { background: var(--accent-hover); }
   .bm-sum { font-size: 11px; color: var(--muted); }
   .bm-sum.bad { color: var(--neg); font-weight: 600; }
   .bm-current { margin-left: auto; font-size: 12px; color: var(--muted); }
@@ -467,13 +555,13 @@
   }
   .attrib-summary .a {
     padding: 12px 14px;
-    background: #fff;
+    background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 10px;
     box-shadow: var(--shadow-sm);
     border-top: 3px solid #94a3b8;
   }
-  .attrib-summary .a.total { border-top-color: var(--text); background: #fafbfc; }
+  .attrib-summary .a.total { border-top-color: var(--text); background: var(--panel-soft); }
   .attrib-summary .a.alloc-region { border-top-color: var(--accent); }
   .attrib-summary .a.alloc-sector { border-top-color: #8b5cf6; }
   .attrib-summary .a.select-region { border-top-color: #16a34a; }
@@ -506,15 +594,15 @@
     display: inline-block; padding: 1px 6px; border-radius: 3px;
     font-size: 9px; font-weight: 600;
   }
-  .alpha-detail-head .badge.auto { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
-  .alpha-detail-head .badge.manual { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .alpha-detail-head .badge.auto { background: var(--info-bg); color: var(--info-fg); border: 1px solid var(--info-bd); }
+  .alpha-detail-head .badge.manual { background: var(--warn-bg); color: var(--warn-fg); border: 1px solid var(--warn-bd); }
   .alpha-holdings {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 8px;
   }
   .alpha-h-card {
-    background: #fff;
+    background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 8px 10px;
@@ -577,7 +665,7 @@
   }
   .risk-metrics .m {
     padding: 12px 14px;
-    background: #fafbfc;
+    background: var(--panel-soft);
     border: 1px solid var(--border);
     border-radius: 8px;
   }
@@ -611,7 +699,7 @@
   }
   .backtest-metrics .m {
     padding: 10px 12px;
-    background: #fafbfc;
+    background: var(--panel-soft);
     border: 1px solid var(--border);
     border-radius: 8px;
   }
@@ -669,7 +757,7 @@
     .bench-group-label { font-size: 8px; }
   }
   .bench {
-    background: #fff;
+    background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 12px 14px;
@@ -691,9 +779,9 @@
     line-height: 1.4;
     font-variant-numeric: tabular-nums;
   }
-  .bench .val-row .v-key { color: #94a3b8; font-weight: 600; }
+  .bench .val-row .v-key { color: var(--muted); font-weight: 600; }
   .bench .val-row .v-val { color: var(--text-soft); font-weight: 600; }
-  .bench .asof { font-size: 9px; color: #cbd5e1; margin-top: 1px; }
+  .bench .asof { font-size: 9px; color: var(--muted-soft); margin-top: 1px; }
 
   /* ===== 비밀번호 게이트 ===== */
   .gate-wrap {
@@ -728,7 +816,7 @@
     font-size: 14px;
     border: 1px solid var(--border);
     border-radius: 6px;
-    background: #fafbfc;
+    background: var(--panel-soft);
     margin-bottom: 8px;
     box-sizing: border-box;
     font-family: inherit;
@@ -736,7 +824,7 @@
   .gate input:focus {
     outline: none;
     border-color: var(--accent);
-    background: #fff;
+    background: var(--panel);
   }
   .gate button {
     width: 100%;
@@ -750,8 +838,8 @@
     cursor: pointer;
     font-family: inherit;
   }
-  .gate button:hover { background: #1d4ed8; }
-  .gate button:disabled { background: #94a3b8; cursor: not-allowed; }
+  .gate button:hover { background: var(--accent-hover); }
+  .gate button:disabled { background: var(--muted); cursor: not-allowed; }
   .gate .error {
     color: var(--neg);
     font-size: 12px;
@@ -807,10 +895,16 @@
     <h1>포트폴리오 분석 대시보드</h1>
     <div class="meta" id="meta">엑셀 파일을 업로드하세요 (.xlsx)</div>
   </div>
-  <label class="upload">
-    파일 교체 업로드
-    <input type="file" id="file" accept=".xlsx,.xls" />
-  </label>
+  <div class="header-actions">
+    <button type="button" id="themeToggle" class="theme-toggle" title="다크/라이트 모드 전환 (Shift+D)" aria-label="테마 전환">
+      <span class="icon" id="themeIcon">🌙</span>
+      <span class="label" id="themeLabel">다크</span>
+    </button>
+    <label class="upload">
+      파일 교체 업로드
+      <input type="file" id="file" accept=".xlsx,.xls" />
+    </label>
+  </div>
 </header>
 
 <main>
@@ -1777,7 +1871,7 @@ function renderCorrVolTable() {
           ? `<td style="font-weight:700">${r.label}</td>`
           : `<td><span class="region-pill" data-r="${r.label}">${r.label}</span></td>`;
         const trStyle = r.isTotal
-          ? 'style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)"'
+          ? 'style="font-weight:700;background:var(--panel-soft);border-top:2px solid var(--border)"'
           : '';
         return `
           <tr ${trStyle}>
@@ -1939,7 +2033,7 @@ function renderCountryTable() {
           <td>${fmt(r.mkt, 2)}</td>
         </tr>
       `).join('')}
-      <tr style="font-weight:700;background:#fafbfc">
+      <tr style="font-weight:700;background:var(--panel-soft)">
         <td>합계</td><td></td>
         <td>100.00%</td><td>${fmt(totalMkt, 2)}</td>
       </tr>
@@ -1993,7 +2087,7 @@ function renderMatrixTable() {
             ${countries.map(c => {
               const v = row.get(c) || 0;
               const pctTot = toPct(v);
-              if (pctTot < 0.05) return '<td style="color:#cbd5e1">—</td>';
+              if (pctTot < 0.05) return '<td style="color:var(--muted-soft)">—</td>';
               const pctRow = tot > 0 ? (v / tot * 100).toFixed(1) : '0';
               return `<td title="${r} → ${(window.COUNTRY_NAMES[c] || c)}: ${fmt(v,2)} 억원 · 지역 내 ${pctRow}% · 전체 ${pctTot.toFixed(2)}%">${fmt(pctTot, 2)}%</td>`;
             }).join('')}
@@ -2001,7 +2095,7 @@ function renderMatrixTable() {
           </tr>
         `;
       }).join('')}
-      <tr style="font-weight:700;background:#fafbfc">
+      <tr style="font-weight:700;background:var(--panel-soft)">
         <td>합계</td>
         ${countries.map(c => {
           const v = ctotal.get(c) || 0;
@@ -2406,7 +2500,7 @@ function renderAlphaContribution() {
         const hasHoldings = c.topHoldings && c.topHoldings.length;
         const indicator = hasHoldings
           ? `<span style="color:var(--muted);font-size:10px;margin-right:4px">${isOpen ? '▼' : '▶'}</span>`
-          : `<span style="color:#cbd5e1;font-size:10px;margin-right:4px">·</span>`;
+          : `<span style="color:var(--muted-soft);font-size:10px;margin-right:4px">·</span>`;
         return `
           <tr class="alpha-row ${isOpen ? 'expanded' : ''}" data-name="${c.name.replace(/"/g, '&quot;')}">
             <td><span class="region-pill" data-r="${c.region}">${c.region}</span></td>
@@ -2420,7 +2514,7 @@ function renderAlphaContribution() {
           ${isOpen ? `<tr class="alpha-detail"><td colspan="7">${detailRow(c)}</td></tr>` : ''}
         `;
       }).join('')}
-      <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
+      <tr style="font-weight:700;background:var(--panel-soft);border-top:2px solid var(--border)">
         <td>합계</td>
         <td title="현재 보유 ${allHoldings.filter(h => h.mkt > 0).length}개 중 YTD 시작가 데이터가 있는 종목만 분석">${contributions.length}개<span style="font-weight:400;color:var(--muted);font-size:10px"> / ${allHoldings.filter(h => h.mkt > 0).length}</span></td>
         <td>${fmt(contributions.reduce((s, c) => s + c.weight, 0), 2)}%</td>
@@ -2698,7 +2792,7 @@ function renderBrinsonSector() {
           <td class="${cls(row.total)}" style="font-weight:600">${fmtPct(row.total, 2)}</td>
         </tr>`;
       }).join('')}
-      <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
+      <tr style="font-weight:700;background:var(--panel-soft);border-top:2px solid var(--border)">
         <td>합계</td>
         <td>${fmt(r.rows.reduce((s, x) => s + x.wp, 0), 2)}%</td>
         <td>${fmt(r.rows.reduce((s, x) => s + x.wb, 0), 2)}%</td>
@@ -2791,7 +2885,7 @@ function renderBrinsonAttribution() {
           <td class="${cls(row.total)}" style="font-weight:600">${fmtPct(row.total, 2)}</td>
         </tr>`;
       }).join('')}
-      <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
+      <tr style="font-weight:700;background:var(--panel-soft);border-top:2px solid var(--border)">
         <td>합계</td>
         <td>${fmt(r.rows.reduce((s, x) => s + x.wp, 0), 2)}%</td>
         <td>${fmt(r.rows.reduce((s, x) => s + x.wb, 0), 2)}%</td>
@@ -3304,14 +3398,14 @@ function renderRegionTable() {
           <td class="${cls(r.pnlCum)}">${fmt(r.pnlCum, 2)}</td>
           <td class="${cls(r.pnlCumPct)}">${fmtPct(r.pnlCumPct)}</td>
           <td class="${cls(r.unrealized)}">${fmt(r.unrealized, 2)}</td>
-          <td class="${cls(r.realized)}">${r.ytdSell > 0 ? fmt(r.realized, 2) : '<span style="color:#cbd5e1">—</span>'}</td>
+          <td class="${cls(r.realized)}">${r.ytdSell > 0 ? fmt(r.realized, 2) : '<span style="color:var(--muted-soft)">—</span>'}</td>
           <td class="${cls(r.pnlYtdPct)}">${fmtPct(r.pnlYtdPct)}</td>
           <td>${r.weight == null ? '-' : fmt(r.weight * 100, 1) + '%'}</td>
           <td>${fmt(r.v260, 1)}</td>
           <td>${fmt(r.v90, 1)}</td>
         </tr>
       `).join('')}
-      <tr style="font-weight:700;background:#fafbfc">
+      <tr style="font-weight:700;background:var(--panel-soft)">
         <td>합계</td>
         <td>${viewHoldings.filter(x => x.mkt > 0).length}</td>
         <td>${fmt(tot.mkt, 2)}</td>
@@ -3320,7 +3414,7 @@ function renderRegionTable() {
         <td class="${cls(tot.pnlCum)}">${fmt(tot.pnlCum, 2)}</td>
         <td class="${cls(tot.pnlCumPct)}">${fmtPct(tot.pnlCumPct)}</td>
         <td class="${cls(yA.unrealized)}">${fmt(yA.unrealized, 2)}</td>
-        <td class="${cls(yA.realized)}" title="매각대금 ${fmt(yA.sell, 2)}">${yA.sell > 0 ? fmt(yA.realized, 2) : '<span style="color:#cbd5e1">—</span>'}</td>
+        <td class="${cls(yA.realized)}" title="매각대금 ${fmt(yA.sell, 2)}">${yA.sell > 0 ? fmt(yA.realized, 2) : '<span style="color:var(--muted-soft)">—</span>'}</td>
         <td class="${cls(tot.pnlYtdPct)}">${fmtPct(tot.pnlYtdPct)}</td>
         <td>${tot.weight == null ? '-' : fmt(tot.weight * 100, 1) + '%'}</td>
         <td>${fmt(tot.v260, 1)}</td>
@@ -3667,10 +3761,10 @@ function renderHoldings() {
             <td class="${cls(pnlCum)}">${fmt(pnlCum, 2)}</td>
             <td class="${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</td>
             <td class="${cls(yM.unrealized)}" title="${ytdTip} · 잔여cost ${fmt(yM.costRem, 2)}">${fmt(yM.unrealized, 2)}</td>
-            <td class="${cls(yM.realized)}" title="${ytdTip} · 매각cost ${fmt(yM.costSold, 2)}">${yM.sell > 0 ? fmt(yM.realized, 2) : '<span style="color:#cbd5e1">—</span>'}</td>
+            <td class="${cls(yM.realized)}" title="${ytdTip} · 매각cost ${fmt(yM.costSold, 2)}">${yM.sell > 0 ? fmt(yM.realized, 2) : '<span style="color:var(--muted-soft)">—</span>'}</td>
             <td class="${cls(pnlYtdPct)}" title="${ytdTip}">${fmtPct(pnlYtdPct)}</td>
-            <td class="${cls(dPnl)}" ${stale}>${todayOK ? fmt(dPnl, 2) : '<span style="color:#cbd5e1">—</span>'}</td>
-            <td class="${cls(dPct)}" ${stale}>${todayOK ? fmtPct(dPct) : '<span style="color:#cbd5e1">—</span>'}</td>
+            <td class="${cls(dPnl)}" ${stale}>${todayOK ? fmt(dPnl, 2) : '<span style="color:var(--muted-soft)">—</span>'}</td>
+            <td class="${cls(dPct)}" ${stale}>${todayOK ? fmtPct(dPct) : '<span style="color:var(--muted-soft)">—</span>'}</td>
             <td>${fmt(x.v260, 1)}</td>
             <td>${fmt(x.v90, 1)}</td>
             <td>${x.w == null ? '-' : fmt(x.w * 100, 2) + '%'}</td>
@@ -3703,7 +3797,7 @@ function renderHoldings() {
           ? `<span style="font-weight:400;color:var(--muted);font-size:10px">(${todayItems.length}종목)</span>` : '';
         const ownedH = h.filter(x => x.mkt > 0).length;
         return `
-          <tr style="font-weight:700;background:#fafbfc;border-top:2px solid var(--border)">
+          <tr style="font-weight:700;background:var(--panel-soft);border-top:2px solid var(--border)">
             <td>${label}</td>
             <td>${ownedH}개</td>
             <td>${fmt(tBuy, 2)}</td>
@@ -3712,7 +3806,7 @@ function renderHoldings() {
             <td class="${cls(tPnlCum)}">${fmt(tPnlCum, 2)}</td>
             <td class="${cls(tPnlCumPct)}">${fmtPct(tPnlCumPct)}</td>
             <td class="${cls(tYA.unrealized)}" title="${tYtdTip}">${fmt(tYA.unrealized, 2)}</td>
-            <td class="${cls(tYA.realized)}" title="${tYtdTip} · 매각대금 ${fmt(tYA.sell, 2)}">${tYA.sell > 0 ? fmt(tYA.realized, 2) : '<span style="color:#cbd5e1">—</span>'}</td>
+            <td class="${cls(tYA.realized)}" title="${tYtdTip} · 매각대금 ${fmt(tYA.sell, 2)}">${tYA.sell > 0 ? fmt(tYA.realized, 2) : '<span style="color:var(--muted-soft)">—</span>'}</td>
             <td class="${cls(tPnlYtdPct)}" title="${tYtdTip}">${fmtPct(tPnlYtdPct)}</td>
             <td class="${cls(tDailyPnl)}">${tDailyPnl == null ? '—' : fmt(tDailyPnl, 2)} ${dailyNote}</td>
             <td class="${cls(tDailyPct)}">${tDailyPct == null ? '—' : fmtPct(tDailyPct)}</td>
@@ -3825,6 +3919,73 @@ function weighted(items, valKey, wKey) {
 function destroy(key) {
   if (charts[key]) { charts[key].destroy(); delete charts[key]; }
 }
+
+// ===== 다크/라이트 모드 토글 =====
+// 우선순위: localStorage("pf_theme") → prefers-color-scheme → light
+// FOUC 방지용 초기 적용은 <head>의 inline script에서 이미 수행.
+function getTheme() {
+  return document.documentElement.getAttribute('data-theme') || 'light';
+}
+function applyTheme(theme, persist) {
+  document.documentElement.setAttribute('data-theme', theme);
+  if (persist !== false) {
+    try { localStorage.setItem('pf_theme', theme); } catch (e) {}
+  }
+  // 버튼 UI 갱신 (현재 모드와 반대 표시: dark면 "라이트로 가기" 버튼)
+  const icon  = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  if (icon)  icon.textContent  = (theme === 'dark') ? '☀️' : '🌙';
+  if (label) label.textContent = (theme === 'dark') ? '라이트' : '다크';
+  // Chart.js 글로벌 색상도 테마 따라 업데이트
+  if (typeof Chart !== 'undefined' && Chart.defaults) {
+    const isDark = theme === 'dark';
+    Chart.defaults.color = isDark ? '#cbd5e1' : '#334155';
+    Chart.defaults.borderColor = isDark ? 'rgba(148,163,184,0.18)' : 'rgba(15,23,42,0.10)';
+    // 기존 차트들 redraw 색상 갱신
+    if (window.charts) {
+      for (const k of Object.keys(window.charts)) {
+        const c = window.charts[k];
+        if (!c || !c.options) continue;
+        // scale tick + grid 색상 갱신
+        const scales = c.options.scales || {};
+        for (const sk of Object.keys(scales)) {
+          const sc = scales[sk];
+          if (sc.ticks) sc.ticks.color = Chart.defaults.color;
+          if (sc.grid)  sc.grid.color  = Chart.defaults.borderColor;
+        }
+        c.update('none');
+      }
+    }
+  }
+}
+function toggleTheme() {
+  applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
+}
+// 초기화: 버튼 핸들러 + UI 동기화 + 시스템 테마 변경 감지
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(getTheme(), false);  // 버튼 UI 동기화 (persist 안 함)
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.addEventListener('click', toggleTheme);
+  // 시스템 다크/라이트 토글 감지 — 사용자가 명시적으로 저장하지 않은 경우에만
+  if (window.matchMedia) {
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    mql.addEventListener && mql.addEventListener('change', (e) => {
+      try {
+        if (!localStorage.getItem('pf_theme')) {
+          applyTheme(e.matches ? 'dark' : 'light', false);
+        }
+      } catch (err) {}
+    });
+  }
+  // 키보드 단축키: Shift+D
+  document.addEventListener('keydown', (e) => {
+    if (e.shiftKey && (e.key === 'D' || e.key === 'd') &&
+        !['INPUT', 'TEXTAREA'].includes(document.activeElement && document.activeElement.tagName)) {
+      e.preventDefault();
+      toggleTheme();
+    }
+  });
+});
 </script>
 </body>
 </html>
