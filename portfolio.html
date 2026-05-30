@@ -1641,9 +1641,6 @@ function applySnapshot(dateStr) {
     const ytdStart = hist.dates[0];
     // 모든 거래 데이터 (시간순)
     const allTrades = (portfolioData.trades || []);
-    // 종목별 trades pre-group (avg_invested 빠르게 계산)
-    const tradesByIsin = {};
-    for (const t of allTrades) (tradesByIsin[t.isin] = tradesByIsin[t.isin] || []).push(t);
     viewHoldings = allHoldings.map(h => {
       // 1) 시가 — historical share-aware 시리즈에서
       const series = hist.holdings_mkt && hist.holdings_mkt[h.name];
@@ -1675,9 +1672,8 @@ function applySnapshot(dateStr) {
         const base = mktPrev + cfBuy - cfSell;
         dailyPct = (base > 0) ? (dailyPnl / base) * 100 : null;
       }
-      // 4) 평균잔액 (시간가중) — 이 종목의 [year_start, snapshot] 기준
-      const myStart = (h.start_2026 != null) ? h.start_2026 : (h.book || 0);
-      const avgInv = computeAvgInvested(myStart, tradesByIsin[isin] || [], ytdStart, dateStr);
+      // 4) 평균잔액 (시간가중 시장가치) — historical 시리즈에서 직접
+      const avgInv = computeAvgBalanceFromHistorical(h.name, 0, idx);
       // 5) book_basis/cost_sold는 null 처리 → ytdMetrics fallback(평균원가 비례) 사용
       return {
         ...h,
@@ -4059,35 +4055,45 @@ function ytdMetrics(x) {
            realized, unrealized, pnl, base, pct };
 }
 
-// ── 시간가중 평균잔액 (avg_invested) 계산 ──────────────────────
-// 기간 [fromDate, toDate] 동안 평균적으로 투입된 자본을 시간가중으로 계산.
-// start: 1/1 시작가치 (전 기간 보유)
-// trades: 해당 holding의 이 기간 거래 (date, action, amount)
-function computeAvgInvested(start, trades, fromDate, toDate) {
-  if (!fromDate || !toDate) return null;
-  const fromMs = new Date(fromDate).getTime();
-  const toMs = new Date(toDate).getTime();
-  const totalDays = Math.max(1, Math.round((toMs - fromMs) / 86400000));
-  let weighted = (start || 0) * totalDays;
-  for (const t of (trades || [])) {
-    if (!t.date || t.date < fromDate || t.date > toDate) continue;
-    const daysRemaining = Math.max(0, Math.round((toMs - new Date(t.date).getTime()) / 86400000));
-    const sign = (t.action === '매입' || t.type === 'buy') ? 1 : -1;
-    weighted += sign * (t.amount || 0) * daysRemaining;
+// ── 시간가중 평균잔액 (avg_invested = avg market value) ─────────
+// 기간 [fromIdx, toIdx] 의 일별 시장가치를 평균.
+// 종목별: avg(historical.holdings_mkt[name][d]) for d in [fromIdx, toIdx]
+// 합산하면 평균 portfolio_total과 동일.
+function computeAvgBalanceFromHistorical(name, fromIdx, toIdx) {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.holdings_mkt) return null;
+  const series = hist.holdings_mkt[name];
+  if (!series || !series.length) return null;
+  const f = Math.max(0, fromIdx);
+  const t = Math.min(series.length - 1, toIdx);
+  if (t < f) return null;
+  let sum = 0, n = 0;
+  for (let i = f; i <= t; i++) {
+    const v = series[i];
+    if (v != null && !isNaN(v)) { sum += v; n++; }
   }
-  return weighted / totalDays;
+  return n > 0 ? sum / n : null;
 }
 
-// 모든 holding에 x.avg_invested 부착 (fromDate ~ toDate 기간 기준)
+// 모든 holding에 x.avg_invested (= 평균 시장가치) 부착
 function attachAvgInvested(holdings, fromDate, toDate) {
-  const allTrades = (portfolioData && portfolioData.trades) || [];
-  // ISIN별로 그룹화
-  const byIsin = {};
-  for (const t of allTrades) (byIsin[t.isin] = byIsin[t.isin] || []).push(t);
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.dates || !hist.dates.length) {
+    for (const h of holdings) h.avg_invested = null;
+    return;
+  }
+  // 인덱스 계산
+  let fromIdx = hist.dates.indexOf(fromDate);
+  if (fromIdx < 0) fromIdx = 0;
+  let toIdx = hist.dates.indexOf(toDate);
+  if (toIdx < 0) {
+    for (let i = hist.dates.length - 1; i >= 0; i--) {
+      if (hist.dates[i] <= toDate) { toIdx = i; break; }
+    }
+    if (toIdx < 0) toIdx = hist.dates.length - 1;
+  }
   for (const h of holdings) {
-    const start = (h.start_2026 != null) ? h.start_2026 : (h.book || 0);
-    const myTrades = byIsin[h.isin] || [];
-    h.avg_invested = computeAvgInvested(start, myTrades, fromDate, toDate);
+    h.avg_invested = computeAvgBalanceFromHistorical(h.name, fromIdx, toIdx);
   }
 }
 function ytdAgg(items) {
