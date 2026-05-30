@@ -1360,8 +1360,9 @@ function buildBenchmarkSeries() {
 function computeRiskMetrics() {
   const hist = portfolioData && portfolioData.historical;
   if (!hist) return null;
-  const pf = hist.portfolio_total;
-  const bm = buildBenchmarkSeries();
+  // 스냅샷 모드면 [YTD start, snapshot] 구간으로 시계열 truncate
+  const pf = snapSlice(hist.portfolio_total);
+  const bm = snapSlice(buildBenchmarkSeries());
   if (!pf || !bm || pf.length < 5) return null;
 
   const N = pf.length;
@@ -1870,6 +1871,23 @@ function render() {
   renderLookthrough();
   renderRegionChips();
   renderHoldings();
+  // 스냅샷 모드일 때 각 패널 헤더에 배지 자동 부착
+  attachSnapBadgesToPanels();
+}
+
+// 스냅샷 모드면 모든 h3 헤더에 배지 부착, 아니면 제거
+function attachSnapBadgesToPanels() {
+  const badgeHtml = snapBadge();
+  document.querySelectorAll('h3').forEach(h => {
+    const old = h.querySelector('.snap-badge-inline');
+    if (old) old.remove();
+    if (badgeHtml) {
+      const wrap = document.createElement('span');
+      wrap.className = 'snap-badge-inline';
+      wrap.innerHTML = badgeHtml;
+      h.appendChild(wrap);
+    }
+  });
 }
 
 function renderCorrVolTable() {
@@ -2179,9 +2197,10 @@ function renderBacktest() {
   }
   if (labelEl) labelEl.textContent = benchmarkLabel();
 
-  const dates = hist.dates;
-  const pf = hist.portfolio_total || [];
-  const bm = buildBenchmarkSeries();
+  // 스냅샷 모드면 해당 날짜까지만 사용
+  const dates = snapSlice(hist.dates);
+  const pf = snapSlice(hist.portfolio_total || []);
+  const bm = snapSlice(buildBenchmarkSeries());
   if (!pf.length) return;
 
   // 누적 수익률 (% from start)
@@ -2324,22 +2343,25 @@ function renderAlphaContribution() {
   }
   if (labelEl) labelEl.textContent = benchmarkLabel();
 
-  const pf = hist.portfolio_total;
-  const bm = buildBenchmarkSeries();
+  // 스냅샷 모드면 [YTD start, snapshot] 구간으로 truncate
+  const pf = snapSlice(hist.portfolio_total);
+  const bm = snapSlice(buildBenchmarkSeries());
   if (!pf.length || !bm || !bm.length) {
     if (summaryEl) summaryEl.innerHTML = '<div style="color:var(--muted);padding:8px">벤치마크 데이터 없음</div>';
     return;
   }
+  const endIdx = pf.length - 1;
 
-  const acwiRet = (bm[bm.length - 1] / bm[0]) - 1;     // 선택 벤치마크 YTD (변수명은 호환 유지)
+  const acwiRet = (bm[bm.length - 1] / bm[0]) - 1;     // 선택 벤치마크 YTD-to-snapshot
   const pfRet = (pf[pf.length - 1] / pf[0]) - 1;
   const startTotal = pf[0];
 
-  // 종목별 기여도
+  // 종목별 기여도 — 시계열을 스냅샷까지로 truncate
   const contributions = [];
   for (const h of allHoldings) {
-    const series = hist.holdings_mkt[h.name];
-    if (!series || series.length < 2) continue;
+    const fullSeries = hist.holdings_mkt[h.name];
+    if (!fullSeries || fullSeries.length < 2) continue;
+    const series = fullSeries.slice(0, endIdx + 1);
     const startVal = series[0];
     const endVal = series[series.length - 1];
     if (!startVal || startVal <= 0) continue;
@@ -2617,13 +2639,23 @@ function computeBrinson() {
   const bms = window.BENCHMARKS && window.BENCHMARKS.indices;
   if (!hist || !hist.holdings_mkt || !bms) return null;
 
-  // 벤치마크 인덱스 YTD 수익률 (소수)
+  // 스냅샷 모드 — 시계열 truncate
+  const N = snapEndLength() || (hist.dates ? hist.dates.length : 0);
+  const endIdx = N - 1;
+
+  // 벤치마크 인덱스 YTD-to-snapshot 수익률 (소수)
   const bmRetByName = {};
+  const bmHist = hist.benchmarks || {};
   for (const idx of bms) {
-    if (idx.ytd_pct != null) bmRetByName[idx.name] = idx.ytd_pct / 100;
+    const bh = bmHist[idx.name];
+    if (bh && bh.values && bh.values[0] && endIdx < bh.values.length && bh.values[endIdx] != null) {
+      bmRetByName[idx.name] = bh.values[endIdx] / bh.values[0] - 1;
+    } else if (idx.ytd_pct != null) {
+      bmRetByName[idx.name] = idx.ytd_pct / 100;  // fallback (full year)
+    }
   }
 
-  // 포트폴리오 지역별 시작합/끝합 (YTD 기준)
+  // 포트폴리오 지역별 시작합/끝합 (YTD-to-snapshot 기준)
   const pfStart = hist.portfolio_total[0];
   const pfByRegion = {};
   for (const [region] of Object.entries(ACWI_REGION_WEIGHTS)) {
@@ -2633,16 +2665,17 @@ function computeBrinson() {
       const ser = hist.holdings_mkt[h.name];
       if (!ser || ser.length < 2) continue;
       s0 += ser[0];
-      sN += ser[ser.length - 1];
+      sN += ser[Math.min(endIdx, ser.length - 1)];
     }
     if (s0 > 0) pfByRegion[region] = { wp: s0 / pfStart, rp: sN / s0 - 1, s0, sN };
   }
-  // 현재 시가 기준 지역 비중 (참조용)
-  const totalCurMkt = allHoldings.reduce((s, h) => s + (h.mkt || 0), 0);
+  // 시가 기준 지역 비중 (스냅샷 모드는 viewHoldings 사용)
+  const ref = (typeof viewHoldings !== 'undefined' && viewHoldings.length) ? viewHoldings : allHoldings;
+  const totalCurMkt = ref.reduce((s, h) => s + (h.mkt || 0), 0);
   const pfCurByRegion = {};
   for (const region of Object.keys(ACWI_REGION_WEIGHTS)) {
     let sum = 0;
-    for (const h of allHoldings) {
+    for (const h of ref) {
       if (h.region === region) sum += (h.mkt || 0);
     }
     pfCurByRegion[region] = totalCurMkt > 0 ? sum / totalCurMkt : 0;
@@ -2677,8 +2710,9 @@ function computeBrinson() {
     });
     allocSum += alloc; selSum += sel; intSum += inter;
   }
-  // 포트폴리오 전체 수익률
-  const pfTotalRet = (hist.portfolio_total[hist.portfolio_total.length - 1] / pfStart - 1);
+  // 포트폴리오 전체 수익률 (YTD-to-snapshot)
+  const pfEnd = hist.portfolio_total[Math.min(endIdx, hist.portfolio_total.length - 1)];
+  const pfTotalRet = (pfEnd / pfStart - 1);
 
   return {
     rows,
@@ -2698,21 +2732,23 @@ function computeBrinsonSector() {
   if (!hist || !hist.holdings_mkt || !hist.sector_returns || !hist.acwi_sector_weights) return null;
 
   const acwiSec = hist.acwi_sector_weights;
-  const secRet = hist.sector_returns;  // {sector: ytd_pct}
+  const secRet = hist.sector_returns;  // {sector: ytd_pct}  (full year — sector_returns_series 없으면 fallback)
   const pfStart = hist.portfolio_total[0];
 
-  // 포트폴리오의 섹터 노출 + 섹터 수익률
-  // PF sector weight: Σ (holding YTD 시작 비중 × 그 holding의 sector_exposure[s])
-  // PF sector return: Σ (holding YTD 시작 비중 × sector_exposure × holding 수익률) / PF sector weight
+  // 스냅샷 모드 — endIdx
+  const N = snapEndLength() || (hist.dates ? hist.dates.length : 0);
+  const endIdx = N - 1;
+
+  // 포트폴리오의 섹터 노출 + 섹터 수익률 (YTD-to-snapshot)
   const pfSecW = {};
-  const pfSecRetNumer = {};  // weighted sum of returns
+  const pfSecRetNumer = {};
   for (const h of allHoldings) {
     const ser = hist.holdings_mkt[h.name];
     if (!ser || ser.length < 2) continue;
     const startVal = ser[0];
     if (!startVal) continue;
     const wH = startVal / pfStart;
-    const rH = (ser[ser.length - 1] / startVal) - 1;
+    const rH = (ser[Math.min(endIdx, ser.length - 1)] / startVal) - 1;
     const exp = h.sector_exposure || {};
     for (const [sec, e] of Object.entries(exp)) {
       const contrib = wH * e;
@@ -2724,10 +2760,11 @@ function computeBrinsonSector() {
   for (const sec in pfSecW) {
     if (pfSecW[sec] > 0) pfSecRet[sec] = pfSecRetNumer[sec] / pfSecW[sec];
   }
-  // 현재 시가 기준 섹터 비중 (참조용)
-  const totalCurMkt = allHoldings.reduce((s, h) => s + (h.mkt || 0), 0);
+  // 시가 기준 섹터 비중 (스냅샷 모드는 viewHoldings 사용)
+  const ref = (typeof viewHoldings !== 'undefined' && viewHoldings.length) ? viewHoldings : allHoldings;
+  const totalCurMkt = ref.reduce((s, h) => s + (h.mkt || 0), 0);
   const pfSecW_now = {};
-  for (const h of allHoldings) {
+  for (const h of ref) {
     const mkt = h.mkt || 0;
     if (mkt <= 0 || totalCurMkt <= 0) continue;
     const wH = mkt / totalCurMkt;
@@ -2941,27 +2978,32 @@ function renderBrinsonAttribution() {
 function renderTrades() {
   const tableEl = document.getElementById('tradesTable');
   const sumEl = document.getElementById('tradesSummary');
-  const trades = (portfolioData && portfolioData.trades) || [];
+  // 스냅샷 모드면 그 날짜까지의 거래만
+  const trades = snapTrades();
   if (!tableEl) return;
   if (!trades.length) {
     sumEl.innerHTML = '<div style="color:var(--muted);padding:8px">매매내역 데이터 없음</div>';
     tableEl.innerHTML = '';
     return;
   }
+  // 새 스키마: t.action 은 '매입'|'매도'. 구버전 호환 위해 t.type 도 인식.
+  const isBuy = t => t.action === '매입' || t.type === 'buy';
+  const isSell = t => t.action === '매도' || t.type === 'sell';
   // 종목별 집계
   const agg = {};
   for (const t of trades) {
     agg[t.name] = agg[t.name] || { buy: 0, sell: 0, count: 0, region: '' };
-    agg[t.name][t.type] += t.amount;
+    if (isBuy(t))  agg[t.name].buy  += t.amount;
+    if (isSell(t)) agg[t.name].sell += t.amount;
     agg[t.name].count += 1;
     const h = allHoldings.find(x => x.name === t.name);
     if (h) agg[t.name].region = h.region;
   }
-  const totalBuy = trades.filter(t => t.type === 'buy').reduce((s, t) => s + t.amount, 0);
-  const totalSell = trades.filter(t => t.type === 'sell').reduce((s, t) => s + t.amount, 0);
+  const totalBuy  = trades.filter(isBuy ).reduce((s, t) => s + t.amount, 0);
+  const totalSell = trades.filter(isSell).reduce((s, t) => s + t.amount, 0);
   const net = totalBuy - totalSell;
-  const buyCount = trades.filter(t => t.type === 'buy').length;
-  const sellCount = trades.filter(t => t.type === 'sell').length;
+  const buyCount  = trades.filter(isBuy ).length;
+  const sellCount = trades.filter(isSell).length;
   const dates = trades.map(t => t.date).sort();
 
   const card = (l, v, k = '', c = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
@@ -2976,8 +3018,8 @@ function renderTrades() {
 
   // 필터링된 내역 (시간 역순 — 최근 먼저)
   let list = [...trades];
-  if (tradesFilter === 'buy') list = list.filter(t => t.type === 'buy');
-  if (tradesFilter === 'sell') list = list.filter(t => t.type === 'sell');
+  if (tradesFilter === 'buy') list = list.filter(isBuy);
+  if (tradesFilter === 'sell') list = list.filter(isSell);
   list.sort((a, b) => b.date.localeCompare(a.date));
 
   // 거래 테이블
@@ -2992,19 +3034,20 @@ function renderTrades() {
     <tbody>
       ${list.map(t => {
         const h = allHoldings.find(x => x.name === t.name);
-        const reg = h ? h.region : '';
-        const typeLabel = t.type === 'buy'
+        const reg = h ? h.region : (h && h.region) || '';
+        const buy = isBuy(t);
+        const typeLabel = buy
           ? '<span style="color:var(--pos);font-weight:600">매입</span>'
           : '<span style="color:var(--neg);font-weight:600">매도</span>';
-        const sign = t.type === 'buy' ? '+' : '−';
-        const amtCls = t.type === 'buy' ? 'pos' : 'neg';
+        const sign = buy ? '+' : '−';
+        const amtCls = buy ? 'pos' : 'neg';
         return `
           <tr>
             <td>${t.date.slice(5)}</td>
             <td>${reg ? `<span class="region-pill" data-r="${reg}">${reg}</span>` : ''}</td>
             <td>${t.name}</td>
             <td>${typeLabel}</td>
-            <td style="color:var(--muted);font-size:11px">${t.currency || ''}</td>
+            <td style="color:var(--muted);font-size:11px">${t.ccy || t.currency || ''}</td>
             <td class="${amtCls}" style="font-weight:600">${sign} ${fmt(t.amount, 2)}</td>
           </tr>
         `;
@@ -3889,6 +3932,39 @@ function sum(arr) {
   return any ? s : null;
 }
 function round2(v) { return Math.round((v || 0) * 100) / 100; }
+
+// ===== 스냅샷 모드 helpers =====
+// 스냅샷 날짜까지의 시계열 length (포함). 스냅샷 모드 아니면 전체 length.
+function snapEndLength() {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.dates) return 0;
+  if (!snapshotDate) return hist.dates.length;
+  let idx = hist.dates.indexOf(snapshotDate);
+  if (idx < 0) {
+    for (let i = hist.dates.length - 1; i >= 0; i--) {
+      if (hist.dates[i] <= snapshotDate) { idx = i; break; }
+    }
+    if (idx < 0) idx = hist.dates.length - 1;
+  }
+  return idx + 1;
+}
+// 시계열 array를 스냅샷 날짜까지로 자름
+function snapSlice(arr) {
+  if (!arr || !Array.isArray(arr)) return arr;
+  const N = snapEndLength();
+  return (N && N < arr.length) ? arr.slice(0, N) : arr;
+}
+// 스냅샷 모드면 trades 시간 필터
+function snapTrades() {
+  const trades = (portfolioData && portfolioData.trades) || [];
+  if (!snapshotDate) return trades;
+  return trades.filter(t => t.date <= snapshotDate);
+}
+// 패널에 "스냅샷 모드" 배지 텍스트
+function snapBadge() {
+  if (!snapshotDate) return '';
+  return `<span style="display:inline-block;margin-left:8px;padding:1px 7px;border-radius:4px;background:var(--warn-bg);color:var(--warn-fg);font-size:10px;font-weight:700;letter-spacing:0.04em">📌 ${snapshotDate} 스냅샷</span>`;
+}
 
 // ── YTD 수익률 (Modified Dietz) + 실현/미실현 분해 ─────────────
 // 한국식 평균매입가 회계 (xlsx Sheet1 5/13 장부가 ground truth + post-5/13 매매 반영):
