@@ -1628,6 +1628,8 @@ function applySnapshot(dateStr) {
       document.getElementById('snapshotDate').value = dateStr;
     }
     snapshotDate = dateStr;
+    const prevIdx = idx > 0 ? idx - 1 : null;
+    const prevDate = prevIdx != null ? hist.dates[prevIdx] : null;
     // 모든 거래 데이터 (시간순)
     const allTrades = (portfolioData.trades || []);
     viewHoldings = allHoldings.map(h => {
@@ -1643,8 +1645,25 @@ function applySnapshot(dateStr) {
         if (t.action === '매입') buy += t.amount;
         else if (t.action === '매도') sell += t.amount;
       }
-      // 3) book_basis/cost_sold는 null 처리 → ytdMetrics fallback(평균원가 비례) 사용
-      //    broker MANUAL_REALIZED 정확값은 latest에서만 의미. 과거는 비례 근사로.
+      // 3) 전일 대비 손익 — historical[idx] vs historical[idx-1]
+      //    매매 cashflow도 차감해서 순수 가격변동분만 계산
+      let dailyPnl = null, dailyPct = null;
+      if (prevIdx != null && series && prevIdx < series.length && idx < series.length) {
+        const mktPrev = series[prevIdx];
+        // 전일 ~ 오늘 사이 매매 cashflow (매수는 mkt 증가에 기여하지만 가격 변동 아님)
+        let cfBuy = 0, cfSell = 0;
+        for (const t of allTrades) {
+          if (!isin || t.isin !== isin) continue;
+          if (t.date > dateStr) break;
+          if (t.date <= prevDate) continue;  // 전일 이전 거래는 prev에 이미 반영
+          if (t.action === '매입') cfBuy += t.amount;
+          else if (t.action === '매도') cfSell += t.amount;
+        }
+        dailyPnl = mktAt - mktPrev - (cfBuy - cfSell);
+        const base = mktPrev + cfBuy - cfSell;
+        dailyPct = (base > 0) ? (dailyPnl / base) * 100 : null;
+      }
+      // 4) book_basis/cost_sold는 null 처리 → ytdMetrics fallback(평균원가 비례) 사용
       return {
         ...h,
         mkt: mktAt,
@@ -1653,8 +1672,10 @@ function applySnapshot(dateStr) {
         ytd_net_cf: round2(buy - sell),
         book_basis: null,
         cost_sold: null,
-        // 일일 손익도 과거 시점에선 의미 없음 — 빈 값으로
-        daily_pnl: null, daily_chg_pct: null, daily_close_date: null,
+        // 전일 대비 손익 (snapshot date 기준)
+        daily_pnl: dailyPnl != null ? round2(dailyPnl) : null,
+        daily_chg_pct: dailyPct != null ? round2(dailyPct) : null,
+        daily_close_date: dateStr,
       };
     });
     // 비중 재계산
@@ -2169,7 +2190,8 @@ function todayLocalStr() {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 function effectiveDataDate() {
-  // 데이터에서 가장 최신 daily_close_date를 반환. 데이터 없으면 브라우저 오늘.
+  // 스냅샷 모드면 스냅샷 날짜. 아니면 데이터의 가장 최신 daily_close_date.
+  if (snapshotDate) return snapshotDate;
   if (!allHoldings || !allHoldings.length) return todayLocalStr();
   let maxDate = null;
   for (const x of allHoldings) {
@@ -2180,10 +2202,16 @@ function effectiveDataDate() {
   return maxDate || todayLocalStr();
 }
 function todayShort() {
-  // 데이터의 가장 최신 daily_close_date를 M/D로
   const dataDate = effectiveDataDate();
   const [, m, d] = dataDate.split('-');
   return `${parseInt(m, 10)}/${parseInt(d, 10)}`;
+}
+// 일일 손익 라벨 — 스냅샷 모드면 "전일 대비", 아니면 "금일"
+function dailyLabel() {
+  return snapshotDate ? '전일 대비 손익' : '금일 평가손익';
+}
+function dailyLabelShort() {
+  return snapshotDate ? '전일 대비' : '금일';
 }
 
 function renderBacktest() {
@@ -3340,9 +3368,9 @@ function renderKPIs() {
         sub: `매각대금 ${fmtAmtBig(ytdA.sell)} − 매각cost`,
         cls: cls(ytdA.realized) },
     ] : []),
-    // ── 금일 (가장 최신 마감된 시장만 합산) ─────────────────────
+    // ── 금일/전일대비 (가장 최신 마감된 시장만 합산) ──────────────
     {
-      label: `금일 평가손익 (${todayShort()})`,
+      label: `${dailyLabel()} (${todayShort()})`,
       value: todayHoldings.length > 0 ? fmtAmtBig(todayPnl) : '—',
       sub: todayHoldings.length > 0
         ? `${fmtPct(todayPnlPct)} · ${regionsLabel} ${todayHoldings.length}종목`
@@ -3747,7 +3775,7 @@ function renderHoldingsSummary(h) {
       <div class="sub" title="매각대금 ${fmtAmtBig(ytdA.sell)}">매각대금 − 매각 cost</div>
     </div>
     <div class="stat daily">
-      <div class="lbl">금일 손익 (${todayShort()})</div>
+      <div class="lbl">${dailyLabel()} (${todayShort()})</div>
       <div class="val ${cls(dailyPnl)}">${dailyPnl == null ? '—' : fmtAmtBig(dailyPnl)}</div>
       <div class="sub ${cls(dailyPct)}">
         ${dailyPct == null ? '종가 반영 없음' : fmtPct(dailyPct) + ` · ${regionsLabel} ${todayItems.length}종목`}
@@ -3789,7 +3817,7 @@ function renderHoldings() {
 
   const today = effectiveDataDate();
   const dateLabel = todayShort();
-  const dailyHeader = `금일 <span style="color:var(--accent);font-weight:700">${dateLabel}</span> (전일 대비)`;
+  const dailyHeader = `${dailyLabelShort()} <span style="color:var(--accent);font-weight:700">${dateLabel}</span> (전일 대비)`;
   // 정렬 가능한 헤더 — 정렬 키 + 화살표 표시
   const arrow = key => key === holdingsSortKey ? (holdingsSortDir === 'desc' ? ' ▼' : ' ▲') : '';
   const sh = (key, label) => `<th class="sortable" data-sk="${key}" title="클릭하여 정렬"><span class="${key === holdingsSortKey ? 'active-sort' : ''}">${label}${arrow(key)}</span></th>`;
