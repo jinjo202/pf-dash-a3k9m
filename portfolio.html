@@ -1466,6 +1466,11 @@ function loadFromData(d) {
   portfolioData = d;
   allHoldings = d.holdings;
   viewHoldings = allHoldings;
+  // 평균잔액 (시간가중) 계산 — 기본은 YTD 시작 ~ 최신 가격일
+  const hist0 = d.historical || {};
+  const ytdStart = (hist0.dates && hist0.dates[0]) || '2026-01-01';
+  const ytdEnd = (hist0.dates && hist0.dates[hist0.dates.length - 1]) || d.last_updated || ytdStart;
+  attachAvgInvested(allHoldings, ytdStart, ytdEnd);
   // 데이터 버전 hash (캐시 디버깅용 — 사용자가 진짜 최신 데이터를 받았는지 확인 가능)
   const hist = d.historical || {};
   const trades = d.trades || [];
@@ -1616,6 +1621,9 @@ function applySnapshot(dateStr) {
   if (!dateStr || dateStr === hist.to) {
     snapshotDate = null;
     viewHoldings = allHoldings;
+    // 평균잔액을 YTD 시작 ~ 최신 가격일로 reset
+    const ytdEnd = hist.dates[hist.dates.length - 1] || hist.to;
+    attachAvgInvested(allHoldings, hist.dates[0], ytdEnd);
   } else {
     // 입력 날짜와 가장 가까운(이전) 거래일로 스냅
     let idx = hist.dates.indexOf(dateStr);
@@ -1630,8 +1638,12 @@ function applySnapshot(dateStr) {
     snapshotDate = dateStr;
     const prevIdx = idx > 0 ? idx - 1 : null;
     const prevDate = prevIdx != null ? hist.dates[prevIdx] : null;
+    const ytdStart = hist.dates[0];
     // 모든 거래 데이터 (시간순)
     const allTrades = (portfolioData.trades || []);
+    // 종목별 trades pre-group (avg_invested 빠르게 계산)
+    const tradesByIsin = {};
+    for (const t of allTrades) (tradesByIsin[t.isin] = tradesByIsin[t.isin] || []).push(t);
     viewHoldings = allHoldings.map(h => {
       // 1) 시가 — historical share-aware 시리즈에서
       const series = hist.holdings_mkt && hist.holdings_mkt[h.name];
@@ -1663,7 +1675,10 @@ function applySnapshot(dateStr) {
         const base = mktPrev + cfBuy - cfSell;
         dailyPct = (base > 0) ? (dailyPnl / base) * 100 : null;
       }
-      // 4) book_basis/cost_sold는 null 처리 → ytdMetrics fallback(평균원가 비례) 사용
+      // 4) 평균잔액 (시간가중) — 이 종목의 [year_start, snapshot] 기준
+      const myStart = (h.start_2026 != null) ? h.start_2026 : (h.book || 0);
+      const avgInv = computeAvgInvested(myStart, tradesByIsin[isin] || [], ytdStart, dateStr);
+      // 5) book_basis/cost_sold는 null 처리 → ytdMetrics fallback(평균원가 비례) 사용
       return {
         ...h,
         mkt: mktAt,
@@ -1672,7 +1687,7 @@ function applySnapshot(dateStr) {
         ytd_net_cf: round2(buy - sell),
         book_basis: null,
         cost_sold: null,
-        // 전일 대비 손익 (snapshot date 기준)
+        avg_invested: avgInv != null ? round2(avgInv) : null,
         daily_pnl: dailyPnl != null ? round2(dailyPnl) : null,
         daily_chg_pct: dailyPct != null ? round2(dailyPct) : null,
         daily_close_date: dateStr,
@@ -3348,9 +3363,9 @@ function renderKPIs() {
   const baseSub    = isYtd
     ? `YTD 순투입 ${fmtAmtBig(ytdA.netCf)} (매입 ${fmtAmtBig(ytdA.buy)} / 매도 ${fmtAmtBig(ytdA.sell)})`
     : '매입 시점 취득원가';
-  const pnlLabel   = isYtd ? 'YTD 총손익 (Mod.Dietz)' : '누적 평가손익';
+  const pnlLabel   = isYtd ? 'YTD 총손익 (평균잔액 기준)' : '누적 평가손익';
   const pnlSub     = isYtd
-    ? (basePnlPct != null ? fmtPct(basePnlPct) : '-') + ` · 평균투입 ${fmtAmtBig(ytdA.base)}`
+    ? (basePnlPct != null ? fmtPct(basePnlPct) : '-') + ` · 평균잔액 ${fmtAmtBig(ytdA.base)}`
     : (basePnlPct != null ? fmtPct(basePnlPct) + ' (매입가 대비)' : '-');
 
   const kpis = [
@@ -3485,7 +3500,7 @@ function renderRegionTable() {
         <th rowspan="2">매입가 (억원)</th>
         <th rowspan="2">장부가 (억원)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
-        <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (Mod.Dietz)</th>
+        <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (평균잔액)</th>
         <th rowspan="2">비중</th>
         <th rowspan="2">가중 260D</th>
         <th rowspan="2">가중 90D</th>
@@ -3760,9 +3775,9 @@ function renderHoldingsSummary(h) {
       <div class="sub ${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</div>
     </div>
     <div class="stat ytd">
-      <div class="lbl">YTD 총손익 (Mod.Dietz)</div>
+      <div class="lbl">YTD 총손익 (평균잔액 기준)</div>
       <div class="val ${cls(pnlYtd)}">${fmtAmtBig(pnlYtd)}</div>
-      <div class="sub ${cls(pnlYtdPct)}" title="1/1 시작 ${fmtAmtBig(ytdA.start)} · 순투입 ${fmtAmtBig(ytdA.netCf)} · 평균투입 ${fmtAmtBig(ytdA.base)}">${fmtPct(pnlYtdPct)}</div>
+      <div class="sub ${cls(pnlYtdPct)}" title="1/1 시작 ${fmtAmtBig(ytdA.start)} · 순투입 ${fmtAmtBig(ytdA.netCf)} · 평균잔액 ${fmtAmtBig(ytdA.base)}">${fmtPct(pnlYtdPct)}</div>
     </div>
     <div class="stat ytd">
       <div class="lbl">평가손익 (미실현)</div>
@@ -3831,7 +3846,7 @@ function renderHoldings() {
         ${sh2('book', '장부가', 'rowspan="2"')}
         ${sh2('mkt', '시가', 'rowspan="2"')}
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
-        <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (Mod.Dietz)</th>
+        <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (평균잔액)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">${dailyHeader}</th>
         ${sh2('v260', '260D', 'rowspan="2"')}
         ${sh2('v90', '90D', 'rowspan="2"')}
@@ -3853,7 +3868,7 @@ function renderHoldings() {
         const yM        = ytdMetrics(x);
         const pnlYtd    = yM.pnl;
         const pnlYtdPct = yM.pct;
-        const ytdTip    = `1/1 시작 ${fmt(yM.start, 2)} · 매입 ${fmt(yM.buy, 2)} · 매도 ${fmt(yM.sell, 2)} · 평균투입 ${fmt(yM.base, 2)}`;
+        const ytdTip    = `1/1 시작 ${fmt(yM.start, 2)} · 매입 ${fmt(yM.buy, 2)} · 매도 ${fmt(yM.sell, 2)} · 평균잔액 ${fmt(yM.base, 2)}`;
         const todayOK   = x.daily_close_date === today && x.daily_pnl != null;
         const dPnl      = todayOK ? x.daily_pnl : null;
         const dPct      = todayOK ? x.daily_chg_pct : null;
@@ -3891,7 +3906,7 @@ function renderHoldings() {
         const tYA        = ytdAgg(h);
         const tPnlYtd    = tYA.pnl;
         const tPnlYtdPct = tYA.pct;
-        const tYtdTip    = `1/1 시작 ${fmt(tYA.start, 2)} · 매입 ${fmt(tYA.buy, 2)} · 매도 ${fmt(tYA.sell, 2)} · 평균투입 ${fmt(tYA.base, 2)}`;
+        const tYtdTip    = `1/1 시작 ${fmt(tYA.start, 2)} · 매입 ${fmt(tYA.buy, 2)} · 매도 ${fmt(tYA.sell, 2)} · 평균잔액 ${fmt(tYA.base, 2)}`;
         // 금일: 오늘 종가 반영된 종목만
         const todayItems = h.filter(x => x.daily_close_date === today && x.daily_pnl != null);
         const tDailyPnl = todayItems.length > 0 ? sum(todayItems.map(x => x.daily_pnl)) : null;
@@ -3994,16 +4009,18 @@ function snapBadge() {
   return `<span style="display:inline-block;margin-left:8px;padding:1px 7px;border-radius:4px;background:var(--warn-bg);color:var(--warn-fg);font-size:10px;font-weight:700;letter-spacing:0.04em">📌 ${snapshotDate} 스냅샷</span>`;
 }
 
-// ── YTD 수익률 (Modified Dietz) + 실현/미실현 분해 ─────────────
-// 한국식 평균매입가 회계 (xlsx Sheet1 5/13 장부가 ground truth + post-5/13 매매 반영):
+// ── YTD 수익률 (시간가중 평균잔액) + 실현/미실현 분해 ─────────────
+// 한국식 평균매입가 회계:
 //   book_basis : 현재 보유분의 cost basis (장부가)
 //   cost_sold  : YTD 중 매도된 부분의 cost basis = (start + buy) - book_basis
 //   realized   = ytd_sell - cost_sold     ← 매각이익 (실현)
 //   unrealized = mkt      - book_basis    ← 평가손익 (미실현)
 //   total      = realized + unrealized    = mkt + sell - start - buy
 // 수익률:
-//   base = start + 0.5 × (buy - sell)     ← Modified Dietz 평균투입자본
+//   base = avg_invested (시간가중 평균잔액)
+//        = (start × 기간일수 + Σ trade.signed_amount × 잔여일수) / 기간일수
 //   pct  = total / base × 100  (base > 0 일 때만)
+//   → x.avg_invested 가 없으면 Modified Dietz 근사로 fallback
 function ytdMetrics(x) {
   const start = (x && x.start_2026 != null) ? x.start_2026 : ((x && x.book) || 0);
   const buy   = (x && x.ytd_buy)  || 0;
@@ -4011,13 +4028,11 @@ function ytdMetrics(x) {
   const mkt   = (x && x.mkt) || 0;
   const netCf = buy - sell;
   const cost  = start + buy;
-  // book_basis가 데이터에 있으면 사용 (한국식 장부가 ground truth), 없으면 fallback
   let costRem, costSold;
   if (x && x.book_basis != null) {
     costRem  = x.book_basis;
     costSold = cost - costRem;
   } else if (sell > 0 && (mkt + sell) > 0) {
-    // fallback: 평균원가 비례 분배
     costSold = cost * sell / (mkt + sell);
     costRem  = cost - costSold;
   } else {
@@ -4026,22 +4041,59 @@ function ytdMetrics(x) {
   const realized   = sell - costSold;
   const unrealized = mkt  - costRem;
   const pnl        = realized + unrealized;
-  const base       = start + 0.5 * netCf;
+  // 평균잔액: 미리 계산되어 있으면 사용, 없으면 Mod.Dietz 근사
+  const base       = (x && x.avg_invested != null && x.avg_invested > 0)
+    ? x.avg_invested
+    : (start + 0.5 * netCf);
   const pct        = base > 0 ? (pnl / base) * 100 : null;
   return { start, buy, sell, netCf, mkt, cost, costSold, costRem,
            realized, unrealized, pnl, base, pct };
 }
+
+// ── 시간가중 평균잔액 (avg_invested) 계산 ──────────────────────
+// 기간 [fromDate, toDate] 동안 평균적으로 투입된 자본을 시간가중으로 계산.
+// start: 1/1 시작가치 (전 기간 보유)
+// trades: 해당 holding의 이 기간 거래 (date, action, amount)
+function computeAvgInvested(start, trades, fromDate, toDate) {
+  if (!fromDate || !toDate) return null;
+  const fromMs = new Date(fromDate).getTime();
+  const toMs = new Date(toDate).getTime();
+  const totalDays = Math.max(1, Math.round((toMs - fromMs) / 86400000));
+  let weighted = (start || 0) * totalDays;
+  for (const t of (trades || [])) {
+    if (!t.date || t.date < fromDate || t.date > toDate) continue;
+    const daysRemaining = Math.max(0, Math.round((toMs - new Date(t.date).getTime()) / 86400000));
+    const sign = (t.action === '매입' || t.type === 'buy') ? 1 : -1;
+    weighted += sign * (t.amount || 0) * daysRemaining;
+  }
+  return weighted / totalDays;
+}
+
+// 모든 holding에 x.avg_invested 부착 (fromDate ~ toDate 기간 기준)
+function attachAvgInvested(holdings, fromDate, toDate) {
+  const allTrades = (portfolioData && portfolioData.trades) || [];
+  // ISIN별로 그룹화
+  const byIsin = {};
+  for (const t of allTrades) (byIsin[t.isin] = byIsin[t.isin] || []).push(t);
+  for (const h of holdings) {
+    const start = (h.start_2026 != null) ? h.start_2026 : (h.book || 0);
+    const myTrades = byIsin[h.isin] || [];
+    h.avg_invested = computeAvgInvested(start, myTrades, fromDate, toDate);
+  }
+}
 function ytdAgg(items) {
-  // 종목별 realized/unrealized를 합산 (cost 분배는 종목 단위에서 계산)
-  let start=0, buy=0, sell=0, mkt=0, realized=0, unrealized=0;
+  // 종목별 realized/unrealized + avg_invested를 합산
+  let start=0, buy=0, sell=0, mkt=0, realized=0, unrealized=0, avgInv=0, hasAvg=false;
   for (const x of items) {
     const m = ytdMetrics(x);
     start += m.start; buy += m.buy; sell += m.sell; mkt += m.mkt;
     realized += m.realized; unrealized += m.unrealized;
+    if (x && x.avg_invested != null) { avgInv += x.avg_invested; hasAvg = true; }
   }
   const netCf = buy - sell;
   const pnl   = realized + unrealized;
-  const base  = start + 0.5 * netCf;
+  // 평균잔액: 종목별로 미리 부착됐으면 합산, 아니면 Mod.Dietz fallback
+  const base  = hasAvg ? avgInv : (start + 0.5 * netCf);
   const pct   = base > 0 ? (pnl / base) * 100 : null;
   return { start, buy, sell, netCf, mkt, realized, unrealized, pnl, base, pct };
 }
