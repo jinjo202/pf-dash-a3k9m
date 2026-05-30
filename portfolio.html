@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-05-30f";</script>
+<script>window.CODE_VERSION = "2026-05-30g";</script>
 <!-- 자동 캐시 무력화: 이 HTML이 10분(GitHub Pages max-age) 캐시될 수 있어
      로드 직후 서버의 최신 버전과 비교, 더 최신이면 1회 강제 새로고침 (?cb= 추가) -->
 <script>
@@ -436,6 +436,51 @@
   .chart-modal-stats .s .v {
     font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px;
   }
+  /* ===== PDF/인쇄용 정리본 ===== */
+  #printSummary { display: none; }
+  #printSummary h1 { font-size: 16px; margin: 0 0 2px; }
+  #printSummary .ps-sub { font-size: 10px; color: #555; margin-bottom: 8px; }
+  #printSummary h2 { font-size: 12px; margin: 10px 0 4px; padding-bottom: 2px; border-bottom: 1.5px solid #333; }
+  #printSummary table { width: 100%; border-collapse: collapse; font-size: 9px; }
+  #printSummary th, #printSummary td { border: 0.5px solid #bbb; padding: 2px 4px; text-align: right; white-space: nowrap; }
+  #printSummary th { background: #f0f0f0; font-weight: 700; text-align: center; }
+  #printSummary td:first-child, #printSummary th:first-child,
+  #printSummary td.l { text-align: left; }
+  #printSummary .ps-kpis { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+  #printSummary .ps-kpi { border: 1px solid #ccc; border-radius: 4px; padding: 4px 8px; min-width: 120px; }
+  #printSummary .ps-kpi .l { font-size: 8px; color: #666; }
+  #printSummary .ps-kpi .v { font-size: 13px; font-weight: 700; }
+  #printSummary .pos { color: #15803d; }
+  #printSummary .neg { color: #b91c1c; }
+  @media print {
+    @page { size: A4 portrait; margin: 10mm; }
+    body.printing > *:not(#printSummary) { display: none !important; }
+    body.printing #printSummary { display: block !important; }
+    body.printing { background: #fff; }
+    #printSummary table { page-break-inside: auto; }
+    #printSummary tr { page-break-inside: avoid; }
+  }
+
+  /* ===== 패널 접기/펼치기 ===== */
+  .panel > h3, .panel > h2 { cursor: pointer; user-select: none; transition: color 0.12s; }
+  .panel > h3:hover, .panel > h2:hover { color: var(--accent); }
+  .panel.collapsed > *:not(h3):not(h2) { display: none !important; }
+  .collapse-ind {
+    display: inline-block; margin-left: 6px; font-size: 11px;
+    color: var(--muted); transition: transform 0.15s; vertical-align: middle;
+  }
+  .panel.collapsed .collapse-ind { color: var(--accent); }
+  .collapse-allbar {
+    display: flex; gap: 8px; align-items: center; margin: 4px 0 12px;
+    flex-wrap: wrap;
+  }
+  .collapse-allbar button {
+    padding: 5px 12px; border: 1px solid var(--border); background: var(--panel);
+    border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
+    color: var(--muted); transition: all 0.15s;
+  }
+  .collapse-allbar button:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
   .chart-modal-canvas-wrap { position: relative; height: 380px; }
   .chart-modal-tabs {
     display: flex; gap: 6px; margin: 4px 0 12px;
@@ -1009,6 +1054,13 @@
   </div>
 
   <div id="dashboard" class="hidden">
+    <!-- 전체 펼치기/접기 + PDF 출력 -->
+    <div class="collapse-allbar">
+      <button id="expandAll" type="button">▼ 전체 펼치기</button>
+      <button id="collapseAll" type="button">▶ 전체 접기</button>
+      <button id="pdfExport" type="button" style="margin-left:auto;color:var(--accent);border-color:var(--accent)">📄 PDF 정리본 출력</button>
+    </div>
+
     <div id="benchmarks" class="benchmarks"></div>
 
     <!-- 스냅샷 컨트롤 -->
@@ -1289,6 +1341,9 @@
     </div>
   </div>
 </main>
+
+<!-- PDF/인쇄용 정리본 (화면에선 숨김, 인쇄 시에만 표시) -->
+<div id="printSummary"></div>
 
 <script>
 const REGIONS = ['한국', '미국', '유럽', '글로벌', '이머징'];
@@ -1984,6 +2039,134 @@ function render() {
   renderHoldings();
   // 스냅샷 모드일 때 각 패널 헤더에 배지 자동 부착
   attachSnapBadgesToPanels();
+  // 패널 접기/펼치기 토글 설정 (1회)
+  setupCollapsibles();
+}
+
+// 각 panel의 h3/h2를 클릭하면 그 패널 본문 접기/펼치기
+function setupCollapsibles() {
+  document.querySelectorAll('#dashboard .panel > h3, #dashboard .panel > h2').forEach(head => {
+    if (head._collapsibleWired) return;
+    head._collapsibleWired = true;
+    const ind = document.createElement('span');
+    ind.className = 'collapse-ind';
+    ind.textContent = '▼';
+    head.appendChild(ind);
+    head.addEventListener('click', () => {
+      const panel = head.parentElement;
+      const collapsed = panel.classList.toggle('collapsed');
+      ind.textContent = collapsed ? '▶' : '▼';
+      if (!collapsed) resizeChartsSoon();  // 펼칠 때 차트 크기 재조정
+    });
+  });
+  // 전체 펼치기/접기 버튼 (1회)
+  const ea = document.getElementById('expandAll');
+  const ca = document.getElementById('collapseAll');
+  if (ea && !ea._wired) {
+    ea._wired = true;
+    ea.addEventListener('click', () => { setAllCollapsed(false); resizeChartsSoon(); });
+  }
+  if (ca && !ca._wired) {
+    ca._wired = true;
+    ca.addEventListener('click', () => setAllCollapsed(true));
+  }
+  const pe = document.getElementById('pdfExport');
+  if (pe && !pe._wired) {
+    pe._wired = true;
+    pe.addEventListener('click', exportPdf);
+  }
+}
+function setAllCollapsed(collapsed) {
+  document.querySelectorAll('#dashboard .panel').forEach(panel => {
+    const head = panel.querySelector(':scope > h3, :scope > h2');
+    if (!head) return;
+    panel.classList.toggle('collapsed', collapsed);
+    const ind = head.querySelector('.collapse-ind');
+    if (ind) ind.textContent = collapsed ? '▶' : '▼';
+  });
+}
+function resizeChartsSoon() {
+  setTimeout(() => {
+    for (const k in charts) { try { charts[k] && charts[k].resize(); } catch (e) {} }
+  }, 60);
+}
+
+// ===== PDF 정리본 (A4 1~2장 출력용) =====
+function buildPrintSummary() {
+  const h = viewHoldings;
+  const yA = ytdAgg(h);
+  const totalMkt = sum(h.map(x => x.mkt)) || 0;
+  const totalBuy = sum(h.filter(x => x.buy && x.buy > 0).map(x => x.buy)) || 0;
+  const pnlCum = totalMkt - totalBuy;
+  const owned = h.filter(x => x.mkt > 0).length;
+  const asOf = portfolioData.last_updated || '-';
+  const snapNote = snapshotDate ? ` · 스냅샷 ${snapshotDate}` : '';
+  const pv = portfolioData.portfolio_valuation || {};
+
+  const fmtPctP = v => v == null ? '-' : (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
+  const clsOf = v => v > 0 ? 'pos' : v < 0 ? 'neg' : '';
+
+  // 지역별 집계
+  const regRows = regionAgg();
+
+  // 보유종목 (보유 중, 비중 큰 순)
+  const rows = h.filter(x => (x.mkt || 0) > 0).slice().sort((a, b) => (b.w || 0) - (a.w || 0));
+
+  let html = '';
+  html += `<h1>${portfolioData.portfolio_name || '포트폴리오'} 정리본</h1>`;
+  html += `<div class="ps-sub">가격 기준일 ${asOf}${snapNote} · 보유 ${owned}종목 · 출력 ${new Date().toLocaleString('ko-KR')}</div>`;
+
+  // KPI 카드
+  html += `<div class="ps-kpis">
+    <div class="ps-kpi"><div class="l">총 평가금액</div><div class="v">${fmtAmtBig(totalMkt)}</div></div>
+    <div class="ps-kpi"><div class="l">1/1 시작가치</div><div class="v">${fmtAmtBig(yA.start)}</div></div>
+    <div class="ps-kpi"><div class="l">YTD 총손익 (평균잔액)</div><div class="v ${clsOf(yA.pnl)}">${fmtAmtBig(yA.pnl)} (${fmtPctP(yA.pct)})</div></div>
+    <div class="ps-kpi"><div class="l">평가손익 (미실현)</div><div class="v ${clsOf(yA.unrealized)}">${fmtAmtBig(yA.unrealized)}</div></div>
+    <div class="ps-kpi"><div class="l">매각이익 (실현)</div><div class="v ${clsOf(yA.realized)}">${fmtAmtBig(yA.realized)}</div></div>
+    <div class="ps-kpi"><div class="l">누적 손익 (매입가)</div><div class="v ${clsOf(pnlCum)}">${fmtAmtBig(pnlCum)}</div></div>
+    <div class="ps-kpi"><div class="l">PER(Fwd) / PBR(TTM)</div><div class="v">${pv.pe ? pv.pe.toFixed(1) + 'x' : '-'} / ${pv.pb ? pv.pb.toFixed(2) + 'x' : '-'}</div></div>
+    <div class="ps-kpi"><div class="l">YTD 순투입</div><div class="v">${fmtAmtBig(yA.netCf)}</div></div>
+  </div>`;
+
+  // 지역별 요약
+  html += `<h2>지역별 요약</h2><table>
+    <thead><tr><th class="l">지역</th><th>종목</th><th>시가(억)</th><th>비중</th><th>평가손익</th><th>매각이익</th></tr></thead><tbody>`;
+  for (const r of regRows) {
+    html += `<tr><td class="l">${r.region}</td><td>${r.count}</td><td>${fmt(r.mkt,1)}</td>`
+      + `<td>${r.weight == null ? '-' : (r.weight*100).toFixed(1)+'%'}</td>`
+      + `<td class="${clsOf(r.unrealized)}">${fmt(r.unrealized,1)}</td>`
+      + `<td class="${clsOf(r.realized)}">${r.ytdSell > 0 ? fmt(r.realized,1) : '-'}</td></tr>`;
+  }
+  html += `<tr style="font-weight:700;background:#f5f5f5"><td class="l">합계</td><td>${owned}</td><td>${fmt(totalMkt,1)}</td><td>100%</td>`
+    + `<td class="${clsOf(yA.unrealized)}">${fmt(yA.unrealized,1)}</td><td class="${clsOf(yA.realized)}">${fmt(yA.realized,1)}</td></tr>`;
+  html += `</tbody></table>`;
+
+  // 보유종목 상세
+  html += `<h2>보유종목 상세 (${rows.length}종목)</h2><table>
+    <thead><tr><th class="l">지역</th><th class="l">종목명</th><th>시가(억)</th><th>비중</th>
+    <th>YTD수익률</th><th>평가손익</th><th>매각이익</th><th>PER</th></tr></thead><tbody>`;
+  for (const x of rows) {
+    const ym = ytdMetrics(x);
+    const per = (x.valuation && x.valuation.pe) ? x.valuation.pe.toFixed(1) : '-';
+    html += `<tr><td class="l">${x.region}</td><td class="l">${x.name}</td>`
+      + `<td>${fmt(x.mkt,1)}</td><td>${x.w == null ? '-' : (x.w*100).toFixed(2)+'%'}</td>`
+      + `<td class="${clsOf(ym.pct)}">${fmtPctP(ym.pct)}</td>`
+      + `<td class="${clsOf(ym.unrealized)}">${fmt(ym.unrealized,1)}</td>`
+      + `<td class="${clsOf(ym.realized)}">${ym.sell > 0 ? fmt(ym.realized,1) : '-'}</td>`
+      + `<td>${per}</td></tr>`;
+  }
+  html += `</tbody></table>`;
+
+  document.getElementById('printSummary').innerHTML = html;
+}
+
+function exportPdf() {
+  buildPrintSummary();
+  document.body.classList.add('printing');
+  // 인쇄 후 원복
+  const after = () => { document.body.classList.remove('printing'); window.removeEventListener('afterprint', after); };
+  window.addEventListener('afterprint', after);
+  setTimeout(() => window.print(), 80);
 }
 
 // 스냅샷 모드면 모든 h3 헤더에 배지 부착, 아니면 제거
@@ -3929,19 +4112,27 @@ function renderBarTop() {
 
 function renderBarPnL() {
   const useYtd = pnlMode === 'ytd';
-  const baseKey = useYtd ? 'book' : 'buy';
+  // 보유(mkt>0) 종목 전부 포함.
+  // YTD: ytdMetrics 기반 수익률(평균잔액 대비) · 누적: (시가-매입가)/매입가
   const items = viewHoldings
-    .filter(h => h.mkt != null && h[baseKey] != null && h[baseKey] > 0)
+    .filter(h => (h.mkt || 0) > 0)
     .map(h => {
-      const base = h[baseKey];
-      const pnl = h.mkt - base;
-      const pnlPct = (pnl / base) * 100;
+      let pnl, pnlPct;
+      if (useYtd) {
+        const ym = ytdMetrics(h);
+        pnl = ym.pnl;
+        pnlPct = (ym.pct != null) ? ym.pct : (ym.base > 0 ? ym.pnl / ym.base * 100 : 0);
+      } else {
+        const base = h.buy || 0;
+        pnl = (h.mkt || 0) - base;
+        pnlPct = base > 0 ? (pnl / base) * 100 : 0;
+      }
       return { ...h, pnl, pnlPct };
     })
     .sort((a, b) => b.pnlPct - a.pnlPct);  // % 기준 정렬
 
   destroy('barPnL');
-  const baseLabel = useYtd ? '장부가' : '매입가';
+  const baseLabel = useYtd ? '평균잔액' : '매입가';
   charts.barPnL = new Chart(document.getElementById('barPnL'), {
     type: 'bar',
     data: {
@@ -3990,8 +4181,8 @@ function renderBarPnL() {
   const footer = document.getElementById('pnlFooter');
   if (footer) {
     footer.innerHTML = useYtd
-      ? '막대 길이 = 종목별 YTD 수익률 ((시가 − 장부가) / 장부가). 장부가 0인 미보유 종목 제외 · 툴팁에 손익 억원 표시.'
-      : '막대 길이 = 종목별 누적 수익률 ((시가 − 매입가) / 매입가). 매입가 0인 미보유 종목 제외 · 툴팁에 손익 억원 표시.';
+      ? '막대 길이 = 종목별 YTD 수익률 (평균잔액 대비, 연중 매수분 반영). 보유 중 전 종목 표시 · 툴팁에 손익 억원.'
+      : '막대 길이 = 종목별 누적 수익률 ((시가 − 매입가) / 매입가). 보유 중 전 종목 표시 · 툴팁에 손익 억원.';
   }
 
   // 칩 활성화 표시 + 클릭 핸들러 (1회만 등록)
