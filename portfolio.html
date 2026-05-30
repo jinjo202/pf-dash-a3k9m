@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-05-30c";</script>
+<script>window.CODE_VERSION = "2026-05-30d";</script>
 <!-- 자동 캐시 무력화: 이 HTML이 10분(GitHub Pages max-age) 캐시될 수 있어
      로드 직후 서버의 최신 버전과 비교, 더 최신이면 1회 강제 새로고침 (?cb= 추가) -->
 <script>
@@ -2474,36 +2474,45 @@ function renderAlphaContribution() {
   const pfRet = pfTwrSeries ? pfTwrSeries[pfTwrSeries.length - 1] / 100 : 0;
   const startTotal = pf[0];
 
-  // 종목별 기여도 — 시계열을 스냅샷까지로 truncate + 종목별 TWR
+  // 종목별 기여도 — 연중 매수 종목(series[0]=0)도 모두 포함.
+  // 가중치는 '평균잔액(시간가중 시장가치)' 기준 → 연중 매수 종목도 자연스럽게 반영.
+  // 수익률은 종목별 TWR (cashflow 제외, 매수 이후 가격변동만).
   const contributions = [];
   for (const h of allHoldings) {
     const fullSeries = hist.holdings_mkt[h.name];
-    if (!fullSeries || fullSeries.length < 2) continue;
+    if (!fullSeries || fullSeries.length < 2) continue;  // 시리즈 없는 종목(전량매도 등)만 제외
     const series = fullSeries.slice(0, endIdx + 1);
-    const startVal = series[0];
+    // 첫 보유 시점(매수일) = 첫 non-zero 값
+    const firstIdx = series.findIndex(v => v > 0);
+    if (firstIdx < 0) continue;  // 전 구간 0 (보유 안 함)
+    const startVal = series[firstIdx];
     const endVal = series[series.length - 1];
-    if (!startVal || startVal <= 0) continue;
-    // 종목별 cashflow 제외 TWR
+    // 종목별 TWR — 빈 isin이면 cashflow 0 (proxy 추적만), 정상 isin이면 그 종목 거래만 제외
     const cfH = buildCashflowByDate(portfolioData.trades, h.isin, datesA);
     const twrH = computeTwrSeries(series, datesA, cfH);
     const r = twrH ? twrH[twrH.length - 1] / 100 : (endVal / startVal - 1);
-    const weight = startVal / startTotal;
-    const totalContrib = weight * r * 100;
-    const alpha = weight * (r - acwiRet) * 100;
+    // 평균잔액 (가중치 분모로 사용)
+    const avgBal = computeAvgBalanceFromHistorical(h.name, 0, endIdx) || 0;
     contributions.push({
       name: h.name,
       region: h.region,
       proxy: !!h.proxy_ticker,
       proxyTicker: h.proxy_ticker || null,
       ticker: h.ticker || null,
-      weight: weight * 100,
+      _avgBal: avgBal,                  // 가중치 정규화용 (아래에서 weight 계산)
       retPct: r * 100,
       excessPct: (r - acwiRet) * 100,
-      totalContrib,
-      alpha,
       topHoldings: h.top_holdings || null,
       topSource: h.top_holdings_source || 'auto',
     });
+  }
+  // 가중치 = 평균잔액 비중 → contribution / alpha 계산
+  const totalAvgBal = contributions.reduce((s, c) => s + (c._avgBal || 0), 0) || 1;
+  for (const c of contributions) {
+    const w = (c._avgBal || 0) / totalAvgBal;
+    c.weight = w * 100;
+    c.totalContrib = w * c.retPct;                       // 기여도 (%p)
+    c.alpha = w * (c.retPct - acwiRet * 100);            // alpha 기여 (%p)
   }
   // 정렬 — alphaSortKey/alphaSortDir에 따라
   const ALPHA_SORTERS = {
@@ -4356,9 +4365,12 @@ function computeTwrSeries(pfSeries, dates, cashflowByDate) {
 function buildCashflowByDate(trades, isinFilter, validDates) {
   const out = {};
   const dateSet = validDates ? new Set(validDates) : null;
+  // isinFilter 전달 여부로 구분: null/undefined = 필터 없음(포트폴리오 전체),
+  // 빈 문자열 '' 포함 값이 들어오면 정확히 그 isin만 (빈 isin 종목은 매칭 거래 0 → cashflow 0)
+  const hasFilter = (isinFilter !== undefined && isinFilter !== null);
   for (const t of (trades || [])) {
     if (!t.date) continue;
-    if (isinFilter && t.isin !== isinFilter) continue;
+    if (hasFilter && t.isin !== isinFilter) continue;
     let d = t.date;
     if (dateSet && !dateSet.has(d)) {
       // 거래일이 영업일 시계열에 없으면 그 이후 첫 영업일로 이동
