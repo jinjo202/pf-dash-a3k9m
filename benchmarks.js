@@ -20,7 +20,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": "ACWI",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -566,7 +567,8 @@ window.BENCHMARKS = {
         "pb": 1.31,
         "roe": null,
         "src": "EEM",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1112,7 +1114,8 @@ window.BENCHMARKS = {
         "pb": 2.33,
         "roe": null,
         "src": "EWY",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1658,7 +1661,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": null,
-        "pe_kind": null
+        "pe_kind": null,
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -2204,7 +2208,8 @@ window.BENCHMARKS = {
         "pb": 1.76,
         "roe": null,
         "src": "SPY",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -2750,7 +2755,8 @@ window.BENCHMARKS = {
         "pb": 2.06,
         "roe": null,
         "src": "QQQ",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -3296,7 +3302,8 @@ window.BENCHMARKS = {
         "pb": 1.34,
         "roe": null,
         "src": "SOXX",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -3842,7 +3849,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": "IEUR",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -4388,7 +4396,8 @@ window.BENCHMARKS = {
         "pb": 1.37,
         "roe": null,
         "src": "EWJ",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -4934,7 +4943,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": "MCHI",
-        "pe_kind": "ttm"
+        "pe_kind": "ttm",
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -5480,7 +5490,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": null,
-        "pe_kind": null
+        "pe_kind": null,
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -6026,7 +6037,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": null,
-        "pe_kind": null
+        "pe_kind": null,
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -6572,7 +6584,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": null,
-        "pe_kind": null
+        "pe_kind": null,
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -7118,7 +7131,8 @@ window.BENCHMARKS = {
         "pb": null,
         "roe": null,
         "src": null,
-        "pe_kind": null
+        "pe_kind": null,
+        "pb_kind": null
       },
       "history": {
         "dates": [

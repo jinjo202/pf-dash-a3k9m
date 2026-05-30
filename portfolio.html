@@ -3205,14 +3205,21 @@ function renderBenchmarks() {
       mtdLine = `<div class="mtd ${mtdCls}">MTD ${fmtPct(mtd, 2)}</div>`;
       dailyLine = `<div class="daily ${dayCls}">Δ ${fmtPct(day, 2)}</div>`;
     }
-    // PER / PBR / ROE — PE는 12M Forward 우선
+    // PER / PBR / ROE — kind를 라벨에 명시 (PE는 fwd/ttm, PB는 항상 ttm)
     const val = idx.valuation || {};
     const has = val.pe != null || val.pb != null || val.roe != null;
-    const peLabel = val.pe_kind === 'ttm' ? 'PE(TTM)' : 'PE(Fwd)';
+    const peKind = val.pe_kind === 'fwd' ? 'Fwd' : (val.pe_kind === 'ttm' ? 'TTM' : '');
+    const pbKind = val.pb_kind === 'ttm' ? 'TTM' : (val.pb != null ? 'TTM' : '');
+    const peLabel = peKind ? `PE(${peKind})` : 'PE';
+    const pbLabel = pbKind ? `PB(${pbKind})` : 'PB';
+    const tooltip = (val.src ? '대표 ETF: ' + val.src : '')
+      + (val.pe_kind === 'fwd' ? ' · PE: 12M Forward (컨센서스)'
+         : val.pe_kind === 'ttm' ? ' · PE: Trailing 12M' : '')
+      + (val.pb != null ? ' · PB: Trailing (latest book value)' : '');
     const valRow = has ? `
-      <div class="val-row" title="${(val.src ? '대표 ETF: ' + val.src : '') + (val.pe_kind === 'ttm' ? ' · Trailing 12M' : ' · 12M Forward 추정')}">
+      <div class="val-row" title="${tooltip}">
         ${val.pe != null ? `<span class="v-key">${peLabel}</span> <span class="v-val">${val.pe.toFixed(1)}</span>` : ''}
-        ${val.pb != null ? ` <span class="v-key">PB</span> <span class="v-val">${val.pb.toFixed(2)}</span>` : ''}
+        ${val.pb != null ? ` <span class="v-key">${pbLabel}</span> <span class="v-val">${val.pb.toFixed(2)}</span>` : ''}
         ${val.roe != null ? `<br><span class="v-key">ROE</span> <span class="v-val">${val.roe.toFixed(1)}%</span>` : ''}
       </div>` : '';
     return `
@@ -3426,17 +3433,18 @@ function renderKPIs() {
     (() => {
       const v = (portfolioData && portfolioData.portfolio_valuation) || null;
       const kind = v && v.pe_kind;
-      const kindLbl = kind === 'fwd' ? '12M Fwd' : (kind === 'ttm' ? 'TTM' : (kind === 'mixed' ? 'Mixed' : ''));
+      const kindLbl = kind === 'fwd' ? '12M Fwd' : (kind === 'ttm' ? 'TTM' : (kind === 'mixed' ? 'Mixed' : '—'));
       return {
-        label: `PER (${kindLbl || '12M Fwd'})`,
+        label: `PER (${kindLbl})`,
         value: v && v.pe ? v.pe.toFixed(2) + 'x' : '—',
         sub: v ? `시가 비중 가중 (커버리지 ${v.coverage_pe}%)` : '데이터 없음',
       };
     })(),
     (() => {
       const v = (portfolioData && portfolioData.portfolio_valuation) || null;
+      const kindLbl = v && v.pb_kind === 'ttm' ? 'TTM' : (v && v.pb ? 'TTM' : '—');
       return {
-        label: 'PBR (포트폴리오)',
+        label: `PBR (${kindLbl})`,
         value: v && v.pb ? v.pb.toFixed(2) + 'x' : '—',
         sub: v ? `커버리지 ${v.coverage_pb}%` : '데이터 없음',
       };
@@ -3884,7 +3892,7 @@ function renderHoldings() {
         ${sh2('v90', '90D', 'rowspan="2"')}
         ${sh2('w', '비중', 'rowspan="2"')}
         ${sh2('pe', 'PER<br><span style="font-weight:400;color:var(--muted);font-size:9px;letter-spacing:0">12M Fwd</span>', 'rowspan="2"')}
-        ${sh2('pb', 'PBR', 'rowspan="2"')}
+        ${sh2('pb', 'PBR<br><span style="font-weight:400;color:var(--muted);font-size:9px;letter-spacing:0">TTM</span>', 'rowspan="2"')}
       </tr>
       <tr>
         ${sh('pnlCum', '손익')}${sh('pnlCumPct', '%')}
@@ -3930,7 +3938,10 @@ function renderHoldings() {
               const srcNote = v.pe_src ? ' · 추정 (top5 가중)' : ' · 직접';
               return kindNote + srcNote;
             })()}">${(x.valuation && x.valuation.pe) ? x.valuation.pe.toFixed(1) + (x.valuation.pe_src ? '*' : '') : '—'}</td>
-            <td title="${x.valuation && x.valuation.pb_src ? '추정 (top5 가중)' : '직접'}">${(x.valuation && x.valuation.pb) ? x.valuation.pb.toFixed(2) + (x.valuation.pb_src ? '*' : '') : '—'}</td>
+            <td title="${(() => {
+              const v = x.valuation || {};
+              return 'Trailing 12M (latest book value)' + (v.pb_src ? ' · 추정 (top5 가중)' : ' · 직접');
+            })()}">${(x.valuation && x.valuation.pb) ? x.valuation.pb.toFixed(2) + (x.valuation.pb_src ? '*' : '') : '—'}</td>
           </tr>
         `;
       }).join('')}

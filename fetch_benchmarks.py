@@ -178,7 +178,9 @@ def main():
 
             # 밸류에이션 (대응 ETF에서 수집, 가능한 것만)
             # 12개월 Forward PER 우선 (없으면 trailing 12M으로 fallback)
-            val = {"pe": None, "pb": None, "roe": None, "src": None, "pe_kind": None}
+            # PBR은 yfinance priceToBook 정의상 항상 trailing (latest reported book value)
+            val = {"pe": None, "pb": None, "roe": None, "src": None,
+                   "pe_kind": None, "pb_kind": None}
             proxy = VAL_PROXY.get(ticker)
             if proxy:
                 try:
@@ -199,6 +201,7 @@ def main():
                     val["pb"]  = round(float(pb), 2) if pb else None
                     val["roe"] = round(float(roe) * 100, 2) if roe is not None else None
                     val["pe_kind"] = pe_kind
+                    val["pb_kind"] = "ttm" if val["pb"] else None
                     val["src"] = proxy if any([val["pe"], val["pb"], val["roe"]]) else None
                 except Exception:
                     pass

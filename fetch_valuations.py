@@ -98,7 +98,8 @@ def fetch_one(yt):
         "pe": round(pe_v, 2) if pe_v else None,
         "pb": round(pb_v, 2) if pb_v else None,
         "roe": round(roe_v * 100, 2) if roe_v is not None else None,  # %
-        "pe_kind": pe_kind,  # 'fwd' = 12M forward, 'ttm' = trailing 12M
+        "pe_kind": pe_kind,                       # 'fwd' = 12M forward, 'ttm' = trailing 12M
+        "pb_kind": "ttm" if pb_v else None,       # PBR은 priceToBook 정의상 항상 trailing
     }
 
 
@@ -176,6 +177,7 @@ def main():
         if need["pb"] and pb_vs_l:
             v["pb"] = round(sum(x*w for x,w in zip(pb_vs_l, pb_ws_l)) / sum(pb_ws_l), 2)
             v["pb_src"] = "top5"
+            v["pb_kind"] = "ttm"
             derived["pb"] = v["pb"]
         if need["roe"] and roe_vs_l:
             v["roe"] = round(sum(x*w for x,w in zip(roe_vs_l, roe_ws_l)) / sum(roe_ws_l), 2)
@@ -229,6 +231,7 @@ def main():
         "pb": round(pb_port, 2) if pb_port else None,
         "roe": round(roe_port, 2) if roe_port is not None else None,
         "pe_kind": port_pe_kind,  # 'fwd' | 'ttm' | 'mixed'
+        "pb_kind": "ttm" if pb_port else None,    # PBR은 항상 trailing
         "coverage_pe": round(sum(pe_ws) * 100, 1),
         "coverage_pb": round(sum(pb_ws) * 100, 1),
         "coverage_roe": round(sum(roe_ws) * 100, 1),
