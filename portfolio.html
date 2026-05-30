@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-05-30d";</script>
+<script>window.CODE_VERSION = "2026-05-30e";</script>
 <!-- 자동 캐시 무력화: 이 HTML이 10분(GitHub Pages max-age) 캐시될 수 있어
      로드 직후 서버의 최신 버전과 비교, 더 최신이면 1회 강제 새로고침 (?cb= 추가) -->
 <script>
@@ -1219,6 +1219,11 @@
       <div class="panel">
         <h3>사이즈 노출</h3>
         <div class="chart-wrap tall"><canvas id="pieSize"></canvas></div>
+        <div class="footer-note">
+          분류 기준 (MSCI 시가총액 방식): <b>대형주</b> 시총 상위 ~70% (대략 $10B↑) ·
+          <b>중형주</b> 70~85% 구간 ($2B~$10B) · <b>소형주</b> 하위 ($2B 미만).
+          ETF 룩스루(보유종목 가중)로 산출 — Barra 점수가 아닌 ETF 카테고리·벤치마크 기반 추정치.
+        </div>
       </div>
     </div>
 
@@ -2110,6 +2115,13 @@ function renderCountryBar() {
   });
 }
 
+// 사이즈(시가총액 규모) 노출 — ETF 룩스루로 산출.
+// 분류 기준: MSCI 표준 시가총액 방식 (글로벌 기준).
+//   - large(대형주): 시가총액 상위 누적 ~70% (대략 $10B 이상)
+//   - mid(중형주)  : 70~85% 구간 (대략 $2B~$10B)
+//   - small(소형주): 85% 이하 (대략 $2B 미만)
+// 각 holding의 lookthrough.size = {large, mid, small} 비중(합 1)을 시가 가중 합산.
+// 값은 Barra/MSCI 실제 점수가 아닌, ETF 카테고리·벤치마크 구성 기반 추정치.
 function renderSizePie() {
   const { rows } = aggregateLookthrough('size');
   const order = ['large', 'mid', 'small'];
