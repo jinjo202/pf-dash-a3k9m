@@ -1597,7 +1597,7 @@ function shiftSnapshot(delta) {
 function applySnapshot(dateStr) {
   const hist = portfolioData && portfolioData.historical;
   if (!hist) return;
-  // 최신 = 마지막 날짜 = null 처리
+  // 최신 = 마지막 날짜 = null 처리 (broker FIFO 값 그대로 사용)
   if (!dateStr || dateStr === hist.to) {
     snapshotDate = null;
     viewHoldings = allHoldings;
@@ -1605,7 +1605,6 @@ function applySnapshot(dateStr) {
     // 입력 날짜와 가장 가까운(이전) 거래일로 스냅
     let idx = hist.dates.indexOf(dateStr);
     if (idx < 0) {
-      // 가장 가까운 이전 거래일 찾기
       for (let i = hist.dates.length - 1; i >= 0; i--) {
         if (hist.dates[i] <= dateStr) { idx = i; break; }
       }
@@ -1614,10 +1613,34 @@ function applySnapshot(dateStr) {
       document.getElementById('snapshotDate').value = dateStr;
     }
     snapshotDate = dateStr;
+    // 모든 거래 데이터 (시간순)
+    const allTrades = (portfolioData.trades || []);
     viewHoldings = allHoldings.map(h => {
+      // 1) 시가 — historical share-aware 시리즈에서
       const series = hist.holdings_mkt && hist.holdings_mkt[h.name];
-      if (!series || idx >= series.length) return h;
-      return { ...h, mkt: series[idx] };
+      const mktAt = (series && idx < series.length) ? series[idx] : (h.mkt || 0);
+      // 2) 이 종목의 (날짜 ≤ snapshot) 거래만 cumsum
+      const isin = h.isin || '';
+      let buy = 0, sell = 0;
+      for (const t of allTrades) {
+        if (!isin || t.isin !== isin) continue;
+        if (t.date > dateStr) break;  // 정렬되어 있음
+        if (t.action === '매입') buy += t.amount;
+        else if (t.action === '매도') sell += t.amount;
+      }
+      // 3) book_basis/cost_sold는 null 처리 → ytdMetrics fallback(평균원가 비례) 사용
+      //    broker MANUAL_REALIZED 정확값은 latest에서만 의미. 과거는 비례 근사로.
+      return {
+        ...h,
+        mkt: mktAt,
+        ytd_buy: round2(buy),
+        ytd_sell: round2(sell),
+        ytd_net_cf: round2(buy - sell),
+        book_basis: null,
+        cost_sold: null,
+        // 일일 손익도 과거 시점에선 의미 없음 — 빈 값으로
+        daily_pnl: null, daily_chg_pct: null, daily_close_date: null,
+      };
     });
     // 비중 재계산
     const totalMkt = viewHoldings.reduce((s, x) => s + (x.mkt || 0), 0);
@@ -3851,6 +3874,7 @@ function sum(arr) {
   }
   return any ? s : null;
 }
+function round2(v) { return Math.round((v || 0) * 100) / 100; }
 
 // ── YTD 수익률 (Modified Dietz) + 실현/미실현 분해 ─────────────
 // 한국식 평균매입가 회계 (xlsx Sheet1 5/13 장부가 ground truth + post-5/13 매매 반영):

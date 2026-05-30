@@ -108,12 +108,13 @@ def main():
                       ("Materials","XLB"), ("Healthcare","XLV"), ("Cons Disc","XLY"),
                       ("Cons Staples","XLP"), ("Financials","XLF"), ("Energy","XLE"),
                       ("Utilities","XLU")]
-    # primary + fallback 모두 fetch
+    # primary + fallback 모두 fetch + FX
     unique = sorted(set([p for _, p, _ in holding_tickers] + [f for _, _, f in holding_tickers if f]))
     bm_yt = [t for _, t in BM_TICKERS]
     sec_yt = [t for _, t in SECTOR_TICKERS]
-    fetch_list = sorted(set(unique + bm_yt + sec_yt))
-    print(f"받을 티커: 종목 {len(unique)}개 + 지역BM {len(bm_yt)}개 + 섹터 {len(sec_yt)}개")
+    fx_yt = ["KRW=X", "EURKRW=X"]  # USDKRW, EURKRW (share-aware mkt 계산용)
+    fetch_list = sorted(set(unique + bm_yt + sec_yt + fx_yt))
+    print(f"받을 티커: 종목 {len(unique)}개 + 지역BM {len(bm_yt)}개 + 섹터 {len(sec_yt)}개 + FX {len(fx_yt)}개")
 
     prices = yf.download(
         fetch_list,
@@ -154,11 +155,45 @@ def main():
                 return float(s.loc[d]), s
         return None
 
+    # ── share-aware mkt 시리즈 ──────────────────────────────
+    # 각 holding의 일별 mkt = (해당 시점 보유 shares) × close_price × FX
+    # FX 시리즈 (USD/EUR → KRW). 없으면 day-of 값으로 forward-fill.
+    def fx_series(yt, default):
+        """KRW=X (=USDKRW) 같은 FX의 일별 값. 없으면 default (사용자가 추정한 평균값)."""
+        if yt not in close.columns:
+            return [default] * len(ytd_dates)
+        s = close[yt]
+        last = None
+        out = []
+        for d in ytd_dates:
+            if d in s.index and not pd.isna(s.loc[d]):
+                last = float(s.loc[d])
+            out.append(last if last is not None else default)
+        return out
+
+    usdkrw = fx_series("KRW=X", 1450.0)   # USD→KRW 기본 ~1450
+    eurkrw = fx_series("EURKRW=X", 1550.0)  # EUR→KRW 기본 ~1550
+
+    def fx_for(ccy_or_isin, idx):
+        """holding의 통화별 FX (1억 KRW = 1e8 KRW 단위 환산용)."""
+        s = str(ccy_or_isin or "")
+        if s.startswith("US") or s.startswith("XLK") or s.endswith(" "):
+            return usdkrw[idx]
+        if s.startswith("IE") or s.startswith("LU"):
+            return eurkrw[idx]
+        # XDAX / German tickers via fallback EWG (USD ETF) — USD
+        return 1.0  # KR ticker — 환산 불필요
+
+    # 거래를 isin별로 그룹화
+    trades_by_isin = {}
+    for t in data.get("trades", []):
+        trades_by_isin.setdefault(t["isin"], []).append(t)
+    for tt in trades_by_isin.values():
+        tt.sort(key=lambda x: x["date"])
+
     for h, primary, fallback in holding_tickers:
-        # 1) primary 티커 시도
         chosen_yt = primary
         result = get_ytd_start(primary)
-        # 2) 안 되면 proxy로 폴백
         used_proxy = False
         if result is None and fallback:
             result = get_ytd_start(fallback)
@@ -171,20 +206,56 @@ def main():
             continue
         ytd_start_price, series = result
 
-        book = h.get("book") or 0
+        # start_2026 = 1/1 시작가치 (12/31 시트 기준). 신규 종목은 0.
+        # book은 이전 코드 호환용 — 신규 종목에서는 매수원가가 들어있어 share 계산에 부적합.
+        start_2026 = h.get("start_2026")
+        book = start_2026 if start_2026 is not None else (h.get("book") or 0)
+        # FX 결정 (ticker 또는 ISIN로 통화 추정)
+        isin = h.get("isin", "")
+        ccy = "KRW"
+        if isin.startswith("US"): ccy = "USD"
+        elif isin.startswith("IE") or isin.startswith("LU"): ccy = "EUR"
+        elif primary and not primary.endswith(".KS") and not primary.endswith(".KQ") and not primary.endswith(".DE"):
+            ccy = "USD"  # XLK 같은 US ticker
+
+        fx_arr = usdkrw if ccy == "USD" else (eurkrw if ccy == "EUR" else [1.0]*len(ytd_dates))
+
+        # 1/1 시작 shares (start_2026 → shares)
+        # start_value(억KRW) × 1e8 = KRW. shares = KRW / (price × FX)
+        start_fx = fx_arr[0] if fx_arr else 1.0
+        start_shares = (book * 1e8 / (ytd_start_price * start_fx)) if (book > 0 and ytd_start_price > 0) else 0.0
+
+        # 이 holding의 매매 (isin 기준)
+        my_trades = trades_by_isin.get(isin, [])
+
         mkt_series = []
         last_price = ytd_start_price
-        for d in ytd_dates:
+        for i, d in enumerate(ytd_dates):
             if d in series.index and not pd.isna(series.loc[d]):
                 last_price = float(series.loc[d])
-            mkt_t = book * (last_price / ytd_start_price)
-            mkt_series.append(round(mkt_t, 2))
+            d_str = d.strftime("%Y-%m-%d")
+            # 이 날까지의 누적 share 변화
+            shares = start_shares
+            for t in my_trades:
+                if t["date"] > d_str:
+                    break
+                tshares = t.get("shares")
+                if tshares is None:
+                    continue
+                if t["action"] == "매입":
+                    shares += tshares
+                else:  # 매도
+                    shares -= tshares
+            mkt_t = shares * last_price * fx_arr[i] / 1e8
+            mkt_series.append(round(max(mkt_t, 0), 2))
         holdings_mkt[h["name"]] = mkt_series
         for i, v in enumerate(mkt_series):
             portfolio_total[i] += v
-        ret = (mkt_series[-1] / book - 1) * 100
+        ret = (mkt_series[-1] / book - 1) * 100 if book > 0 else 0
         tag = "proxy" if used_proxy else "ok   "
-        print(f"  [{tag}] {h['name']:42s} {chosen_yt:12s}  YTD {ret:+6.2f}%")
+        n_trades = len(my_trades)
+        trade_note = f"  [trades:{n_trades}]" if n_trades else ""
+        print(f"  [{tag}] {h['name']:42s} {chosen_yt:12s}  YTD {ret:+6.2f}%{trade_note}")
 
     # 벤치마크별 일별 종가 시리즈 (forward-fill, 정규화 X — 클라이언트에서 블렌드)
     benchmarks = {}
