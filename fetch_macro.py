@@ -126,6 +126,30 @@ def http_get(url, timeout=30):
         return r.read().decode("utf-8", errors="replace")
 
 
+def fetch_multpl(slug):
+    """multpl.com 월별 테이블 → (dates[ISO], values[float]). 실패 시 ([],[])."""
+    import re, html as _html
+    from datetime import datetime as _dt
+    try:
+        txt = http_get(f"https://www.multpl.com/{slug}/table/by-month")
+    except Exception as e:
+        print(f"  [err] multpl {slug}: {e}")
+        return [], []
+    dates, vals = [], []
+    for row in re.findall(r"<tr[^>]*>(.*?)</tr>", txt, re.DOTALL):
+        clean = _html.unescape(re.sub(r"<[^>]+>", "|", row))
+        parts = [p.strip() for p in clean.split("|") if p.strip() and p.strip() != "†"]
+        if len(parts) >= 2:
+            try:
+                d = _dt.strptime(parts[0], "%b %d, %Y").date().isoformat()
+                v = float(parts[1].replace(",", ""))
+                dates.append(d); vals.append(v)
+            except Exception:
+                continue
+    pairs = sorted(zip(dates, vals))
+    return [p[0] for p in pairs], [p[1] for p in pairs]
+
+
 def fred_csv(series_id, start=START):
     """FRED CSV → (dates[ISO], values[float]). 결측('.')은 건너뜀."""
     url = FRED_CSV.format(id=series_id, start=start)
@@ -290,6 +314,9 @@ def score_indicator(key, cur, hist_vals, ctx):
     if key == "spx_fwd_pe":
         # Forward PER 높으면 비쌈(장기 악재). 17 적정, 22+ 부담
         return clamp((18.0 - cur) / 4.0)
+    if key == "cape":
+        # CAPE 높을수록 장기 고평가. 역사평균 ~17, 24 중립선
+        return clamp((24.0 - cur) / 12.0)
     if key == "kospi_fwd_pe":
         return clamp((11.0 - cur) / 4.0)
     # ── 수동 지표 (센티먼트/수급) ──
@@ -344,6 +371,7 @@ INDICATORS = [
     ("oil_yoy",      "WTI 유가 (YoY)",       "macro", "DCOILWTICO","oilyoy",1, "%",  "급등 시 인플레·비용 압력"),
     # 밸류에이션
     ("spx_fwd_pe",   "S&P500 12M Fwd PER",   "valuation", "bench", "bench", 1, "배", "이익 대비 가격. 높을수록 기대수익 낮음"),
+    ("cape",         "S&P500 CAPE(실러 PE)",  "valuation", "shiller-pe", "multpl", 1, "배", "경기조정 P/E(최근 10년 평균이익). 역사평균 ~17, 높을수록 장기 고평가"),
     ("kospi_fwd_pe", "KOSPI 12M Fwd PER",    "valuation", "bench", "bench", 1, "배", "한국 밸류에이션"),
     ("erp",          "주식위험프리미엄(ERP)","valuation", "derived","derived",2,"%p","S&P 어닝일드 − 미 10Y. 높을수록 주식 매력"),
     ("us10y",        "미국 10Y 금리",        "valuation", "DGS10", "daily", 2, "%",  "할인율. 급등 시 밸류 부담"),
@@ -447,6 +475,34 @@ AI_LABS = {
                   "profit_note": "엔터프라이즈·API 중심 고성장. 컴퓨트 투자로 단기 적자, 흑자 전환은 OpenAI보다 늦거나 비슷.",
                   "source": "언론 추정"},
 }
+
+
+# 빅4 연간 재무 ($B). 2026~2027 추정. mktcap은 연말 시총(추정 없음). (근사·편집 가능)
+AI_FINANCIALS = {
+    "Microsoft": {
+        "rev":    {"2020": 143, "2021": 168, "2022": 198, "2023": 212, "2024": 245, "2025": 270, "2026": 300, "2027": 335},
+        "opinc":  {"2020": 53, "2021": 70, "2022": 83, "2023": 88, "2024": 109, "2025": 128, "2026": 145, "2027": 165},
+        "fcf":    {"2020": 45, "2021": 56, "2022": 65, "2023": 59, "2024": 74, "2025": 75, "2026": 72, "2027": 95},
+        "mktcap": {"2020": 1680, "2021": 2520, "2022": 1790, "2023": 2790, "2024": 3130, "2025": 3500}},
+    "Alphabet": {
+        "rev":    {"2020": 183, "2021": 257, "2022": 283, "2023": 307, "2024": 350, "2025": 395, "2026": 445, "2027": 495},
+        "opinc":  {"2020": 41, "2021": 79, "2022": 75, "2023": 84, "2024": 112, "2025": 128, "2026": 145, "2027": 165},
+        "fcf":    {"2020": 42, "2021": 67, "2022": 60, "2023": 69, "2024": 73, "2025": 72, "2026": 78, "2027": 95},
+        "mktcap": {"2020": 1190, "2021": 1920, "2022": 1150, "2023": 1750, "2024": 2310, "2025": 4600}},
+    "Amazon": {
+        "rev":    {"2020": 386, "2021": 470, "2022": 514, "2023": 575, "2024": 638, "2025": 700, "2026": 765, "2027": 835},
+        "opinc":  {"2020": 23, "2021": 25, "2022": 12, "2023": 37, "2024": 68, "2025": 82, "2026": 98, "2027": 115},
+        "fcf":    {"2020": 31, "2021": -9, "2022": -17, "2023": 37, "2024": 38, "2025": 40, "2026": 30, "2027": 60},
+        "mktcap": {"2020": 1630, "2021": 1690, "2022": 860, "2023": 1570, "2024": 2300, "2025": 2400}},
+    "Meta": {
+        "rev":    {"2020": 86, "2021": 118, "2022": 116, "2023": 135, "2024": 164, "2025": 190, "2026": 218, "2027": 248},
+        "opinc":  {"2020": 33, "2021": 47, "2022": 29, "2023": 47, "2024": 69, "2025": 84, "2026": 96, "2027": 110},
+        "fcf":    {"2020": 23, "2021": 39, "2022": 19, "2023": 44, "2024": 52, "2025": 50, "2026": 45, "2027": 62},
+        "mktcap": {"2020": 780, "2021": 935, "2022": 320, "2023": 910, "2024": 1500, "2025": 1610}},
+}
+# 과거 클라우드 capex 사이클 참고 (빅4 capex/매출 강도, 근사)
+CLOUD_CYCLE_NOTE = ("1차 클라우드 capex 사이클(2016~2018) 당시 빅4 capex/매출 강도는 ~9~12% 수준이었음. "
+                    "현재 AI 사이클은 20%대로 약 2배 — 투자 강도가 역대 최고. 매출·FCF가 이를 따라오는지가 버블 판가름.")
 
 
 # 섹터별 주요 이슈/지표 — 정성 코멘트. 발표·뉴스 흐름에 맞춰 주기적으로 갱신.
@@ -763,13 +819,29 @@ def build_ai():
     for name, d in AI_LABS.items():
         rev = [{"y": int(y), "rev": d["rev"][y], "est": int(y) > 2025} for y in sorted(d["rev"])]
         labs.append({"name": name, "rev": rev, "profit_note": d["profit_note"], "source": d["source"]})
-    print(f"  [AI] CAPEX {last} 합계 ${totals[last]}B, capex/GDP {capex_gdp}% (GDP ${gdp}B)")
+    # 빅4 재무 (매출/영업이익/FCF/시총)
+    at = AI_CAPEX_ACTUAL_THROUGH
+    def ser(d, metric):
+        return [{"y": int(y), "v": d[metric][y], "est": int(y) > at} for y in sorted(d[metric])]
+    fin = []
+    for name in ["Microsoft", "Alphabet", "Amazon", "Meta"]:
+        d = AI_FINANCIALS[name]
+        fin.append({"name": name, "rev": ser(d, "rev"), "opinc": ser(d, "opinc"),
+                    "fcf": ser(d, "fcf"), "mktcap": [{"y": int(y), "v": d["mktcap"][y]} for y in sorted(d["mktcap"])]})
+    # capex/매출 강도 (클라우드 사이클 비교)
+    intensity = []
+    for y in years:
+        tot_rev = sum(AI_FINANCIALS[c]["rev"].get(y, 0) for c in AI_FINANCIALS)
+        if tot_rev > 0:
+            intensity.append({"y": int(y), "pct": round(totals[y] / tot_rev * 100, 1), "est": int(y) > at})
+    print(f"  [AI] CAPEX {last} 합계 ${totals[last]}B, capex/GDP {capex_gdp}% (GDP ${gdp}B), capex/매출 {intensity[-1]['pct'] if intensity else 'NA'}%")
     return {"as_of": AI_AS_OF, "capex": {"companies": companies, "total": total_series,
             "actual_through": AI_CAPEX_ACTUAL_THROUGH},
             "capex_gdp_pct": capex_gdp, "capex_gdp_pct_e": capex_gdp_e,
             "total_capex_last": totals[last], "total_capex_e": totals[str(AI_CAPEX_ACTUAL_THROUGH + 1)],
             "last_actual_year": AI_CAPEX_ACTUAL_THROUGH, "gdp": round(gdp) if gdp else None,
-            "rnd_gdp": rnd, "labs": labs}
+            "rnd_gdp": rnd, "labs": labs, "financials": fin,
+            "capex_intensity": intensity, "cloud_note": CLOUD_CYCLE_NOTE}
 
 
 def build_earnings():
@@ -966,6 +1038,8 @@ def build():
                     pk = f"{y-1:04d}-{m:02d}"
                     if pk in me and me[pk] > 0:
                         dates.append(k + "-01"); vals.append((me[k] / me[pk] - 1) * 100)
+            elif transform == "multpl":
+                dates, vals = fetch_multpl(src)
             elif transform == "spxmom":
                 dates, vals = spx_mom_d, spx_mom_v
             elif transform == "bench":

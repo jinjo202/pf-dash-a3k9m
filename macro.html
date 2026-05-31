@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01b";</script>
+<script>window.CODE_VERSION = "2026-06-01c";</script>
 <script>
   (function () {
     try {
@@ -174,6 +174,11 @@
   .lab-card .lc { height:130px; margin:6px 0; }
   .lab-card .lp { font-size:11px; color:var(--text-soft); line-height:1.5; }
   .lab-card .lsrc { font-size:10px; color:var(--muted); margin-top:4px; }
+  .fin-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px; }
+  @media (max-width:680px){ .fin-grid{ grid-template-columns:1fr; } }
+  .fin-box { border:1px solid var(--border); border-radius:10px; padding:10px 12px; }
+  .fin-t { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .fin-c { height:170px; }
 
   /* ===== earnings ===== */
   .ctry-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; margin-bottom:18px; }
@@ -457,8 +462,23 @@ function renderAI(M) {
     stat('R&D / 美 GDP', (lastRnd != null ? lastRnd + '%' : '–'), '사상 최고권 · 완만 상승') +
     '</div>';
   html += '<div class="ai-verdict warn">📊 버블 점검: 빅테크 CAPEX/GDP ~' + ai.capex_gdp_pct + '%로 과거 통신·닷컴 버블 정점(~1%)에 근접/상회. 다만 적자·부채가 아닌 <b>현금흐름·이익으로 자금조달</b>되는 투자라 성격이 다름. 핵심 점검 포인트는 <b>투자 회수(AI 매출)</b> — 아래 AI 랩 매출 추이가 그 가늠자.</div>';
-  html += '<div class="section-label">하이퍼스케일러 연간 CAPEX ($B · 2026~2027 점선=추정)</div>' +
+  html += '<div class="section-label">하이퍼스케일러 연간 CAPEX ($B · 누적 막대, 2026~2027E) — 숫자=4사 합계</div>' +
     '<div class="ai-chart"><canvas id="aiCapexChart"></canvas></div>';
+  // capex/매출 강도 — 클라우드 사이클 비교
+  if (ai.capex_intensity && ai.capex_intensity.length) {
+    html += '<div class="section-label" style="margin-top:14px">CAPEX / 매출 강도 (%) — 과거 클라우드 사이클 대비</div>' +
+      '<div class="ai-chart" style="height:170px"><canvas id="aiIntensityChart"></canvas></div>' +
+      (ai.cloud_note ? '<div class="ai-verdict warn">☁️ ' + ai.cloud_note + '</div>' : '');
+  }
+  // 빅4 재무 (매출/영업이익/FCF/시총)
+  if (ai.financials && ai.financials.length) {
+    html += '<div class="section-label" style="margin-top:14px">빅4 연도별 재무 ($B · 2026~2027E, 시총은 연말 실적)</div>' +
+      '<div class="fin-grid">' +
+      ['rev:매출', 'opinc:영업이익', 'fcf:잉여현금흐름(FCF)', 'mktcap:시가총액'].map(function (m) {
+        var k = m.split(':')[0], nm = m.split(':')[1];
+        return '<div class="fin-box"><div class="fin-t">' + nm + '</div><div class="fin-c"><canvas id="aifin_' + k + '"></canvas></div></div>';
+      }).join('') + '</div>';
+  }
   html += '<div class="section-label" style="margin-top:14px">AI 랩 매출·수익성 추정 (언론 기준 · 변동 큼)</div><div class="lab-grid">';
   ai.labs.forEach(function (lab, i) {
     html += '<div class="lab-card"><div class="ln">' + lab.name + '</div>' +
@@ -471,27 +491,69 @@ function renderAI(M) {
   return html + '</div>';
 }
 
+var AI_PALETTE = ['#2563eb', '#16a34a', '#ea580c', '#7c3aed'];
 function aiCapexChart(canvas, ai) {
-  var palette = ['#2563eb', '#16a34a', '#ea580c', '#7c3aed'];
   var labels = ai.capex.total.map(function (p) { return p.y + (p.est ? 'E' : ''); });
-  var actualIdx = ai.capex.total.findIndex(function (p) { return p.est; }) - 1;
-  if (actualIdx < 0) actualIdx = ai.capex.total.length - 1;
-  var dash = function (ctx) { return ctx.p1DataIndex > actualIdx ? [5, 4] : undefined; };
+  var totals = ai.capex.total.map(function (p) { return p.capex; });
   var ds = ai.capex.companies.map(function (c, i) {
-    return { label: c.name, data: c.years.map(function (p) { return p.capex; }), borderColor: palette[i % palette.length], backgroundColor: 'transparent', borderWidth: 1.6, pointRadius: 0, tension: .2, segment: { borderDash: dash } };
+    return { label: c.name, data: c.years.map(function (p) { return p.capex; }), backgroundColor: AI_PALETTE[i % 4], stack: 's', borderWidth: 0 };
   });
-  ds.push({ label: '합계', data: ai.capex.total.map(function (p) { return p.capex; }), borderColor: cssVar('--text'), borderWidth: 2.6, pointRadius: 0, tension: .2, segment: { borderDash: dash } });
+  var totalPlugin = { id: 'capexTotal', afterDatasetsDraw: function (ch) {
+    var ctx = ch.ctx, meta = ch.getDatasetMeta(ch.data.datasets.length - 1);
+    ctx.save(); ctx.textAlign = 'center'; ctx.font = '700 9.5px Pretendard, sans-serif'; ctx.fillStyle = cssVar('--text-soft');
+    meta.data.forEach(function (bar, i) { ctx.fillText('$' + totals[i] + 'B', bar.x, bar.y - 4); }); ctx.restore();
+  } };
   var c = new Chart(canvas.getContext('2d'), {
-    type: 'line', data: { labels: labels, datasets: ds },
+    type: 'bar', data: { labels: labels, datasets: ds },
     options: {
-      responsive: true, maintainAspectRatio: false, animation: false,
+      responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 18 } },
       plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 10 }, color: cssVar('--muted'), boxWidth: 10, padding: 8 } },
         tooltip: { callbacks: { label: function (i) { return i.dataset.label + ': $' + i.raw + 'B'; } } } },
-      scales: { x: { grid: { display: false }, ticks: { font: { size: 10 }, color: cssVar('--muted') } },
-        y: { beginAtZero: true, grid: { color: cssVar('--border') }, ticks: { font: { size: 9 }, color: cssVar('--muted'), callback: function (v) { return '$' + v + 'B'; } } } }
-    }
+      scales: { x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 }, color: cssVar('--muted') } },
+        y: { stacked: true, beginAtZero: true, grid: { color: cssVar('--border') }, ticks: { font: { size: 9 }, color: cssVar('--muted'), callback: function (v) { return '$' + v + 'B'; } } } }
+    }, plugins: [totalPlugin]
   });
   CHARTS.push(c);
+}
+
+function aiIntensityChart(canvas, intensity) {
+  var labels = intensity.map(function (p) { return p.y + (p.est ? 'E' : ''); });
+  var actualIdx = intensity.findIndex(function (p) { return p.est; }) - 1;
+  if (actualIdx < 0) actualIdx = intensity.length - 1;
+  var lblPlugin = { id: 'intLbl', afterDatasetsDraw: function (ch) {
+    var ctx = ch.ctx, meta = ch.getDatasetMeta(0); ctx.save(); ctx.textAlign = 'center';
+    ctx.font = '700 9px Pretendard, sans-serif'; ctx.fillStyle = cssVar('--accent');
+    meta.data.forEach(function (pt, i) { ctx.fillText(intensity[i].pct + '%', pt.x, pt.y - 7); }); ctx.restore();
+  } };
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'line', data: { labels: labels, datasets: [{ data: intensity.map(function (p) { return p.pct; }), borderColor: cssVar('--accent'), backgroundColor: cssVar('--accent') + '22', fill: true, borderWidth: 2, pointRadius: 2, tension: .2,
+      segment: { borderDash: function (ctx) { return ctx.p1DataIndex > actualIdx ? [5, 4] : undefined; } } }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 16 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (i) { return 'CAPEX/매출 ' + i.raw + '%'; } } } },
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 10 }, color: cssVar('--muted') } },
+        y: { beginAtZero: true, grid: { color: cssVar('--border') }, ticks: { font: { size: 9 }, color: cssVar('--muted'), callback: function (v) { return v + '%'; } } } }
+    }, plugins: [lblPlugin]
+  });
+  CHARTS.push(c);
+}
+
+function aiGroupedBars(canvas, financials, metric) {
+  var labels = financials[0][metric].map(function (p) { return p.y + (p.est ? 'E' : ''); });
+  var ds = financials.map(function (c, i) {
+    return { label: c.name, data: c[metric].map(function (p) { return p.v; }), backgroundColor: AI_PALETTE[i % 4], borderRadius: 2, maxBarThickness: 16 };
+  });
+  var ch = new Chart(canvas.getContext('2d'), {
+    type: 'bar', data: { labels: labels, datasets: ds },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 9 }, color: cssVar('--muted'), boxWidth: 9, padding: 6 } },
+        tooltip: { callbacks: { label: function (i) { return i.dataset.label + ': $' + i.raw + 'B'; } } } },
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 9 }, color: cssVar('--muted') } },
+        y: { grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { return '$' + v + 'B'; } } } }
+    }
+  });
+  CHARTS.push(ch);
 }
 
 function labRevChart(canvas, lab) {
@@ -670,6 +732,10 @@ function render(M) {
   // AI 섹션 차트
   if (M.ai) {
     var cc = document.getElementById('aiCapexChart'); if (cc) aiCapexChart(cc, M.ai);
+    var ic = document.getElementById('aiIntensityChart'); if (ic && M.ai.capex_intensity) aiIntensityChart(ic, M.ai.capex_intensity);
+    if (M.ai.financials) ['rev', 'opinc', 'fcf', 'mktcap'].forEach(function (k) {
+      var el = document.getElementById('aifin_' + k); if (el) aiGroupedBars(el, M.ai.financials, k);
+    });
     M.ai.labs.forEach(function (lab, i) { var lc = document.getElementById('aiLab_' + i); if (lc) labRevChart(lc, lab); });
   }
 }
