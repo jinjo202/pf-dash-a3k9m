@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<title>매크로 레짐 모니터</title>
+<script>window.CODE_VERSION = "2026-05-31a";</script>
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('pf_theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<!-- macro-data.js는 cron이 자주 갱신 → 분 단위 캐시버스팅 -->
+<script>
+  (function () {
+    var v = Math.floor(Date.now() / 60000);
+    document.write('<script src="macro-data.js?v=' + v + '"></scr' + 'ipt>');
+  })();
+</script>
+<style>
+  :root {
+    --bg:#f6f7f9; --panel:#ffffff; --panel-soft:#fafbfc; --border:#e6e8eb;
+    --row-alt:#fafbfc; --row-hover:#eff6ff; --text:#0f172a; --text-soft:#334155;
+    --muted:#64748b; --muted-soft:#cbd5e1; --accent:#2563eb; --accent-hover:#1d4ed8;
+    --accent-soft:#eff6ff; --pos:#15803d; --neg:#b91c1c; --neu:#64748b;
+    --pos-soft:#dcfce7; --neg-soft:#fee2e2; --neu-soft:#f1f5f9;
+    --shadow-sm:0 1px 2px 0 rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px -2px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --bg:#0b1020; --panel:#141a2e; --panel-soft:#1a2138; --border:#2a324a;
+    --row-alt:#1a2138; --row-hover:#1e2942; --text:#e2e8f0; --text-soft:#cbd5e1;
+    --muted:#94a3b8; --muted-soft:#475569; --accent:#60a5fa; --accent-hover:#3b82f6;
+    --accent-soft:#1e3a8a55; --pos:#22c55e; --neg:#f87171; --neu:#94a3b8;
+    --pos-soft:#14331f; --neg-soft:#3a1414; --neu-soft:#1a2138;
+    --shadow-sm:0 1px 2px 0 rgba(0,0,0,.5);
+    --shadow-md:0 4px 12px -2px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { transition: background-color 200ms, color 200ms; }
+  html, body {
+    margin:0; padding:0; background:var(--bg); color:var(--text);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+  header {
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:20;
+  }
+  header h1 { font-size:18px; margin:0; font-weight:800; letter-spacing:-.02em; }
+  header .sub { font-size:12px; color:var(--muted); margin-top:2px; }
+  .header-actions { display:inline-flex; align-items:center; gap:10px; }
+  .theme-toggle {
+    display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+    background:var(--panel); color:var(--text); border:1px solid var(--border);
+    border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;
+    box-shadow:var(--shadow-sm); transition:all .15s; user-select:none;
+  }
+  .theme-toggle:hover { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  .nav-link { font-size:12px; font-weight:600; color:var(--muted); text-decoration:none; padding:7px 10px; border-radius:6px; }
+  .nav-link:hover { background:var(--accent-soft); color:var(--accent); }
+  main { max-width:1180px; margin:0 auto; padding:20px 24px 64px; }
+  .panel {
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    box-shadow:var(--shadow-sm); padding:18px 20px; margin-bottom:20px;
+  }
+  .panel h2 { font-size:15px; margin:0 0 4px; font-weight:700; letter-spacing:-.01em; }
+  .panel .hint { font-size:12px; color:var(--muted); margin:0 0 14px; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+
+  /* ===== Regime gauge ===== */
+  .regime-wrap { display:grid; grid-template-columns: minmax(260px,1.2fr) 2fr; gap:24px; align-items:center; }
+  @media (max-width:720px){ .regime-wrap{ grid-template-columns:1fr; } }
+  .regime-score { text-align:center; }
+  .regime-score .num { font-size:60px; font-weight:850; line-height:1; letter-spacing:-.04em; }
+  .regime-score .label { font-size:16px; font-weight:700; margin-top:6px; }
+  .regime-score .as-of { font-size:11px; color:var(--muted); margin-top:6px; }
+  .gauge { position:relative; height:14px; border-radius:8px; margin:10px 0 4px;
+    background:linear-gradient(90deg,#b91c1c,#f59e0b 38%,#94a3b8 50%,#22c55e 62%,#15803d); }
+  [data-theme="dark"] .gauge { background:linear-gradient(90deg,#f87171,#fbbf24 38%,#475569 50%,#34d399 62%,#22c55e); }
+  .gauge .marker { position:absolute; top:-5px; width:4px; height:24px; border-radius:2px;
+    background:var(--text); box-shadow:0 0 0 2px var(--panel); transform:translateX(-2px); }
+  .gauge-scale { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); }
+  .pillars { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
+  @media (max-width:560px){ .pillars{ grid-template-columns:repeat(2,1fr); } }
+  .pillar-chip { border:1px solid var(--border); border-radius:9px; padding:10px 12px; background:var(--panel-soft); }
+  .pillar-chip .pn { font-size:11px; color:var(--muted); font-weight:600; }
+  .pillar-chip .ps { font-size:22px; font-weight:800; letter-spacing:-.02em; }
+  .pillar-bar { height:5px; border-radius:3px; background:var(--neu-soft); margin-top:6px; overflow:hidden; position:relative; }
+  .pillar-bar > i { position:absolute; top:0; bottom:0; left:50%; }
+
+  /* ===== Indicator cards ===== */
+  .ind-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:12px; }
+  .ind-card { border:1px solid var(--border); border-radius:10px; padding:12px 13px 6px; background:var(--panel);
+    display:flex; flex-direction:column; gap:6px; }
+  .ind-card .top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .ind-card .nm { font-size:12.5px; font-weight:600; color:var(--text-soft); }
+  .ind-card .badge { font-size:10px; font-weight:700; padding:2px 7px; border-radius:20px; white-space:nowrap; }
+  .badge.pos { background:var(--pos-soft); color:var(--pos); }
+  .badge.neg { background:var(--neg-soft); color:var(--neg); }
+  .badge.neu { background:var(--neu-soft); color:var(--neu); }
+  .ind-card .val { font-size:23px; font-weight:800; letter-spacing:-.02em; }
+  .ind-card .val .u { font-size:12px; font-weight:600; color:var(--muted); margin-left:2px; }
+  .ind-card .meta { font-size:10.5px; color:var(--muted); display:flex; gap:8px; flex-wrap:wrap; }
+  .ind-card .spark { height:42px; margin-top:2px; }
+  .ind-card .desc { font-size:10.5px; color:var(--muted); border-top:1px dashed var(--border); padding-top:5px; margin-top:2px; }
+
+  /* ===== big index charts ===== */
+  .idx-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:720px){ .idx-grid{ grid-template-columns:1fr; } }
+  .idx-box { border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+  .idx-box .h { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  .idx-box .h .t { font-weight:700; font-size:13px; }
+  .idx-box .h .v { font-weight:800; font-size:16px; }
+  .idx-chart { height:180px; }
+
+  /* ===== analogs table ===== */
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th, td { padding:7px 9px; text-align:right; border-bottom:1px solid var(--border); }
+  th:first-child, td:first-child { text-align:left; }
+  thead th { font-size:11px; color:var(--muted); font-weight:700; border-bottom:2px solid var(--border); }
+  tbody tr:hover { background:var(--row-hover); }
+  tr.summary td { font-weight:800; background:var(--panel-soft); border-top:2px solid var(--border); }
+  .pos-t { color:var(--pos); font-weight:600; }
+  .neg-t { color:var(--neg); font-weight:600; }
+
+  /* ===== outlook ===== */
+  .outlook-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media (max-width:720px){ .outlook-grid{ grid-template-columns:1fr; } }
+  .ol-card { border:1px solid var(--border); border-radius:11px; padding:14px 16px; background:var(--panel-soft); }
+  .ol-card .hz { font-size:12px; color:var(--muted); font-weight:700; }
+  .ol-card .bias { font-size:22px; font-weight:850; letter-spacing:-.02em; margin:4px 0 8px; }
+  .ol-card .txt { font-size:12px; color:var(--text-soft); line-height:1.55; }
+  .bias.pos { color:var(--pos); } .bias.neg { color:var(--neg); } .bias.neu { color:var(--neu); }
+  .commentary { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media (max-width:640px){ .commentary{ grid-template-columns:1fr; } }
+  .cm { border:1px solid var(--border); border-left-width:3px; border-radius:8px; padding:10px 12px; background:var(--panel); }
+  .cm .t { font-size:11px; font-weight:700; color:var(--muted); margin-bottom:3px; }
+  .cm .b { font-size:12px; color:var(--text-soft); line-height:1.5; }
+  .cm.pos { border-left-color:var(--pos); } .cm.neg { border-left-color:var(--neg); } .cm.neu { border-left-color:var(--neu); }
+  .overall-line { font-size:12.5px; color:var(--text-soft); background:var(--accent-soft); border-radius:8px; padding:10px 13px; margin-top:12px; font-weight:600; }
+  .disclaimer { font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5; }
+  .loading { text-align:center; color:var(--muted); padding:60px 0; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>매크로 레짐 모니터</h1>
+    <div class="sub" id="subtitle">데이터 로딩 중…</div>
+  </div>
+  <div class="header-actions">
+    <a class="nav-link" href="portfolio.html">← 포트폴리오</a>
+    <button class="theme-toggle" id="themeToggle"><span class="icon">🌙</span><span class="label">다크</span></button>
+  </div>
+</header>
+
+<main id="app">
+  <div class="loading">데이터를 불러오는 중입니다…</div>
+</main>
+
+<script>
+/* ───── theme toggle ───── */
+(function () {
+  var btn = document.getElementById('themeToggle');
+  function sync() {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    btn.querySelector('.icon').textContent = dark ? '☀️' : '🌙';
+    btn.querySelector('.label').textContent = dark ? '라이트' : '다크';
+  }
+  btn.addEventListener('click', function () {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var next = dark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('pf_theme', next); } catch (e) {}
+    sync(); rerenderCharts();
+  });
+  sync();
+})();
+
+function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function fmtNum(x, d) { return (x === null || x === undefined) ? '–' : Number(x).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+function signClass(s) { return s > 0 ? 'pos-t' : (s < 0 ? 'neg-t' : ''); }
+function pctCell(x) { if (x === null || x === undefined) return '<td>–</td>'; return '<td class="' + signClass(x) + '">' + (x > 0 ? '+' : '') + x.toFixed(1) + '%</td>'; }
+
+var CHARTS = [];
+function rerenderCharts() { /* recolor on theme switch */ CHARTS.forEach(function (c) { try { c.update(); } catch (e) {} }); }
+
+var PILLAR_ORDER = ['macro', 'valuation', 'flows', 'sentiment'];
+
+function sparkline(canvas, hist, score) {
+  if (!hist || !hist.values || hist.values.length < 2) return;
+  var color = score > 0.05 ? cssVar('--pos') : (score < -0.05 ? cssVar('--neg') : cssVar('--neu'));
+  var ctx = canvas.getContext('2d');
+  var c = new Chart(ctx, {
+    type: 'line',
+    data: { labels: hist.dates, datasets: [{ data: hist.values, borderColor: color, borderWidth: 1.4, pointRadius: 0, tension: .15,
+      fill: true, backgroundColor: (function () { var g = ctx.createLinearGradient(0, 0, 0, 42); g.addColorStop(0, color + '33'); g.addColorStop(1, color + '00'); return g; })() }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: true, displayColors: false,
+        callbacks: { title: function (i) { return i[0].label.slice(0, 7); }, label: function (i) { return fmtNum(i.raw, 2); } } } },
+      scales: { x: { display: false }, y: { display: false } } }
+  });
+  CHARTS.push(c);
+}
+
+function bigChart(canvas, idx) {
+  var color = cssVar('--accent');
+  var ctx = canvas.getContext('2d');
+  var c = new Chart(ctx, {
+    type: 'line',
+    data: { labels: idx.dates, datasets: [{ data: idx.values, borderColor: color, borderWidth: 1.6, pointRadius: 0, tension: .12,
+      fill: true, backgroundColor: (function () { var g = ctx.createLinearGradient(0, 0, 0, 180); g.addColorStop(0, color + '2e'); g.addColorStop(1, color + '00'); return g; })() }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { title: function (i) { return i[0].label.slice(0, 7); }, label: function (i) { return fmtNum(i.raw, 0); } } } },
+      scales: { x: { type: 'category', ticks: { maxTicksLimit: 6, font: { size: 9 }, color: cssVar('--muted'), callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(0, 4) : ''; } }, grid: { display: false } },
+        y: { ticks: { font: { size: 9 }, color: cssVar('--muted'), maxTicksLimit: 5 }, grid: { color: cssVar('--border') } } } }
+  });
+  CHARTS.push(c);
+}
+
+function badgeCls(cls) { return cls === 'pos' ? 'pos' : (cls === 'neg' ? 'neg' : 'neu'); }
+
+function render(M) {
+  var app = document.getElementById('app');
+  document.getElementById('subtitle').innerHTML =
+    '기준일 ' + M.as_of + ' · 4개 축 종합 레짐 점수와 과거 유사국면 비교 · <span class="tnum">' +
+    Object.keys(M.indicators).length + '개 지표</span>';
+
+  var html = '';
+
+  /* ── Regime gauge ── */
+  var r = M.regime, markerPct = Math.max(0, Math.min(100, (r.score + 100) / 2));
+  var scoreColor = r.score > 6 ? cssVar('--pos') : (r.score < -6 ? cssVar('--neg') : cssVar('--neu'));
+  html += '<div class="panel"><div class="regime-wrap">';
+  html += '<div class="regime-score"><div class="num" style="color:' + scoreColor + '">' + (r.score > 0 ? '+' : '') + r.score + '</div>' +
+    '<div class="label">' + r.label + '</div><div class="as-of">종합 레짐 점수 (−100 ~ +100)</div></div>';
+  html += '<div><div class="section-label">시장 국면 게이지</div>' +
+    '<div class="gauge"><div class="marker" style="left:' + markerPct + '%"></div></div>' +
+    '<div class="gauge-scale"><span>리스크오프 −100</span><span>중립 0</span><span>+100 리스크온</span></div>';
+  html += '<div class="pillars">';
+  PILLAR_ORDER.forEach(function (p) {
+    var pl = r.pillars[p]; if (!pl) return;
+    var col = pl.score > 6 ? cssVar('--pos') : (pl.score < -6 ? cssVar('--neg') : cssVar('--neu'));
+    var w = Math.min(50, Math.abs(pl.score) / 2);
+    var bar = '<i style="' + (pl.score >= 0 ? 'left:50%' : 'right:50%;left:auto') + ';width:' + w + '%;background:' + col + '"></i>';
+    html += '<div class="pillar-chip"><div class="pn">' + pl.name + '</div>' +
+      '<div class="ps" style="color:' + col + '">' + (pl.score > 0 ? '+' : '') + pl.score + '</div>' +
+      '<div class="pillar-bar">' + bar + '</div></div>';
+  });
+  html += '</div></div></div></div>';
+
+  /* ── Outlook ── */
+  var o = M.outlook;
+  html += '<div class="panel"><h2>종합 방향성 전망</h2>' +
+    '<p class="hint">데이터 기반 자동 산출 — 단기=센티·모멘텀, 중기=매크로·유동성+유사국면, 장기=밸류·매크로추세+유사국면</p>';
+  html += '<div class="outlook-grid">';
+  [['short', '단기 · 1개월'], ['mid', '중기 · 3개월'], ['long', '장기 · 12개월']].forEach(function (pair) {
+    var c = o[pair[0]];
+    html += '<div class="ol-card"><div class="hz">' + pair[1] + '</div>' +
+      '<div class="bias ' + c.cls + '">' + c.bias + '</div>' +
+      '<div class="txt">' + c.text + '</div></div>';
+  });
+  html += '</div>';
+  html += '<div class="overall-line">' + M.commentary.overall + '</div>';
+  html += '<div class="commentary" style="margin-top:12px">';
+  PILLAR_ORDER.forEach(function (p) {
+    var pl = M.regime.pillars[p]; var cls = pl.score > 6 ? 'pos' : (pl.score < -6 ? 'neg' : 'neu');
+    html += '<div class="cm ' + cls + '"><div class="t">' + pl.name + ' ' + (pl.score > 0 ? '+' : '') + pl.score + '</div>' +
+      '<div class="b">' + M.commentary[p] + '</div></div>';
+  });
+  html += '</div>';
+  html += '<p class="disclaimer">⚠️ 본 화면은 공개 데이터(FRED·yfinance) 기반의 정량 모형 결과입니다. 투자자문이 아니며, 모형 시그널은 후행·노이즈가 있을 수 있습니다. 실제 집행 전 최신 가격·실적·지정학 헤드라인을 재확인하세요.</p>';
+  html += '</div>';
+
+  /* ── Pillars + indicators ── */
+  var pillarNames = { macro: '1. 매크로', valuation: '2. 밸류에이션', flows: '3. 수급·유동성', sentiment: '4. 센티먼트' };
+  PILLAR_ORDER.forEach(function (p) {
+    var keys = Object.keys(M.indicators).filter(function (k) { return M.indicators[k].pillar === p; });
+    if (!keys.length) return;
+    html += '<div class="panel"><h2>' + pillarNames[p] + '</h2>' +
+      '<p class="hint">' + M.commentary[p] + '</p><div class="ind-grid">';
+    keys.forEach(function (k) {
+      var d = M.indicators[k];
+      var metaParts = [];
+      if (d.z !== null && d.z !== undefined) metaParts.push('z ' + (d.z > 0 ? '+' : '') + d.z);
+      if (d.pct !== null && d.pct !== undefined) metaParts.push('상위/하위 ' + d.pct + '%');
+      metaParts.push('as of ' + d.as_of);
+      html += '<div class="ind-card"><div class="top"><span class="nm">' + d.name + '</span>' +
+        '<span class="badge ' + badgeCls(d.signal_cls) + '">' + d.signal + '</span></div>' +
+        '<div class="val tnum">' + fmtNum(d.current, (Math.abs(d.current) >= 100 ? 0 : (Number.isInteger(d.current) ? 0 : 1))) +
+        '<span class="u">' + (d.unit || '') + '</span></div>' +
+        '<div class="meta tnum">' + metaParts.join(' · ') + '</div>' +
+        (d.history ? '<div class="spark"><canvas id="spk_' + k + '"></canvas></div>' : '') +
+        '<div class="desc">' + d.desc + '</div></div>';
+    });
+    html += '</div></div>';
+  });
+
+  /* ── Index charts ── */
+  if (M.indices && (M.indices.spx || M.indices.kospi)) {
+    html += '<div class="panel"><h2>장기 지수 추이</h2><p class="hint">월말 종가, 약 25년</p><div class="idx-grid">';
+    ['spx', 'kospi'].forEach(function (key) {
+      var idx = M.indices[key]; if (!idx) return;
+      html += '<div class="idx-box"><div class="h"><span class="t">' + idx.name + '</span>' +
+        '<span class="v tnum">' + fmtNum(idx.current, 0) + '</span></div>' +
+        '<div class="idx-chart"><canvas id="idx_' + key + '"></canvas></div></div>';
+    });
+    html += '</div></div>';
+  }
+
+  /* ── Analogs ── */
+  var a = M.analogs;
+  if (a && a.neighbors && a.neighbors.length) {
+    html += '<div class="panel"><h2>과거 유사 국면 비교</h2>' +
+      '<p class="hint">현재 매크로·시장 상태를 ' + a.features.length + '개 지표 벡터로 표준화해, 2000년 이후 ' +
+      a.n_months + '개월 중 가장 가까웠던 시점을 찾았습니다. 각 시점 <b>이후</b> S&P500·KOSPI 수익률입니다.</p>';
+    html += '<table><thead><tr><th>유사 시점</th><th>거리</th>' +
+      '<th>S&P +1M</th><th>+3M</th><th>+6M</th><th>+12M</th>' +
+      '<th>KOSPI +3M</th><th>+12M</th></tr></thead><tbody>';
+    a.neighbors.forEach(function (nb) {
+      html += '<tr><td>' + nb.date.slice(0, 7) + '</td><td class="tnum">' + nb.distance + '</td>' +
+        pctCell(nb.spx_fwd.m1) + pctCell(nb.spx_fwd.m3) + pctCell(nb.spx_fwd.m6) + pctCell(nb.spx_fwd.m12) +
+        pctCell(nb.kospi_fwd.m3) + pctCell(nb.kospi_fwd.m12) + '</tr>';
+    });
+    var s = a.summary;
+    html += '<tr class="summary"><td>중간값 (base rate)</td><td>–</td>' +
+      pctCell(s.spx.m1) + pctCell(s.spx.m3) + pctCell(s.spx.m6) + pctCell(s.spx.m12) +
+      pctCell(s.kospi.m3) + pctCell(s.kospi.m12) + '</tr>';
+    html += '</tbody></table>';
+    html += '<p class="disclaimer">유사도는 유클리드 거리(z-표준화) 기준이며, 같은 해 과다 중복은 제한했습니다. 표본이 적어 개별 사례(특히 위기 직전 국면)는 참고용입니다.</p>';
+    html += '</div>';
+  }
+
+  app.innerHTML = html;
+
+  /* draw charts after DOM */
+  Object.keys(M.indicators).forEach(function (k) {
+    var d = M.indicators[k];
+    var cv = document.getElementById('spk_' + k);
+    if (cv && d.history) sparkline(cv, d.history, d.score);
+  });
+  if (M.indices) ['spx', 'kospi'].forEach(function (key) {
+    var cv = document.getElementById('idx_' + key);
+    if (cv && M.indices[key]) bigChart(cv, M.indices[key]);
+  });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  if (window.MACRO) { try { render(window.MACRO); } catch (e) { document.getElementById('app').innerHTML = '<div class="loading">렌더 오류: ' + e.message + '</div>'; console.error(e); } }
+  else document.getElementById('app').innerHTML = '<div class="loading">macro-data.js를 불러오지 못했습니다. fetch_macro.py를 먼저 실행하세요.</div>';
+});
+</script>
+</body>
+</html>

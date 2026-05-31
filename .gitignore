@@ -29,3 +29,4 @@ desktop.ini
 _*.py
 *.bak
 _ref/
+.gstack/

@@ -22,6 +22,10 @@ if ($LASTEXITCODE -ne 0) { Write-Warning "compute_corr_vol 실패 — 변동성 
 python fetch_benchmarks.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_benchmarks 실패 — 지수 띠는 직전 값 유지" }
 
+# 2c-2) 매크로 레짐 모니터 데이터 (FRED + yfinance → macro-data.js)
+python fetch_macro.py
+if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_macro 실패 — 매크로 대시보드는 직전 값 유지" }
+
 # 2d) Historical YTD 시리즈 (포트폴리오 vs ACWI 백테스트 + 스냅샷용)
 python compute_historical.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "compute_historical 실패 — 백테스트는 직전 값 유지" }
@@ -43,7 +47,7 @@ python encrypt_data.py encrypt
 if ($LASTEXITCODE -ne 0) { throw "encrypt 실패" }
 
 # 4) 변경분 push
-git add portfolio-data.js prices_log.json benchmarks.js
+git add portfolio-data.js prices_log.json benchmarks.js macro-data.js
 $staged = git diff --cached --name-only
 if (-not $staged) {
     Write-Host "변경 없음."
