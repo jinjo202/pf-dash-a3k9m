@@ -93,7 +93,8 @@
   .gauge .marker { position:absolute; top:-5px; width:4px; height:24px; border-radius:2px;
     background:var(--text); box-shadow:0 0 0 2px var(--panel); transform:translateX(-2px); }
   .gauge-scale { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); }
-  .pillars { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
+  .pillars { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:14px; }
+  @media (max-width:820px){ .pillars{ grid-template-columns:repeat(3,1fr); } }
   @media (max-width:560px){ .pillars{ grid-template-columns:repeat(2,1fr); } }
   .pillar-chip { border:1px solid var(--border); border-radius:9px; padding:10px 12px; background:var(--panel-soft); }
   .pillar-chip .pn { font-size:11px; color:var(--muted); font-weight:600; }
@@ -153,6 +154,27 @@
   .overall-line { font-size:12.5px; color:var(--text-soft); background:var(--accent-soft); border-radius:8px; padding:10px 13px; margin-top:12px; font-weight:600; }
   .disclaimer { font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5; }
   .loading { text-align:center; color:var(--muted); padding:60px 0; }
+
+  /* ===== earnings ===== */
+  .ctry-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; margin-bottom:18px; }
+  .ctry-card { border:1px solid var(--border); border-radius:10px; padding:12px 13px; background:var(--panel); }
+  .ctry-card .top { display:flex; justify-content:space-between; align-items:center; }
+  .ctry-card .cn { font-size:14px; font-weight:800; }
+  .ctry-card .err { font-size:20px; font-weight:850; letter-spacing:-.02em; margin:6px 0 2px; }
+  .ctry-card .g { font-size:11px; color:var(--muted); }
+  .ctry-card .g b { color:var(--text-soft); font-weight:700; }
+  .ctry-card .spark { height:34px; margin-top:6px; }
+  .sub-label { font-size:12.5px; font-weight:700; margin:14px 0 8px; color:var(--text-soft); }
+  .sector-row { display:grid; grid-template-columns:minmax(180px,1fr) 2.2fr; gap:14px; border:1px solid var(--border);
+    border-left-width:3px; border-radius:9px; padding:10px 13px; margin-bottom:8px; background:var(--panel); }
+  @media (max-width:680px){ .sector-row{ grid-template-columns:1fr; gap:6px; } }
+  .sector-row.pos { border-left-color:var(--pos); } .sector-row.neg { border-left-color:var(--neg); } .sector-row.neu { border-left-color:var(--neu); }
+  .sec-name { font-size:13px; font-weight:700; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .sec-metrics { font-size:11px; color:var(--muted); margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; }
+  .sec-metrics b { color:var(--text-soft); }
+  .sec-issue { font-size:12px; color:var(--text-soft); line-height:1.5; }
+  .sec-ind { font-size:10.5px; color:var(--muted); margin-top:3px; }
+  .sec-ind b { color:var(--text-soft); font-weight:600; }
 </style>
 </head>
 <body>
@@ -198,7 +220,7 @@ function pctCell(x) { if (x === null || x === undefined) return '<td>–</td>'; 
 var CHARTS = [];
 function rerenderCharts() { /* recolor on theme switch */ CHARTS.forEach(function (c) { try { c.update(); } catch (e) {} }); }
 
-var PILLAR_ORDER = ['macro', 'valuation', 'flows', 'sentiment'];
+var PILLAR_ORDER = ['macro', 'valuation', 'flows', 'sentiment', 'earnings'];
 
 function sparkline(canvas, hist, score) {
   if (!hist || !hist.values || hist.values.length < 2) return;
@@ -233,10 +255,57 @@ function bigChart(canvas, idx) {
 
 function badgeCls(cls) { return cls === 'pos' ? 'pos' : (cls === 'neg' ? 'neg' : 'neu'); }
 
+function sgn(x, d, suf) { if (x === null || x === undefined) return '–'; return (x > 0 ? '+' : '') + Number(x).toFixed(d) + (suf || ''); }
+var COUNTRY_ORDER = ['US', 'KR', 'EU', 'JP', 'CN'];
+
+function renderEarnings(M) {
+  var E = M.earnings;
+  var html = '<div class="panel"><h2>5. 기업이익 — 국가별 Forward EPS · 이익수정비율(ERR)</h2>' +
+    '<p class="hint">' + M.commentary.earnings + '</p>';
+
+  /* 국가 카드 */
+  html += '<div class="ctry-grid">';
+  COUNTRY_ORDER.forEach(function (cc) {
+    var c = E.countries[cc]; if (!c) return;
+    var col = c.err > 0.1 ? cssVar('--pos') : (c.err < -0.1 ? cssVar('--neg') : cssVar('--neu'));
+    html += '<div class="ctry-card"><div class="top"><span class="cn">' + c.name + '</span>' +
+      '<span class="badge ' + badgeCls(c.err_cls) + '">' + c.err_label + '</span></div>' +
+      '<div class="err" style="color:' + col + '">ERR ' + sgn(c.err, 2) + '</div>' +
+      '<div class="g">올해 EPS성장 <b>' + sgn(c.growth_cy, 0, '%') + '</b> · 내년 <b>' + sgn(c.growth_ny, 0, '%') + '</b></div>' +
+      '<div class="g">90일 수정 <b>' + sgn(c.rev90, 1, '%') + '</b> · 분석가 ' + (c.n || 0) + '종목</div>' +
+      (c.trend ? '<div class="spark"><canvas id="ctrend_' + cc + '"></canvas></div>' : '') +
+      '</div>';
+  });
+  html += '</div>';
+
+  /* 섹터 리스트 (미국 / 한국) */
+  [['US', '미국 섹터별'], ['KR', '한국 섹터별']].forEach(function (pair) {
+    var arr = (E.sectors[pair[0]] || []).slice().sort(function (a, b) { return (b.err || -9) - (a.err || -9); });
+    if (!arr.length) return;
+    html += '<div class="sub-label">' + pair[1] + ' (ERR 높은 순)</div>';
+    arr.forEach(function (s) {
+      html += '<div class="sector-row ' + badgeCls(s.err_cls) + '">' +
+        '<div class="sec-left"><div class="sec-name">' + s.name +
+        '<span class="badge ' + badgeCls(s.err_cls) + '">' + s.err_label + '</span></div>' +
+        '<div class="sec-metrics"><span>ERR <b>' + sgn(s.err, 2) + '</b></span>' +
+        '<span>90일수정 <b class="' + signClass(s.rev90) + '">' + sgn(s.rev90, 1, '%') + '</b></span>' +
+        '<span>올해성장 <b>' + sgn(s.growth_cy, 0, '%') + '</b></span></div></div>' +
+        '<div class="sec-right"><div class="sec-issue">' + (s.issue || '') + '</div>' +
+        (s.indicators ? '<div class="sec-ind"><b>주요지표</b> ' + s.indicators + '</div>' : '') +
+        '</div></div>';
+    });
+  });
+
+  html += '<p class="disclaimer">ERR(Earnings Revision Ratio) = 바스켓 종목의 최근 30일 상향−하향 추정 / 전체. +면 상향 우세. ' +
+    'EPS성장·90일수정은 yfinance 애널리스트 컨센서스(올해 회계연도 기준) 중간값. 섹터 이슈/지표는 ' + E.issues_as_of + ' 기준 정성 코멘트입니다.</p>';
+  html += '</div>';
+  return html;
+}
+
 function render(M) {
   var app = document.getElementById('app');
   document.getElementById('subtitle').innerHTML =
-    '기준일 ' + M.as_of + ' · 4개 축 종합 레짐 점수와 과거 유사국면 비교 · <span class="tnum">' +
+    '기준일 ' + M.as_of + ' · 5개 축 종합 레짐 점수와 과거 유사국면 비교 · <span class="tnum">' +
     Object.keys(M.indicators).length + '개 지표</span>';
 
   var html = '';
@@ -265,7 +334,7 @@ function render(M) {
   /* ── Outlook ── */
   var o = M.outlook;
   html += '<div class="panel"><h2>종합 방향성 전망</h2>' +
-    '<p class="hint">데이터 기반 자동 산출 — 단기=센티·모멘텀, 중기=매크로·유동성+유사국면, 장기=밸류·매크로추세+유사국면</p>';
+    '<p class="hint">데이터 기반 자동 산출 — 단기=센티·모멘텀, 중기=매크로·유동성·기업이익+유사국면, 장기=밸류·매크로·이익모멘텀+유사국면</p>';
   html += '<div class="outlook-grid">';
   [['short', '단기 · 1개월'], ['mid', '중기 · 3개월'], ['long', '장기 · 12개월']].forEach(function (pair) {
     var c = o[pair[0]];
@@ -286,8 +355,9 @@ function render(M) {
   html += '</div>';
 
   /* ── Pillars + indicators ── */
-  var pillarNames = { macro: '1. 매크로', valuation: '2. 밸류에이션', flows: '3. 수급·유동성', sentiment: '4. 센티먼트' };
+  var pillarNames = { macro: '1. 매크로', valuation: '2. 밸류에이션', flows: '3. 수급·유동성', sentiment: '4. 센티먼트', earnings: '5. 기업이익' };
   PILLAR_ORDER.forEach(function (p) {
+    if (p === 'earnings') return; // 전용 패널에서 상세 렌더
     var keys = Object.keys(M.indicators).filter(function (k) { return M.indicators[k].pillar === p; });
     if (!keys.length) return;
     html += '<div class="panel"><h2>' + pillarNames[p] + '</h2>' +
@@ -308,6 +378,9 @@ function render(M) {
     });
     html += '</div></div>';
   });
+
+  /* ── Earnings (5번째 축) ── */
+  if (M.earnings) html += renderEarnings(M);
 
   /* ── Index charts ── */
   if (M.indices && (M.indices.spx || M.indices.kospi)) {
@@ -355,6 +428,11 @@ function render(M) {
   if (M.indices) ['spx', 'kospi'].forEach(function (key) {
     var cv = document.getElementById('idx_' + key);
     if (cv && M.indices[key]) bigChart(cv, M.indices[key]);
+  });
+  if (M.earnings) COUNTRY_ORDER.forEach(function (cc) {
+    var c = M.earnings.countries[cc];
+    var cv = document.getElementById('ctrend_' + cc);
+    if (cv && c && c.trend) sparkline(cv, { dates: ['90일전', '60일전', '30일전', '7일전', '현재'], values: c.trend }, (c.rev90 || 0) / 5);
   });
 }
 

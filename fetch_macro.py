@@ -271,15 +271,260 @@ INDICATORS = [
 ]
 
 PILLARS = {
-    "macro":     {"name": "매크로", "weight": 0.30},
-    "valuation": {"name": "밸류에이션", "weight": 0.25},
-    "flows":     {"name": "수급·유동성", "weight": 0.25},
-    "sentiment": {"name": "센티먼트", "weight": 0.20},
+    "macro":     {"name": "매크로", "weight": 0.25},
+    "valuation": {"name": "밸류에이션", "weight": 0.18},
+    "flows":     {"name": "수급·유동성", "weight": 0.17},
+    "sentiment": {"name": "센티먼트", "weight": 0.15},
+    "earnings":  {"name": "기업이익", "weight": 0.25},
 }
 
 # 과거 유사국면 매칭에 쓸 deep-history 지표 (월간 정렬)
 ANALOG_FEATURES = ["cpi_yoy", "core_cpi_yoy", "unemployment", "fed_funds",
                    "yield_curve", "m2_yoy", "baa_spread", "vix", "oil_yoy", "spx_mom"]
+
+
+# ── 기업이익(Forward EPS / ERR) 바스켓 ────────────────────────────────────
+# 국가·섹터별 대표 대형주. yfinance 애널리스트 추정치(eps_revisions/eps_trend/
+# earnings_estimate)를 종목별로 받아 집계한다. 종목 가감은 여기만 수정.
+US_SECTORS = {
+    "반도체·AI HW": ["NVDA", "AVGO", "AMD", "MU", "TSM", "ASML"],
+    "소프트웨어·IT": ["MSFT", "AAPL", "ORCL", "CRM", "ADBE", "PLTR"],
+    "커뮤니케이션": ["GOOGL", "META", "NFLX", "DIS"],
+    "금융": ["JPM", "BAC", "GS", "WFC", "MS"],
+    "헬스케어": ["LLY", "UNH", "JNJ", "ABBV", "MRK"],
+    "임의소비재": ["AMZN", "TSLA", "HD", "MCD", "NKE"],
+    "에너지": ["XOM", "CVX", "COP", "SLB"],
+    "산업재": ["GE", "CAT", "BA", "HON", "UNP"],
+}
+KR_SECTORS = {
+    "반도체": ["005930.KS", "000660.KS"],
+    "2차전지·소재": ["373220.KS", "006400.KS", "051910.KS"],
+    "자동차": ["005380.KS", "000270.KS"],
+    "금융": ["105560.KS", "055550.KS", "086790.KS"],
+    "인터넷·IT": ["035420.KS", "035720.KS"],
+    "바이오": ["207940.KS", "068270.KS"],
+    "방산·조선": ["012450.KS", "042660.KS", "009540.KS"],
+}
+# 국가 레벨 요약만 내는 추가 국가 (섹터 분해 없음)
+COUNTRY_EXTRA = {
+    "EU": ("유럽", ["ASML", "SAP", "NVO", "MC.PA", "SHEL", "SIE.DE"]),
+    "JP": ("일본", ["TM", "SONY", "8035.T", "6861.T", "6501.T"]),
+    "CN": ("중국", ["BABA", "PDD", "JD", "BIDU", "TCEHY"]),
+}
+
+# 섹터별 주요 이슈/지표 — 정성 코멘트. 발표·뉴스 흐름에 맞춰 주기적으로 갱신.
+# (자동 산출 불가 항목. as_of로 신선도 표시)
+ISSUES_AS_OF = "2026-05-31"
+US_SECTOR_ISSUES = {
+    "반도체·AI HW": {"issue": "AI 인프라 capex 지속 상향, HBM·가속기 공급부족. 하이퍼스케일러 capex 가이던스 추가 상향이 EPS 견인.",
+                    "indicators": "하이퍼스케일러 capex, HBM 가격, 데이터센터 매출, 파운드리 가동률"},
+    "소프트웨어·IT": {"issue": "AI 수익화(코파일럿·에이전트) 본격화 vs 클라우드 마진. 기업 IT예산 견조.",
+                    "indicators": "클라우드 성장률, RPO, AI ARR, Net Revenue Retention"},
+    "커뮤니케이션": {"issue": "광고 회복 + AI 검색·추천. 콘텐츠 비용 통제. 규제 리스크 잔존.",
+                  "indicators": "광고단가(CPM), MAU/DAU, 광고주 지출, AI 검색 점유"},
+    "금융": {"issue": "금리 동결·가파른 커브로 NIM 우호. 신용비용 정상화. IB 수수료 회복.",
+            "indicators": "순이자마진(NIM), 대손충당금, 예대율, IB 수수료"},
+    "헬스케어": {"issue": "GLP-1(비만) 수요 강세, 약가 정책 리스크. 파이프라인 모멘텀.",
+              "indicators": "GLP-1 처방량, 약가규제, 임상 성공률, 특허 만료"},
+    "임의소비재": {"issue": "고유가·고물가가 실질소비 압박. 전기차 수요 둔화 vs AI 광고.",
+                "indicators": "실질 소매판매, 휘발유가격, 소비자신뢰, 전기차 인도량"},
+    "에너지": {"issue": "이란 전쟁發 유가 $100+ 고착. EPS 상향이지만 지정학 변동성 큼.",
+            "indicators": "WTI/Brent, 정제마진, 호르무즈 리스크, 리그수"},
+    "산업재": {"issue": "리쇼어링·전력인프라·방산 수요. 자본재 수주 견조.",
+            "indicators": "ISM 신규주문, 자본재 수주, 전력 capex, 방산 예산"},
+}
+KR_SECTOR_ISSUES = {
+    "반도체": {"issue": "메모리 슈퍼사이클 — HBM·DDR5 가격 급등으로 삼성·하이닉스 EPS 컨센서스 급상향. KOSPI 시총 절반 차지, 쏠림 위험.",
+              "indicators": "DRAM·NAND 고정가, HBM capa, 미국 대중 수출규제, 재고"},
+    "2차전지·소재": {"issue": "전기차 수요 둔화·중국 과잉공급 부담. AMPC 보조금·ESS 수요가 변수.",
+                  "indicators": "전기차 판매, 리튬가격, AMPC, 가동률, 수주잔고"},
+    "자동차": {"issue": "원화 약세(1,500+)로 수출채산성 개선 vs 미국 관세·전기차 둔화. 밸류업 배당 기대.",
+            "indicators": "미국 판매·인센티브, 원/달러, 관세, 하이브리드 믹스"},
+    "금융": {"issue": "밸류업(주주환원) 정책 수혜 핵심. 금리 동결로 NIM 안정, 충당금 정상화.",
+            "indicators": "NIM, CET1, 주주환원율(배당+자사주), 연체율, 밸류업 공시"},
+    "인터넷·IT": {"issue": "광고·커머스 회복 + AI 투자비용. 일본·글로벌 확장.",
+                "indicators": "광고매출, 커머스 GMV, AI capex, MAU"},
+    "바이오": {"issue": "바이오시밀러·CDMO 수주 확대. 환율 수혜. 미국 약가·생물보안법 변수.",
+            "indicators": "CDMO 수주, 시밀러 점유, FDA 승인, 환율"},
+    "방산·조선": {"issue": "유럽 재무장·중동 분쟁으로 수출 호황. 조선 슈퍼사이클(LNG선·친환경).",
+               "indicators": "수출 수주잔고, 신조선가지수, 방산 수출계약, 후판가격"},
+}
+
+
+def _cell(df, row, col):
+    try:
+        import pandas as pd
+        if df is None or row not in df.index or col not in df.columns:
+            return None
+        v = df.loc[row, col]
+        return None if pd.isna(v) else float(v)
+    except Exception:
+        return None
+
+
+def ticker_earnings(tk):
+    """종목 1개 → {up30, down30, rev90, growth_cy, growth_ny, trend5(정규화 5점), n}.
+    데이터 없으면 None."""
+    import yfinance as yf
+    try:
+        t = yf.Ticker(tk)
+        er = t.eps_revisions
+        tr = t.eps_trend
+        ee = t.earnings_estimate
+    except Exception:
+        return None
+    up30 = _cell(er, "0y", "upLast30days")
+    down30 = _cell(er, "0y", "downLast30days")
+    cur = _cell(tr, "0y", "current")
+    d90 = _cell(tr, "0y", "90daysAgo")
+    growth_cy = _cell(ee, "0y", "growth")
+    growth_ny = _cell(ee, "+1y", "growth")
+    n = _cell(ee, "0y", "numberOfAnalysts")
+    if cur is None and up30 is None:
+        return None
+    rev90 = (cur / d90 - 1) * 100 if (cur and d90 and d90 > 0) else None
+    # 90일 컨센서스 경로(자기 90d 기준 정규화) → [90d,60d,30d,7d,cur]
+    trend5 = None
+    if tr is not None and d90 and d90 > 0:
+        pts = [_cell(tr, "0y", c) for c in ["90daysAgo", "60daysAgo", "30daysAgo", "7daysAgo", "current"]]
+        if all(p is not None for p in pts):
+            trend5 = [round(p / d90 * 100, 2) for p in pts]
+    return {"up30": up30 or 0, "down30": down30 or 0, "rev90": rev90,
+            "growth_cy": growth_cy, "growth_ny": growth_ny, "n": n, "trend5": trend5}
+
+
+def _median(xs):
+    xs = sorted(x for x in xs if x is not None)
+    if not xs:
+        return None
+    m = len(xs)
+    return xs[m // 2] if m % 2 else (xs[m // 2 - 1] + xs[m // 2]) / 2
+
+
+def aggregate_basket(tickers):
+    """바스켓 집계 → ERR, rev90 중간값, EPS성장 중간값, 정규화 trend 경로."""
+    rows = []
+    for tk in tickers:
+        r = ticker_earnings(tk)
+        if r:
+            rows.append(r)
+    if not rows:
+        return None
+    up = sum(r["up30"] for r in rows)
+    dn = sum(r["down30"] for r in rows)
+    err = (up - dn) / (up + dn) if (up + dn) > 0 else None
+    rev90 = _median([r["rev90"] for r in rows])
+    g_cy = _median([r["growth_cy"] for r in rows])
+    g_ny = _median([r["growth_ny"] for r in rows])
+    # trend 경로: 각 종목 5점 경로의 시점별 중간값
+    paths = [r["trend5"] for r in rows if r["trend5"]]
+    trend = None
+    if paths:
+        trend = [round(_median([p[i] for p in paths]), 2) for i in range(5)]
+    return {"err": round(err, 3) if err is not None else None,
+            "rev90": round(rev90, 1) if rev90 is not None else None,
+            "growth_cy": round(g_cy * 100, 1) if g_cy is not None else None,
+            "growth_ny": round(g_ny * 100, 1) if g_ny is not None else None,
+            "trend": trend, "n": len(rows), "up": up, "down": dn}
+
+
+def err_label(err):
+    if err is None:    return "데이터 없음", "neu"
+    if err >= 0.3:     return "강한 상향", "pos"
+    if err >= 0.1:     return "상향 우위", "pos"
+    if err > -0.1:     return "중립", "neu"
+    if err > -0.3:     return "하향 우위", "neg"
+    return "강한 하향", "neg"
+
+
+def earnings_score(agg):
+    """기업이익 시그널 [-1,+1]: ERR + 수정모멘텀 결합."""
+    if not agg:
+        return 0.0
+    s = 0.0
+    if agg.get("err") is not None:
+        s += clamp(agg["err"] * 1.4) * 0.6
+    if agg.get("rev90") is not None:
+        s += clamp(agg["rev90"] / 8.0) * 0.4
+    return clamp(s)
+
+
+def build_earnings():
+    """국가/섹터 기업이익 섹션 + 5번째 축 카드/점수."""
+    print("=== 기업이익(Forward EPS/ERR) 수집 ===")
+    countries, scores = {}, []
+
+    # 미국·한국: 섹터 바스켓 합산으로 국가 집계
+    sector_out = {"US": [], "KR": []}
+    for cc, sectors, issues in [("US", US_SECTORS, US_SECTOR_ISSUES),
+                                ("KR", KR_SECTORS, KR_SECTOR_ISSUES)]:
+        all_tickers = []
+        for sname, tks in sectors.items():
+            agg = aggregate_basket(tks)
+            all_tickers += tks
+            lbl, cls = err_label(agg["err"] if agg else None)
+            iss = issues.get(sname, {})
+            sector_out[cc].append({
+                "name": sname, "err": agg["err"] if agg else None, "err_label": lbl, "err_cls": cls,
+                "rev90": agg["rev90"] if agg else None, "growth_cy": agg["growth_cy"] if agg else None,
+                "growth_ny": agg["growth_ny"] if agg else None, "trend": agg["trend"] if agg else None,
+                "n": agg["n"] if agg else 0,
+                "issue": iss.get("issue", ""), "indicators": iss.get("indicators", ""),
+            })
+            print(f"  [{cc}] {sname:14s} ERR {agg['err'] if agg else 'NA'}  rev90 {agg['rev90'] if agg else 'NA'}  n={agg['n'] if agg else 0}")
+        cagg = aggregate_basket(all_tickers)
+        lbl, cls = err_label(cagg["err"] if cagg else None)
+        countries[cc] = {"name": "미국" if cc == "US" else "한국",
+                         "err": cagg["err"] if cagg else None, "err_label": lbl, "err_cls": cls,
+                         "rev90": cagg["rev90"] if cagg else None,
+                         "growth_cy": cagg["growth_cy"] if cagg else None,
+                         "growth_ny": cagg["growth_ny"] if cagg else None,
+                         "trend": cagg["trend"] if cagg else None, "n": cagg["n"] if cagg else 0}
+        scores.append(earnings_score(cagg))
+
+    # 추가 국가(섹터 분해 없음)
+    for cc, (kname, tks) in COUNTRY_EXTRA.items():
+        agg = aggregate_basket(tks)
+        lbl, cls = err_label(agg["err"] if agg else None)
+        countries[cc] = {"name": kname, "err": agg["err"] if agg else None,
+                         "err_label": lbl, "err_cls": cls, "rev90": agg["rev90"] if agg else None,
+                         "growth_cy": agg["growth_cy"] if agg else None,
+                         "growth_ny": agg["growth_ny"] if agg else None,
+                         "trend": agg["trend"] if agg else None, "n": agg["n"] if agg else 0}
+        print(f"  [{cc}] {kname} ERR {agg['err'] if agg else 'NA'}  rev90 {agg['rev90'] if agg else 'NA'}")
+
+    # 5번째 축 점수: 미국 0.55 + 한국 0.45 (가중)
+    pillar = scores[0] * 0.55 + scores[1] * 0.45 if len(scores) >= 2 else (scores[0] if scores else 0)
+
+    # 지표 카드 (indicators dict에 병합) — pillar='earnings'
+    cards = {}
+    for cc in ["US", "KR"]:
+        c = countries.get(cc, {})
+        nm = c.get("name", cc)
+        lbl, cls = err_label(c.get("err"))
+        cards[f"err_{cc.lower()}"] = {
+            "name": f"{nm} ERR(이익수정비율)", "pillar": "earnings",
+            "current": c.get("err"), "unit": "", "z": None, "pct": None,
+            "score": round(earnings_score(c), 2), "signal": lbl, "signal_cls": cls,
+            "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
+            "as_of": date.today().isoformat(), "history": None,
+        }
+        tr = c.get("trend")
+        rv = c.get("rev90")
+        rcls = "pos" if (rv or 0) > 1 else ("neg" if (rv or 0) < -1 else "neu")
+        cards[f"eps_rev_{cc.lower()}"] = {
+            "name": f"{nm} Fwd EPS 수정(90일)", "pillar": "earnings",
+            "current": rv, "unit": "%", "z": None, "pct": None,
+            "score": round(clamp((rv or 0) / 8.0), 2), "signal": err_label(c.get("err"))[0],
+            "signal_cls": rcls,
+            "desc": "올해 컨센서스 EPS의 최근 90일 변화율. 우상향=상향 수정.",
+            "as_of": date.today().isoformat(),
+            "history": ({"dates": ["90일전", "60일전", "30일전", "7일전", "현재"], "values": tr} if tr else None),
+        }
+
+    data = {"as_of": date.today().isoformat(), "issues_as_of": ISSUES_AS_OF,
+            "countries": countries, "sectors": sector_out}
+    return {"data": data, "cards": cards, "pillar_score": pillar}
 
 
 def load_benchmarks():
@@ -436,6 +681,11 @@ def build():
             "as_of": m["as_of"], "history": None, "manual": True,
         }
 
+    # --- 기업이익 축 (국가/섹터 Forward EPS·ERR) ---
+    earn = build_earnings()
+    indicators.update(earn["cards"])
+    pillar_scores["earnings"] = [earn["pillar_score"]]
+
     # --- 축별/종합 레짐 점수 (-100 ~ +100) ---
     pillars_out = {}
     overall = 0.0
@@ -471,6 +721,7 @@ def build():
         "indicators": indicators,
         "indices": indices,
         "analogs": analogs,
+        "earnings": earn["data"],
         "commentary": commentary,
         "outlook": outlook,
         "real_rate": round(real_rate, 2) if real_rate is not None else None,
@@ -599,6 +850,8 @@ def build_commentary(ind, pillars, overall):
     flows = "·".join(b for b in flow_bits if b)
     sent_bits = [fmt(k) for k in ["vix", "spx_mom", "cnn_fng"]]
     sentiment = "·".join(b for b in sent_bits if b)
+    earn_bits = [fmt(k) for k in ["err_us", "eps_rev_us", "err_kr", "eps_rev_kr"]]
+    earnings = "·".join(b for b in earn_bits if b)
 
     def verdict(p):
         s = pillars[p]["score"]
@@ -613,9 +866,11 @@ def build_commentary(ind, pillars, overall):
         "valuation": f"[{verdict('valuation')}] {valuation}",
         "flows": f"[{verdict('flows')}] {flows}",
         "sentiment": f"[{verdict('sentiment')}] {sentiment}",
+        "earnings": f"[{verdict('earnings')}] {earnings}",
         "overall": f"종합 레짐 점수 {overall:+d}. "
                    f"매크로 {pillars['macro']['score']:+d}, 밸류 {pillars['valuation']['score']:+d}, "
-                   f"수급 {pillars['flows']['score']:+d}, 센티 {pillars['sentiment']['score']:+d}.",
+                   f"수급 {pillars['flows']['score']:+d}, 센티 {pillars['sentiment']['score']:+d}, "
+                   f"기업이익 {pillars['earnings']['score']:+d}.",
     }
 
 
@@ -630,11 +885,12 @@ def build_outlook(ind, pillars, overall, analogs):
         if score >= -20: return "하방 주의", "neg"
         return "조정 위험", "neg"
 
-    # 단기=센티+모멘텀, 중기=매크로+유사국면, 장기=밸류+매크로추세
+    ep = pillars.get("earnings", {}).get("score", 0)
+    # 단기=센티+모멘텀, 중기=매크로+유동성+기업이익+유사국면, 장기=밸류+매크로+기업이익+유사국면
     short_s = round((pillars["sentiment"]["score"] + (ind.get("spx_mom", {}).get("score", 0) * 100)) / 2)
-    mid_s = round((pillars["macro"]["score"] * 0.6 + pillars["flows"]["score"] * 0.4)
+    mid_s = round((pillars["macro"]["score"] * 0.4 + pillars["flows"]["score"] * 0.3 + ep * 0.3)
                   + (sm.get("m3") or 0) * 2)
-    long_s = round((pillars["valuation"]["score"] * 0.5 + pillars["macro"]["score"] * 0.5)
+    long_s = round((pillars["valuation"]["score"] * 0.35 + pillars["macro"]["score"] * 0.35 + ep * 0.30)
                    + (sm.get("m12") or 0))
 
     sb, sc = bias(short_s); mb, mc = bias(mid_s); lb, lc = bias(long_s)
@@ -643,9 +899,9 @@ def build_outlook(ind, pillars, overall, analogs):
         "short": {"bias": sb, "cls": sc,
                   "text": f"센티먼트·모멘텀 기반. VIX·추세가 핵심 변수. 단기 비대칭 리스크 점검."},
         "mid": {"bias": mb, "cls": mc,
-                "text": f"매크로·유동성 + 과거 유사국면 이후 3개월 중간값 {fmt_pct(m3)}."},
+                "text": f"매크로·유동성·기업이익 수정 + 과거 유사국면 이후 3개월 중간값 {fmt_pct(m3)}."},
         "long": {"bias": lb, "cls": lc,
-                 "text": f"밸류에이션·매크로 추세 + 유사국면 이후 12개월 중간값 {fmt_pct(m12)}."},
+                 "text": f"밸류에이션·매크로 추세·이익 모멘텀 + 유사국면 이후 12개월 중간값 {fmt_pct(m12)}."},
     }
 
 
