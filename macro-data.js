@@ -2,7 +2,7 @@
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
   "as_of": "2026-06-01",
-  "generated": "2026-05-31T15:09:47Z",
+  "generated": "2026-05-31T15:25:07Z",
   "regime": {
     "score": 8,
     "label": "중립 (선별적)",
@@ -11117,7 +11117,84 @@ window.MACRO = {
           ],
           "n": 6,
           "issue": "AI 인프라 capex 지속 상향, HBM·가속기 공급부족. 하이퍼스케일러 capex 가이던스 추가 상향이 EPS 견인.",
-          "indicators": "하이퍼스케일러 capex, HBM 가격, 데이터센터 매출, 파운드리 가동률"
+          "indicators": "하이퍼스케일러 capex, HBM 가격, 데이터센터 매출, 파운드리 가동률",
+          "holdings": [
+            {
+              "ticker": "NVDA",
+              "name": "NVIDIA Corporation",
+              "mktcap": 5114022068224,
+              "fwdpe": 16.7,
+              "pbr": 32.62,
+              "rets": {
+                "w1": -3.8,
+                "m1": 0.9,
+                "m3": 19.2,
+                "ytd": 13.2
+              },
+              "rev30": 7.233433299718084,
+              "note": "AI 가속기 사실상 독점·데이터센터 폭증"
+            },
+            {
+              "ticker": "TSM",
+              "name": "Taiwan Semiconductor Manufactur",
+              "mktcap": 2170280083456,
+              "fwdpe": 21.4,
+              "pbr": 64.01,
+              "rets": {
+                "w1": 2.8,
+                "m1": 6.3,
+                "m3": 12.0,
+                "ytd": 38.1
+              },
+              "rev30": 0.34908389585341926,
+              "note": "AI칩 위탁생산 독점적"
+            },
+            {
+              "ticker": "AVGO",
+              "name": "Broadcom Inc.",
+              "mktcap": 2115307700224,
+              "fwdpe": 24.2,
+              "pbr": 26.49,
+              "rets": {
+                "w1": 7.8,
+                "m1": 10.2,
+                "m3": 40.1,
+                "ytd": 29.4
+              },
+              "rev30": null,
+              "note": "맞춤형 AI칩(ASIC)·네트워킹"
+            },
+            {
+              "ticker": "MU",
+              "name": "Micron Technology, Inc.",
+              "mktcap": 1095029751808,
+              "fwdpe": 9.2,
+              "pbr": 15.12,
+              "rets": {
+                "w1": 27.4,
+                "m1": 87.3,
+                "m3": 135.6,
+                "ytd": 240.4
+              },
+              "rev30": 1.1195308370309576,
+              "note": "HBM·메모리 업사이클"
+            },
+            {
+              "ticker": "AMD",
+              "name": "Advanced Micro Devices, Inc.",
+              "mktcap": 841552887808,
+              "fwdpe": 39.8,
+              "pbr": 13.05,
+              "rets": {
+                "w1": 14.8,
+                "m1": 53.1,
+                "m3": 157.8,
+                "ytd": 141.0
+              },
+              "rev30": 9.55714145473694,
+              "note": "AI GPU 추격·MI 시리즈"
+            }
+          ]
         },
         {
           "name": "소프트웨어·IT",
@@ -11139,7 +11216,84 @@ window.MACRO = {
           ],
           "n": 6,
           "issue": "AI 수익화(코파일럿·에이전트) 본격화 vs 클라우드 마진. 기업 IT예산 견조.",
-          "indicators": "클라우드 성장률, RPO, AI ARR, Net Revenue Retention"
+          "indicators": "클라우드 성장률, RPO, AI ARR, Net Revenue Retention",
+          "holdings": [
+            {
+              "ticker": "AAPL",
+              "name": "Apple Inc.",
+              "mktcap": 4583336181760,
+              "fwdpe": 32.5,
+              "pbr": 42.98,
+              "rets": {
+                "w1": 2.3,
+                "m1": 15.6,
+                "m3": 18.2,
+                "ytd": 15.0
+              },
+              "rev30": 2.902419956855762,
+              "note": "온디바이스 AI·서비스"
+            },
+            {
+              "ticker": "MSFT",
+              "name": "Microsoft Corporation",
+              "mktcap": 3344578379776,
+              "fwdpe": 23.3,
+              "pbr": 8.07,
+              "rets": {
+                "w1": 7.4,
+                "m1": 6.3,
+                "m3": 14.9,
+                "ytd": -6.5
+              },
+              "rev30": 0.965548800810967,
+              "note": "Azure·코파일럿 AI 수익화"
+            },
+            {
+              "ticker": "ORCL",
+              "name": "Oracle Corporation",
+              "mktcap": 649353691136,
+              "fwdpe": 28.1,
+              "pbr": 19.35,
+              "rets": {
+                "w1": 19.0,
+                "m1": 37.8,
+                "m3": 55.8,
+                "ytd": 16.5
+              },
+              "rev30": -0.12784793332609734,
+              "note": "OCI 클라우드 수주 급증"
+            },
+            {
+              "ticker": "PLTR",
+              "name": "Palantir Technologies Inc.",
+              "mktcap": 375275192320,
+              "fwdpe": 75.5,
+              "pbr": 44.41,
+              "rets": {
+                "w1": 13.9,
+                "m1": 13.5,
+                "m3": 14.1,
+                "ytd": -11.9
+              },
+              "rev30": 10.678554413666387,
+              "note": "AIP 정부·기업 수요"
+            },
+            {
+              "ticker": "CRM",
+              "name": "Salesforce, Inc.",
+              "mktcap": 156510912512,
+              "fwdpe": 12.3,
+              "pbr": 4.57,
+              "rets": {
+                "w1": 8.4,
+                "m1": 5.5,
+                "m3": -1.6,
+                "ytd": -27.7
+              },
+              "rev30": 7.2994840569741815,
+              "note": "에이전트포스 AI"
+            }
+          ]
         },
         {
           "name": "커뮤니케이션",
@@ -11161,7 +11315,69 @@ window.MACRO = {
           ],
           "n": 4,
           "issue": "광고 회복 + AI 검색·추천. 콘텐츠 비용 통제. 규제 리스크 잔존.",
-          "indicators": "광고단가(CPM), MAU/DAU, 광고주 지출, AI 검색 점유"
+          "indicators": "광고단가(CPM), MAU/DAU, 광고주 지출, AI 검색 점유",
+          "holdings": [
+            {
+              "ticker": "GOOGL",
+              "name": "Alphabet Inc.",
+              "mktcap": 4607987679232,
+              "fwdpe": 26.2,
+              "pbr": 9.63,
+              "rets": {
+                "w1": -1.9,
+                "m1": 8.7,
+                "m3": 22.1,
+                "ytd": 21.6
+              },
+              "rev30": 22.405902535923428,
+              "note": "검색·Gemini·클라우드"
+            },
+            {
+              "ticker": "META",
+              "name": "Meta Platforms, Inc.",
+              "mktcap": 1605578129408,
+              "fwdpe": 17.5,
+              "pbr": 6.59,
+              "rets": {
+                "w1": 4.1,
+                "m1": -5.5,
+                "m3": -2.3,
+                "ytd": -4.1
+              },
+              "rev30": 10.736828769198059,
+              "note": "광고 회복·AI 추천"
+            },
+            {
+              "ticker": "NFLX",
+              "name": "Netflix, Inc.",
+              "mktcap": 362212884480,
+              "fwdpe": 22.4,
+              "pbr": 11.64,
+              "rets": {
+                "w1": -3.7,
+                "m1": -6.6,
+                "m3": -10.6,
+                "ytd": -8.3
+              },
+              "rev30": -4.690342461030939,
+              "note": "광고요금제·콘텐츠"
+            },
+            {
+              "ticker": "DIS",
+              "name": "Walt Disney Company (The)",
+              "mktcap": 176828973056,
+              "fwdpe": 13.6,
+              "pbr": 1.63,
+              "rets": {
+                "w1": -1.7,
+                "m1": 0.5,
+                "m3": -4.0,
+                "ytd": -10.5
+              },
+              "rev30": 2.809693737500507,
+              "note": "스트리밍 흑자 전환"
+            }
+          ]
         },
         {
           "name": "금융",
@@ -11183,7 +11399,84 @@ window.MACRO = {
           ],
           "n": 5,
           "issue": "금리 동결·가파른 커브로 NIM 우호. 신용비용 정상화. IB 수수료 회복.",
-          "indicators": "순이자마진(NIM), 대손충당금, 예대율, IB 수수료"
+          "indicators": "순이자마진(NIM), 대손충당금, 예대율, IB 수수료",
+          "holdings": [
+            {
+              "ticker": "JPM",
+              "name": "JP Morgan Chase & Co.",
+              "mktcap": 802004533248,
+              "fwdpe": 12.7,
+              "pbr": 2.33,
+              "rets": {
+                "w1": -1.2,
+                "m1": -3.2,
+                "m3": 0.2,
+                "ytd": -6.2
+              },
+              "rev30": 0.12477188736779166,
+              "note": "NIM·IB 회복"
+            },
+            {
+              "ticker": "BAC",
+              "name": "Bank of America Corporation",
+              "mktcap": 366184071168,
+              "fwdpe": 10.2,
+              "pbr": 1.33,
+              "rets": {
+                "w1": 0.2,
+                "m1": -2.4,
+                "m3": 4.1,
+                "ytd": -5.7
+              },
+              "rev30": 0.004250768494196144,
+              "note": "예금·금리 레버리지"
+            },
+            {
+              "ticker": "MS",
+              "name": "Morgan Stanley",
+              "mktcap": 328075247616,
+              "fwdpe": 16.4,
+              "pbr": 3.14,
+              "rets": {
+                "w1": 3.7,
+                "m1": 11.8,
+                "m3": 25.6,
+                "ytd": 18.4
+              },
+              "rev30": 0.3674339127516024,
+              "note": "WM·IB"
+            },
+            {
+              "ticker": "GS",
+              "name": "Goldman Sachs Group, Inc. (The)",
+              "mktcap": 302547828736,
+              "fwdpe": 15.7,
+              "pbr": 2.88,
+              "rets": {
+                "w1": 3.8,
+                "m1": 13.2,
+                "m3": 19.9,
+                "ytd": 17.3
+              },
+              "rev30": -0.1560628106140105,
+              "note": "IB·트레이딩"
+            },
+            {
+              "ticker": "WFC",
+              "name": "Wells Fargo & Company",
+              "mktcap": 237287096320,
+              "fwdpe": 9.8,
+              "pbr": 1.46,
+              "rets": {
+                "w1": 2.1,
+                "m1": -4.3,
+                "m3": -4.3,
+                "ytd": -15.9
+              },
+              "rev30": 0.02850398482843186,
+              "note": "자산상한 해제 기대"
+            }
+          ]
         },
         {
           "name": "헬스케어",
@@ -11205,7 +11498,84 @@ window.MACRO = {
           ],
           "n": 5,
           "issue": "GLP-1(비만) 수요 강세, 약가 정책 리스크. 파이프라인 모멘텀.",
-          "indicators": "GLP-1 처방량, 약가규제, 임상 성공률, 특허 만료"
+          "indicators": "GLP-1 처방량, 약가규제, 임상 성공률, 특허 만료",
+          "holdings": [
+            {
+              "ticker": "LLY",
+              "name": "Eli Lilly and Company",
+              "mktcap": 985374195712,
+              "fwdpe": 24.8,
+              "pbr": 31.65,
+              "rets": {
+                "w1": 6.1,
+                "m1": 30.0,
+                "m3": 5.2,
+                "ytd": 3.2
+              },
+              "rev30": 5.655034568036088,
+              "note": "GLP-1 비만치료 선두"
+            },
+            {
+              "ticker": "JNJ",
+              "name": "Johnson & Johnson",
+              "mktcap": 542418173952,
+              "fwdpe": 17.7,
+              "pbr": 6.68,
+              "rets": {
+                "w1": -2.2,
+                "m1": -0.3,
+                "m3": -8.8,
+                "ytd": 10.1
+              },
+              "rev30": -0.006911273929199879,
+              "note": "제약·의료기기"
+            },
+            {
+              "ticker": "ABBV",
+              "name": "AbbVie Inc.",
+              "mktcap": 384666140672,
+              "fwdpe": 13.4,
+              "pbr": null,
+              "rets": {
+                "w1": 1.5,
+                "m1": 6.8,
+                "m3": -5.4,
+                "ytd": -3.2
+              },
+              "rev30": 0.1864063404895866,
+              "note": "면역질환 후속"
+            },
+            {
+              "ticker": "UNH",
+              "name": "UnitedHealth Group Incorporated",
+              "mktcap": 345376391168,
+              "fwdpe": 18.2,
+              "pbr": 3.53,
+              "rets": {
+                "w1": -0.6,
+                "m1": 2.6,
+                "m3": 30.7,
+                "ytd": 16.1
+              },
+              "rev30": 0.157049540108134,
+              "note": "관리의료 마진"
+            },
+            {
+              "ticker": "MRK",
+              "name": "Merck & Company, Inc.",
+              "mktcap": 293217566720,
+              "fwdpe": 12.4,
+              "pbr": 6.39,
+              "rets": {
+                "w1": 2.5,
+                "m1": 7.0,
+                "m3": -3.4,
+                "ytd": 13.6
+              },
+              "rev30": -46.440377422745186,
+              "note": "키트루다·종양"
+            }
+          ]
         },
         {
           "name": "임의소비재",
@@ -11227,7 +11597,84 @@ window.MACRO = {
           ],
           "n": 5,
           "issue": "고유가·고물가가 실질소비 압박. 전기차 수요 둔화 vs AI 광고.",
-          "indicators": "실질 소매판매, 휘발유가격, 소비자신뢰, 전기차 인도량"
+          "indicators": "실질 소매판매, 휘발유가격, 소비자신뢰, 전기차 인도량",
+          "holdings": [
+            {
+              "ticker": "AMZN",
+              "name": "Amazon.com, Inc.",
+              "mktcap": 2911304417280,
+              "fwdpe": 27.4,
+              "pbr": 6.59,
+              "rets": {
+                "w1": 0.8,
+                "m1": 2.9,
+                "m3": 28.9,
+                "ytd": 17.3
+              },
+              "rev30": 11.644353884851565,
+              "note": "AWS·리테일 마진"
+            },
+            {
+              "ticker": "TSLA",
+              "name": "Tesla, Inc.",
+              "mktcap": 1636706942976,
+              "fwdpe": 173.6,
+              "pbr": 19.9,
+              "rets": {
+                "w1": 4.3,
+                "m1": 16.9,
+                "m3": 8.3,
+                "ytd": -3.1
+              },
+              "rev30": 1.0562720159452033,
+              "note": "FSD·로보택시 기대"
+            },
+            {
+              "ticker": "HD",
+              "name": "Home Depot, Inc. (The)",
+              "mktcap": 316225585152,
+              "fwdpe": 19.7,
+              "pbr": 22.79,
+              "rets": {
+                "w1": 1.1,
+                "m1": -1.8,
+                "m3": -16.1,
+                "ytd": -7.2
+              },
+              "rev30": -0.5815930934242486,
+              "note": "주택수리"
+            },
+            {
+              "ticker": "MCD",
+              "name": "McDonald's Corporation",
+              "mktcap": 198373244928,
+              "fwdpe": 19.6,
+              "pbr": null,
+              "rets": {
+                "w1": -1.8,
+                "m1": -3.8,
+                "m3": -17.7,
+                "ytd": -8.1
+              },
+              "rev30": -1.6291756572634264,
+              "note": "가성비 메뉴"
+            },
+            {
+              "ticker": "NKE",
+              "name": "Nike, Inc.",
+              "mktcap": 68461408256,
+              "fwdpe": 25.4,
+              "pbr": 4.86,
+              "rets": {
+                "w1": 4.1,
+                "m1": 4.1,
+                "m3": -25.2,
+                "ytd": -27.0
+              },
+              "rev30": 0.1262036084883622,
+              "note": "리브랜딩·중국"
+            }
+          ]
         },
         {
           "name": "에너지",
@@ -11249,7 +11696,69 @@ window.MACRO = {
           ],
           "n": 4,
           "issue": "이란 전쟁發 유가 $100+ 고착. EPS 상향이지만 지정학 변동성 큼.",
-          "indicators": "WTI/Brent, 정제마진, 호르무즈 리스크, 리그수"
+          "indicators": "WTI/Brent, 정제마진, 호르무즈 리스크, 리그수",
+          "holdings": [
+            {
+              "ticker": "XOM",
+              "name": "Exxon Mobil Corporation",
+              "mktcap": 602095026176,
+              "fwdpe": 13.6,
+              "pbr": 2.34,
+              "rets": {
+                "w1": -6.5,
+                "m1": -5.4,
+                "m3": -4.1,
+                "ytd": 22.3
+              },
+              "rev30": 11.251171151918804,
+              "note": "유가 레버리지·정제"
+            },
+            {
+              "ticker": "CVX",
+              "name": "Chevron Corporation",
+              "mktcap": 363386929152,
+              "fwdpe": 14.7,
+              "pbr": 1.96,
+              "rets": {
+                "w1": -4.5,
+                "m1": -4.2,
+                "m3": -1.4,
+                "ytd": 22.0
+              },
+              "rev30": 20.34924620218024,
+              "note": "배당·가이아나"
+            },
+            {
+              "ticker": "COP",
+              "name": "ConocoPhillips",
+              "mktcap": 138861150208,
+              "fwdpe": 12.4,
+              "pbr": 2.15,
+              "rets": {
+                "w1": -5.5,
+                "m1": -10.5,
+                "m3": 1.2,
+                "ytd": 23.6
+              },
+              "rev30": 18.36068603134493,
+              "note": "셰일 효율"
+            },
+            {
+              "ticker": "SLB",
+              "name": "SLB Limited",
+              "mktcap": 81555390464,
+              "fwdpe": 16.3,
+              "pbr": 2.98,
+              "rets": {
+                "w1": -4.7,
+                "m1": -2.1,
+                "m3": 6.3,
+                "ytd": 43.0
+              },
+              "rev30": -2.019161739666442,
+              "note": "유전서비스"
+            }
+          ]
         },
         {
           "name": "산업재",
@@ -11271,7 +11780,84 @@ window.MACRO = {
           ],
           "n": 5,
           "issue": "리쇼어링·전력인프라·방산 수요. 자본재 수주 견조.",
-          "indicators": "ISM 신규주문, 자본재 수주, 전력 capex, 방산 예산"
+          "indicators": "ISM 신규주문, 자본재 수주, 전력 capex, 방산 예산",
+          "holdings": [
+            {
+              "ticker": "CAT",
+              "name": "Caterpillar, Inc.",
+              "mktcap": 403418677248,
+              "fwdpe": 29.4,
+              "pbr": 21.62,
+              "rets": {
+                "w1": 1.1,
+                "m1": 8.1,
+                "m3": 18.1,
+                "ytd": 53.5
+              },
+              "rev30": 6.0460421701554745,
+              "note": "인프라·전력장비"
+            },
+            {
+              "ticker": "GE",
+              "name": "GE Aerospace",
+              "mktcap": 338274058240,
+              "fwdpe": 37.3,
+              "pbr": 18.18,
+              "rets": {
+                "w1": 7.3,
+                "m1": 14.2,
+                "m3": -5.3,
+                "ytd": 5.3
+              },
+              "rev30": 0.038378927057536316,
+              "note": "항공엔진 수주"
+            },
+            {
+              "ticker": "BA",
+              "name": "Boeing Company (The)",
+              "mktcap": 182216081408,
+              "fwdpe": 55.3,
+              "pbr": 30.45,
+              "rets": {
+                "w1": 5.3,
+                "m1": 3.1,
+                "m3": 1.6,
+                "ytd": 6.5
+              },
+              "rev30": null,
+              "note": "생산정상화"
+            },
+            {
+              "ticker": "UNP",
+              "name": "Union Pacific Corporation",
+              "mktcap": 155932852224,
+              "fwdpe": 19.2,
+              "pbr": 8.44,
+              "rets": {
+                "w1": -0.5,
+                "m1": -0.3,
+                "m3": -0.4,
+                "ytd": 14.7
+              },
+              "rev30": 0.1819082920859083,
+              "note": "물동량"
+            },
+            {
+              "ticker": "HON",
+              "name": "Honeywell International Inc.",
+              "mktcap": 150720724992,
+              "fwdpe": 20.8,
+              "pbr": 11.09,
+              "rets": {
+                "w1": 6.3,
+                "m1": 13.7,
+                "m3": -1.8,
+                "ytd": 23.2
+              },
+              "rev30": -0.053479999620031915,
+              "note": "자동화·항공"
+            }
+          ]
         }
       ],
       "KR": [
@@ -11295,7 +11881,39 @@ window.MACRO = {
           ],
           "n": 2,
           "issue": "메모리 슈퍼사이클 — HBM·DDR5 가격 급등으로 삼성·하이닉스 EPS 컨센서스 급상향. KOSPI 시총 절반 차지, 쏠림 위험.",
-          "indicators": "DRAM·NAND 고정가, HBM capa, 미국 대중 수출규제, 재고"
+          "indicators": "DRAM·NAND 고정가, HBM capa, 미국 대중 수출규제, 재고",
+          "holdings": [
+            {
+              "ticker": "005930.KS",
+              "name": "SamsungElec",
+              "mktcap": 2081600594509824,
+              "fwdpe": 5.7,
+              "pbr": null,
+              "rets": {
+                "w1": 5.8,
+                "m1": 41.2,
+                "m3": 56.1,
+                "ytd": 164.9
+              },
+              "rev30": 24.800941465448155,
+              "note": "메모리·HBM·파운드리 턴"
+            },
+            {
+              "ticker": "000660.KS",
+              "name": "SK hynix",
+              "mktcap": 1656091473608704,
+              "fwdpe": 6.1,
+              "pbr": null,
+              "rets": {
+                "w1": 20.3,
+                "m1": 80.6,
+                "m3": 129.6,
+                "ytd": 259.1
+              },
+              "rev30": 34.749418892961145,
+              "note": "HBM 선두·실적 급증"
+            }
+          ]
         },
         {
           "name": "2차전지·소재",
@@ -11317,7 +11935,54 @@ window.MACRO = {
           ],
           "n": 3,
           "issue": "전기차 수요 둔화·중국 과잉공급 부담. AMPC 보조금·ESS 수요가 변수.",
-          "indicators": "전기차 판매, 리튬가격, AMPC, 가동률, 수주잔고"
+          "indicators": "전기차 판매, 리튬가격, AMPC, 가동률, 수주잔고",
+          "holdings": [
+            {
+              "ticker": "373220.KS",
+              "name": "LG Energy Solution",
+              "mktcap": 107172000169984,
+              "fwdpe": 54.9,
+              "pbr": null,
+              "rets": {
+                "w1": 14.2,
+                "m1": -1.3,
+                "m3": 7.5,
+                "ytd": 24.3
+              },
+              "rev30": -30.613917786453626,
+              "note": "전기차 둔화·ESS"
+            },
+            {
+              "ticker": "006400.KS",
+              "name": "SAMSUNG SDI CO.,LTD.",
+              "mktcap": 54141216882688,
+              "fwdpe": 40.7,
+              "pbr": null,
+              "rets": {
+                "w1": 11.7,
+                "m1": 8.3,
+                "m3": 58.9,
+                "ytd": 155.3
+              },
+              "rev30": 20.072885977604837,
+              "note": "각형 배터리"
+            },
+            {
+              "ticker": "051910.KS",
+              "name": "LGCHEM",
+              "mktcap": 28726962159616,
+              "fwdpe": 14.6,
+              "pbr": null,
+              "rets": {
+                "w1": 5.5,
+                "m1": -3.3,
+                "m3": -4.7,
+                "ytd": 10.9
+              },
+              "rev30": null,
+              "note": "양극재·화학"
+            }
+          ]
         },
         {
           "name": "자동차",
@@ -11339,7 +12004,39 @@ window.MACRO = {
           ],
           "n": 2,
           "issue": "원화 약세(1,500+)로 수출채산성 개선 vs 미국 관세·전기차 둔화. 밸류업 배당 기대.",
-          "indicators": "미국 판매·인센티브, 원/달러, 관세, 하이브리드 믹스"
+          "indicators": "미국 판매·인센티브, 원/달러, 관세, 하이브리드 믹스",
+          "holdings": [
+            {
+              "ticker": "005380.KS",
+              "name": "HyundaiMtr",
+              "mktcap": 189306035503104,
+              "fwdpe": 14.6,
+              "pbr": null,
+              "rets": {
+                "w1": 9.0,
+                "m1": 38.5,
+                "m3": 27.4,
+                "ytd": 145.8
+              },
+              "rev30": -0.2900755373993924,
+              "note": "하이브리드·환율수혜"
+            },
+            {
+              "ticker": "000270.KS",
+              "name": "KIA CORP.",
+              "mktcap": 65760600784896,
+              "fwdpe": 7.2,
+              "pbr": null,
+              "rets": {
+                "w1": 0.8,
+                "m1": 10.9,
+                "m3": -9.9,
+                "ytd": 45.0
+              },
+              "rev30": 0.29206481424364217,
+              "note": "수익성·밸류업"
+            }
+          ]
         },
         {
           "name": "금융",
@@ -11361,7 +12058,54 @@ window.MACRO = {
           ],
           "n": 3,
           "issue": "밸류업(주주환원) 정책 수혜 핵심. 금리 동결로 NIM 안정, 충당금 정상화.",
-          "indicators": "NIM, CET1, 주주환원율(배당+자사주), 연체율, 밸류업 공시"
+          "indicators": "NIM, CET1, 주주환원율(배당+자사주), 연체율, 밸류업 공시",
+          "holdings": [
+            {
+              "ticker": "105560.KS",
+              "name": "KBFinancialGroup",
+              "mktcap": 53415975583744,
+              "fwdpe": 8.0,
+              "pbr": null,
+              "rets": {
+                "w1": -3.3,
+                "m1": -3.6,
+                "m3": -8.7,
+                "ytd": 22.8
+              },
+              "rev30": 0.3574870579051037,
+              "note": "주주환원·밸류업"
+            },
+            {
+              "ticker": "055550.KS",
+              "name": "ShinhanGroup",
+              "mktcap": 44072903376896,
+              "fwdpe": 7.3,
+              "pbr": null,
+              "rets": {
+                "w1": -1.3,
+                "m1": -5.4,
+                "m3": -5.2,
+                "ytd": 23.7
+              },
+              "rev30": 1.911121571404828,
+              "note": "배당·NIM"
+            },
+            {
+              "ticker": "086790.KS",
+              "name": "HANAFINANCIALGR",
+              "mktcap": 30878711414784,
+              "fwdpe": 6.6,
+              "pbr": null,
+              "rets": {
+                "w1": -3.6,
+                "m1": -6.3,
+                "m3": -6.8,
+                "ytd": 24.8
+              },
+              "rev30": 3.0495475225160718,
+              "note": "자사주 소각"
+            }
+          ]
         },
         {
           "name": "인터넷·IT",
@@ -11383,7 +12127,39 @@ window.MACRO = {
           ],
           "n": 2,
           "issue": "광고·커머스 회복 + AI 투자비용. 일본·글로벌 확장.",
-          "indicators": "광고매출, 커머스 GMV, AI capex, MAU"
+          "indicators": "광고매출, 커머스 GMV, AI capex, MAU",
+          "holdings": [
+            {
+              "ticker": "035420.KS",
+              "name": "NAVER",
+              "mktcap": 34979446784000,
+              "fwdpe": 15.6,
+              "pbr": null,
+              "rets": {
+                "w1": 17.3,
+                "m1": 8.8,
+                "m3": -6.5,
+                "ytd": -2.5
+              },
+              "rev30": -8.498863805886991,
+              "note": "광고·AI·웹툰"
+            },
+            {
+              "ticker": "035720.KS",
+              "name": "Kakao",
+              "mktcap": 18486688481280,
+              "fwdpe": 23.7,
+              "pbr": null,
+              "rets": {
+                "w1": 0.4,
+                "m1": -13.4,
+                "m3": -26.8,
+                "ytd": -30.1
+              },
+              "rev30": 4.823386070552882,
+              "note": "톡비즈·AI"
+            }
+          ]
         },
         {
           "name": "바이오",
@@ -11405,7 +12181,39 @@ window.MACRO = {
           ],
           "n": 2,
           "issue": "바이오시밀러·CDMO 수주 확대. 환율 수혜. 미국 약가·생물보안법 변수.",
-          "indicators": "CDMO 수주, 시밀러 점유, FDA 승인, 환율"
+          "indicators": "CDMO 수주, 시밀러 점유, FDA 승인, 환율",
+          "holdings": [
+            {
+              "ticker": "207940.KS",
+              "name": "SAMSUNG BIOLOGICS",
+              "mktcap": 63094566944768,
+              "fwdpe": 28.3,
+              "pbr": null,
+              "rets": {
+                "w1": -2.3,
+                "m1": -9.7,
+                "m3": -21.1,
+                "ytd": -19.6
+              },
+              "rev30": -1.5177178990711138,
+              "note": "CDMO 증설"
+            },
+            {
+              "ticker": "068270.KS",
+              "name": "Celltrion",
+              "mktcap": 42130688966656,
+              "fwdpe": 25.6,
+              "pbr": null,
+              "rets": {
+                "w1": 1.7,
+                "m1": -5.4,
+                "m3": -21.1,
+                "ytd": 6.6
+              },
+              "rev30": 2.8496076581678853,
+              "note": "시밀러·합병효과"
+            }
+          ]
         },
         {
           "name": "방산·조선",
@@ -11427,7 +12235,54 @@ window.MACRO = {
           ],
           "n": 3,
           "issue": "유럽 재무장·중동 분쟁으로 수출 호황. 조선 슈퍼사이클(LNG선·친환경).",
-          "indicators": "수출 수주잔고, 신조선가지수, 방산 수출계약, 후판가격"
+          "indicators": "수출 수주잔고, 신조선가지수, 방산 수출계약, 후판가격",
+          "holdings": [
+            {
+              "ticker": "012450.KS",
+              "name": "HANWHA AEROSPACE",
+              "mktcap": 60349428531200,
+              "fwdpe": 20.9,
+              "pbr": null,
+              "rets": {
+                "w1": -6.0,
+                "m1": -19.3,
+                "m3": -3.2,
+                "ytd": 24.7
+              },
+              "rev30": -5.872599179585558,
+              "note": "방산수출 호황"
+            },
+            {
+              "ticker": "042660.KS",
+              "name": "Hanwha Ocean",
+              "mktcap": 37773914406912,
+              "fwdpe": 20.5,
+              "pbr": null,
+              "rets": {
+                "w1": 8.5,
+                "m1": -7.6,
+                "m3": -13.2,
+                "ytd": 8.5
+              },
+              "rev30": 2.99413920961773,
+              "note": "조선 슈퍼사이클"
+            },
+            {
+              "ticker": "009540.KS",
+              "name": "HDKSOE",
+              "mktcap": 29912289247232,
+              "fwdpe": 7.3,
+              "pbr": null,
+              "rets": {
+                "w1": 1.9,
+                "m1": -11.7,
+                "m3": -7.7,
+                "ytd": 6.0
+              },
+              "rev30": 5.52121502981433,
+              "note": "LNG선·친환경선"
+            }
+          ]
         },
         {
           "name": "엔터·미디어",
@@ -11449,7 +12304,54 @@ window.MACRO = {
           ],
           "n": 3,
           "issue": "K팝 글로벌 확장·앨범/투어 회복, 신인 IP 모멘텀. 중국 한한령 완화 기대 vs 아티스트 리스크.",
-          "indicators": "앨범 판매, 콘서트 동원, 일본·미국 매출, 신인 데뷔"
+          "indicators": "앨범 판매, 콘서트 동원, 일본·미국 매출, 신인 데뷔",
+          "holdings": [
+            {
+              "ticker": "352820.KS",
+              "name": "HYBE",
+              "mktcap": 9364060504064,
+              "fwdpe": 22.4,
+              "pbr": null,
+              "rets": {
+                "w1": -4.8,
+                "m1": -12.0,
+                "m3": -44.4,
+                "ytd": -33.2
+              },
+              "rev30": -37.813967452892726,
+              "note": "K팝 신인·투어"
+            },
+            {
+              "ticker": "035900.KQ",
+              "name": "JYP Ent.",
+              "mktcap": 1911777525760,
+              "fwdpe": 13.3,
+              "pbr": null,
+              "rets": {
+                "w1": -5.3,
+                "m1": -8.3,
+                "m3": -16.2,
+                "ytd": -19.4
+              },
+              "rev30": 5.308635390272154,
+              "note": "아티스트 IP"
+            },
+            {
+              "ticker": "041510.KQ",
+              "name": "SME",
+              "mktcap": 1824706789376,
+              "fwdpe": 11.6,
+              "pbr": null,
+              "rets": {
+                "w1": -6.0,
+                "m1": -14.0,
+                "m3": -30.1,
+                "ytd": -41.0
+              },
+              "rev30": -0.2108088629648508,
+              "note": "신인·일본"
+            }
+          ]
         },
         {
           "name": "철강·소재",
@@ -11471,7 +12373,54 @@ window.MACRO = {
           ],
           "n": 3,
           "issue": "중국 감산·인프라 수요가 가격 변수. 2차전지 소재(리튬·니켈) 다각화. 전력·조선향 후판 견조.",
-          "indicators": "중국 철강가·재고, 후판가격, 원료탄, 전기차·ESS 소재 수요"
+          "indicators": "중국 철강가·재고, 후판가격, 원료탄, 전기차·ESS 소재 수요",
+          "holdings": [
+            {
+              "ticker": "005490.KS",
+              "name": "POSCO Holdings",
+              "mktcap": 32025398476800,
+              "fwdpe": 13.4,
+              "pbr": null,
+              "rets": {
+                "w1": -4.1,
+                "m1": 1.9,
+                "m3": 5.3,
+                "ytd": 40.3
+              },
+              "rev30": 11.10391556904451,
+              "note": "철강가·2차전지 소재"
+            },
+            {
+              "ticker": "010130.KS",
+              "name": "KOREA ZINC",
+              "mktcap": 24965967511552,
+              "fwdpe": 23.4,
+              "pbr": null,
+              "rets": {
+                "w1": -2.3,
+                "m1": -16.1,
+                "m3": -34.8,
+                "ytd": 4.7
+              },
+              "rev30": -10.072605437924132,
+              "note": "비철·동제련"
+            },
+            {
+              "ticker": "004020.KS",
+              "name": "HYUNDAI STEEL",
+              "mktcap": 5281561444352,
+              "fwdpe": 9.9,
+              "pbr": null,
+              "rets": {
+                "w1": 2.4,
+                "m1": -7.8,
+                "m3": 6.8,
+                "ytd": 31.2
+              },
+              "rev30": 0.0,
+              "note": "전기로·후판"
+            }
+          ]
         },
         {
           "name": "통신",
@@ -11493,7 +12442,54 @@ window.MACRO = {
           ],
           "n": 3,
           "issue": "5G 성숙·요금 규제 속 배당 매력(밸류업). AI·데이터센터·B2B 신사업이 성장축.",
-          "indicators": "ARPU, 가입자, 배당성향, AI/IDC 매출, 마케팅비"
+          "indicators": "ARPU, 가입자, 배당성향, AI/IDC 매출, 마케팅비",
+          "holdings": [
+            {
+              "ticker": "017670.KS",
+              "name": "SKTelecom",
+              "mktcap": 21433625346048,
+              "fwdpe": 16.3,
+              "pbr": null,
+              "rets": {
+                "w1": -1.3,
+                "m1": 3.5,
+                "m3": 25.2,
+                "ytd": 89.6
+              },
+              "rev30": 1.9734230324284008,
+              "note": "배당·AI/IDC"
+            },
+            {
+              "ticker": "030200.KS",
+              "name": "KT",
+              "mktcap": 12659951927296,
+              "fwdpe": 8.2,
+              "pbr": null,
+              "rets": {
+                "w1": -4.2,
+                "m1": -12.6,
+                "m3": -18.5,
+                "ytd": 2.4
+              },
+              "rev30": -0.7146217898363671,
+              "note": "배당·B2B"
+            },
+            {
+              "ticker": "032640.KS",
+              "name": "LG Uplus",
+              "mktcap": 7013438849024,
+              "fwdpe": 8.5,
+              "pbr": null,
+              "rets": {
+                "w1": 3.1,
+                "m1": -1.8,
+                "m3": -4.9,
+                "ytd": 12.4
+              },
+              "rev30": -0.19720276315242646,
+              "note": "배당·AI"
+            }
+          ]
         },
         {
           "name": "유통·필수소비재",
@@ -11515,10 +12511,389 @@ window.MACRO = {
           ],
           "n": 3,
           "issue": "내수 회복 더딤·고물가 부담 vs 중국 리오프닝·화장품 수출. 환율 수혜 일부.",
-          "indicators": "내수 소비, 중국·미국 화장품 수출, 원가(곡물·환율), 면세 회복"
+          "indicators": "내수 소비, 중국·미국 화장품 수출, 원가(곡물·환율), 면세 회복",
+          "holdings": [
+            {
+              "ticker": "090430.KS",
+              "name": "AMOREPACIFIC",
+              "mktcap": 7933470965760,
+              "fwdpe": 17.4,
+              "pbr": null,
+              "rets": {
+                "w1": -1.9,
+                "m1": -23.7,
+                "m3": -26.1,
+                "ytd": -2.8
+              },
+              "rev30": -0.05739035272832593,
+              "note": "중국 화장품 회복"
+            },
+            {
+              "ticker": "271560.KS",
+              "name": "ORION",
+              "mktcap": 5122930769920,
+              "fwdpe": 9.8,
+              "pbr": null,
+              "rets": {
+                "w1": -5.0,
+                "m1": -8.3,
+                "m3": -5.6,
+                "ytd": 25.9
+              },
+              "rev30": 0.3311317705533501,
+              "note": "제과·내수"
+            },
+            {
+              "ticker": "097950.KS",
+              "name": "CJ CheilJedang",
+              "mktcap": 3236683055104,
+              "fwdpe": 6.9,
+              "pbr": null,
+              "rets": {
+                "w1": -4.2,
+                "m1": -13.0,
+                "m3": -6.7,
+                "ytd": -1.5
+              },
+              "rev30": 2.543712167230616,
+              "note": "원가·해외식품"
+            }
+          ]
         }
       ]
     }
+  },
+  "ai": {
+    "as_of": "2026-06-01",
+    "capex": {
+      "companies": [
+        {
+          "name": "Microsoft",
+          "years": [
+            {
+              "y": 2020,
+              "capex": 15,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "capex": 21,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "capex": 24,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "capex": 28,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "capex": 44,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "capex": 80,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "capex": 120,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "capex": 140,
+              "est": true
+            }
+          ]
+        },
+        {
+          "name": "Alphabet",
+          "years": [
+            {
+              "y": 2020,
+              "capex": 22,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "capex": 24,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "capex": 31,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "capex": 32,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "capex": 52,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "capex": 85,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "capex": 110,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "capex": 128,
+              "est": true
+            }
+          ]
+        },
+        {
+          "name": "Amazon",
+          "years": [
+            {
+              "y": 2020,
+              "capex": 40,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "capex": 55,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "capex": 60,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "capex": 53,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "capex": 78,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "capex": 100,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "capex": 125,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "capex": 140,
+              "est": true
+            }
+          ]
+        },
+        {
+          "name": "Meta",
+          "years": [
+            {
+              "y": 2020,
+              "capex": 15,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "capex": 19,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "capex": 32,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "capex": 28,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "capex": 39,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "capex": 68,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "capex": 100,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "capex": 115,
+              "est": true
+            }
+          ]
+        }
+      ],
+      "total": [
+        {
+          "y": 2020,
+          "capex": 92,
+          "est": false
+        },
+        {
+          "y": 2021,
+          "capex": 119,
+          "est": false
+        },
+        {
+          "y": 2022,
+          "capex": 147,
+          "est": false
+        },
+        {
+          "y": 2023,
+          "capex": 141,
+          "est": false
+        },
+        {
+          "y": 2024,
+          "capex": 213,
+          "est": false
+        },
+        {
+          "y": 2025,
+          "capex": 333,
+          "est": false
+        },
+        {
+          "y": 2026,
+          "capex": 455,
+          "est": true
+        },
+        {
+          "y": 2027,
+          "capex": 523,
+          "est": true
+        }
+      ],
+      "actual_through": 2025
+    },
+    "capex_gdp_pct": 1.05,
+    "capex_gdp_pct_e": 1.43,
+    "total_capex_last": 333,
+    "total_capex_e": 455,
+    "last_actual_year": 2025,
+    "gdp": 31819,
+    "rnd_gdp": [
+      {
+        "y": 2015,
+        "pct": 2.7
+      },
+      {
+        "y": 2018,
+        "pct": 3.0
+      },
+      {
+        "y": 2020,
+        "pct": 3.2
+      },
+      {
+        "y": 2022,
+        "pct": 3.4
+      },
+      {
+        "y": 2023,
+        "pct": 3.5
+      },
+      {
+        "y": 2024,
+        "pct": 3.6
+      },
+      {
+        "y": 2025,
+        "pct": 3.7
+      }
+    ],
+    "labs": [
+      {
+        "name": "OpenAI",
+        "rev": [
+          {
+            "y": 2023,
+            "rev": 1.6,
+            "est": false
+          },
+          {
+            "y": 2024,
+            "rev": 3.7,
+            "est": false
+          },
+          {
+            "y": 2025,
+            "rev": 13,
+            "est": false
+          },
+          {
+            "y": 2026,
+            "rev": 30,
+            "est": true
+          },
+          {
+            "y": 2027,
+            "rev": 60,
+            "est": true
+          }
+        ],
+        "profit_note": "추론 비용·학습 투자로 적자 지속. 흑자 전환 목표 ~2029~2030(연간 적자 2026~2027 정점 전망).",
+        "source": "언론 추정(The Information/Reuters 등)"
+      },
+      {
+        "name": "Anthropic",
+        "rev": [
+          {
+            "y": 2023,
+            "rev": 0.1,
+            "est": false
+          },
+          {
+            "y": 2024,
+            "rev": 1.0,
+            "est": false
+          },
+          {
+            "y": 2025,
+            "rev": 5,
+            "est": false
+          },
+          {
+            "y": 2026,
+            "rev": 12,
+            "est": true
+          },
+          {
+            "y": 2027,
+            "rev": 25,
+            "est": true
+          }
+        ],
+        "profit_note": "엔터프라이즈·API 중심 고성장. 컴퓨트 투자로 단기 적자, 흑자 전환은 OpenAI보다 늦거나 비슷.",
+        "source": "언론 추정"
+      }
+    ]
   },
   "commentary": {
     "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 3.8%(강한 악재)·미국 근원 CPI (YoY) 2.7%(악재)·미국 실업률 4.3%(중립)·비농업 고용 (전월비) 115.0천명(중립)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 58.9%(강한 악재)",

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01a";</script>
+<script>window.CODE_VERSION = "2026-06-01b";</script>
 <script>
   (function () {
     try {
@@ -157,6 +157,24 @@
   .disclaimer { font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5; }
   .loading { text-align:center; color:var(--muted); padding:60px 0; }
 
+  /* ===== AI section ===== */
+  .ai-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+  @media (max-width:680px){ .ai-stats{ grid-template-columns:1fr; } }
+  .ai-stat { border:1px solid var(--border); border-radius:10px; padding:12px 14px; background:var(--panel); }
+  .ai-stat .l { font-size:11px; color:var(--muted); font-weight:600; }
+  .ai-stat .v { font-size:24px; font-weight:850; letter-spacing:-.02em; margin:3px 0; }
+  .ai-stat .s { font-size:11px; color:var(--text-soft); }
+  .ai-verdict { font-size:12.5px; border-radius:8px; padding:10px 13px; margin-bottom:14px; font-weight:600; }
+  .ai-verdict.warn { background:var(--warn-bg); color:var(--warn-fg); border:1px solid var(--warn-bd); }
+  .ai-chart { height:240px; margin:6px 0 4px; }
+  .lab-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px; }
+  @media (max-width:680px){ .lab-grid{ grid-template-columns:1fr; } }
+  .lab-card { border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+  .lab-card .ln { font-size:14px; font-weight:800; }
+  .lab-card .lc { height:130px; margin:6px 0; }
+  .lab-card .lp { font-size:11px; color:var(--text-soft); line-height:1.5; }
+  .lab-card .lsrc { font-size:10px; color:var(--muted); margin-top:4px; }
+
   /* ===== earnings ===== */
   .ctry-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; margin-bottom:18px; }
   .ctry-card { border:1px solid var(--border); border-radius:10px; padding:12px 13px; background:var(--panel); }
@@ -197,6 +215,14 @@
   .mom-tag.pos { background:var(--pos-soft); color:var(--pos); }
   .mom-tag.neg { background:var(--neg-soft); color:var(--neg); }
   .mom-tag.neu { background:var(--neu-soft); color:var(--neu); }
+  .sector-row.clickable { cursor:pointer; }
+  .sector-row.clickable:hover { background:var(--row-hover); }
+  .sec-toggle { font-size:10px; color:var(--accent); font-weight:700; margin-top:4px; }
+  .holdings { border:1px solid var(--border); border-top:none; border-radius:0 0 9px 9px; margin:-8px 0 8px; padding:4px 8px 8px; background:var(--panel-soft); overflow-x:auto; }
+  .holdings table { font-size:11.5px; }
+  .holdings th, .holdings td { padding:5px 7px; white-space:nowrap; }
+  .holdings td.nm { text-align:left; font-weight:600; white-space:normal; min-width:120px; }
+  .holdings td.note { text-align:left; color:var(--muted); white-space:normal; min-width:160px; font-size:11px; }
 </style>
 </head>
 <body>
@@ -281,6 +307,21 @@ function badgeCls(cls) { return cls === 'pos' ? 'pos' : (cls === 'neg' ? 'neg' :
 
 function sgn(x, d, suf) { if (x === null || x === undefined) return '–'; return (x > 0 ? '+' : '') + Number(x).toFixed(d) + (suf || ''); }
 function momBadge(m) { if (!m) return ''; var c = m === '가속' ? 'pos' : (m === '둔화' ? 'neg' : 'neu'); return ' <span class="mom-tag ' + c + '">' + m + '</span>'; }
+function fmtCap(v, cc) { if (!v) return '–'; if (cc === 'KR') return Math.round(v / 1e12) + '조'; if (v >= 1e12) return '$' + (v / 1e12).toFixed(2) + 'T'; return '$' + Math.round(v / 1e9) + 'B'; }
+function retTd(x) { if (x === null || x === undefined) return '<td>–</td>'; return '<td class="' + signClass(x) + '">' + (x > 0 ? '+' : '') + x.toFixed(1) + '%</td>'; }
+function holdingsTable(holds, cc) {
+  var body = holds.map(function (h) {
+    var r = h.rets || {};
+    return '<tr><td class="nm">' + h.name + '</td>' +
+      '<td>' + fmtCap(h.mktcap, cc) + '</td>' +
+      '<td>' + (h.fwdpe != null ? h.fwdpe + '배' : '–') + '</td>' +
+      '<td>' + (h.pbr != null ? h.pbr : '–') + '</td>' +
+      retTd(r.ytd) + retTd(r.m3) + retTd(r.m1) + retTd(r.w1) +
+      '<td class="note">' + (h.note || '') + '</td></tr>';
+  }).join('');
+  return '<table><thead><tr><th class="nm">종목</th><th>시총</th><th>Fwd PER</th><th>PBR</th>' +
+    '<th>YTD</th><th>3개월</th><th>1개월</th><th>1주</th><th class="note">코멘트</th></tr></thead><tbody>' + body + '</tbody></table>';
+}
 var COUNTRY_ORDER = ['US', 'KR', 'EU', 'JP', 'CN'];
 
 function renderEarnings(M) {
@@ -309,18 +350,24 @@ function renderEarnings(M) {
   [['US', '미국 섹터별'], ['KR', '한국 섹터별']].forEach(function (pair) {
     var arr = (E.sectors[pair[0]] || []).slice().sort(function (a, b) { return (b.err || -9) - (a.err || -9); });
     if (!arr.length) return;
-    html += '<div class="sub-label">' + pair[1] + ' (ERR 높은 순)</div>';
-    arr.forEach(function (s) {
-      html += '<div class="sector-row ' + badgeCls(s.err_cls) + '">' +
+    html += '<div class="sub-label">' + pair[1] + ' (ERR 높은 순 · 행 클릭 → 상위 종목)</div>';
+    arr.forEach(function (s, si) {
+      var bid = pair[0] + '_' + si;
+      var hasH = s.holdings && s.holdings.length;
+      html += '<div class="sector-block">' +
+        '<div class="sector-row ' + (hasH ? 'clickable ' : '') + badgeCls(s.err_cls) + '"' + (hasH ? ' data-hold="' + bid + '"' : '') + '>' +
         '<div class="sec-left"><div class="sec-name">' + s.name +
         '<span class="badge ' + badgeCls(s.err_cls) + '">' + s.err_label + '</span></div>' +
         '<div class="sec-metrics"><span>ERR <b>' + sgn(s.err, 2) + '</b></span>' +
         '<span>EPS수정 1M <b class="' + signClass(s.rev30) + '">' + sgn(s.rev30, 1, '%') + '</b> · 7D ' + sgn(s.rev7, 1, '%') + ' · 3M ' + sgn(s.rev90, 1, '%') + '</span>' +
         (s.momentum ? '<span>' + momBadge(s.momentum) + '</span>' : '') +
-        '<span>올해성장 <b>' + sgn(s.growth_cy, 0, '%') + '</b></span></div></div>' +
+        '<span>올해성장 <b>' + sgn(s.growth_cy, 0, '%') + '</b></span></div>' +
+        (hasH ? '<div class="sec-toggle">▸ 상위 ' + s.holdings.length + '종목 보기</div>' : '') + '</div>' +
         '<div class="sec-right"><div class="sec-issue">' + (s.issue || '') + '</div>' +
         (s.indicators ? '<div class="sec-ind"><b>주요지표</b> ' + s.indicators + '</div>' : '') +
-        '</div></div>';
+        '</div></div>' +
+        (hasH ? '<div class="holdings" id="hold_' + bid + '" style="display:none">' + holdingsTable(s.holdings, pair[0]) + '</div>' : '') +
+        '</div>';
     });
   });
 
@@ -395,6 +442,76 @@ function showCountryDetail(cc) {
   document.querySelectorAll('.ctry-card').forEach(function (card) {
     card.classList.toggle('sel', card.getAttribute('data-cc') === cc);
   });
+}
+
+function renderAI(M) {
+  var ai = M.ai;
+  function stat(l, v, s) { return '<div class="ai-stat"><div class="l">' + l + '</div><div class="v">' + v + '</div><div class="s">' + s + '</div></div>'; }
+  var lastRnd = ai.rnd_gdp.length ? ai.rnd_gdp[ai.rnd_gdp.length - 1].pct : null;
+  var ny = ai.last_actual_year + 1;
+  var html = '<div class="panel"><h2>6. AI — 빅테크 CAPEX · 버블 점검 · AI 랩</h2>' +
+    '<p class="hint">AI가 시장 최대 이슈. 하이퍼스케일러 설비투자 추이, GDP 대비 투자(버블 점검), 주요 AI 랩 매출·수익성 추정. (기준 ' + ai.as_of + ', 추정치 편집 가능)</p>';
+  html += '<div class="ai-stats">' +
+    stat('빅테크 CAPEX 합계(' + ai.last_actual_year + ')', '$' + ai.total_capex_last + 'B', '4사 합산 · ' + ny + 'E $' + ai.total_capex_e + 'B') +
+    stat('CAPEX / 美 GDP', (ai.capex_gdp_pct != null ? ai.capex_gdp_pct + '%' : '–'), (ai.capex_gdp_pct_e != null ? ny + 'E ' + ai.capex_gdp_pct_e + '% · ' : '') + '닷컴/통신버블 ~1%') +
+    stat('R&D / 美 GDP', (lastRnd != null ? lastRnd + '%' : '–'), '사상 최고권 · 완만 상승') +
+    '</div>';
+  html += '<div class="ai-verdict warn">📊 버블 점검: 빅테크 CAPEX/GDP ~' + ai.capex_gdp_pct + '%로 과거 통신·닷컴 버블 정점(~1%)에 근접/상회. 다만 적자·부채가 아닌 <b>현금흐름·이익으로 자금조달</b>되는 투자라 성격이 다름. 핵심 점검 포인트는 <b>투자 회수(AI 매출)</b> — 아래 AI 랩 매출 추이가 그 가늠자.</div>';
+  html += '<div class="section-label">하이퍼스케일러 연간 CAPEX ($B · 2026~2027 점선=추정)</div>' +
+    '<div class="ai-chart"><canvas id="aiCapexChart"></canvas></div>';
+  html += '<div class="section-label" style="margin-top:14px">AI 랩 매출·수익성 추정 (언론 기준 · 변동 큼)</div><div class="lab-grid">';
+  ai.labs.forEach(function (lab, i) {
+    html += '<div class="lab-card"><div class="ln">' + lab.name + '</div>' +
+      '<div class="lc"><canvas id="aiLab_' + i + '"></canvas></div>' +
+      '<div class="lp">💰 ' + lab.profit_note + '</div>' +
+      '<div class="lsrc">출처: ' + lab.source + '</div></div>';
+  });
+  html += '</div>';
+  html += '<p class="disclaimer">CAPEX 2026~2027·AI 랩 매출/수익성은 추정치(가이던스·언론). fetch_macro.py의 AI_CAPEX/AI_LABS/AI_RND_GDP에서 갱신. capex/GDP·R&D/GDP의 GDP는 FRED 실측.</p>';
+  return html + '</div>';
+}
+
+function aiCapexChart(canvas, ai) {
+  var palette = ['#2563eb', '#16a34a', '#ea580c', '#7c3aed'];
+  var labels = ai.capex.total.map(function (p) { return p.y + (p.est ? 'E' : ''); });
+  var actualIdx = ai.capex.total.findIndex(function (p) { return p.est; }) - 1;
+  if (actualIdx < 0) actualIdx = ai.capex.total.length - 1;
+  var dash = function (ctx) { return ctx.p1DataIndex > actualIdx ? [5, 4] : undefined; };
+  var ds = ai.capex.companies.map(function (c, i) {
+    return { label: c.name, data: c.years.map(function (p) { return p.capex; }), borderColor: palette[i % palette.length], backgroundColor: 'transparent', borderWidth: 1.6, pointRadius: 0, tension: .2, segment: { borderDash: dash } };
+  });
+  ds.push({ label: '합계', data: ai.capex.total.map(function (p) { return p.capex; }), borderColor: cssVar('--text'), borderWidth: 2.6, pointRadius: 0, tension: .2, segment: { borderDash: dash } });
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'line', data: { labels: labels, datasets: ds },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 10 }, color: cssVar('--muted'), boxWidth: 10, padding: 8 } },
+        tooltip: { callbacks: { label: function (i) { return i.dataset.label + ': $' + i.raw + 'B'; } } } },
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 10 }, color: cssVar('--muted') } },
+        y: { beginAtZero: true, grid: { color: cssVar('--border') }, ticks: { font: { size: 9 }, color: cssVar('--muted'), callback: function (v) { return '$' + v + 'B'; } } } }
+    }
+  });
+  CHARTS.push(c);
+}
+
+function labRevChart(canvas, lab) {
+  var accent = cssVar('--accent');
+  var labels = lab.rev.map(function (p) { return p.y + (p.est ? 'E' : ''); });
+  var bg = lab.rev.map(function (p) { return p.est ? accent + '4d' : accent; });
+  var lp = { id: 'labLbl', afterDatasetsDraw: function (ch) {
+    var ctx = ch.ctx, m = ch.getDatasetMeta(0); ctx.save(); ctx.textAlign = 'center';
+    ctx.font = '600 8.5px Pretendard, sans-serif'; ctx.fillStyle = cssVar('--text-soft');
+    m.data.forEach(function (b, i) { ctx.fillText('$' + lab.rev[i].rev + 'B', b.x, b.y - 3); }); ctx.restore();
+  } };
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'bar', data: { labels: labels, datasets: [{ data: lab.rev.map(function (p) { return p.rev; }), backgroundColor: bg, borderColor: accent, borderWidth: 1, borderRadius: 2, maxBarThickness: 26 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 14 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (i) { return '$' + i.raw + 'B' + (lab.rev[i.dataIndex].est ? ' (E)' : ''); } } } },
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 9 }, color: cssVar('--muted') } }, y: { display: false, beginAtZero: true } }
+    }, plugins: [lp]
+  });
+  CHARTS.push(c);
 }
 
 function render(M) {
@@ -478,6 +595,9 @@ function render(M) {
   /* ── Earnings (5번째 축) ── */
   if (M.earnings) html += renderEarnings(M);
 
+  /* ── AI (6) ── */
+  if (M.ai) html += renderAI(M);
+
   /* ── Index charts ── */
   if (M.indices && (M.indices.spx || M.indices.kospi)) {
     html += '<div class="panel"><h2>장기 지수 추이</h2><p class="hint">월말 종가, 약 25년</p><div class="idx-grid">';
@@ -539,6 +659,18 @@ function render(M) {
       return M.earnings.countries[cc] && M.earnings.countries[cc].annual;
     });
     if (firstCC) showCountryDetail(firstCC);
+    // 섹터 행 클릭 → 상위 종목 표 토글
+    document.querySelectorAll('.sector-row.clickable').forEach(function (row) {
+      row.addEventListener('click', function () {
+        var el = document.getElementById('hold_' + row.getAttribute('data-hold'));
+        if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+      });
+    });
+  }
+  // AI 섹션 차트
+  if (M.ai) {
+    var cc = document.getElementById('aiCapexChart'); if (cc) aiCapexChart(cc, M.ai);
+    M.ai.labs.forEach(function (lab, i) { var lc = document.getElementById('aiLab_' + i); if (lc) labRevChart(lc, lab); });
   }
 }
 

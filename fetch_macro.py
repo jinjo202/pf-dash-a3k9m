@@ -426,6 +426,29 @@ COUNTRY_EPS_ANNUAL = {
 }
 
 
+# ── AI 섹션 (6번 항목) 데이터 — 대부분 시드(편집 가능). as_of로 신선도 표기 ──
+AI_AS_OF = "2026-06-01"
+# 하이퍼스케일러 연간 CAPEX($B). 2026~2027은 추정. (공개 실적/가이던스·컨센서스 근사)
+AI_CAPEX = {
+    "Microsoft": {"2020": 15, "2021": 21, "2022": 24, "2023": 28, "2024": 44, "2025": 80, "2026": 120, "2027": 140},
+    "Alphabet":  {"2020": 22, "2021": 24, "2022": 31, "2023": 32, "2024": 52, "2025": 85, "2026": 110, "2027": 128},
+    "Amazon":    {"2020": 40, "2021": 55, "2022": 60, "2023": 53, "2024": 78, "2025": 100, "2026": 125, "2027": 140},
+    "Meta":      {"2020": 15, "2021": 19, "2022": 32, "2023": 28, "2024": 39, "2025": 68, "2026": 100, "2027": 115},
+}
+AI_CAPEX_ACTUAL_THROUGH = 2025
+# 미국 R&D 투자 / GDP (%). 버블 점검용. (NSF/BEA 근사)
+AI_RND_GDP = {"2015": 2.7, "2018": 3.0, "2020": 3.2, "2022": 3.4, "2023": 3.5, "2024": 3.6, "2025": 3.7}
+# AI 랩 매출/수익성 추정 — 언론·업계 추정치. 변동 큼, 수시 갱신.
+AI_LABS = {
+    "OpenAI": {"rev": {"2023": 1.6, "2024": 3.7, "2025": 13, "2026": 30, "2027": 60},
+               "profit_note": "추론 비용·학습 투자로 적자 지속. 흑자 전환 목표 ~2029~2030(연간 적자 2026~2027 정점 전망).",
+               "source": "언론 추정(The Information/Reuters 등)"},
+    "Anthropic": {"rev": {"2023": 0.1, "2024": 1.0, "2025": 5, "2026": 12, "2027": 25},
+                  "profit_note": "엔터프라이즈·API 중심 고성장. 컴퓨트 투자로 단기 적자, 흑자 전환은 OpenAI보다 늦거나 비슷.",
+                  "source": "언론 추정"},
+}
+
+
 # 섹터별 주요 이슈/지표 — 정성 코멘트. 발표·뉴스 흐름에 맞춰 주기적으로 갱신.
 # (자동 산출 불가 항목. as_of로 신선도 표시)
 ISSUES_AS_OF = "2026-05-31"
@@ -473,6 +496,41 @@ KR_SECTOR_ISSUES = {
 }
 
 
+# 종목 한줄 태그 (핵심 테마). 없으면 데이터 기반 자동 코멘트로 대체.
+STOCK_TAGS = {
+    # US
+    "NVDA": "AI 가속기 사실상 독점·데이터센터 폭증", "AVGO": "맞춤형 AI칩(ASIC)·네트워킹",
+    "AMD": "AI GPU 추격·MI 시리즈", "MU": "HBM·메모리 업사이클", "TSM": "AI칩 위탁생산 독점적",
+    "ASML": "EUV 노광 독점", "MSFT": "Azure·코파일럿 AI 수익화", "AAPL": "온디바이스 AI·서비스",
+    "ORCL": "OCI 클라우드 수주 급증", "CRM": "에이전트포스 AI", "ADBE": "생성형 AI 크리에이티브",
+    "PLTR": "AIP 정부·기업 수요", "GOOGL": "검색·Gemini·클라우드", "META": "광고 회복·AI 추천",
+    "NFLX": "광고요금제·콘텐츠", "DIS": "스트리밍 흑자 전환", "JPM": "NIM·IB 회복",
+    "BAC": "예금·금리 레버리지", "GS": "IB·트레이딩", "WFC": "자산상한 해제 기대", "MS": "WM·IB",
+    "LLY": "GLP-1 비만치료 선두", "UNH": "관리의료 마진", "JNJ": "제약·의료기기", "ABBV": "면역질환 후속",
+    "MRK": "키트루다·종양", "AMZN": "AWS·리테일 마진", "TSLA": "FSD·로보택시 기대", "HD": "주택수리",
+    "MCD": "가성비 메뉴", "NKE": "리브랜딩·중국", "XOM": "유가 레버리지·정제", "CVX": "배당·가이아나",
+    "COP": "셰일 효율", "SLB": "유전서비스", "GE": "항공엔진 수주", "CAT": "인프라·전력장비",
+    "BA": "생산정상화", "HON": "자동화·항공", "UNP": "물동량",
+    # KR
+    "005930.KS": "메모리·HBM·파운드리 턴", "000660.KS": "HBM 선두·실적 급증",
+    "373220.KS": "전기차 둔화·ESS", "006400.KS": "각형 배터리", "051910.KS": "양극재·화학",
+    "005380.KS": "하이브리드·환율수혜", "000270.KS": "수익성·밸류업", "105560.KS": "주주환원·밸류업",
+    "055550.KS": "배당·NIM", "086790.KS": "자사주 소각", "035420.KS": "광고·AI·웹툰",
+    "035720.KS": "톡비즈·AI", "207940.KS": "CDMO 증설", "068270.KS": "시밀러·합병효과",
+    "012450.KS": "방산수출 호황", "042660.KS": "조선 슈퍼사이클", "009540.KS": "LNG선·친환경선",
+    "352820.KS": "K팝 신인·투어", "035900.KQ": "아티스트 IP", "041510.KQ": "신인·일본",
+    "005490.KS": "철강가·2차전지 소재", "004020.KS": "전기로·후판", "010130.KS": "비철·동제련",
+    "017670.KS": "배당·AI/IDC", "030200.KS": "배당·B2B", "032640.KS": "배당·AI",
+    "097950.KS": "원가·해외식품", "090430.KS": "중국 화장품 회복", "271560.KS": "제과·내수",
+    # EU/JP/CN
+    "SAP": "클라우드 ERP·AI", "NVO": "위고비 비만", "MC.PA": "명품 수요", "SHEL": "에너지·배당",
+    "SIE.DE": "산업 자동화", "TM": "하이브리드 강세", "SONY": "게임·이미지센서",
+    "8035.T": "반도체 장비", "6861.T": "FA 센서", "6501.T": "발전·AI인프라",
+    "BABA": "클라우드·AI 회복", "PDD": "저가 커머스·테무", "JD": "리테일 마진", "BIDU": "검색·AI",
+    "TCEHY": "게임·위챗·광고",
+}
+
+
 def _cell(df, row, col):
     try:
         import pandas as pd
@@ -484,9 +542,27 @@ def _cell(df, row, col):
         return None
 
 
-def ticker_earnings(tk):
-    """종목 1개 → {up30, down30, rev90, growth_cy, growth_ny, trend5(정규화 5점), n}.
-    데이터 없으면 None."""
+def _returns(t):
+    """가격 수익률 {w1,m1,m3,ytd} (%). 실패 시 {}."""
+    import pandas as pd
+    try:
+        h = t.history(period="1y")["Close"].dropna()
+        if len(h) < 2:
+            return {}
+        cur = float(h.iloc[-1])
+        def rr(days):
+            return round((cur / float(h.iloc[-1 - days]) - 1) * 100, 1) if len(h) > days else None
+        out = {"w1": rr(5), "m1": rr(21), "m3": rr(63)}
+        yr = h.index[-1].year
+        base = h[h.index < pd.Timestamp(yr, 1, 1, tz=h.index.tz)]
+        out["ytd"] = round((cur / float(base.iloc[-1]) - 1) * 100, 1) if len(base) else None
+        return out
+    except Exception:
+        return {}
+
+
+def ticker_all(tk):
+    """종목 1개 → 이익수정 지표 + 시총/Fwd PER/PBR/가격수익률. 데이터 없으면 None."""
     import yfinance as yf
     try:
         t = yf.Ticker(tk)
@@ -521,7 +597,23 @@ def ticker_earnings(tk):
         pts = [_cell(tr, "0y", c) for c in ["90daysAgo", "60daysAgo", "30daysAgo", "7daysAgo", "current"]]
         if all(p is not None for p in pts):
             trend5 = [round(p / d90 * 100, 2) for p in pts]
-    return {"up30": up30 or 0, "down30": down30 or 0, "rev7": rev7, "rev30": rev30, "rev90": rev90,
+    # 종목 상세 (시총/Fwd PER/PBR/이름/수익률)
+    info = {}
+    try:
+        info = t.info or {}
+    except Exception:
+        pass
+    mktcap = info.get("marketCap")
+    fwdpe = info.get("forwardPE")
+    pbr = info.get("priceToBook")
+    name = info.get("shortName") or info.get("longName") or tk
+    if fwdpe is not None and (fwdpe <= 0 or fwdpe > 300):
+        fwdpe = None
+    if pbr is not None and (pbr <= 0 or pbr > 100):
+        pbr = None
+    rets = _returns(t)
+    return {"ticker": tk, "name": name, "mktcap": mktcap, "fwdpe": fwdpe, "pbr": pbr, "rets": rets,
+            "up30": up30 or 0, "down30": down30 or 0, "rev7": rev7, "rev30": rev30, "rev90": rev90,
             "rev30_ny": rev30_ny, "rev90_ny": rev90_ny,
             "growth_cy": growth_cy, "growth_ny": growth_ny, "n": n, "trend5": trend5}
 
@@ -538,7 +630,7 @@ def aggregate_basket(tickers):
     """바스켓 집계 → ERR, rev90 중간값, EPS성장 중간값, 정규화 trend 경로."""
     rows = []
     for tk in tickers:
-        r = ticker_earnings(tk)
+        r = ticker_all(tk)
         if r:
             rows.append(r)
     if not rows:
@@ -576,7 +668,7 @@ def aggregate_basket(tickers):
             "rev90_ny": round(rev90_ny, 1) if rev90_ny is not None else None,
             "growth_cy": round(g_cy * 100, 1) if g_cy is not None else None,
             "growth_ny": round(g_ny * 100, 1) if g_ny is not None else None,
-            "trend": trend, "n": len(rows), "up": up, "down": dn}
+            "trend": trend, "n": len(rows), "up": up, "down": dn, "rows": rows}
 
 
 def err_label(err):
@@ -600,6 +692,36 @@ def earnings_score(agg):
     return clamp(s)
 
 
+def stock_note(r):
+    """종목 한줄: 큐레이션 태그 우선, 없으면 데이터 기반."""
+    tag = STOCK_TAGS.get(r["ticker"])
+    if tag:
+        return tag
+    bits = []
+    rv = r.get("rev30")
+    if rv is not None:
+        bits.append("EPS 상향" if rv > 0.5 else ("EPS 하향" if rv < -0.5 else "EPS 보합"))
+    yt = (r.get("rets") or {}).get("ytd")
+    if yt is not None:
+        bits.append(f"YTD {yt:+.0f}%")
+    return " · ".join(bits) if bits else "—"
+
+
+def build_holdings(rows, top=5):
+    """바스켓 rows → 시총 상위 N 종목 카드."""
+    ranked = sorted(rows, key=lambda r: (r.get("mktcap") or 0), reverse=True)[:top]
+    out = []
+    for r in ranked:
+        out.append({
+            "ticker": r["ticker"], "name": r["name"], "mktcap": r.get("mktcap"),
+            "fwdpe": round(r["fwdpe"], 1) if r.get("fwdpe") else None,
+            "pbr": round(r["pbr"], 2) if r.get("pbr") else None,
+            "rets": r.get("rets") or {}, "rev30": r.get("rev30"),
+            "note": stock_note(r),
+        })
+    return out
+
+
 def build_annual(cc):
     """국가 연도 EPS → [{y, eps, yoy, est}] + 메타. 없으면 None."""
     a = COUNTRY_EPS_ANNUAL.get(cc)
@@ -614,6 +736,40 @@ def build_annual(cc):
         out.append({"y": int(y), "eps": eps, "yoy": yoy, "est": int(y) > a["actual_through"]})
     return {"unit": a["unit"], "source": a["source"], "actual_through": a["actual_through"],
             "note": a.get("note"), "years": out}
+
+
+def build_ai():
+    """AI 섹션(6): 하이퍼스케일러 CAPEX, capex/GDP·R&D/GDP 버블점검, AI 랩 매출추정."""
+    years = sorted(next(iter(AI_CAPEX.values())).keys())
+    companies, totals = [], {}
+    for name, d in AI_CAPEX.items():
+        ser = [{"y": int(y), "capex": d[y], "est": int(y) > AI_CAPEX_ACTUAL_THROUGH} for y in years]
+        companies.append({"name": name, "years": ser})
+        for y in years:
+            totals[y] = totals.get(y, 0) + d[y]
+    total_series = [{"y": int(y), "capex": totals[y], "est": int(y) > AI_CAPEX_ACTUAL_THROUGH} for y in years]
+    # 미국 명목 GDP (FRED) → capex/GDP 비율 (버블 게이지)
+    gdp = None
+    try:
+        _, gv = fred_csv("GDP")
+        gdp = gv[-1] if gv else None
+    except Exception:
+        pass
+    last = str(AI_CAPEX_ACTUAL_THROUGH)
+    capex_gdp = round(totals[last] / gdp * 100, 2) if gdp else None
+    capex_gdp_e = round(totals[str(AI_CAPEX_ACTUAL_THROUGH + 1)] / gdp * 100, 2) if gdp else None
+    rnd = [{"y": int(y), "pct": AI_RND_GDP[y]} for y in sorted(AI_RND_GDP)]
+    labs = []
+    for name, d in AI_LABS.items():
+        rev = [{"y": int(y), "rev": d["rev"][y], "est": int(y) > 2025} for y in sorted(d["rev"])]
+        labs.append({"name": name, "rev": rev, "profit_note": d["profit_note"], "source": d["source"]})
+    print(f"  [AI] CAPEX {last} 합계 ${totals[last]}B, capex/GDP {capex_gdp}% (GDP ${gdp}B)")
+    return {"as_of": AI_AS_OF, "capex": {"companies": companies, "total": total_series,
+            "actual_through": AI_CAPEX_ACTUAL_THROUGH},
+            "capex_gdp_pct": capex_gdp, "capex_gdp_pct_e": capex_gdp_e,
+            "total_capex_last": totals[last], "total_capex_e": totals[str(AI_CAPEX_ACTUAL_THROUGH + 1)],
+            "last_actual_year": AI_CAPEX_ACTUAL_THROUGH, "gdp": round(gdp) if gdp else None,
+            "rnd_gdp": rnd, "labs": labs}
 
 
 def build_earnings():
@@ -639,6 +795,7 @@ def build_earnings():
                 "growth_ny": agg["growth_ny"] if agg else None, "trend": agg["trend"] if agg else None,
                 "n": agg["n"] if agg else 0,
                 "issue": iss.get("issue", ""), "indicators": iss.get("indicators", ""),
+                "holdings": build_holdings(agg["rows"]) if agg else [],
             })
             print(f"  [{cc}] {sname:14s} ERR {agg['err'] if agg else 'NA'}  rev90 {agg['rev90'] if agg else 'NA'}  n={agg['n'] if agg else 0}")
         cagg = aggregate_basket(all_tickers)
@@ -919,6 +1076,7 @@ def build():
         "indices": indices,
         "analogs": analogs,
         "earnings": earn["data"],
+        "ai": build_ai(),
         "commentary": commentary,
         "outlook": outlook,
         "real_rate": round(real_rate, 2) if real_rate is not None else None,
