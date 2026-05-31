@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-05-31c";</script>
+<script>window.CODE_VERSION = "2026-05-31d";</script>
 <script>
   (function () {
     try {
@@ -163,7 +163,21 @@
   .ctry-card .err { font-size:20px; font-weight:850; letter-spacing:-.02em; margin:6px 0 2px; }
   .ctry-card .g { font-size:11px; color:var(--muted); }
   .ctry-card .g b { color:var(--text-soft); font-weight:700; }
+  .ctry-card { cursor:pointer; transition:border-color .12s, box-shadow .12s; }
+  .ctry-card:hover { border-color:var(--accent); box-shadow:var(--shadow-md); }
+  .ctry-card.sel { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-soft); }
+  .ctry-card .click-hint { font-size:9.5px; color:var(--accent); margin-top:5px; font-weight:600; }
   .ctry-card .spark { height:34px; margin-top:6px; }
+  .ctry-detail { border:1px solid var(--border); border-radius:11px; padding:16px 18px; margin-bottom:18px; background:var(--panel-soft); }
+  .ctry-detail .dh { font-size:14px; font-weight:800; margin-bottom:2px; }
+  .ctry-detail .du { font-size:11px; color:var(--muted); margin-bottom:12px; }
+  .eps-chart { height:230px; margin-bottom:6px; }
+  .rev-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  @media (max-width:560px){ .rev-grid{ grid-template-columns:1fr; } }
+  .rev-box { border:1px solid var(--border); border-radius:9px; padding:10px 12px; background:var(--panel); }
+  .rev-box .ry { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .rev-box .rl { font-size:11.5px; color:var(--text-soft); display:flex; gap:12px; flex-wrap:wrap; }
+  .rev-box .rl b { font-weight:700; }
   .sub-label { font-size:12.5px; font-weight:700; margin:14px 0 8px; color:var(--text-soft); }
   .sector-row { display:grid; grid-template-columns:minmax(180px,1fr) 2.2fr; gap:14px; border:1px solid var(--border);
     border-left-width:3px; border-radius:9px; padding:10px 13px; margin-bottom:8px; background:var(--panel); }
@@ -222,7 +236,9 @@ function signClass(s) { return s > 0 ? 'pos-t' : (s < 0 ? 'neg-t' : ''); }
 function pctCell(x) { if (x === null || x === undefined) return '<td>–</td>'; return '<td class="' + signClass(x) + '">' + (x > 0 ? '+' : '') + x.toFixed(1) + '%</td>'; }
 
 var CHARTS = [];
-function rerenderCharts() { /* recolor on theme switch */ CHARTS.forEach(function (c) { try { c.update(); } catch (e) {} }); }
+var CUR_M = null;        // 클릭 핸들러용 데이터 참조
+var DETAIL_CHART = null; // 국가 EPS 상세 차트
+function rerenderCharts() { CHARTS.forEach(function (c) { try { c.update(); } catch (e) {} }); if (DETAIL_CHART) try { DETAIL_CHART.update(); } catch (e) {} }
 
 var PILLAR_ORDER = ['macro', 'valuation', 'flows', 'sentiment', 'earnings'];
 
@@ -268,20 +284,22 @@ function renderEarnings(M) {
   var html = '<div class="panel"><h2>5. 기업이익 — 국가별 Forward EPS · 이익수정비율(ERR)</h2>' +
     '<p class="hint">' + M.commentary.earnings + '</p>';
 
-  /* 국가 카드 */
+  /* 국가 카드 (클릭 → 연도별 EPS 상세) */
   html += '<div class="ctry-grid">';
   COUNTRY_ORDER.forEach(function (cc) {
     var c = E.countries[cc]; if (!c) return;
     var col = c.err > 0.1 ? cssVar('--pos') : (c.err < -0.1 ? cssVar('--neg') : cssVar('--neu'));
-    html += '<div class="ctry-card"><div class="top"><span class="cn">' + c.name + '</span>' +
+    html += '<div class="ctry-card" data-cc="' + cc + '"><div class="top"><span class="cn">' + c.name + '</span>' +
       '<span class="badge ' + badgeCls(c.err_cls) + '">' + c.err_label + '</span></div>' +
       '<div class="err" style="color:' + col + '">ERR ' + sgn(c.err, 2) + '</div>' +
       '<div class="g">올해성장 <b>' + sgn(c.growth_cy, 0, '%') + '</b> · 내년 <b>' + sgn(c.growth_ny, 0, '%') + '</b> · ' + (c.n || 0) + '종목</div>' +
       '<div class="g">EPS수정 1M <b class="' + signClass(c.rev30) + '">' + sgn(c.rev30, 1, '%') + '</b> · 7D ' + sgn(c.rev7, 1, '%') + ' · 3M ' + sgn(c.rev90, 1, '%') + momBadge(c.momentum) + '</div>' +
       (c.trend ? '<div class="spark"><canvas id="ctrend_' + cc + '"></canvas></div>' : '') +
+      (c.annual ? '<div class="click-hint">▸ 클릭: 연도별 EPS(2020~2027E)</div>' : '') +
       '</div>';
   });
   html += '</div>';
+  html += '<div class="ctry-detail" id="ctryDetail"></div>';
 
   /* 섹터 리스트 (미국 / 한국) */
   [['US', '미국 섹터별'], ['KR', '한국 섹터별']].forEach(function (pair) {
@@ -309,7 +327,73 @@ function renderEarnings(M) {
   return html;
 }
 
+function epsBarChart(canvas, annual) {
+  var accent = cssVar('--accent'), muted = cssVar('--muted');
+  var isUsd = annual.unit.indexOf('$') >= 0;
+  var labels = annual.years.map(function (r) { return r.y + (r.est ? 'E' : ''); });
+  var data = annual.years.map(function (r) { return r.eps; });
+  var bg = annual.years.map(function (r) { return r.est ? accent + '4d' : accent; });
+  var labelPlugin = {
+    id: 'epsLabels',
+    afterDatasetsDraw: function (chart) {
+      var ctx = chart.ctx, meta = chart.getDatasetMeta(0);
+      ctx.save(); ctx.textAlign = 'center';
+      meta.data.forEach(function (bar, i) {
+        var r = annual.years[i];
+        ctx.font = '600 9.5px Pretendard, sans-serif'; ctx.fillStyle = cssVar('--text-soft');
+        ctx.fillText(isUsd ? r.eps.toFixed(2) : Math.round(r.eps), bar.x, bar.y - 4);
+        if (r.yoy !== null && r.yoy !== undefined) {
+          ctx.font = '700 8.5px Pretendard, sans-serif';
+          ctx.fillStyle = r.yoy > 0 ? cssVar('--pos') : (r.yoy < 0 ? cssVar('--neg') : muted);
+          ctx.fillText((r.yoy > 0 ? '+' : '') + r.yoy + '%', bar.x, bar.y - 15);
+        }
+      });
+      ctx.restore();
+    }
+  };
+  if (DETAIL_CHART) { try { DETAIL_CHART.destroy(); } catch (e) {} }
+  DETAIL_CHART = new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [{ data: data, backgroundColor: bg, borderColor: accent, borderWidth: 1, borderRadius: 3, maxBarThickness: 54 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      layout: { padding: { top: 24 } },
+      plugins: { legend: { display: false }, tooltip: { displayColors: false,
+        callbacks: { label: function (i) { return (isUsd ? '$' : '') + i.raw + (annual.years[i.dataIndex].est ? ' (E)' : ''); } } } },
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 10 }, color: cssVar('--muted') } },
+        y: { beginAtZero: true, grid: { color: cssVar('--border') }, ticks: { font: { size: 9 }, color: cssVar('--muted'), maxTicksLimit: 6 } } }
+    },
+    plugins: [labelPlugin]
+  });
+}
+
+function revBox(title, growth, r1, r3) {
+  return '<div class="rev-box"><div class="ry">' + title + '</div>' +
+    '<div class="rl"><span>YoY 성장 <b>' + sgn(growth, 0, '%') + '</b></span>' +
+    '<span>1개월 전 대비 <b class="' + signClass(r1) + '">' + sgn(r1, 1, '%') + '</b></span>' +
+    '<span>3개월 전 대비 <b class="' + signClass(r3) + '">' + sgn(r3, 1, '%') + '</b></span></div></div>';
+}
+
+function showCountryDetail(cc) {
+  if (!CUR_M) return;
+  var c = CUR_M.earnings.countries[cc]; if (!c || !c.annual) return;
+  var ann = c.annual, el = document.getElementById('ctryDetail');
+  var cy = ann.actual_through + 1, ny = ann.actual_through + 2;
+  el.innerHTML = '<div class="dh">' + c.name + ' 연도별 EPS · 2020~2027(E)</div>' +
+    '<div class="du">단위: ' + ann.unit + ' · ' + ann.source + ' · 실적=진한 막대, E=추정(연한 막대) · 막대 위 숫자=EPS, 그 위=전년비 YoY</div>' +
+    '<div class="eps-chart"><canvas id="epsChartCanvas"></canvas></div>' +
+    '<div class="rev-grid">' +
+      revBox('올해(' + cy + 'E) 컨센서스 변화', c.growth_cy, c.rev30, c.rev90) +
+      revBox('내년(' + ny + 'E) 컨센서스 변화', c.growth_ny, c.rev30_ny, c.rev90_ny) +
+    '</div>';
+  epsBarChart(document.getElementById('epsChartCanvas'), ann);
+  document.querySelectorAll('.ctry-card').forEach(function (card) {
+    card.classList.toggle('sel', card.getAttribute('data-cc') === cc);
+  });
+}
+
 function render(M) {
+  CUR_M = M;
   var app = document.getElementById('app');
   document.getElementById('subtitle').innerHTML =
     '기준일 ' + M.as_of + ' · 5개 축 종합 레짐 점수와 과거 유사국면 비교 · <span class="tnum">' +
@@ -441,6 +525,16 @@ function render(M) {
     var cv = document.getElementById('ctrend_' + cc);
     if (cv && c && c.trend) sparkline(cv, { dates: ['90일전', '60일전', '30일전', '7일전', '현재'], values: c.trend }, (c.rev90 || 0) / 5);
   });
+  // 국가 카드 클릭 → 연도별 EPS 상세
+  if (M.earnings) {
+    document.querySelectorAll('.ctry-card').forEach(function (card) {
+      card.addEventListener('click', function () { showCountryDetail(card.getAttribute('data-cc')); });
+    });
+    var firstCC = COUNTRY_ORDER.find(function (cc) {
+      return M.earnings.countries[cc] && M.earnings.countries[cc].annual;
+    });
+    if (firstCC) showCountryDetail(firstCC);
+  }
 }
 
 window.addEventListener('DOMContentLoaded', function () {

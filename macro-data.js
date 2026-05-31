@@ -2,7 +2,7 @@
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
   "as_of": "2026-05-31",
-  "generated": "2026-05-31T14:37:03Z",
+  "generated": "2026-05-31T14:50:38Z",
   "regime": {
     "score": 8,
     "label": "중립 (선별적)",
@@ -10713,6 +10713,8 @@ window.MACRO = {
         "rev30": 0.3,
         "rev90": 3.0,
         "momentum": "유지",
+        "rev30_ny": 0.7,
+        "rev90_ny": 1.8,
         "growth_cy": 19.6,
         "growth_ny": 12.8,
         "trend": [
@@ -10722,7 +10724,62 @@ window.MACRO = {
           102.65,
           102.99
         ],
-        "n": 40
+        "n": 40,
+        "annual": {
+          "unit": "$ (S&P500 Bottom-Up, FactSet)",
+          "source": "FactSet",
+          "actual_through": 2025,
+          "years": [
+            {
+              "y": 2020,
+              "eps": 140.23,
+              "yoy": null,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "eps": 208.01,
+              "yoy": 48.3,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "eps": 219.17,
+              "yoy": 5.4,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "eps": 220.21,
+              "yoy": 0.5,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "eps": 243.02,
+              "yoy": 10.4,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "eps": 271.23,
+              "yoy": 11.6,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "eps": 337.47,
+              "yoy": 24.4,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "eps": 389.45,
+              "yoy": 15.4,
+              "est": true
+            }
+          ]
+        }
       },
       "KR": {
         "name": "한국",
@@ -10733,6 +10790,8 @@ window.MACRO = {
         "rev30": 0.3,
         "rev90": 1.4,
         "momentum": "유지",
+        "rev30_ny": 1.5,
+        "rev90_ny": 2.9,
         "growth_cy": 45.7,
         "growth_ny": 17.2,
         "trend": [
@@ -10742,7 +10801,62 @@ window.MACRO = {
           100.92,
           101.44
         ],
-        "n": 29
+        "n": 29,
+        "annual": {
+          "unit": "지수(2020=100, 근사)",
+          "source": "추정·편집 가능",
+          "actual_through": 2025,
+          "years": [
+            {
+              "y": 2020,
+              "eps": 100,
+              "yoy": null,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "eps": 130,
+              "yoy": 30.0,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "eps": 96,
+              "yoy": -26.2,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "eps": 80,
+              "yoy": -16.7,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "eps": 128,
+              "yoy": 60.0,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "eps": 175,
+              "yoy": 36.7,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "eps": 300,
+              "yoy": 71.4,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "eps": 345,
+              "yoy": 15.0,
+              "est": true
+            }
+          ]
+        }
       },
       "EU": {
         "name": "유럽",
@@ -10753,6 +10867,8 @@ window.MACRO = {
         "rev30": 0.9,
         "rev90": 1.0,
         "momentum": "둔화",
+        "rev30_ny": 0.1,
+        "rev90_ny": -1.1,
         "growth_cy": 7.8,
         "growth_ny": 14.9,
         "trend": [
@@ -10762,7 +10878,62 @@ window.MACRO = {
           101.74,
           100.99
         ],
-        "n": 6
+        "n": 6,
+        "annual": {
+          "unit": "지수(2020=100, 근사)",
+          "source": "추정·편집 가능",
+          "actual_through": 2025,
+          "years": [
+            {
+              "y": 2020,
+              "eps": 100,
+              "yoy": null,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "eps": 142,
+              "yoy": 42.0,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "eps": 156,
+              "yoy": 9.9,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "eps": 150,
+              "yoy": -3.8,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "eps": 156,
+              "yoy": 4.0,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "eps": 166,
+              "yoy": 6.4,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "eps": 181,
+              "yoy": 9.0,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "eps": 196,
+              "yoy": 8.3,
+              "est": true
+            }
+          ]
+        }
       },
       "JP": {
         "name": "일본",
@@ -10773,6 +10944,8 @@ window.MACRO = {
         "rev30": 1.3,
         "rev90": -0.6,
         "momentum": "둔화",
+        "rev30_ny": 1.9,
+        "rev90_ny": 1.9,
         "growth_cy": 15.9,
         "growth_ny": 17.1,
         "trend": [
@@ -10782,7 +10955,62 @@ window.MACRO = {
           99.89,
           99.4
         ],
-        "n": 5
+        "n": 5,
+        "annual": {
+          "unit": "지수(2020=100, 근사)",
+          "source": "추정·편집 가능",
+          "actual_through": 2025,
+          "years": [
+            {
+              "y": 2020,
+              "eps": 100,
+              "yoy": null,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "eps": 128,
+              "yoy": 28.0,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "eps": 145,
+              "yoy": 13.3,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "eps": 160,
+              "yoy": 10.3,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "eps": 176,
+              "yoy": 10.0,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "eps": 188,
+              "yoy": 6.8,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "eps": 203,
+              "yoy": 8.0,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "eps": 218,
+              "yoy": 7.4,
+              "est": true
+            }
+          ]
+        }
       },
       "CN": {
         "name": "중국",
@@ -10793,6 +11021,8 @@ window.MACRO = {
         "rev30": -2.8,
         "rev90": -7.9,
         "momentum": "둔화",
+        "rev30_ny": -2.1,
+        "rev90_ny": -9.5,
         "growth_cy": 13.2,
         "growth_ny": 24.8,
         "trend": [
@@ -10802,7 +11032,62 @@ window.MACRO = {
           94.43,
           92.07
         ],
-        "n": 5
+        "n": 5,
+        "annual": {
+          "unit": "지수(2020=100, 근사)",
+          "source": "추정·편집 가능",
+          "actual_through": 2025,
+          "years": [
+            {
+              "y": 2020,
+              "eps": 100,
+              "yoy": null,
+              "est": false
+            },
+            {
+              "y": 2021,
+              "eps": 112,
+              "yoy": 12.0,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "eps": 100,
+              "yoy": -10.7,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "eps": 106,
+              "yoy": 6.0,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "eps": 112,
+              "yoy": 5.7,
+              "est": false
+            },
+            {
+              "y": 2025,
+              "eps": 117,
+              "yoy": 4.5,
+              "est": false
+            },
+            {
+              "y": 2026,
+              "eps": 124,
+              "yoy": 6.0,
+              "est": true
+            },
+            {
+              "y": 2027,
+              "eps": 133,
+              "yoy": 7.3,
+              "est": true
+            }
+          ]
+        }
       }
     },
     "sectors": {

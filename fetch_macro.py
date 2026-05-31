@@ -402,6 +402,28 @@ COUNTRY_EXTRA = {
     "CN": ("중국", ["BABA", "PDD", "JD", "BIDU", "TCEHY"]),
 }
 
+# 국가별 연도 EPS (2020~2027E). 클릭 시 막대그래프·YoY용.
+#  US = S&P500 Bottom-Up EPS 실값(FactSet). 나머지 = 지수(2020=100) 근사치(편집 가능).
+#  actual_through 이후 연도는 추정(E)으로 표시.
+COUNTRY_EPS_ANNUAL = {
+    "US": {"unit": "$ (S&P500 Bottom-Up, FactSet)", "actual_through": 2025, "source": "FactSet",
+           "eps": {"2020": 140.23, "2021": 208.01, "2022": 219.17, "2023": 220.21,
+                   "2024": 243.02, "2025": 271.23, "2026": 337.47, "2027": 389.45}},
+    "KR": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
+           "eps": {"2020": 100, "2021": 130, "2022": 96, "2023": 80,
+                   "2024": 128, "2025": 175, "2026": 300, "2027": 345}},
+    "EU": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
+           "eps": {"2020": 100, "2021": 142, "2022": 156, "2023": 150,
+                   "2024": 156, "2025": 166, "2026": 181, "2027": 196}},
+    "JP": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
+           "eps": {"2020": 100, "2021": 128, "2022": 145, "2023": 160,
+                   "2024": 176, "2025": 188, "2026": 203, "2027": 218}},
+    "CN": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
+           "eps": {"2020": 100, "2021": 112, "2022": 100, "2023": 106,
+                   "2024": 112, "2025": 117, "2026": 124, "2027": 133}},
+}
+
+
 # 섹터별 주요 이슈/지표 — 정성 코멘트. 발표·뉴스 흐름에 맞춰 주기적으로 갱신.
 # (자동 산출 불가 항목. as_of로 신선도 표시)
 ISSUES_AS_OF = "2026-05-31"
@@ -485,6 +507,12 @@ def ticker_earnings(tk):
     rev7 = (cur / d7 - 1) * 100 if (cur and d7 and d7 > 0) else None
     rev30 = (cur / d30 - 1) * 100 if (cur and d30 and d30 > 0) else None
     rev90 = (cur / d90 - 1) * 100 if (cur and d90 and d90 > 0) else None
+    # 내년(+1y) 추정치 수정률 (1개월/3개월 전 대비)
+    cur1 = _cell(tr, "+1y", "current")
+    d30_1 = _cell(tr, "+1y", "30daysAgo")
+    d90_1 = _cell(tr, "+1y", "90daysAgo")
+    rev30_ny = (cur1 / d30_1 - 1) * 100 if (cur1 and d30_1 and d30_1 > 0) else None
+    rev90_ny = (cur1 / d90_1 - 1) * 100 if (cur1 and d90_1 and d90_1 > 0) else None
     # 90일 컨센서스 경로(자기 90d 기준 정규화) → [90d,60d,30d,7d,cur]
     trend5 = None
     if tr is not None and d90 and d90 > 0:
@@ -492,6 +520,7 @@ def ticker_earnings(tk):
         if all(p is not None for p in pts):
             trend5 = [round(p / d90 * 100, 2) for p in pts]
     return {"up30": up30 or 0, "down30": down30 or 0, "rev7": rev7, "rev30": rev30, "rev90": rev90,
+            "rev30_ny": rev30_ny, "rev90_ny": rev90_ny,
             "growth_cy": growth_cy, "growth_ny": growth_ny, "n": n, "trend5": trend5}
 
 
@@ -518,6 +547,8 @@ def aggregate_basket(tickers):
     rev7 = _median([r["rev7"] for r in rows])
     rev30 = _median([r["rev30"] for r in rows])
     rev90 = _median([r["rev90"] for r in rows])
+    rev30_ny = _median([r["rev30_ny"] for r in rows])
+    rev90_ny = _median([r["rev90_ny"] for r in rows])
     g_cy = _median([r["growth_cy"] for r in rows])
     g_ny = _median([r["growth_ny"] for r in rows])
     # 단기 모멘텀: 최근 7일 페이스(30일 환산)와 실제 30일 수정 비교
@@ -539,6 +570,8 @@ def aggregate_basket(tickers):
             "rev7": round(rev7, 1) if rev7 is not None else None,
             "rev30": round(rev30, 1) if rev30 is not None else None,
             "rev90": round(rev90, 1) if rev90 is not None else None, "momentum": mom,
+            "rev30_ny": round(rev30_ny, 1) if rev30_ny is not None else None,
+            "rev90_ny": round(rev90_ny, 1) if rev90_ny is not None else None,
             "growth_cy": round(g_cy * 100, 1) if g_cy is not None else None,
             "growth_ny": round(g_ny * 100, 1) if g_ny is not None else None,
             "trend": trend, "n": len(rows), "up": up, "down": dn}
@@ -563,6 +596,21 @@ def earnings_score(agg):
     if agg.get("rev90") is not None:
         s += clamp(agg["rev90"] / 8.0) * 0.4
     return clamp(s)
+
+
+def build_annual(cc):
+    """국가 연도 EPS → [{y, eps, yoy, est}] + 메타. 없으면 None."""
+    a = COUNTRY_EPS_ANNUAL.get(cc)
+    if not a:
+        return None
+    years = sorted(a["eps"].keys())
+    out = []
+    for i, y in enumerate(years):
+        eps = a["eps"][y]
+        prev = a["eps"][years[i - 1]] if i > 0 else None
+        yoy = round((eps / prev - 1) * 100, 1) if (prev and prev != 0) else None
+        out.append({"y": int(y), "eps": eps, "yoy": yoy, "est": int(y) > a["actual_through"]})
+    return {"unit": a["unit"], "source": a["source"], "actual_through": a["actual_through"], "years": out}
 
 
 def build_earnings():
@@ -596,9 +644,11 @@ def build_earnings():
                          "err": cagg["err"] if cagg else None, "err_label": lbl, "err_cls": cls,
                          "rev7": cagg["rev7"] if cagg else None, "rev30": cagg["rev30"] if cagg else None,
                          "rev90": cagg["rev90"] if cagg else None, "momentum": cagg["momentum"] if cagg else None,
+                         "rev30_ny": cagg["rev30_ny"] if cagg else None, "rev90_ny": cagg["rev90_ny"] if cagg else None,
                          "growth_cy": cagg["growth_cy"] if cagg else None,
                          "growth_ny": cagg["growth_ny"] if cagg else None,
-                         "trend": cagg["trend"] if cagg else None, "n": cagg["n"] if cagg else 0}
+                         "trend": cagg["trend"] if cagg else None, "n": cagg["n"] if cagg else 0,
+                         "annual": build_annual(cc)}
         scores.append(earnings_score(cagg))
 
     # 추가 국가(섹터 분해 없음)
@@ -609,9 +659,11 @@ def build_earnings():
                          "err_label": lbl, "err_cls": cls,
                          "rev7": agg["rev7"] if agg else None, "rev30": agg["rev30"] if agg else None,
                          "rev90": agg["rev90"] if agg else None, "momentum": agg["momentum"] if agg else None,
+                         "rev30_ny": agg["rev30_ny"] if agg else None, "rev90_ny": agg["rev90_ny"] if agg else None,
                          "growth_cy": agg["growth_cy"] if agg else None,
                          "growth_ny": agg["growth_ny"] if agg else None,
-                         "trend": agg["trend"] if agg else None, "n": agg["n"] if agg else 0}
+                         "trend": agg["trend"] if agg else None, "n": agg["n"] if agg else 0,
+                         "annual": build_annual(cc)}
         print(f"  [{cc}] {kname} ERR {agg['err'] if agg else 'NA'}  rev90 {agg['rev90'] if agg else 'NA'}")
 
     # 5번째 축 점수: 미국 0.55 + 한국 0.45 (가중)
