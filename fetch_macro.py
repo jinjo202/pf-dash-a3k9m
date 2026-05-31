@@ -596,6 +596,15 @@ STOCK_TAGS = {
 }
 
 
+# 한국 투자자예탁금 월말 시계열(조원) — 무료 안정 소스 없어 수동 시드(KOFIA freesis 기준 근사).
+#  갱신: freesis.kofia.or.kr 증시자금추이. 최근값은 MANUAL_FLOWS["kr_deposit"]와 일치시키기.
+KR_DEPOSIT_SERIES = {
+    "2024-01": 52, "2024-04": 55, "2024-07": 54, "2024-10": 53,
+    "2025-01": 55, "2025-04": 58, "2025-07": 62, "2025-10": 70,
+    "2026-01": 78, "2026-02": 82, "2026-03": 86, "2026-04": 90, "2026-05": 95,
+}
+
+
 # 수동 지표 원본 데이터 링크 (클릭 시 원천 확인)
 MANUAL_URLS = {
     "ism_pmi": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
@@ -841,16 +850,35 @@ def build_ai():
         for y in years:
             totals[y] = totals.get(y, 0) + d[y]
     total_series = [{"y": int(y), "capex": totals[y], "est": int(y) > AI_CAPEX_ACTUAL_THROUGH} for y in years]
-    # 미국 명목 GDP (FRED) → capex/GDP 비율 (버블 게이지)
-    gdp = None
+    # 미국 명목 GDP (FRED) → 연도별 capex/GDP 시계열 (버블 게이지)
+    gdp_by_year, gdp = {}, None
     try:
-        _, gv = fred_csv("GDP")
-        gdp = gv[-1] if gv else None
+        gd, gv = fred_csv("GDP")  # 분기 명목 $B SAAR
+        by = {}
+        for dd, vv in zip(gd, gv):
+            by.setdefault(dd[:4], []).append(vv)
+        gdp_by_year = {y: sum(a) / len(a) for y, a in by.items()}  # 연평균
+        if gdp_by_year:
+            gdp = gdp_by_year[max(gdp_by_year)]
     except Exception:
         pass
     last = str(AI_CAPEX_ACTUAL_THROUGH)
+    # 전망연도 GDP는 최신 실측에서 연 4% 명목성장 외삽
+    def gdp_for(y):
+        yi = int(y)
+        if str(yi) in gdp_by_year:
+            return gdp_by_year[str(yi)]
+        if gdp_by_year:
+            base_y = max(int(k) for k in gdp_by_year)
+            return gdp_by_year[str(base_y)] * (1.04 ** (yi - base_y))
+        return None
+    capex_gdp_series = []
+    for y in years:
+        g = gdp_for(y)
+        if g:
+            capex_gdp_series.append({"y": int(y), "pct": round(totals[y] / g * 100, 2), "est": int(y) > AI_CAPEX_ACTUAL_THROUGH})
     capex_gdp = round(totals[last] / gdp * 100, 2) if gdp else None
-    capex_gdp_e = round(totals[str(AI_CAPEX_ACTUAL_THROUGH + 1)] / gdp * 100, 2) if gdp else None
+    capex_gdp_e = round(totals[str(AI_CAPEX_ACTUAL_THROUGH + 1)] / gdp_for(AI_CAPEX_ACTUAL_THROUGH + 1) * 100, 2) if gdp else None
     rnd = [{"y": int(y), "pct": AI_RND_GDP[y]} for y in sorted(AI_RND_GDP)]
     labs = []
     for name, d in AI_LABS.items():
@@ -875,6 +903,7 @@ def build_ai():
     return {"as_of": AI_AS_OF, "capex": {"companies": companies, "total": total_series,
             "actual_through": AI_CAPEX_ACTUAL_THROUGH},
             "capex_gdp_pct": capex_gdp, "capex_gdp_pct_e": capex_gdp_e,
+            "capex_gdp_series": capex_gdp_series,
             "total_capex_last": totals[last], "total_capex_e": totals[str(AI_CAPEX_ACTUAL_THROUGH + 1)],
             "last_actual_year": AI_CAPEX_ACTUAL_THROUGH, "gdp": round(gdp) if gdp else None,
             "rnd_gdp": rnd, "labs": labs, "financials": fin,
@@ -1119,25 +1148,34 @@ def build_earnings():
     return {"data": data, "cards": cards, "pillar_score": pillar}
 
 
+def _deposit_series():
+    ks = sorted(KR_DEPOSIT_SERIES)
+    return {"dates": [k + "-01" for k in ks], "values": [KR_DEPOSIT_SERIES[k] for k in ks]}
+
+
 def load_kr_flows():
-    """fetch_kr_flows.py가 만든 kr_flows.json → MANUAL_FLOWS 패치본 반환."""
+    """kr_flows.json → (MANUAL_FLOWS 패치본, 시계열 dict)."""
     f = HERE / "kr_flows.json"
     flows = dict(MANUAL_FLOWS)
+    ts = {"deposit": _deposit_series(), "deposit_source": "KOFIA freesis(근사·편집 가능)"}
     if not f.exists():
-        return flows
+        return flows, ts
     try:
         kr = json.loads(f.read_text(encoding="utf-8"))
-        m = kr["mtd"]; lt = kr["latest"]
-        fo = m["foreign"]
+        m = kr["mtd"]; lt = kr["latest"]; fo = m["foreign"]
         flows["kr_flows"] = {**MANUAL_FLOWS["kr_flows"], "current": fo, "as_of": kr["as_of"],
             "note": f"{kr['month']} KOSPI 누적(조원): 외국인 {fo:+.1f}·기관 {m['inst']:+.1f}·개인 {m['retail']:+.1f}"
                     f"({m['days']}일). 최근 {lt['date']}: 외국인 {lt['foreign']:+.2f}·기관 {lt['inst']:+.2f}·개인 {lt['retail']:+.2f}. "
                     f"외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융)."}
         if kr.get("deposit"):
             flows["kr_deposit"] = {**MANUAL_FLOWS["kr_deposit"], "current": kr["deposit"], "as_of": kr["as_of"]}
+        ts.update({"as_of": kr["as_of"], "month": kr.get("month"), "unit": "조원",
+                   "ytd_total": kr.get("ytd_total"), "mtd": m, "latest": lt,
+                   "ytd_cum": kr.get("ytd_cum"), "month_daily": kr.get("month_daily"),
+                   "source": "네이버 금융", "source_url": MANUAL_URLS.get("kr_flows")})
     except Exception as e:
         print(f"  [warn] kr_flows.json 로드 실패: {e}")
-    return flows
+    return flows, ts
 
 
 def load_benchmarks():
@@ -1284,7 +1322,7 @@ def build():
         }
 
     # --- 수동 지표 (센티먼트 MANUAL + 수급 MANUAL_FLOWS, 한국 수급은 자동 패치) ---
-    flows_manual = load_kr_flows()
+    flows_manual, kr_flows_ts = load_kr_flows()
     for key, m in {**MANUAL, **flows_manual}.items():
         score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
         lbl, cls = signal_label(score)
@@ -1350,6 +1388,7 @@ def build():
         "cycle": cycle,
         "country_pref": country_pref,
         "regime_history": regime_history,
+        "kr_flows_ts": kr_flows_ts,
         "indicators": indicators,
         "indices": indices,
         "analogs": analogs,

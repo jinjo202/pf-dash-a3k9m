@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01e";</script>
+<script>window.CODE_VERSION = "2026-06-01f";</script>
 <script>
   (function () {
     try {
@@ -517,6 +517,10 @@ function renderAI(M) {
     stat('R&D / 美 GDP', (lastRnd != null ? lastRnd + '%' : '–'), '사상 최고권 · 완만 상승') +
     '</div>';
   html += '<div class="ai-verdict warn">📊 버블 점검: 빅테크 CAPEX/GDP ~' + ai.capex_gdp_pct + '%로 과거 통신·닷컴 버블 정점(~1%)에 근접/상회. 다만 적자·부채가 아닌 <b>현금흐름·이익으로 자금조달</b>되는 투자라 성격이 다름. 핵심 점검 포인트는 <b>투자 회수(AI 매출)</b> — 아래 AI 랩 매출 추이가 그 가늠자.</div>';
+  html += '<div class="section-label">버블 점검 시계열 — GDP 대비 투자 비중 (%)</div>' +
+    '<div class="fin-grid">' +
+    '<div class="fin-box"><div class="fin-t">빅4 CAPEX / 美 GDP (%, 2026~점선)</div><div class="fin-c"><canvas id="aiCapexGdp"></canvas></div></div>' +
+    '<div class="fin-box"><div class="fin-t">美 R&D / GDP (%)</div><div class="fin-c"><canvas id="aiRndGdp"></canvas></div></div></div>';
   html += '<div class="section-label">하이퍼스케일러 연간 CAPEX ($B · 누적 막대, 2026~2027E) — 숫자=4사 합계</div>' +
     '<div class="ai-chart"><canvas id="aiCapexChart"></canvas></div>';
   // capex/매출 강도 — 클라우드 사이클 비교
@@ -722,6 +726,88 @@ function showIndicatorModal(key) {
 }
 function closeIndModal() { document.getElementById('indModal').classList.remove('open'); }
 
+function statBox(l, v, s) { return '<div class="ai-stat"><div class="l">' + l + '</div><div class="v">' + v + '</div><div class="s">' + s + '</div></div>'; }
+
+function pctLineChart(canvas, pts, suffix) {
+  var labels = pts.map(function (p) { return p.y + (p.est ? 'E' : ''); });
+  var actualIdx = pts.findIndex(function (p) { return p.est; }) - 1;
+  if (actualIdx < 0) actualIdx = pts.length - 1;
+  var accent = cssVar('--accent');
+  var lbl = { id: 'l', afterDatasetsDraw: function (ch) {
+    var ctx = ch.ctx, m = ch.getDatasetMeta(0); ctx.save(); ctx.textAlign = 'center';
+    ctx.font = '700 8.5px Pretendard, sans-serif'; ctx.fillStyle = cssVar('--text-soft');
+    m.data.forEach(function (pt, i) { ctx.fillText(pts[i].pct + (suffix || '%'), pt.x, pt.y - 6); }); ctx.restore();
+  } };
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'line', data: { labels: labels, datasets: [{ data: pts.map(function (p) { return p.pct; }), borderColor: accent, backgroundColor: accent + '22', fill: true, borderWidth: 2, pointRadius: 2, tension: .2,
+      segment: { borderDash: function (x) { return x.p1DataIndex > actualIdx ? [5, 4] : undefined; } } }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 14 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (i) { return i.raw + (suffix || '%'); } } } },
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 9 }, color: cssVar('--muted') } },
+        y: { beginAtZero: true, grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { return v + (suffix || '%'); } } } } }
+  });
+  CHARTS.push(c);
+}
+
+function renderKrFlows(M) {
+  var t = M.kr_flows_ts; if (!t || !t.ytd_cum) return '';
+  var yt = t.ytd_total || {}, dep = t.deposit;
+  var html = '<div class="panel"><h2>한국 수급 시계열 — 외국인·기관·개인 + 투자자예탁금</h2>' +
+    '<p class="hint">KOSPI 투자자별 순매수 YTD 누적·최근월 일별(네이버 금융 실측) + 투자자예탁금 추이. 기준 ' + (t.as_of || '') + '.</p>';
+  html += '<div class="ai-stats">' +
+    statBox('외국인 YTD 누적', sgn(yt.foreign, 1, '조'), '기관 ' + sgn(yt.inst, 1, '조') + ' · 개인 ' + sgn(yt.retail, 1, '조') + '(흡수)') +
+    statBox('외국인 ' + (t.month || '') + ' 월(MTD)', sgn(t.mtd.foreign, 1, '조'), '개인 ' + sgn(t.mtd.retail, 1, '조') + ' · 기관 ' + sgn(t.mtd.inst, 1, '조')) +
+    statBox('투자자예탁금', (dep && dep.values.length ? dep.values[dep.values.length - 1] + '조' : '–'), '증시 대기자금(추정)') +
+    '</div>';
+  html += '<div class="fin-grid">' +
+    '<div class="fin-box"><div class="fin-t">투자자별 YTD 누적 순매수 (조원)</div><div class="fin-c"><canvas id="krYtd"></canvas></div></div>' +
+    '<div class="fin-box"><div class="fin-t">외국인 최근월 일별 순매수 (조원)</div><div class="fin-c"><canvas id="krMonth"></canvas></div></div>' +
+    '<div class="fin-box"><div class="fin-t">투자자예탁금 추이 (조원)</div><div class="fin-c"><canvas id="krDeposit"></canvas></div></div>' +
+    '</div>';
+  html += '<p class="disclaimer">투자자별 수급=네이버 금융 일별(실측, ' + (t.month || '') + '월 기준). 예탁금=KOFIA 근사 시드(fetch_macro.py KR_DEPOSIT_SERIES 편집). ' +
+    (t.source_url ? '<a href="' + t.source_url + '" target="_blank" rel="noopener">↗ 원본(네이버)</a>' : '') + '</p>';
+  return html + '</div>';
+}
+
+function krMultiLine(canvas, ycum) {
+  var ds = [['외국인', ycum.foreign, '#e11d48'], ['기관', ycum.inst, '#16a34a'], ['개인', ycum.retail, '#2563eb']].map(function (x) {
+    return { label: x[0], data: x[1], borderColor: x[2], backgroundColor: 'transparent', borderWidth: 1.6, pointRadius: 0, tension: .1 };
+  });
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'line', data: { labels: ycum.dates, datasets: ds },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 9 }, color: cssVar('--muted'), boxWidth: 9, padding: 6 } },
+        tooltip: { callbacks: { title: function (i) { return i[0].label; }, label: function (i) { return i.dataset.label + ' ' + (i.raw > 0 ? '+' : '') + i.raw + '조'; } } } },
+      scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 6, font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(5) : ''; } } },
+        y: { grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { return v + '조'; } } } } }
+  });
+  CHARTS.push(c);
+}
+
+function krMonthBars(canvas, md) {
+  var bg = md.foreign.map(function (v) { return v >= 0 ? cssVar('--pos') : cssVar('--neg'); });
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'bar', data: { labels: md.dates, datasets: [{ data: md.foreign, backgroundColor: bg, borderWidth: 0, maxBarThickness: 16 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { title: function (i) { return i[0].label.slice(5); }, label: function (i) { return '외국인 ' + (i.raw > 0 ? '+' : '') + i.raw + '조'; } } } },
+      scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 9, font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(5) : ''; } } },
+        y: { grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { return v + '조'; } } } } }
+  });
+  CHARTS.push(c);
+}
+
+function depositLine(canvas, dep) {
+  var accent = cssVar('--accent');
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'line', data: { labels: dep.dates, datasets: [{ data: dep.values, borderColor: accent, backgroundColor: accent + '22', fill: true, borderWidth: 2, pointRadius: 2, tension: .2 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { title: function (i) { return i[0].label.slice(0, 7); }, label: function (i) { return i.raw + '조'; } } } },
+      scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7, font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(2, 7) : ''; } } },
+        y: { grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { return v + '조'; } } } } }
+  });
+  CHARTS.push(c);
+}
+
 function render(M) {
   CUR_M = M;
   var app = document.getElementById('app');
@@ -756,6 +842,7 @@ function render(M) {
   html += renderCycle(M);
   html += renderTimeMachine(M);
   html += renderCountryPref(M);
+  if (M.kr_flows_ts) html += renderKrFlows(M);
 
   /* ── Outlook ── */
   var o = M.outlook;
@@ -897,9 +984,17 @@ function render(M) {
       });
     });
   }
+  // 한국 수급 시계열 차트
+  if (M.kr_flows_ts) {
+    var ky = document.getElementById('krYtd'); if (ky && M.kr_flows_ts.ytd_cum) krMultiLine(ky, M.kr_flows_ts.ytd_cum);
+    var km = document.getElementById('krMonth'); if (km && M.kr_flows_ts.month_daily) krMonthBars(km, M.kr_flows_ts.month_daily);
+    var kd = document.getElementById('krDeposit'); if (kd && M.kr_flows_ts.deposit) depositLine(kd, M.kr_flows_ts.deposit);
+  }
   // AI 섹션 차트
   if (M.ai) {
     var cc = document.getElementById('aiCapexChart'); if (cc) aiCapexChart(cc, M.ai);
+    var cg = document.getElementById('aiCapexGdp'); if (cg && M.ai.capex_gdp_series) pctLineChart(cg, M.ai.capex_gdp_series, '%');
+    var rg = document.getElementById('aiRndGdp'); if (rg && M.ai.rnd_gdp) pctLineChart(rg, M.ai.rnd_gdp, '%');
     var ic = document.getElementById('aiIntensityChart'); if (ic && M.ai.capex_intensity) aiIntensityChart(ic, M.ai.capex_intensity);
     if (M.ai.financials) ['rev', 'opinc', 'fcf', 'mktcap'].forEach(function (k) {
       var el = document.getElementById('aifin_' + k); if (el) aiGroupedBars(el, M.ai.financials, k);
