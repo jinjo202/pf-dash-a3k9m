@@ -2,7 +2,7 @@
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
   "as_of": "2026-06-01",
-  "generated": "2026-05-31T15:49:24Z",
+  "generated": "2026-05-31T16:00:36Z",
   "regime": {
     "score": 4,
     "label": "중립 (선별적)",
@@ -659,6 +659,10 @@ window.MACRO = {
           3.286,
           3.7792
         ]
+      },
+      "source": {
+        "name": "FRED: CPIAUCSL",
+        "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
       }
     },
     "core_cpi_yoy": {
@@ -1284,6 +1288,10 @@ window.MACRO = {
           2.6022,
           2.7433
         ]
+      },
+      "source": {
+        "name": "FRED: CPILFESL",
+        "url": "https://fred.stlouisfed.org/series/CPILFESL"
       }
     },
     "unemployment": {
@@ -1933,6 +1941,10 @@ window.MACRO = {
           4.3,
           4.3
         ]
+      },
+      "source": {
+        "name": "FRED: UNRATE",
+        "url": "https://fred.stlouisfed.org/series/UNRATE"
       }
     },
     "payrolls": {
@@ -2582,6 +2594,10 @@ window.MACRO = {
           185.0,
           115.0
         ]
+      },
+      "source": {
+        "name": "FRED: PAYEMS",
+        "url": "https://fred.stlouisfed.org/series/PAYEMS"
       }
     },
     "fed_funds": {
@@ -3233,6 +3249,10 @@ window.MACRO = {
           3.64,
           3.64
         ]
+      },
+      "source": {
+        "name": "FRED: FEDFUNDS",
+        "url": "https://fred.stlouisfed.org/series/FEDFUNDS"
       }
     },
     "consumer_sent": {
@@ -3884,6 +3904,10 @@ window.MACRO = {
           53.3,
           49.8
         ]
+      },
+      "source": {
+        "name": "FRED: UMCSENT",
+        "url": "https://fred.stlouisfed.org/series/UMCSENT"
       }
     },
     "yield_curve": {
@@ -4537,6 +4561,10 @@ window.MACRO = {
           0.52,
           0.47
         ]
+      },
+      "source": {
+        "name": "FRED: T10Y2Y",
+        "url": "https://fred.stlouisfed.org/series/T10Y2Y"
       }
     },
     "oil_yoy": {
@@ -5166,6 +5194,10 @@ window.MACRO = {
           82.4349,
           58.8513
         ]
+      },
+      "source": {
+        "name": "FRED: DCOILWTICO",
+        "url": "https://fred.stlouisfed.org/series/DCOILWTICO"
       }
     },
     "spx_fwd_pe": {
@@ -5180,7 +5212,11 @@ window.MACRO = {
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
       "as_of": "2026-06-01",
-      "history": null
+      "history": null,
+      "source": {
+        "name": "FactSet/yfinance",
+        "url": "https://insight.factset.com/topic/earnings"
+      }
     },
     "cape": {
       "name": "S&P500 CAPE(실러 PE)",
@@ -5839,6 +5875,10 @@ window.MACRO = {
           38.93,
           42.66
         ]
+      },
+      "source": {
+        "name": "multpl.com",
+        "url": "https://www.multpl.com/shiller-pe"
       }
     },
     "kospi_fwd_pe": {
@@ -5853,7 +5893,11 @@ window.MACRO = {
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
       "as_of": "2026-06-01",
-      "history": null
+      "history": null,
+      "source": {
+        "name": "yfinance (EWY)",
+        "url": "https://finance.yahoo.com/quote/EWY"
+      }
     },
     "erp": {
       "name": "주식위험프리미엄(ERP)",
@@ -5867,7 +5911,11 @@ window.MACRO = {
       "signal_cls": "neg",
       "desc": "S&P 어닝일드 − 미 10Y. 높을수록 주식 매력",
       "as_of": "2026-06-01",
-      "history": null
+      "history": null,
+      "source": {
+        "name": "FactSet/yfinance",
+        "url": "https://insight.factset.com/topic/earnings"
+      }
     },
     "us10y": {
       "name": "미국 10Y 금리",
@@ -6520,6 +6568,10 @@ window.MACRO = {
           4.4,
           4.45
         ]
+      },
+      "source": {
+        "name": "FRED: DGS10",
+        "url": "https://fred.stlouisfed.org/series/DGS10"
       }
     },
     "m2_yoy": {
@@ -7147,6 +7199,10 @@ window.MACRO = {
           4.576,
           4.7245
         ]
+      },
+      "source": {
+        "name": "FRED: M2SL",
+        "url": "https://fred.stlouisfed.org/series/M2SL"
       }
     },
     "baa_spread": {
@@ -7800,6 +7856,10 @@ window.MACRO = {
           1.7,
           1.57
         ]
+      },
+      "source": {
+        "name": "FRED: BAA10Y",
+        "url": "https://fred.stlouisfed.org/series/BAA10Y"
       }
     },
     "usdkrw": {
@@ -8453,6 +8513,10 @@ window.MACRO = {
           1477.93,
           1517.33
         ]
+      },
+      "source": {
+        "name": "FRED: DEXKOUS",
+        "url": "https://fred.stlouisfed.org/series/DEXKOUS"
       }
     },
     "vix": {
@@ -9106,6 +9170,10 @@ window.MACRO = {
           16.89,
           15.74
         ]
+      },
+      "source": {
+        "name": "FRED: VIXCLS",
+        "url": "https://fred.stlouisfed.org/series/VIXCLS"
       }
     },
     "spx_mom": {
@@ -9735,6 +9803,10 @@ window.MACRO = {
           29.4475,
           28.2215
         ]
+      },
+      "source": {
+        "name": "Yahoo Finance (^GSPC)",
+        "url": "https://finance.yahoo.com/quote/%5EGSPC/history"
       }
     },
     "ism_pmi": {
@@ -9750,7 +9822,11 @@ window.MACRO = {
       "desc": "ISM 공식 발표치. 50 위 = 확장. FRED 무료 장기시계열 없어 수동 유지.",
       "as_of": "2026-04-30",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/"
+      }
     },
     "cnn_fng": {
       "name": "CNN 공포·탐욕 지수",
@@ -9765,7 +9841,11 @@ window.MACRO = {
       "desc": "0=극단적 공포, 100=극단적 탐욕. 무료 API 없어 수동 유지.",
       "as_of": "2026-05-29",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://www.cnn.com/markets/fear-and-greed"
+      }
     },
     "aaii_spread": {
       "name": "AAII 불-베어 스프레드",
@@ -9780,7 +9860,11 @@ window.MACRO = {
       "desc": "AAII 개인투자자 설문: 강세 35.6%·중립 22.6%·약세 41.9%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
       "as_of": "2026-05-28",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://www.aaii.com/sentimentsurvey"
+      }
     },
     "put_call": {
       "name": "CBOE 풋/콜 비율(총)",
@@ -9795,7 +9879,11 @@ window.MACRO = {
       "desc": "옵션 시장 심리(주식 P/C 0.39·SPX 0.88 동반). 역발상 — 높을수록(공포) 강세, 0.7 아래는 낙관·과열. ※요청의 '풋콜 패리티'는 심리지표인 풋/콜 비율로 해석. cboe.com 일간.",
       "as_of": "2026-05-28",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://www.cboe.com/us/options/market_statistics/daily/"
+      }
     },
     "cta_pos": {
       "name": "미국 CTA 주식 노출(백분위)",
@@ -9810,7 +9898,11 @@ window.MACRO = {
       "desc": "시스템(추세추종) 펀드 주식 노출 백분위. 노무라: 역사평균 약 5% 하회·여전히 롱. 낮을수록 추가 매수 여력(되돌림 위험 작음). 주간 갱신.",
       "as_of": "2026-05-29",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://www.isabelnet.com/?s=CTA+equity+positioning"
+      }
     },
     "retail_alloc": {
       "name": "미국 리테일 주식비중",
@@ -9825,7 +9917,11 @@ window.MACRO = {
       "desc": "리테일 주문비중 36%(사상최고)·가계 주식배분 고점권. 역발상 — 높을수록 후기·과열. AAII 자산배분 설문/Vanda 참조, 월간 갱신.",
       "as_of": "2026-05-29",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://www.aaii.com/assetallocationsurvey"
+      }
     },
     "kr_deposit": {
       "name": "한국 투자자예탁금",
@@ -9840,7 +9936,11 @@ window.MACRO = {
       "desc": "증시 대기자금. 개인 순매수 지속으로 증가 추세(추정치 — KOFIA freesis 증시자금추이에서 확정). 증가=매수 여력 확대.",
       "as_of": "2026-05-29",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://freesis.kofia.or.kr/"
+      }
     },
     "kr_flows": {
       "name": "한국 투자자별 수급(외국인, 월)",
@@ -9855,7 +9955,11 @@ window.MACRO = {
       "desc": "2026.05 KOSPI 누적(조원): 외국인 -44.5·기관 +9.2·개인 +35.1(18일). 최근 26.05.29: 외국인 -1.04·기관 +2.37·개인 -1.41. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
       "as_of": "2026-06-01",
       "history": null,
-      "manual": true
+      "manual": true,
+      "source": {
+        "name": "원본 데이터",
+        "url": "https://finance.naver.com/sise/investorDealTrendDay.naver?sosok=01"
+      }
     },
     "err_us": {
       "name": "미국 ERR(이익수정비율)",
@@ -13256,17 +13360,17 @@ window.MACRO = {
             },
             {
               "y": 2025,
-              "capex": 80,
+              "capex": 92,
               "est": false
             },
             {
               "y": 2026,
-              "capex": 120,
+              "capex": 157,
               "est": true
             },
             {
               "y": 2027,
-              "capex": 140,
+              "capex": 190,
               "est": true
             }
           ]
@@ -13301,17 +13405,17 @@ window.MACRO = {
             },
             {
               "y": 2025,
-              "capex": 85,
+              "capex": 88,
               "est": false
             },
             {
               "y": 2026,
-              "capex": 110,
+              "capex": 186,
               "est": true
             },
             {
               "y": 2027,
-              "capex": 128,
+              "capex": 225,
               "est": true
             }
           ]
@@ -13346,17 +13450,17 @@ window.MACRO = {
             },
             {
               "y": 2025,
-              "capex": 100,
+              "capex": 115,
               "est": false
             },
             {
               "y": 2026,
-              "capex": 125,
+              "capex": 218,
               "est": true
             },
             {
               "y": 2027,
-              "capex": 140,
+              "capex": 260,
               "est": true
             }
           ]
@@ -13391,17 +13495,17 @@ window.MACRO = {
             },
             {
               "y": 2025,
-              "capex": 68,
+              "capex": 72,
               "est": false
             },
             {
               "y": 2026,
-              "capex": 100,
+              "capex": 132,
               "est": true
             },
             {
               "y": 2027,
-              "capex": 115,
+              "capex": 160,
               "est": true
             }
           ]
@@ -13435,26 +13539,26 @@ window.MACRO = {
         },
         {
           "y": 2025,
-          "capex": 333,
+          "capex": 367,
           "est": false
         },
         {
           "y": 2026,
-          "capex": 455,
+          "capex": 693,
           "est": true
         },
         {
           "y": 2027,
-          "capex": 523,
+          "capex": 835,
           "est": true
         }
       ],
       "actual_through": 2025
     },
-    "capex_gdp_pct": 1.05,
-    "capex_gdp_pct_e": 1.43,
-    "total_capex_last": 333,
-    "total_capex_e": 455,
+    "capex_gdp_pct": 1.15,
+    "capex_gdp_pct_e": 2.18,
+    "total_capex_last": 367,
+    "total_capex_e": 693,
     "last_actual_year": 2025,
     "gdp": 31819,
     "rnd_gdp": [
@@ -13584,17 +13688,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 270,
+            "v": 282,
             "est": false
           },
           {
             "y": 2026,
-            "v": 300,
+            "v": 315,
             "est": true
           },
           {
             "y": 2027,
-            "v": 335,
+            "v": 350,
             "est": true
           }
         ],
@@ -13631,12 +13735,12 @@ window.MACRO = {
           },
           {
             "y": 2026,
-            "v": 145,
+            "v": 142,
             "est": true
           },
           {
             "y": 2027,
-            "v": 165,
+            "v": 160,
             "est": true
           }
         ],
@@ -13668,17 +13772,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 75,
+            "v": 72,
             "est": false
           },
           {
             "y": 2026,
-            "v": 72,
+            "v": 60,
             "est": true
           },
           {
             "y": 2027,
-            "v": 95,
+            "v": 80,
             "est": true
           }
         ],
@@ -13705,7 +13809,7 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 3500
+            "v": 3000
           }
         ]
       },
@@ -13739,17 +13843,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 395,
+            "v": 390,
             "est": false
           },
           {
             "y": 2026,
-            "v": 445,
+            "v": 440,
             "est": true
           },
           {
             "y": 2027,
-            "v": 495,
+            "v": 490,
             "est": true
           }
         ],
@@ -13781,17 +13885,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 128,
+            "v": 135,
             "est": false
           },
           {
             "y": 2026,
-            "v": 145,
+            "v": 160,
             "est": true
           },
           {
             "y": 2027,
-            "v": 165,
+            "v": 185,
             "est": true
           }
         ],
@@ -13823,17 +13927,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 72,
+            "v": 75,
             "est": false
           },
           {
             "y": 2026,
-            "v": 78,
+            "v": 50,
             "est": true
           },
           {
             "y": 2027,
-            "v": 95,
+            "v": 80,
             "est": true
           }
         ],
@@ -13860,7 +13964,7 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 4600
+            "v": 4700
           }
         ]
       },
@@ -13899,12 +14003,12 @@ window.MACRO = {
           },
           {
             "y": 2026,
-            "v": 765,
+            "v": 770,
             "est": true
           },
           {
             "y": 2027,
-            "v": 835,
+            "v": 840,
             "est": true
           }
         ],
@@ -13936,17 +14040,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 82,
+            "v": 88,
             "est": false
           },
           {
             "y": 2026,
-            "v": 98,
+            "v": 105,
             "est": true
           },
           {
             "y": 2027,
-            "v": 115,
+            "v": 125,
             "est": true
           }
         ],
@@ -13978,17 +14082,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 40,
+            "v": 35,
             "est": false
           },
           {
             "y": 2026,
-            "v": 30,
+            "v": -20,
             "est": true
           },
           {
             "y": 2027,
-            "v": 60,
+            "v": 20,
             "est": true
           }
         ],
@@ -14015,7 +14119,7 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 2400
+            "v": 2900
           }
         ]
       },
@@ -14054,12 +14158,12 @@ window.MACRO = {
           },
           {
             "y": 2026,
-            "v": 218,
+            "v": 220,
             "est": true
           },
           {
             "y": 2027,
-            "v": 248,
+            "v": 250,
             "est": true
           }
         ],
@@ -14091,17 +14195,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 84,
+            "v": 87,
             "est": false
           },
           {
             "y": 2026,
-            "v": 96,
+            "v": 98,
             "est": true
           },
           {
             "y": 2027,
-            "v": 110,
+            "v": 112,
             "est": true
           }
         ],
@@ -14133,17 +14237,17 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 50,
+            "v": 45,
             "est": false
           },
           {
             "y": 2026,
-            "v": 45,
+            "v": 30,
             "est": true
           },
           {
             "y": 2027,
-            "v": 62,
+            "v": 50,
             "est": true
           }
         ],
@@ -14170,7 +14274,7 @@ window.MACRO = {
           },
           {
             "y": 2025,
-            "v": 1610
+            "v": 1600
           }
         ]
       }
@@ -14203,21 +14307,22 @@ window.MACRO = {
       },
       {
         "y": 2025,
-        "pct": 21.4,
+        "pct": 23.5,
         "est": false
       },
       {
         "y": 2026,
-        "pct": 26.3,
+        "pct": 39.7,
         "est": true
       },
       {
         "y": 2027,
-        "pct": 27.3,
+        "pct": 43.3,
         "est": true
       }
     ],
-    "cloud_note": "1차 클라우드 capex 사이클(2016~2018) 당시 빅4 capex/매출 강도는 ~9~12% 수준이었음. 현재 AI 사이클은 20%대로 약 2배 — 투자 강도가 역대 최고. 매출·FCF가 이를 따라오는지가 버블 판가름."
+    "cloud_note": "1차 클라우드 capex 사이클(2016~2018) 당시 빅4 capex/매출 강도는 ~9~12% 수준이었음. 현재 AI 사이클은 20%대로 약 2배 — 투자 강도가 역대 최고. 매출·FCF가 이를 따라오는지가 버블 판가름.",
+    "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
     "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 3.8%(강한 악재)·미국 근원 CPI (YoY) 2.7%(악재)·미국 실업률 4.3%(중립)·비농업 고용 (전월비) 115.0천명(중립)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 58.9%(강한 악재)",

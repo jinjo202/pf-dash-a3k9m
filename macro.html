@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01c";</script>
+<script>window.CODE_VERSION = "2026-06-01d";</script>
 <script>
   (function () {
     try {
@@ -119,6 +119,21 @@
   .ind-card .meta { font-size:10.5px; color:var(--muted); display:flex; gap:8px; flex-wrap:wrap; }
   .ind-card .spark { height:42px; margin-top:2px; }
   .ind-card .desc { font-size:10.5px; color:var(--muted); border-top:1px dashed var(--border); padding-top:5px; margin-top:2px; }
+  .ind-card.clickable { cursor:pointer; }
+  .ind-card.clickable:hover { border-color:var(--accent); box-shadow:var(--shadow-md); }
+  .src-link { font-size:10px; color:var(--accent); text-decoration:none; font-weight:600; margin-top:auto; padding-top:3px; display:inline-block; }
+  .src-link:hover { text-decoration:underline; }
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:100; display:none; align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.open { display:flex; }
+  .modal-box { background:var(--panel); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow-md); width:min(720px,100%); max-height:88vh; overflow:auto; padding:18px 20px; }
+  .modal-box .mh { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .modal-box .mt { font-size:16px; font-weight:800; }
+  .modal-box .mmeta { font-size:11.5px; color:var(--muted); margin:3px 0 10px; }
+  .modal-box .mclose { cursor:pointer; border:1px solid var(--border); background:var(--panel-soft); border-radius:6px; width:30px; height:30px; font-size:16px; color:var(--text); line-height:1; flex-shrink:0; }
+  .modal-chart { height:300px; }
+  .modal-box .mdesc { font-size:12px; color:var(--text-soft); margin-top:10px; line-height:1.5; }
+  .modal-box .msrc { font-size:12px; margin-top:10px; }
+  .modal-box .msrc a { color:var(--accent); font-weight:600; }
 
   /* ===== big index charts ===== */
   .idx-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
@@ -246,6 +261,18 @@
   <div class="loading">데이터를 불러오는 중입니다…</div>
 </main>
 
+<div class="modal-overlay" id="indModal">
+  <div class="modal-box">
+    <div class="mh">
+      <div><div class="mt" id="mTitle"></div><div class="mmeta" id="mMeta"></div></div>
+      <button class="mclose" id="mClose" aria-label="닫기">×</button>
+    </div>
+    <div class="modal-chart"><canvas id="mChart"></canvas></div>
+    <div class="mdesc" id="mDesc"></div>
+    <div class="msrc" id="mSrc"></div>
+  </div>
+</div>
+
 <script>
 /* ───── theme toggle ───── */
 (function () {
@@ -273,6 +300,7 @@ function pctCell(x) { if (x === null || x === undefined) return '<td>–</td>'; 
 var CHARTS = [];
 var CUR_M = null;        // 클릭 핸들러용 데이터 참조
 var DETAIL_CHART = null; // 국가 EPS 상세 차트
+var MODAL_CHART = null;  // 지표 히스토리 모달 차트
 function rerenderCharts() { CHARTS.forEach(function (c) { try { c.update(); } catch (e) {} }); if (DETAIL_CHART) try { DETAIL_CHART.update(); } catch (e) {} }
 
 var PILLAR_ORDER = ['macro', 'valuation', 'flows', 'sentiment', 'earnings'];
@@ -487,7 +515,8 @@ function renderAI(M) {
       '<div class="lsrc">출처: ' + lab.source + '</div></div>';
   });
   html += '</div>';
-  html += '<p class="disclaimer">CAPEX 2026~2027·AI 랩 매출/수익성은 추정치(가이던스·언론). fetch_macro.py의 AI_CAPEX/AI_LABS/AI_RND_GDP에서 갱신. capex/GDP·R&D/GDP의 GDP는 FRED 실측.</p>';
+  html += '<p class="disclaimer">CAPEX 2026=컨센서스(GS Exhibit 15)·2027 추정, 시총 2025=현재(GOOGL $4.7T·AMZN $2.9T·META $1.6T·MSFT $3.0T). AI 랩 매출/수익성은 언론 추정. ' +
+    (ai.capex_source ? '출처: ' + ai.capex_source + ' · ' : '') + 'fetch_macro.py의 AI_CAPEX/AI_FINANCIALS/AI_LABS에서 갱신. capex/GDP·R&D/GDP의 GDP는 FRED 실측.</p>';
   return html + '</div>';
 }
 
@@ -576,6 +605,33 @@ function labRevChart(canvas, lab) {
   CHARTS.push(c);
 }
 
+function showIndicatorModal(key) {
+  var d = CUR_M && CUR_M.indicators[key];
+  if (!d || !d.history) return;
+  document.getElementById('mTitle').textContent = d.name;
+  var meta = ['현재 ' + fmtNum(d.current, 2) + (d.unit || '')];
+  if (d.z !== null && d.z !== undefined) meta.push('z ' + (d.z > 0 ? '+' : '') + d.z);
+  if (d.pct !== null && d.pct !== undefined) meta.push('백분위 ' + d.pct + '%');
+  meta.push('기준 ' + d.as_of + ' · ' + d.signal);
+  document.getElementById('mMeta').textContent = meta.join(' · ');
+  document.getElementById('mDesc').textContent = d.desc || '';
+  document.getElementById('mSrc').innerHTML = (d.source && d.source.url)
+    ? '🔗 원본 데이터: <a href="' + d.source.url + '" target="_blank" rel="noopener">' + d.source.name + ' ↗</a>' : '';
+  if (MODAL_CHART) { try { MODAL_CHART.destroy(); } catch (e) {} }
+  var cv = document.getElementById('mChart'), ctx = cv.getContext('2d');
+  var color = d.score > 0.05 ? cssVar('--pos') : (d.score < -0.05 ? cssVar('--neg') : cssVar('--accent'));
+  MODAL_CHART = new Chart(ctx, {
+    type: 'line', data: { labels: d.history.dates, datasets: [{ data: d.history.values, borderColor: color, borderWidth: 1.6, pointRadius: 0, tension: .12, fill: true,
+      backgroundColor: (function () { var g = ctx.createLinearGradient(0, 0, 0, 300); g.addColorStop(0, color + '30'); g.addColorStop(1, color + '00'); return g; })() }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { title: function (i) { return i[0].label.slice(0, 7); }, label: function (i) { return fmtNum(i.raw, 2) + (d.unit || ''); } } } },
+      scales: { x: { ticks: { maxTicksLimit: 8, font: { size: 9 }, color: cssVar('--muted'), callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(0, 7) : ''; } }, grid: { display: false } },
+        y: { ticks: { font: { size: 9 }, color: cssVar('--muted') }, grid: { color: cssVar('--border') } } } }
+  });
+  document.getElementById('indModal').classList.add('open');
+}
+function closeIndModal() { document.getElementById('indModal').classList.remove('open'); }
+
 function render(M) {
   CUR_M = M;
   var app = document.getElementById('app');
@@ -643,13 +699,16 @@ function render(M) {
       if (d.z !== null && d.z !== undefined) metaParts.push('z ' + (d.z > 0 ? '+' : '') + d.z);
       if (d.pct !== null && d.pct !== undefined) metaParts.push('상위/하위 ' + d.pct + '%');
       metaParts.push('as of ' + d.as_of);
-      html += '<div class="ind-card"><div class="top"><span class="nm">' + d.name + '</span>' +
+      var clk = d.history ? ' clickable' : '';
+      html += '<div class="ind-card' + clk + '"' + (d.history ? ' data-ind="' + k + '"' : '') + '><div class="top"><span class="nm">' + d.name + (d.history ? ' <span style="color:var(--accent);font-size:10px">📈</span>' : '') + '</span>' +
         '<span class="badge ' + badgeCls(d.signal_cls) + '">' + d.signal + '</span></div>' +
         '<div class="val tnum">' + fmtNum(d.current, (d.current === null ? 0 : Math.abs(d.current) >= 100 ? 0 : Number.isInteger(d.current) ? 0 : Math.abs(d.current) < 2 ? 2 : 1)) +
         '<span class="u">' + (d.unit || '') + '</span></div>' +
         '<div class="meta tnum">' + metaParts.join(' · ') + '</div>' +
         (d.history ? '<div class="spark"><canvas id="spk_' + k + '"></canvas></div>' : '') +
-        '<div class="desc">' + d.desc + '</div></div>';
+        '<div class="desc">' + d.desc + '</div>' +
+        (d.source && d.source.url ? '<a class="src-link" href="' + d.source.url + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ 원본: ' + d.source.name + '</a>' : '') +
+        '</div>';
     });
     html += '</div></div>';
   });
@@ -703,6 +762,10 @@ function render(M) {
     var cv = document.getElementById('spk_' + k);
     if (cv && d.history) sparkline(cv, d.history, d.score);
   });
+  // 지표 카드 클릭 → 히스토리 모달
+  document.querySelectorAll('.ind-card.clickable').forEach(function (card) {
+    card.addEventListener('click', function () { showIndicatorModal(card.getAttribute('data-ind')); });
+  });
   if (M.indices) ['spx', 'kospi'].forEach(function (key) {
     var cv = document.getElementById('idx_' + key);
     if (cv && M.indices[key]) bigChart(cv, M.indices[key]);
@@ -741,6 +804,10 @@ function render(M) {
 }
 
 window.addEventListener('DOMContentLoaded', function () {
+  // 모달 닫기 핸들러 (1회 등록)
+  document.getElementById('mClose').addEventListener('click', closeIndModal);
+  document.getElementById('indModal').addEventListener('click', function (e) { if (e.target === this) closeIndModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeIndModal(); });
   if (window.MACRO) { try { render(window.MACRO); } catch (e) { document.getElementById('app').innerHTML = '<div class="loading">렌더 오류: ' + e.message + '</div>'; console.error(e); } }
   else document.getElementById('app').innerHTML = '<div class="loading">macro-data.js를 불러오지 못했습니다. fetch_macro.py를 먼저 실행하세요.</div>';
 });
