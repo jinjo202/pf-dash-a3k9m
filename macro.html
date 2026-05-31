@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-05-31b";</script>
+<script>window.CODE_VERSION = "2026-05-31c";</script>
 <script>
   (function () {
     try {
@@ -175,6 +175,10 @@
   .sec-issue { font-size:12px; color:var(--text-soft); line-height:1.5; }
   .sec-ind { font-size:10.5px; color:var(--muted); margin-top:3px; }
   .sec-ind b { color:var(--text-soft); font-weight:600; }
+  .mom-tag { font-size:10px; font-weight:700; padding:1px 6px; border-radius:20px; }
+  .mom-tag.pos { background:var(--pos-soft); color:var(--pos); }
+  .mom-tag.neg { background:var(--neg-soft); color:var(--neg); }
+  .mom-tag.neu { background:var(--neu-soft); color:var(--neu); }
 </style>
 </head>
 <body>
@@ -256,6 +260,7 @@ function bigChart(canvas, idx) {
 function badgeCls(cls) { return cls === 'pos' ? 'pos' : (cls === 'neg' ? 'neg' : 'neu'); }
 
 function sgn(x, d, suf) { if (x === null || x === undefined) return '–'; return (x > 0 ? '+' : '') + Number(x).toFixed(d) + (suf || ''); }
+function momBadge(m) { if (!m) return ''; var c = m === '가속' ? 'pos' : (m === '둔화' ? 'neg' : 'neu'); return ' <span class="mom-tag ' + c + '">' + m + '</span>'; }
 var COUNTRY_ORDER = ['US', 'KR', 'EU', 'JP', 'CN'];
 
 function renderEarnings(M) {
@@ -271,8 +276,8 @@ function renderEarnings(M) {
     html += '<div class="ctry-card"><div class="top"><span class="cn">' + c.name + '</span>' +
       '<span class="badge ' + badgeCls(c.err_cls) + '">' + c.err_label + '</span></div>' +
       '<div class="err" style="color:' + col + '">ERR ' + sgn(c.err, 2) + '</div>' +
-      '<div class="g">올해 EPS성장 <b>' + sgn(c.growth_cy, 0, '%') + '</b> · 내년 <b>' + sgn(c.growth_ny, 0, '%') + '</b></div>' +
-      '<div class="g">90일 수정 <b>' + sgn(c.rev90, 1, '%') + '</b> · 분석가 ' + (c.n || 0) + '종목</div>' +
+      '<div class="g">올해성장 <b>' + sgn(c.growth_cy, 0, '%') + '</b> · 내년 <b>' + sgn(c.growth_ny, 0, '%') + '</b> · ' + (c.n || 0) + '종목</div>' +
+      '<div class="g">EPS수정 1M <b class="' + signClass(c.rev30) + '">' + sgn(c.rev30, 1, '%') + '</b> · 7D ' + sgn(c.rev7, 1, '%') + ' · 3M ' + sgn(c.rev90, 1, '%') + momBadge(c.momentum) + '</div>' +
       (c.trend ? '<div class="spark"><canvas id="ctrend_' + cc + '"></canvas></div>' : '') +
       '</div>';
   });
@@ -288,7 +293,8 @@ function renderEarnings(M) {
         '<div class="sec-left"><div class="sec-name">' + s.name +
         '<span class="badge ' + badgeCls(s.err_cls) + '">' + s.err_label + '</span></div>' +
         '<div class="sec-metrics"><span>ERR <b>' + sgn(s.err, 2) + '</b></span>' +
-        '<span>90일수정 <b class="' + signClass(s.rev90) + '">' + sgn(s.rev90, 1, '%') + '</b></span>' +
+        '<span>EPS수정 1M <b class="' + signClass(s.rev30) + '">' + sgn(s.rev30, 1, '%') + '</b> · 7D ' + sgn(s.rev7, 1, '%') + ' · 3M ' + sgn(s.rev90, 1, '%') + '</span>' +
+        (s.momentum ? '<span>' + momBadge(s.momentum) + '</span>' : '') +
         '<span>올해성장 <b>' + sgn(s.growth_cy, 0, '%') + '</b></span></div></div>' +
         '<div class="sec-right"><div class="sec-issue">' + (s.issue || '') + '</div>' +
         (s.indicators ? '<div class="sec-ind"><b>주요지표</b> ' + s.indicators + '</div>' : '') +
@@ -297,7 +303,8 @@ function renderEarnings(M) {
   });
 
   html += '<p class="disclaimer">ERR(Earnings Revision Ratio) = 바스켓 종목의 최근 30일 상향−하향 추정 / 전체. +면 상향 우세. ' +
-    'EPS성장·90일수정은 yfinance 애널리스트 컨센서스(올해 회계연도 기준) 중간값. 섹터 이슈/지표는 ' + E.issues_as_of + ' 기준 정성 코멘트입니다.</p>';
+    'EPS수정 1M/7D/3M = 올해 컨센서스 EPS의 최근 30/7/90일 변화율(중간값). 모멘텀(가속/유지/둔화)은 최근 7일 수정 페이스를 30일 추세와 비교. ' +
+    'EPS성장은 올해/내년 YoY 컨센서스. 섹터 이슈/지표는 ' + E.issues_as_of + ' 기준 정성 코멘트입니다.</p>';
   html += '</div>';
   return html;
 }

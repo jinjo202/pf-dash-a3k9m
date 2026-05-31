@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-05-31",
+  "source": "naver-finance",
+  "month": "2026.05",
+  "unit": "조원",
+  "mtd": {
+    "retail": 35.1,
+    "foreign": -44.5,
+    "inst": 9.2,
+    "days": 18
+  },
+  "latest": {
+    "date": "26.05.29",
+    "retail": -1.41,
+    "foreign": -1.04,
+    "inst": 2.37
+  },
+  "deposit": null
+}

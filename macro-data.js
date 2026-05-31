@@ -2,9 +2,9 @@
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
   "as_of": "2026-05-31",
-  "generated": "2026-05-31T14:23:49Z",
+  "generated": "2026-05-31T14:37:03Z",
   "regime": {
-    "score": 11,
+    "score": 8,
     "label": "중립 (선별적)",
     "cls": "neu",
     "pillars": {
@@ -30,7 +30,7 @@ window.MACRO = {
       },
       "earnings": {
         "name": "기업이익",
-        "score": 58,
+        "score": 45,
         "n": 1
       }
     }
@@ -9186,15 +9186,15 @@ window.MACRO = {
     "kr_flows": {
       "name": "한국 투자자별 수급(외국인, 월)",
       "pillar": "flows",
-      "current": -44.7,
+      "current": -44.5,
       "unit": "조원",
       "z": null,
       "pct": null,
       "score": -0.56,
       "signal": "강한 악재",
       "signal_cls": "neg",
-      "desc": "5월 KOSPI: 외국인 -44.7조(역대 최대 월 순매도, 차익실현)·개인 대규모 순매수로 흡수·기관 +2.4조. 구조적으로 외인 의존도↓(연기금·ETF 흡수). KRX data.krx.co.kr 갱신.",
-      "as_of": "2026-05-29",
+      "desc": "2026.05 KOSPI 누적(조원): 외국인 -44.5·기관 +9.2·개인 +35.1(18일). 최근 26.05.29: 외국인 -1.04·기관 +2.37·개인 -1.41. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
+      "as_of": "2026-05-31",
       "history": null,
       "manual": true
     },
@@ -9213,16 +9213,16 @@ window.MACRO = {
       "history": null
     },
     "eps_rev_us": {
-      "name": "미국 Fwd EPS 수정(90일)",
+      "name": "미국 Fwd EPS 수정(1개월)",
       "pillar": "earnings",
-      "current": 3.0,
+      "current": 0.3,
       "unit": "%",
       "z": null,
       "pct": null,
-      "score": 0.38,
-      "signal": "강한 상향",
-      "signal_cls": "pos",
-      "desc": "올해 컨센서스 EPS의 최근 90일 변화율. 우상향=상향 수정.",
+      "score": 0.06,
+      "signal": "유지",
+      "signal_cls": "neu",
+      "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.0%. 그래프=90일 경로.",
       "as_of": "2026-05-31",
       "history": {
         "dates": [
@@ -9244,28 +9244,28 @@ window.MACRO = {
     "err_kr": {
       "name": "한국 ERR(이익수정비율)",
       "pillar": "earnings",
-      "current": 0.373,
+      "current": 0.243,
       "unit": "",
       "z": null,
       "pct": null,
-      "score": 0.54,
-      "signal": "강한 상향",
+      "score": 0.27,
+      "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
       "as_of": "2026-05-31",
       "history": null
     },
     "eps_rev_kr": {
-      "name": "한국 Fwd EPS 수정(90일)",
+      "name": "한국 Fwd EPS 수정(1개월)",
       "pillar": "earnings",
-      "current": 4.6,
+      "current": 0.3,
       "unit": "%",
       "z": null,
       "pct": null,
-      "score": 0.57,
-      "signal": "강한 상향",
-      "signal_cls": "pos",
-      "desc": "올해 컨센서스 EPS의 최근 90일 변화율. 우상향=상향 수정.",
+      "score": 0.06,
+      "signal": "유지",
+      "signal_cls": "neu",
+      "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +1.4%. 그래프=90일 경로.",
       "as_of": "2026-05-31",
       "history": {
         "dates": [
@@ -9277,10 +9277,10 @@ window.MACRO = {
         ],
         "values": [
           100.0,
-          100.73,
-          100.38,
-          101.43,
-          104.62
+          100.29,
+          99.61,
+          100.92,
+          101.44
         ]
       }
     }
@@ -10709,7 +10709,10 @@ window.MACRO = {
         "err": 0.537,
         "err_label": "강한 상향",
         "err_cls": "pos",
+        "rev7": 0.0,
+        "rev30": 0.3,
         "rev90": 3.0,
+        "momentum": "유지",
         "growth_cy": 19.6,
         "growth_ny": 12.8,
         "trend": [
@@ -10723,27 +10726,33 @@ window.MACRO = {
       },
       "KR": {
         "name": "한국",
-        "err": 0.373,
-        "err_label": "강한 상향",
+        "err": 0.243,
+        "err_label": "상향 우위",
         "err_cls": "pos",
-        "rev90": 4.6,
-        "growth_cy": 38.7,
-        "growth_ny": 17.7,
+        "rev7": 0.0,
+        "rev30": 0.3,
+        "rev90": 1.4,
+        "momentum": "유지",
+        "growth_cy": 45.7,
+        "growth_ny": 17.2,
         "trend": [
           100.0,
-          100.73,
-          100.38,
-          101.43,
-          104.62
+          100.29,
+          99.61,
+          100.92,
+          101.44
         ],
-        "n": 17
+        "n": 29
       },
       "EU": {
         "name": "유럽",
         "err": 0.424,
         "err_label": "강한 상향",
         "err_cls": "pos",
+        "rev7": -0.0,
+        "rev30": 0.9,
         "rev90": 1.0,
+        "momentum": "둔화",
         "growth_cy": 7.8,
         "growth_ny": 14.9,
         "trend": [
@@ -10760,7 +10769,10 @@ window.MACRO = {
         "err": 0.471,
         "err_label": "강한 상향",
         "err_cls": "pos",
+        "rev7": 0.0,
+        "rev30": 1.3,
         "rev90": -0.6,
+        "momentum": "둔화",
         "growth_cy": 15.9,
         "growth_ny": 17.1,
         "trend": [
@@ -10777,7 +10789,10 @@ window.MACRO = {
         "err": 0.0,
         "err_label": "중립",
         "err_cls": "neu",
+        "rev7": -1.3,
+        "rev30": -2.8,
         "rev90": -7.9,
+        "momentum": "둔화",
         "growth_cy": 13.2,
         "growth_ny": 24.8,
         "trend": [
@@ -10797,7 +10812,10 @@ window.MACRO = {
           "err": 0.87,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": 0.4,
+          "rev30": 1.1,
           "rev90": 10.8,
+          "momentum": "가속",
           "growth_cy": 71.6,
           "growth_ny": 51.9,
           "trend": [
@@ -10816,7 +10834,10 @@ window.MACRO = {
           "err": 0.913,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": 0.0,
+          "rev30": 1.9,
           "rev90": 2.3,
+          "momentum": "둔화",
           "growth_cy": 20.3,
           "growth_ny": 11.2,
           "trend": [
@@ -10835,7 +10856,10 @@ window.MACRO = {
           "err": 0.987,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": 0.0,
+          "rev30": 6.8,
           "rev90": 12.9,
+          "momentum": "둔화",
           "growth_cy": 35.8,
           "growth_ny": 6.2,
           "trend": [
@@ -10854,7 +10878,10 @@ window.MACRO = {
           "err": 0.605,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": -0.1,
+          "rev30": 0.0,
           "rev90": 1.8,
+          "momentum": "유지",
           "growth_cy": 15.7,
           "growth_ny": 10.2,
           "trend": [
@@ -10873,7 +10900,10 @@ window.MACRO = {
           "err": 0.333,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": 0.0,
+          "rev30": 0.2,
           "rev90": 0.3,
+          "momentum": "유지",
           "growth_cy": 12.4,
           "growth_ny": 14.0,
           "trend": [
@@ -10892,7 +10922,10 @@ window.MACRO = {
           "err": -0.136,
           "err_label": "하향 우위",
           "err_cls": "neg",
+          "rev7": 0.0,
+          "rev30": 0.1,
           "rev90": -1.5,
+          "momentum": "유지",
           "growth_cy": 6.5,
           "growth_ny": 14.1,
           "trend": [
@@ -10911,7 +10944,10 @@ window.MACRO = {
           "err": 0.25,
           "err_label": "상향 우위",
           "err_cls": "pos",
+          "rev7": 3.2,
+          "rev30": 14.8,
           "rev90": 88.0,
+          "momentum": "둔화",
           "growth_cy": 60.5,
           "growth_ny": -6.0,
           "trend": [
@@ -10930,7 +10966,10 @@ window.MACRO = {
           "err": 0.489,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": -0.0,
+          "rev30": 0.1,
           "rev90": 1.2,
+          "momentum": "유지",
           "growth_cy": 7.8,
           "growth_ny": 14.5,
           "trend": [
@@ -10951,7 +10990,10 @@ window.MACRO = {
           "err": 0.922,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": 0.9,
+          "rev30": 29.8,
           "rev90": 85.3,
+          "momentum": "둔화",
           "growth_cy": 481.2,
           "growth_ny": 26.8,
           "trend": [
@@ -10970,7 +11012,10 @@ window.MACRO = {
           "err": 0.389,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": 6.1,
+          "rev30": -5.3,
           "rev90": 11.3,
+          "momentum": "가속",
           "growth_cy": 140.7,
           "growth_ny": 347.2,
           "trend": [
@@ -10989,7 +11034,10 @@ window.MACRO = {
           "err": -0.07,
           "err_label": "중립",
           "err_cls": "neu",
+          "rev7": -0.1,
+          "rev30": 0.0,
           "rev90": -2.8,
+          "momentum": "둔화",
           "growth_cy": 17.5,
           "growth_ny": 10.0,
           "trend": [
@@ -11008,7 +11056,10 @@ window.MACRO = {
           "err": 0.846,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": 0.1,
+          "rev30": 1.9,
           "rev90": 2.3,
+          "momentum": "둔화",
           "growth_cy": 16.5,
           "growth_ny": 8.0,
           "trend": [
@@ -11027,7 +11078,10 @@ window.MACRO = {
           "err": -0.36,
           "err_label": "강한 하향",
           "err_cls": "neg",
+          "rev7": 0.1,
+          "rev30": -1.8,
           "rev90": -3.2,
+          "momentum": "가속",
           "growth_cy": 16.1,
           "growth_ny": 17.3,
           "trend": [
@@ -11046,7 +11100,10 @@ window.MACRO = {
           "err": 0.444,
           "err_label": "강한 상향",
           "err_cls": "pos",
+          "rev7": -0.7,
+          "rev30": 0.7,
           "rev90": 6.4,
+          "momentum": "둔화",
           "growth_cy": 46.1,
           "growth_ny": 17.6,
           "trend": [
@@ -11065,7 +11122,10 @@ window.MACRO = {
           "err": -0.083,
           "err_label": "중립",
           "err_cls": "neu",
+          "rev7": 2.4,
+          "rev30": 3.0,
           "rev90": 5.4,
+          "momentum": "가속",
           "growth_cy": 58.3,
           "growth_ny": 24.5,
           "trend": [
@@ -11078,6 +11138,94 @@ window.MACRO = {
           "n": 3,
           "issue": "유럽 재무장·중동 분쟁으로 수출 호황. 조선 슈퍼사이클(LNG선·친환경).",
           "indicators": "수출 수주잔고, 신조선가지수, 방산 수출계약, 후판가격"
+        },
+        {
+          "name": "엔터·미디어",
+          "err": -0.091,
+          "err_label": "중립",
+          "err_cls": "neu",
+          "rev7": 0.0,
+          "rev30": -0.2,
+          "rev90": -0.6,
+          "momentum": "유지",
+          "growth_cy": -18.9,
+          "growth_ny": 11.7,
+          "trend": [
+            100.0,
+            100.51,
+            98.86,
+            99.4,
+            99.4
+          ],
+          "n": 3,
+          "issue": "K팝 글로벌 확장·앨범/투어 회복, 신인 IP 모멘텀. 중국 한한령 완화 기대 vs 아티스트 리스크.",
+          "indicators": "앨범 판매, 콘서트 동원, 일본·미국 매출, 신인 데뷔"
+        },
+        {
+          "name": "철강·소재",
+          "err": -0.2,
+          "err_label": "하향 우위",
+          "err_cls": "neg",
+          "rev7": 0.0,
+          "rev30": 0.0,
+          "rev90": -4.3,
+          "momentum": "유지",
+          "growth_cy": 178.5,
+          "growth_ny": 30.0,
+          "trend": [
+            100.0,
+            103.95,
+            96.15,
+            95.85,
+            95.74
+          ],
+          "n": 3,
+          "issue": "중국 감산·인프라 수요가 가격 변수. 2차전지 소재(리튬·니켈) 다각화. 전력·조선향 후판 견조.",
+          "indicators": "중국 철강가·재고, 후판가격, 원료탄, 전기차·ESS 소재 수요"
+        },
+        {
+          "name": "통신",
+          "err": -0.022,
+          "err_label": "중립",
+          "err_cls": "neu",
+          "rev7": -0.4,
+          "rev30": -0.2,
+          "rev90": -1.4,
+          "momentum": "둔화",
+          "growth_cy": 42.0,
+          "growth_ny": 9.2,
+          "trend": [
+            100.0,
+            99.5,
+            98.8,
+            99.03,
+            98.6
+          ],
+          "n": 3,
+          "issue": "5G 성숙·요금 규제 속 배당 매력(밸류업). AI·데이터센터·B2B 신사업이 성장축.",
+          "indicators": "ARPU, 가입자, 배당성향, AI/IDC 매출, 마케팅비"
+        },
+        {
+          "name": "유통·필수소비재",
+          "err": 0.364,
+          "err_label": "강한 상향",
+          "err_cls": "pos",
+          "rev7": 0.4,
+          "rev30": 0.3,
+          "rev90": -1.1,
+          "momentum": "가속",
+          "growth_cy": 68.2,
+          "growth_ny": 15.4,
+          "trend": [
+            100.0,
+            100.12,
+            98.93,
+            99.5,
+            98.87
+          ],
+          "n": 3,
+          "issue": "내수 회복 더딤·고물가 부담 vs 중국 리오프닝·화장품 수출. 환율 수혜 일부.",
+          "indicators": "내수 소비, 중국·미국 화장품 수출, 원가(곡물·환율), 면세 회복"
         }
       ]
     }
@@ -11085,10 +11233,10 @@ window.MACRO = {
   "commentary": {
     "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 3.8%(강한 악재)·미국 근원 CPI (YoY) 2.7%(악재)·미국 실업률 4.3%(중립)·비농업 고용 (전월비) 115.0천명(중립)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 58.9%(강한 악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 23.9배(강한 악재)·KOSPI 12M Fwd PER 6.7배(강한 호재)·주식위험프리미엄(ERP) -0.26%p(악재)·미국 10Y 금리 4.45%(중립)",
-    "flows": "[혼조/중립] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 95조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.7조원(강한 악재)",
+    "flows": "[혼조/중립] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 95조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.5조원(강한 악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 15.7(호재)·S&P500 12M 모멘텀 28.2%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
-    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.537(강한 상향)·미국 Fwd EPS 수정(90일) 3.0%(강한 상향)·한국 ERR(이익수정비율) 0.373(강한 상향)·한국 Fwd EPS 수정(90일) 4.6%(강한 상향)",
-    "overall": "종합 레짐 점수 +11. 매크로 -25, 밸류 -10, 수급 +4, 센티 +24, 기업이익 +58."
+    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.537(강한 상향)·미국 Fwd EPS 수정(1개월) 0.3%(유지)·한국 ERR(이익수정비율) 0.243(상향 우위)·한국 Fwd EPS 수정(1개월) 0.3%(유지)",
+    "overall": "종합 레짐 점수 +8. 매크로 -25, 밸류 -10, 수급 +4, 센티 +24, 기업이익 +45."
   },
   "outlook": {
     "short": {

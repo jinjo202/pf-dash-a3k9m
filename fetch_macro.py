@@ -390,6 +390,10 @@ KR_SECTORS = {
     "인터넷·IT": ["035420.KS", "035720.KS"],
     "바이오": ["207940.KS", "068270.KS"],
     "방산·조선": ["012450.KS", "042660.KS", "009540.KS"],
+    "엔터·미디어": ["352820.KS", "035900.KQ", "041510.KQ"],
+    "철강·소재": ["005490.KS", "004020.KS", "010130.KS"],
+    "통신": ["017670.KS", "030200.KS", "032640.KS"],
+    "유통·필수소비재": ["097950.KS", "090430.KS", "271560.KS"],
 }
 # 국가 레벨 요약만 내는 추가 국가 (섹터 분해 없음)
 COUNTRY_EXTRA = {
@@ -434,6 +438,14 @@ KR_SECTOR_ISSUES = {
             "indicators": "CDMO 수주, 시밀러 점유, FDA 승인, 환율"},
     "방산·조선": {"issue": "유럽 재무장·중동 분쟁으로 수출 호황. 조선 슈퍼사이클(LNG선·친환경).",
                "indicators": "수출 수주잔고, 신조선가지수, 방산 수출계약, 후판가격"},
+    "엔터·미디어": {"issue": "K팝 글로벌 확장·앨범/투어 회복, 신인 IP 모멘텀. 중국 한한령 완화 기대 vs 아티스트 리스크.",
+                "indicators": "앨범 판매, 콘서트 동원, 일본·미국 매출, 신인 데뷔"},
+    "철강·소재": {"issue": "중국 감산·인프라 수요가 가격 변수. 2차전지 소재(리튬·니켈) 다각화. 전력·조선향 후판 견조.",
+              "indicators": "중국 철강가·재고, 후판가격, 원료탄, 전기차·ESS 소재 수요"},
+    "통신": {"issue": "5G 성숙·요금 규제 속 배당 매력(밸류업). AI·데이터센터·B2B 신사업이 성장축.",
+            "indicators": "ARPU, 가입자, 배당성향, AI/IDC 매출, 마케팅비"},
+    "유통·필수소비재": {"issue": "내수 회복 더딤·고물가 부담 vs 중국 리오프닝·화장품 수출. 환율 수혜 일부.",
+                    "indicators": "내수 소비, 중국·미국 화장품 수출, 원가(곡물·환율), 면세 회복"},
 }
 
 
@@ -462,12 +474,16 @@ def ticker_earnings(tk):
     up30 = _cell(er, "0y", "upLast30days")
     down30 = _cell(er, "0y", "downLast30days")
     cur = _cell(tr, "0y", "current")
+    d7 = _cell(tr, "0y", "7daysAgo")
+    d30 = _cell(tr, "0y", "30daysAgo")
     d90 = _cell(tr, "0y", "90daysAgo")
     growth_cy = _cell(ee, "0y", "growth")
     growth_ny = _cell(ee, "+1y", "growth")
     n = _cell(ee, "0y", "numberOfAnalysts")
     if cur is None and up30 is None:
         return None
+    rev7 = (cur / d7 - 1) * 100 if (cur and d7 and d7 > 0) else None
+    rev30 = (cur / d30 - 1) * 100 if (cur and d30 and d30 > 0) else None
     rev90 = (cur / d90 - 1) * 100 if (cur and d90 and d90 > 0) else None
     # 90일 컨센서스 경로(자기 90d 기준 정규화) → [90d,60d,30d,7d,cur]
     trend5 = None
@@ -475,7 +491,7 @@ def ticker_earnings(tk):
         pts = [_cell(tr, "0y", c) for c in ["90daysAgo", "60daysAgo", "30daysAgo", "7daysAgo", "current"]]
         if all(p is not None for p in pts):
             trend5 = [round(p / d90 * 100, 2) for p in pts]
-    return {"up30": up30 or 0, "down30": down30 or 0, "rev90": rev90,
+    return {"up30": up30 or 0, "down30": down30 or 0, "rev7": rev7, "rev30": rev30, "rev90": rev90,
             "growth_cy": growth_cy, "growth_ny": growth_ny, "n": n, "trend5": trend5}
 
 
@@ -499,16 +515,30 @@ def aggregate_basket(tickers):
     up = sum(r["up30"] for r in rows)
     dn = sum(r["down30"] for r in rows)
     err = (up - dn) / (up + dn) if (up + dn) > 0 else None
+    rev7 = _median([r["rev7"] for r in rows])
+    rev30 = _median([r["rev30"] for r in rows])
     rev90 = _median([r["rev90"] for r in rows])
     g_cy = _median([r["growth_cy"] for r in rows])
     g_ny = _median([r["growth_ny"] for r in rows])
+    # 단기 모멘텀: 최근 7일 페이스(30일 환산)와 실제 30일 수정 비교
+    mom = None
+    if rev30 is not None and rev7 is not None:
+        accel = rev7 * (30.0 / 7.0)
+        if rev7 > 0 and accel > rev30 + 0.5:
+            mom = "가속"
+        elif accel < rev30 - 0.5 or (rev30 > 0 and rev7 < -0.1):
+            mom = "둔화"
+        else:
+            mom = "유지"
     # trend 경로: 각 종목 5점 경로의 시점별 중간값
     paths = [r["trend5"] for r in rows if r["trend5"]]
     trend = None
     if paths:
         trend = [round(_median([p[i] for p in paths]), 2) for i in range(5)]
     return {"err": round(err, 3) if err is not None else None,
-            "rev90": round(rev90, 1) if rev90 is not None else None,
+            "rev7": round(rev7, 1) if rev7 is not None else None,
+            "rev30": round(rev30, 1) if rev30 is not None else None,
+            "rev90": round(rev90, 1) if rev90 is not None else None, "momentum": mom,
             "growth_cy": round(g_cy * 100, 1) if g_cy is not None else None,
             "growth_ny": round(g_ny * 100, 1) if g_ny is not None else None,
             "trend": trend, "n": len(rows), "up": up, "down": dn}
@@ -552,7 +582,9 @@ def build_earnings():
             iss = issues.get(sname, {})
             sector_out[cc].append({
                 "name": sname, "err": agg["err"] if agg else None, "err_label": lbl, "err_cls": cls,
-                "rev90": agg["rev90"] if agg else None, "growth_cy": agg["growth_cy"] if agg else None,
+                "rev7": agg["rev7"] if agg else None, "rev30": agg["rev30"] if agg else None,
+                "rev90": agg["rev90"] if agg else None, "momentum": agg["momentum"] if agg else None,
+                "growth_cy": agg["growth_cy"] if agg else None,
                 "growth_ny": agg["growth_ny"] if agg else None, "trend": agg["trend"] if agg else None,
                 "n": agg["n"] if agg else 0,
                 "issue": iss.get("issue", ""), "indicators": iss.get("indicators", ""),
@@ -562,7 +594,8 @@ def build_earnings():
         lbl, cls = err_label(cagg["err"] if cagg else None)
         countries[cc] = {"name": "미국" if cc == "US" else "한국",
                          "err": cagg["err"] if cagg else None, "err_label": lbl, "err_cls": cls,
-                         "rev90": cagg["rev90"] if cagg else None,
+                         "rev7": cagg["rev7"] if cagg else None, "rev30": cagg["rev30"] if cagg else None,
+                         "rev90": cagg["rev90"] if cagg else None, "momentum": cagg["momentum"] if cagg else None,
                          "growth_cy": cagg["growth_cy"] if cagg else None,
                          "growth_ny": cagg["growth_ny"] if cagg else None,
                          "trend": cagg["trend"] if cagg else None, "n": cagg["n"] if cagg else 0}
@@ -573,7 +606,9 @@ def build_earnings():
         agg = aggregate_basket(tks)
         lbl, cls = err_label(agg["err"] if agg else None)
         countries[cc] = {"name": kname, "err": agg["err"] if agg else None,
-                         "err_label": lbl, "err_cls": cls, "rev90": agg["rev90"] if agg else None,
+                         "err_label": lbl, "err_cls": cls,
+                         "rev7": agg["rev7"] if agg else None, "rev30": agg["rev30"] if agg else None,
+                         "rev90": agg["rev90"] if agg else None, "momentum": agg["momentum"] if agg else None,
                          "growth_cy": agg["growth_cy"] if agg else None,
                          "growth_ny": agg["growth_ny"] if agg else None,
                          "trend": agg["trend"] if agg else None, "n": agg["n"] if agg else 0}
@@ -596,14 +631,15 @@ def build_earnings():
             "as_of": date.today().isoformat(), "history": None,
         }
         tr = c.get("trend")
-        rv = c.get("rev90")
-        rcls = "pos" if (rv or 0) > 1 else ("neg" if (rv or 0) < -1 else "neu")
+        rv = c.get("rev30")   # 1개월(30일) 수정률을 헤드라인으로
+        mom = c.get("momentum")
+        rcls = "pos" if (rv or 0) > 0.5 else ("neg" if (rv or 0) < -0.5 else "neu")
         cards[f"eps_rev_{cc.lower()}"] = {
-            "name": f"{nm} Fwd EPS 수정(90일)", "pillar": "earnings",
+            "name": f"{nm} Fwd EPS 수정(1개월)", "pillar": "earnings",
             "current": rv, "unit": "%", "z": None, "pct": None,
-            "score": round(clamp((rv or 0) / 8.0), 2), "signal": err_label(c.get("err"))[0],
+            "score": round(clamp((rv or 0) / 5.0), 2), "signal": (mom or err_label(c.get("err"))[0]),
             "signal_cls": rcls,
-            "desc": "올해 컨센서스 EPS의 최근 90일 변화율. 우상향=상향 수정.",
+            "desc": f"올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 {mom or '-'}). 7일 {fmt_pct(c.get('rev7'))}·90일 {fmt_pct(c.get('rev90'))}. 그래프=90일 경로.",
             "as_of": date.today().isoformat(),
             "history": ({"dates": ["90일전", "60일전", "30일전", "7일전", "현재"], "values": tr} if tr else None),
         }
@@ -611,6 +647,27 @@ def build_earnings():
     data = {"as_of": date.today().isoformat(), "issues_as_of": ISSUES_AS_OF,
             "countries": countries, "sectors": sector_out}
     return {"data": data, "cards": cards, "pillar_score": pillar}
+
+
+def load_kr_flows():
+    """fetch_kr_flows.py가 만든 kr_flows.json → MANUAL_FLOWS 패치본 반환."""
+    f = HERE / "kr_flows.json"
+    flows = dict(MANUAL_FLOWS)
+    if not f.exists():
+        return flows
+    try:
+        kr = json.loads(f.read_text(encoding="utf-8"))
+        m = kr["mtd"]; lt = kr["latest"]
+        fo = m["foreign"]
+        flows["kr_flows"] = {**MANUAL_FLOWS["kr_flows"], "current": fo, "as_of": kr["as_of"],
+            "note": f"{kr['month']} KOSPI 누적(조원): 외국인 {fo:+.1f}·기관 {m['inst']:+.1f}·개인 {m['retail']:+.1f}"
+                    f"({m['days']}일). 최근 {lt['date']}: 외국인 {lt['foreign']:+.2f}·기관 {lt['inst']:+.2f}·개인 {lt['retail']:+.2f}. "
+                    f"외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융)."}
+        if kr.get("deposit"):
+            flows["kr_deposit"] = {**MANUAL_FLOWS["kr_deposit"], "current": kr["deposit"], "as_of": kr["as_of"]}
+    except Exception as e:
+        print(f"  [warn] kr_flows.json 로드 실패: {e}")
+    return flows
 
 
 def load_benchmarks():
@@ -753,8 +810,9 @@ def build():
             "as_of": dates[-1][:10], "history": hist,
         }
 
-    # --- 수동 지표 (센티먼트 MANUAL + 수급 MANUAL_FLOWS) ---
-    for key, m in {**MANUAL, **MANUAL_FLOWS}.items():
+    # --- 수동 지표 (센티먼트 MANUAL + 수급 MANUAL_FLOWS, 한국 수급은 자동 패치) ---
+    flows_manual = load_kr_flows()
+    for key, m in {**MANUAL, **flows_manual}.items():
         score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
         lbl, cls = signal_label(score)
         pillar_scores[m["pillar"]].append(score)
