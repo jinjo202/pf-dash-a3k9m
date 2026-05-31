@@ -1,7 +1,7 @@
 // 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
-  "as_of": "2026-05-30",
+  "as_of": "2026-05-31",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -563,7 +563,7 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 10.98,
+        "pe": 10.85,
         "pb": 1.31,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1110,7 +1110,7 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 0,
       "valuation": {
-        "pe": 6.75,
+        "pe": 6.66,
         "pb": 2.33,
         "roe": null,
         "src": "EWY (top derived)",
@@ -3845,7 +3845,7 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 14.2,
+        "pe": 14.21,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4939,7 +4939,7 @@ window.BENCHMARKS = {
       "as_of": "2026-05-29",
       "decimals": 2,
       "valuation": {
-        "pe": 11.28,
+        "pe": 11.26,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
