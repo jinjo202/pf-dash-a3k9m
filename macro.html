@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01d";</script>
+<script>window.CODE_VERSION = "2026-06-01e";</script>
 <script>
   (function () {
     try {
@@ -171,6 +171,33 @@
   .overall-line { font-size:12.5px; color:var(--text-soft); background:var(--accent-soft); border-radius:8px; padding:10px 13px; margin-top:12px; font-weight:600; }
   .disclaimer { font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5; }
   .loading { text-align:center; color:var(--muted); padding:60px 0; }
+
+  /* ===== cycle / country pref / time machine ===== */
+  .cycle-panel { display:flex; gap:20px; align-items:center; flex-wrap:wrap; border-left:5px solid var(--neu); }
+  .cycle-panel.strong-pos, .cycle-panel.pos { border-left-color:var(--pos); }
+  .cycle-panel.neg, .cycle-panel.strong-neg { border-left-color:var(--neg); }
+  .cycle-panel.neu { border-left-color:#f59e0b; }
+  .cyc-label { font-size:11px; color:var(--muted); font-weight:700; }
+  .cyc-phase { font-size:22px; font-weight:850; letter-spacing:-.02em; }
+  .cyc-r { flex:1; min-width:220px; }
+  .cyc-cli { font-size:13px; font-weight:700; }
+  .cyc-cli span { font-size:11px; color:var(--muted); font-weight:600; margin-left:6px; }
+  .cyc-desc { font-size:12px; color:var(--text-soft); margin-top:3px; line-height:1.5; }
+  .pref-table td.sc, .pref-table th { text-align:center; }
+  .pref-table td.nm { font-weight:700; }
+  .sc-cell { display:inline-block; min-width:38px; padding:2px 6px; border-radius:5px; font-weight:700; font-size:11.5px; }
+  .pref-note { font-size:10.5px; color:var(--muted); text-align:left !important; }
+  .tm-row { display:flex; align-items:center; gap:12px; margin:6px 0 12px; }
+  .tm-slider { flex:1; accent-color:var(--accent); height:4px; cursor:pointer; }
+  .tm-reset { border:1px solid var(--border); background:var(--panel-soft); color:var(--text); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+  .tm-reset:hover { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  .tm-readout { display:flex; gap:20px; align-items:center; flex-wrap:wrap; border:1px solid var(--border); border-radius:10px; padding:14px 16px; background:var(--panel-soft); }
+  .tm-date { font-size:13px; font-weight:800; }
+  .tm-score { font-size:34px; font-weight:850; letter-spacing:-.03em; }
+  .tm-phase { font-size:13px; font-weight:700; }
+  .tm-pills { display:flex; gap:8px; flex-wrap:wrap; }
+  .tm-pill { font-size:10.5px; border:1px solid var(--border); border-radius:7px; padding:5px 8px; background:var(--panel); }
+  .tm-pill b { font-size:14px; font-weight:800; display:block; }
 
   /* ===== AI section ===== */
   .ai-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
@@ -605,6 +632,69 @@ function labRevChart(canvas, lab) {
   CHARTS.push(c);
 }
 
+function scCell(v) {
+  if (v === null || v === undefined) return '<span class="sc-cell" style="background:var(--neu-soft);color:var(--neu)">–</span>';
+  var bg, fg;
+  if (v >= 6) { bg = cssVar('--pos-soft'); fg = cssVar('--pos'); }
+  else if (v > -6) { bg = cssVar('--neu-soft'); fg = cssVar('--neu'); }
+  else { bg = cssVar('--neg-soft'); fg = cssVar('--neg'); }
+  return '<span class="sc-cell" style="background:' + bg + ';color:' + fg + '">' + (v > 0 ? '+' : '') + v + '</span>';
+}
+
+function renderCycle(M) {
+  if (!M.cycle) return '';
+  var c = M.cycle;
+  return '<div class="panel cycle-panel ' + c.cls + '">' +
+    '<div class="cyc-l"><div class="cyc-label">현재 경기국면 · OECD 미국 경기선행지수(CLI)</div>' +
+    '<div class="cyc-phase">' + c.phase + '</div></div>' +
+    '<div class="cyc-r"><div class="cyc-cli">CLI ' + c.cli + '<span>' + (c.chg6 >= 0 ? '▲' : '▼') + ' 6개월 ' + sgn(c.chg6, 2) + '</span></div>' +
+    '<div class="cyc-desc">' + c.desc + '</div></div></div>';
+}
+
+function renderCountryPref(M) {
+  if (!M.country_pref) return '';
+  var order = ['US', 'KR', 'EU', 'JP', 'CN'];
+  var rows = order.map(function (cc) {
+    var p = M.country_pref[cc]; if (!p) return '';
+    var co = p.components, note = [];
+    if (p.pe) note.push('PER ' + p.pe + '(적정~' + p.fair_pe + ')');
+    if (p.fx_chg !== null && p.fx_chg !== undefined) note.push('통화 3M ' + (p.fx_chg > 0 ? '+' : '') + p.fx_chg + '%');
+    if (p.cli !== null && p.cli !== undefined) note.push('CLI ' + p.cli);
+    note.push(p.mon_note);
+    return '<tr><td class="nm">' + p.name + '</td>' +
+      '<td class="sc">' + scCell(co.val) + '</td><td class="sc">' + scCell(co.earn) + '</td>' +
+      '<td class="sc">' + scCell(co.fx) + '</td><td class="sc">' + scCell(co.mon) + '</td><td class="sc">' + scCell(co.cycle) + '</td>' +
+      '<td class="sc">' + scCell(p.horizon.m1) + '</td><td class="sc">' + scCell(p.horizon.m3) + '</td><td class="sc">' + scCell(p.horizon.m12) + '</td>' +
+      '<td class="pref-note">' + note.join(' · ') + '</td></tr>';
+  }).join('');
+  return '<div class="panel"><h2>국가 선호도 — 밸류·이익·환율·통화·경기 종합</h2>' +
+    '<p class="hint">요소별 점수(−100~+100)와 기간별 종합 선호도. 단기(1M)=환율·이익 모멘텀 가중, 장기(12M)=밸류·이익·경기 가중. CLI·환율 FRED 실측, PER 라이브(미·한)/근사(유·일·중).</p>' +
+    '<div style="overflow-x:auto"><table class="pref-table"><thead><tr><th>국가</th><th>밸류</th><th>이익</th><th>환율</th><th>통화</th><th>경기</th><th>1개월</th><th>3개월</th><th>12개월</th><th class="pref-note">메모</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '<p class="disclaimer">밸류=PER 적정대비, 이익=ERR·수정모멘텀, 환율=3개월 통화강세, 통화=정책방향(완화+), 경기=CLI 수준·모멘텀. 통화정책 방향·유·일·중 PER은 편집 가능 시드.</p></div>';
+}
+
+function renderTimeMachine(M) {
+  if (!M.regime_history || !M.regime_history.length) return '';
+  var n = M.regime_history.length;
+  return '<div class="panel"><h2>🕰️ 레짐 타임머신 — 과거 시점 국면 보기</h2>' +
+    '<p class="hint">슬라이더로 과거 시점의 코어 레짐(매크로·밸류·수급·센티 4축, 기업이익·수동지표 제외)과 경기국면을 확인. 현재 라이브 종합과 비교용.</p>' +
+    '<div class="tm-row"><input type="range" id="tmSlider" min="0" max="' + (n - 1) + '" value="' + (n - 1) + '" class="tm-slider"/><button id="tmReset" class="tm-reset">최신</button></div>' +
+    '<div class="tm-readout" id="tmReadout"></div></div>';
+}
+function updateTimeMachine(idx) {
+  if (!CUR_M || !CUR_M.regime_history) return;
+  var h = CUR_M.regime_history[idx]; if (!h) return;
+  var col = h.score > 6 ? cssVar('--pos') : (h.score < -6 ? cssVar('--neg') : cssVar('--neu'));
+  var pills = ['macro:매크로', 'valuation:밸류', 'flows:수급', 'sentiment:센티'].map(function (m) {
+    var k = m.split(':')[0], nm = m.split(':')[1], v = h.pillars[k];
+    var c = v > 6 ? cssVar('--pos') : (v < -6 ? cssVar('--neg') : cssVar('--neu'));
+    return '<div class="tm-pill">' + nm + '<b style="color:' + c + '">' + (v > 0 ? '+' : '') + v + '</b></div>';
+  }).join('');
+  document.getElementById('tmReadout').innerHTML =
+    '<div><div class="tm-date">' + h.date.slice(0, 7) + '</div><div class="tm-score" style="color:' + col + '">' + (h.score > 0 ? '+' : '') + h.score + '</div></div>' +
+    '<div style="flex:1;min-width:200px"><div class="tm-phase">' + (h.phase || '-') + '</div><div class="tm-pills" style="margin-top:6px">' + pills + '</div></div>';
+}
+
 function showIndicatorModal(key) {
   var d = CUR_M && CUR_M.indicators[key];
   if (!d || !d.history) return;
@@ -661,6 +751,11 @@ function render(M) {
       '<div class="pillar-bar">' + bar + '</div></div>';
   });
   html += '</div></div></div></div>';
+
+  /* ── Cycle phase + Time machine ── */
+  html += renderCycle(M);
+  html += renderTimeMachine(M);
+  html += renderCountryPref(M);
 
   /* ── Outlook ── */
   var o = M.outlook;
@@ -766,6 +861,16 @@ function render(M) {
   document.querySelectorAll('.ind-card.clickable').forEach(function (card) {
     card.addEventListener('click', function () { showIndicatorModal(card.getAttribute('data-ind')); });
   });
+  // 타임머신 슬라이더
+  if (M.regime_history && M.regime_history.length) {
+    var sl = document.getElementById('tmSlider');
+    updateTimeMachine(M.regime_history.length - 1);
+    if (sl) {
+      sl.addEventListener('input', function () { updateTimeMachine(parseInt(sl.value, 10)); });
+      var rst = document.getElementById('tmReset');
+      if (rst) rst.addEventListener('click', function () { sl.value = M.regime_history.length - 1; updateTimeMachine(M.regime_history.length - 1); });
+    }
+  }
   if (M.indices) ['spx', 'kospi'].forEach(function (key) {
     var cv = document.getElementById('idx_' + key);
     if (cv && M.indices[key]) bigChart(cv, M.indices[key]);

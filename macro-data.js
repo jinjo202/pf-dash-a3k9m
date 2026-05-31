@@ -2,16 +2,16 @@
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
   "as_of": "2026-06-01",
-  "generated": "2026-05-31T16:00:36Z",
+  "generated": "2026-05-31T16:15:50Z",
   "regime": {
-    "score": 4,
+    "score": 7,
     "label": "중립 (선별적)",
     "cls": "neu",
     "pillars": {
       "macro": {
         "name": "매크로",
-        "score": -25,
-        "n": 9
+        "score": -16,
+        "n": 10
       },
       "valuation": {
         "name": "밸류에이션",
@@ -35,6 +35,2239 @@ window.MACRO = {
       }
     }
   },
+  "cycle": {
+    "phase": "확장 (Expansion)",
+    "cls": "strong-pos",
+    "desc": "선행지수 추세 상회 + 상승. 위험자산·경기민감(시클리컬·반도체) 우호.",
+    "cli": 100.8,
+    "chg6": 0.79
+  },
+  "country_pref": {
+    "US": {
+      "name": "미국",
+      "pe": 23.9,
+      "fair_pe": 19.0,
+      "components": {
+        "val": -85,
+        "earn": 43,
+        "fx": 0,
+        "mon": -10,
+        "cycle": 63
+      },
+      "horizon": {
+        "m1": 24,
+        "m3": 12,
+        "m12": -4
+      },
+      "fx_val": null,
+      "fx_chg": null,
+      "cli": 100.8,
+      "phase": "확장 (Expansion)",
+      "mon_note": "Fed 동결·인하 지연(제약적)"
+    },
+    "KR": {
+      "name": "한국",
+      "pe": 6.7,
+      "fair_pe": 11.0,
+      "components": {
+        "val": 100,
+        "earn": 20,
+        "fx": -100,
+        "mon": 10,
+        "cycle": 100
+      },
+      "horizon": {
+        "m1": -8,
+        "m3": 26,
+        "m12": 46
+      },
+      "fx_val": 1517.3,
+      "fx_chg": -5.4,
+      "cli": 102.5,
+      "phase": "확장 (Expansion)",
+      "mon_note": "BOK 동결·완화 여지"
+    },
+    "EU": {
+      "name": "유럽",
+      "pe": 14.5,
+      "fair_pe": 14.0,
+      "components": {
+        "val": -12,
+        "earn": 38,
+        "fx": -37,
+        "mon": 30,
+        "cycle": 0
+      },
+      "horizon": {
+        "m1": 3,
+        "m3": 5,
+        "m12": 7
+      },
+      "fx_val": 1.2,
+      "fx_chg": -1.9,
+      "cli": null,
+      "phase": null,
+      "mon_note": "ECB 완화 사이클(+)"
+    },
+    "JP": {
+      "name": "일본",
+      "pe": 15.0,
+      "fair_pe": 15.0,
+      "components": {
+        "val": 0,
+        "earn": 43,
+        "fx": -40,
+        "mon": -40,
+        "cycle": 33
+      },
+      "horizon": {
+        "m1": 0,
+        "m3": 5,
+        "m12": 7
+      },
+      "fx_val": 159.2,
+      "fx_chg": -2.0,
+      "cli": 100.3,
+      "phase": "확장 (Expansion)",
+      "mon_note": "BOJ 정상화(긴축, −)"
+    },
+    "CN": {
+      "name": "중국",
+      "pe": 11.0,
+      "fair_pe": 13.0,
+      "components": {
+        "val": 51,
+        "earn": -14,
+        "fx": 18,
+        "mon": 30,
+        "cycle": -37
+      },
+      "horizon": {
+        "m1": -1,
+        "m3": 3,
+        "m12": 11
+      },
+      "fx_val": 6.8,
+      "fx_chg": 0.9,
+      "cli": 98.8,
+      "phase": "수축 (Contraction)",
+      "mon_note": "인민은행 부양(+)"
+    }
+  },
+  "regime_history": [
+    {
+      "date": "2010-04-01",
+      "score": 27,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 29,
+        "valuation": 9,
+        "flows": 42,
+        "sentiment": 30
+      }
+    },
+    {
+      "date": "2010-05-01",
+      "score": 4,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 42,
+        "valuation": 15,
+        "flows": -35,
+        "sentiment": -20
+      }
+    },
+    {
+      "date": "2010-06-01",
+      "score": -2,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 33,
+        "valuation": 18,
+        "flows": -43,
+        "sentiment": -28
+      }
+    },
+    {
+      "date": "2010-07-01",
+      "score": 8,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 24,
+        "valuation": 18,
+        "flows": -38,
+        "sentiment": 22
+      }
+    },
+    {
+      "date": "2010-08-01",
+      "score": -1,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 24,
+        "valuation": 18,
+        "flows": -6,
+        "sentiment": -51
+      }
+    },
+    {
+      "date": "2010-09-01",
+      "score": 17,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 11,
+        "valuation": 15,
+        "flows": 32,
+        "sentiment": 13
+      }
+    },
+    {
+      "date": "2010-10-01",
+      "score": 29,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 39,
+        "valuation": 12,
+        "flows": 31,
+        "sentiment": 34
+      }
+    },
+    {
+      "date": "2010-11-01",
+      "score": 21,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 28,
+        "valuation": 10,
+        "flows": 33,
+        "sentiment": 13
+      }
+    },
+    {
+      "date": "2010-12-01",
+      "score": 28,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 33,
+        "valuation": 7,
+        "flows": 20,
+        "sentiment": 51
+      }
+    },
+    {
+      "date": "2011-01-01",
+      "score": 23,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 25,
+        "valuation": 4,
+        "flows": 21,
+        "sentiment": 42
+      }
+    },
+    {
+      "date": "2011-02-01",
+      "score": 36,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 44,
+        "valuation": 2,
+        "flows": 49,
+        "sentiment": 48
+      }
+    },
+    {
+      "date": "2011-03-01",
+      "score": 32,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 27,
+        "valuation": 5,
+        "flows": 51,
+        "sentiment": 51
+      }
+    },
+    {
+      "date": "2011-04-01",
+      "score": 34,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 16,
+        "valuation": 4,
+        "flows": 57,
+        "sentiment": 66
+      }
+    },
+    {
+      "date": "2011-05-01",
+      "score": 27,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": -1,
+        "valuation": 4,
+        "flows": 55,
+        "sentiment": 63
+      }
+    },
+    {
+      "date": "2011-06-01",
+      "score": 27,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 6,
+        "valuation": 8,
+        "flows": 46,
+        "sentiment": 57
+      }
+    },
+    {
+      "date": "2011-07-01",
+      "score": 9,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -7,
+        "valuation": 6,
+        "flows": 31,
+        "sentiment": 14
+      }
+    },
+    {
+      "date": "2011-08-01",
+      "score": 1,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -8,
+        "valuation": 16,
+        "flows": 18,
+        "sentiment": -20
+      }
+    },
+    {
+      "date": "2011-09-01",
+      "score": -15,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 7,
+        "valuation": 18,
+        "flows": -28,
+        "sentiment": -66
+      }
+    },
+    {
+      "date": "2011-10-01",
+      "score": -10,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 8,
+        "valuation": 16,
+        "flows": -21,
+        "sentiment": -50
+      }
+    },
+    {
+      "date": "2011-11-01",
+      "score": -10,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 13,
+        "valuation": 15,
+        "flows": -27,
+        "sentiment": -50
+      }
+    },
+    {
+      "date": "2011-12-01",
+      "score": 8,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 33,
+        "valuation": 15,
+        "flows": 25,
+        "sentiment": -47
+      }
+    },
+    {
+      "date": "2012-01-01",
+      "score": 18,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 41,
+        "valuation": 12,
+        "flows": -5,
+        "sentiment": 15
+      }
+    },
+    {
+      "date": "2012-02-01",
+      "score": 26,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 39,
+        "valuation": 9,
+        "flows": 29,
+        "sentiment": 23
+      }
+    },
+    {
+      "date": "2012-03-01",
+      "score": 34,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 44,
+        "valuation": 8,
+        "flows": 34,
+        "sentiment": 48
+      }
+    },
+    {
+      "date": "2012-04-01",
+      "score": 18,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 28,
+        "valuation": 9,
+        "flows": 4,
+        "sentiment": 28
+      }
+    },
+    {
+      "date": "2012-05-01",
+      "score": 1,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 34,
+        "valuation": 13,
+        "flows": -31,
+        "sentiment": -24
+      }
+    },
+    {
+      "date": "2012-06-01",
+      "score": 16,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 24,
+        "valuation": 14,
+        "flows": -5,
+        "sentiment": 30
+      }
+    },
+    {
+      "date": "2012-07-01",
+      "score": 20,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 28,
+        "valuation": 12,
+        "flows": 6,
+        "sentiment": 33
+      }
+    },
+    {
+      "date": "2012-08-01",
+      "score": 32,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 28,
+        "valuation": 11,
+        "flows": 41,
+        "sentiment": 53
+      }
+    },
+    {
+      "date": "2012-09-01",
+      "score": 34,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 33,
+        "valuation": 9,
+        "flows": 36,
+        "sentiment": 61
+      }
+    },
+    {
+      "date": "2012-10-01",
+      "score": 37,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 39,
+        "valuation": 10,
+        "flows": 53,
+        "sentiment": 47
+      }
+    },
+    {
+      "date": "2012-11-01",
+      "score": 41,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 46,
+        "valuation": 13,
+        "flows": 47,
+        "sentiment": 61
+      }
+    },
+    {
+      "date": "2012-12-01",
+      "score": 38,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 40,
+        "valuation": 12,
+        "flows": 50,
+        "sentiment": 50
+      }
+    },
+    {
+      "date": "2013-01-01",
+      "score": 33,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 35,
+        "valuation": 9,
+        "flows": 20,
+        "sentiment": 69
+      }
+    },
+    {
+      "date": "2013-02-01",
+      "score": 33,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 45,
+        "valuation": 8,
+        "flows": 14,
+        "sentiment": 62
+      }
+    },
+    {
+      "date": "2013-03-01",
+      "score": 30,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 50,
+        "valuation": 7,
+        "flows": -19,
+        "sentiment": 76
+      }
+    },
+    {
+      "date": "2013-04-01",
+      "score": 37,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 60,
+        "valuation": 6,
+        "flows": 5,
+        "sentiment": 72
+      }
+    },
+    {
+      "date": "2013-05-01",
+      "score": 28,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 58,
+        "valuation": 2,
+        "flows": -15,
+        "sentiment": 58
+      }
+    },
+    {
+      "date": "2013-06-01",
+      "score": 26,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 44,
+        "valuation": 4,
+        "flows": -7,
+        "sentiment": 56
+      }
+    },
+    {
+      "date": "2013-07-01",
+      "score": 29,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 38,
+        "valuation": 2,
+        "flows": 3,
+        "sentiment": 73
+      }
+    },
+    {
+      "date": "2013-08-01",
+      "score": 38,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 51,
+        "valuation": 3,
+        "flows": 41,
+        "sentiment": 55
+      }
+    },
+    {
+      "date": "2013-09-01",
+      "score": 40,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 48,
+        "valuation": 2,
+        "flows": 53,
+        "sentiment": 57
+      }
+    },
+    {
+      "date": "2013-10-01",
+      "score": 42,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 46,
+        "valuation": 1,
+        "flows": 55,
+        "sentiment": 71
+      }
+    },
+    {
+      "date": "2013-11-01",
+      "score": 44,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 52,
+        "valuation": -3,
+        "flows": 56,
+        "sentiment": 72
+      }
+    },
+    {
+      "date": "2013-12-01",
+      "score": 38,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 41,
+        "valuation": -4,
+        "flows": 45,
+        "sentiment": 71
+      }
+    },
+    {
+      "date": "2014-01-01",
+      "score": 28,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 52,
+        "valuation": -4,
+        "flows": 12,
+        "sentiment": 48
+      }
+    },
+    {
+      "date": "2014-02-01",
+      "score": 34,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 46,
+        "valuation": -2,
+        "flows": 23,
+        "sentiment": 70
+      }
+    },
+    {
+      "date": "2014-03-01",
+      "score": 34,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 46,
+        "valuation": -4,
+        "flows": 24,
+        "sentiment": 71
+      }
+    },
+    {
+      "date": "2014-04-01",
+      "score": 46,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 51,
+        "valuation": -3,
+        "flows": 68,
+        "sentiment": 73
+      }
+    },
+    {
+      "date": "2014-05-01",
+      "score": 45,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 41,
+        "valuation": -4,
+        "flows": 66,
+        "sentiment": 83
+      }
+    },
+    {
+      "date": "2014-06-01",
+      "score": 47,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 51,
+        "valuation": -6,
+        "flows": 67,
+        "sentiment": 82
+      }
+    },
+    {
+      "date": "2014-07-01",
+      "score": 33,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 46,
+        "valuation": -8,
+        "flows": 38,
+        "sentiment": 55
+      }
+    },
+    {
+      "date": "2014-08-01",
+      "score": 41,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 54,
+        "valuation": -7,
+        "flows": 38,
+        "sentiment": 80
+      }
+    },
+    {
+      "date": "2014-09-01",
+      "score": 29,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 59,
+        "valuation": -8,
+        "flows": -2,
+        "sentiment": 58
+      }
+    },
+    {
+      "date": "2014-10-01",
+      "score": 34,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 66,
+        "valuation": -5,
+        "flows": -5,
+        "sentiment": 70
+      }
+    },
+    {
+      "date": "2014-11-01",
+      "score": 33,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 69,
+        "valuation": -11,
+        "flows": -8,
+        "sentiment": 73
+      }
+    },
+    {
+      "date": "2014-12-01",
+      "score": 29,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 78,
+        "valuation": -12,
+        "flows": -5,
+        "sentiment": 44
+      }
+    },
+    {
+      "date": "2015-01-01",
+      "score": 25,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 67,
+        "valuation": -10,
+        "flows": -3,
+        "sentiment": 35
+      }
+    },
+    {
+      "date": "2015-02-01",
+      "score": 44,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 75,
+        "valuation": -12,
+        "flows": 36,
+        "sentiment": 73
+      }
+    },
+    {
+      "date": "2015-03-01",
+      "score": 31,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 57,
+        "valuation": -11,
+        "flows": 10,
+        "sentiment": 63
+      }
+    },
+    {
+      "date": "2015-04-01",
+      "score": 44,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 72,
+        "valuation": -12,
+        "flows": 46,
+        "sentiment": 67
+      }
+    },
+    {
+      "date": "2015-05-01",
+      "score": 33,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 60,
+        "valuation": -12,
+        "flows": 11,
+        "sentiment": 68
+      }
+    },
+    {
+      "date": "2015-06-01",
+      "score": 25,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 61,
+        "valuation": -10,
+        "flows": 9,
+        "sentiment": 31
+      }
+    },
+    {
+      "date": "2015-07-01",
+      "score": 30,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 65,
+        "valuation": -10,
+        "flows": -19,
+        "sentiment": 74
+      }
+    },
+    {
+      "date": "2015-08-01",
+      "score": -6,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 61,
+        "valuation": -7,
+        "flows": -24,
+        "sentiment": -75
+      }
+    },
+    {
+      "date": "2015-09-01",
+      "score": -4,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 54,
+        "valuation": -2,
+        "flows": -28,
+        "sentiment": -61
+      }
+    },
+    {
+      "date": "2015-10-01",
+      "score": 31,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 61,
+        "valuation": -6,
+        "flows": 24,
+        "sentiment": 40
+      }
+    },
+    {
+      "date": "2015-11-01",
+      "score": 27,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 52,
+        "valuation": -9,
+        "flows": 35,
+        "sentiment": 26
+      }
+    },
+    {
+      "date": "2015-12-01",
+      "score": 12,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 48,
+        "valuation": -8,
+        "flows": 20,
+        "sentiment": -23
+      }
+    },
+    {
+      "date": "2016-01-01",
+      "score": -6,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 37,
+        "valuation": -1,
+        "flows": -33,
+        "sentiment": -40
+      }
+    },
+    {
+      "date": "2016-02-01",
+      "score": -7,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 46,
+        "valuation": 0,
+        "flows": -33,
+        "sentiment": -60
+      }
+    },
+    {
+      "date": "2016-03-01",
+      "score": 28,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 45,
+        "valuation": -6,
+        "flows": 35,
+        "sentiment": 34
+      }
+    },
+    {
+      "date": "2016-04-01",
+      "score": 24,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 34,
+        "valuation": -8,
+        "flows": 50,
+        "sentiment": 23
+      }
+    },
+    {
+      "date": "2016-05-01",
+      "score": 27,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 33,
+        "valuation": -7,
+        "flows": 50,
+        "sentiment": 32
+      }
+    },
+    {
+      "date": "2016-06-01",
+      "score": 20,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 47,
+        "valuation": -8,
+        "flows": 2,
+        "sentiment": 33
+      }
+    },
+    {
+      "date": "2016-07-01",
+      "score": 36,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 51,
+        "valuation": -11,
+        "flows": 46,
+        "sentiment": 57
+      }
+    },
+    {
+      "date": "2016-08-01",
+      "score": 35,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 30,
+        "valuation": -12,
+        "flows": 56,
+        "sentiment": 71
+      }
+    },
+    {
+      "date": "2016-09-01",
+      "score": 36,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 33,
+        "valuation": -11,
+        "flows": 54,
+        "sentiment": 74
+      }
+    },
+    {
+      "date": "2016-10-01",
+      "score": 9,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 22,
+        "valuation": -11,
+        "flows": -4,
+        "sentiment": 27
+      }
+    },
+    {
+      "date": "2016-11-01",
+      "score": 19,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 34,
+        "valuation": -12,
+        "flows": -6,
+        "sentiment": 57
+      }
+    },
+    {
+      "date": "2016-12-01",
+      "score": 23,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 40,
+        "valuation": -16,
+        "flows": -2,
+        "sentiment": 67
+      }
+    },
+    {
+      "date": "2017-01-01",
+      "score": 30,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 34,
+        "valuation": -17,
+        "flows": 27,
+        "sentiment": 80
+      }
+    },
+    {
+      "date": "2017-02-01",
+      "score": 35,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 26,
+        "valuation": -19,
+        "flows": 67,
+        "sentiment": 75
+      }
+    },
+    {
+      "date": "2017-03-01",
+      "score": 37,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 31,
+        "valuation": -21,
+        "flows": 66,
+        "sentiment": 78
+      }
+    },
+    {
+      "date": "2017-04-01",
+      "score": 39,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 49,
+        "valuation": -20,
+        "flows": 43,
+        "sentiment": 86
+      }
+    },
+    {
+      "date": "2017-05-01",
+      "score": 40,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 53,
+        "valuation": -22,
+        "flows": 41,
+        "sentiment": 88
+      }
+    },
+    {
+      "date": "2017-06-01",
+      "score": 31,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 50,
+        "valuation": -24,
+        "flows": 14,
+        "sentiment": 84
+      }
+    },
+    {
+      "date": "2017-07-01",
+      "score": 37,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 38,
+        "valuation": -25,
+        "flows": 50,
+        "sentiment": 89
+      }
+    },
+    {
+      "date": "2017-08-01",
+      "score": 32,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 35,
+        "valuation": -25,
+        "flows": 33,
+        "sentiment": 87
+      }
+    },
+    {
+      "date": "2017-09-01",
+      "score": 32,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 28,
+        "valuation": -26,
+        "flows": 39,
+        "sentiment": 92
+      }
+    },
+    {
+      "date": "2017-10-01",
+      "score": 34,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 37,
+        "valuation": -29,
+        "flows": 46,
+        "sentiment": 89
+      }
+    },
+    {
+      "date": "2017-11-01",
+      "score": 41,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 43,
+        "valuation": -30,
+        "flows": 72,
+        "sentiment": 84
+      }
+    },
+    {
+      "date": "2017-12-01",
+      "score": 39,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 37,
+        "valuation": -34,
+        "flows": 77,
+        "sentiment": 85
+      }
+    },
+    {
+      "date": "2018-01-01",
+      "score": 34,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 33,
+        "valuation": -39,
+        "flows": 79,
+        "sentiment": 72
+      }
+    },
+    {
+      "date": "2018-02-01",
+      "score": 24,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 44,
+        "valuation": -34,
+        "flows": 43,
+        "sentiment": 41
+      }
+    },
+    {
+      "date": "2018-03-01",
+      "score": 21,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 35,
+        "valuation": -33,
+        "flows": 42,
+        "sentiment": 40
+      }
+    },
+    {
+      "date": "2018-04-01",
+      "score": 20,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 19,
+        "valuation": -29,
+        "flows": 35,
+        "sentiment": 60
+      }
+    },
+    {
+      "date": "2018-05-01",
+      "score": 23,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 28,
+        "valuation": -30,
+        "flows": 35,
+        "sentiment": 63
+      }
+    },
+    {
+      "date": "2018-06-01",
+      "score": 11,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 17,
+        "valuation": -32,
+        "flows": -1,
+        "sentiment": 60
+      }
+    },
+    {
+      "date": "2018-07-01",
+      "score": 12,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 8,
+        "valuation": -33,
+        "flows": 2,
+        "sentiment": 76
+      }
+    },
+    {
+      "date": "2018-08-01",
+      "score": 15,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 19,
+        "valuation": -35,
+        "flows": 3,
+        "sentiment": 76
+      }
+    },
+    {
+      "date": "2018-09-01",
+      "score": 22,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 16,
+        "valuation": -36,
+        "flows": 35,
+        "sentiment": 79
+      }
+    },
+    {
+      "date": "2018-10-01",
+      "score": -6,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 17,
+        "valuation": -29,
+        "flows": 3,
+        "sentiment": -18
+      }
+    },
+    {
+      "date": "2018-11-01",
+      "score": 10,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 19,
+        "valuation": -26,
+        "flows": 18,
+        "sentiment": 29
+      }
+    },
+    {
+      "date": "2018-12-01",
+      "score": -12,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 25,
+        "valuation": -18,
+        "flows": 15,
+        "sentiment": -78
+      }
+    },
+    {
+      "date": "2019-01-01",
+      "score": 7,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 26,
+        "valuation": -18,
+        "flows": 46,
+        "sentiment": -27
+      }
+    },
+    {
+      "date": "2019-02-01",
+      "score": 11,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 10,
+        "valuation": -23,
+        "flows": 21,
+        "sentiment": 40
+      }
+    },
+    {
+      "date": "2019-03-01",
+      "score": 17,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 27,
+        "valuation": -23,
+        "flows": 5,
+        "sentiment": 61
+      }
+    },
+    {
+      "date": "2019-04-01",
+      "score": 18,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 29,
+        "valuation": -26,
+        "flows": -5,
+        "sentiment": 74
+      }
+    },
+    {
+      "date": "2019-05-01",
+      "score": -6,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 18,
+        "valuation": -22,
+        "flows": -9,
+        "sentiment": -18
+      }
+    },
+    {
+      "date": "2019-06-01",
+      "score": 20,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 33,
+        "valuation": -22,
+        "flows": 13,
+        "sentiment": 57
+      }
+    },
+    {
+      "date": "2019-07-01",
+      "score": 13,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 16,
+        "valuation": -25,
+        "flows": 20,
+        "sentiment": 44
+      }
+    },
+    {
+      "date": "2019-08-01",
+      "score": 7,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 21,
+        "valuation": -20,
+        "flows": 14,
+        "sentiment": 13
+      }
+    },
+    {
+      "date": "2019-09-01",
+      "score": 10,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 27,
+        "valuation": -22,
+        "flows": 0,
+        "sentiment": 31
+      }
+    },
+    {
+      "date": "2019-10-01",
+      "score": 29,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 23,
+        "valuation": -20,
+        "flows": 45,
+        "sentiment": 74
+      }
+    },
+    {
+      "date": "2019-11-01",
+      "score": 31,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 21,
+        "valuation": -24,
+        "flows": 61,
+        "sentiment": 77
+      }
+    },
+    {
+      "date": "2019-12-01",
+      "score": 29,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 10,
+        "valuation": -26,
+        "flows": 72,
+        "sentiment": 71
+      }
+    },
+    {
+      "date": "2020-01-01",
+      "score": 15,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 28,
+        "valuation": -29,
+        "flows": 17,
+        "sentiment": 46
+      }
+    },
+    {
+      "date": "2020-02-01",
+      "score": -6,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 38,
+        "valuation": -28,
+        "flows": 1,
+        "sentiment": -44
+      }
+    },
+    {
+      "date": "2020-03-01",
+      "score": -25,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 7,
+        "valuation": -3,
+        "flows": -33,
+        "sentiment": -85
+      }
+    },
+    {
+      "date": "2020-04-01",
+      "score": -18,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 6,
+        "valuation": -8,
+        "flows": -4,
+        "sentiment": -72
+      }
+    },
+    {
+      "date": "2020-05-01",
+      "score": 4,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 27,
+        "valuation": -14,
+        "flows": -7,
+        "sentiment": 2
+      }
+    },
+    {
+      "date": "2020-06-01",
+      "score": 7,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 30,
+        "valuation": -20,
+        "flows": 30,
+        "sentiment": -17
+      }
+    },
+    {
+      "date": "2020-07-01",
+      "score": 19,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 47,
+        "valuation": -23,
+        "flows": 32,
+        "sentiment": 15
+      }
+    },
+    {
+      "date": "2020-08-01",
+      "score": 19,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": 41,
+        "valuation": -30,
+        "flows": 55,
+        "sentiment": 8
+      }
+    },
+    {
+      "date": "2020-09-01",
+      "score": 20,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 47,
+        "valuation": -28,
+        "flows": 48,
+        "sentiment": 8
+      }
+    },
+    {
+      "date": "2020-10-01",
+      "score": 21,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 59,
+        "valuation": -30,
+        "flows": 56,
+        "sentiment": -5
+      }
+    },
+    {
+      "date": "2020-11-01",
+      "score": 31,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 56,
+        "valuation": -35,
+        "flows": 64,
+        "sentiment": 37
+      }
+    },
+    {
+      "date": "2020-12-01",
+      "score": 22,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 38,
+        "valuation": -41,
+        "flows": 67,
+        "sentiment": 26
+      }
+    },
+    {
+      "date": "2021-01-01",
+      "score": 17,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 58,
+        "valuation": -44,
+        "flows": 47,
+        "sentiment": 1
+      }
+    },
+    {
+      "date": "2021-02-01",
+      "score": 8,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 49,
+        "valuation": -46,
+        "flows": 21,
+        "sentiment": 0
+      }
+    },
+    {
+      "date": "2021-03-01",
+      "score": 12,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 42,
+        "valuation": -46,
+        "flows": 4,
+        "sentiment": 43
+      }
+    },
+    {
+      "date": "2021-04-01",
+      "score": 14,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 21,
+        "valuation": -50,
+        "flows": 42,
+        "sentiment": 47
+      }
+    },
+    {
+      "date": "2021-05-01",
+      "score": 16,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 17,
+        "valuation": -50,
+        "flows": 46,
+        "sentiment": 56
+      }
+    },
+    {
+      "date": "2021-06-01",
+      "score": 14,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 12,
+        "valuation": -50,
+        "flows": 39,
+        "sentiment": 61
+      }
+    },
+    {
+      "date": "2021-07-01",
+      "score": 4,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 11,
+        "valuation": -50,
+        "flows": 10,
+        "sentiment": 49
+      }
+    },
+    {
+      "date": "2021-08-01",
+      "score": 3,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 3,
+        "valuation": -50,
+        "flows": 7,
+        "sentiment": 58
+      }
+    },
+    {
+      "date": "2021-09-01",
+      "score": -3,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 7,
+        "valuation": -50,
+        "flows": 9,
+        "sentiment": 24
+      }
+    },
+    {
+      "date": "2021-10-01",
+      "score": 8,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 3,
+        "valuation": -50,
+        "flows": 27,
+        "sentiment": 59
+      }
+    },
+    {
+      "date": "2021-11-01",
+      "score": -7,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 0,
+        "valuation": -50,
+        "flows": 19,
+        "sentiment": 4
+      }
+    },
+    {
+      "date": "2021-12-01",
+      "score": 9,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": 1,
+        "valuation": -50,
+        "flows": 38,
+        "sentiment": 54
+      }
+    },
+    {
+      "date": "2022-01-01",
+      "score": -8,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": -8,
+        "valuation": -50,
+        "flows": 14,
+        "sentiment": 16
+      }
+    },
+    {
+      "date": "2022-02-01",
+      "score": -17,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": -14,
+        "valuation": -47,
+        "flows": 17,
+        "sentiment": -21
+      }
+    },
+    {
+      "date": "2022-03-01",
+      "score": -3,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": -19,
+        "valuation": -43,
+        "flows": 21,
+        "sentiment": 37
+      }
+    },
+    {
+      "date": "2022-04-01",
+      "score": -31,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": -17,
+        "valuation": -41,
+        "flows": 4,
+        "sentiment": -73
+      }
+    },
+    {
+      "date": "2022-05-01",
+      "score": -26,
+      "phase": "둔화·후기 (Late-cycle)",
+      "pillars": {
+        "macro": -15,
+        "valuation": -28,
+        "flows": 5,
+        "sentiment": -67
+      }
+    },
+    {
+      "date": "2022-06-01",
+      "score": -36,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -22,
+        "valuation": -21,
+        "flows": -3,
+        "sentiment": -100
+      }
+    },
+    {
+      "date": "2022-07-01",
+      "score": -27,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -27,
+        "valuation": -21,
+        "flows": -4,
+        "sentiment": -57
+      }
+    },
+    {
+      "date": "2022-08-01",
+      "score": -39,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -33,
+        "valuation": -28,
+        "flows": -7,
+        "sentiment": -89
+      }
+    },
+    {
+      "date": "2022-09-01",
+      "score": -39,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -27,
+        "valuation": -18,
+        "flows": -17,
+        "sentiment": -100
+      }
+    },
+    {
+      "date": "2022-10-01",
+      "score": -38,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -30,
+        "valuation": -13,
+        "flows": -26,
+        "sentiment": -89
+      }
+    },
+    {
+      "date": "2022-11-01",
+      "score": -17,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -32,
+        "valuation": -18,
+        "flows": 22,
+        "sentiment": -33
+      }
+    },
+    {
+      "date": "2022-12-01",
+      "score": -23,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -34,
+        "valuation": -18,
+        "flows": 32,
+        "sentiment": -68
+      }
+    },
+    {
+      "date": "2023-01-01",
+      "score": -8,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -16,
+        "valuation": -18,
+        "flows": 30,
+        "sentiment": -24
+      }
+    },
+    {
+      "date": "2023-02-01",
+      "score": -20,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -17,
+        "valuation": -21,
+        "flows": -13,
+        "sentiment": -29
+      }
+    },
+    {
+      "date": "2023-03-01",
+      "score": -30,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -31,
+        "valuation": -16,
+        "flows": -57,
+        "sentiment": -19
+      }
+    },
+    {
+      "date": "2023-04-01",
+      "score": -17,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -17,
+        "valuation": -20,
+        "flows": -61,
+        "sentiment": 29
+      }
+    },
+    {
+      "date": "2023-05-01",
+      "score": -10,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -13,
+        "valuation": -20,
+        "flows": -27,
+        "sentiment": 19
+      }
+    },
+    {
+      "date": "2023-06-01",
+      "score": 0,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -11,
+        "valuation": -25,
+        "flows": -30,
+        "sentiment": 72
+      }
+    },
+    {
+      "date": "2023-07-01",
+      "score": 8,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -16,
+        "valuation": -29,
+        "flows": 18,
+        "sentiment": 72
+      }
+    },
+    {
+      "date": "2023-08-01",
+      "score": 0,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -24,
+        "valuation": -25,
+        "flows": -15,
+        "sentiment": 72
+      }
+    },
+    {
+      "date": "2023-09-01",
+      "score": -15,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -41,
+        "valuation": -24,
+        "flows": -39,
+        "sentiment": 52
+      }
+    },
+    {
+      "date": "2023-10-01",
+      "score": -24,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -35,
+        "valuation": -20,
+        "flows": -47,
+        "sentiment": 7
+      }
+    },
+    {
+      "date": "2023-11-01",
+      "score": 6,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -31,
+        "valuation": -25,
+        "flows": 20,
+        "sentiment": 75
+      }
+    },
+    {
+      "date": "2023-12-01",
+      "score": 9,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -28,
+        "valuation": -31,
+        "flows": 32,
+        "sentiment": 78
+      }
+    },
+    {
+      "date": "2024-01-01",
+      "score": 7,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -13,
+        "valuation": -33,
+        "flows": 15,
+        "sentiment": 68
+      }
+    },
+    {
+      "date": "2024-02-01",
+      "score": -6,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -24,
+        "valuation": -38,
+        "flows": -27,
+        "sentiment": 73
+      }
+    },
+    {
+      "date": "2024-03-01",
+      "score": -3,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -24,
+        "valuation": -41,
+        "flows": -15,
+        "sentiment": 75
+      }
+    },
+    {
+      "date": "2024-04-01",
+      "score": -8,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -37,
+        "valuation": -38,
+        "flows": -7,
+        "sentiment": 62
+      }
+    },
+    {
+      "date": "2024-05-01",
+      "score": -6,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -37,
+        "valuation": -41,
+        "flows": -8,
+        "sentiment": 75
+      }
+    },
+    {
+      "date": "2024-06-01",
+      "score": -4,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -38,
+        "valuation": -45,
+        "flows": 1,
+        "sentiment": 78
+      }
+    },
+    {
+      "date": "2024-07-01",
+      "score": -2,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -35,
+        "valuation": -48,
+        "flows": 34,
+        "sentiment": 58
+      }
+    },
+    {
+      "date": "2024-08-01",
+      "score": 8,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -29,
+        "valuation": -46,
+        "flows": 60,
+        "sentiment": 65
+      }
+    },
+    {
+      "date": "2024-09-01",
+      "score": 14,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -3,
+        "valuation": -49,
+        "flows": 65,
+        "sentiment": 56
+      }
+    },
+    {
+      "date": "2024-10-01",
+      "score": -3,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -11,
+        "valuation": -50,
+        "flows": 31,
+        "sentiment": 24
+      }
+    },
+    {
+      "date": "2024-11-01",
+      "score": 4,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -7,
+        "valuation": -50,
+        "flows": 9,
+        "sentiment": 72
+      }
+    },
+    {
+      "date": "2024-12-01",
+      "score": 2,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": 1,
+        "valuation": -50,
+        "flows": 9,
+        "sentiment": 53
+      }
+    },
+    {
+      "date": "2025-01-01",
+      "score": -3,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -19,
+        "valuation": -50,
+        "flows": 8,
+        "sentiment": 58
+      }
+    },
+    {
+      "date": "2025-02-01",
+      "score": -7,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -16,
+        "valuation": -50,
+        "flows": 5,
+        "sentiment": 42
+      }
+    },
+    {
+      "date": "2025-03-01",
+      "score": -11,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -12,
+        "valuation": -45,
+        "flows": 37,
+        "sentiment": -19
+      }
+    },
+    {
+      "date": "2025-04-01",
+      "score": -2,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -5,
+        "valuation": -36,
+        "flows": 56,
+        "sentiment": -18
+      }
+    },
+    {
+      "date": "2025-05-01",
+      "score": 10,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -14,
+        "valuation": -46,
+        "flows": 68,
+        "sentiment": 47
+      }
+    },
+    {
+      "date": "2025-06-01",
+      "score": 11,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -18,
+        "valuation": -50,
+        "flows": 72,
+        "sentiment": 56
+      }
+    },
+    {
+      "date": "2025-07-01",
+      "score": 9,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -20,
+        "valuation": -50,
+        "flows": 67,
+        "sentiment": 56
+      }
+    },
+    {
+      "date": "2025-08-01",
+      "score": 1,
+      "phase": "수축 (Contraction)",
+      "pillars": {
+        "macro": -25,
+        "valuation": -50,
+        "flows": 31,
+        "sentiment": 63
+      }
+    },
+    {
+      "date": "2025-09-01",
+      "score": -3,
+      "phase": "회복 (Recovery)",
+      "pillars": {
+        "macro": -21,
+        "valuation": -50,
+        "flows": 8,
+        "sentiment": 59
+      }
+    },
+    {
+      "date": "2025-11-01",
+      "score": -1,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": -8,
+        "valuation": -50,
+        "flows": 3,
+        "sentiment": 58
+      }
+    },
+    {
+      "date": "2025-12-01",
+      "score": 3,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": -3,
+        "valuation": -50,
+        "flows": 6,
+        "sentiment": 65
+      }
+    },
+    {
+      "date": "2026-01-01",
+      "score": 11,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": 16,
+        "valuation": -50,
+        "flows": 29,
+        "sentiment": 53
+      }
+    },
+    {
+      "date": "2026-02-01",
+      "score": 9,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": -6,
+        "valuation": -50,
+        "flows": 65,
+        "sentiment": 41
+      }
+    },
+    {
+      "date": "2026-03-01",
+      "score": -15,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": -9,
+        "valuation": -50,
+        "flows": 8,
+        "sentiment": -6
+      }
+    },
+    {
+      "date": "2026-04-01",
+      "score": -3,
+      "phase": "확장 (Expansion)",
+      "pillars": {
+        "macro": -24,
+        "valuation": -50,
+        "flows": 16,
+        "sentiment": 56
+      }
+    }
+  ],
   "indicators": {
     "cpi_yoy": {
       "name": "미국 CPI (YoY)",
@@ -4566,6 +6799,658 @@ window.MACRO = {
         "name": "FRED: T10Y2Y",
         "url": "https://fred.stlouisfed.org/series/T10Y2Y"
       }
+    },
+    "cli_us": {
+      "name": "OECD 경기선행지수(미)",
+      "pillar": "macro",
+      "current": 100.8,
+      "unit": "",
+      "z": 0.79,
+      "pct": 79.1,
+      "score": 0.63,
+      "signal": "강한 호재",
+      "signal_cls": "pos",
+      "desc": "100=추세선. 위·상승=확장, 아래·하락=수축 (진폭조정)",
+      "as_of": "2026-04-01",
+      "history": {
+        "dates": [
+          "2000-01-01",
+          "2000-02-01",
+          "2000-03-01",
+          "2000-04-01",
+          "2000-05-01",
+          "2000-06-01",
+          "2000-07-01",
+          "2000-08-01",
+          "2000-09-01",
+          "2000-10-01",
+          "2000-11-01",
+          "2000-12-01",
+          "2001-01-01",
+          "2001-02-01",
+          "2001-03-01",
+          "2001-04-01",
+          "2001-05-01",
+          "2001-06-01",
+          "2001-07-01",
+          "2001-08-01",
+          "2001-09-01",
+          "2001-10-01",
+          "2001-11-01",
+          "2001-12-01",
+          "2002-01-01",
+          "2002-02-01",
+          "2002-03-01",
+          "2002-04-01",
+          "2002-05-01",
+          "2002-06-01",
+          "2002-07-01",
+          "2002-08-01",
+          "2002-09-01",
+          "2002-10-01",
+          "2002-11-01",
+          "2002-12-01",
+          "2003-01-01",
+          "2003-02-01",
+          "2003-03-01",
+          "2003-04-01",
+          "2003-05-01",
+          "2003-06-01",
+          "2003-07-01",
+          "2003-08-01",
+          "2003-09-01",
+          "2003-10-01",
+          "2003-11-01",
+          "2003-12-01",
+          "2004-01-01",
+          "2004-02-01",
+          "2004-03-01",
+          "2004-04-01",
+          "2004-05-01",
+          "2004-06-01",
+          "2004-07-01",
+          "2004-08-01",
+          "2004-09-01",
+          "2004-10-01",
+          "2004-11-01",
+          "2004-12-01",
+          "2005-01-01",
+          "2005-02-01",
+          "2005-03-01",
+          "2005-04-01",
+          "2005-05-01",
+          "2005-06-01",
+          "2005-07-01",
+          "2005-08-01",
+          "2005-09-01",
+          "2005-10-01",
+          "2005-11-01",
+          "2005-12-01",
+          "2006-01-01",
+          "2006-02-01",
+          "2006-03-01",
+          "2006-04-01",
+          "2006-05-01",
+          "2006-06-01",
+          "2006-07-01",
+          "2006-08-01",
+          "2006-09-01",
+          "2006-10-01",
+          "2006-11-01",
+          "2006-12-01",
+          "2007-01-01",
+          "2007-02-01",
+          "2007-03-01",
+          "2007-04-01",
+          "2007-05-01",
+          "2007-06-01",
+          "2007-07-01",
+          "2007-08-01",
+          "2007-09-01",
+          "2007-10-01",
+          "2007-11-01",
+          "2007-12-01",
+          "2008-01-01",
+          "2008-02-01",
+          "2008-03-01",
+          "2008-04-01",
+          "2008-05-01",
+          "2008-06-01",
+          "2008-07-01",
+          "2008-08-01",
+          "2008-09-01",
+          "2008-10-01",
+          "2008-11-01",
+          "2008-12-01",
+          "2009-01-01",
+          "2009-02-01",
+          "2009-03-01",
+          "2009-04-01",
+          "2009-05-01",
+          "2009-06-01",
+          "2009-07-01",
+          "2009-08-01",
+          "2009-09-01",
+          "2009-10-01",
+          "2009-11-01",
+          "2009-12-01",
+          "2010-01-01",
+          "2010-02-01",
+          "2010-03-01",
+          "2010-04-01",
+          "2010-05-01",
+          "2010-06-01",
+          "2010-07-01",
+          "2010-08-01",
+          "2010-09-01",
+          "2010-10-01",
+          "2010-11-01",
+          "2010-12-01",
+          "2011-01-01",
+          "2011-02-01",
+          "2011-03-01",
+          "2011-04-01",
+          "2011-05-01",
+          "2011-06-01",
+          "2011-07-01",
+          "2011-08-01",
+          "2011-09-01",
+          "2011-10-01",
+          "2011-11-01",
+          "2011-12-01",
+          "2012-01-01",
+          "2012-02-01",
+          "2012-03-01",
+          "2012-04-01",
+          "2012-05-01",
+          "2012-06-01",
+          "2012-07-01",
+          "2012-08-01",
+          "2012-09-01",
+          "2012-10-01",
+          "2012-11-01",
+          "2012-12-01",
+          "2013-01-01",
+          "2013-02-01",
+          "2013-03-01",
+          "2013-04-01",
+          "2013-05-01",
+          "2013-06-01",
+          "2013-07-01",
+          "2013-08-01",
+          "2013-09-01",
+          "2013-10-01",
+          "2013-11-01",
+          "2013-12-01",
+          "2014-01-01",
+          "2014-02-01",
+          "2014-03-01",
+          "2014-04-01",
+          "2014-05-01",
+          "2014-06-01",
+          "2014-07-01",
+          "2014-08-01",
+          "2014-09-01",
+          "2014-10-01",
+          "2014-11-01",
+          "2014-12-01",
+          "2015-01-01",
+          "2015-02-01",
+          "2015-03-01",
+          "2015-04-01",
+          "2015-05-01",
+          "2015-06-01",
+          "2015-07-01",
+          "2015-08-01",
+          "2015-09-01",
+          "2015-10-01",
+          "2015-11-01",
+          "2015-12-01",
+          "2016-01-01",
+          "2016-02-01",
+          "2016-03-01",
+          "2016-04-01",
+          "2016-05-01",
+          "2016-06-01",
+          "2016-07-01",
+          "2016-08-01",
+          "2016-09-01",
+          "2016-10-01",
+          "2016-11-01",
+          "2016-12-01",
+          "2017-01-01",
+          "2017-02-01",
+          "2017-03-01",
+          "2017-04-01",
+          "2017-05-01",
+          "2017-06-01",
+          "2017-07-01",
+          "2017-08-01",
+          "2017-09-01",
+          "2017-10-01",
+          "2017-11-01",
+          "2017-12-01",
+          "2018-01-01",
+          "2018-02-01",
+          "2018-03-01",
+          "2018-04-01",
+          "2018-05-01",
+          "2018-06-01",
+          "2018-07-01",
+          "2018-08-01",
+          "2018-09-01",
+          "2018-10-01",
+          "2018-11-01",
+          "2018-12-01",
+          "2019-01-01",
+          "2019-02-01",
+          "2019-03-01",
+          "2019-04-01",
+          "2019-05-01",
+          "2019-06-01",
+          "2019-07-01",
+          "2019-08-01",
+          "2019-09-01",
+          "2019-10-01",
+          "2019-11-01",
+          "2019-12-01",
+          "2020-01-01",
+          "2020-02-01",
+          "2020-03-01",
+          "2020-04-01",
+          "2020-05-01",
+          "2020-06-01",
+          "2020-07-01",
+          "2020-08-01",
+          "2020-09-01",
+          "2020-10-01",
+          "2020-11-01",
+          "2020-12-01",
+          "2021-01-01",
+          "2021-02-01",
+          "2021-03-01",
+          "2021-04-01",
+          "2021-05-01",
+          "2021-06-01",
+          "2021-07-01",
+          "2021-08-01",
+          "2021-09-01",
+          "2021-10-01",
+          "2021-11-01",
+          "2021-12-01",
+          "2022-01-01",
+          "2022-02-01",
+          "2022-03-01",
+          "2022-04-01",
+          "2022-05-01",
+          "2022-06-01",
+          "2022-07-01",
+          "2022-08-01",
+          "2022-09-01",
+          "2022-10-01",
+          "2022-11-01",
+          "2022-12-01",
+          "2023-01-01",
+          "2023-02-01",
+          "2023-03-01",
+          "2023-04-01",
+          "2023-05-01",
+          "2023-06-01",
+          "2023-07-01",
+          "2023-08-01",
+          "2023-09-01",
+          "2023-10-01",
+          "2023-11-01",
+          "2023-12-01",
+          "2024-01-01",
+          "2024-02-01",
+          "2024-03-01",
+          "2024-04-01",
+          "2024-05-01",
+          "2024-06-01",
+          "2024-07-01",
+          "2024-08-01",
+          "2024-09-01",
+          "2024-10-01",
+          "2024-11-01",
+          "2024-12-01",
+          "2025-01-01",
+          "2025-02-01",
+          "2025-03-01",
+          "2025-04-01",
+          "2025-05-01",
+          "2025-06-01",
+          "2025-07-01",
+          "2025-08-01",
+          "2025-09-01",
+          "2025-10-01",
+          "2025-11-01",
+          "2025-12-01",
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01"
+        ],
+        "values": [
+          101.3746,
+          101.3093,
+          101.2131,
+          101.095,
+          100.9493,
+          100.7852,
+          100.603,
+          100.3886,
+          100.1389,
+          99.8373,
+          99.4941,
+          99.1246,
+          98.7875,
+          98.5291,
+          98.3619,
+          98.2777,
+          98.2512,
+          98.2278,
+          98.1831,
+          98.1202,
+          98.0793,
+          98.13,
+          98.298,
+          98.5623,
+          98.8685,
+          99.1587,
+          99.3768,
+          99.4671,
+          99.4101,
+          99.2144,
+          98.9327,
+          98.6319,
+          98.3526,
+          98.1326,
+          97.987,
+          97.8892,
+          97.8177,
+          97.7833,
+          97.8183,
+          97.9501,
+          98.173,
+          98.4604,
+          98.7977,
+          99.1737,
+          99.5763,
+          99.9838,
+          100.3629,
+          100.6806,
+          100.9198,
+          101.0635,
+          101.1303,
+          101.1324,
+          101.0897,
+          101.0117,
+          100.9049,
+          100.786,
+          100.6823,
+          100.6123,
+          100.5846,
+          100.5725,
+          100.5402,
+          100.4813,
+          100.4071,
+          100.3539,
+          100.3471,
+          100.3835,
+          100.4371,
+          100.5085,
+          100.6135,
+          100.764,
+          100.9457,
+          101.1194,
+          101.2544,
+          101.3413,
+          101.374,
+          101.3483,
+          101.2867,
+          101.2254,
+          101.1858,
+          101.19,
+          101.25,
+          101.3444,
+          101.4587,
+          101.5825,
+          101.7031,
+          101.8212,
+          101.9434,
+          102.0594,
+          102.1474,
+          102.1933,
+          102.1807,
+          102.1069,
+          101.9993,
+          101.8788,
+          101.7503,
+          101.6257,
+          101.4949,
+          101.3455,
+          101.1794,
+          100.9723,
+          100.6915,
+          100.2993,
+          99.7637,
+          99.0681,
+          98.2256,
+          97.2988,
+          96.411,
+          95.6636,
+          95.1211,
+          94.8211,
+          94.7814,
+          94.9915,
+          95.3825,
+          95.8831,
+          96.4307,
+          96.9841,
+          97.512,
+          97.9964,
+          98.4394,
+          98.8463,
+          99.1974,
+          99.458,
+          99.6318,
+          99.7022,
+          99.6797,
+          99.6044,
+          99.5411,
+          99.5397,
+          99.6117,
+          99.7432,
+          99.9221,
+          100.1112,
+          100.2708,
+          100.3661,
+          100.3614,
+          100.2536,
+          100.0544,
+          99.7865,
+          99.5009,
+          99.263,
+          99.1395,
+          99.1602,
+          99.3053,
+          99.5231,
+          99.7405,
+          99.8927,
+          99.9525,
+          99.9242,
+          99.8316,
+          99.7153,
+          99.6256,
+          99.5893,
+          99.621,
+          99.695,
+          99.7934,
+          99.9178,
+          100.0616,
+          100.2085,
+          100.3325,
+          100.4478,
+          100.5616,
+          100.6509,
+          100.7044,
+          100.7345,
+          100.747,
+          100.7519,
+          100.7574,
+          100.7511,
+          100.7385,
+          100.7545,
+          100.8003,
+          100.8569,
+          100.9064,
+          100.9415,
+          100.9582,
+          100.9589,
+          100.9459,
+          100.9148,
+          100.8644,
+          100.7893,
+          100.6927,
+          100.5841,
+          100.4773,
+          100.373,
+          100.2628,
+          100.1406,
+          99.9847,
+          99.8054,
+          99.6315,
+          99.4876,
+          99.3658,
+          99.2597,
+          99.1742,
+          99.1165,
+          99.0975,
+          99.0984,
+          99.1031,
+          99.1052,
+          99.1233,
+          99.1694,
+          99.2582,
+          99.3843,
+          99.5319,
+          99.6802,
+          99.7987,
+          99.876,
+          99.9128,
+          99.9247,
+          99.9321,
+          99.9501,
+          99.9847,
+          100.0614,
+          100.1722,
+          100.3047,
+          100.4409,
+          100.5762,
+          100.7103,
+          100.8321,
+          100.9095,
+          100.9354,
+          100.919,
+          100.8715,
+          100.796,
+          100.6953,
+          100.5548,
+          100.3697,
+          100.1575,
+          99.9406,
+          99.7408,
+          99.5754,
+          99.4431,
+          99.3216,
+          99.2079,
+          99.1052,
+          99.021,
+          98.9669,
+          98.9692,
+          99.0231,
+          99.1056,
+          99.1839,
+          99.2189,
+          99.181,
+          97.7695,
+          92.8922,
+          94.4284,
+          96.2936,
+          97.8516,
+          98.5648,
+          98.8653,
+          99.2333,
+          99.6325,
+          100.0476,
+          100.4131,
+          100.766,
+          101.0765,
+          101.3134,
+          101.3737,
+          101.3689,
+          101.3146,
+          101.2453,
+          101.1935,
+          101.1644,
+          101.1417,
+          101.0959,
+          101.002,
+          100.8534,
+          100.6409,
+          100.3679,
+          100.0441,
+          99.7186,
+          99.4411,
+          99.2261,
+          99.058,
+          98.9237,
+          98.816,
+          98.7383,
+          98.6823,
+          98.6273,
+          98.5846,
+          98.5782,
+          98.6138,
+          98.6889,
+          98.7703,
+          98.8324,
+          98.8713,
+          98.9007,
+          98.952,
+          99.0412,
+          99.1553,
+          99.2701,
+          99.3608,
+          99.4056,
+          99.4124,
+          99.4109,
+          99.4351,
+          99.5011,
+          99.6088,
+          99.7341,
+          99.8512,
+          99.9258,
+          99.9349,
+          99.8843,
+          99.7987,
+          99.7218,
+          99.7028,
+          99.736,
+          99.7921,
+          99.8597,
+          99.9467,
+          100.0611,
+          100.2093,
+          100.38,
+          100.5519,
+          100.6883,
+          100.7803,
+          100.8471
+        ]
+      },
+      "source": null
     },
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
@@ -12796,7 +15681,7 @@ window.MACRO = {
                 "m3": -9.9,
                 "ytd": 45.0
               },
-              "rev30": 0.29206481424364217,
+              "rev30": 0.29798282200850235,
               "note": "수익성·밸류업"
             }
           ]
@@ -14330,7 +17215,7 @@ window.MACRO = {
     "flows": "[혼조/중립] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 95조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.5조원(강한 악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 15.7(호재)·S&P500 12M 모멘텀 28.2%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.537(강한 상향)·미국 Fwd EPS 수정(1개월) 0.3%(유지)·한국 ERR(이익수정비율) 0.243(상향 우위)·한국 Fwd EPS 수정(1개월) 0.3%(유지)",
-    "overall": "종합 레짐 점수 +4. 매크로 -25, 밸류 -28, 수급 +4, 센티 +24, 기업이익 +45."
+    "overall": "종합 레짐 점수 +7. 매크로 -16, 밸류 -28, 수급 +4, 센티 +24, 기업이익 +45."
   },
   "outlook": {
     "short": {

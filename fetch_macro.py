@@ -284,6 +284,11 @@ def score_indicator(key, cur, hist_vals, ctx):
         if cur < 0:
             return clamp(cur / 0.5)                          # -0.5%면 -1
         return clamp(cur / 1.5)
+    if key == "cli_us":
+        # 100 기준 + 모멘텀. 위·상승=확장
+        lvl = clamp((cur - 100) / 1.5)
+        trd = clamp(chg3 / 0.4)
+        return clamp(lvl * 0.6 + trd * 0.4)
     if key == "m2_yoy":
         # 유동성 증가 호재. 0% 중립, 6%+ 강세, 마이너스 악재
         return clamp(cur / 5.0)
@@ -368,6 +373,7 @@ INDICATORS = [
     ("fed_funds",    "연방기금금리",         "macro", "FEDFUNDS",  "level", 2, "%",  "실질금리가 높을수록 긴축적"),
     ("consumer_sent","소비자심리(미시간)",   "macro", "UMCSENT",   "level", 1, "",   "소비 모멘텀 선행"),
     ("yield_curve",  "장단기 금리차(10Y-2Y)","macro", "T10Y2Y",    "daily", 2, "%p", "역전은 침체 경고, 정상화는 회복 신호"),
+    ("cli_us",       "OECD 경기선행지수(미)", "macro", "USALOLITOAASTSAM", "level", 1, "", "100=추세선. 위·상승=확장, 아래·하락=수축 (진폭조정)"),
     ("oil_yoy",      "WTI 유가 (YoY)",       "macro", "DCOILWTICO","oilyoy",1, "%",  "급등 시 인플레·비용 압력"),
     # 밸류에이션
     ("spx_fwd_pe",   "S&P500 12M Fwd PER",   "valuation", "bench", "bench", 1, "배", "이익 대비 가격. 높을수록 기대수익 낮음"),
@@ -876,6 +882,154 @@ def build_ai():
             "capex_source": AI_CAPEX_SOURCE}
 
 
+def cycle_phase(vals):
+    """CLI 시계열 → 경기국면(4단계)."""
+    if not vals or len(vals) < 7:
+        return None
+    cur = vals[-1]
+    rising = (cur - vals[-7]) > 0
+    above = cur >= 100
+    if above and rising:
+        return {"phase": "확장 (Expansion)", "cls": "strong-pos",
+                "desc": "선행지수 추세 상회 + 상승. 위험자산·경기민감(시클리컬·반도체) 우호."}
+    if above and not rising:
+        return {"phase": "둔화·후기 (Late-cycle)", "cls": "neu",
+                "desc": "추세 상회하나 모멘텀 둔화. 퀄리티·방어주 비중 점검, 후기 사이클."}
+    if (not above) and (not rising):
+        return {"phase": "수축 (Contraction)", "cls": "neg",
+                "desc": "추세 하회 + 하락. 방어적 포지션·현금비중↑, 듀레이션(국채) 점검."}
+    return {"phase": "회복 (Recovery)", "cls": "pos",
+            "desc": "추세 하회하나 반등. 바닥 통과 가능성 — 선제적 리스크온 점검."}
+
+
+# ── 국가 선호도 설정 ──────────────────────────────────────────────────────
+COUNTRY_PREF_CFG = {
+    "US": {"name": "미국", "cli": "USALOLITOAASTSAM", "fx": None, "fx_invert": False, "mon_note": "Fed 동결·인하 지연(제약적)"},
+    "KR": {"name": "한국", "cli": "KORLOLITOAASTSAM", "fx": "DEXKOUS", "fx_invert": True, "mon_note": "BOK 동결·완화 여지"},
+    "EU": {"name": "유럽", "cli": None, "fx": "DEXUSEU", "fx_invert": False, "mon_note": "ECB 완화 사이클(+)"},
+    "JP": {"name": "일본", "cli": "JPNLOLITOAASTSAM", "fx": "DEXJPUS", "fx_invert": True, "mon_note": "BOJ 정상화(긴축, −)"},
+    "CN": {"name": "중국", "cli": "CHNLOLITOAASTSAM", "fx": "DEXCHUS", "fx_invert": True, "mon_note": "인민은행 부양(+)"},
+}
+COUNTRY_FAIR_PE = {"US": 19.0, "KR": 11.0, "EU": 14.0, "JP": 15.0, "CN": 13.0}
+COUNTRY_VAL_PE_SEED = {"EU": 14.5, "JP": 15.0, "CN": 11.0}  # US/KR은 라이브
+MON_SEED = {"US": -0.1, "KR": 0.1, "EU": 0.3, "JP": -0.4, "CN": 0.3}
+PREF_WEIGHTS = {
+    "m1":  {"fx": 0.35, "earn": 0.30, "cycle": 0.20, "mon": 0.15, "val": 0.00},
+    "m3":  {"earn": 0.25, "cycle": 0.25, "fx": 0.20, "val": 0.15, "mon": 0.15},
+    "m12": {"val": 0.30, "earn": 0.25, "cycle": 0.20, "mon": 0.15, "fx": 0.10},
+}
+
+
+def _fred_chg(series_id, months):
+    """(최신값, N개월 변화량). 실패 시 (None, None)."""
+    try:
+        d, v = fred_csv(series_id)
+        me = to_month_end(d, v); ks = sorted(me)
+        if len(ks) < months + 1:
+            return (me[ks[-1]], None) if ks else (None, None)
+        return me[ks[-1]], me[ks[-1]] - me[ks[-1 - months]]
+    except Exception:
+        return None, None
+
+
+def build_country_pref(earn, bench):
+    """국가 선호도: 밸류·이익·환율·통화정책·경기 종합 → 1·3·12개월 점수."""
+    print("=== 국가 선호도 ===")
+    us_pe = (bench.get("S&P 500", {}).get("valuation") or {}).get("pe")
+    kr_pe = (bench.get("KOSPI", {}).get("valuation") or {}).get("pe")
+    out = {}
+    for cc, cfg in COUNTRY_PREF_CFG.items():
+        pe = us_pe if cc == "US" else kr_pe if cc == "KR" else COUNTRY_VAL_PE_SEED.get(cc)
+        fair = COUNTRY_FAIR_PE[cc]
+        val = clamp((fair - pe) / (fair * 0.3)) if pe else 0.0
+        ec = earn.get("countries", {}).get(cc, {})
+        err, rev = ec.get("err"), ec.get("rev30")
+        earn_s = clamp((err or 0) * 1.3) * 0.6 + clamp((rev or 0) / 8.0) * 0.4
+        # 환율 모멘텀 (통화 강세 = +)
+        fx_s, fx_chg, fx_val = 0.0, None, None
+        if cfg["fx"]:
+            last, chg = _fred_chg(cfg["fx"], 3)
+            if chg is not None and last and (last - chg):
+                pct = chg / (last - chg) * 100
+                strength = -pct if cfg["fx_invert"] else pct
+                fx_chg, fx_s, fx_val = round(strength, 1), clamp(strength / 5.0), round(last, 1)
+        mon_s = MON_SEED.get(cc, 0.0)
+        # 경기 (CLI)
+        cyc_s, cli_now, phase = 0.0, None, None
+        if cfg["cli"]:
+            try:
+                d, v = fred_csv(cfg["cli"]); me = to_month_end(d, v)
+                ks = sorted(me); vals = [me[k] for k in ks]
+                if vals:
+                    cli_now = round(vals[-1], 1)
+                    chg3 = vals[-1] - vals[-4] if len(vals) >= 4 else 0
+                    cyc_s = clamp((vals[-1] - 100) / 1.5 * 0.6 + clamp(chg3 / 0.4) * 0.4)
+                    cp = cycle_phase(vals); phase = cp["phase"] if cp else None
+            except Exception:
+                pass
+        comp = {"val": round(val * 100), "earn": round(earn_s * 100), "fx": round(fx_s * 100),
+                "mon": round(mon_s * 100), "cycle": round(cyc_s * 100)}
+        horizon = {h: round(sum(comp[k] * w for k, w in wts.items())) for h, wts in PREF_WEIGHTS.items()}
+        out[cc] = {"name": cfg["name"], "pe": round(pe, 1) if pe else None, "fair_pe": fair,
+                   "components": comp, "horizon": horizon, "fx_val": fx_val, "fx_chg": fx_chg,
+                   "cli": cli_now, "phase": phase, "mon_note": cfg["mon_note"]}
+        print(f"  {cfg['name']}: 1M {horizon['m1']:+d} 3M {horizon['m3']:+d} 12M {horizon['m12']:+d} "
+              f"(val {comp['val']:+d} earn {comp['earn']:+d} fx {comp['fx']:+d} cyc {comp['cycle']:+d})")
+    return out
+
+
+HIST_PILLAR_KEYS = {
+    "macro": ["cpi_yoy", "core_cpi_yoy", "unemployment", "payrolls", "fed_funds", "consumer_sent", "yield_curve", "cli_us", "oil_yoy"],
+    "valuation": ["cape", "us10y"],
+    "flows": ["m2_yoy", "baa_spread", "usdkrw"],
+    "sentiment": ["vix", "spx_mom"],
+}
+HIST_WEIGHTS = {"macro": 0.30, "valuation": 0.25, "flows": 0.22, "sentiment": 0.23}
+
+
+def build_regime_history(monthly, spx_me, max_months=192):
+    """과거 월별 레짐(코어 4축, 이익·수동 제외) + 경기국면 시계열 (타임머신용)."""
+    core_me = monthly.get("core_cpi_yoy", {})
+    allkeys = [k for ks in HIST_PILLAR_KEYS.values() for k in ks if k in monthly and len(monthly[k]) >= 24]
+    if len(allkeys) < 8:
+        return []
+    sets = [set(monthly[k].keys()) for k in allkeys]
+    common = sorted(set.intersection(*sets))
+    common = common[-max_months:]
+    out = []
+    for mo in common:
+        pil = {}
+        for pillar, keys in HIST_PILLAR_KEYS.items():
+            scores = []
+            for k in keys:
+                if k not in monthly or mo not in monthly[k]:
+                    continue
+                ks = sorted(kk for kk in monthly[k] if kk <= mo)
+                vals = [monthly[k][kk] for kk in ks]
+                if len(vals) < 4:
+                    continue
+                ctx = {}
+                if k == "consumer_sent":
+                    ctx["z"] = zscore(vals)[0]
+                elif k == "fed_funds":
+                    cc = core_me.get(mo)
+                    ctx["real_rate"] = (vals[-1] - cc) if cc is not None else None
+                elif k == "spx_mom":
+                    sks = sorted(kk for kk in spx_me if kk <= mo)
+                    if len(sks) >= 10:
+                        ctx["above_200d"] = spx_me[sks[-1]] > sum(spx_me[kk] for kk in sks[-10:]) / 10
+                scores.append(score_indicator(k, vals[-1], vals, ctx))
+            pil[pillar] = round(sum(scores) / len(scores) * 100) if scores else 0
+        comp = round(sum(pil[p] * HIST_WEIGHTS[p] for p in HIST_WEIGHTS))
+        phase = None
+        if "cli_us" in monthly:
+            cks = sorted(kk for kk in monthly["cli_us"] if kk <= mo)
+            cp = cycle_phase([monthly["cli_us"][kk] for kk in cks])
+            phase = cp["phase"] if cp else None
+        out.append({"date": mo + "-01", "score": comp, "phase": phase, "pillars": pil})
+    return out
+
+
 def build_earnings():
     """국가/섹터 기업이익 섹션 + 5번째 축 카드/점수."""
     print("=== 기업이익(Forward EPS/ERR) 수집 ===")
@@ -1171,6 +1325,19 @@ def build():
     # --- 과거 유사 국면 ---
     analogs = compute_analogs(monthly, spx_dates, spx_vals, kospi_dates, kospi_vals)
 
+    # --- 경기국면 (OECD CLI) ---
+    cycle = None
+    if "cli_us" in raw and raw["cli_us"][1]:
+        cp = cycle_phase(raw["cli_us"][1])
+        if cp:
+            cv = raw["cli_us"][1]
+            cycle = {**cp, "cli": round(cv[-1], 1), "chg6": round(cv[-1] - cv[-7], 2) if len(cv) >= 7 else None}
+
+    # --- 국가 선호도 + 과거 레짐 타임머신 ---
+    spx_me = to_month_end(spx_dates, spx_vals)
+    country_pref = build_country_pref(earn["data"], bench)
+    regime_history = build_regime_history(monthly, spx_me)
+
     # --- 자동 코멘터리 + 전망 ---
     commentary = build_commentary(indicators, pillars_out, overall_score)
     outlook = build_outlook(indicators, pillars_out, overall_score, analogs)
@@ -1180,6 +1347,9 @@ def build():
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
         "regime": {"score": overall_score, "label": regime_label, "cls": regime_cls,
                    "pillars": pillars_out},
+        "cycle": cycle,
+        "country_pref": country_pref,
+        "regime_history": regime_history,
         "indicators": indicators,
         "indices": indices,
         "analogs": analogs,
