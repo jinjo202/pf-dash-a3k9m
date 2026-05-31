@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-05-30g";</script>
+<script>window.CODE_VERSION = "2026-05-31a";</script>
 <!-- 자동 캐시 무력화: 이 HTML이 10분(GitHub Pages max-age) 캐시될 수 있어
      로드 직후 서버의 최신 버전과 비교, 더 최신이면 1회 강제 새로고침 (?cb= 추가) -->
 <script>
@@ -436,29 +436,52 @@
   .chart-modal-stats .s .v {
     font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px;
   }
-  /* ===== PDF/인쇄용 정리본 ===== */
-  #printSummary { display: none; }
-  #printSummary h1 { font-size: 16px; margin: 0 0 2px; }
-  #printSummary .ps-sub { font-size: 10px; color: #555; margin-bottom: 8px; }
-  #printSummary h2 { font-size: 12px; margin: 10px 0 4px; padding-bottom: 2px; border-bottom: 1.5px solid #333; }
-  #printSummary table { width: 100%; border-collapse: collapse; font-size: 9px; }
-  #printSummary th, #printSummary td { border: 0.5px solid #bbb; padding: 2px 4px; text-align: right; white-space: nowrap; }
-  #printSummary th { background: #f0f0f0; font-weight: 700; text-align: center; }
-  #printSummary td:first-child, #printSummary th:first-child,
-  #printSummary td.l { text-align: left; }
-  #printSummary .ps-kpis { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
-  #printSummary .ps-kpi { border: 1px solid #ccc; border-radius: 4px; padding: 4px 8px; min-width: 120px; }
-  #printSummary .ps-kpi .l { font-size: 8px; color: #666; }
-  #printSummary .ps-kpi .v { font-size: 13px; font-weight: 700; }
+  /* ===== PDF/인쇄용 정리본 (Morningstar Portfolio Snapshot 스타일) ===== */
+  #printSummary { display: none; color: #1a1a1a; background: #fff;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Segoe UI", "Noto Sans KR", sans-serif; }
+  /* 헤더 블록 */
+  #printSummary .ps-head { display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 2.5px solid #1a1a1a; padding-bottom: 6px; margin-bottom: 4px; }
+  #printSummary .ps-head .ttl h1 { font-size: 21px; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
+  #printSummary .ps-head .ttl .sub { font-size: 14px; color: #444; font-weight: 400; }
+  #printSummary .ps-head .meta { display: flex; gap: 16px; text-align: left; }
+  #printSummary .ps-head .meta .m .l { font-size: 7.5px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+  #printSummary .ps-head .meta .m .v { font-size: 11px; font-weight: 600; }
+  #printSummary .ps-topline { font-size: 8px; color: #555; margin-bottom: 10px; }
+  /* 섹션 헤더 바 (회색) */
+  #printSummary .ps-section { background: #e9e9ec; border-left: 4px solid #2563eb;
+    font-size: 11px; font-weight: 800; color: #1a1a1a; padding: 4px 8px; margin: 14px 0 7px; }
+  /* 2단 레이아웃 */
+  #printSummary .ps-2col { display: flex; gap: 16px; align-items: flex-start; }
+  #printSummary .ps-2col > div { flex: 1; min-width: 0; }
+  #printSummary .ps-cap { font-size: 9px; font-weight: 700; color: #444; margin: 0 0 3px; }
+  /* 차트 이미지 */
+  #printSummary .ps-chart { width: 100%; height: auto; border: 0.5px solid #e0e0e0; border-radius: 3px; }
+  #printSummary .ps-chart.sm { max-height: 150px; object-fit: contain; }
+  /* KPI 카드 */
+  #printSummary .ps-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 4px; }
+  #printSummary .ps-kpi { border: 0.5px solid #d0d0d0; border-radius: 3px; padding: 4px 7px; }
+  #printSummary .ps-kpi .l { font-size: 7.5px; color: #777; font-weight: 600; }
+  #printSummary .ps-kpi .v { font-size: 13px; font-weight: 800; letter-spacing: -0.01em; }
+  /* 표 */
+  #printSummary table { width: 100%; border-collapse: collapse; font-size: 8.5px; }
+  #printSummary th, #printSummary td { border-bottom: 0.5px solid #d8d8d8; padding: 2.5px 5px; text-align: right; white-space: nowrap; }
+  #printSummary thead th { background: #f3f3f5; font-weight: 700; text-align: center; border-bottom: 1px solid #999; }
+  #printSummary td.l, #printSummary th.l { text-align: left; }
+  #printSummary tr.ps-total td { font-weight: 800; background: #f7f7f9; border-top: 1px solid #999; }
+  #printSummary .ps-pill { display: inline-block; padding: 0 4px; border-radius: 6px; color: #fff; font-size: 7.5px; font-weight: 700; }
   #printSummary .pos { color: #15803d; }
   #printSummary .neg { color: #b91c1c; }
+  #printSummary .ps-foot { margin-top: 14px; padding-top: 6px; border-top: 1px solid #ccc; font-size: 7px; color: #888; line-height: 1.4; }
+  #printSummary .ps-pagebreak { page-break-before: always; }
   @media print {
-    @page { size: A4 portrait; margin: 10mm; }
+    @page { size: A4 portrait; margin: 11mm 10mm; }
     body.printing > *:not(#printSummary) { display: none !important; }
     body.printing #printSummary { display: block !important; }
     body.printing { background: #fff; }
     #printSummary table { page-break-inside: auto; }
     #printSummary tr { page-break-inside: avoid; }
+    #printSummary .ps-section, #printSummary .ps-2col { page-break-inside: avoid; }
   }
 
   /* ===== 패널 접기/펼치기 ===== */
@@ -2091,7 +2114,12 @@ function resizeChartsSoon() {
   }, 60);
 }
 
-// ===== PDF 정리본 (A4 1~2장 출력용) =====
+// ===== PDF 정리본 (Morningstar Portfolio Snapshot 스타일, A4 2~3장) =====
+function chartImg(key) {
+  const c = charts && charts[key];
+  if (!c) return '';
+  try { return c.toBase64Image('image/png', 1); } catch (e) { return ''; }
+}
 function buildPrintSummary() {
   const h = viewHoldings;
   const yA = ytdAgg(h);
@@ -2100,73 +2128,167 @@ function buildPrintSummary() {
   const pnlCum = totalMkt - totalBuy;
   const owned = h.filter(x => x.mkt > 0).length;
   const asOf = portfolioData.last_updated || '-';
-  const snapNote = snapshotDate ? ` · 스냅샷 ${snapshotDate}` : '';
   const pv = portfolioData.portfolio_valuation || {};
+  const hist = portfolioData.historical || {};
 
   const fmtPctP = v => v == null ? '-' : (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
   const clsOf = v => v > 0 ? 'pos' : v < 0 ? 'neg' : '';
+  const regColor = { '한국':'#2563eb','미국':'#0891b2','유럽':'#7c3aed','글로벌':'#ea580c','이머징':'#e11d48','기타':'#94a3b8' };
 
-  // 지역별 집계
   const regRows = regionAgg();
-
-  // 보유종목 (보유 중, 비중 큰 순)
   const rows = h.filter(x => (x.mkt || 0) > 0).slice().sort((a, b) => (b.w || 0) - (a.w || 0));
 
-  let html = '';
-  html += `<h1>${portfolioData.portfolio_name || '포트폴리오'} 정리본</h1>`;
-  html += `<div class="ps-sub">가격 기준일 ${asOf}${snapNote} · 보유 ${owned}종목 · 출력 ${new Date().toLocaleString('ko-KR')}</div>`;
+  // 벤치마크 YTD (TWR 비교용) — backtest와 동일
+  const bmLabel = (typeof benchmarkLabel === 'function') ? benchmarkLabel() : 'MSCI ACWI';
+  const datesP = snapSlice(hist.dates) || [];
+  const pfP = snapSlice(hist.portfolio_total) || [];
+  const bmP = snapSlice(buildBenchmarkSeries()) || [];
+  let pfTwr = null, bmTwr = null;
+  if (pfP.length) {
+    const cf = buildCashflowByDate(portfolioData.trades, null, datesP);
+    const t = computeTwrSeries(pfP, datesP, cf);
+    pfTwr = t ? t[t.length-1] : null;
+  }
+  if (bmP && bmP.length && bmP[0]) bmTwr = (bmP[bmP.length-1]/bmP[0]-1)*100;
 
-  // KPI 카드
+  const snapNote = snapshotDate ? ` · 📌 ${snapshotDate} 스냅샷` : '';
+
+  // ── 헤더 (Morningstar 스타일) ──────────────────────
+  let html = `
+    <div class="ps-topline">평가 기준일 ${asOf}${snapNote} · 출력 ${new Date().toLocaleString('ko-KR')} · 단위 억원</div>
+    <div class="ps-head">
+      <div class="ttl">
+        <h1>${portfolioData.portfolio_name || 'Portfolio'}</h1>
+        <div class="sub">포트폴리오 스냅샷</div>
+      </div>
+      <div class="meta">
+        <div class="m"><div class="l">총 평가금액</div><div class="v">${fmtAmtBig(totalMkt)}</div></div>
+        <div class="m"><div class="l">벤치마크</div><div class="v">${bmLabel}</div></div>
+        <div class="m"><div class="l">보유 종목</div><div class="v">${owned}개</div></div>
+        <div class="m"><div class="l">통화</div><div class="v">KRW</div></div>
+      </div>
+    </div>`;
+
+  // ── 핵심 지표 ──────────────────────
+  html += `<div class="ps-section">핵심 지표 (Summary)</div>`;
   html += `<div class="ps-kpis">
     <div class="ps-kpi"><div class="l">총 평가금액</div><div class="v">${fmtAmtBig(totalMkt)}</div></div>
     <div class="ps-kpi"><div class="l">1/1 시작가치</div><div class="v">${fmtAmtBig(yA.start)}</div></div>
-    <div class="ps-kpi"><div class="l">YTD 총손익 (평균잔액)</div><div class="v ${clsOf(yA.pnl)}">${fmtAmtBig(yA.pnl)} (${fmtPctP(yA.pct)})</div></div>
+    <div class="ps-kpi"><div class="l">YTD 순투입</div><div class="v">${fmtAmtBig(yA.netCf)}</div></div>
+    <div class="ps-kpi"><div class="l">YTD 총손익</div><div class="v ${clsOf(yA.pnl)}">${fmtAmtBig(yA.pnl)}</div></div>
+    <div class="ps-kpi"><div class="l">YTD 수익률 (평균잔액)</div><div class="v ${clsOf(yA.pct)}">${fmtPctP(yA.pct)}</div></div>
     <div class="ps-kpi"><div class="l">평가손익 (미실현)</div><div class="v ${clsOf(yA.unrealized)}">${fmtAmtBig(yA.unrealized)}</div></div>
     <div class="ps-kpi"><div class="l">매각이익 (실현)</div><div class="v ${clsOf(yA.realized)}">${fmtAmtBig(yA.realized)}</div></div>
-    <div class="ps-kpi"><div class="l">누적 손익 (매입가)</div><div class="v ${clsOf(pnlCum)}">${fmtAmtBig(pnlCum)}</div></div>
-    <div class="ps-kpi"><div class="l">PER(Fwd) / PBR(TTM)</div><div class="v">${pv.pe ? pv.pe.toFixed(1) + 'x' : '-'} / ${pv.pb ? pv.pb.toFixed(2) + 'x' : '-'}</div></div>
-    <div class="ps-kpi"><div class="l">YTD 순투입</div><div class="v">${fmtAmtBig(yA.netCf)}</div></div>
+    <div class="ps-kpi"><div class="l">PER(Fwd) / PBR(TTM)</div><div class="v">${pv.pe ? pv.pe.toFixed(1)+'x' : '-'} / ${pv.pb ? pv.pb.toFixed(2)+'x' : '-'}</div></div>
   </div>`;
 
-  // 지역별 요약
-  html += `<h2>지역별 요약</h2><table>
-    <thead><tr><th class="l">지역</th><th>종목</th><th>시가(억)</th><th>비중</th><th>평가손익</th><th>매각이익</th></tr></thead><tbody>`;
+  // ── 자산 배분 (지역) — 도넛 차트 + 표 ──────────────────────
+  html += `<div class="ps-section">자산 배분 (Asset Allocation, 지역별)</div>`;
+  html += `<div class="ps-2col">
+    <div style="flex:0 0 42%"><img class="ps-chart sm" src="${chartImg('pieRegion')}"></div>
+    <div><table>
+      <thead><tr><th class="l">지역</th><th>종목</th><th>시가</th><th>비중</th><th>평가손익</th><th>매각이익</th></tr></thead><tbody>`;
   for (const r of regRows) {
-    html += `<tr><td class="l">${r.region}</td><td>${r.count}</td><td>${fmt(r.mkt,1)}</td>`
-      + `<td>${r.weight == null ? '-' : (r.weight*100).toFixed(1)+'%'}</td>`
+    html += `<tr><td class="l"><span class="ps-pill" style="background:${regColor[r.region]||'#94a3b8'}">${r.region}</span></td>`
+      + `<td>${r.count}</td><td>${fmt(r.mkt,1)}</td>`
+      + `<td>${r.weight==null?'-':(r.weight*100).toFixed(1)+'%'}</td>`
       + `<td class="${clsOf(r.unrealized)}">${fmt(r.unrealized,1)}</td>`
-      + `<td class="${clsOf(r.realized)}">${r.ytdSell > 0 ? fmt(r.realized,1) : '-'}</td></tr>`;
+      + `<td class="${clsOf(r.realized)}">${r.ytdSell>0?fmt(r.realized,1):'-'}</td></tr>`;
   }
-  html += `<tr style="font-weight:700;background:#f5f5f5"><td class="l">합계</td><td>${owned}</td><td>${fmt(totalMkt,1)}</td><td>100%</td>`
+  html += `<tr class="ps-total"><td class="l">합계</td><td>${owned}</td><td>${fmt(totalMkt,1)}</td><td>100%</td>`
     + `<td class="${clsOf(yA.unrealized)}">${fmt(yA.unrealized,1)}</td><td class="${clsOf(yA.realized)}">${fmt(yA.realized,1)}</td></tr>`;
-  html += `</tbody></table>`;
+  html += `</tbody></table></div></div>`;
 
-  // 보유종목 상세
-  html += `<h2>보유종목 상세 (${rows.length}종목)</h2><table>
-    <thead><tr><th class="l">지역</th><th class="l">종목명</th><th>시가(억)</th><th>비중</th>
-    <th>YTD수익률</th><th>평가손익</th><th>매각이익</th><th>PER</th></tr></thead><tbody>`;
+  // ── 성과 (Investment Growth 라인 + 수익률) ──────────────────────
+  html += `<div class="ps-section">성과 (Performance)</div>`;
+  html += `<div class="ps-2col">
+    <div style="flex:0 0 62%">
+      <div class="ps-cap">누적 수익률 추이 (포트폴리오 vs ${bmLabel}, TWR)</div>
+      <img class="ps-chart" style="max-height:180px" src="${chartImg('backtestChart')}">
+    </div>
+    <div>
+      <div class="ps-cap">YTD 수익률 비교</div>
+      <table><tbody>
+        <tr><td class="l">포트폴리오 (TWR)</td><td class="${clsOf(pfTwr)}">${fmtPctP(pfTwr)}</td></tr>
+        <tr><td class="l">${bmLabel}</td><td class="${clsOf(bmTwr)}">${fmtPctP(bmTwr)}</td></tr>
+        <tr class="ps-total"><td class="l">초과수익</td><td class="${clsOf((pfTwr||0)-(bmTwr||0))}">${fmtPctP((pfTwr!=null&&bmTwr!=null)?pfTwr-bmTwr:null)}</td></tr>
+        <tr><td class="l">평균잔액 기준 수익률</td><td class="${clsOf(yA.pct)}">${fmtPctP(yA.pct)}</td></tr>
+      </tbody></table>
+    </div>
+  </div>`;
+
+  // ── 2페이지: 스타일/섹터 분석 ──────────────────────
+  html += `<div class="ps-pagebreak"></div>`;
+  html += `<div class="ps-section">스타일 분석 (사이즈 · 팩터 · 국가)</div>`;
+  html += `<div class="ps-2col">
+    <div><div class="ps-cap">사이즈 노출</div><img class="ps-chart sm" src="${chartImg('pieSize')}"></div>
+    <div><div class="ps-cap">팩터 노출</div><img class="ps-chart sm" src="${chartImg('barFactor')}"></div>
+    <div><div class="ps-cap">국가별 노출</div><img class="ps-chart sm" src="${chartImg('barCountry')}"></div>
+  </div>`;
+
+  // 종목별 수익률 차트
+  html += `<div class="ps-section">종목별 수익률 (YTD, 평균잔액 대비)</div>`;
+  html += `<img class="ps-chart" style="max-height:340px" src="${chartImg('barPnL')}">`;
+
+  // ── 3페이지: 보유 종목 상세 ──────────────────────
+  html += `<div class="ps-pagebreak"></div>`;
+  html += `<div class="ps-section">보유 종목 상세 (${rows.length}종목, 비중순)</div>`;
+  html += `<table>
+    <thead><tr><th class="l">지역</th><th class="l">종목명</th><th>시가</th><th>비중</th>
+    <th>YTD%</th><th>평가손익</th><th>매각이익</th><th>PER</th><th>PBR</th></tr></thead><tbody>`;
   for (const x of rows) {
     const ym = ytdMetrics(x);
     const per = (x.valuation && x.valuation.pe) ? x.valuation.pe.toFixed(1) : '-';
-    html += `<tr><td class="l">${x.region}</td><td class="l">${x.name}</td>`
-      + `<td>${fmt(x.mkt,1)}</td><td>${x.w == null ? '-' : (x.w*100).toFixed(2)+'%'}</td>`
+    const pbr = (x.valuation && x.valuation.pb) ? x.valuation.pb.toFixed(2) : '-';
+    html += `<tr><td class="l"><span class="ps-pill" style="background:${regColor[x.region]||'#94a3b8'}">${x.region}</span></td>`
+      + `<td class="l">${x.name}</td><td>${fmt(x.mkt,1)}</td>`
+      + `<td>${x.w==null?'-':(x.w*100).toFixed(2)+'%'}</td>`
       + `<td class="${clsOf(ym.pct)}">${fmtPctP(ym.pct)}</td>`
       + `<td class="${clsOf(ym.unrealized)}">${fmt(ym.unrealized,1)}</td>`
-      + `<td class="${clsOf(ym.realized)}">${ym.sell > 0 ? fmt(ym.realized,1) : '-'}</td>`
-      + `<td>${per}</td></tr>`;
+      + `<td class="${clsOf(ym.realized)}">${ym.sell>0?fmt(ym.realized,1):'-'}</td>`
+      + `<td>${per}</td><td>${pbr}</td></tr>`;
   }
+  html += `<tr class="ps-total"><td class="l" colspan="2">합계 / 가중평균</td><td>${fmt(totalMkt,1)}</td><td>100%</td>`
+    + `<td class="${clsOf(yA.pct)}">${fmtPctP(yA.pct)}</td>`
+    + `<td class="${clsOf(yA.unrealized)}">${fmt(yA.unrealized,1)}</td>`
+    + `<td class="${clsOf(yA.realized)}">${fmt(yA.realized,1)}</td>`
+    + `<td>${pv.pe?pv.pe.toFixed(1):'-'}</td><td>${pv.pb?pv.pb.toFixed(2):'-'}</td></tr>`;
   html += `</tbody></table>`;
+
+  // 푸터
+  html += `<div class="ps-foot">
+    ※ 수익률은 시간가중수익률(TWR, 현금흐름 제외) 및 평균잔액 기준. 매각이익은 매도 시점 확정(한국식 평균매입가).
+    PER은 12개월 Forward(컨센서스), PBR은 Trailing. 단위 억원.<br>
+    ※ 본 정리본은 내부 참고용이며 투자 권유가 아닙니다. 가격 데이터: yfinance / 시뮬레이션 · 생성 ${new Date().toLocaleDateString('ko-KR')}.
+  </div>`;
 
   document.getElementById('printSummary').innerHTML = html;
 }
 
 function exportPdf() {
-  buildPrintSummary();
-  document.body.classList.add('printing');
-  // 인쇄 후 원복
-  const after = () => { document.body.classList.remove('printing'); window.removeEventListener('afterprint', after); };
-  window.addEventListener('afterprint', after);
-  setTimeout(() => window.print(), 80);
+  const btn = document.getElementById('pdfExport');
+  if (btn) { btn.textContent = '⏳ 생성 중...'; btn.disabled = true; }
+  // 1) 차트가 풀사이즈로 그려지도록 전체 펼치기
+  setAllCollapsed(false);
+  // 2) 다크모드면 인쇄용으로 라이트 임시 전환 (차트 글자/그리드가 흰 배경에 보이게)
+  const origTheme = getTheme();
+  if (origTheme === 'dark') applyTheme('light', false);
+  resizeChartsSoon();
+  // 3) 차트 resize/redraw 완료 후 이미지 캡처 → 인쇄
+  setTimeout(() => {
+    buildPrintSummary();
+    document.body.classList.add('printing');
+    const restore = () => {
+      document.body.classList.remove('printing');
+      if (origTheme === 'dark') applyTheme('dark', false);
+      if (btn) { btn.textContent = '📄 PDF 정리본 출력'; btn.disabled = false; }
+      window.removeEventListener('afterprint', restore);
+    };
+    window.addEventListener('afterprint', restore);
+    setTimeout(() => window.print(), 150);
+    // afterprint 미지원 브라우저 대비 fallback
+    setTimeout(restore, 60000);
+  }, 350);
 }
 
 // 스냅샷 모드면 모든 h3 헤더에 배지 부착, 아니면 제거
