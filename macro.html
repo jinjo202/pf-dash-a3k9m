@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-05-31d";</script>
+<script>window.CODE_VERSION = "2026-06-01a";</script>
 <script>
   (function () {
     try {
@@ -32,6 +32,7 @@
     --muted:#64748b; --muted-soft:#cbd5e1; --accent:#2563eb; --accent-hover:#1d4ed8;
     --accent-soft:#eff6ff; --pos:#15803d; --neg:#b91c1c; --neu:#64748b;
     --pos-soft:#dcfce7; --neg-soft:#fee2e2; --neu-soft:#f1f5f9;
+    --warn-bg:#fef3c7; --warn-fg:#92400e; --warn-bd:#fde68a;
     --shadow-sm:0 1px 2px 0 rgba(15,23,42,.04);
     --shadow-md:0 4px 12px -2px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
     color-scheme: light;
@@ -42,6 +43,7 @@
     --muted:#94a3b8; --muted-soft:#475569; --accent:#60a5fa; --accent-hover:#3b82f6;
     --accent-soft:#1e3a8a55; --pos:#22c55e; --neg:#f87171; --neu:#94a3b8;
     --pos-soft:#14331f; --neg-soft:#3a1414; --neu-soft:#1a2138;
+    --warn-bg:#422006; --warn-fg:#fde68a; --warn-bd:#854d0e;
     --shadow-sm:0 1px 2px 0 rgba(0,0,0,.5);
     --shadow-md:0 4px 12px -2px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.4);
     color-scheme: dark;
@@ -171,6 +173,8 @@
   .ctry-detail { border:1px solid var(--border); border-radius:11px; padding:16px 18px; margin-bottom:18px; background:var(--panel-soft); }
   .ctry-detail .dh { font-size:14px; font-weight:800; margin-bottom:2px; }
   .ctry-detail .du { font-size:11px; color:var(--muted); margin-bottom:12px; }
+  .ann-note { font-size:11.5px; color:var(--warn-fg, #92400e); background:var(--warn-bg, #fef3c7); border:1px solid var(--warn-bd, #fde68a);
+    border-radius:8px; padding:8px 11px; margin-bottom:10px; line-height:1.5; }
   .eps-chart { height:230px; margin-bottom:6px; }
   .rev-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
   @media (max-width:560px){ .rev-grid{ grid-template-columns:1fr; } }
@@ -381,6 +385,7 @@ function showCountryDetail(cc) {
   var cy = ann.actual_through + 1, ny = ann.actual_through + 2;
   el.innerHTML = '<div class="dh">' + c.name + ' 연도별 EPS · 2020~2027(E)</div>' +
     '<div class="du">단위: ' + ann.unit + ' · ' + ann.source + ' · 실적=진한 막대, E=추정(연한 막대) · 막대 위 숫자=EPS, 그 위=전년비 YoY</div>' +
+    (ann.note ? '<div class="ann-note">📌 ' + ann.note + '</div>' : '') +
     '<div class="eps-chart"><canvas id="epsChartCanvas"></canvas></div>' +
     '<div class="rev-grid">' +
       revBox('올해(' + cy + 'E) 컨센서스 변화', c.growth_cy, c.rev30, c.rev90) +

@@ -1,8 +1,8 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-05-31",
-  "generated": "2026-05-31T14:50:38Z",
+  "as_of": "2026-06-01",
+  "generated": "2026-05-31T15:09:47Z",
   "regime": {
     "score": 8,
     "label": "중립 (선별적)",
@@ -5179,7 +5179,7 @@ window.MACRO = {
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": null
     },
     "kospi_fwd_pe": {
@@ -5193,7 +5193,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": null
     },
     "erp": {
@@ -5207,7 +5207,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "S&P 어닝일드 − 미 10Y. 높을수록 주식 매력",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": null
     },
     "us10y": {
@@ -9194,7 +9194,7 @@ window.MACRO = {
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "2026.05 KOSPI 누적(조원): 외국인 -44.5·기관 +9.2·개인 +35.1(18일). 최근 26.05.29: 외국인 -1.04·기관 +2.37·개인 -1.41. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": null,
       "manual": true
     },
@@ -9209,7 +9209,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": null
     },
     "eps_rev_us": {
@@ -9223,7 +9223,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.0%. 그래프=90일 경로.",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": {
         "dates": [
           "90일전",
@@ -9252,7 +9252,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": null
     },
     "eps_rev_kr": {
@@ -9266,7 +9266,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +1.4%. 그래프=90일 경로.",
-      "as_of": "2026-05-31",
+      "as_of": "2026-06-01",
       "history": {
         "dates": [
           "90일전",
@@ -10701,7 +10701,7 @@ window.MACRO = {
     }
   },
   "earnings": {
-    "as_of": "2026-05-31",
+    "as_of": "2026-06-01",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -10729,6 +10729,7 @@ window.MACRO = {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
           "source": "FactSet",
           "actual_through": 2025,
+          "note": null,
           "years": [
             {
               "y": 2020,
@@ -10803,9 +10804,10 @@ window.MACRO = {
         ],
         "n": 29,
         "annual": {
-          "unit": "지수(2020=100, 근사)",
-          "source": "추정·편집 가능",
+          "unit": "지수(2020=100, 컨센서스)",
+          "source": "GS/FactSet/MSCI",
           "actual_through": 2025,
+          "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과.",
           "years": [
             {
               "y": 2020,
@@ -10815,44 +10817,44 @@ window.MACRO = {
             },
             {
               "y": 2021,
+              "eps": 170,
+              "yoy": 70.0,
+              "est": false
+            },
+            {
+              "y": 2022,
+              "eps": 130,
+              "yoy": -23.5,
+              "est": false
+            },
+            {
+              "y": 2023,
+              "eps": 55,
+              "yoy": -57.7,
+              "est": false
+            },
+            {
+              "y": 2024,
+              "eps": 100,
+              "yoy": 81.8,
+              "est": false
+            },
+            {
+              "y": 2025,
               "eps": 130,
               "yoy": 30.0,
               "est": false
             },
             {
-              "y": 2022,
-              "eps": 96,
-              "yoy": -26.2,
-              "est": false
-            },
-            {
-              "y": 2023,
-              "eps": 80,
-              "yoy": -16.7,
-              "est": false
-            },
-            {
-              "y": 2024,
-              "eps": 128,
-              "yoy": 60.0,
-              "est": false
-            },
-            {
-              "y": 2025,
-              "eps": 175,
-              "yoy": 36.7,
-              "est": false
-            },
-            {
               "y": 2026,
-              "eps": 300,
-              "yoy": 71.4,
+              "eps": 475,
+              "yoy": 265.4,
               "est": true
             },
             {
               "y": 2027,
-              "eps": 345,
-              "yoy": 15.0,
+              "eps": 540,
+              "yoy": 13.7,
               "est": true
             }
           ]
@@ -10883,6 +10885,7 @@ window.MACRO = {
           "unit": "지수(2020=100, 근사)",
           "source": "추정·편집 가능",
           "actual_through": 2025,
+          "note": null,
           "years": [
             {
               "y": 2020,
@@ -10960,6 +10963,7 @@ window.MACRO = {
           "unit": "지수(2020=100, 근사)",
           "source": "추정·편집 가능",
           "actual_through": 2025,
+          "note": null,
           "years": [
             {
               "y": 2020,
@@ -11037,6 +11041,7 @@ window.MACRO = {
           "unit": "지수(2020=100, 근사)",
           "source": "추정·편집 가능",
           "actual_through": 2025,
+          "note": null,
           "years": [
             {
               "y": 2020,

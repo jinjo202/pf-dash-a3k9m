@@ -409,9 +409,11 @@ COUNTRY_EPS_ANNUAL = {
     "US": {"unit": "$ (S&P500 Bottom-Up, FactSet)", "actual_through": 2025, "source": "FactSet",
            "eps": {"2020": 140.23, "2021": 208.01, "2022": 219.17, "2023": 220.21,
                    "2024": 243.02, "2025": 271.23, "2026": 337.47, "2027": 389.45}},
-    "KR": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
-           "eps": {"2020": 100, "2021": 130, "2022": 96, "2023": 80,
-                   "2024": 128, "2025": 175, "2026": 300, "2027": 345}},
+    "KR": {"unit": "지수(2020=100, 컨센서스)", "actual_through": 2025, "source": "GS/FactSet/MSCI",
+           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. "
+                   "연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과.",
+           "eps": {"2020": 100, "2021": 170, "2022": 130, "2023": 55,
+                   "2024": 100, "2025": 130, "2026": 475, "2027": 540}},
     "EU": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
            "eps": {"2020": 100, "2021": 142, "2022": 156, "2023": 150,
                    "2024": 156, "2025": 166, "2026": 181, "2027": 196}},
@@ -610,7 +612,8 @@ def build_annual(cc):
         prev = a["eps"][years[i - 1]] if i > 0 else None
         yoy = round((eps / prev - 1) * 100, 1) if (prev and prev != 0) else None
         out.append({"y": int(y), "eps": eps, "yoy": yoy, "est": int(y) > a["actual_through"]})
-    return {"unit": a["unit"], "source": a["source"], "actual_through": a["actual_through"], "years": out}
+    return {"unit": a["unit"], "source": a["source"], "actual_through": a["actual_through"],
+            "note": a.get("note"), "years": out}
 
 
 def build_earnings():
