@@ -2,11 +2,11 @@
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
   "as_of": "2026-05-31",
-  "generated": "2026-05-31T14:09:32Z",
+  "generated": "2026-05-31T14:23:49Z",
   "regime": {
-    "score": 16,
-    "label": "비중확대 우위",
-    "cls": "pos",
+    "score": 11,
+    "label": "중립 (선별적)",
+    "cls": "neu",
     "pillars": {
       "macro": {
         "name": "매크로",
@@ -20,13 +20,13 @@ window.MACRO = {
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 14,
-        "n": 3
+        "score": 4,
+        "n": 7
       },
       "sentiment": {
         "name": "센티먼트",
-        "score": 52,
-        "n": 3
+        "score": 24,
+        "n": 5
       },
       "earnings": {
         "name": "기업이익",
@@ -9108,6 +9108,96 @@ window.MACRO = {
       "history": null,
       "manual": true
     },
+    "aaii_spread": {
+      "name": "AAII 불-베어 스프레드",
+      "pillar": "sentiment",
+      "current": -6.3,
+      "unit": "%p",
+      "z": null,
+      "pct": null,
+      "score": 0.25,
+      "signal": "호재",
+      "signal_cls": "pos",
+      "desc": "AAII 개인투자자 설문: 강세 35.6%·중립 22.6%·약세 41.9%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
+      "as_of": "2026-05-28",
+      "history": null,
+      "manual": true
+    },
+    "put_call": {
+      "name": "CBOE 풋/콜 비율(총)",
+      "pillar": "sentiment",
+      "current": 0.74,
+      "unit": "",
+      "z": null,
+      "pct": null,
+      "score": -0.6,
+      "signal": "강한 악재",
+      "signal_cls": "neg",
+      "desc": "옵션 시장 심리(주식 P/C 0.39·SPX 0.88 동반). 역발상 — 높을수록(공포) 강세, 0.7 아래는 낙관·과열. ※요청의 '풋콜 패리티'는 심리지표인 풋/콜 비율로 해석. cboe.com 일간.",
+      "as_of": "2026-05-28",
+      "history": null,
+      "manual": true
+    },
+    "cta_pos": {
+      "name": "미국 CTA 주식 노출(백분위)",
+      "pillar": "flows",
+      "current": 43,
+      "unit": "%ile",
+      "z": null,
+      "pct": null,
+      "score": 0.17,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "시스템(추세추종) 펀드 주식 노출 백분위. 노무라: 역사평균 약 5% 하회·여전히 롱. 낮을수록 추가 매수 여력(되돌림 위험 작음). 주간 갱신.",
+      "as_of": "2026-05-29",
+      "history": null,
+      "manual": true
+    },
+    "retail_alloc": {
+      "name": "미국 리테일 주식비중",
+      "pillar": "flows",
+      "current": 70,
+      "unit": "%",
+      "z": null,
+      "pct": null,
+      "score": -0.32,
+      "signal": "악재",
+      "signal_cls": "neg",
+      "desc": "리테일 주문비중 36%(사상최고)·가계 주식배분 고점권. 역발상 — 높을수록 후기·과열. AAII 자산배분 설문/Vanda 참조, 월간 갱신.",
+      "as_of": "2026-05-29",
+      "history": null,
+      "manual": true
+    },
+    "kr_deposit": {
+      "name": "한국 투자자예탁금",
+      "pillar": "flows",
+      "current": 95,
+      "unit": "조원",
+      "z": null,
+      "pct": null,
+      "score": 0.58,
+      "signal": "강한 호재",
+      "signal_cls": "pos",
+      "desc": "증시 대기자금. 개인 순매수 지속으로 증가 추세(추정치 — KOFIA freesis 증시자금추이에서 확정). 증가=매수 여력 확대.",
+      "as_of": "2026-05-29",
+      "history": null,
+      "manual": true
+    },
+    "kr_flows": {
+      "name": "한국 투자자별 수급(외국인, 월)",
+      "pillar": "flows",
+      "current": -44.7,
+      "unit": "조원",
+      "z": null,
+      "pct": null,
+      "score": -0.56,
+      "signal": "강한 악재",
+      "signal_cls": "neg",
+      "desc": "5월 KOSPI: 외국인 -44.7조(역대 최대 월 순매도, 차익실현)·개인 대규모 순매수로 흡수·기관 +2.4조. 구조적으로 외인 의존도↓(연기금·ETF 흡수). KRX data.krx.co.kr 갱신.",
+      "as_of": "2026-05-29",
+      "history": null,
+      "manual": true
+    },
     "err_us": {
       "name": "미국 ERR(이익수정비율)",
       "pillar": "earnings",
@@ -10995,10 +11085,10 @@ window.MACRO = {
   "commentary": {
     "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 3.8%(강한 악재)·미국 근원 CPI (YoY) 2.7%(악재)·미국 실업률 4.3%(중립)·비농업 고용 (전월비) 115.0천명(중립)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 58.9%(강한 악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 23.9배(강한 악재)·KOSPI 12M Fwd PER 6.7배(강한 호재)·주식위험프리미엄(ERP) -0.26%p(악재)·미국 10Y 금리 4.45%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.3원(강한 악재)",
-    "sentiment": "[전반적으로 우호적] VIX 변동성 15.7(호재)·S&P500 12M 모멘텀 28.2%(강한 호재)·CNN 공포·탐욕 지수 60(호재)",
+    "flows": "[혼조/중립] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 95조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.7조원(강한 악재)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 15.7(호재)·S&P500 12M 모멘텀 28.2%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.537(강한 상향)·미국 Fwd EPS 수정(90일) 3.0%(강한 상향)·한국 ERR(이익수정비율) 0.373(강한 상향)·한국 Fwd EPS 수정(90일) 4.6%(강한 상향)",
-    "overall": "종합 레짐 점수 +16. 매크로 -25, 밸류 -10, 수급 +14, 센티 +52, 기업이익 +58."
+    "overall": "종합 레짐 점수 +11. 매크로 -25, 밸류 -10, 수급 +4, 센티 +24, 기업이익 +58."
   },
   "outlook": {
     "short": {
@@ -11007,8 +11097,8 @@ window.MACRO = {
       "text": "센티먼트·모멘텀 기반. VIX·추세가 핵심 변수. 단기 비대칭 리스크 점검."
     },
     "mid": {
-      "bias": "완만한 상승",
-      "cls": "pos",
+      "bias": "박스권",
+      "cls": "neu",
       "text": "매크로·유동성·기업이익 수정 + 과거 유사국면 이후 3개월 중간값 -2.4%."
     },
     "long": {

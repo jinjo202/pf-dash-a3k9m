@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-05-31a";</script>
+<script>window.CODE_VERSION = "2026-05-31b";</script>
 <script>
   (function () {
     try {
@@ -370,7 +370,7 @@ function render(M) {
       metaParts.push('as of ' + d.as_of);
       html += '<div class="ind-card"><div class="top"><span class="nm">' + d.name + '</span>' +
         '<span class="badge ' + badgeCls(d.signal_cls) + '">' + d.signal + '</span></div>' +
-        '<div class="val tnum">' + fmtNum(d.current, (Math.abs(d.current) >= 100 ? 0 : (Number.isInteger(d.current) ? 0 : 1))) +
+        '<div class="val tnum">' + fmtNum(d.current, (d.current === null ? 0 : Math.abs(d.current) >= 100 ? 0 : Number.isInteger(d.current) ? 0 : Math.abs(d.current) < 2 ? 2 : 1)) +
         '<span class="u">' + (d.unit || '') + '</span></div>' +
         '<div class="meta tnum">' + metaParts.join(' · ') + '</div>' +
         (d.history ? '<div class="spark"><canvas id="spk_' + k + '"></canvas></div>' : '') +

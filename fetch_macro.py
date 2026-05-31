@@ -52,6 +52,70 @@ MANUAL = {
         "unit": "",
         "note": "0=극단적 공포, 100=극단적 탐욕. 무료 API 없어 수동 유지.",
     },
+    "aaii_spread": {
+        "name": "AAII 불-베어 스프레드",
+        "pillar": "sentiment",
+        "current": -6.3,     # 강세% − 약세%
+        "prev": -11.9,
+        "as_of": "2026-05-28",
+        "unit": "%p",
+        "note": "AAII 개인투자자 설문: 강세 35.6%·중립 22.6%·약세 41.9%(역사평균 강세 37.5%). "
+                "역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
+    },
+    "put_call": {
+        "name": "CBOE 풋/콜 비율(총)",
+        "pillar": "sentiment",
+        "current": 0.74,
+        "prev": 0.85,
+        "as_of": "2026-05-28",
+        "unit": "",
+        "note": "옵션 시장 심리(주식 P/C 0.39·SPX 0.88 동반). 역발상 — 높을수록(공포) 강세, "
+                "0.7 아래는 낙관·과열. ※요청의 '풋콜 패리티'는 심리지표인 풋/콜 비율로 해석. cboe.com 일간.",
+    },
+}
+
+# 수급(flows) 수동 지표 — 무료 자동 API 없음(KOFIA/KRX/노무라 추정 등). 별도 dict.
+MANUAL_FLOWS = {
+    "cta_pos": {
+        "name": "미국 CTA 주식 노출(백분위)",
+        "pillar": "flows",
+        "current": 43,      # %ile (노무라/DB 추정)
+        "prev": 48,
+        "as_of": "2026-05-29",
+        "unit": "%ile",
+        "note": "시스템(추세추종) 펀드 주식 노출 백분위. 노무라: 역사평균 약 5% 하회·여전히 롱. "
+                "낮을수록 추가 매수 여력(되돌림 위험 작음). 주간 갱신.",
+    },
+    "retail_alloc": {
+        "name": "미국 리테일 주식비중",
+        "pillar": "flows",
+        "current": 70,      # 가계/개인 주식 배분 % (추정)
+        "prev": 69,
+        "as_of": "2026-05-29",
+        "unit": "%",
+        "note": "리테일 주문비중 36%(사상최고)·가계 주식배분 고점권. 역발상 — 높을수록 후기·과열. "
+                "AAII 자산배분 설문/Vanda 참조, 월간 갱신.",
+    },
+    "kr_deposit": {
+        "name": "한국 투자자예탁금",
+        "pillar": "flows",
+        "current": 95,      # 조원 (추정 — KOFIA freesis 확정치로 갱신 필요)
+        "prev": 88,
+        "as_of": "2026-05-29",
+        "unit": "조원",
+        "note": "증시 대기자금. 개인 순매수 지속으로 증가 추세(추정치 — KOFIA freesis 증시자금추이에서 확정). "
+                "증가=매수 여력 확대.",
+    },
+    "kr_flows": {
+        "name": "한국 투자자별 수급(외국인, 월)",
+        "pillar": "flows",
+        "current": -44.7,   # 외국인 KOSPI 월 순매수(조원)
+        "prev": -30.0,
+        "as_of": "2026-05-29",
+        "unit": "조원",
+        "note": "5월 KOSPI: 외국인 -44.7조(역대 최대 월 순매도, 차익실현)·개인 대규모 순매수로 흡수·"
+                "기관 +2.4조. 구조적으로 외인 의존도↓(연기금·ETF 흡수). KRX data.krx.co.kr 갱신.",
+    },
 }
 
 
@@ -228,6 +292,28 @@ def score_indicator(key, cur, hist_vals, ctx):
         return clamp((18.0 - cur) / 4.0)
     if key == "kospi_fwd_pe":
         return clamp((11.0 - cur) / 4.0)
+    # ── 수동 지표 (센티먼트/수급) ──
+    if key == "cnn_fng":
+        return clamp((cur - 50) / 30.0)
+    if key == "aaii_spread":
+        # 역발상: 비관(음수)→강세, 과열(고+)→약세
+        return clamp(-cur / 25.0)
+    if key == "put_call":
+        # 역발상: 높을수록(공포)→강세, 낮을수록(낙관)→약세
+        return clamp((cur - 0.95) / 0.35)
+    if key == "cta_pos":
+        # 포지셔닝 낮을수록 매수여력(호재), 높을수록 되돌림 위험
+        return clamp((50 - cur) / 40.0)
+    if key == "retail_alloc":
+        # 역발상: 리테일 비중 높을수록 후기·과열(약세)
+        return clamp((62 - cur) / 25.0)
+    if key == "kr_deposit":
+        # 예탁금 증가(대기자금)→호재. hist_vals=[prev,cur]
+        chg = hist_vals[-1] - hist_vals[0] if len(hist_vals) >= 2 else 0.0
+        return clamp(chg / 12.0)
+    if key == "kr_flows":
+        # 외국인 순매수(조원). 음수=유출(약세)·국내 흡수로 완화
+        return clamp(cur / 80.0)
     return 0.0
 
 
@@ -667,11 +753,9 @@ def build():
             "as_of": dates[-1][:10], "history": hist,
         }
 
-    # --- 수동 지표 ---
-    for key, m in MANUAL.items():
+    # --- 수동 지표 (센티먼트 MANUAL + 수급 MANUAL_FLOWS) ---
+    for key, m in {**MANUAL, **MANUAL_FLOWS}.items():
         score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
-        if key == "cnn_fng":
-            score = clamp((m["current"] - 50) / 30.0)
         lbl, cls = signal_label(score)
         pillar_scores[m["pillar"]].append(score)
         indicators[key] = {
@@ -846,9 +930,9 @@ def build_commentary(ind, pillars, overall):
     macro = "·".join(b for b in macro_bits if b)
     val_bits = [fmt(k) for k in ["spx_fwd_pe", "kospi_fwd_pe", "erp", "us10y"]]
     valuation = "·".join(b for b in val_bits if b)
-    flow_bits = [fmt(k) for k in ["m2_yoy", "baa_spread", "usdkrw"]]
+    flow_bits = [fmt(k) for k in ["m2_yoy", "baa_spread", "usdkrw", "cta_pos", "retail_alloc", "kr_deposit", "kr_flows"]]
     flows = "·".join(b for b in flow_bits if b)
-    sent_bits = [fmt(k) for k in ["vix", "spx_mom", "cnn_fng"]]
+    sent_bits = [fmt(k) for k in ["vix", "spx_mom", "cnn_fng", "aaii_spread", "put_call"]]
     sentiment = "·".join(b for b in sent_bits if b)
     earn_bits = [fmt(k) for k in ["err_us", "eps_rev_us", "err_kr", "eps_rev_kr"]]
     earnings = "·".join(b for b in earn_bits if b)
