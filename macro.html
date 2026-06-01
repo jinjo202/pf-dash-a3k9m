@@ -4,8 +4,31 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01h";</script>
+<script>window.CODE_VERSION = "2026-06-01i";</script>
+<!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
+     로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
+<script>
+  (function () {
+    try {
+      var u = new URL(window.location.href);
+      if (u.searchParams.get('cb')) return;  // 이미 강제 새로고침된 상태면 중복 방지
+      var docMs = new Date(document.lastModified).getTime();
+      fetch(window.location.pathname + '?probe=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
+        .then(function (r) {
+          var srv = r.headers.get('Last-Modified');
+          if (!srv) return;
+          var srvMs = new Date(srv).getTime();
+          if (isFinite(srvMs) && isFinite(docMs) && srvMs > docMs + 2000) {
+            u.searchParams.set('cb', Date.now());
+            window.location.replace(u.toString());
+          }
+        }).catch(function () {});
+    } catch (e) {}
+  })();
+</script>
 <script>
   (function () {
     try {
