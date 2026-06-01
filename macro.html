@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01j";</script>
+<script>window.CODE_VERSION = "2026-06-01k";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -221,6 +221,8 @@
   .tm-pills { display:flex; gap:8px; flex-wrap:wrap; }
   .tm-pill { font-size:10.5px; border:1px solid var(--border); border-radius:7px; padding:5px 8px; background:var(--panel); }
   .tm-pill b { font-size:14px; font-weight:800; display:block; }
+  .tm-chart { height:150px; margin:6px 0 10px; }
+  .tm-price { font-size:12px; color:var(--text-soft); margin-top:7px; padding-top:7px; border-top:1px dashed var(--border); line-height:1.6; }
   .analog-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
   @media (max-width:680px){ .analog-grid{ grid-template-columns:1fr; } }
   .analog-card { border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:9px; padding:10px 12px; background:var(--panel); }
@@ -380,6 +382,7 @@ var CHARTS = [];
 var CUR_M = null;        // 클릭 핸들러용 데이터 참조
 var DETAIL_CHART = null; // 국가 EPS 상세 차트
 var MODAL_CHART = null;  // 지표 히스토리 모달 차트
+var TM_CHART = null, TM_SEL = 0; // 타임머신 주가차트 + 선택 인덱스
 function rerenderCharts() { CHARTS.forEach(function (c) { try { c.update(); } catch (e) {} }); if (DETAIL_CHART) try { DETAIL_CHART.update(); } catch (e) {} }
 
 var PILLAR_ORDER = ['macro', 'valuation', 'flows', 'sentiment', 'earnings'];
@@ -761,22 +764,52 @@ function renderTimeMachine(M) {
   if (!M.regime_history || !M.regime_history.length) return '';
   var n = M.regime_history.length;
   return '<div class="panel"><h2>🕰️ 레짐 타임머신 — 과거 시점 국면 보기</h2>' +
-    '<p class="hint">슬라이더로 과거 시점의 코어 레짐(매크로·밸류·수급·센티 4축, 기업이익·수동지표 제외)과 경기국면을 확인. 현재 라이브 종합과 비교용.</p>' +
+    '<p class="hint">슬라이더로 과거 시점의 레짐(5축: 매크로·밸류·수급·센티·기업이익) · 경기국면 · 당시 S&P500·KOSPI 주가와 이후 수익률을 확인. (이익=S&P 트레일링 EPS YoY 프록시)</p>' +
+    '<div class="tm-chart"><canvas id="tmChart"></canvas></div>' +
     '<div class="tm-row"><input type="range" id="tmSlider" min="0" max="' + (n - 1) + '" value="' + (n - 1) + '" class="tm-slider"/><button id="tmReset" class="tm-reset">최신</button></div>' +
     '<div class="tm-readout" id="tmReadout"></div></div>';
+}
+function tmDrawChart(M) {
+  var rh = M.regime_history, cv = document.getElementById('tmChart'); if (!cv) return;
+  var labels = rh.map(function (e) { return e.date.slice(0, 7); });
+  function rebase(arr) { var b = null; return arr.map(function (v) { if (v == null) return null; if (b == null) b = v; return Math.round(v / b * 1000) / 10; }); }
+  var spx = rebase(rh.map(function (e) { return e.spx; })), kospi = rebase(rh.map(function (e) { return e.kospi; }));
+  var marker = { id: 'tmMark', afterDatasetsDraw: function (ch) {
+    var x = ch.scales.x.getPixelForValue(TM_SEL); if (x == null) return;
+    var a = ch.chartArea, ctx = ch.ctx; ctx.save(); ctx.strokeStyle = cssVar('--accent'); ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(x, a.top); ctx.lineTo(x, a.bottom); ctx.stroke(); ctx.restore();
+  } };
+  if (TM_CHART) { try { TM_CHART.destroy(); } catch (e) {} }
+  TM_CHART = new Chart(cv.getContext('2d'), {
+    type: 'line', data: { labels: labels, datasets: [
+      { label: 'S&P500', data: spx, borderColor: cssVar('--accent'), borderWidth: 1.4, pointRadius: 0, tension: .1 },
+      { label: 'KOSPI', data: kospi, borderColor: '#ea580c', borderWidth: 1.4, pointRadius: 0, tension: .1 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 9 }, color: cssVar('--muted'), boxWidth: 9, padding: 6 } }, tooltip: { enabled: false } },
+      scales: { x: { display: false }, y: { ticks: { font: { size: 8 }, color: cssVar('--muted'), maxTicksLimit: 4 }, grid: { color: cssVar('--border') } } } },
+    plugins: [marker]
+  });
 }
 function updateTimeMachine(idx) {
   if (!CUR_M || !CUR_M.regime_history) return;
   var h = CUR_M.regime_history[idx]; if (!h) return;
+  TM_SEL = idx; if (TM_CHART) { try { TM_CHART.update('none'); } catch (e) {} }
   var col = h.score > 6 ? cssVar('--pos') : (h.score < -6 ? cssVar('--neg') : cssVar('--neu'));
-  var pills = ['macro:매크로', 'valuation:밸류', 'flows:수급', 'sentiment:센티'].map(function (m) {
+  var pills = ['macro:매크로', 'valuation:밸류', 'flows:수급', 'sentiment:센티', 'earnings:기업이익'].map(function (m) {
     var k = m.split(':')[0], nm = m.split(':')[1], v = h.pillars[k];
+    if (v === undefined) return '';
     var c = v > 6 ? cssVar('--pos') : (v < -6 ? cssVar('--neg') : cssVar('--neu'));
     return '<div class="tm-pill">' + nm + '<b style="color:' + c + '">' + (v > 0 ? '+' : '') + v + '</b></div>';
   }).join('');
+  var f = h.fwd || {};
+  var price = 'S&P500 <b>' + (h.spx != null ? fmtNum(h.spx, 0) : '–') + '</b>' +
+    (f.spx3 != null || f.spx12 != null ? ' <span style="color:var(--muted)">(이후 3M ' + retSpan(f.spx3) + ' · 12M ' + retSpan(f.spx12) + ')</span>' : '') +
+    ' &nbsp;|&nbsp; KOSPI <b>' + (h.kospi != null ? fmtNum(h.kospi, 0) : '–') + '</b>' +
+    (f.kospi12 != null ? ' <span style="color:var(--muted)">(12M ' + retSpan(f.kospi12) + ')</span>' : '');
   document.getElementById('tmReadout').innerHTML =
     '<div><div class="tm-date">' + h.date.slice(0, 7) + '</div><div class="tm-score" style="color:' + col + '">' + (h.score > 0 ? '+' : '') + h.score + '</div></div>' +
-    '<div style="flex:1;min-width:200px"><div class="tm-phase">' + (h.phase || '-') + '</div><div class="tm-pills" style="margin-top:6px">' + pills + '</div></div>';
+    '<div style="flex:1;min-width:220px"><div class="tm-phase">' + (h.phase || '-') + '</div><div class="tm-pills" style="margin-top:6px">' + pills + '</div>' +
+    '<div class="tm-price">📈 당시 주가 → ' + price + '</div></div>';
 }
 
 function showIndicatorModal(key) {
@@ -1060,9 +1093,10 @@ function render(M) {
   });
   // 새 업데이트 데스크톱 알림 (권한 있으면)
   tryNotifyUpdates(M);
-  // 타임머신 슬라이더
+  // 타임머신 슬라이더 + 주가차트
   if (M.regime_history && M.regime_history.length) {
     var sl = document.getElementById('tmSlider');
+    tmDrawChart(M);
     updateTimeMachine(M.regime_history.length - 1);
     if (sl) {
       sl.addEventListener('input', function () { updateTimeMachine(parseInt(sl.value, 10)); });

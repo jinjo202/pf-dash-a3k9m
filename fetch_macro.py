@@ -322,6 +322,12 @@ def score_indicator(key, cur, hist_vals, ctx):
     if key == "cape":
         # CAPE 높을수록 장기 고평가. 역사평균 ~17, 24 중립선
         return clamp((24.0 - cur) / 12.0)
+    if key == "peg":
+        # PEG = Fwd PER / EPS성장. 1 미만 저평가, 2+ 부담
+        return clamp((1.6 - cur) / 1.0)
+    if key == "spx_eps_yoy":
+        # S&P 트레일링 EPS YoY. 성장 가속=호재 (과거 이익 모멘텀 프록시)
+        return clamp(cur / 12.0)
     if key == "kospi_fwd_pe":
         return clamp((11.0 - cur) / 4.0)
     # ── 수동 지표 (센티먼트/수급) ──
@@ -1116,31 +1122,43 @@ HIST_PILLAR_KEYS = {
     "valuation": ["cape", "us10y"],
     "flows": ["m2_yoy", "baa_spread", "usdkrw"],
     "sentiment": ["vix", "spx_mom"],
+    "earnings": ["spx_eps_yoy"],
 }
-HIST_WEIGHTS = {"macro": 0.30, "valuation": 0.25, "flows": 0.22, "sentiment": 0.23}
+HIST_WEIGHTS = {"macro": 0.24, "valuation": 0.20, "flows": 0.18, "sentiment": 0.18, "earnings": 0.20}
 
 
-def build_regime_history(monthly, spx_me, max_months=192):
-    """과거 월별 레짐(코어 4축, 이익·수동 제외) + 경기국면 시계열 (타임머신용)."""
+def _fwd_ret(me, ym, n):
+    """me(월말 dict) ym 시점 → n개월 후 수익률(%)."""
+    y, mo = int(ym[:4]), int(ym[5:7])
+    tot = mo + n
+    tkey = f"{y + (tot - 1) // 12:04d}-{(tot - 1) % 12 + 1:02d}"
+    if ym in me and tkey in me and me[ym] > 0:
+        return round((me[tkey] / me[ym] - 1) * 100, 1)
+    return None
+
+
+def build_regime_history(monthly, spx_me, kospi_me, max_months=192):
+    """과거 월별 레짐(5축, 이익은 S&P EPS YoY 프록시) + 경기국면 + 당시 주가·이후수익률."""
     core_me = monthly.get("core_cpi_yoy", {})
-    allkeys = [k for ks in HIST_PILLAR_KEYS.values() for k in ks if k in monthly and len(monthly[k]) >= 24]
-    if len(allkeys) < 8:
+    # 교집합은 비-이익 축으로만(이익 프록시는 보고지연 → carry-forward로 처리)
+    core_keys = [k for p, ks in HIST_PILLAR_KEYS.items() if p != "earnings"
+                 for k in ks if k in monthly and len(monthly[k]) >= 24]
+    if len(core_keys) < 8:
         return []
-    sets = [set(monthly[k].keys()) for k in allkeys]
-    common = sorted(set.intersection(*sets))
-    common = common[-max_months:]
+    sets = [set(monthly[k].keys()) for k in core_keys]
+    common = sorted(set.intersection(*sets))[-max_months:]
     out = []
     for mo in common:
         pil = {}
         for pillar, keys in HIST_PILLAR_KEYS.items():
             scores = []
             for k in keys:
-                if k not in monthly or mo not in monthly[k]:
+                if k not in monthly:
                     continue
-                ks = sorted(kk for kk in monthly[k] if kk <= mo)
+                ks = sorted(kk for kk in monthly[k] if kk <= mo)  # mo 이전 최신값까지 (carry-forward)
+                if len(ks) < 4:
+                    continue
                 vals = [monthly[k][kk] for kk in ks]
-                if len(vals) < 4:
-                    continue
                 ctx = {}
                 if k == "consumer_sent":
                     ctx["z"] = zscore(vals)[0]
@@ -1159,7 +1177,11 @@ def build_regime_history(monthly, spx_me, max_months=192):
             cks = sorted(kk for kk in monthly["cli_us"] if kk <= mo)
             cp = cycle_phase([monthly["cli_us"][kk] for kk in cks])
             phase = cp["phase"] if cp else None
-        out.append({"date": mo + "-01", "score": comp, "phase": phase, "pillars": pil})
+        out.append({"date": mo + "-01", "score": comp, "phase": phase, "pillars": pil,
+                    "spx": round(spx_me[mo], 1) if mo in spx_me else None,
+                    "kospi": round(kospi_me[mo], 1) if mo in kospi_me else None,
+                    "fwd": {"spx3": _fwd_ret(spx_me, mo, 3), "spx12": _fwd_ret(spx_me, mo, 12),
+                            "kospi12": _fwd_ret(kospi_me, mo, 12)}})
     return out
 
 
@@ -1444,6 +1466,21 @@ def build():
     indicators.update(earn["cards"])
     pillar_scores["earnings"] = [earn["pillar_score"]]
 
+    # --- PEG (밸류에이션): Fwd PER / EPS성장 ---
+    us_e = earn["data"].get("countries", {}).get("US", {})
+    g_list = [x for x in [us_e.get("growth_cy"), us_e.get("growth_ny")] if x and x > 0]
+    fwd_g = sum(g_list) / len(g_list) if g_list else None
+    if spx_fwd_pe and fwd_g:
+        peg = round(spx_fwd_pe / fwd_g, 2)
+        ps = score_indicator("peg", peg, [peg], {})
+        plbl, pcls = signal_label(ps)
+        indicators["peg"] = {"name": "S&P500 PEG", "pillar": "valuation", "current": peg,
+            "unit": "", "z": None, "pct": None, "score": round(ps, 2), "signal": plbl, "signal_cls": pcls,
+            "desc": f"Fwd PER {spx_fwd_pe} / EPS성장 {fwd_g:.0f}%. 1 미만 저평가, 2+ 부담",
+            "as_of": today.isoformat(), "history": None,
+            "source": {"name": "yfinance/FactSet", "url": "https://insight.factset.com/topic/earnings"}}
+        pillar_scores["valuation"].append(ps)
+
     # --- 축별/종합 레짐 점수 (-100 ~ +100) ---
     pillars_out = {}
     overall = 0.0
@@ -1475,10 +1512,20 @@ def build():
             cv = raw["cli_us"][1]
             cycle = {**cp, "cli": round(cv[-1], 1), "chg6": round(cv[-1] - cv[-7], 2) if len(cv) >= 7 else None}
 
+    # 과거 기업이익 모멘텀 프록시 (S&P 트레일링 EPS YoY) — 타임머신 earnings 축용
+    try:
+        ed, ev = fetch_multpl("s-p-500-earnings")
+        eyd, eyv = yoy(ed, ev)
+        if eyd:
+            monthly["spx_eps_yoy"] = to_month_end(eyd, eyv)
+    except Exception as e:
+        print(f"  [warn] S&P earnings YoY: {e}")
+
     # --- 국가 선호도 + 과거 레짐 타임머신 ---
     spx_me = to_month_end(spx_dates, spx_vals)
+    kospi_me = to_month_end(kospi_dates, kospi_vals)
     country_pref = build_country_pref(earn["data"], bench)
-    regime_history = build_regime_history(monthly, spx_me)
+    regime_history = build_regime_history(monthly, spx_me, kospi_me)
 
     # --- 업데이트 알림 (직전 대비 변경분) ---
     prev = load_prev()

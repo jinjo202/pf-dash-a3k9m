@@ -138,149 +138,27 @@ window.MACRO = {
       "title": "한국 투자자예탁금",
       "detail": "최근 발표 95조원 (2026-05-29)",
       "as_of": "2026-05-29"
+    },
+    {
+      "date": "2026-06-01",
+      "type": "flows",
+      "key": "krflow_26.06.01",
+      "title": "한국 투자자 수급 갱신",
+      "detail": "외국인 26.06.01 -2.82조 · YTD누적 -102.71조"
     }
   ],
   "updates_today": [
     {
       "date": "2026-06-01",
-      "type": "release",
-      "key": "cpi_yoy",
-      "title": "미국 CPI (YoY)",
-      "detail": "최근 발표 3.8% (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "core_cpi_yoy",
-      "title": "미국 근원 CPI (YoY)",
-      "detail": "최근 발표 2.7% (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "unemployment",
-      "title": "미국 실업률",
-      "detail": "최근 발표 4.3% (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "payrolls",
-      "title": "비농업 고용 (전월비)",
-      "detail": "최근 발표 115.0천명 (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "fed_funds",
-      "title": "연방기금금리",
-      "detail": "최근 발표 3.64% (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "consumer_sent",
-      "title": "소비자심리(미시간)",
-      "detail": "최근 발표 49.8 (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "cli_us",
-      "title": "OECD 경기선행지수(미)",
-      "detail": "최근 발표 100.8 (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "oil_yoy",
-      "title": "WTI 유가 (YoY)",
-      "detail": "최근 발표 58.9% (2026-05-01)",
-      "as_of": "2026-05-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "최근 발표 42.7배 (2026-05-29)",
-      "as_of": "2026-05-29"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "m2_yoy",
-      "title": "M2 통화량 (YoY)",
-      "detail": "최근 발표 4.7% (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "ism_pmi",
-      "title": "ISM 제조업 PMI",
-      "detail": "최근 발표 52.7 (2026-04-30)",
-      "as_of": "2026-04-30"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "최근 발표 60 (2026-05-29)",
-      "as_of": "2026-05-29"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "aaii_spread",
-      "title": "AAII 불-베어 스프레드",
-      "detail": "최근 발표 -6.3%p (2026-05-28)",
-      "as_of": "2026-05-28"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "put_call",
-      "title": "CBOE 풋/콜 비율(총)",
-      "detail": "최근 발표 0.74 (2026-05-28)",
-      "as_of": "2026-05-28"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "cta_pos",
-      "title": "미국 CTA 주식 노출(백분위)",
-      "detail": "최근 발표 43%ile (2026-05-29)",
-      "as_of": "2026-05-29"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "retail_alloc",
-      "title": "미국 리테일 주식비중",
-      "detail": "최근 발표 70% (2026-05-29)",
-      "as_of": "2026-05-29"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "최근 발표 95조원 (2026-05-29)",
-      "as_of": "2026-05-29"
+      "type": "flows",
+      "key": "krflow_26.06.01",
+      "title": "한국 투자자 수급 갱신",
+      "detail": "외국인 26.06.01 -2.82조 · YTD누적 -102.71조"
     }
   ],
-  "generated": "2026-06-01T12:44:42Z",
+  "generated": "2026-06-01T13:02:34Z",
   "regime": {
-    "score": 7,
+    "score": 9,
     "label": "중립 (선별적)",
     "cls": "neu",
     "pillars": {
@@ -291,12 +169,12 @@ window.MACRO = {
       },
       "valuation": {
         "name": "밸류에이션",
-        "score": -28,
-        "n": 5
+        "score": -21,
+        "n": 6
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 4,
+        "score": 12,
         "n": 7
       },
       "sentiment": {
@@ -343,7 +221,7 @@ window.MACRO = {
     },
     "KR": {
       "name": "한국",
-      "pe": 6.7,
+      "pe": 7.0,
       "fair_pe": 11.0,
       "components": {
         "val": 100,
@@ -433,431 +311,743 @@ window.MACRO = {
   "regime_history": [
     {
       "date": "2010-04-01",
-      "score": 27,
+      "score": 42,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 29,
         "valuation": 9,
         "flows": 42,
-        "sentiment": 30
+        "sentiment": 30,
+        "earnings": 100
+      },
+      "spx": 1186.7,
+      "kospi": 1741.6,
+      "fwd": {
+        "spx3": -7.2,
+        "spx12": 14.9,
+        "kospi12": 25.9
       }
     },
     {
       "date": "2010-05-01",
-      "score": 4,
+      "score": 23,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 42,
         "valuation": 15,
         "flows": -35,
-        "sentiment": -20
+        "sentiment": -20,
+        "earnings": 100
+      },
+      "spx": 1089.4,
+      "kospi": 1641.2,
+      "fwd": {
+        "spx3": -3.7,
+        "spx12": 23.5,
+        "kospi12": 30.5
       }
     },
     {
       "date": "2010-06-01",
-      "score": -2,
+      "score": 19,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 33,
         "valuation": 18,
         "flows": -43,
-        "sentiment": -28
+        "sentiment": -28,
+        "earnings": 100
+      },
+      "spx": 1030.7,
+      "kospi": 1698.3,
+      "fwd": {
+        "spx3": 10.7,
+        "spx12": 28.1,
+        "kospi12": 23.7
       }
     },
     {
       "date": "2010-07-01",
-      "score": 8,
+      "score": 26,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 24,
         "valuation": 18,
         "flows": -38,
-        "sentiment": 22
+        "sentiment": 22,
+        "earnings": 100
+      },
+      "spx": 1101.6,
+      "kospi": 1759.3,
+      "fwd": {
+        "spx3": 7.4,
+        "spx12": 17.3,
+        "kospi12": 21.3
       }
     },
     {
       "date": "2010-08-01",
-      "score": -1,
+      "score": 19,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 24,
         "valuation": 18,
         "flows": -6,
-        "sentiment": -51
+        "sentiment": -51,
+        "earnings": 100
+      },
+      "spx": 1049.3,
+      "kospi": 1742.8,
+      "fwd": {
+        "spx3": 12.5,
+        "spx12": 16.2,
+        "kospi12": 7.9
       }
     },
     {
       "date": "2010-09-01",
-      "score": 17,
+      "score": 34,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 11,
         "valuation": 15,
         "flows": 32,
-        "sentiment": 13
+        "sentiment": 13,
+        "earnings": 100
+      },
+      "spx": 1141.2,
+      "kospi": 1872.8,
+      "fwd": {
+        "spx3": 10.2,
+        "spx12": -0.9,
+        "kospi12": -5.5
       }
     },
     {
       "date": "2010-10-01",
-      "score": 29,
+      "score": 43,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 39,
         "valuation": 12,
         "flows": 31,
-        "sentiment": 34
+        "sentiment": 34,
+        "earnings": 100
+      },
+      "spx": 1183.3,
+      "kospi": 1882.9,
+      "fwd": {
+        "spx3": 8.7,
+        "spx12": 5.9,
+        "kospi12": 1.4
       }
     },
     {
       "date": "2010-11-01",
-      "score": 21,
+      "score": 37,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 28,
         "valuation": 10,
         "flows": 33,
-        "sentiment": 13
+        "sentiment": 13,
+        "earnings": 100
+      },
+      "spx": 1180.6,
+      "kospi": 1904.6,
+      "fwd": {
+        "spx3": 12.4,
+        "spx12": 5.6,
+        "kospi12": -3.0
       }
     },
     {
       "date": "2010-12-01",
-      "score": 28,
+      "score": 42,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 33,
         "valuation": 7,
         "flows": 20,
-        "sentiment": 51
+        "sentiment": 51,
+        "earnings": 100
+      },
+      "spx": 1257.6,
+      "kospi": 2051.0,
+      "fwd": {
+        "spx3": 5.4,
+        "spx12": -0.0,
+        "kospi12": -11.0
       }
     },
     {
       "date": "2011-01-01",
-      "score": 23,
+      "score": 38,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 25,
         "valuation": 4,
         "flows": 21,
-        "sentiment": 42
+        "sentiment": 42,
+        "earnings": 100
+      },
+      "spx": 1286.1,
+      "kospi": 2069.7,
+      "fwd": {
+        "spx3": 6.0,
+        "spx12": 2.0,
+        "kospi12": -5.5
       }
     },
     {
       "date": "2011-02-01",
-      "score": 36,
+      "score": 48,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 44,
         "valuation": 2,
         "flows": 49,
-        "sentiment": 48
+        "sentiment": 48,
+        "earnings": 100
+      },
+      "spx": 1327.2,
+      "kospi": 1939.3,
+      "fwd": {
+        "spx3": 1.4,
+        "spx12": 2.9,
+        "kospi12": 4.7
       }
     },
     {
       "date": "2011-03-01",
-      "score": 32,
+      "score": 46,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 27,
         "valuation": 5,
         "flows": 51,
-        "sentiment": 51
+        "sentiment": 51,
+        "earnings": 100
+      },
+      "spx": 1325.8,
+      "kospi": 2106.7,
+      "fwd": {
+        "spx3": -0.4,
+        "spx12": 6.2,
+        "kospi12": -4.4
       }
     },
     {
       "date": "2011-04-01",
-      "score": 34,
+      "score": 47,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 16,
         "valuation": 4,
         "flows": 57,
-        "sentiment": 66
+        "sentiment": 66,
+        "earnings": 100
+      },
+      "spx": 1363.6,
+      "kospi": 2192.4,
+      "fwd": {
+        "spx3": -5.2,
+        "spx12": 2.5,
+        "kospi12": -9.6
       }
     },
     {
       "date": "2011-05-01",
-      "score": 27,
+      "score": 42,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": -1,
         "valuation": 4,
         "flows": 55,
-        "sentiment": 63
+        "sentiment": 63,
+        "earnings": 100
+      },
+      "spx": 1345.2,
+      "kospi": 2142.5,
+      "fwd": {
+        "spx3": -9.4,
+        "spx12": -2.6,
+        "kospi12": -14.0
       }
     },
     {
       "date": "2011-06-01",
-      "score": 27,
+      "score": 42,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 6,
         "valuation": 8,
         "flows": 46,
-        "sentiment": 57
+        "sentiment": 57,
+        "earnings": 100
+      },
+      "spx": 1320.6,
+      "kospi": 2100.7,
+      "fwd": {
+        "spx3": -14.3,
+        "spx12": 3.1,
+        "kospi12": -11.7
       }
     },
     {
       "date": "2011-07-01",
-      "score": 9,
+      "score": 28,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -7,
         "valuation": 6,
         "flows": 31,
-        "sentiment": 14
+        "sentiment": 14,
+        "earnings": 100
+      },
+      "spx": 1292.3,
+      "kospi": 2133.2,
+      "fwd": {
+        "spx3": -3.0,
+        "spx12": 6.7,
+        "kospi12": -11.8
       }
     },
     {
       "date": "2011-08-01",
-      "score": 1,
+      "score": 21,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -8,
         "valuation": 16,
         "flows": 18,
-        "sentiment": -20
+        "sentiment": -20,
+        "earnings": 100
+      },
+      "spx": 1218.9,
+      "kospi": 1880.1,
+      "fwd": {
+        "spx3": 2.3,
+        "spx12": 15.4,
+        "kospi12": 1.3
       }
     },
     {
       "date": "2011-09-01",
-      "score": -15,
+      "score": 8,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 7,
         "valuation": 18,
         "flows": -28,
-        "sentiment": -66
+        "sentiment": -66,
+        "earnings": 100
+      },
+      "spx": 1131.4,
+      "kospi": 1769.7,
+      "fwd": {
+        "spx3": 11.2,
+        "spx12": 27.3,
+        "kospi12": 12.8
       }
     },
     {
       "date": "2011-10-01",
-      "score": -10,
+      "score": 12,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 8,
         "valuation": 16,
         "flows": -21,
-        "sentiment": -50
+        "sentiment": -50,
+        "earnings": 100
+      },
+      "spx": 1253.3,
+      "kospi": 1909.0,
+      "fwd": {
+        "spx3": 4.7,
+        "spx12": 12.7,
+        "kospi12": 0.2
       }
     },
     {
       "date": "2011-11-01",
-      "score": -10,
+      "score": 11,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 13,
         "valuation": 15,
         "flows": -27,
-        "sentiment": -50
+        "sentiment": -50,
+        "earnings": 95
+      },
+      "spx": 1247.0,
+      "kospi": 1847.5,
+      "fwd": {
+        "spx3": 9.5,
+        "spx12": 13.6,
+        "kospi12": 4.6
       }
     },
     {
       "date": "2011-12-01",
-      "score": 8,
+      "score": 22,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 33,
         "valuation": 15,
         "flows": 25,
-        "sentiment": -47
+        "sentiment": -47,
+        "earnings": 76
+      },
+      "spx": 1257.6,
+      "kospi": 1825.7,
+      "fwd": {
+        "spx3": 12.0,
+        "spx12": 13.4,
+        "kospi12": 9.4
       }
     },
     {
       "date": "2012-01-01",
-      "score": 18,
+      "score": 27,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 41,
         "valuation": 12,
         "flows": -5,
-        "sentiment": 15
+        "sentiment": 15,
+        "earnings": 67
+      },
+      "spx": 1312.4,
+      "kospi": 1955.8,
+      "fwd": {
+        "spx3": 6.5,
+        "spx12": 14.1,
+        "kospi12": 0.3
       }
     },
     {
       "date": "2012-02-01",
-      "score": 26,
+      "score": 32,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 39,
         "valuation": 9,
         "flows": 29,
-        "sentiment": 23
+        "sentiment": 23,
+        "earnings": 58
+      },
+      "spx": 1365.7,
+      "kospi": 2030.2,
+      "fwd": {
+        "spx3": -4.1,
+        "spx12": 10.9,
+        "kospi12": -0.2
       }
     },
     {
       "date": "2012-03-01",
-      "score": 34,
+      "score": 37,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 44,
         "valuation": 8,
         "flows": 34,
-        "sentiment": 48
+        "sentiment": 48,
+        "earnings": 51
+      },
+      "spx": 1408.5,
+      "kospi": 2014.0,
+      "fwd": {
+        "spx3": -3.3,
+        "spx12": 11.4,
+        "kospi12": -0.5
       }
     },
     {
       "date": "2012-04-01",
-      "score": 18,
+      "score": 23,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 28,
         "valuation": 9,
         "flows": 4,
-        "sentiment": 28
+        "sentiment": 28,
+        "earnings": 42
+      },
+      "spx": 1397.9,
+      "kospi": 1982.0,
+      "fwd": {
+        "spx3": -1.3,
+        "spx12": 14.3,
+        "kospi12": -0.9
       }
     },
     {
       "date": "2012-05-01",
-      "score": 1,
+      "score": 8,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 34,
         "valuation": 13,
         "flows": -31,
-        "sentiment": -24
+        "sentiment": -24,
+        "earnings": 36
+      },
+      "spx": 1310.3,
+      "kospi": 1843.5,
+      "fwd": {
+        "spx3": 7.3,
+        "spx12": 24.5,
+        "kospi12": 8.5
       }
     },
     {
       "date": "2012-06-01",
-      "score": 16,
+      "score": 18,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 24,
         "valuation": 14,
         "flows": -5,
-        "sentiment": 30
+        "sentiment": 30,
+        "earnings": 26
+      },
+      "spx": 1362.2,
+      "kospi": 1854.0,
+      "fwd": {
+        "spx3": 5.8,
+        "spx12": 17.9,
+        "kospi12": 0.5
       }
     },
     {
       "date": "2012-07-01",
-      "score": 20,
+      "score": 19,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 28,
         "valuation": 12,
         "flows": 6,
-        "sentiment": 33
+        "sentiment": 33,
+        "earnings": 13
+      },
+      "spx": 1379.3,
+      "kospi": 1882.0,
+      "fwd": {
+        "spx3": 2.4,
+        "spx12": 22.2,
+        "kospi12": 1.7
       }
     },
     {
       "date": "2012-08-01",
-      "score": 32,
+      "score": 25,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 28,
         "valuation": 11,
         "flows": 41,
-        "sentiment": 53
+        "sentiment": 53,
+        "earnings": -4
+      },
+      "spx": 1406.6,
+      "kospi": 1905.1,
+      "fwd": {
+        "spx3": 0.7,
+        "spx12": 16.1,
+        "kospi12": 1.1
       }
     },
     {
       "date": "2012-09-01",
-      "score": 34,
+      "score": 23,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 33,
         "valuation": 9,
         "flows": 36,
-        "sentiment": 61
+        "sentiment": 61,
+        "earnings": -21
+      },
+      "spx": 1440.7,
+      "kospi": 1996.2,
+      "fwd": {
+        "spx3": -1.0,
+        "spx12": 16.7,
+        "kospi12": 0.0
       }
     },
     {
       "date": "2012-10-01",
-      "score": 37,
+      "score": 25,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 39,
         "valuation": 10,
         "flows": 53,
-        "sentiment": 47
+        "sentiment": 47,
+        "earnings": -22
+      },
+      "spx": 1412.2,
+      "kospi": 1912.1,
+      "fwd": {
+        "spx3": 6.1,
+        "spx12": 24.4,
+        "kospi12": 6.2
       }
     },
     {
       "date": "2012-11-01",
-      "score": 41,
+      "score": 29,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 46,
         "valuation": 13,
         "flows": 47,
-        "sentiment": 61
+        "sentiment": 61,
+        "earnings": -19
+      },
+      "spx": 1416.2,
+      "kospi": 1932.9,
+      "fwd": {
+        "spx3": 7.0,
+        "spx12": 27.5,
+        "kospi12": 5.8
       }
     },
     {
       "date": "2012-12-01",
-      "score": 38,
+      "score": 26,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 40,
         "valuation": 12,
         "flows": 50,
-        "sentiment": 50
+        "sentiment": 50,
+        "earnings": -18
+      },
+      "spx": 1426.2,
+      "kospi": 1997.1,
+      "fwd": {
+        "spx3": 10.0,
+        "spx12": 29.6,
+        "kospi12": 0.7
       }
     },
     {
       "date": "2013-01-01",
-      "score": 33,
+      "score": 23,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 35,
         "valuation": 9,
         "flows": 20,
-        "sentiment": 69
+        "sentiment": 69,
+        "earnings": -18
+      },
+      "spx": 1498.1,
+      "kospi": 1961.9,
+      "fwd": {
+        "spx3": 6.6,
+        "spx12": 19.0,
+        "kospi12": -1.1
       }
     },
     {
       "date": "2013-02-01",
-      "score": 33,
+      "score": 21,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 45,
         "valuation": 8,
         "flows": 14,
-        "sentiment": 62
+        "sentiment": 62,
+        "earnings": -23
+      },
+      "spx": 1514.7,
+      "kospi": 2026.5,
+      "fwd": {
+        "spx3": 7.7,
+        "spx12": 22.8,
+        "kospi12": -2.3
       }
     },
     {
       "date": "2013-03-01",
-      "score": 30,
+      "score": 20,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 50,
         "valuation": 7,
         "flows": -19,
-        "sentiment": 76
+        "sentiment": 76,
+        "earnings": -20
+      },
+      "spx": 1569.2,
+      "kospi": 2004.9,
+      "fwd": {
+        "spx3": 2.4,
+        "spx12": 19.3,
+        "kospi12": -1.0
       }
     },
     {
       "date": "2013-04-01",
-      "score": 37,
+      "score": 28,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 60,
         "valuation": 6,
         "flows": 5,
-        "sentiment": 72
+        "sentiment": 72,
+        "earnings": -5
+      },
+      "spx": 1597.6,
+      "kospi": 1963.9,
+      "fwd": {
+        "spx3": 5.5,
+        "spx12": 17.9,
+        "kospi12": -0.1
       }
     },
     {
       "date": "2013-05-01",
-      "score": 28,
+      "score": 23,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 58,
         "valuation": 2,
         "flows": -15,
-        "sentiment": 58
+        "sentiment": 58,
+        "earnings": 5
+      },
+      "spx": 1630.7,
+      "kospi": 2001.1,
+      "fwd": {
+        "spx3": 0.1,
+        "spx12": 18.0,
+        "kospi12": -0.3
       }
     },
     {
       "date": "2013-06-01",
-      "score": 26,
+      "score": 23,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 44,
         "valuation": 4,
         "flows": -7,
-        "sentiment": 56
+        "sentiment": 56,
+        "earnings": 14
+      },
+      "spx": 1606.3,
+      "kospi": 1863.3,
+      "fwd": {
+        "spx3": 4.7,
+        "spx12": 22.0,
+        "kospi12": 7.5
       }
     },
     {
@@ -868,172 +1058,300 @@ window.MACRO = {
         "macro": 38,
         "valuation": 2,
         "flows": 3,
-        "sentiment": 73
+        "sentiment": 73,
+        "earnings": 27
+      },
+      "spx": 1685.7,
+      "kospi": 1914.0,
+      "fwd": {
+        "spx3": 4.2,
+        "spx12": 14.5,
+        "kospi12": 8.5
       }
     },
     {
       "date": "2013-08-01",
-      "score": 38,
+      "score": 40,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 51,
         "valuation": 3,
         "flows": 41,
-        "sentiment": 55
+        "sentiment": 55,
+        "earnings": 47
+      },
+      "spx": 1633.0,
+      "kospi": 1926.4,
+      "fwd": {
+        "spx3": 10.6,
+        "spx12": 22.7,
+        "kospi12": 7.4
       }
     },
     {
       "date": "2013-09-01",
-      "score": 40,
+      "score": 45,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 48,
         "valuation": 2,
         "flows": 53,
-        "sentiment": 57
+        "sentiment": 57,
+        "earnings": 65
+      },
+      "spx": 1681.6,
+      "kospi": 1997.0,
+      "fwd": {
+        "spx3": 9.9,
+        "spx12": 17.3,
+        "kospi12": 1.2
       }
     },
     {
       "date": "2013-10-01",
-      "score": 42,
+      "score": 51,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 46,
         "valuation": 1,
         "flows": 55,
-        "sentiment": 71
+        "sentiment": 71,
+        "earnings": 86
+      },
+      "spx": 1756.5,
+      "kospi": 2030.1,
+      "fwd": {
+        "spx3": 1.5,
+        "spx12": 14.9,
+        "kospi12": -3.2
       }
     },
     {
       "date": "2013-11-01",
-      "score": 44,
+      "score": 55,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 52,
         "valuation": -3,
         "flows": 56,
-        "sentiment": 72
+        "sentiment": 72,
+        "earnings": 100
+      },
+      "spx": 1805.8,
+      "kospi": 2044.9,
+      "fwd": {
+        "spx3": 3.0,
+        "spx12": 14.5,
+        "kospi12": -3.1
       }
     },
     {
       "date": "2013-12-01",
-      "score": 38,
+      "score": 50,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 41,
         "valuation": -4,
         "flows": 45,
-        "sentiment": 71
+        "sentiment": 71,
+        "earnings": 100
+      },
+      "spx": 1848.4,
+      "kospi": 2011.3,
+      "fwd": {
+        "spx3": 1.3,
+        "spx12": 11.4,
+        "kospi12": -4.8
       }
     },
     {
       "date": "2014-01-01",
-      "score": 28,
+      "score": 42,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 52,
         "valuation": -4,
         "flows": 12,
-        "sentiment": 48
+        "sentiment": 48,
+        "earnings": 100
+      },
+      "spx": 1782.6,
+      "kospi": 1941.2,
+      "fwd": {
+        "spx3": 5.7,
+        "spx12": 11.9,
+        "kospi12": 0.4
       }
     },
     {
       "date": "2014-02-01",
-      "score": 34,
+      "score": 47,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 46,
         "valuation": -2,
         "flows": 23,
-        "sentiment": 70
+        "sentiment": 70,
+        "earnings": 100
+      },
+      "spx": 1859.4,
+      "kospi": 1980.0,
+      "fwd": {
+        "spx3": 3.4,
+        "spx12": 13.2,
+        "kospi12": 0.3
       }
     },
     {
       "date": "2014-03-01",
-      "score": 34,
+      "score": 47,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 46,
         "valuation": -4,
         "flows": 24,
-        "sentiment": 71
+        "sentiment": 71,
+        "earnings": 100
+      },
+      "spx": 1872.3,
+      "kospi": 1985.6,
+      "fwd": {
+        "spx3": 4.7,
+        "spx12": 10.4,
+        "kospi12": 2.8
       }
     },
     {
       "date": "2014-04-01",
-      "score": 46,
+      "score": 57,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 51,
         "valuation": -3,
         "flows": 68,
-        "sentiment": 73
+        "sentiment": 73,
+        "earnings": 100
+      },
+      "spx": 1883.9,
+      "kospi": 1961.8,
+      "fwd": {
+        "spx3": 2.5,
+        "spx12": 10.7,
+        "kospi12": 8.4
       }
     },
     {
       "date": "2014-05-01",
-      "score": 45,
+      "score": 55,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 41,
         "valuation": -4,
         "flows": 66,
-        "sentiment": 83
+        "sentiment": 83,
+        "earnings": 96
+      },
+      "spx": 1923.6,
+      "kospi": 1995.0,
+      "fwd": {
+        "spx3": 4.1,
+        "spx12": 9.6,
+        "kospi12": 6.0
       }
     },
     {
       "date": "2014-06-01",
-      "score": 47,
+      "score": 56,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 51,
         "valuation": -6,
         "flows": 67,
-        "sentiment": 82
+        "sentiment": 82,
+        "earnings": 92
+      },
+      "spx": 1960.2,
+      "kospi": 2002.2,
+      "fwd": {
+        "spx3": 0.6,
+        "spx12": 5.2,
+        "kospi12": 3.6
       }
     },
     {
       "date": "2014-07-01",
-      "score": 33,
+      "score": 44,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 46,
         "valuation": -8,
         "flows": 38,
-        "sentiment": 55
+        "sentiment": 55,
+        "earnings": 90
+      },
+      "spx": 1930.7,
+      "kospi": 2076.1,
+      "fwd": {
+        "spx3": 4.5,
+        "spx12": 9.0,
+        "kospi12": -2.2
       }
     },
     {
       "date": "2014-08-01",
-      "score": 41,
+      "score": 51,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 54,
         "valuation": -7,
         "flows": 38,
-        "sentiment": 80
+        "sentiment": 80,
+        "earnings": 90
+      },
+      "spx": 2003.4,
+      "kospi": 2068.5,
+      "fwd": {
+        "spx3": 3.2,
+        "spx12": -1.6,
+        "kospi12": -6.1
       }
     },
     {
       "date": "2014-09-01",
-      "score": 29,
+      "score": 40,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 59,
         "valuation": -8,
         "flows": -2,
-        "sentiment": 58
+        "sentiment": 58,
+        "earnings": 87
+      },
+      "spx": 1972.3,
+      "kospi": 2020.1,
+      "fwd": {
+        "spx3": 4.4,
+        "spx12": -2.6,
+        "kospi12": -2.8
       }
     },
     {
       "date": "2014-10-01",
-      "score": 34,
+      "score": 38,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 66,
         "valuation": -5,
         "flows": -5,
-        "sentiment": 70
+        "sentiment": 70,
+        "earnings": 58
+      },
+      "spx": 2018.1,
+      "kospi": 1964.4,
+      "fwd": {
+        "spx3": -1.1,
+        "spx12": 3.0,
+        "kospi12": 3.3
       }
     },
     {
@@ -1044,1503 +1362,2599 @@ window.MACRO = {
         "macro": 69,
         "valuation": -11,
         "flows": -8,
-        "sentiment": 73
+        "sentiment": 73,
+        "earnings": 33
+      },
+      "spx": 2067.6,
+      "kospi": 1980.8,
+      "fwd": {
+        "spx3": 1.8,
+        "spx12": 0.6,
+        "kospi12": 0.6
       }
     },
     {
       "date": "2014-12-01",
-      "score": 29,
+      "score": 26,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 78,
         "valuation": -12,
         "flows": -5,
-        "sentiment": 44
+        "sentiment": 44,
+        "earnings": 11
+      },
+      "spx": 2058.9,
+      "kospi": 1915.6,
+      "fwd": {
+        "spx3": 0.4,
+        "spx12": -0.7,
+        "kospi12": 2.4
       }
     },
     {
       "date": "2015-01-01",
-      "score": 25,
+      "score": 21,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 67,
         "valuation": -10,
         "flows": -3,
-        "sentiment": 35
+        "sentiment": 35,
+        "earnings": 8
+      },
+      "spx": 1995.0,
+      "kospi": 1949.3,
+      "fwd": {
+        "spx3": 4.5,
+        "spx12": -2.7,
+        "kospi12": -1.9
       }
     },
     {
       "date": "2015-02-01",
-      "score": 44,
+      "score": 35,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 75,
         "valuation": -12,
         "flows": 36,
-        "sentiment": 73
+        "sentiment": 73,
+        "earnings": -3
+      },
+      "spx": 2104.5,
+      "kospi": 1985.8,
+      "fwd": {
+        "spx3": 0.1,
+        "spx12": -8.2,
+        "kospi12": -3.5
       }
     },
     {
       "date": "2015-03-01",
-      "score": 31,
+      "score": 22,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 57,
         "valuation": -11,
         "flows": 10,
-        "sentiment": 63
+        "sentiment": 63,
+        "earnings": -13
+      },
+      "spx": 2067.9,
+      "kospi": 2041.0,
+      "fwd": {
+        "spx3": -0.2,
+        "spx12": -0.4,
+        "kospi12": -2.2
       }
     },
     {
       "date": "2015-04-01",
-      "score": 44,
+      "score": 29,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 72,
         "valuation": -12,
         "flows": 46,
-        "sentiment": 67
+        "sentiment": 67,
+        "earnings": -30
+      },
+      "spx": 2085.5,
+      "kospi": 2127.2,
+      "fwd": {
+        "spx3": 0.9,
+        "spx12": -1.0,
+        "kospi12": -6.3
       }
     },
     {
       "date": "2015-05-01",
-      "score": 33,
+      "score": 16,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 60,
         "valuation": -12,
         "flows": 11,
-        "sentiment": 68
+        "sentiment": 68,
+        "earnings": -49
+      },
+      "spx": 2107.4,
+      "kospi": 2114.8,
+      "fwd": {
+        "spx3": -6.4,
+        "spx12": -0.5,
+        "kospi12": -6.2
       }
     },
     {
       "date": "2015-06-01",
-      "score": 25,
+      "score": 6,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 61,
         "valuation": -10,
         "flows": 9,
-        "sentiment": 31
+        "sentiment": 31,
+        "earnings": -67
+      },
+      "spx": 2063.1,
+      "kospi": 2074.2,
+      "fwd": {
+        "spx3": -6.9,
+        "spx12": 1.7,
+        "kospi12": -5.0
       }
     },
     {
       "date": "2015-07-01",
-      "score": 30,
+      "score": 6,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 65,
         "valuation": -10,
         "flows": -19,
-        "sentiment": 74
+        "sentiment": 74,
+        "earnings": -86
+      },
+      "spx": 2103.8,
+      "kospi": 2030.2,
+      "fwd": {
+        "spx3": -1.2,
+        "spx12": 3.3,
+        "kospi12": -0.7
       }
     },
     {
       "date": "2015-08-01",
-      "score": -6,
+      "score": -25,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 61,
         "valuation": -7,
         "flows": -24,
-        "sentiment": -75
+        "sentiment": -75,
+        "earnings": -100
+      },
+      "spx": 1972.2,
+      "kospi": 1941.5,
+      "fwd": {
+        "spx3": 5.5,
+        "spx12": 10.1,
+        "kospi12": 4.8
       }
     },
     {
       "date": "2015-09-01",
-      "score": -4,
+      "score": -23,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 54,
         "valuation": -2,
         "flows": -28,
-        "sentiment": -61
+        "sentiment": -61,
+        "earnings": -100
+      },
+      "spx": 1920.0,
+      "kospi": 1962.8,
+      "fwd": {
+        "spx3": 6.5,
+        "spx12": 12.9,
+        "kospi12": 4.1
       }
     },
     {
       "date": "2015-10-01",
-      "score": 31,
+      "score": 5,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 61,
         "valuation": -6,
         "flows": 24,
-        "sentiment": 40
+        "sentiment": 40,
+        "earnings": -100
+      },
+      "spx": 2079.4,
+      "kospi": 2029.5,
+      "fwd": {
+        "spx3": -6.7,
+        "spx12": 2.3,
+        "kospi12": -1.0
       }
     },
     {
       "date": "2015-11-01",
-      "score": 27,
+      "score": 2,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 52,
         "valuation": -9,
         "flows": 35,
-        "sentiment": 26
+        "sentiment": 26,
+        "earnings": -100
+      },
+      "spx": 2080.4,
+      "kospi": 1992.0,
+      "fwd": {
+        "spx3": -7.1,
+        "spx12": 5.7,
+        "kospi12": -0.4
       }
     },
     {
       "date": "2015-12-01",
-      "score": 12,
+      "score": -11,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 48,
         "valuation": -8,
         "flows": 20,
-        "sentiment": -23
+        "sentiment": -23,
+        "earnings": -100
+      },
+      "spx": 2043.9,
+      "kospi": 1961.3,
+      "fwd": {
+        "spx3": 0.8,
+        "spx12": 9.5,
+        "kospi12": 3.3
       }
     },
     {
       "date": "2016-01-01",
-      "score": -6,
+      "score": -24,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 37,
         "valuation": -1,
         "flows": -33,
-        "sentiment": -40
+        "sentiment": -40,
+        "earnings": -100
+      },
+      "spx": 1940.2,
+      "kospi": 1912.1,
+      "fwd": {
+        "spx3": 6.4,
+        "spx12": 17.5,
+        "kospi12": 8.1
       }
     },
     {
       "date": "2016-02-01",
-      "score": -7,
+      "score": -26,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 46,
         "valuation": 0,
         "flows": -33,
-        "sentiment": -60
+        "sentiment": -60,
+        "earnings": -100
+      },
+      "spx": 1932.2,
+      "kospi": 1916.7,
+      "fwd": {
+        "spx3": 8.5,
+        "spx12": 22.3,
+        "kospi12": 9.1
       }
     },
     {
       "date": "2016-03-01",
-      "score": 28,
+      "score": 2,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 45,
         "valuation": -6,
         "flows": 35,
-        "sentiment": 34
+        "sentiment": 34,
+        "earnings": -100
+      },
+      "spx": 2059.7,
+      "kospi": 1995.8,
+      "fwd": {
+        "spx3": 1.9,
+        "spx12": 14.7,
+        "kospi12": 8.2
       }
     },
     {
       "date": "2016-04-01",
-      "score": 24,
+      "score": 0,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 34,
         "valuation": -8,
         "flows": 50,
-        "sentiment": 23
+        "sentiment": 23,
+        "earnings": -100
+      },
+      "spx": 2065.3,
+      "kospi": 1994.2,
+      "fwd": {
+        "spx3": 5.2,
+        "spx12": 15.4,
+        "kospi12": 10.6
       }
     },
     {
       "date": "2016-05-01",
-      "score": 27,
+      "score": 3,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 33,
         "valuation": -7,
         "flows": 50,
-        "sentiment": 32
+        "sentiment": 32,
+        "earnings": -91
+      },
+      "spx": 2096.9,
+      "kospi": 1983.4,
+      "fwd": {
+        "spx3": 3.5,
+        "spx12": 15.0,
+        "kospi12": 18.4
       }
     },
     {
       "date": "2016-06-01",
-      "score": 20,
+      "score": 0,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 47,
         "valuation": -8,
         "flows": 2,
-        "sentiment": 33
+        "sentiment": 33,
+        "earnings": -78
+      },
+      "spx": 2098.9,
+      "kospi": 1970.3,
+      "fwd": {
+        "spx3": 3.3,
+        "spx12": 15.5,
+        "kospi12": 21.4
       }
     },
     {
       "date": "2016-07-01",
-      "score": 36,
+      "score": 17,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 51,
         "valuation": -11,
         "flows": 46,
-        "sentiment": 57
+        "sentiment": 57,
+        "earnings": -59
+      },
+      "spx": 2173.6,
+      "kospi": 2016.2,
+      "fwd": {
+        "spx3": -2.2,
+        "spx12": 13.7,
+        "kospi12": 19.2
       }
     },
     {
       "date": "2016-08-01",
-      "score": 35,
+      "score": 19,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 30,
         "valuation": -12,
         "flows": 56,
-        "sentiment": 71
+        "sentiment": 71,
+        "earnings": -42
+      },
+      "spx": 2170.9,
+      "kospi": 2034.7,
+      "fwd": {
+        "spx3": 1.3,
+        "spx12": 13.9,
+        "kospi12": 16.1
       }
     },
     {
       "date": "2016-09-01",
-      "score": 36,
+      "score": 24,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 33,
         "valuation": -11,
         "flows": 54,
-        "sentiment": 74
+        "sentiment": 74,
+        "earnings": -26
+      },
+      "spx": 2168.3,
+      "kospi": 2043.6,
+      "fwd": {
+        "spx3": 3.3,
+        "spx12": 16.2,
+        "kospi12": 17.2
       }
     },
     {
       "date": "2016-10-01",
-      "score": 9,
+      "score": 8,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 22,
         "valuation": -11,
         "flows": -4,
-        "sentiment": 27
+        "sentiment": 27,
+        "earnings": 2
+      },
+      "spx": 2126.1,
+      "kospi": 2008.2,
+      "fwd": {
+        "spx3": 7.2,
+        "spx12": 21.1,
+        "kospi12": 25.7
       }
     },
     {
       "date": "2016-11-01",
-      "score": 19,
+      "score": 21,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 34,
         "valuation": -12,
         "flows": -6,
-        "sentiment": 57
+        "sentiment": 57,
+        "earnings": 31
+      },
+      "spx": 2198.8,
+      "kospi": 1983.5,
+      "fwd": {
+        "spx3": 7.5,
+        "spx12": 20.4,
+        "kospi12": 24.8
       }
     },
     {
       "date": "2016-12-01",
-      "score": 23,
+      "score": 30,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 40,
         "valuation": -16,
         "flows": -2,
-        "sentiment": 67
+        "sentiment": 67,
+        "earnings": 59
+      },
+      "spx": 2238.8,
+      "kospi": 2026.5,
+      "fwd": {
+        "spx3": 5.5,
+        "spx12": 19.4,
+        "kospi12": 21.8
       }
     },
     {
       "date": "2017-01-01",
-      "score": 30,
+      "score": 39,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 34,
         "valuation": -17,
         "flows": 27,
-        "sentiment": 80
+        "sentiment": 80,
+        "earnings": 73
+      },
+      "spx": 2278.9,
+      "kospi": 2067.6,
+      "fwd": {
+        "spx3": 4.6,
+        "spx12": 23.9,
+        "kospi12": 24.1
       }
     },
     {
       "date": "2017-02-01",
-      "score": 35,
+      "score": 46,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 26,
         "valuation": -19,
         "flows": 67,
-        "sentiment": 75
+        "sentiment": 75,
+        "earnings": 89
+      },
+      "spx": 2363.6,
+      "kospi": 2091.6,
+      "fwd": {
+        "spx3": 2.0,
+        "spx12": 14.8,
+        "kospi12": 16.1
       }
     },
     {
       "date": "2017-03-01",
-      "score": 37,
+      "score": 49,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 31,
         "valuation": -21,
         "flows": 66,
-        "sentiment": 78
+        "sentiment": 78,
+        "earnings": 100
+      },
+      "spx": 2362.7,
+      "kospi": 2160.2,
+      "fwd": {
+        "spx3": 2.6,
+        "spx12": 11.8,
+        "kospi12": 13.2
       }
     },
     {
       "date": "2017-04-01",
-      "score": 39,
+      "score": 51,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 49,
         "valuation": -20,
         "flows": 43,
-        "sentiment": 86
+        "sentiment": 86,
+        "earnings": 100
+      },
+      "spx": 2384.2,
+      "kospi": 2205.4,
+      "fwd": {
+        "spx3": 3.6,
+        "spx12": 11.1,
+        "kospi12": 14.1
       }
     },
     {
       "date": "2017-05-01",
-      "score": 40,
+      "score": 52,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 53,
         "valuation": -22,
         "flows": 41,
-        "sentiment": 88
+        "sentiment": 88,
+        "earnings": 100
+      },
+      "spx": 2411.8,
+      "kospi": 2347.4,
+      "fwd": {
+        "spx3": 2.5,
+        "spx12": 12.2,
+        "kospi12": 3.2
       }
     },
     {
       "date": "2017-06-01",
-      "score": 31,
+      "score": 45,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 50,
         "valuation": -24,
         "flows": 14,
-        "sentiment": 84
+        "sentiment": 84,
+        "earnings": 100
+      },
+      "spx": 2423.4,
+      "kospi": 2391.8,
+      "fwd": {
+        "spx3": 4.0,
+        "spx12": 12.2,
+        "kospi12": -2.7
       }
     },
     {
       "date": "2017-07-01",
-      "score": 37,
+      "score": 49,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 38,
         "valuation": -25,
         "flows": 50,
-        "sentiment": 89
+        "sentiment": 89,
+        "earnings": 100
+      },
+      "spx": 2470.3,
+      "kospi": 2402.7,
+      "fwd": {
+        "spx3": 4.2,
+        "spx12": 14.0,
+        "kospi12": -4.5
       }
     },
     {
       "date": "2017-08-01",
-      "score": 32,
+      "score": 45,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 35,
         "valuation": -25,
         "flows": 33,
-        "sentiment": 87
+        "sentiment": 87,
+        "earnings": 100
+      },
+      "spx": 2471.6,
+      "kospi": 2363.2,
+      "fwd": {
+        "spx3": 7.1,
+        "spx12": 17.4,
+        "kospi12": -1.7
       }
     },
     {
       "date": "2017-09-01",
-      "score": 32,
+      "score": 45,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 28,
         "valuation": -26,
         "flows": 39,
-        "sentiment": 92
+        "sentiment": 92,
+        "earnings": 100
+      },
+      "spx": 2519.4,
+      "kospi": 2394.5,
+      "fwd": {
+        "spx3": 6.1,
+        "spx12": 15.7,
+        "kospi12": -2.1
       }
     },
     {
       "date": "2017-10-01",
-      "score": 34,
+      "score": 47,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 37,
         "valuation": -29,
         "flows": 46,
-        "sentiment": 89
+        "sentiment": 89,
+        "earnings": 100
+      },
+      "spx": 2575.3,
+      "kospi": 2523.4,
+      "fwd": {
+        "spx3": 9.7,
+        "spx12": 5.3,
+        "kospi12": -19.6
       }
     },
     {
       "date": "2017-11-01",
-      "score": 41,
+      "score": 52,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 43,
         "valuation": -30,
         "flows": 72,
-        "sentiment": 84
+        "sentiment": 84,
+        "earnings": 100
+      },
+      "spx": 2647.6,
+      "kospi": 2476.4,
+      "fwd": {
+        "spx3": 2.5,
+        "spx12": 4.3,
+        "kospi12": -15.3
       }
     },
     {
       "date": "2017-12-01",
-      "score": 39,
+      "score": 51,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 37,
         "valuation": -34,
         "flows": 77,
-        "sentiment": 85
+        "sentiment": 85,
+        "earnings": 100
+      },
+      "spx": 2673.6,
+      "kospi": 2467.5,
+      "fwd": {
+        "spx3": -1.2,
+        "spx12": -6.2,
+        "kospi12": -17.3
       }
     },
     {
       "date": "2018-01-01",
-      "score": 34,
+      "score": 47,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 33,
         "valuation": -39,
         "flows": 79,
-        "sentiment": 72
+        "sentiment": 72,
+        "earnings": 100
+      },
+      "spx": 2823.8,
+      "kospi": 2566.5,
+      "fwd": {
+        "spx3": -6.2,
+        "spx12": -4.2,
+        "kospi12": -14.1
       }
     },
     {
       "date": "2018-02-01",
-      "score": 24,
+      "score": 39,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 44,
         "valuation": -34,
         "flows": 43,
-        "sentiment": 41
+        "sentiment": 41,
+        "earnings": 100
+      },
+      "spx": 2713.8,
+      "kospi": 2427.4,
+      "fwd": {
+        "spx3": -0.3,
+        "spx12": 2.6,
+        "kospi12": -9.6
       }
     },
     {
       "date": "2018-03-01",
-      "score": 21,
+      "score": 37,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 35,
         "valuation": -33,
         "flows": 42,
-        "sentiment": 40
+        "sentiment": 40,
+        "earnings": 100
+      },
+      "spx": 2640.9,
+      "kospi": 2445.9,
+      "fwd": {
+        "spx3": 2.9,
+        "spx12": 7.3,
+        "kospi12": -12.5
       }
     },
     {
       "date": "2018-04-01",
-      "score": 20,
+      "score": 36,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 19,
         "valuation": -29,
         "flows": 35,
-        "sentiment": 60
+        "sentiment": 60,
+        "earnings": 100
+      },
+      "spx": 2648.1,
+      "kospi": 2515.4,
+      "fwd": {
+        "spx3": 6.4,
+        "spx12": 11.2,
+        "kospi12": -12.4
       }
     },
     {
       "date": "2018-05-01",
-      "score": 23,
+      "score": 38,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 28,
         "valuation": -30,
         "flows": 35,
-        "sentiment": 63
+        "sentiment": 63,
+        "earnings": 100
+      },
+      "spx": 2705.3,
+      "kospi": 2423.0,
+      "fwd": {
+        "spx3": 7.3,
+        "spx12": 1.7,
+        "kospi12": -15.7
       }
     },
     {
       "date": "2018-06-01",
-      "score": 11,
+      "score": 28,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 17,
         "valuation": -32,
         "flows": -1,
-        "sentiment": 60
+        "sentiment": 60,
+        "earnings": 100
+      },
+      "spx": 2718.4,
+      "kospi": 2326.1,
+      "fwd": {
+        "spx3": 7.2,
+        "spx12": 8.2,
+        "kospi12": -8.4
       }
     },
     {
       "date": "2018-07-01",
-      "score": 12,
+      "score": 29,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 8,
         "valuation": -33,
         "flows": 2,
-        "sentiment": 76
+        "sentiment": 76,
+        "earnings": 100
+      },
+      "spx": 2816.3,
+      "kospi": 2295.3,
+      "fwd": {
+        "spx3": -3.7,
+        "spx12": 5.8,
+        "kospi12": -11.8
       }
     },
     {
       "date": "2018-08-01",
-      "score": 15,
+      "score": 32,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 19,
         "valuation": -35,
         "flows": 3,
-        "sentiment": 76
+        "sentiment": 76,
+        "earnings": 100
+      },
+      "spx": 2901.5,
+      "kospi": 2322.9,
+      "fwd": {
+        "spx3": -4.9,
+        "spx12": 0.9,
+        "kospi12": -15.3
       }
     },
     {
       "date": "2018-09-01",
-      "score": 22,
+      "score": 37,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 16,
         "valuation": -36,
         "flows": 35,
-        "sentiment": 79
+        "sentiment": 79,
+        "earnings": 100
+      },
+      "spx": 2914.0,
+      "kospi": 2343.1,
+      "fwd": {
+        "spx3": -14.0,
+        "spx12": 2.2,
+        "kospi12": -12.0
       }
     },
     {
       "date": "2018-10-01",
-      "score": -6,
+      "score": 16,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 17,
         "valuation": -29,
         "flows": 3,
-        "sentiment": -18
+        "sentiment": -18,
+        "earnings": 100
+      },
+      "spx": 2711.7,
+      "kospi": 2029.7,
+      "fwd": {
+        "spx3": -0.3,
+        "spx12": 12.0,
+        "kospi12": 2.7
       }
     },
     {
       "date": "2018-11-01",
-      "score": 10,
+      "score": 28,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 19,
         "valuation": -26,
         "flows": 18,
-        "sentiment": 29
+        "sentiment": 29,
+        "earnings": 100
+      },
+      "spx": 2760.2,
+      "kospi": 2096.9,
+      "fwd": {
+        "spx3": 0.9,
+        "spx12": 13.8,
+        "kospi12": -0.4
       }
     },
     {
       "date": "2018-12-01",
-      "score": -12,
+      "score": 11,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 25,
         "valuation": -18,
         "flows": 15,
-        "sentiment": -78
+        "sentiment": -78,
+        "earnings": 100
+      },
+      "spx": 2506.9,
+      "kospi": 2041.0,
+      "fwd": {
+        "spx3": 13.1,
+        "spx12": 28.9,
+        "kospi12": 7.7
       }
     },
     {
       "date": "2019-01-01",
-      "score": 7,
+      "score": 26,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 26,
         "valuation": -18,
         "flows": 46,
-        "sentiment": -27
+        "sentiment": -27,
+        "earnings": 100
+      },
+      "spx": 2704.1,
+      "kospi": 2204.9,
+      "fwd": {
+        "spx3": 8.9,
+        "spx12": 19.3,
+        "kospi12": -3.9
       }
     },
     {
       "date": "2019-02-01",
-      "score": 11,
+      "score": 29,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 10,
         "valuation": -23,
         "flows": 21,
-        "sentiment": 40
+        "sentiment": 40,
+        "earnings": 100
+      },
+      "spx": 2784.5,
+      "kospi": 2195.4,
+      "fwd": {
+        "spx3": -1.2,
+        "spx12": 6.1,
+        "kospi12": -9.5
       }
     },
     {
       "date": "2019-03-01",
-      "score": 17,
+      "score": 34,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 27,
         "valuation": -23,
         "flows": 5,
-        "sentiment": 61
+        "sentiment": 61,
+        "earnings": 100
+      },
+      "spx": 2834.4,
+      "kospi": 2140.7,
+      "fwd": {
+        "spx3": 3.8,
+        "spx12": -8.8,
+        "kospi12": -18.0
       }
     },
     {
       "date": "2019-04-01",
-      "score": 18,
+      "score": 34,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 29,
         "valuation": -26,
         "flows": -5,
-        "sentiment": 74
+        "sentiment": 74,
+        "earnings": 100
+      },
+      "spx": 2945.8,
+      "kospi": 2203.6,
+      "fwd": {
+        "spx3": 1.2,
+        "spx12": -1.1,
+        "kospi12": -11.6
       }
     },
     {
       "date": "2019-05-01",
-      "score": -6,
+      "score": 12,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 18,
         "valuation": -22,
         "flows": -9,
-        "sentiment": -18
+        "sentiment": -18,
+        "earnings": 86
+      },
+      "spx": 2752.1,
+      "kospi": 2041.7,
+      "fwd": {
+        "spx3": 6.3,
+        "spx12": 10.6,
+        "kospi12": -0.6
       }
     },
     {
       "date": "2019-06-01",
-      "score": 20,
+      "score": 31,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 33,
         "valuation": -22,
         "flows": 13,
-        "sentiment": 57
+        "sentiment": 57,
+        "earnings": 72
+      },
+      "spx": 2941.8,
+      "kospi": 2130.6,
+      "fwd": {
+        "spx3": 1.2,
+        "spx12": 5.4,
+        "kospi12": -1.0
       }
     },
     {
       "date": "2019-07-01",
-      "score": 13,
+      "score": 20,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 16,
         "valuation": -25,
         "flows": 20,
-        "sentiment": 44
+        "sentiment": 44,
+        "earnings": 46
+      },
+      "spx": 2980.4,
+      "kospi": 2024.6,
+      "fwd": {
+        "spx3": 1.9,
+        "spx12": 9.8,
+        "kospi12": 11.1
       }
     },
     {
       "date": "2019-08-01",
-      "score": 7,
+      "score": 11,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 21,
         "valuation": -20,
         "flows": 14,
-        "sentiment": 13
+        "sentiment": 13,
+        "earnings": 24
+      },
+      "spx": 2926.5,
+      "kospi": 1967.8,
+      "fwd": {
+        "spx3": 7.3,
+        "spx12": 19.6,
+        "kospi12": 18.2
       }
     },
     {
       "date": "2019-09-01",
-      "score": 10,
+      "score": 8,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 27,
         "valuation": -22,
         "flows": 0,
-        "sentiment": 31
+        "sentiment": 31,
+        "earnings": 2
+      },
+      "spx": 2976.7,
+      "kospi": 2063.1,
+      "fwd": {
+        "spx3": 8.5,
+        "spx12": 13.0,
+        "kospi12": 12.8
       }
     },
     {
       "date": "2019-10-01",
-      "score": 29,
+      "score": 25,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 23,
         "valuation": -20,
         "flows": 45,
-        "sentiment": 74
+        "sentiment": 74,
+        "earnings": 11
+      },
+      "spx": 3037.6,
+      "kospi": 2083.5,
+      "fwd": {
+        "spx3": 6.2,
+        "spx12": 7.7,
+        "kospi12": 8.8
       }
     },
     {
       "date": "2019-11-01",
-      "score": 31,
+      "score": 29,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 21,
         "valuation": -24,
         "flows": 61,
-        "sentiment": 77
+        "sentiment": 77,
+        "earnings": 18
+      },
+      "spx": 3141.0,
+      "kospi": 2088.0,
+      "fwd": {
+        "spx3": -5.9,
+        "spx12": 15.3,
+        "kospi12": 24.1
       }
     },
     {
       "date": "2019-12-01",
-      "score": 29,
+      "score": 28,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 10,
         "valuation": -26,
         "flows": 72,
-        "sentiment": 71
+        "sentiment": 71,
+        "earnings": 25
+      },
+      "spx": 3230.8,
+      "kospi": 2197.7,
+      "fwd": {
+        "spx3": -20.0,
+        "spx12": 16.3,
+        "kospi12": 30.8
       }
     },
     {
       "date": "2020-01-01",
-      "score": 15,
+      "score": 7,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 28,
         "valuation": -29,
         "flows": 17,
-        "sentiment": 46
+        "sentiment": 46,
+        "earnings": -28
+      },
+      "spx": 3225.5,
+      "kospi": 2119.0,
+      "fwd": {
+        "spx3": -9.7,
+        "spx12": 15.2,
+        "kospi12": 40.5
       }
     },
     {
       "date": "2020-02-01",
-      "score": -6,
+      "score": -20,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 38,
         "valuation": -28,
         "flows": 1,
-        "sentiment": -44
+        "sentiment": -44,
+        "earnings": -78
+      },
+      "spx": 2954.2,
+      "kospi": 1987.0,
+      "fwd": {
+        "spx3": 3.0,
+        "spx12": 29.0,
+        "kospi12": 51.6
       }
     },
     {
       "date": "2020-03-01",
-      "score": -25,
+      "score": -40,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 7,
         "valuation": -3,
         "flows": -33,
-        "sentiment": -85
+        "sentiment": -85,
+        "earnings": -100
+      },
+      "spx": 2584.6,
+      "kospi": 1754.6,
+      "fwd": {
+        "spx3": 20.0,
+        "spx12": 53.7,
+        "kospi12": 74.5
       }
     },
     {
       "date": "2020-04-01",
-      "score": -18,
+      "score": -34,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 6,
         "valuation": -8,
         "flows": -4,
-        "sentiment": -72
+        "sentiment": -72,
+        "earnings": -100
+      },
+      "spx": 2912.4,
+      "kospi": 1947.6,
+      "fwd": {
+        "spx3": 12.3,
+        "spx12": 43.6,
+        "kospi12": 61.6
       }
     },
     {
       "date": "2020-05-01",
-      "score": 4,
+      "score": -17,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 27,
         "valuation": -14,
         "flows": -7,
-        "sentiment": 2
+        "sentiment": 2,
+        "earnings": -100
+      },
+      "spx": 3044.3,
+      "kospi": 2029.6,
+      "fwd": {
+        "spx3": 15.0,
+        "spx12": 38.1,
+        "kospi12": 57.9
       }
     },
     {
       "date": "2020-06-01",
-      "score": 7,
+      "score": -14,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 30,
         "valuation": -20,
         "flows": 30,
-        "sentiment": -17
+        "sentiment": -17,
+        "earnings": -100
+      },
+      "spx": 3100.3,
+      "kospi": 2108.3,
+      "fwd": {
+        "spx3": 8.5,
+        "spx12": 38.6,
+        "kospi12": 56.4
       }
     },
     {
       "date": "2020-07-01",
-      "score": 19,
+      "score": -5,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 47,
         "valuation": -23,
         "flows": 32,
-        "sentiment": 15
+        "sentiment": 15,
+        "earnings": -100
+      },
+      "spx": 3271.1,
+      "kospi": 2249.4,
+      "fwd": {
+        "spx3": -0.0,
+        "spx12": 34.4,
+        "kospi12": 42.4
       }
     },
     {
       "date": "2020-08-01",
-      "score": 19,
+      "score": -5,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": 41,
         "valuation": -30,
         "flows": 55,
-        "sentiment": 8
+        "sentiment": 8,
+        "earnings": -100
+      },
+      "spx": 3500.3,
+      "kospi": 2326.2,
+      "fwd": {
+        "spx3": 3.5,
+        "spx12": 29.2,
+        "kospi12": 37.5
       }
     },
     {
       "date": "2020-09-01",
-      "score": 20,
+      "score": -4,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 47,
         "valuation": -28,
         "flows": 48,
-        "sentiment": 8
+        "sentiment": 8,
+        "earnings": -100
+      },
+      "spx": 3363.0,
+      "kospi": 2327.9,
+      "fwd": {
+        "spx3": 11.7,
+        "spx12": 28.1,
+        "kospi12": 31.8
       }
     },
     {
       "date": "2020-10-01",
-      "score": 21,
+      "score": -3,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 59,
         "valuation": -30,
         "flows": 56,
-        "sentiment": -5
+        "sentiment": -5,
+        "earnings": -100
+      },
+      "spx": 3270.0,
+      "kospi": 2267.1,
+      "fwd": {
+        "spx3": 13.6,
+        "spx12": 40.8,
+        "kospi12": 31.0
       }
     },
     {
       "date": "2020-11-01",
-      "score": 31,
+      "score": 5,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 56,
         "valuation": -35,
         "flows": 64,
-        "sentiment": 37
+        "sentiment": 37,
+        "earnings": -100
+      },
+      "spx": 3621.6,
+      "kospi": 2591.3,
+      "fwd": {
+        "spx3": 5.2,
+        "spx12": 26.1,
+        "kospi12": 9.6
       }
     },
     {
       "date": "2020-12-01",
-      "score": 22,
+      "score": -2,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 38,
         "valuation": -41,
         "flows": 67,
-        "sentiment": 26
+        "sentiment": 26,
+        "earnings": -100
+      },
+      "spx": 3756.1,
+      "kospi": 2873.5,
+      "fwd": {
+        "spx3": 5.8,
+        "spx12": 26.9,
+        "kospi12": 3.6
       }
     },
     {
       "date": "2021-01-01",
-      "score": 17,
+      "score": -6,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 58,
         "valuation": -44,
         "flows": 47,
-        "sentiment": 1
+        "sentiment": 1,
+        "earnings": -100
+      },
+      "spx": 3714.2,
+      "kospi": 2976.2,
+      "fwd": {
+        "spx3": 12.6,
+        "spx12": 21.6,
+        "kospi12": -10.5
       }
     },
     {
       "date": "2021-02-01",
-      "score": 8,
+      "score": -6,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 49,
         "valuation": -46,
         "flows": 21,
-        "sentiment": 0
+        "sentiment": 0,
+        "earnings": -61
+      },
+      "spx": 3811.1,
+      "kospi": 3012.9,
+      "fwd": {
+        "spx3": 10.3,
+        "spx12": 14.8,
+        "kospi12": -10.4
       }
     },
     {
       "date": "2021-03-01",
-      "score": 12,
+      "score": 22,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 42,
         "valuation": -46,
         "flows": 4,
-        "sentiment": 43
+        "sentiment": 43,
+        "earnings": 62
+      },
+      "spx": 3972.9,
+      "kospi": 3061.4,
+      "fwd": {
+        "spx3": 8.2,
+        "spx12": 14.0,
+        "kospi12": -9.9
       }
     },
     {
       "date": "2021-04-01",
-      "score": 14,
+      "score": 31,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 21,
         "valuation": -50,
         "flows": 42,
-        "sentiment": 47
+        "sentiment": 47,
+        "earnings": 100
+      },
+      "spx": 4181.2,
+      "kospi": 3147.9,
+      "fwd": {
+        "spx3": 5.1,
+        "spx12": -1.2,
+        "kospi12": -14.4
       }
     },
     {
       "date": "2021-05-01",
-      "score": 16,
+      "score": 32,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 17,
         "valuation": -50,
         "flows": 46,
-        "sentiment": 56
+        "sentiment": 56,
+        "earnings": 100
+      },
+      "spx": 4204.1,
+      "kospi": 3203.9,
+      "fwd": {
+        "spx3": 7.6,
+        "spx12": -1.7,
+        "kospi12": -16.2
       }
     },
     {
       "date": "2021-06-01",
-      "score": 14,
+      "score": 31,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 12,
         "valuation": -50,
         "flows": 39,
-        "sentiment": 61
+        "sentiment": 61,
+        "earnings": 100
+      },
+      "spx": 4297.5,
+      "kospi": 3296.7,
+      "fwd": {
+        "spx3": 0.2,
+        "spx12": -11.9,
+        "kospi12": -29.2
       }
     },
     {
       "date": "2021-07-01",
-      "score": 4,
+      "score": 23,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 11,
         "valuation": -50,
         "flows": 10,
-        "sentiment": 49
+        "sentiment": 49,
+        "earnings": 100
+      },
+      "spx": 4395.3,
+      "kospi": 3202.3,
+      "fwd": {
+        "spx3": 4.8,
+        "spx12": -6.0,
+        "kospi12": -23.4
       }
     },
     {
       "date": "2021-08-01",
-      "score": 3,
+      "score": 22,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 3,
         "valuation": -50,
         "flows": 7,
-        "sentiment": 58
+        "sentiment": 58,
+        "earnings": 100
+      },
+      "spx": 4522.7,
+      "kospi": 3199.3,
+      "fwd": {
+        "spx3": 1.0,
+        "spx12": -12.6,
+        "kospi12": -22.7
       }
     },
     {
       "date": "2021-09-01",
-      "score": -3,
+      "score": 18,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 7,
         "valuation": -50,
         "flows": 9,
-        "sentiment": 24
+        "sentiment": 24,
+        "earnings": 100
+      },
+      "spx": 4307.5,
+      "kospi": 3068.8,
+      "fwd": {
+        "spx3": 10.6,
+        "spx12": -16.8,
+        "kospi12": -29.8
       }
     },
     {
       "date": "2021-10-01",
-      "score": 8,
+      "score": 26,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 3,
         "valuation": -50,
         "flows": 27,
-        "sentiment": 59
+        "sentiment": 59,
+        "earnings": 100
+      },
+      "spx": 4605.4,
+      "kospi": 2970.7,
+      "fwd": {
+        "spx3": -2.0,
+        "spx12": -15.9,
+        "kospi12": -22.8
       }
     },
     {
       "date": "2021-11-01",
-      "score": -7,
+      "score": 14,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 0,
         "valuation": -50,
         "flows": 19,
-        "sentiment": 4
+        "sentiment": 4,
+        "earnings": 100
+      },
+      "spx": 4567.0,
+      "kospi": 2839.0,
+      "fwd": {
+        "spx3": -4.2,
+        "spx12": -10.7,
+        "kospi12": -12.9
       }
     },
     {
       "date": "2021-12-01",
-      "score": 9,
+      "score": 27,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": 1,
         "valuation": -50,
         "flows": 38,
-        "sentiment": 54
+        "sentiment": 54,
+        "earnings": 100
+      },
+      "spx": 4766.2,
+      "kospi": 2977.6,
+      "fwd": {
+        "spx3": -4.9,
+        "spx12": -19.4,
+        "kospi12": -24.9
       }
     },
     {
       "date": "2022-01-01",
-      "score": -8,
+      "score": 13,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": -8,
         "valuation": -50,
         "flows": 14,
-        "sentiment": 16
+        "sentiment": 16,
+        "earnings": 100
+      },
+      "spx": 4515.5,
+      "kospi": 2663.3,
+      "fwd": {
+        "spx3": -8.5,
+        "spx12": -9.7,
+        "kospi12": -8.9
       }
     },
     {
       "date": "2022-02-01",
-      "score": -17,
+      "score": 7,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": -14,
         "valuation": -47,
         "flows": 17,
-        "sentiment": -21
+        "sentiment": -21,
+        "earnings": 100
+      },
+      "spx": 4373.9,
+      "kospi": 2699.2,
+      "fwd": {
+        "spx3": -5.5,
+        "spx12": -9.2,
+        "kospi12": -10.6
       }
     },
     {
       "date": "2022-03-01",
-      "score": -3,
+      "score": 17,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": -19,
         "valuation": -43,
         "flows": 21,
-        "sentiment": 37
+        "sentiment": 37,
+        "earnings": 100
+      },
+      "spx": 4530.4,
+      "kospi": 2757.6,
+      "fwd": {
+        "spx3": -16.4,
+        "spx12": -9.3,
+        "kospi12": -10.2
       }
     },
     {
       "date": "2022-04-01",
-      "score": -31,
+      "score": -5,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": -17,
         "valuation": -41,
         "flows": 4,
-        "sentiment": -73
+        "sentiment": -73,
+        "earnings": 100
+      },
+      "spx": 4131.9,
+      "kospi": 2695.1,
+      "fwd": {
+        "spx3": -0.0,
+        "spx12": 0.9,
+        "kospi12": -7.2
       }
     },
     {
       "date": "2022-05-01",
-      "score": -26,
+      "score": 0,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
         "macro": -15,
         "valuation": -28,
         "flows": 5,
-        "sentiment": -67
+        "sentiment": -67,
+        "earnings": 100
+      },
+      "spx": 4132.1,
+      "kospi": 2685.9,
+      "fwd": {
+        "spx3": -4.3,
+        "spx12": 1.2,
+        "kospi12": -4.1
       }
     },
     {
       "date": "2022-06-01",
-      "score": -36,
+      "score": -10,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -22,
         "valuation": -21,
         "flows": -3,
-        "sentiment": -100
+        "sentiment": -100,
+        "earnings": 92
+      },
+      "spx": 3785.4,
+      "kospi": 2332.6,
+      "fwd": {
+        "spx3": -5.3,
+        "spx12": 17.6,
+        "kospi12": 9.9
       }
     },
     {
       "date": "2022-07-01",
-      "score": -27,
+      "score": -10,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -27,
         "valuation": -21,
         "flows": -4,
-        "sentiment": -57
+        "sentiment": -57,
+        "earnings": 57
+      },
+      "spx": 4130.3,
+      "kospi": 2451.5,
+      "fwd": {
+        "spx3": -6.3,
+        "spx12": 11.1,
+        "kospi12": 7.4
       }
     },
     {
       "date": "2022-08-01",
-      "score": -39,
+      "score": -26,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -33,
         "valuation": -28,
         "flows": -7,
-        "sentiment": -89
+        "sentiment": -89,
+        "earnings": 22
+      },
+      "spx": 3955.0,
+      "kospi": 2472.1,
+      "fwd": {
+        "spx3": 3.2,
+        "spx12": 14.0,
+        "kospi12": 3.4
       }
     },
     {
       "date": "2022-09-01",
-      "score": -39,
+      "score": -34,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -27,
         "valuation": -18,
         "flows": -17,
-        "sentiment": -100
+        "sentiment": -100,
+        "earnings": -12
+      },
+      "spx": 3585.6,
+      "kospi": 2155.5,
+      "fwd": {
+        "spx3": 7.1,
+        "spx12": 19.6,
+        "kospi12": 14.4
       }
     },
     {
       "date": "2022-10-01",
-      "score": -38,
+      "score": -43,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -30,
         "valuation": -13,
         "flows": -26,
-        "sentiment": -89
+        "sentiment": -89,
+        "earnings": -62
+      },
+      "spx": 3872.0,
+      "kospi": 2293.6,
+      "fwd": {
+        "spx3": 5.3,
+        "spx12": 8.3,
+        "kospi12": -0.7
       }
     },
     {
       "date": "2022-11-01",
-      "score": -17,
+      "score": -33,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -32,
         "valuation": -18,
         "flows": 22,
-        "sentiment": -33
+        "sentiment": -33,
+        "earnings": -100
+      },
+      "spx": 4080.1,
+      "kospi": 2472.5,
+      "fwd": {
+        "spx3": -2.7,
+        "spx12": 12.0,
+        "kospi12": 2.5
       }
     },
     {
       "date": "2022-12-01",
-      "score": -23,
+      "score": -38,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -34,
         "valuation": -18,
         "flows": 32,
-        "sentiment": -68
+        "sentiment": -68,
+        "earnings": -100
+      },
+      "spx": 3839.5,
+      "kospi": 2236.4,
+      "fwd": {
+        "spx3": 7.0,
+        "spx12": 24.2,
+        "kospi12": 18.7
       }
     },
     {
       "date": "2023-01-01",
-      "score": -8,
+      "score": -26,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -16,
         "valuation": -18,
         "flows": 30,
-        "sentiment": -24
+        "sentiment": -24,
+        "earnings": -100
+      },
+      "spx": 4076.6,
+      "kospi": 2425.1,
+      "fwd": {
+        "spx3": 2.3,
+        "spx12": 18.9,
+        "kospi12": 3.0
       }
     },
     {
       "date": "2023-02-01",
-      "score": -20,
+      "score": -36,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -17,
         "valuation": -21,
         "flows": -13,
-        "sentiment": -29
+        "sentiment": -29,
+        "earnings": -100
+      },
+      "spx": 3970.1,
+      "kospi": 2412.9,
+      "fwd": {
+        "spx3": 5.3,
+        "spx12": 28.4,
+        "kospi12": 9.5
       }
     },
     {
       "date": "2023-03-01",
-      "score": -30,
+      "score": -44,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -31,
         "valuation": -16,
         "flows": -57,
-        "sentiment": -19
+        "sentiment": -19,
+        "earnings": -100
+      },
+      "spx": 4109.3,
+      "kospi": 2476.9,
+      "fwd": {
+        "spx3": 8.3,
+        "spx12": 27.9,
+        "kospi12": 10.9
       }
     },
     {
       "date": "2023-04-01",
-      "score": -17,
+      "score": -34,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -17,
         "valuation": -20,
         "flows": -61,
-        "sentiment": 29
+        "sentiment": 29,
+        "earnings": -100
+      },
+      "spx": 4169.5,
+      "kospi": 2501.5,
+      "fwd": {
+        "spx3": 10.1,
+        "spx12": 20.8,
+        "kospi12": 7.6
       }
     },
     {
       "date": "2023-05-01",
-      "score": -10,
+      "score": -28,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -13,
         "valuation": -20,
         "flows": -27,
-        "sentiment": 19
+        "sentiment": 19,
+        "earnings": -95
+      },
+      "spx": 4179.8,
+      "kospi": 2577.1,
+      "fwd": {
+        "spx3": 7.8,
+        "spx12": 26.3,
+        "kospi12": 2.3
       }
     },
     {
       "date": "2023-06-01",
-      "score": 0,
+      "score": -14,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -11,
         "valuation": -25,
         "flows": -30,
-        "sentiment": 72
+        "sentiment": 72,
+        "earnings": -71
+      },
+      "spx": 4450.4,
+      "kospi": 2564.3,
+      "fwd": {
+        "spx3": -3.6,
+        "spx12": 22.7,
+        "kospi12": 9.1
       }
     },
     {
       "date": "2023-07-01",
-      "score": 8,
+      "score": -6,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -16,
         "valuation": -29,
         "flows": 18,
-        "sentiment": 72
+        "sentiment": 72,
+        "earnings": -61
+      },
+      "spx": 4589.0,
+      "kospi": 2632.6,
+      "fwd": {
+        "spx3": -8.6,
+        "spx12": 20.3,
+        "kospi12": 5.2
       }
     },
     {
       "date": "2023-08-01",
-      "score": 0,
+      "score": -11,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -24,
         "valuation": -25,
         "flows": -15,
-        "sentiment": 72
+        "sentiment": 72,
+        "earnings": -53
+      },
+      "spx": 4507.7,
+      "kospi": 2556.3,
+      "fwd": {
+        "spx3": 1.3,
+        "spx12": 25.3,
+        "kospi12": 4.6
       }
     },
     {
       "date": "2023-09-01",
-      "score": -15,
+      "score": -21,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -41,
         "valuation": -24,
         "flows": -39,
-        "sentiment": 52
+        "sentiment": 52,
+        "earnings": -42
+      },
+      "spx": 4288.0,
+      "kospi": 2465.1,
+      "fwd": {
+        "spx3": 11.2,
+        "spx12": 34.4,
+        "kospi12": 5.2
       }
     },
     {
       "date": "2023-10-01",
-      "score": -24,
+      "score": -21,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -35,
         "valuation": -20,
         "flows": -47,
-        "sentiment": 7
+        "sentiment": 7,
+        "earnings": -5
+      },
+      "spx": 4193.8,
+      "kospi": 2278.0,
+      "fwd": {
+        "spx3": 15.5,
+        "spx12": 36.0,
+        "kospi12": 12.2
       }
     },
     {
       "date": "2023-11-01",
-      "score": 6,
+      "score": 11,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -31,
         "valuation": -25,
         "flows": 20,
-        "sentiment": 75
+        "sentiment": 75,
+        "earnings": 30
+      },
+      "spx": 4567.8,
+      "kospi": 2535.3,
+      "fwd": {
+        "spx3": 11.6,
+        "spx12": 32.1,
+        "kospi12": -3.1
       }
     },
     {
       "date": "2023-12-01",
-      "score": 9,
+      "score": 20,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -28,
         "valuation": -31,
         "flows": 32,
-        "sentiment": 78
+        "sentiment": 78,
+        "earnings": 65
+      },
+      "spx": 4769.8,
+      "kospi": 2655.3,
+      "fwd": {
+        "spx3": 10.2,
+        "spx12": 23.3,
+        "kospi12": -9.6
       }
     },
     {
       "date": "2024-01-01",
-      "score": 7,
+      "score": 17,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -13,
         "valuation": -33,
         "flows": 15,
-        "sentiment": 68
+        "sentiment": 68,
+        "earnings": 61
+      },
+      "spx": 4845.6,
+      "kospi": 2497.1,
+      "fwd": {
+        "spx3": 3.9,
+        "spx12": 24.7,
+        "kospi12": 0.8
       }
     },
     {
       "date": "2024-02-01",
-      "score": -6,
+      "score": 6,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -24,
         "valuation": -38,
         "flows": -27,
-        "sentiment": 73
+        "sentiment": 73,
+        "earnings": 55
+      },
+      "spx": 5096.3,
+      "kospi": 2642.4,
+      "fwd": {
+        "spx3": 3.6,
+        "spx12": 16.8,
+        "kospi12": -4.1
       }
     },
     {
       "date": "2024-03-01",
-      "score": -3,
+      "score": 6,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -24,
         "valuation": -41,
         "flows": -15,
-        "sentiment": 75
+        "sentiment": 75,
+        "earnings": 47
+      },
+      "spx": 5254.4,
+      "kospi": 2746.6,
+      "fwd": {
+        "spx3": 3.9,
+        "spx12": 6.8,
+        "kospi12": -9.7
       }
     },
     {
       "date": "2024-04-01",
-      "score": -8,
+      "score": 2,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -37,
         "valuation": -38,
         "flows": -7,
-        "sentiment": 62
+        "sentiment": 62,
+        "earnings": 45
+      },
+      "spx": 5035.7,
+      "kospi": 2692.1,
+      "fwd": {
+        "spx3": 9.7,
+        "spx12": 10.6,
+        "kospi12": -5.0
       }
     },
     {
       "date": "2024-05-01",
-      "score": -6,
+      "score": 4,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -37,
         "valuation": -41,
         "flows": -8,
-        "sentiment": 75
+        "sentiment": 75,
+        "earnings": 43
+      },
+      "spx": 5277.5,
+      "kospi": 2636.5,
+      "fwd": {
+        "spx3": 7.0,
+        "spx12": 12.0,
+        "kospi12": 2.3
       }
     },
     {
       "date": "2024-06-01",
-      "score": -4,
+      "score": 5,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -38,
         "valuation": -45,
         "flows": 1,
-        "sentiment": 78
+        "sentiment": 78,
+        "earnings": 43
+      },
+      "spx": 5460.5,
+      "kospi": 2797.8,
+      "fwd": {
+        "spx3": 5.5,
+        "spx12": 13.6,
+        "kospi12": 9.8
       }
     },
     {
       "date": "2024-07-01",
-      "score": -2,
+      "score": 8,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -35,
         "valuation": -48,
         "flows": 34,
-        "sentiment": 58
+        "sentiment": 58,
+        "earnings": 45
+      },
+      "spx": 5522.3,
+      "kospi": 2770.7,
+      "fwd": {
+        "spx3": 3.3,
+        "spx12": 14.8,
+        "kospi12": 17.1
       }
     },
     {
       "date": "2024-08-01",
-      "score": 8,
+      "score": 16,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -29,
         "valuation": -46,
         "flows": 60,
-        "sentiment": 65
+        "sentiment": 65,
+        "earnings": 49
+      },
+      "spx": 5648.4,
+      "kospi": 2674.3,
+      "fwd": {
+        "spx3": 6.8,
+        "spx12": 14.4,
+        "kospi12": 19.1
       }
     },
     {
       "date": "2024-09-01",
-      "score": 14,
+      "score": 21,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -3,
         "valuation": -49,
         "flows": 65,
-        "sentiment": 56
+        "sentiment": 56,
+        "earnings": 51
+      },
+      "spx": 5762.5,
+      "kospi": 2593.3,
+      "fwd": {
+        "spx3": 2.1,
+        "spx12": 16.1,
+        "kospi12": 32.1
       }
     },
     {
       "date": "2024-10-01",
-      "score": -3,
+      "score": 7,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -11,
         "valuation": -50,
         "flows": 31,
-        "sentiment": 24
+        "sentiment": 24,
+        "earnings": 51
+      },
+      "spx": 5705.5,
+      "kospi": 2556.1,
+      "fwd": {
+        "spx3": 5.9,
+        "spx12": 19.9,
+        "kospi12": 60.7
       }
     },
     {
       "date": "2024-11-01",
-      "score": 4,
+      "score": 13,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -7,
         "valuation": -50,
         "flows": 9,
-        "sentiment": 72
+        "sentiment": 72,
+        "earnings": 51
+      },
+      "spx": 6032.4,
+      "kospi": 2455.9,
+      "fwd": {
+        "spx3": -1.3,
+        "spx12": 13.5,
+        "kospi12": 59.9
       }
     },
     {
       "date": "2024-12-01",
-      "score": 2,
+      "score": 12,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": 1,
         "valuation": -50,
         "flows": 9,
-        "sentiment": 53
+        "sentiment": 53,
+        "earnings": 51
+      },
+      "spx": 5881.6,
+      "kospi": 2399.5,
+      "fwd": {
+        "spx3": -4.6,
+        "spx12": 16.4,
+        "kospi12": 75.6
       }
     },
     {
       "date": "2025-01-01",
-      "score": -3,
+      "score": 10,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -19,
         "valuation": -50,
         "flows": 8,
-        "sentiment": 58
+        "sentiment": 58,
+        "earnings": 61
+      },
+      "spx": 6040.5,
+      "kospi": 2517.4,
+      "fwd": {
+        "spx3": -7.8,
+        "spx12": 14.9,
+        "kospi12": 107.5
       }
     },
     {
       "date": "2025-02-01",
-      "score": -7,
+      "score": 9,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -16,
         "valuation": -50,
         "flows": 5,
-        "sentiment": 42
+        "sentiment": 42,
+        "earnings": 73
+      },
+      "spx": 5954.5,
+      "kospi": 2532.8,
+      "fwd": {
+        "spx3": -0.7,
+        "spx12": 15.5,
+        "kospi12": 146.5
       }
     },
     {
       "date": "2025-03-01",
-      "score": -11,
+      "score": 9,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -12,
         "valuation": -45,
         "flows": 37,
-        "sentiment": -19
+        "sentiment": -19,
+        "earnings": 88
+      },
+      "spx": 5611.9,
+      "kospi": 2481.1,
+      "fwd": {
+        "spx3": 10.6,
+        "spx12": 16.3,
+        "kospi12": 103.6
       }
     },
     {
       "date": "2025-04-01",
-      "score": -2,
+      "score": 16,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -5,
         "valuation": -36,
         "flows": 56,
-        "sentiment": -18
+        "sentiment": -18,
+        "earnings": 90
+      },
+      "spx": 5569.1,
+      "kospi": 2556.6,
+      "fwd": {
+        "spx3": 13.8,
+        "spx12": 29.4,
+        "kospi12": 158.1
       }
     },
     {
       "date": "2025-05-01",
-      "score": 10,
+      "score": 26,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -14,
         "valuation": -46,
         "flows": 68,
-        "sentiment": 47
+        "sentiment": 47,
+        "earnings": 90
+      },
+      "spx": 5911.7,
+      "kospi": 2697.7,
+      "fwd": {
+        "spx3": 9.3,
+        "spx12": 28.2,
+        "kospi12": 214.2
       }
     },
     {
       "date": "2025-06-01",
-      "score": 11,
+      "score": 27,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -18,
         "valuation": -50,
         "flows": 72,
-        "sentiment": 56
+        "sentiment": 56,
+        "earnings": 89
+      },
+      "spx": 6205.0,
+      "kospi": 3071.7,
+      "fwd": {
+        "spx3": 7.8,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2025-07-01",
-      "score": 9,
+      "score": 27,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -20,
         "valuation": -50,
         "flows": 67,
-        "sentiment": 56
+        "sentiment": 56,
+        "earnings": 97
+      },
+      "spx": 6339.4,
+      "kospi": 3245.4,
+      "fwd": {
+        "spx3": 7.9,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2025-08-01",
-      "score": 1,
+      "score": 21,
       "phase": "수축 (Contraction)",
       "pillars": {
         "macro": -25,
         "valuation": -50,
         "flows": 31,
-        "sentiment": 63
+        "sentiment": 63,
+        "earnings": 100
+      },
+      "spx": 6460.3,
+      "kospi": 3186.0,
+      "fwd": {
+        "spx3": 6.0,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2025-09-01",
-      "score": -3,
+      "score": 17,
       "phase": "회복 (Recovery)",
       "pillars": {
         "macro": -21,
         "valuation": -50,
         "flows": 8,
-        "sentiment": 59
+        "sentiment": 59,
+        "earnings": 100
+      },
+      "spx": 6688.5,
+      "kospi": 3424.6,
+      "fwd": {
+        "spx3": 2.3,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2025-11-01",
-      "score": -1,
+      "score": 19,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": -8,
         "valuation": -50,
         "flows": 3,
-        "sentiment": 58
+        "sentiment": 58,
+        "earnings": 100
+      },
+      "spx": 6849.1,
+      "kospi": 3926.6,
+      "fwd": {
+        "spx3": 0.4,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2025-12-01",
-      "score": 3,
+      "score": 22,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": -3,
         "valuation": -50,
         "flows": 6,
-        "sentiment": 65
+        "sentiment": 65,
+        "earnings": 100
+      },
+      "spx": 6845.5,
+      "kospi": 4214.2,
+      "fwd": {
+        "spx3": -4.6,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2026-01-01",
-      "score": 11,
+      "score": 29,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": 16,
         "valuation": -50,
         "flows": 29,
-        "sentiment": 53
+        "sentiment": 53,
+        "earnings": 100
+      },
+      "spx": 6939.0,
+      "kospi": 5224.4,
+      "fwd": {
+        "spx3": 3.9,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2026-02-01",
-      "score": 9,
+      "score": 28,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": -6,
         "valuation": -50,
         "flows": 65,
-        "sentiment": 41
+        "sentiment": 41,
+        "earnings": 100
+      },
+      "spx": 6878.9,
+      "kospi": 6244.1,
+      "fwd": {
+        "spx3": 10.2,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2026-03-01",
-      "score": -15,
+      "score": 8,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": -9,
         "valuation": -50,
         "flows": 8,
-        "sentiment": -6
+        "sentiment": -6,
+        "earnings": 100
+      },
+      "spx": 6528.5,
+      "kospi": 5052.5,
+      "fwd": {
+        "spx3": null,
+        "spx12": null,
+        "kospi12": null
       }
     },
     {
       "date": "2026-04-01",
-      "score": -3,
+      "score": 17,
       "phase": "확장 (Expansion)",
       "pillars": {
         "macro": -24,
         "valuation": -50,
         "flows": 16,
-        "sentiment": 56
+        "sentiment": 56,
+        "earnings": 100
+      },
+      "spx": 7209.0,
+      "kospi": 6598.9,
+      "fwd": {
+        "spx3": null,
+        "spx12": null,
+        "kospi12": null
       }
     }
   ],
@@ -2579,24 +3993,24 @@ window.MACRO = {
     },
     "deposit_source": "KOFIA freesis(근사·편집 가능)",
     "as_of": "2026-06-01",
-    "month": "2026.05",
+    "month": "2026.06",
     "unit": "조원",
     "ytd_total": {
-      "retail": 56.77,
-      "foreign": -99.89,
-      "inst": 29.9
+      "retail": 57.16,
+      "foreign": -102.71,
+      "inst": 32.34
     },
     "mtd": {
-      "retail": 35.1,
-      "foreign": -44.5,
-      "inst": 9.2,
-      "days": 18
+      "retail": 0.4,
+      "foreign": -2.8,
+      "inst": 2.4,
+      "days": 1
     },
     "latest": {
-      "date": "26.05.29",
-      "retail": -1.41,
-      "foreign": -1.04,
-      "inst": 2.37
+      "date": "26.06.01",
+      "retail": 0.39,
+      "foreign": -2.82,
+      "inst": 2.44
     },
     "ytd_cum": {
       "dates": [
@@ -2698,7 +4112,8 @@ window.MACRO = {
         "2026-05-26",
         "2026-05-27",
         "2026-05-28",
-        "2026-05-29"
+        "2026-05-29",
+        "2026-06-01"
       ],
       "retail": [
         -0.43,
@@ -2799,7 +4214,8 @@ window.MACRO = {
         54.16,
         54.56,
         58.18,
-        56.77
+        56.77,
+        57.16
       ],
       "foreign": [
         0.63,
@@ -2900,7 +4316,8 @@ window.MACRO = {
         -95.86,
         -96.11,
         -98.85,
-        -99.89
+        -99.89,
+        -102.71
       ],
       "inst": [
         -0.25,
@@ -3001,89 +4418,22 @@ window.MACRO = {
         28.58,
         28.57,
         27.53,
-        29.9
+        29.9,
+        32.34
       ]
     },
     "month_daily": {
       "dates": [
-        "2026-05-04",
-        "2026-05-06",
-        "2026-05-07",
-        "2026-05-08",
-        "2026-05-11",
-        "2026-05-12",
-        "2026-05-13",
-        "2026-05-14",
-        "2026-05-15",
-        "2026-05-18",
-        "2026-05-19",
-        "2026-05-20",
-        "2026-05-21",
-        "2026-05-22",
-        "2026-05-26",
-        "2026-05-27",
-        "2026-05-28",
-        "2026-05-29"
+        "2026-06-01"
       ],
       "retail": [
-        -4.79,
-        -0.57,
-        5.99,
-        3.97,
-        2.87,
-        6.68,
-        1.89,
-        1.85,
-        7.23,
-        2.21,
-        5.63,
-        1.71,
-        -2.68,
-        1.07,
-        -0.57,
-        0.41,
-        3.61,
-        -1.41
+        0.39
       ],
       "foreign": [
-        2.93,
-        3.11,
-        -6.7,
-        -5.3,
-        -2.81,
-        -5.61,
-        -3.72,
-        -2.15,
-        -5.6,
-        -3.65,
-        -5.72,
-        -2.93,
-        -0.22,
-        -1.92,
-        -0.13,
-        -0.25,
-        -2.74,
-        -1.04
+        -2.82
       ],
       "inst": [
-        2.01,
-        -2.29,
-        0.89,
-        1.25,
-        -0.05,
-        -1.21,
-        1.69,
-        0.19,
-        -1.73,
-        1.39,
-        0.16,
-        1.11,
-        2.9,
-        0.76,
-        0.82,
-        -0.01,
-        -1.04,
-        2.37
+        2.44
       ]
     },
     "source": "네이버 금융",
@@ -9590,7 +10940,7 @@ window.MACRO = {
     "kospi_fwd_pe": {
       "name": "KOSPI 12M Fwd PER",
       "pillar": "valuation",
-      "current": 6.7,
+      "current": 7.0,
       "unit": "배",
       "z": null,
       "pct": null,
@@ -13651,14 +15001,14 @@ window.MACRO = {
     "kr_flows": {
       "name": "한국 투자자별 수급(외국인, 월)",
       "pillar": "flows",
-      "current": -44.5,
+      "current": -2.8,
       "unit": "조원",
       "z": null,
       "pct": null,
-      "score": -0.56,
-      "signal": "강한 악재",
-      "signal_cls": "neg",
-      "desc": "2026.05 KOSPI 누적(조원): 외국인 -44.5·기관 +9.2·개인 +35.1(18일). 최근 26.05.29: 외국인 -1.04·기관 +2.37·개인 -1.41. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
+      "score": -0.03,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "2026.06 KOSPI 누적(조원): 외국인 -2.8·기관 +2.4·개인 +0.4(1일). 최근 26.06.01: 외국인 -2.82·기관 +2.44·개인 +0.39. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
       "as_of": "2026-06-01",
       "history": null,
       "manual": true,
@@ -13751,6 +15101,24 @@ window.MACRO = {
           101.29,
           101.58
         ]
+      }
+    },
+    "peg": {
+      "name": "S&P500 PEG",
+      "pillar": "valuation",
+      "current": 1.47,
+      "unit": "",
+      "z": null,
+      "pct": null,
+      "score": 0.13,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "Fwd PER 23.85 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
+      "as_of": "2026-06-01",
+      "history": null,
+      "source": {
+        "name": "yfinance/FactSet",
+        "url": "https://insight.factset.com/topic/earnings"
       }
     }
   },
@@ -18183,11 +19551,11 @@ window.MACRO = {
   },
   "commentary": {
     "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 3.8%(강한 악재)·미국 근원 CPI (YoY) 2.7%(악재)·미국 실업률 4.3%(중립)·비농업 고용 (전월비) 115.0천명(중립)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 58.9%(강한 악재)",
-    "valuation": "[뚜렷한 역풍] S&P500 12M Fwd PER 23.9배(강한 악재)·KOSPI 12M Fwd PER 6.7배(강한 호재)·주식위험프리미엄(ERP) -0.26%p(악재)·미국 10Y 금리 4.45%(중립)",
-    "flows": "[혼조/중립] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 95조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.5조원(강한 악재)",
+    "valuation": "[부담 우위] S&P500 12M Fwd PER 23.9배(강한 악재)·KOSPI 12M Fwd PER 7.0배(강한 호재)·주식위험프리미엄(ERP) -0.26%p(악재)·미국 10Y 금리 4.45%(중립)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 95조원(강한 호재)·한국 투자자별 수급(외국인, 월) -2.8조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 15.7(호재)·S&P500 12M 모멘텀 28.2%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.537(강한 상향)·미국 Fwd EPS 수정(1개월) 0.3%(유지)·한국 ERR(이익수정비율) 0.25(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",
-    "overall": "종합 레짐 점수 +7. 매크로 -16, 밸류 -28, 수급 +4, 센티 +24, 기업이익 +46."
+    "overall": "종합 레짐 점수 +9. 매크로 -16, 밸류 -21, 수급 +12, 센티 +24, 기업이익 +46."
   },
   "outlook": {
     "short": {
@@ -18196,13 +19564,13 @@ window.MACRO = {
       "text": "센티먼트·모멘텀 기반. VIX·추세가 핵심 변수. 단기 비대칭 리스크 점검."
     },
     "mid": {
-      "bias": "박스권",
-      "cls": "neu",
+      "bias": "완만한 상승",
+      "cls": "pos",
       "text": "매크로·유동성·기업이익 수정 + 과거 유사국면 이후 3개월 중간값 -2.4%."
     },
     "long": {
-      "bias": "박스권",
-      "cls": "neu",
+      "bias": "완만한 상승",
+      "cls": "pos",
       "text": "밸류에이션·매크로 추세·이익 모멘텀 + 유사국면 이후 12개월 중간값 +5.1%."
     }
   },
