@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01l";</script>
+<script>window.CODE_VERSION = "2026-06-01m";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -206,6 +206,13 @@
   .cyc-cli { font-size:13px; font-weight:700; }
   .cyc-cli span { font-size:11px; color:var(--muted); font-weight:600; margin-left:6px; }
   .cyc-desc { font-size:12px; color:var(--text-soft); margin-top:3px; line-height:1.5; }
+  .cyc-method { flex-basis:100%; font-size:11px; color:var(--muted); border-top:1px dashed var(--border); padding-top:10px; margin-top:4px; line-height:1.7; }
+  .cyc-method b { color:var(--text-soft); }
+  .cm-q { font-weight:700; padding:1px 6px; border-radius:5px; }
+  .cm-q.pos { background:var(--pos-soft); color:var(--pos); }
+  .cm-q.neu { background:#fef3c7; color:#92400e; }
+  .cm-q.neg { background:var(--neg-soft); color:var(--neg); }
+  [data-theme="dark"] .cm-q.neu { background:#422006; color:#fde68a; }
   .pref-table td.sc, .pref-table th { text-align:center; }
   .pref-table td.nm { font-weight:700; }
   .sc-cell { display:inline-block; min-width:38px; padding:2px 6px; border-radius:5px; font-weight:700; font-size:11.5px; }
@@ -735,7 +742,13 @@ function renderCycle(M) {
     '<div class="cyc-l"><div class="cyc-label">현재 경기국면 · OECD 미국 경기선행지수(CLI)</div>' +
     '<div class="cyc-phase">' + c.phase + '</div></div>' +
     '<div class="cyc-r"><div class="cyc-cli">CLI ' + c.cli + '<span>' + (c.chg6 >= 0 ? '▲' : '▼') + ' 6개월 ' + sgn(c.chg6, 2) + '</span></div>' +
-    '<div class="cyc-desc">' + c.desc + '</div></div></div>';
+    '<div class="cyc-desc">' + c.desc + '</div></div>' +
+    '<div class="cyc-method">📐 <b>판정 방법론</b>: OECD 미국 경기선행지수(CLI, 진폭조정·월간)의 <b>수준</b>(100=장기추세선) × <b>방향</b>(최근 6개월 변화) 2×2 매트릭스 —<br>' +
+    '<span class="cm-q pos">확장(Expansion)</span> 100 이상 + 상승 (위험자산·시클리컬 우호) · ' +
+    '<span class="cm-q neu">둔화·후기(Late-cycle)</span> 100 이상 + 하락 (퀄리티·방어주 점검) · ' +
+    '<span class="cm-q neg">수축(Contraction)</span> 100 미만 + 하락 (방어적·현금/국채) · ' +
+    '<span class="cm-q pos">회복(Recovery)</span> 100 미만 + 상승 (선제적 리스크온). ' +
+    'CLI는 신규수주·재고·금리차·주가·기대 등 선행지표 합성으로 경기 전환점을 6~9개월 선행.</div></div>';
 }
 
 function renderCountryPref(M) {
@@ -824,7 +837,10 @@ function showIndicatorModal(key) {
   if (d.pct !== null && d.pct !== undefined) meta.push('백분위 ' + d.pct + '%');
   meta.push('기준 ' + d.as_of + ' · ' + d.signal);
   document.getElementById('mMeta').textContent = meta.join(' · ');
-  document.getElementById('mDesc').textContent = d.desc || '';
+  var zp = (d.z_from && d.z_n)
+    ? '<div style="font-size:11.5px;color:var(--muted);margin-top:6px">📐 z-score·백분위 기준기간: <b>' + d.z_from + ' ~ ' + (d.as_of || '').slice(0, 7) + '</b> (월 ' + d.z_n + '개, 가용 전체기간). z = (현재−평균)/표준편차.</div>'
+    : '';
+  document.getElementById('mDesc').innerHTML = (d.desc || '') + zp;
   document.getElementById('mSrc').innerHTML = (d.source && d.source.url)
     ? '🔗 원본 데이터: <a href="' + d.source.url + '" target="_blank" rel="noopener">' + d.source.name + ' ↗</a>' : '';
   if (MODAL_CHART) { try { MODAL_CHART.destroy(); } catch (e) {} }

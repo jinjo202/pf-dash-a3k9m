@@ -1445,6 +1445,8 @@ def build():
             "unit": unit, "z": z, "pct": pct, "score": round(score, 2),
             "signal": lbl, "signal_cls": cls, "desc": desc,
             "as_of": dates[-1][:10], "history": hist,
+            "z_from": dates[0][:7] if z is not None else None,   # z-score 기준 시작월
+            "z_n": len(vals) if z is not None else None,         # z-score 표본 수(월)
             "source": indicator_source(key, src, transform),
         }
 
