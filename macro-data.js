@@ -2,7 +2,7 @@
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
   "as_of": "2026-06-01",
-  "generated": "2026-05-31T22:48:21Z",
+  "generated": "2026-05-31T23:07:50Z",
   "regime": {
     "score": 7,
     "label": "중립 (선별적)",
@@ -138,19 +138,19 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -14,
-        "fx": 18,
+        "fx": 0,
         "mon": 30,
-        "cycle": -37
+        "cycle": 0
       },
       "horizon": {
-        "m1": -1,
-        "m3": 3,
-        "m12": 11
+        "m1": 0,
+        "m3": 9,
+        "m12": 16
       },
-      "fx_val": 6.8,
-      "fx_chg": 0.9,
-      "cli": 98.8,
-      "phase": "수축 (Contraction)",
+      "fx_val": null,
+      "fx_chg": null,
+      "cli": null,
+      "phase": null,
       "mon_note": "인민은행 부양(+)"
     }
   },
@@ -14776,30 +14776,33 @@ window.MACRO = {
       "baa_spread",
       "vix",
       "oil_yoy",
-      "spx_mom"
+      "spx_mom",
+      "cli_us"
     ],
     "n_months": 303,
     "current_month": "2026-04",
     "neighbors": [
       {
-        "date": "2007-10-01",
-        "distance": 1.53,
-        "spx_fwd": {
-          "m1": -4.4,
-          "m3": -11.0,
-          "m6": -10.6,
-          "m12": -37.5
-        },
-        "kospi_fwd": {
-          "m1": -7.7,
-          "m3": -21.3,
-          "m6": -11.6,
-          "m12": -46.1
-        }
-      },
-      {
         "date": "2005-08-01",
-        "distance": 1.56,
+        "distance": 1.58,
+        "similar": [
+          "정책금리",
+          "인플레",
+          "신용스프레드"
+        ],
+        "divergent": [
+          "주가모멘텀"
+        ],
+        "vals": {
+          "cpi": 3.6,
+          "vix": 12.6,
+          "curve": 0.2,
+          "mom": 10.5,
+          "cli": 100.5,
+          "us10y": 4.02,
+          "us10y_chg3": 0.02
+        },
+        "context": "금리 인상 사이클 중반 — 견조한 성장·완만한 인플레",
         "spx_fwd": {
           "m1": 0.7,
           "m3": 2.4,
@@ -14814,24 +14817,60 @@ window.MACRO = {
         }
       },
       {
-        "date": "2006-04-01",
-        "distance": 1.74,
+        "date": "2007-10-01",
+        "distance": 1.7,
+        "similar": [
+          "장단기차",
+          "인플레",
+          "실업률"
+        ],
+        "divergent": [
+          "주가모멘텀"
+        ],
+        "vals": {
+          "cpi": 3.6,
+          "vix": 18.5,
+          "curve": 0.5,
+          "mom": 12.4,
+          "cli": 101.9,
+          "us10y": 4.48,
+          "us10y_chg3": -0.3
+        },
+        "context": "신용 정점·서브프라임 균열 직전 — 위험선호 극대, 곧 침체",
         "spx_fwd": {
-          "m1": -3.1,
-          "m3": -2.6,
-          "m6": 5.1,
-          "m12": 13.1
+          "m1": -4.4,
+          "m3": -11.0,
+          "m6": -10.6,
+          "m12": -37.5
         },
         "kospi_fwd": {
-          "m1": -7.2,
-          "m3": -8.6,
-          "m6": -3.9,
-          "m12": 8.6
+          "m1": -7.7,
+          "m3": -21.3,
+          "m6": -11.6,
+          "m12": -46.1
         }
       },
       {
         "date": "2018-06-01",
         "distance": 1.76,
+        "similar": [
+          "경기선행지수",
+          "변동성",
+          "유동성"
+        ],
+        "divergent": [
+          "주가모멘텀"
+        ],
+        "vals": {
+          "cpi": 2.8,
+          "vix": 16.1,
+          "curve": 0.3,
+          "mom": 12.2,
+          "cli": 100.9,
+          "us10y": 2.85,
+          "us10y_chg3": 0.11
+        },
+        "context": "Fed 긴축·무역분쟁 — 변동성 확대, 4분기 급락",
         "spx_fwd": {
           "m1": 3.6,
           "m3": 7.2,
@@ -14846,8 +14885,60 @@ window.MACRO = {
         }
       },
       {
+        "date": "2006-04-01",
+        "distance": 1.78,
+        "similar": [
+          "신용스프레드",
+          "인플레",
+          "유동성"
+        ],
+        "divergent": [
+          "주가모멘텀"
+        ],
+        "vals": {
+          "cpi": 3.6,
+          "vix": 11.6,
+          "curve": 0.2,
+          "mom": 13.3,
+          "cli": 101.3,
+          "us10y": 5.07,
+          "us10y_chg3": 0.54
+        },
+        "context": "금리 인상 사이클 중반 — 견조한 성장·완만한 인플레",
+        "spx_fwd": {
+          "m1": -3.1,
+          "m3": -2.6,
+          "m6": 5.1,
+          "m12": 13.1
+        },
+        "kospi_fwd": {
+          "m1": -7.2,
+          "m3": -8.6,
+          "m6": -3.9,
+          "m12": 8.6
+        }
+      },
+      {
         "date": "2018-08-01",
-        "distance": 1.86,
+        "distance": 1.87,
+        "similar": [
+          "경기선행지수",
+          "유동성",
+          "실업률"
+        ],
+        "divergent": [
+          "정책금리"
+        ],
+        "vals": {
+          "cpi": 2.6,
+          "vix": 12.9,
+          "curve": 0.2,
+          "mom": 17.4,
+          "cli": 100.7,
+          "us10y": 2.86,
+          "us10y_chg3": 0.03
+        },
+        "context": "Fed 긴축·무역분쟁 — 변동성 확대, 4분기 급락",
         "spx_fwd": {
           "m1": 0.4,
           "m3": -4.9,
@@ -14863,7 +14954,25 @@ window.MACRO = {
       },
       {
         "date": "2005-07-01",
-        "distance": 1.91,
+        "distance": 1.93,
+        "similar": [
+          "신용스프레드",
+          "유동성",
+          "정책금리"
+        ],
+        "divergent": [
+          "유가"
+        ],
+        "vals": {
+          "cpi": 3.1,
+          "vix": 11.6,
+          "curve": 0.3,
+          "mom": 12.0,
+          "cli": 100.4,
+          "us10y": 4.28,
+          "us10y_chg3": 0.07
+        },
+        "context": "금리 인상 사이클 중반 — 견조한 성장·완만한 인플레",
         "spx_fwd": {
           "m1": -1.1,
           "m3": -2.2,
@@ -16985,54 +17094,13 @@ window.MACRO = {
       ],
       "actual_through": 2025
     },
-    "capex_gdp_pct": 1.15,
-    "capex_gdp_pct_e": 2.18,
-    "capex_gdp_series": [
-      {
-        "y": 2020,
-        "pct": 0.43,
-        "est": false
-      },
-      {
-        "y": 2021,
-        "pct": 0.5,
-        "est": false
-      },
-      {
-        "y": 2022,
-        "pct": 0.56,
-        "est": false
-      },
-      {
-        "y": 2023,
-        "pct": 0.51,
-        "est": false
-      },
-      {
-        "y": 2024,
-        "pct": 0.73,
-        "est": false
-      },
-      {
-        "y": 2025,
-        "pct": 1.19,
-        "est": false
-      },
-      {
-        "y": 2026,
-        "pct": 2.18,
-        "est": true
-      },
-      {
-        "y": 2027,
-        "pct": 2.52,
-        "est": true
-      }
-    ],
+    "capex_gdp_pct": null,
+    "capex_gdp_pct_e": null,
+    "capex_gdp_series": [],
     "total_capex_last": 367,
     "total_capex_e": 693,
     "last_actual_year": 2025,
-    "gdp": 31819,
+    "gdp": null,
     "rnd_gdp": [
       {
         "y": 2015,

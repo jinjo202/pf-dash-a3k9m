@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01f";</script>
+<script>window.CODE_VERSION = "2026-06-01g";</script>
 <script>
   (function () {
     try {
@@ -198,6 +198,16 @@
   .tm-pills { display:flex; gap:8px; flex-wrap:wrap; }
   .tm-pill { font-size:10.5px; border:1px solid var(--border); border-radius:7px; padding:5px 8px; background:var(--panel); }
   .tm-pill b { font-size:14px; font-weight:800; display:block; }
+  .analog-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  @media (max-width:680px){ .analog-grid{ grid-template-columns:1fr; } }
+  .analog-card { border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:9px; padding:10px 12px; background:var(--panel); }
+  .ac-h { display:flex; justify-content:space-between; align-items:baseline; }
+  .ac-date { font-size:14px; font-weight:800; }
+  .ac-dist { font-size:10.5px; color:var(--muted); }
+  .ac-ctx { font-size:12px; color:var(--text-soft); margin:5px 0; line-height:1.5; }
+  .ac-sim { font-size:11.5px; color:var(--text-soft); margin-bottom:4px; }
+  .ac-vals { font-size:11px; color:var(--muted); line-height:1.5; }
+  .ac-fwd { font-size:11.5px; margin-top:5px; padding-top:5px; border-top:1px dashed var(--border); }
 
   /* ===== AI section ===== */
   .ai-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
@@ -323,6 +333,7 @@ function cssVar(n) { return getComputedStyle(document.documentElement).getProper
 function fmtNum(x, d) { return (x === null || x === undefined) ? '–' : Number(x).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }); }
 function signClass(s) { return s > 0 ? 'pos-t' : (s < 0 ? 'neg-t' : ''); }
 function pctCell(x) { if (x === null || x === undefined) return '<td>–</td>'; return '<td class="' + signClass(x) + '">' + (x > 0 ? '+' : '') + x.toFixed(1) + '%</td>'; }
+function retSpan(x) { if (x === null || x === undefined) return '–'; return '<b class="' + signClass(x) + '">' + (x > 0 ? '+' : '') + x.toFixed(1) + '%</b>'; }
 
 var CHARTS = [];
 var CUR_M = null;        // 클릭 핸들러용 데이터 참조
@@ -932,7 +943,26 @@ function render(M) {
       pctCell(s.spx.m1) + pctCell(s.spx.m3) + pctCell(s.spx.m6) + pctCell(s.spx.m12) +
       pctCell(s.kospi.m3) + pctCell(s.kospi.m12) + '</tr>';
     html += '</tbody></table>';
-    html += '<p class="disclaimer">유사도는 유클리드 거리(z-표준화) 기준이며, 같은 해 과다 중복은 제한했습니다. 표본이 적어 개별 사례(특히 위기 직전 국면)는 참고용입니다.</p>';
+    html += '<div class="sub-label" style="margin-top:14px">유사국면 해설 — 어떤 점에서 유사한지 · 당시 주가·금리</div>';
+    html += '<div class="analog-grid">';
+    a.neighbors.forEach(function (nb) {
+      var v = nb.vals || {}, vb = [];
+      if (v.cpi !== null && v.cpi !== undefined) vb.push('인플레 ' + v.cpi + '%');
+      if (v.vix !== null && v.vix !== undefined) vb.push('VIX ' + v.vix);
+      if (v.curve !== null && v.curve !== undefined) vb.push('장단기차 ' + v.curve + '%p');
+      if (v.us10y !== null && v.us10y !== undefined) vb.push('美10Y ' + v.us10y + '%' + (v.us10y_chg3 !== null && v.us10y_chg3 !== undefined ? '(' + (v.us10y_chg3 > 0 ? '+' : '') + v.us10y_chg3 + '%p·3M)' : ''));
+      if (v.cli !== null && v.cli !== undefined) vb.push('경기선행 ' + v.cli);
+      if (v.mom !== null && v.mom !== undefined) vb.push('주가12M ' + (v.mom > 0 ? '+' : '') + v.mom + '%');
+      html += '<div class="analog-card">' +
+        '<div class="ac-h"><span class="ac-date">' + nb.date.slice(0, 7) + '</span><span class="ac-dist">유사도 거리 ' + nb.distance + '</span></div>' +
+        '<div class="ac-ctx">📍 ' + (nb.context || '') + '</div>' +
+        (nb.similar ? '<div class="ac-sim">🔗 <b>유사점</b>: ' + nb.similar.join('·') + (nb.divergent && nb.divergent.length ? ' <span style="color:var(--muted)">(차이: ' + nb.divergent.join('·') + ')</span>' : '') + '</div>' : '') +
+        '<div class="ac-vals">당시 지표: ' + vb.join(' · ') + '</div>' +
+        '<div class="ac-fwd">📈 이후 주가 → S&P ' + retSpan(nb.spx_fwd.m3) + '(3M)·' + retSpan(nb.spx_fwd.m12) + '(12M) / KOSPI ' + retSpan(nb.kospi_fwd.m12) + '(12M)</div>' +
+        '</div>';
+    });
+    html += '</div>';
+    html += '<p class="disclaimer">유사도는 유클리드 거리(z-표준화, ' + a.features.length + '개 지표) 기준. "유사점"은 현재와 표준화 차이가 가장 작은 지표 3개. 표본이 적어 개별 사례(특히 위기 직전)는 참고용입니다.</p>';
     html += '</div>';
   }
 

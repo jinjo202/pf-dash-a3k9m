@@ -400,7 +400,41 @@ PILLARS = {
 
 # 과거 유사국면 매칭에 쓸 deep-history 지표 (월간 정렬)
 ANALOG_FEATURES = ["cpi_yoy", "core_cpi_yoy", "unemployment", "fed_funds",
-                   "yield_curve", "m2_yoy", "baa_spread", "vix", "oil_yoy", "spx_mom"]
+                   "yield_curve", "m2_yoy", "baa_spread", "vix", "oil_yoy", "spx_mom", "cli_us"]
+ANALOG_LABELS = {
+    "cpi_yoy": "인플레", "core_cpi_yoy": "근원물가", "unemployment": "실업률",
+    "fed_funds": "정책금리", "yield_curve": "장단기차", "m2_yoy": "유동성",
+    "baa_spread": "신용스프레드", "vix": "변동성", "oil_yoy": "유가",
+    "spx_mom": "주가모멘텀", "cli_us": "경기선행지수",
+}
+
+
+def analog_context(date_str):
+    """유사 시점의 시대적 매크로 맥락(당시 무슨 일이었나)."""
+    ym = date_str[:7]
+    y = int(date_str[:4])
+    table = [
+        ("2008-08", "2009-06", "글로벌 금융위기 — 신용경색·증시 폭락·제로금리·QE 시작"),
+        ("2007-06", "2008-07", "신용 정점·서브프라임 균열 직전 — 위험선호 극대, 곧 침체"),
+        ("2011-05", "2012-06", "유럽 재정위기 — 그리스·남유럽 우려, 안전자산 선호"),
+        ("2013-05", "2013-12", "테이퍼 텐트럼 — 연준 자산매입 축소 시사로 금리 급등"),
+        ("2014-07", "2016-02", "강달러·유가 급락·중국 둔화 — 디스인플레 우려"),
+        ("2016-03", "2016-12", "차이나 쇼크 후 회복 — 원자재 반등, 위험선호 복귀"),
+        ("2017-01", "2018-01", "글로벌 동반성장 — 저변동성·강세장(synchronized growth)"),
+        ("2018-02", "2018-12", "Fed 긴축·무역분쟁 — 변동성 확대, 4분기 급락"),
+        ("2019-01", "2019-12", "Fed 보험성 인하·무역분쟁 완화 — 멀티플 확장"),
+        ("2020-02", "2020-05", "COVID 충격 — 급락 후 대규모 부양·V자 반등"),
+        ("2020-06", "2021-12", "리오프닝·유동성 과잉 — 성장주·밈주식 랠리"),
+        ("2022-01", "2022-12", "인플레 급등·Fed 급속 긴축 — 약세장, 멀티플 압축"),
+        ("2023-01", "2023-12", "디스인플레·AI 랠리 시작 — 빅테크 주도 반등"),
+        ("2024-01", "2025-12", "AI 주도 강세·금리 고원 — 실적 견조, 밸류 부담"),
+        ("2004-06", "2006-12", "금리 인상 사이클 중반 — 견조한 성장·완만한 인플레"),
+        ("2000-01", "2002-12", "닷컴 버블 붕괴 — 고밸류 기술주 폭락"),
+    ]
+    for start, end, note in table:
+        if start <= ym <= end:
+            return note
+    return f"{y}년대 — 특이 국면 라벨 없음(지표 패턴 매칭)"
 
 
 # ── 기업이익(Forward EPS / ERR) 바스켓 ────────────────────────────────────
@@ -1471,16 +1505,37 @@ def compute_analogs(monthly, spx_d, spx_v, kospi_d, kospi_v, k=6):
         dist.append((d, m))
     dist.sort()
 
+    def month_minus(ym, n):
+        y, mo = int(ym[:4]), int(ym[5:7])
+        tot = mo - n
+        ty = y + (tot - 1) // 12
+        tm = (tot - 1) % 12 + 1
+        return f"{ty:04d}-{tm:02d}"
+
     neighbors = []
-    used_years = set()
     for d, m in dist:
         yr = m[:4]
-        # 같은 해 중복 과다 방지 (다양성)
         if list(n["date"][:4] for n in neighbors).count(yr) >= 2:
             continue
+        # 유사·상이 피처 (표준화 차이 기준)
+        v = vec(m)
+        diffs = sorted(((abs(cur_vec[i] - v[i]), feats[i]) for i in range(len(feats))), key=lambda x: x[0])
+        similar = [ANALOG_LABELS.get(f, f) for _, f in diffs[:3]]
+        divergent = [ANALOG_LABELS.get(f, f) for _, f in diffs[-1:]]
+        # 당시 지표 값
+        def gv(key):
+            return round(monthly[key][m], 1) if (key in monthly and m in monthly[key]) else None
+        u10 = monthly.get("us10y", {})
+        u10_now = round(u10[m], 2) if m in u10 else None
+        pm3 = month_minus(m, 3)
+        u10_chg3 = round(u10[m] - u10[pm3], 2) if (m in u10 and pm3 in u10) else None
+        vals = {"cpi": gv("cpi_yoy"), "vix": gv("vix"), "curve": gv("yield_curve"),
+                "mom": gv("spx_mom"), "cli": gv("cli_us"), "us10y": u10_now, "us10y_chg3": u10_chg3}
         neighbors.append({
             "date": m + "-01",
             "distance": round(d, 2),
+            "similar": similar, "divergent": divergent,
+            "vals": vals, "context": analog_context(m + "-01"),
             "spx_fwd": {h: fwd_ret(spx_me, m, n) for h, n in [("m1", 1), ("m3", 3), ("m6", 6), ("m12", 12)]},
             "kospi_fwd": {h: fwd_ret(kospi_me, m, n) for h, n in [("m1", 1), ("m3", 3), ("m6", 6), ("m12", 12)]},
         })
