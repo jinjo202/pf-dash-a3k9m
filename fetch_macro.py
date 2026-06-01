@@ -554,6 +554,53 @@ CLOUD_CYCLE_NOTE = ("1차 클라우드 capex 사이클(2016~2018) 당시 빅4 ca
                     "현재 AI 사이클은 20%대로 약 2배 — 투자 강도가 역대 최고. 매출·FCF가 이를 따라오는지가 버블 판가름.")
 
 
+# ── 이달의 정성 요인 & 캘린더 (월별 수동 시드, 편집 가능) ──────────────────
+#  events: 일정·이벤트와 시장 영향  /  themes: 진행 중 이슈 전망
+#  dir: pos(호재) neg(악재) neu(중립) watch(관전·변수)
+MONTHLY_FACTORS = {
+    "2026-06": {
+        "headline": "Computex·FOMC·CPI 집중 + 이란 전쟁 종전 협상이 6월 최대 변수",
+        "events": [
+            {"date": "6/2~6", "title": "Computex 2026 (대만)", "dir": "pos", "sector": "반도체·AI",
+             "impact": "AI 가속기·서버·쿨링·HBM 차세대 로드맵 공개. NVDA·AMD·TSMC·서버 ODM·국내 HBM(삼성·하이닉스)·냉각·기판 수혜. 단, 기대 선반영 시 'sell-the-news' 주의."},
+            {"date": "6/5", "title": "미국 5월 고용", "dir": "watch",
+             "impact": "냉각 속 견조 유지면 골디락스, 급랭이면 침체 우려. 임금·실업률이 Fed 경로 변수."},
+            {"date": "6/11", "title": "미국 5월 CPI", "dir": "watch",
+             "impact": "유가발 헤드라인 재가속 vs 코어 안정. 4%대 고착이면 멀티플(특히 고밸류 테크) 압박."},
+            {"date": "6/16~17", "title": "FOMC", "dir": "neu",
+             "impact": "유가 인플레로 동결 유력. 점도표·파월 톤이 인하 기대를 좌우 — 매파면 단기 조정."},
+            {"date": "6/19", "title": "쿼드러플 위칭(만기)", "dir": "watch",
+             "impact": "선물·옵션 동시만기. 수급 변동성·리밸런싱 확대 가능."},
+            {"date": "6월 중", "title": "MSCI 반기 리뷰", "dir": "watch", "sector": "한국",
+             "impact": "한국 선진지수 편입 관찰대상 여부·지수 리밸런싱 패시브 자금. 편입 진전 시 중장기 외인 유입 재료."},
+        ],
+        "themes": [
+            {"title": "이란 전쟁 · 종전 협상", "dir": "watch",
+             "outlook": "휴전 진전 시 유가 급락 → 인플레 완화·위험선호 회복(에너지 비중 축소, 항공·소비재 반등). 교착·확전 시 유가 $100+ 고착으로 인플레·멀티플 압박 지속. 6월 협상 헤드라인이 방향타."},
+            {"title": "AI capex 버블 논쟁", "dir": "watch",
+             "outlook": "빅4 capex/매출 40%대(2026E)로 역대 최고. 하반기 클라우드·AI 매출이 투자를 정당화하는지가 관건. Computex 신제품·하이퍼스케일러 가이던스 재확인 필요(6번 AI 섹션 참조)."},
+            {"title": "한국 메모리 슈퍼사이클 지속성", "dir": "pos",
+             "outlook": "HBM·DDR5 가격 강세로 EPS 상향 지속이나, 최근 7일 수정 모멘텀은 둔화 신호. DRAM 고정가·HBM capa 증설·미·중 수출규제가 체크포인트."},
+            {"title": "Fed 인하 시점 후퇴 · 고밸류 부담", "dir": "neg",
+             "outlook": "유가 인플레로 2026 인하 지연 컨센서스. CAPE 42·PEG 1.5로 밸류 부담 → 금리·실적 실망 시 변동성. 퀄리티·현금흐름주 선호."},
+        ],
+    },
+}
+
+
+def build_monthly(today):
+    """이달(없으면 가장 최근 정의된 달)의 정성 요인."""
+    ym = today.strftime("%Y-%m")
+    if ym in MONTHLY_FACTORS:
+        key = ym
+    else:
+        past = [k for k in sorted(MONTHLY_FACTORS) if k <= ym]
+        key = past[-1] if past else None
+    if not key:
+        return None
+    return {"month": key, "stale": key != ym, **MONTHLY_FACTORS[key]}
+
+
 # 섹터별 주요 이슈/지표 — 정성 코멘트. 발표·뉴스 흐름에 맞춰 주기적으로 갱신.
 # (자동 산출 불가 항목. as_of로 신선도 표시)
 ISSUES_AS_OF = "2026-05-31"
@@ -1547,6 +1594,7 @@ def build():
         "regime": {"score": overall_score, "label": regime_label, "cls": regime_cls,
                    "pillars": pillars_out},
         "cycle": cycle,
+        "monthly_factors": build_monthly(today),
         "country_pref": country_pref,
         "regime_history": regime_history,
         "kr_flows_ts": kr_flows_ts,

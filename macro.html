@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01m";</script>
+<script>window.CODE_VERSION = "2026-06-01n";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -258,6 +258,20 @@
   .upd-date { font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; min-width:38px; }
   .upd-title { font-weight:700; }
   .upd-detail { color:var(--text-soft); }
+  .mf-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:760px){ .mf-grid{ grid-template-columns:1fr; } }
+  .mf-item { border:1px solid var(--border); border-left-width:3px; border-radius:8px; padding:9px 11px; margin-bottom:8px; }
+  .mf-item.pos { border-left-color:var(--pos); } .mf-item.neg { border-left-color:var(--neg); }
+  .mf-item.neu { border-left-color:var(--neu); } .mf-item.watch { border-left-color:#f59e0b; }
+  .mf-top { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:4px; }
+  .mf-date { font-size:11px; font-weight:700; color:var(--accent); background:var(--accent-soft); padding:1px 7px; border-radius:5px; white-space:nowrap; }
+  .mf-title { font-size:13px; font-weight:700; }
+  .mf-sec { font-size:10px; color:var(--muted); border:1px solid var(--border); border-radius:4px; padding:1px 5px; }
+  .mf-badge { font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; margin-left:auto; }
+  .mf-badge.pos { background:var(--pos-soft); color:var(--pos); } .mf-badge.neg { background:var(--neg-soft); color:var(--neg); }
+  .mf-badge.neu { background:var(--neu-soft); color:var(--neu); } .mf-badge.watch { background:#fef3c7; color:#92400e; }
+  [data-theme="dark"] .mf-badge.watch { background:#422006; color:#fde68a; }
+  .mf-impact { font-size:11.5px; color:var(--text-soft); line-height:1.55; }
 
   /* ===== AI section ===== */
   .ai-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
@@ -735,6 +749,27 @@ function tryNotifyUpdates(M) {
   } catch (e) {}
 }
 
+var MF_DIR = { pos: ['호재', 'pos'], neg: ['악재', 'neg'], neu: ['중립', 'neu'], watch: ['관전·변수', 'watch'] };
+function renderMonthly(M) {
+  var m = M.monthly_factors; if (!m) return '';
+  var ym = m.month.slice(0, 4) + '년 ' + m.month.slice(5) + '월';
+  function badge(dir) { var t = MF_DIR[dir] || MF_DIR.watch; return '<span class="mf-badge ' + t[1] + '">' + t[0] + '</span>'; }
+  var ev = (m.events || []).map(function (e) {
+    return '<div class="mf-item ' + (e.dir || 'watch') + '"><div class="mf-top"><span class="mf-date">' + e.date + '</span>' +
+      '<span class="mf-title">' + e.title + '</span>' + (e.sector ? '<span class="mf-sec">' + e.sector + '</span>' : '') + badge(e.dir) + '</div>' +
+      '<div class="mf-impact">' + e.impact + '</div></div>';
+  }).join('');
+  var th = (m.themes || []).map(function (e) {
+    return '<div class="mf-item ' + (e.dir || 'watch') + '"><div class="mf-top"><span class="mf-title">' + e.title + '</span>' + badge(e.dir) + '</div>' +
+      '<div class="mf-impact">' + e.outlook + '</div></div>';
+  }).join('');
+  return '<div class="panel"><h2>🗓️ 이달의 정성 요인 & 캘린더 — ' + ym +
+    (m.stale ? ' <span class="upd-count" style="background:var(--warn-fg);color:#fff">갱신 필요</span>' : '') + '</h2>' +
+    '<p class="hint">' + (m.headline || '') + '<br>정량 지표가 못 잡는 이벤트·지정학·테마 판단. 매월 갱신(fetch_macro.py의 MONTHLY_FACTORS).</p>' +
+    '<div class="mf-grid"><div><div class="sub-label">📅 주요 일정·이벤트</div>' + ev + '</div>' +
+    '<div><div class="sub-label">🔍 진행 이슈·테마 전망</div>' + th + '</div></div></div>';
+}
+
 function renderCycle(M) {
   if (!M.cycle) return '';
   var c = M.cycle;
@@ -979,8 +1014,9 @@ function render(M) {
   });
   html += '</div></div></div></div>';
 
-  /* ── Cycle phase + Updates + Time machine ── */
+  /* ── Cycle phase + Monthly factors + Updates + Time machine ── */
   html += renderCycle(M);
+  html += renderMonthly(M);
   html += renderUpdates(M);
   html += renderTimeMachine(M);
   html += renderCountryPref(M);
