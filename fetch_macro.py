@@ -1510,6 +1510,14 @@ def build():
         "real_rate": round(real_rate, 2) if real_rate is not None else None,
     }
 
+    # 품질 게이트: 이번 수집이 빈약(일부 FRED/yfinance 실패)하면 직전 좋은 버전 보존.
+    # cron이 하루 8회(백업 포함) 도므로, 한 번 실패해도 다음 정상 실행이 갱신.
+    us_n = (earn["data"].get("countries", {}).get("US") or {}).get("n", 0)
+    if OUT.exists() and (len(indicators) < 24 or us_n < 10 or not regime_history):
+        print(f"\n[guard] 빈약한 수집(지표 {len(indicators)}/24, US이익 n={us_n}, "
+              f"레짐히스토리 {len(regime_history)}) → macro-data.js 갱신 생략(직전 보존).")
+        return
+
     OUT.write_text(
         "// 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.\n"
         "// 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js\n"
