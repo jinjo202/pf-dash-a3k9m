@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01g";</script>
+<script>window.CODE_VERSION = "2026-06-01h";</script>
 <script>
   (function () {
     try {
@@ -929,8 +929,9 @@ function render(M) {
   if (a && a.neighbors && a.neighbors.length) {
     html += '<div class="panel"><h2>과거 유사 국면 비교</h2>' +
       '<p class="hint">현재 매크로·시장 상태를 ' + a.features.length + '개 지표 벡터로 표준화해, 2000년 이후 ' +
-      a.n_months + '개월 중 가장 가까웠던 시점을 찾았습니다. 각 시점 <b>이후</b> S&P500·KOSPI 수익률입니다.</p>';
-    html += '<table><thead><tr><th>유사 시점</th><th>거리</th>' +
+      a.n_months + '개월 중 가장 가까웠던 시점을 찾았습니다. 각 시점 <b>이후</b> S&P500·KOSPI 수익률입니다.<br>' +
+      '<b>📏 거리(distance)</b>: 모든 지표를 표준화해 계산한 다차원 거리. <b>0에 가까울수록(작을수록) 현재와 더 유사</b>합니다. (아래 표는 거리 작은 순 정렬)</p>';
+    html += '<table><thead><tr><th>유사 시점</th><th>거리↓유사</th>' +
       '<th>S&P +1M</th><th>+3M</th><th>+6M</th><th>+12M</th>' +
       '<th>KOSPI +3M</th><th>+12M</th></tr></thead><tbody>';
     a.neighbors.forEach(function (nb) {
