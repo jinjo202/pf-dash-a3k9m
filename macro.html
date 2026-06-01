@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01k";</script>
+<script>window.CODE_VERSION = "2026-06-01l";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -802,14 +802,17 @@ function updateTimeMachine(idx) {
     return '<div class="tm-pill">' + nm + '<b style="color:' + c + '">' + (v > 0 ? '+' : '') + v + '</b></div>';
   }).join('');
   var f = h.fwd || {};
-  var price = 'S&P500 <b>' + (h.spx != null ? fmtNum(h.spx, 0) : '–') + '</b>' +
-    (f.spx3 != null || f.spx12 != null ? ' <span style="color:var(--muted)">(이후 3M ' + retSpan(f.spx3) + ' · 12M ' + retSpan(f.spx12) + ')</span>' : '') +
-    ' &nbsp;|&nbsp; KOSPI <b>' + (h.kospi != null ? fmtNum(h.kospi, 0) : '–') + '</b>' +
-    (f.kospi12 != null ? ' <span style="color:var(--muted)">(12M ' + retSpan(f.kospi12) + ')</span>' : '');
+  function trip(a, b, c) {
+    if (a == null && b == null && c == null) return '<span style="color:var(--muted)">이후 데이터 집계 전</span>';
+    return '<span style="color:var(--muted)">이후</span> 1M ' + retSpan(a) + ' · 3M ' + retSpan(b) + ' · 12M ' + retSpan(c);
+  }
+  var price =
+    '<div>S&P500 <b>' + (h.spx != null ? fmtNum(h.spx, 0) : '–') + '</b> → ' + trip(f.spx1, f.spx3, f.spx12) + '</div>' +
+    '<div>KOSPI <b>' + (h.kospi != null ? fmtNum(h.kospi, 0) : '–') + '</b> → ' + trip(f.kospi1, f.kospi3, f.kospi12) + '</div>';
   document.getElementById('tmReadout').innerHTML =
     '<div><div class="tm-date">' + h.date.slice(0, 7) + '</div><div class="tm-score" style="color:' + col + '">' + (h.score > 0 ? '+' : '') + h.score + '</div></div>' +
-    '<div style="flex:1;min-width:220px"><div class="tm-phase">' + (h.phase || '-') + '</div><div class="tm-pills" style="margin-top:6px">' + pills + '</div>' +
-    '<div class="tm-price">📈 당시 주가 → ' + price + '</div></div>';
+    '<div style="flex:1;min-width:240px"><div class="tm-phase">' + (h.phase || '-') + '</div><div class="tm-pills" style="margin-top:6px">' + pills + '</div>' +
+    '<div class="tm-price">📈 당시 주가 ' + price + '</div></div>';
 }
 
 function showIndicatorModal(key) {

@@ -1180,8 +1180,9 @@ def build_regime_history(monthly, spx_me, kospi_me, max_months=192):
         out.append({"date": mo + "-01", "score": comp, "phase": phase, "pillars": pil,
                     "spx": round(spx_me[mo], 1) if mo in spx_me else None,
                     "kospi": round(kospi_me[mo], 1) if mo in kospi_me else None,
-                    "fwd": {"spx3": _fwd_ret(spx_me, mo, 3), "spx12": _fwd_ret(spx_me, mo, 12),
-                            "kospi12": _fwd_ret(kospi_me, mo, 12)}})
+                    "fwd": {"spx1": _fwd_ret(spx_me, mo, 1), "spx3": _fwd_ret(spx_me, mo, 3),
+                            "spx12": _fwd_ret(spx_me, mo, 12), "kospi1": _fwd_ret(kospi_me, mo, 1),
+                            "kospi3": _fwd_ret(kospi_me, mo, 3), "kospi12": _fwd_ret(kospi_me, mo, 12)}})
     return out
 
 

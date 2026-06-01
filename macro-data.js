@@ -147,16 +147,8 @@ window.MACRO = {
       "detail": "외국인 26.06.01 -2.82조 · YTD누적 -102.71조"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-06-01",
-      "type": "flows",
-      "key": "krflow_26.06.01",
-      "title": "한국 투자자 수급 갱신",
-      "detail": "외국인 26.06.01 -2.82조 · YTD누적 -102.71조"
-    }
-  ],
-  "generated": "2026-06-01T13:02:34Z",
+  "updates_today": [],
+  "generated": "2026-06-01T13:24:59Z",
   "regime": {
     "score": 9,
     "label": "중립 (선별적)",
@@ -323,8 +315,11 @@ window.MACRO = {
       "spx": 1186.7,
       "kospi": 1741.6,
       "fwd": {
+        "spx1": -8.2,
         "spx3": -7.2,
         "spx12": 14.9,
+        "kospi1": -5.8,
+        "kospi3": 1.0,
         "kospi12": 25.9
       }
     },
@@ -342,8 +337,11 @@ window.MACRO = {
       "spx": 1089.4,
       "kospi": 1641.2,
       "fwd": {
+        "spx1": -5.4,
         "spx3": -3.7,
         "spx12": 23.5,
+        "kospi1": 3.5,
+        "kospi3": 6.2,
         "kospi12": 30.5
       }
     },
@@ -361,8 +359,11 @@ window.MACRO = {
       "spx": 1030.7,
       "kospi": 1698.3,
       "fwd": {
+        "spx1": 6.9,
         "spx3": 10.7,
         "spx12": 28.1,
+        "kospi1": 3.6,
+        "kospi3": 10.3,
         "kospi12": 23.7
       }
     },
@@ -380,8 +381,11 @@ window.MACRO = {
       "spx": 1101.6,
       "kospi": 1759.3,
       "fwd": {
+        "spx1": -4.7,
         "spx3": 7.4,
         "spx12": 17.3,
+        "kospi1": -0.9,
+        "kospi3": 7.0,
         "kospi12": 21.3
       }
     },
@@ -399,8 +403,11 @@ window.MACRO = {
       "spx": 1049.3,
       "kospi": 1742.8,
       "fwd": {
+        "spx1": 8.8,
         "spx3": 12.5,
         "spx12": 16.2,
+        "kospi1": 7.5,
+        "kospi3": 9.3,
         "kospi12": 7.9
       }
     },
@@ -418,8 +425,11 @@ window.MACRO = {
       "spx": 1141.2,
       "kospi": 1872.8,
       "fwd": {
+        "spx1": 3.7,
         "spx3": 10.2,
         "spx12": -0.9,
+        "kospi1": 0.5,
+        "kospi3": 9.5,
         "kospi12": -5.5
       }
     },
@@ -437,8 +447,11 @@ window.MACRO = {
       "spx": 1183.3,
       "kospi": 1882.9,
       "fwd": {
+        "spx1": -0.2,
         "spx3": 8.7,
         "spx12": 5.9,
+        "kospi1": 1.2,
+        "kospi3": 9.9,
         "kospi12": 1.4
       }
     },
@@ -456,8 +469,11 @@ window.MACRO = {
       "spx": 1180.6,
       "kospi": 1904.6,
       "fwd": {
+        "spx1": 6.5,
         "spx3": 12.4,
         "spx12": 5.6,
+        "kospi1": 7.7,
+        "kospi3": 1.8,
         "kospi12": -3.0
       }
     },
@@ -475,8 +491,11 @@ window.MACRO = {
       "spx": 1257.6,
       "kospi": 2051.0,
       "fwd": {
+        "spx1": 2.3,
         "spx3": 5.4,
         "spx12": -0.0,
+        "kospi1": 0.9,
+        "kospi3": 2.7,
         "kospi12": -11.0
       }
     },
@@ -494,8 +513,11 @@ window.MACRO = {
       "spx": 1286.1,
       "kospi": 2069.7,
       "fwd": {
+        "spx1": 3.2,
         "spx3": 6.0,
         "spx12": 2.0,
+        "kospi1": -6.3,
+        "kospi3": 5.9,
         "kospi12": -5.5
       }
     },
@@ -513,8 +535,11 @@ window.MACRO = {
       "spx": 1327.2,
       "kospi": 1939.3,
       "fwd": {
+        "spx1": -0.1,
         "spx3": 1.4,
         "spx12": 2.9,
+        "kospi1": 8.6,
+        "kospi3": 10.5,
         "kospi12": 4.7
       }
     },
@@ -532,8 +557,11 @@ window.MACRO = {
       "spx": 1325.8,
       "kospi": 2106.7,
       "fwd": {
+        "spx1": 2.8,
         "spx3": -0.4,
         "spx12": 6.2,
+        "kospi1": 4.1,
+        "kospi3": -0.3,
         "kospi12": -4.4
       }
     },
@@ -551,8 +579,11 @@ window.MACRO = {
       "spx": 1363.6,
       "kospi": 2192.4,
       "fwd": {
+        "spx1": -1.4,
         "spx3": -5.2,
         "spx12": 2.5,
+        "kospi1": -2.3,
+        "kospi3": -2.7,
         "kospi12": -9.6
       }
     },
@@ -570,8 +601,11 @@ window.MACRO = {
       "spx": 1345.2,
       "kospi": 2142.5,
       "fwd": {
+        "spx1": -1.8,
         "spx3": -9.4,
         "spx12": -2.6,
+        "kospi1": -2.0,
+        "kospi3": -12.2,
         "kospi12": -14.0
       }
     },
@@ -589,8 +623,11 @@ window.MACRO = {
       "spx": 1320.6,
       "kospi": 2100.7,
       "fwd": {
+        "spx1": -2.1,
         "spx3": -14.3,
         "spx12": 3.1,
+        "kospi1": 1.5,
+        "kospi3": -15.8,
         "kospi12": -11.7
       }
     },
@@ -608,8 +645,11 @@ window.MACRO = {
       "spx": 1292.3,
       "kospi": 2133.2,
       "fwd": {
+        "spx1": -5.7,
         "spx3": -3.0,
         "spx12": 6.7,
+        "kospi1": -11.9,
+        "kospi3": -10.5,
         "kospi12": -11.8
       }
     },
@@ -627,8 +667,11 @@ window.MACRO = {
       "spx": 1218.9,
       "kospi": 1880.1,
       "fwd": {
+        "spx1": -7.2,
         "spx3": 2.3,
         "spx12": 15.4,
+        "kospi1": -5.9,
+        "kospi3": -1.7,
         "kospi12": 1.3
       }
     },
@@ -646,8 +689,11 @@ window.MACRO = {
       "spx": 1131.4,
       "kospi": 1769.7,
       "fwd": {
+        "spx1": 10.8,
         "spx3": 11.2,
         "spx12": 27.3,
+        "kospi1": 7.9,
+        "kospi3": 3.2,
         "kospi12": 12.8
       }
     },
@@ -665,8 +711,11 @@ window.MACRO = {
       "spx": 1253.3,
       "kospi": 1909.0,
       "fwd": {
+        "spx1": -0.5,
         "spx3": 4.7,
         "spx12": 12.7,
+        "kospi1": -3.2,
+        "kospi3": 2.4,
         "kospi12": 0.2
       }
     },
@@ -684,8 +733,11 @@ window.MACRO = {
       "spx": 1247.0,
       "kospi": 1847.5,
       "fwd": {
+        "spx1": 0.9,
         "spx3": 9.5,
         "spx12": 13.6,
+        "kospi1": -1.2,
+        "kospi3": 9.9,
         "kospi12": 4.6
       }
     },
@@ -703,8 +755,11 @@ window.MACRO = {
       "spx": 1257.6,
       "kospi": 1825.7,
       "fwd": {
+        "spx1": 4.4,
         "spx3": 12.0,
         "spx12": 13.4,
+        "kospi1": 7.1,
+        "kospi3": 10.3,
         "kospi12": 9.4
       }
     },
@@ -722,8 +777,11 @@ window.MACRO = {
       "spx": 1312.4,
       "kospi": 1955.8,
       "fwd": {
+        "spx1": 4.1,
         "spx3": 6.5,
         "spx12": 14.1,
+        "kospi1": 3.8,
+        "kospi3": 1.3,
         "kospi12": 0.3
       }
     },
@@ -741,8 +799,11 @@ window.MACRO = {
       "spx": 1365.7,
       "kospi": 2030.2,
       "fwd": {
+        "spx1": 3.1,
         "spx3": -4.1,
         "spx12": 10.9,
+        "kospi1": -0.8,
+        "kospi3": -9.2,
         "kospi12": -0.2
       }
     },
@@ -760,8 +821,11 @@ window.MACRO = {
       "spx": 1408.5,
       "kospi": 2014.0,
       "fwd": {
+        "spx1": -0.7,
         "spx3": -3.3,
         "spx12": 11.4,
+        "kospi1": -1.6,
+        "kospi3": -7.9,
         "kospi12": -0.5
       }
     },
@@ -779,8 +843,11 @@ window.MACRO = {
       "spx": 1397.9,
       "kospi": 1982.0,
       "fwd": {
+        "spx1": -6.3,
         "spx3": -1.3,
         "spx12": 14.3,
+        "kospi1": -7.0,
+        "kospi3": -5.0,
         "kospi12": -0.9
       }
     },
@@ -798,8 +865,11 @@ window.MACRO = {
       "spx": 1310.3,
       "kospi": 1843.5,
       "fwd": {
+        "spx1": 4.0,
         "spx3": 7.3,
         "spx12": 24.5,
+        "kospi1": 0.6,
+        "kospi3": 3.3,
         "kospi12": 8.5
       }
     },
@@ -817,8 +887,11 @@ window.MACRO = {
       "spx": 1362.2,
       "kospi": 1854.0,
       "fwd": {
+        "spx1": 1.3,
         "spx3": 5.8,
         "spx12": 17.9,
+        "kospi1": 1.5,
+        "kospi3": 7.7,
         "kospi12": 0.5
       }
     },
@@ -836,8 +909,11 @@ window.MACRO = {
       "spx": 1379.3,
       "kospi": 1882.0,
       "fwd": {
+        "spx1": 2.0,
         "spx3": 2.4,
         "spx12": 22.2,
+        "kospi1": 1.2,
+        "kospi3": 1.6,
         "kospi12": 1.7
       }
     },
@@ -855,8 +931,11 @@ window.MACRO = {
       "spx": 1406.6,
       "kospi": 1905.1,
       "fwd": {
+        "spx1": 2.4,
         "spx3": 0.7,
         "spx12": 16.1,
+        "kospi1": 4.8,
+        "kospi3": 1.5,
         "kospi12": 1.1
       }
     },
@@ -874,8 +953,11 @@ window.MACRO = {
       "spx": 1440.7,
       "kospi": 1996.2,
       "fwd": {
+        "spx1": -2.0,
         "spx3": -1.0,
         "spx12": 16.7,
+        "kospi1": -4.2,
+        "kospi3": 0.0,
         "kospi12": 0.0
       }
     },
@@ -893,8 +975,11 @@ window.MACRO = {
       "spx": 1412.2,
       "kospi": 1912.1,
       "fwd": {
+        "spx1": 0.3,
         "spx3": 6.1,
         "spx12": 24.4,
+        "kospi1": 1.1,
+        "kospi3": 2.6,
         "kospi12": 6.2
       }
     },
@@ -912,8 +997,11 @@ window.MACRO = {
       "spx": 1416.2,
       "kospi": 1932.9,
       "fwd": {
+        "spx1": 0.7,
         "spx3": 7.0,
         "spx12": 27.5,
+        "kospi1": 3.3,
+        "kospi3": 4.8,
         "kospi12": 5.8
       }
     },
@@ -931,8 +1019,11 @@ window.MACRO = {
       "spx": 1426.2,
       "kospi": 1997.1,
       "fwd": {
+        "spx1": 5.0,
         "spx3": 10.0,
         "spx12": 29.6,
+        "kospi1": -1.8,
+        "kospi3": 0.4,
         "kospi12": 0.7
       }
     },
@@ -950,8 +1041,11 @@ window.MACRO = {
       "spx": 1498.1,
       "kospi": 1961.9,
       "fwd": {
+        "spx1": 1.1,
         "spx3": 6.6,
         "spx12": 19.0,
+        "kospi1": 3.3,
+        "kospi3": 0.1,
         "kospi12": -1.1
       }
     },
@@ -969,8 +1063,11 @@ window.MACRO = {
       "spx": 1514.7,
       "kospi": 2026.5,
       "fwd": {
+        "spx1": 3.6,
         "spx3": 7.7,
         "spx12": 22.8,
+        "kospi1": -1.1,
+        "kospi3": -1.3,
         "kospi12": -2.3
       }
     },
@@ -988,8 +1085,11 @@ window.MACRO = {
       "spx": 1569.2,
       "kospi": 2004.9,
       "fwd": {
+        "spx1": 1.8,
         "spx3": 2.4,
         "spx12": 19.3,
+        "kospi1": -2.0,
+        "kospi3": -7.1,
         "kospi12": -1.0
       }
     },
@@ -1007,8 +1107,11 @@ window.MACRO = {
       "spx": 1597.6,
       "kospi": 1963.9,
       "fwd": {
+        "spx1": 2.1,
         "spx3": 5.5,
         "spx12": 17.9,
+        "kospi1": 1.9,
+        "kospi3": -2.5,
         "kospi12": -0.1
       }
     },
@@ -1026,8 +1129,11 @@ window.MACRO = {
       "spx": 1630.7,
       "kospi": 2001.1,
       "fwd": {
+        "spx1": -1.5,
         "spx3": 0.1,
         "spx12": 18.0,
+        "kospi1": -6.9,
+        "kospi3": -3.7,
         "kospi12": -0.3
       }
     },
@@ -1045,8 +1151,11 @@ window.MACRO = {
       "spx": 1606.3,
       "kospi": 1863.3,
       "fwd": {
+        "spx1": 4.9,
         "spx3": 4.7,
         "spx12": 22.0,
+        "kospi1": 2.7,
+        "kospi3": 7.2,
         "kospi12": 7.5
       }
     },
@@ -1064,8 +1173,11 @@ window.MACRO = {
       "spx": 1685.7,
       "kospi": 1914.0,
       "fwd": {
+        "spx1": -3.1,
         "spx3": 4.2,
         "spx12": 14.5,
+        "kospi1": 0.6,
+        "kospi3": 6.1,
         "kospi12": 8.5
       }
     },
@@ -1083,8 +1195,11 @@ window.MACRO = {
       "spx": 1633.0,
       "kospi": 1926.4,
       "fwd": {
+        "spx1": 3.0,
         "spx3": 10.6,
         "spx12": 22.7,
+        "kospi1": 3.7,
+        "kospi3": 6.2,
         "kospi12": 7.4
       }
     },
@@ -1102,8 +1217,11 @@ window.MACRO = {
       "spx": 1681.6,
       "kospi": 1997.0,
       "fwd": {
+        "spx1": 4.5,
         "spx3": 9.9,
         "spx12": 17.3,
+        "kospi1": 1.7,
+        "kospi3": 0.7,
         "kospi12": 1.2
       }
     },
@@ -1121,8 +1239,11 @@ window.MACRO = {
       "spx": 1756.5,
       "kospi": 2030.1,
       "fwd": {
+        "spx1": 2.8,
         "spx3": 1.5,
         "spx12": 14.9,
+        "kospi1": 0.7,
+        "kospi3": -4.4,
         "kospi12": -3.2
       }
     },
@@ -1140,8 +1261,11 @@ window.MACRO = {
       "spx": 1805.8,
       "kospi": 2044.9,
       "fwd": {
+        "spx1": 2.4,
         "spx3": 3.0,
         "spx12": 14.5,
+        "kospi1": -1.6,
+        "kospi3": -3.2,
         "kospi12": -3.1
       }
     },
@@ -1159,8 +1283,11 @@ window.MACRO = {
       "spx": 1848.4,
       "kospi": 2011.3,
       "fwd": {
+        "spx1": -3.6,
         "spx3": 1.3,
         "spx12": 11.4,
+        "kospi1": -3.5,
+        "kospi3": -1.3,
         "kospi12": -4.8
       }
     },
@@ -1178,8 +1305,11 @@ window.MACRO = {
       "spx": 1782.6,
       "kospi": 1941.2,
       "fwd": {
+        "spx1": 4.3,
         "spx3": 5.7,
         "spx12": 11.9,
+        "kospi1": 2.0,
+        "kospi3": 1.1,
         "kospi12": 0.4
       }
     },
@@ -1197,8 +1327,11 @@ window.MACRO = {
       "spx": 1859.4,
       "kospi": 1980.0,
       "fwd": {
+        "spx1": 0.7,
         "spx3": 3.4,
         "spx12": 13.2,
+        "kospi1": 0.3,
+        "kospi3": 0.8,
         "kospi12": 0.3
       }
     },
@@ -1216,8 +1349,11 @@ window.MACRO = {
       "spx": 1872.3,
       "kospi": 1985.6,
       "fwd": {
+        "spx1": 0.6,
         "spx3": 4.7,
         "spx12": 10.4,
+        "kospi1": -1.2,
+        "kospi3": 0.8,
         "kospi12": 2.8
       }
     },
@@ -1235,8 +1371,11 @@ window.MACRO = {
       "spx": 1883.9,
       "kospi": 1961.8,
       "fwd": {
+        "spx1": 2.1,
         "spx3": 2.5,
         "spx12": 10.7,
+        "kospi1": 1.7,
+        "kospi3": 5.8,
         "kospi12": 8.4
       }
     },
@@ -1254,8 +1393,11 @@ window.MACRO = {
       "spx": 1923.6,
       "kospi": 1995.0,
       "fwd": {
+        "spx1": 1.9,
         "spx3": 4.1,
         "spx12": 9.6,
+        "kospi1": 0.4,
+        "kospi3": 3.7,
         "kospi12": 6.0
       }
     },
@@ -1273,8 +1415,11 @@ window.MACRO = {
       "spx": 1960.2,
       "kospi": 2002.2,
       "fwd": {
+        "spx1": -1.5,
         "spx3": 0.6,
         "spx12": 5.2,
+        "kospi1": 3.7,
+        "kospi3": 0.9,
         "kospi12": 3.6
       }
     },
@@ -1292,8 +1437,11 @@ window.MACRO = {
       "spx": 1930.7,
       "kospi": 2076.1,
       "fwd": {
+        "spx1": 3.8,
         "spx3": 4.5,
         "spx12": 9.0,
+        "kospi1": -0.4,
+        "kospi3": -5.4,
         "kospi12": -2.2
       }
     },
@@ -1311,8 +1459,11 @@ window.MACRO = {
       "spx": 2003.4,
       "kospi": 2068.5,
       "fwd": {
+        "spx1": -1.6,
         "spx3": 3.2,
         "spx12": -1.6,
+        "kospi1": -2.3,
+        "kospi3": -4.2,
         "kospi12": -6.1
       }
     },
@@ -1330,8 +1481,11 @@ window.MACRO = {
       "spx": 1972.3,
       "kospi": 2020.1,
       "fwd": {
+        "spx1": 2.3,
         "spx3": 4.4,
         "spx12": -2.6,
+        "kospi1": -2.8,
+        "kospi3": -5.2,
         "kospi12": -2.8
       }
     },
@@ -1349,8 +1503,11 @@ window.MACRO = {
       "spx": 2018.1,
       "kospi": 1964.4,
       "fwd": {
+        "spx1": 2.5,
         "spx3": -1.1,
         "spx12": 3.0,
+        "kospi1": 0.8,
+        "kospi3": -0.8,
         "kospi12": 3.3
       }
     },
@@ -1368,8 +1525,11 @@ window.MACRO = {
       "spx": 2067.6,
       "kospi": 1980.8,
       "fwd": {
+        "spx1": -0.4,
         "spx3": 1.8,
         "spx12": 0.6,
+        "kospi1": -3.3,
+        "kospi3": 0.3,
         "kospi12": 0.6
       }
     },
@@ -1387,8 +1547,11 @@ window.MACRO = {
       "spx": 2058.9,
       "kospi": 1915.6,
       "fwd": {
+        "spx1": -3.1,
         "spx3": 0.4,
         "spx12": -0.7,
+        "kospi1": 1.8,
+        "kospi3": 6.5,
         "kospi12": 2.4
       }
     },
@@ -1406,8 +1569,11 @@ window.MACRO = {
       "spx": 1995.0,
       "kospi": 1949.3,
       "fwd": {
+        "spx1": 5.5,
         "spx3": 4.5,
         "spx12": -2.7,
+        "kospi1": 1.9,
+        "kospi3": 9.1,
         "kospi12": -1.9
       }
     },
@@ -1425,8 +1591,11 @@ window.MACRO = {
       "spx": 2104.5,
       "kospi": 1985.8,
       "fwd": {
+        "spx1": -1.7,
         "spx3": 0.1,
         "spx12": -8.2,
+        "kospi1": 2.8,
+        "kospi3": 6.5,
         "kospi12": -3.5
       }
     },
@@ -1444,8 +1613,11 @@ window.MACRO = {
       "spx": 2067.9,
       "kospi": 2041.0,
       "fwd": {
+        "spx1": 0.9,
         "spx3": -0.2,
         "spx12": -0.4,
+        "kospi1": 4.2,
+        "kospi3": 1.6,
         "kospi12": -2.2
       }
     },
@@ -1463,8 +1635,11 @@ window.MACRO = {
       "spx": 2085.5,
       "kospi": 2127.2,
       "fwd": {
+        "spx1": 1.0,
         "spx3": 0.9,
         "spx12": -1.0,
+        "kospi1": -0.6,
+        "kospi3": -4.6,
         "kospi12": -6.3
       }
     },
@@ -1482,8 +1657,11 @@ window.MACRO = {
       "spx": 2107.4,
       "kospi": 2114.8,
       "fwd": {
+        "spx1": -2.1,
         "spx3": -6.4,
         "spx12": -0.5,
+        "kospi1": -1.9,
+        "kospi3": -8.2,
         "kospi12": -6.2
       }
     },
@@ -1501,8 +1679,11 @@ window.MACRO = {
       "spx": 2063.1,
       "kospi": 2074.2,
       "fwd": {
+        "spx1": 2.0,
         "spx3": -6.9,
         "spx12": 1.7,
+        "kospi1": -2.1,
+        "kospi3": -5.4,
         "kospi12": -5.0
       }
     },
@@ -1520,8 +1701,11 @@ window.MACRO = {
       "spx": 2103.8,
       "kospi": 2030.2,
       "fwd": {
+        "spx1": -6.3,
         "spx3": -1.2,
         "spx12": 3.3,
+        "kospi1": -4.4,
+        "kospi3": -0.0,
         "kospi12": -0.7
       }
     },
@@ -1539,8 +1723,11 @@ window.MACRO = {
       "spx": 1972.2,
       "kospi": 1941.5,
       "fwd": {
+        "spx1": -2.6,
         "spx3": 5.5,
         "spx12": 10.1,
+        "kospi1": 1.1,
+        "kospi3": 2.6,
         "kospi12": 4.8
       }
     },
@@ -1558,8 +1745,11 @@ window.MACRO = {
       "spx": 1920.0,
       "kospi": 1962.8,
       "fwd": {
+        "spx1": 8.3,
         "spx3": 6.5,
         "spx12": 12.9,
+        "kospi1": 3.4,
+        "kospi3": -0.1,
         "kospi12": 4.1
       }
     },
@@ -1577,8 +1767,11 @@ window.MACRO = {
       "spx": 2079.4,
       "kospi": 2029.5,
       "fwd": {
+        "spx1": 0.1,
         "spx3": -6.7,
         "spx12": 2.3,
+        "kospi1": -1.8,
+        "kospi3": -5.8,
         "kospi12": -1.0
       }
     },
@@ -1596,8 +1789,11 @@ window.MACRO = {
       "spx": 2080.4,
       "kospi": 1992.0,
       "fwd": {
+        "spx1": -1.8,
         "spx3": -7.1,
         "spx12": 5.7,
+        "kospi1": -1.5,
+        "kospi3": -3.8,
         "kospi12": -0.4
       }
     },
@@ -1615,8 +1811,11 @@ window.MACRO = {
       "spx": 2043.9,
       "kospi": 1961.3,
       "fwd": {
+        "spx1": -5.1,
         "spx3": 0.8,
         "spx12": 9.5,
+        "kospi1": -2.5,
+        "kospi3": 1.8,
         "kospi12": 3.3
       }
     },
@@ -1634,8 +1833,11 @@ window.MACRO = {
       "spx": 1940.2,
       "kospi": 1912.1,
       "fwd": {
+        "spx1": -0.4,
         "spx3": 6.4,
         "spx12": 17.5,
+        "kospi1": 0.2,
+        "kospi3": 4.3,
         "kospi12": 8.1
       }
     },
@@ -1653,8 +1855,11 @@ window.MACRO = {
       "spx": 1932.2,
       "kospi": 1916.7,
       "fwd": {
+        "spx1": 6.6,
         "spx3": 8.5,
         "spx12": 22.3,
+        "kospi1": 4.1,
+        "kospi3": 3.5,
         "kospi12": 9.1
       }
     },
@@ -1672,8 +1877,11 @@ window.MACRO = {
       "spx": 2059.7,
       "kospi": 1995.8,
       "fwd": {
+        "spx1": 0.3,
         "spx3": 1.9,
         "spx12": 14.7,
+        "kospi1": -0.1,
+        "kospi3": -1.3,
         "kospi12": 8.2
       }
     },
@@ -1691,8 +1899,11 @@ window.MACRO = {
       "spx": 2065.3,
       "kospi": 1994.2,
       "fwd": {
+        "spx1": 1.5,
         "spx3": 5.2,
         "spx12": 15.4,
+        "kospi1": -0.5,
+        "kospi3": 1.1,
         "kospi12": 10.6
       }
     },
@@ -1710,8 +1921,11 @@ window.MACRO = {
       "spx": 2096.9,
       "kospi": 1983.4,
       "fwd": {
+        "spx1": 0.1,
         "spx3": 3.5,
         "spx12": 15.0,
+        "kospi1": -0.7,
+        "kospi3": 2.6,
         "kospi12": 18.4
       }
     },
@@ -1729,8 +1943,11 @@ window.MACRO = {
       "spx": 2098.9,
       "kospi": 1970.3,
       "fwd": {
+        "spx1": 3.6,
         "spx3": 3.3,
         "spx12": 15.5,
+        "kospi1": 2.3,
+        "kospi3": 3.7,
         "kospi12": 21.4
       }
     },
@@ -1748,8 +1965,11 @@ window.MACRO = {
       "spx": 2173.6,
       "kospi": 2016.2,
       "fwd": {
+        "spx1": -0.1,
         "spx3": -2.2,
         "spx12": 13.7,
+        "kospi1": 0.9,
+        "kospi3": -0.4,
         "kospi12": 19.2
       }
     },
@@ -1767,8 +1987,11 @@ window.MACRO = {
       "spx": 2170.9,
       "kospi": 2034.7,
       "fwd": {
+        "spx1": -0.1,
         "spx3": 1.3,
         "spx12": 13.9,
+        "kospi1": 0.4,
+        "kospi3": -2.5,
         "kospi12": 16.1
       }
     },
@@ -1786,8 +2009,11 @@ window.MACRO = {
       "spx": 2168.3,
       "kospi": 2043.6,
       "fwd": {
+        "spx1": -1.9,
         "spx3": 3.3,
         "spx12": 16.2,
+        "kospi1": -1.7,
+        "kospi3": -0.8,
         "kospi12": 17.2
       }
     },
@@ -1805,8 +2031,11 @@ window.MACRO = {
       "spx": 2126.1,
       "kospi": 2008.2,
       "fwd": {
+        "spx1": 3.4,
         "spx3": 7.2,
         "spx12": 21.1,
+        "kospi1": -1.2,
+        "kospi3": 3.0,
         "kospi12": 25.7
       }
     },
@@ -1824,8 +2053,11 @@ window.MACRO = {
       "spx": 2198.8,
       "kospi": 1983.5,
       "fwd": {
+        "spx1": 1.8,
         "spx3": 7.5,
         "spx12": 20.4,
+        "kospi1": 2.2,
+        "kospi3": 5.5,
         "kospi12": 24.8
       }
     },
@@ -1843,8 +2075,11 @@ window.MACRO = {
       "spx": 2238.8,
       "kospi": 2026.5,
       "fwd": {
+        "spx1": 1.8,
         "spx3": 5.5,
         "spx12": 19.4,
+        "kospi1": 2.0,
+        "kospi3": 6.6,
         "kospi12": 21.8
       }
     },
@@ -1862,8 +2097,11 @@ window.MACRO = {
       "spx": 2278.9,
       "kospi": 2067.6,
       "fwd": {
+        "spx1": 3.7,
         "spx3": 4.6,
         "spx12": 23.9,
+        "kospi1": 1.2,
+        "kospi3": 6.7,
         "kospi12": 24.1
       }
     },
@@ -1881,8 +2119,11 @@ window.MACRO = {
       "spx": 2363.6,
       "kospi": 2091.6,
       "fwd": {
+        "spx1": -0.0,
         "spx3": 2.0,
         "spx12": 14.8,
+        "kospi1": 3.3,
+        "kospi3": 12.2,
         "kospi12": 16.1
       }
     },
@@ -1900,8 +2141,11 @@ window.MACRO = {
       "spx": 2362.7,
       "kospi": 2160.2,
       "fwd": {
+        "spx1": 0.9,
         "spx3": 2.6,
         "spx12": 11.8,
+        "kospi1": 2.1,
+        "kospi3": 10.7,
         "kospi12": 13.2
       }
     },
@@ -1919,8 +2163,11 @@ window.MACRO = {
       "spx": 2384.2,
       "kospi": 2205.4,
       "fwd": {
+        "spx1": 1.2,
         "spx3": 3.6,
         "spx12": 11.1,
+        "kospi1": 6.4,
+        "kospi3": 8.9,
         "kospi12": 14.1
       }
     },
@@ -1938,8 +2185,11 @@ window.MACRO = {
       "spx": 2411.8,
       "kospi": 2347.4,
       "fwd": {
+        "spx1": 0.5,
         "spx3": 2.5,
         "spx12": 12.2,
+        "kospi1": 1.9,
+        "kospi3": 0.7,
         "kospi12": 3.2
       }
     },
@@ -1957,8 +2207,11 @@ window.MACRO = {
       "spx": 2423.4,
       "kospi": 2391.8,
       "fwd": {
+        "spx1": 1.9,
         "spx3": 4.0,
         "spx12": 12.2,
+        "kospi1": 0.5,
+        "kospi3": 0.1,
         "kospi12": -2.7
       }
     },
@@ -1976,8 +2229,11 @@ window.MACRO = {
       "spx": 2470.3,
       "kospi": 2402.7,
       "fwd": {
+        "spx1": 0.1,
         "spx3": 4.2,
         "spx12": 14.0,
+        "kospi1": -1.6,
+        "kospi3": 5.0,
         "kospi12": -4.5
       }
     },
@@ -1995,8 +2251,11 @@ window.MACRO = {
       "spx": 2471.6,
       "kospi": 2363.2,
       "fwd": {
+        "spx1": 1.9,
         "spx3": 7.1,
         "spx12": 17.4,
+        "kospi1": 1.3,
+        "kospi3": 4.8,
         "kospi12": -1.7
       }
     },
@@ -2014,8 +2273,11 @@ window.MACRO = {
       "spx": 2519.4,
       "kospi": 2394.5,
       "fwd": {
+        "spx1": 2.2,
         "spx3": 6.1,
         "spx12": 15.7,
+        "kospi1": 5.4,
+        "kospi3": 3.0,
         "kospi12": -2.1
       }
     },
@@ -2033,8 +2295,11 @@ window.MACRO = {
       "spx": 2575.3,
       "kospi": 2523.4,
       "fwd": {
+        "spx1": 2.8,
         "spx3": 9.7,
         "spx12": 5.3,
+        "kospi1": -1.9,
+        "kospi3": 1.7,
         "kospi12": -19.6
       }
     },
@@ -2052,8 +2317,11 @@ window.MACRO = {
       "spx": 2647.6,
       "kospi": 2476.4,
       "fwd": {
+        "spx1": 1.0,
         "spx3": 2.5,
         "spx12": 4.3,
+        "kospi1": -0.4,
+        "kospi3": -2.0,
         "kospi12": -15.3
       }
     },
@@ -2071,8 +2339,11 @@ window.MACRO = {
       "spx": 2673.6,
       "kospi": 2467.5,
       "fwd": {
+        "spx1": 5.6,
         "spx3": -1.2,
         "spx12": -6.2,
+        "kospi1": 4.0,
+        "kospi3": -0.9,
         "kospi12": -17.3
       }
     },
@@ -2090,8 +2361,11 @@ window.MACRO = {
       "spx": 2823.8,
       "kospi": 2566.5,
       "fwd": {
+        "spx1": -3.9,
         "spx3": -6.2,
         "spx12": -4.2,
+        "kospi1": -5.4,
+        "kospi3": -2.0,
         "kospi12": -14.1
       }
     },
@@ -2109,8 +2383,11 @@ window.MACRO = {
       "spx": 2713.8,
       "kospi": 2427.4,
       "fwd": {
+        "spx1": -2.7,
         "spx3": -0.3,
         "spx12": 2.6,
+        "kospi1": 0.8,
+        "kospi3": -0.2,
         "kospi12": -9.6
       }
     },
@@ -2128,8 +2405,11 @@ window.MACRO = {
       "spx": 2640.9,
       "kospi": 2445.9,
       "fwd": {
+        "spx1": 0.3,
         "spx3": 2.9,
         "spx12": 7.3,
+        "kospi1": 2.8,
+        "kospi3": -4.9,
         "kospi12": -12.5
       }
     },
@@ -2147,8 +2427,11 @@ window.MACRO = {
       "spx": 2648.1,
       "kospi": 2515.4,
       "fwd": {
+        "spx1": 2.2,
         "spx3": 6.4,
         "spx12": 11.2,
+        "kospi1": -3.7,
+        "kospi3": -8.8,
         "kospi12": -12.4
       }
     },
@@ -2166,8 +2449,11 @@ window.MACRO = {
       "spx": 2705.3,
       "kospi": 2423.0,
       "fwd": {
+        "spx1": 0.5,
         "spx3": 7.3,
         "spx12": 1.7,
+        "kospi1": -4.0,
+        "kospi3": -4.1,
         "kospi12": -15.7
       }
     },
@@ -2185,8 +2471,11 @@ window.MACRO = {
       "spx": 2718.4,
       "kospi": 2326.1,
       "fwd": {
+        "spx1": 3.6,
         "spx3": 7.2,
         "spx12": 8.2,
+        "kospi1": -1.3,
+        "kospi3": 0.7,
         "kospi12": -8.4
       }
     },
@@ -2204,8 +2493,11 @@ window.MACRO = {
       "spx": 2816.3,
       "kospi": 2295.3,
       "fwd": {
+        "spx1": 3.0,
         "spx3": -3.7,
         "spx12": 5.8,
+        "kospi1": 1.2,
+        "kospi3": -11.6,
         "kospi12": -11.8
       }
     },
@@ -2223,8 +2515,11 @@ window.MACRO = {
       "spx": 2901.5,
       "kospi": 2322.9,
       "fwd": {
+        "spx1": 0.4,
         "spx3": -4.9,
         "spx12": 0.9,
+        "kospi1": 0.9,
+        "kospi3": -9.7,
         "kospi12": -15.3
       }
     },
@@ -2242,8 +2537,11 @@ window.MACRO = {
       "spx": 2914.0,
       "kospi": 2343.1,
       "fwd": {
+        "spx1": -6.9,
         "spx3": -14.0,
         "spx12": 2.2,
+        "kospi1": -13.4,
+        "kospi3": -12.9,
         "kospi12": -12.0
       }
     },
@@ -2261,8 +2559,11 @@ window.MACRO = {
       "spx": 2711.7,
       "kospi": 2029.7,
       "fwd": {
+        "spx1": 1.8,
         "spx3": -0.3,
         "spx12": 12.0,
+        "kospi1": 3.3,
+        "kospi3": 8.6,
         "kospi12": 2.7
       }
     },
@@ -2280,8 +2581,11 @@ window.MACRO = {
       "spx": 2760.2,
       "kospi": 2096.9,
       "fwd": {
+        "spx1": -9.2,
         "spx3": 0.9,
         "spx12": 13.8,
+        "kospi1": -2.7,
+        "kospi3": 4.7,
         "kospi12": -0.4
       }
     },
@@ -2299,8 +2603,11 @@ window.MACRO = {
       "spx": 2506.9,
       "kospi": 2041.0,
       "fwd": {
+        "spx1": 7.9,
         "spx3": 13.1,
         "spx12": 28.9,
+        "kospi1": 8.0,
+        "kospi3": 4.9,
         "kospi12": 7.7
       }
     },
@@ -2318,8 +2625,11 @@ window.MACRO = {
       "spx": 2704.1,
       "kospi": 2204.9,
       "fwd": {
+        "spx1": 3.0,
         "spx3": 8.9,
         "spx12": 19.3,
+        "kospi1": -0.4,
+        "kospi3": -0.1,
         "kospi12": -3.9
       }
     },
@@ -2337,8 +2647,11 @@ window.MACRO = {
       "spx": 2784.5,
       "kospi": 2195.4,
       "fwd": {
+        "spx1": 1.8,
         "spx3": -1.2,
         "spx12": 6.1,
+        "kospi1": -2.5,
+        "kospi3": -7.0,
         "kospi12": -9.5
       }
     },
@@ -2356,8 +2669,11 @@ window.MACRO = {
       "spx": 2834.4,
       "kospi": 2140.7,
       "fwd": {
+        "spx1": 3.9,
         "spx3": 3.8,
         "spx12": -8.8,
+        "kospi1": 2.9,
+        "kospi3": -0.5,
         "kospi12": -18.0
       }
     },
@@ -2375,8 +2691,11 @@ window.MACRO = {
       "spx": 2945.8,
       "kospi": 2203.6,
       "fwd": {
+        "spx1": -6.6,
         "spx3": 1.2,
         "spx12": -1.1,
+        "kospi1": -7.3,
+        "kospi3": -8.1,
         "kospi12": -11.6
       }
     },
@@ -2394,8 +2713,11 @@ window.MACRO = {
       "spx": 2752.1,
       "kospi": 2041.7,
       "fwd": {
+        "spx1": 6.9,
         "spx3": 6.3,
         "spx12": 10.6,
+        "kospi1": 4.4,
+        "kospi3": -3.6,
         "kospi12": -0.6
       }
     },
@@ -2413,8 +2735,11 @@ window.MACRO = {
       "spx": 2941.8,
       "kospi": 2130.6,
       "fwd": {
+        "spx1": 1.3,
         "spx3": 1.2,
         "spx12": 5.4,
+        "kospi1": -5.0,
+        "kospi3": -3.2,
         "kospi12": -1.0
       }
     },
@@ -2432,8 +2757,11 @@ window.MACRO = {
       "spx": 2980.4,
       "kospi": 2024.6,
       "fwd": {
+        "spx1": -1.8,
         "spx3": 1.9,
         "spx12": 9.8,
+        "kospi1": -2.8,
+        "kospi3": 2.9,
         "kospi12": 11.1
       }
     },
@@ -2451,8 +2779,11 @@ window.MACRO = {
       "spx": 2926.5,
       "kospi": 1967.8,
       "fwd": {
+        "spx1": 1.7,
         "spx3": 7.3,
         "spx12": 19.6,
+        "kospi1": 4.8,
+        "kospi3": 6.1,
         "kospi12": 18.2
       }
     },
@@ -2470,8 +2801,11 @@ window.MACRO = {
       "spx": 2976.7,
       "kospi": 2063.1,
       "fwd": {
+        "spx1": 2.0,
         "spx3": 8.5,
         "spx12": 13.0,
+        "kospi1": 1.0,
+        "kospi3": 6.5,
         "kospi12": 12.8
       }
     },
@@ -2489,8 +2823,11 @@ window.MACRO = {
       "spx": 3037.6,
       "kospi": 2083.5,
       "fwd": {
+        "spx1": 3.4,
         "spx3": 6.2,
         "spx12": 7.7,
+        "kospi1": 0.2,
+        "kospi3": 1.7,
         "kospi12": 8.8
       }
     },
@@ -2508,8 +2845,11 @@ window.MACRO = {
       "spx": 3141.0,
       "kospi": 2088.0,
       "fwd": {
+        "spx1": 2.9,
         "spx3": -5.9,
         "spx12": 15.3,
+        "kospi1": 5.3,
+        "kospi3": -4.8,
         "kospi12": 24.1
       }
     },
@@ -2527,8 +2867,11 @@ window.MACRO = {
       "spx": 3230.8,
       "kospi": 2197.7,
       "fwd": {
+        "spx1": -0.2,
         "spx3": -20.0,
         "spx12": 16.3,
+        "kospi1": -3.6,
+        "kospi3": -20.2,
         "kospi12": 30.8
       }
     },
@@ -2546,8 +2889,11 @@ window.MACRO = {
       "spx": 3225.5,
       "kospi": 2119.0,
       "fwd": {
+        "spx1": -8.4,
         "spx3": -9.7,
         "spx12": 15.2,
+        "kospi1": -6.2,
+        "kospi3": -8.1,
         "kospi12": 40.5
       }
     },
@@ -2565,8 +2911,11 @@ window.MACRO = {
       "spx": 2954.2,
       "kospi": 1987.0,
       "fwd": {
+        "spx1": -12.5,
         "spx3": 3.0,
         "spx12": 29.0,
+        "kospi1": -11.7,
+        "kospi3": 2.1,
         "kospi12": 51.6
       }
     },
@@ -2584,8 +2933,11 @@ window.MACRO = {
       "spx": 2584.6,
       "kospi": 1754.6,
       "fwd": {
+        "spx1": 12.7,
         "spx3": 20.0,
         "spx12": 53.7,
+        "kospi1": 11.0,
+        "kospi3": 20.2,
         "kospi12": 74.5
       }
     },
@@ -2603,8 +2955,11 @@ window.MACRO = {
       "spx": 2912.4,
       "kospi": 1947.6,
       "fwd": {
+        "spx1": 4.5,
         "spx3": 12.3,
         "spx12": 43.6,
+        "kospi1": 4.2,
+        "kospi3": 15.5,
         "kospi12": 61.6
       }
     },
@@ -2622,8 +2977,11 @@ window.MACRO = {
       "spx": 3044.3,
       "kospi": 2029.6,
       "fwd": {
+        "spx1": 1.8,
         "spx3": 15.0,
         "spx12": 38.1,
+        "kospi1": 3.9,
+        "kospi3": 14.6,
         "kospi12": 57.9
       }
     },
@@ -2641,8 +2999,11 @@ window.MACRO = {
       "spx": 3100.3,
       "kospi": 2108.3,
       "fwd": {
+        "spx1": 5.5,
         "spx3": 8.5,
         "spx12": 38.6,
+        "kospi1": 6.7,
+        "kospi3": 10.4,
         "kospi12": 56.4
       }
     },
@@ -2660,8 +3021,11 @@ window.MACRO = {
       "spx": 3271.1,
       "kospi": 2249.4,
       "fwd": {
+        "spx1": 7.0,
         "spx3": -0.0,
         "spx12": 34.4,
+        "kospi1": 3.4,
+        "kospi3": 0.8,
         "kospi12": 42.4
       }
     },
@@ -2679,8 +3043,11 @@ window.MACRO = {
       "spx": 3500.3,
       "kospi": 2326.2,
       "fwd": {
+        "spx1": -3.9,
         "spx3": 3.5,
         "spx12": 29.2,
+        "kospi1": 0.1,
+        "kospi3": 11.4,
         "kospi12": 37.5
       }
     },
@@ -2698,8 +3065,11 @@ window.MACRO = {
       "spx": 3363.0,
       "kospi": 2327.9,
       "fwd": {
+        "spx1": -2.8,
         "spx3": 11.7,
         "spx12": 28.1,
+        "kospi1": -2.6,
+        "kospi3": 23.4,
         "kospi12": 31.8
       }
     },
@@ -2717,8 +3087,11 @@ window.MACRO = {
       "spx": 3270.0,
       "kospi": 2267.1,
       "fwd": {
+        "spx1": 10.8,
         "spx3": 13.6,
         "spx12": 40.8,
+        "kospi1": 14.3,
+        "kospi3": 31.3,
         "kospi12": 31.0
       }
     },
@@ -2736,8 +3109,11 @@ window.MACRO = {
       "spx": 3621.6,
       "kospi": 2591.3,
       "fwd": {
+        "spx1": 3.7,
         "spx3": 5.2,
         "spx12": 26.1,
+        "kospi1": 10.9,
+        "kospi3": 16.3,
         "kospi12": 9.6
       }
     },
@@ -2755,8 +3131,11 @@ window.MACRO = {
       "spx": 3756.1,
       "kospi": 2873.5,
       "fwd": {
+        "spx1": -1.1,
         "spx3": 5.8,
         "spx12": 26.9,
+        "kospi1": 3.6,
+        "kospi3": 6.5,
         "kospi12": 3.6
       }
     },
@@ -2774,8 +3153,11 @@ window.MACRO = {
       "spx": 3714.2,
       "kospi": 2976.2,
       "fwd": {
+        "spx1": 2.6,
         "spx3": 12.6,
         "spx12": 21.6,
+        "kospi1": 1.2,
+        "kospi3": 5.8,
         "kospi12": -10.5
       }
     },
@@ -2793,8 +3175,11 @@ window.MACRO = {
       "spx": 3811.1,
       "kospi": 3012.9,
       "fwd": {
+        "spx1": 4.2,
         "spx3": 10.3,
         "spx12": 14.8,
+        "kospi1": 1.6,
+        "kospi3": 6.3,
         "kospi12": -10.4
       }
     },
@@ -2812,8 +3197,11 @@ window.MACRO = {
       "spx": 3972.9,
       "kospi": 3061.4,
       "fwd": {
+        "spx1": 5.2,
         "spx3": 8.2,
         "spx12": 14.0,
+        "kospi1": 2.8,
+        "kospi3": 7.7,
         "kospi12": -9.9
       }
     },
@@ -2831,8 +3219,11 @@ window.MACRO = {
       "spx": 4181.2,
       "kospi": 3147.9,
       "fwd": {
+        "spx1": 0.5,
         "spx3": 5.1,
         "spx12": -1.2,
+        "kospi1": 1.8,
+        "kospi3": 1.7,
         "kospi12": -14.4
       }
     },
@@ -2850,8 +3241,11 @@ window.MACRO = {
       "spx": 4204.1,
       "kospi": 3203.9,
       "fwd": {
+        "spx1": 2.2,
         "spx3": 7.6,
         "spx12": -1.7,
+        "kospi1": 2.9,
+        "kospi3": -0.1,
         "kospi12": -16.2
       }
     },
@@ -2869,8 +3263,11 @@ window.MACRO = {
       "spx": 4297.5,
       "kospi": 3296.7,
       "fwd": {
+        "spx1": 2.3,
         "spx3": 0.2,
         "spx12": -11.9,
+        "kospi1": -2.9,
+        "kospi3": -6.9,
         "kospi12": -29.2
       }
     },
@@ -2888,8 +3285,11 @@ window.MACRO = {
       "spx": 4395.3,
       "kospi": 3202.3,
       "fwd": {
+        "spx1": 2.9,
         "spx3": 4.8,
         "spx12": -6.0,
+        "kospi1": -0.1,
+        "kospi3": -7.2,
         "kospi12": -23.4
       }
     },
@@ -2907,8 +3307,11 @@ window.MACRO = {
       "spx": 4522.7,
       "kospi": 3199.3,
       "fwd": {
+        "spx1": -4.8,
         "spx3": 1.0,
         "spx12": -12.6,
+        "kospi1": -4.1,
+        "kospi3": -11.3,
         "kospi12": -22.7
       }
     },
@@ -2926,8 +3329,11 @@ window.MACRO = {
       "spx": 4307.5,
       "kospi": 3068.8,
       "fwd": {
+        "spx1": 6.9,
         "spx3": 10.6,
         "spx12": -16.8,
+        "kospi1": -3.2,
+        "kospi3": -3.0,
         "kospi12": -29.8
       }
     },
@@ -2945,8 +3351,11 @@ window.MACRO = {
       "spx": 4605.4,
       "kospi": 2970.7,
       "fwd": {
+        "spx1": -0.8,
         "spx3": -2.0,
         "spx12": -15.9,
+        "kospi1": -4.4,
+        "kospi3": -10.3,
         "kospi12": -22.8
       }
     },
@@ -2964,8 +3373,11 @@ window.MACRO = {
       "spx": 4567.0,
       "kospi": 2839.0,
       "fwd": {
+        "spx1": 4.4,
         "spx3": -4.2,
         "spx12": -10.7,
+        "kospi1": 4.9,
+        "kospi3": -4.9,
         "kospi12": -12.9
       }
     },
@@ -2983,8 +3395,11 @@ window.MACRO = {
       "spx": 4766.2,
       "kospi": 2977.6,
       "fwd": {
+        "spx1": -5.3,
         "spx3": -4.9,
         "spx12": -19.4,
+        "kospi1": -10.6,
+        "kospi3": -7.4,
         "kospi12": -24.9
       }
     },
@@ -3002,8 +3417,11 @@ window.MACRO = {
       "spx": 4515.5,
       "kospi": 2663.3,
       "fwd": {
+        "spx1": -3.1,
         "spx3": -8.5,
         "spx12": -9.7,
+        "kospi1": 1.3,
+        "kospi3": 1.2,
         "kospi12": -8.9
       }
     },
@@ -3021,8 +3439,11 @@ window.MACRO = {
       "spx": 4373.9,
       "kospi": 2699.2,
       "fwd": {
+        "spx1": 3.6,
         "spx3": -5.5,
         "spx12": -9.2,
+        "kospi1": 2.2,
+        "kospi3": -0.5,
         "kospi12": -10.6
       }
     },
@@ -3040,8 +3461,11 @@ window.MACRO = {
       "spx": 4530.4,
       "kospi": 2757.6,
       "fwd": {
+        "spx1": -8.8,
         "spx3": -16.4,
         "spx12": -9.3,
+        "kospi1": -2.3,
+        "kospi3": -15.4,
         "kospi12": -10.2
       }
     },
@@ -3059,8 +3483,11 @@ window.MACRO = {
       "spx": 4131.9,
       "kospi": 2695.1,
       "fwd": {
+        "spx1": 0.0,
         "spx3": -0.0,
         "spx12": 0.9,
+        "kospi1": -0.3,
+        "kospi3": -9.0,
         "kospi12": -7.2
       }
     },
@@ -3078,8 +3505,11 @@ window.MACRO = {
       "spx": 4132.1,
       "kospi": 2685.9,
       "fwd": {
+        "spx1": -8.4,
         "spx3": -4.3,
         "spx12": 1.2,
+        "kospi1": -13.2,
+        "kospi3": -8.0,
         "kospi12": -4.1
       }
     },
@@ -3097,8 +3527,11 @@ window.MACRO = {
       "spx": 3785.4,
       "kospi": 2332.6,
       "fwd": {
+        "spx1": 9.1,
         "spx3": -5.3,
         "spx12": 17.6,
+        "kospi1": 5.1,
+        "kospi3": -7.6,
         "kospi12": 9.9
       }
     },
@@ -3116,8 +3549,11 @@ window.MACRO = {
       "spx": 4130.3,
       "kospi": 2451.5,
       "fwd": {
+        "spx1": -4.2,
         "spx3": -6.3,
         "spx12": 11.1,
+        "kospi1": 0.8,
+        "kospi3": -6.4,
         "kospi12": 7.4
       }
     },
@@ -3135,8 +3571,11 @@ window.MACRO = {
       "spx": 3955.0,
       "kospi": 2472.1,
       "fwd": {
+        "spx1": -9.3,
         "spx3": 3.2,
         "spx12": 14.0,
+        "kospi1": -12.8,
+        "kospi3": 0.0,
         "kospi12": 3.4
       }
     },
@@ -3154,8 +3593,11 @@ window.MACRO = {
       "spx": 3585.6,
       "kospi": 2155.5,
       "fwd": {
+        "spx1": 8.0,
         "spx3": 7.1,
         "spx12": 19.6,
+        "kospi1": 6.4,
+        "kospi3": 3.8,
         "kospi12": 14.4
       }
     },
@@ -3173,8 +3615,11 @@ window.MACRO = {
       "spx": 3872.0,
       "kospi": 2293.6,
       "fwd": {
+        "spx1": 5.4,
         "spx3": 5.3,
         "spx12": 8.3,
+        "kospi1": 7.8,
+        "kospi3": 5.7,
         "kospi12": -0.7
       }
     },
@@ -3192,8 +3637,11 @@ window.MACRO = {
       "spx": 4080.1,
       "kospi": 2472.5,
       "fwd": {
+        "spx1": -5.9,
         "spx3": -2.7,
         "spx12": 12.0,
+        "kospi1": -9.6,
+        "kospi3": -2.4,
         "kospi12": 2.5
       }
     },
@@ -3211,8 +3659,11 @@ window.MACRO = {
       "spx": 3839.5,
       "kospi": 2236.4,
       "fwd": {
+        "spx1": 6.2,
         "spx3": 7.0,
         "spx12": 24.2,
+        "kospi1": 8.4,
+        "kospi3": 10.8,
         "kospi12": 18.7
       }
     },
@@ -3230,8 +3681,11 @@ window.MACRO = {
       "spx": 4076.6,
       "kospi": 2425.1,
       "fwd": {
+        "spx1": -2.6,
         "spx3": 2.3,
         "spx12": 18.9,
+        "kospi1": -0.5,
+        "kospi3": 3.2,
         "kospi12": 3.0
       }
     },
@@ -3249,8 +3703,11 @@ window.MACRO = {
       "spx": 3970.1,
       "kospi": 2412.9,
       "fwd": {
+        "spx1": 3.5,
         "spx3": 5.3,
         "spx12": 28.4,
+        "kospi1": 2.7,
+        "kospi3": 6.8,
         "kospi12": 9.5
       }
     },
@@ -3268,8 +3725,11 @@ window.MACRO = {
       "spx": 4109.3,
       "kospi": 2476.9,
       "fwd": {
+        "spx1": 1.5,
         "spx3": 8.3,
         "spx12": 27.9,
+        "kospi1": 1.0,
+        "kospi3": 3.5,
         "kospi12": 10.9
       }
     },
@@ -3287,8 +3747,11 @@ window.MACRO = {
       "spx": 4169.5,
       "kospi": 2501.5,
       "fwd": {
+        "spx1": 0.2,
         "spx3": 10.1,
         "spx12": 20.8,
+        "kospi1": 3.0,
+        "kospi3": 5.2,
         "kospi12": 7.6
       }
     },
@@ -3306,8 +3769,11 @@ window.MACRO = {
       "spx": 4179.8,
       "kospi": 2577.1,
       "fwd": {
+        "spx1": 6.5,
         "spx3": 7.8,
         "spx12": 26.3,
+        "kospi1": -0.5,
+        "kospi3": -0.8,
         "kospi12": 2.3
       }
     },
@@ -3325,8 +3791,11 @@ window.MACRO = {
       "spx": 4450.4,
       "kospi": 2564.3,
       "fwd": {
+        "spx1": 3.1,
         "spx3": -3.6,
         "spx12": 22.7,
+        "kospi1": 2.7,
+        "kospi3": -3.9,
         "kospi12": 9.1
       }
     },
@@ -3344,8 +3813,11 @@ window.MACRO = {
       "spx": 4589.0,
       "kospi": 2632.6,
       "fwd": {
+        "spx1": -1.8,
         "spx3": -8.6,
         "spx12": 20.3,
+        "kospi1": -2.9,
+        "kospi3": -13.5,
         "kospi12": 5.2
       }
     },
@@ -3363,8 +3835,11 @@ window.MACRO = {
       "spx": 4507.7,
       "kospi": 2556.3,
       "fwd": {
+        "spx1": -4.9,
         "spx3": 1.3,
         "spx12": 25.3,
+        "kospi1": -3.6,
+        "kospi3": -0.8,
         "kospi12": 4.6
       }
     },
@@ -3382,8 +3857,11 @@ window.MACRO = {
       "spx": 4288.0,
       "kospi": 2465.1,
       "fwd": {
+        "spx1": -2.2,
         "spx3": 11.2,
         "spx12": 34.4,
+        "kospi1": -7.6,
+        "kospi3": 7.7,
         "kospi12": 5.2
       }
     },
@@ -3401,8 +3879,11 @@ window.MACRO = {
       "spx": 4193.8,
       "kospi": 2278.0,
       "fwd": {
+        "spx1": 8.9,
         "spx3": 15.5,
         "spx12": 36.0,
+        "kospi1": 11.3,
+        "kospi3": 9.6,
         "kospi12": 12.2
       }
     },
@@ -3420,8 +3901,11 @@ window.MACRO = {
       "spx": 4567.8,
       "kospi": 2535.3,
       "fwd": {
+        "spx1": 4.4,
         "spx3": 11.6,
         "spx12": 32.1,
+        "kospi1": 4.7,
+        "kospi3": 4.2,
         "kospi12": -3.1
       }
     },
@@ -3439,8 +3923,11 @@ window.MACRO = {
       "spx": 4769.8,
       "kospi": 2655.3,
       "fwd": {
+        "spx1": 1.6,
         "spx3": 10.2,
         "spx12": 23.3,
+        "kospi1": -6.0,
+        "kospi3": 3.4,
         "kospi12": -9.6
       }
     },
@@ -3458,8 +3945,11 @@ window.MACRO = {
       "spx": 4845.6,
       "kospi": 2497.1,
       "fwd": {
+        "spx1": 5.2,
         "spx3": 3.9,
         "spx12": 24.7,
+        "kospi1": 5.8,
+        "kospi3": 7.8,
         "kospi12": 0.8
       }
     },
@@ -3477,8 +3967,11 @@ window.MACRO = {
       "spx": 5096.3,
       "kospi": 2642.4,
       "fwd": {
+        "spx1": 3.1,
         "spx3": 3.6,
         "spx12": 16.8,
+        "kospi1": 3.9,
+        "kospi3": -0.2,
         "kospi12": -4.1
       }
     },
@@ -3496,8 +3989,11 @@ window.MACRO = {
       "spx": 5254.4,
       "kospi": 2746.6,
       "fwd": {
+        "spx1": -4.2,
         "spx3": 3.9,
         "spx12": 6.8,
+        "kospi1": -2.0,
+        "kospi3": 1.9,
         "kospi12": -9.7
       }
     },
@@ -3515,8 +4011,11 @@ window.MACRO = {
       "spx": 5035.7,
       "kospi": 2692.1,
       "fwd": {
+        "spx1": 4.8,
         "spx3": 9.7,
         "spx12": 10.6,
+        "kospi1": -2.1,
+        "kospi3": 2.9,
         "kospi12": -5.0
       }
     },
@@ -3534,8 +4033,11 @@ window.MACRO = {
       "spx": 5277.5,
       "kospi": 2636.5,
       "fwd": {
+        "spx1": 3.5,
         "spx3": 7.0,
         "spx12": 12.0,
+        "kospi1": 6.1,
+        "kospi3": 1.4,
         "kospi12": 2.3
       }
     },
@@ -3553,8 +4055,11 @@ window.MACRO = {
       "spx": 5460.5,
       "kospi": 2797.8,
       "fwd": {
+        "spx1": 1.1,
         "spx3": 5.5,
         "spx12": 13.6,
+        "kospi1": -1.0,
+        "kospi3": -7.3,
         "kospi12": 9.8
       }
     },
@@ -3572,8 +4077,11 @@ window.MACRO = {
       "spx": 5522.3,
       "kospi": 2770.7,
       "fwd": {
+        "spx1": 2.3,
         "spx3": 3.3,
         "spx12": 14.8,
+        "kospi1": -3.5,
+        "kospi3": -7.7,
         "kospi12": 17.1
       }
     },
@@ -3591,8 +4099,11 @@ window.MACRO = {
       "spx": 5648.4,
       "kospi": 2674.3,
       "fwd": {
+        "spx1": 2.0,
         "spx3": 6.8,
         "spx12": 14.4,
+        "kospi1": -3.0,
+        "kospi3": -8.2,
         "kospi12": 19.1
       }
     },
@@ -3610,8 +4121,11 @@ window.MACRO = {
       "spx": 5762.5,
       "kospi": 2593.3,
       "fwd": {
+        "spx1": -1.0,
         "spx3": 2.1,
         "spx12": 16.1,
+        "kospi1": -1.4,
+        "kospi3": -7.5,
         "kospi12": 32.1
       }
     },
@@ -3629,8 +4143,11 @@ window.MACRO = {
       "spx": 5705.5,
       "kospi": 2556.1,
       "fwd": {
+        "spx1": 5.7,
         "spx3": 5.9,
         "spx12": 19.9,
+        "kospi1": -3.9,
+        "kospi3": -1.5,
         "kospi12": 60.7
       }
     },
@@ -3648,8 +4165,11 @@ window.MACRO = {
       "spx": 6032.4,
       "kospi": 2455.9,
       "fwd": {
+        "spx1": -2.5,
         "spx3": -1.3,
         "spx12": 13.5,
+        "kospi1": -2.3,
+        "kospi3": 3.1,
         "kospi12": 59.9
       }
     },
@@ -3667,8 +4187,11 @@ window.MACRO = {
       "spx": 5881.6,
       "kospi": 2399.5,
       "fwd": {
+        "spx1": 2.7,
         "spx3": -4.6,
         "spx12": 16.4,
+        "kospi1": 4.9,
+        "kospi3": 3.4,
         "kospi12": 75.6
       }
     },
@@ -3686,8 +4209,11 @@ window.MACRO = {
       "spx": 6040.5,
       "kospi": 2517.4,
       "fwd": {
+        "spx1": -1.4,
         "spx3": -7.8,
         "spx12": 14.9,
+        "kospi1": 0.6,
+        "kospi3": 1.6,
         "kospi12": 107.5
       }
     },
@@ -3705,8 +4231,11 @@ window.MACRO = {
       "spx": 5954.5,
       "kospi": 2532.8,
       "fwd": {
+        "spx1": -5.8,
         "spx3": -0.7,
         "spx12": 15.5,
+        "kospi1": -2.0,
+        "kospi3": 6.5,
         "kospi12": 146.5
       }
     },
@@ -3724,8 +4253,11 @@ window.MACRO = {
       "spx": 5611.9,
       "kospi": 2481.1,
       "fwd": {
+        "spx1": -0.8,
         "spx3": 10.6,
         "spx12": 16.3,
+        "kospi1": 3.0,
+        "kospi3": 23.8,
         "kospi12": 103.6
       }
     },
@@ -3743,8 +4275,11 @@ window.MACRO = {
       "spx": 5569.1,
       "kospi": 2556.6,
       "fwd": {
+        "spx1": 6.2,
         "spx3": 13.8,
         "spx12": 29.4,
+        "kospi1": 5.5,
+        "kospi3": 26.9,
         "kospi12": 158.1
       }
     },
@@ -3762,8 +4297,11 @@ window.MACRO = {
       "spx": 5911.7,
       "kospi": 2697.7,
       "fwd": {
+        "spx1": 5.0,
         "spx3": 9.3,
         "spx12": 28.2,
+        "kospi1": 13.9,
+        "kospi3": 18.1,
         "kospi12": 214.2
       }
     },
@@ -3781,8 +4319,11 @@ window.MACRO = {
       "spx": 6205.0,
       "kospi": 3071.7,
       "fwd": {
+        "spx1": 2.2,
         "spx3": 7.8,
         "spx12": null,
+        "kospi1": 5.7,
+        "kospi3": 11.5,
         "kospi12": null
       }
     },
@@ -3800,8 +4341,11 @@ window.MACRO = {
       "spx": 6339.4,
       "kospi": 3245.4,
       "fwd": {
+        "spx1": 1.9,
         "spx3": 7.9,
         "spx12": null,
+        "kospi1": -1.8,
+        "kospi3": 26.6,
         "kospi12": null
       }
     },
@@ -3819,8 +4363,11 @@ window.MACRO = {
       "spx": 6460.3,
       "kospi": 3186.0,
       "fwd": {
+        "spx1": 3.5,
         "spx3": 6.0,
         "spx12": null,
+        "kospi1": 7.5,
+        "kospi3": 23.2,
         "kospi12": null
       }
     },
@@ -3838,8 +4385,11 @@ window.MACRO = {
       "spx": 6688.5,
       "kospi": 3424.6,
       "fwd": {
+        "spx1": 2.3,
         "spx3": 2.3,
         "spx12": null,
+        "kospi1": 19.9,
+        "kospi3": 23.1,
         "kospi12": null
       }
     },
@@ -3857,8 +4407,11 @@ window.MACRO = {
       "spx": 6849.1,
       "kospi": 3926.6,
       "fwd": {
+        "spx1": -0.1,
         "spx3": 0.4,
         "spx12": null,
+        "kospi1": 7.3,
+        "kospi3": 59.0,
         "kospi12": null
       }
     },
@@ -3876,8 +4429,11 @@ window.MACRO = {
       "spx": 6845.5,
       "kospi": 4214.2,
       "fwd": {
+        "spx1": 1.4,
         "spx3": -4.6,
         "spx12": null,
+        "kospi1": 24.0,
+        "kospi3": 19.9,
         "kospi12": null
       }
     },
@@ -3895,8 +4451,11 @@ window.MACRO = {
       "spx": 6939.0,
       "kospi": 5224.4,
       "fwd": {
+        "spx1": -0.9,
         "spx3": 3.9,
         "spx12": null,
+        "kospi1": 19.5,
+        "kospi3": 26.3,
         "kospi12": null
       }
     },
@@ -3914,8 +4473,11 @@ window.MACRO = {
       "spx": 6878.9,
       "kospi": 6244.1,
       "fwd": {
+        "spx1": -5.1,
         "spx3": 10.2,
         "spx12": null,
+        "kospi1": -19.1,
+        "kospi3": 35.7,
         "kospi12": null
       }
     },
@@ -3933,8 +4495,11 @@ window.MACRO = {
       "spx": 6528.5,
       "kospi": 5052.5,
       "fwd": {
+        "spx1": 10.4,
         "spx3": null,
         "spx12": null,
+        "kospi1": 30.6,
+        "kospi3": null,
         "kospi12": null
       }
     },
@@ -3952,8 +4517,11 @@ window.MACRO = {
       "spx": 7209.0,
       "kospi": 6598.9,
       "fwd": {
+        "spx1": 5.1,
         "spx3": null,
         "spx12": null,
+        "kospi1": 28.4,
+        "kospi3": null,
         "kospi12": null
       }
     }
