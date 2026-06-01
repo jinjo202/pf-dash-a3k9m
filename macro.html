@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01i";</script>
+<script>window.CODE_VERSION = "2026-06-01j";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -231,6 +231,24 @@
   .ac-sim { font-size:11.5px; color:var(--text-soft); margin-bottom:4px; }
   .ac-vals { font-size:11px; color:var(--muted); line-height:1.5; }
   .ac-fwd { font-size:11.5px; margin-top:5px; padding-top:5px; border-top:1px dashed var(--border); }
+  .upd-toast { background:var(--accent); color:#fff; border-radius:10px; padding:10px 14px; margin-bottom:16px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap; box-shadow:var(--shadow-md); }
+  .upd-toast a { color:#fff; text-decoration:underline; font-weight:700; }
+  .upd-toast .upd-x { margin-left:auto; cursor:pointer; font-size:18px; opacity:.85; }
+  .upd-count { font-size:11px; background:var(--neg); color:#fff; border-radius:20px; padding:2px 9px; font-weight:700; vertical-align:middle; }
+  .upd-list { display:flex; flex-direction:column; gap:2px; }
+  .upd-row { display:flex; align-items:baseline; gap:10px; padding:7px 4px; border-bottom:1px solid var(--border); font-size:12.5px; flex-wrap:wrap; }
+  .upd-row:last-child { border-bottom:none; }
+  .upd-badge { font-size:10px; font-weight:700; padding:2px 7px; border-radius:5px; white-space:nowrap; }
+  .upd-badge.rel { background:var(--accent-soft); color:var(--accent); }
+  .upd-badge.rev { background:var(--warn-bg); color:var(--warn-fg); }
+  .upd-badge.cyc { background:#ede9fe; color:#7c3aed; }
+  .upd-badge.reg { background:var(--pos-soft); color:var(--pos); }
+  .upd-badge.flw { background:#cffafe; color:#0891b2; }
+  [data-theme="dark"] .upd-badge.cyc { background:#2e1065; color:#c4b5fd; }
+  [data-theme="dark"] .upd-badge.flw { background:#083344; color:#67e8f9; }
+  .upd-date { font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; min-width:38px; }
+  .upd-title { font-weight:700; }
+  .upd-detail { color:var(--text-soft); }
 
   /* ===== AI section ===== */
   .ai-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
@@ -679,6 +697,34 @@ function scCell(v) {
   return '<span class="sc-cell" style="background:' + bg + ';color:' + fg + '">' + (v > 0 ? '+' : '') + v + '</span>';
 }
 
+var UPD_TYPE = { release: ['발표', 'rel'], revision: ['수정', 'rev'], cycle: ['국면', 'cyc'], regime: ['레짐', 'reg'], flows: ['수급', 'flw'] };
+function renderUpdates(M) {
+  var log = M.update_log; if (!log || !log.length) return '';
+  var recent = log.slice().reverse().slice(0, 18);
+  var rows = recent.map(function (e) {
+    var t = UPD_TYPE[e.type] || ['', 'rel'];
+    return '<div class="upd-row"><span class="upd-badge ' + t[1] + '">' + t[0] + '</span>' +
+      '<span class="upd-date">' + e.date.slice(5) + '</span>' +
+      '<span class="upd-title">' + e.title + '</span>' +
+      '<span class="upd-detail">' + e.detail + '</span></div>';
+  }).join('');
+  var todayN = (M.updates_today || []).length;
+  return '<div class="panel" id="updPanel"><h2>📢 데이터 업데이트 알림' + (todayN ? ' <span class="upd-count">오늘 ' + todayN + '건</span>' : '') + '</h2>' +
+    '<p class="hint">cron이 하루 8회 최신 데이터를 수집·반영합니다. 새 경제지표 발표·레짐/경기국면 변경·한국 수급 갱신을 기록합니다(일별 시장지표는 제외).</p>' +
+    '<div class="upd-list">' + rows + '</div></div>';
+}
+function tryNotifyUpdates(M) {
+  try {
+    var ut = M.updates_today || []; if (!ut.length || !('Notification' in window)) return;
+    var key = M.as_of + '|' + ut.length;
+    if (localStorage.getItem('macro_upd_seen') === key) return;
+    localStorage.setItem('macro_upd_seen', key);
+    function fire() { try { new Notification('📢 매크로 데이터 업데이트 ' + ut.length + '건', { body: ut.map(function (e) { return e.title + ': ' + e.detail; }).slice(0, 4).join('\n') }); } catch (e) {} }
+    if (Notification.permission === 'granted') fire();
+    else if (Notification.permission !== 'denied') Notification.requestPermission().then(function (p) { if (p === 'granted') fire(); });
+  } catch (e) {}
+}
+
 function renderCycle(M) {
   if (!M.cycle) return '';
   var c = M.cycle;
@@ -851,6 +897,15 @@ function render(M) {
 
   var html = '';
 
+  /* ── Update toast (오늘 새 업데이트) ── */
+  var ut = M.updates_today || [];
+  if (ut.length) {
+    var titles = ut.map(function (e) { return e.title; }).slice(0, 3).join(', ');
+    html += '<div class="upd-toast" id="updToast">📢 오늘 ' + ut.length + '건의 새 데이터 업데이트 — ' + titles + (ut.length > 3 ? ' 외' : '') +
+      ' <a href="#updPanel" onclick="document.getElementById(\'updToast\').style.display=\'none\'">자세히 보기</a>' +
+      '<span class="upd-x" onclick="document.getElementById(\'updToast\').style.display=\'none\'">×</span></div>';
+  }
+
   /* ── Regime gauge ── */
   var r = M.regime, markerPct = Math.max(0, Math.min(100, (r.score + 100) / 2));
   var scoreColor = r.score > 6 ? cssVar('--pos') : (r.score < -6 ? cssVar('--neg') : cssVar('--neu'));
@@ -872,8 +927,9 @@ function render(M) {
   });
   html += '</div></div></div></div>';
 
-  /* ── Cycle phase + Time machine ── */
+  /* ── Cycle phase + Updates + Time machine ── */
   html += renderCycle(M);
+  html += renderUpdates(M);
   html += renderTimeMachine(M);
   html += renderCountryPref(M);
   if (M.kr_flows_ts) html += renderKrFlows(M);
@@ -1002,6 +1058,8 @@ function render(M) {
   document.querySelectorAll('.ind-card.clickable').forEach(function (card) {
     card.addEventListener('click', function () { showIndicatorModal(card.getAttribute('data-ind')); });
   });
+  // 새 업데이트 데스크톱 알림 (권한 있으면)
+  tryNotifyUpdates(M);
   // 타임머신 슬라이더
   if (M.regime_history && M.regime_history.length) {
     var sl = document.getElementById('tmSlider');

@@ -874,6 +874,76 @@ def build_annual(cc):
             "note": a.get("note"), "years": out}
 
 
+# 업데이트 알림 대상 — 경제지표 발표/수정 (일별 시장지표 제외, 노이즈 방지)
+RELEASE_KEYS = {"cpi_yoy", "core_cpi_yoy", "unemployment", "payrolls", "fed_funds",
+                "consumer_sent", "m2_yoy", "cli_us", "oil_yoy", "cape",
+                "ism_pmi", "cnn_fng", "aaii_spread", "put_call", "cta_pos", "retail_alloc", "kr_deposit"}
+
+
+def load_prev():
+    """직전 macro-data.js 로드(업데이트 diff용). 없으면 {}."""
+    try:
+        if OUT.exists():
+            t = OUT.read_text(encoding="utf-8")
+            i, j = t.find("{"), t.rfind("}")
+            return json.loads(t[i:j + 1])
+    except Exception:
+        pass
+    return {}
+
+
+def build_updates(indicators, prev, cycle, regime_label, regime_score, kr_ts, today_iso):
+    """직전 대비 변경분 → 업데이트 로그 누적 + 오늘 이벤트."""
+    prev_ind = prev.get("indicators", {})
+    log = list(prev.get("update_log", []))
+    seed = not log  # 첫 실행이면 최신 발표치로 시드
+    seen = set((e.get("date"), e.get("type"), e.get("key")) for e in log)
+    events = []
+
+    def add(ev):
+        eid = (ev["date"], ev["type"], ev.get("key"))
+        if eid in seen:
+            return
+        seen.add(eid); events.append(ev)
+
+    for k, d in indicators.items():
+        if k not in RELEASE_KEYS:
+            continue
+        u = d.get("unit", "")
+        pd = prev_ind.get(k)
+        if seed:
+            add({"date": today_iso, "type": "release", "key": k, "title": d["name"],
+                 "detail": f"최근 발표 {d['current']}{u} ({d.get('as_of')})", "as_of": d.get("as_of")})
+        elif pd is None:
+            add({"date": today_iso, "type": "release", "key": k, "title": d["name"],
+                 "detail": f"신규 {d['current']}{u} ({d.get('as_of')})", "as_of": d.get("as_of")})
+        elif pd.get("as_of") != d.get("as_of"):
+            add({"date": today_iso, "type": "release", "key": k, "title": d["name"],
+                 "detail": f"{pd.get('current')}{u} → {d['current']}{u} ({d.get('as_of')} 발표)", "as_of": d.get("as_of")})
+        elif pd.get("current") != d.get("current"):
+            add({"date": today_iso, "type": "revision", "key": k, "title": d["name"],
+                 "detail": f"{pd.get('current')}{u} → {d['current']}{u} (수정)", "as_of": d.get("as_of")})
+
+    pc = (prev.get("cycle") or {}).get("phase")
+    if cycle and pc and pc != cycle.get("phase"):
+        add({"date": today_iso, "type": "cycle", "key": "cycle", "title": "경기국면 변경",
+             "detail": f"{pc} → {cycle['phase']}"})
+    pl = (prev.get("regime") or {}).get("label")
+    if pl and pl != regime_label:
+        add({"date": today_iso, "type": "regime", "key": "regime", "title": "레짐 국면 변경",
+             "detail": f"{pl} → {regime_label} ({regime_score:+d})"})
+    if kr_ts and kr_ts.get("latest"):
+        lt = kr_ts["latest"]; ld = lt.get("date")
+        pkr = ((prev.get("kr_flows_ts") or {}).get("latest") or {}).get("date")
+        if ld and ld != pkr:
+            yt = kr_ts.get("ytd_total", {})
+            add({"date": today_iso, "type": "flows", "key": "krflow_" + ld, "title": "한국 투자자 수급 갱신",
+                 "detail": f"외국인 {ld} {lt['foreign']:+g}조 · YTD누적 {yt.get('foreign')}조"})
+
+    log = (log + events)[-60:]
+    return log, events
+
+
 def build_ai():
     """AI 섹션(6): 하이퍼스케일러 CAPEX, capex/GDP·R&D/GDP 버블점검, AI 랩 매출추정."""
     years = sorted(next(iter(AI_CAPEX.values())).keys())
@@ -1410,12 +1480,19 @@ def build():
     country_pref = build_country_pref(earn["data"], bench)
     regime_history = build_regime_history(monthly, spx_me)
 
+    # --- 업데이트 알림 (직전 대비 변경분) ---
+    prev = load_prev()
+    update_log, updates_today = build_updates(indicators, prev, cycle, regime_label, overall_score,
+                                              kr_flows_ts, today.isoformat())
+
     # --- 자동 코멘터리 + 전망 ---
     commentary = build_commentary(indicators, pillars_out, overall_score)
     outlook = build_outlook(indicators, pillars_out, overall_score, analogs)
 
     out = {
         "as_of": today.isoformat(),
+        "update_log": update_log,
+        "updates_today": updates_today,
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
         "regime": {"score": overall_score, "label": regime_label, "cls": regime_cls,
                    "pillars": pillars_out},
