@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-02b";</script>
+<script>window.CODE_VERSION = "2026-06-02c";</script>
 <script>
   (function () {
     try {
@@ -140,8 +140,28 @@
   .commentary-line {
     margin:0 0 6px; font-size:13.5px; line-height:1.7; color:var(--text);
   }
-  .commentary-line:last-of-type { margin-bottom:0; }
-  .commentary-foot { margin-top:10px; font-size:11px; color:var(--muted); }
+  .commentary-line b { font-weight:800; color:var(--text-soft); }
+  .commentary-foot { margin-top:12px; font-size:11px; color:var(--muted); }
+  .cm-subtitle {
+    font-size:12px; font-weight:800; color:var(--accent); margin:14px 0 8px;
+    padding-top:12px; border-top:1px dashed var(--border);
+  }
+  .cm-event-list { margin:0; padding-left:18px; }
+  .cm-event-list li { font-size:13px; line-height:1.6; margin-bottom:5px; color:var(--text); }
+  .cm-event-list a { color:var(--text); text-decoration:none; }
+  .cm-event-list a:hover { color:var(--accent); text-decoration:underline; }
+  .cm-src { font-size:11px; color:var(--muted); font-weight:600; }
+  .cm-mover-list { display:flex; flex-direction:column; gap:10px; }
+  .cm-mover {
+    background:var(--panel-soft); border:1px solid var(--border); border-radius:8px; padding:10px 12px;
+  }
+  .cm-mover-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:5px; }
+  .cm-mover-name { font-size:13.5px; font-weight:700; }
+  .cm-mover-ticker { font-size:11px; color:var(--muted); font-weight:600; }
+  .cm-mover-head .gf-chip { margin-left:auto; }
+  .cm-mover-reason { font-size:12.5px; line-height:1.6; color:var(--text-soft); }
+  .cm-mover-reason a { color:var(--text-soft); text-decoration:none; }
+  .cm-mover-reason a:hover { color:var(--accent); text-decoration:underline; }
 
   /* ── Index summary bar ── */
   .idx-bar {
@@ -494,15 +514,60 @@ function makeSpark(data, opts) {
       ' 기준일 <b>' + r.as_of + '</b>' + prevTxt + '</div>';
   }
 
-  /* ── 시황 코멘트 ── */
+  /* ── 시황 코멘트 (구조화) ── */
   function renderCommentary(r) {
-    if (!r || !r.commentary || !r.commentary.length) return '';
+    var c = r && r.commentary;
+    if (!c) return '';
+    // 구버전(배열) 호환
+    if (Array.isArray(c)) {
+      if (!c.length) return '';
+      return '<div class="commentary-box"><div class="commentary-title">📝 시황 코멘트</div>' +
+        c.map(function(l){ return '<p class="commentary-line">' + l + '</p>'; }).join('') +
+        '<div class="commentary-foot">※ 당일 데이터 기반 자동 요약</div></div>';
+    }
+
     var html = '<div class="commentary-box">';
     html += '<div class="commentary-title">📝 시황 코멘트</div>';
-    r.commentary.forEach(function(line) {
-      html += '<p class="commentary-line">' + line + '</p>';
-    });
-    html += '<div class="commentary-foot">※ 당일 지수·섹터·종목 등락 데이터에 기반한 자동 요약</div>';
+
+    if (c.summary) html += '<p class="commentary-line">' + escHtml(c.summary) + '</p>';
+    if (c.macro)   html += '<p class="commentary-line"><b>🌐 매크로</b> · ' + escHtml(c.macro) + '</p>';
+    if (c.sectors) html += '<p class="commentary-line"><b>🗂 섹터</b> · ' + escHtml(c.sectors) + '</p>';
+
+    // 주요 이벤트 (지수 레벨 뉴스)
+    if (c.events && c.events.length) {
+      html += '<div class="cm-subtitle">📰 시장을 움직인 주요 이벤트</div>';
+      html += '<ul class="cm-event-list">';
+      c.events.forEach(function(e) {
+        var src = e.source ? ' <span class="cm-src">· ' + escHtml(e.source) + '</span>' : '';
+        var title = escHtml(e.title);
+        html += '<li>' + (e.link ? '<a href="' + e.link + '" target="_blank" rel="noopener">' + title + '</a>' : title) + src + '</li>';
+      });
+      html += '</ul>';
+    }
+
+    // 종목별 등락 사유
+    if (c.movers && c.movers.length) {
+      html += '<div class="cm-subtitle">🎯 주요 특징주 등락 요인</div>';
+      html += '<div class="cm-mover-list">';
+      c.movers.forEach(function(m) {
+        var chipCls = chipClass(m.chgPct);
+        var arrow = arrowFor(m.chgPct);
+        var src = m.source ? ' <span class="cm-src">· ' + escHtml(m.source) + '</span>' : '';
+        var reason = escHtml(m.reason);
+        if (m.link) reason = '<a href="' + m.link + '" target="_blank" rel="noopener">' + reason + '</a>';
+        html += '<div class="cm-mover">' +
+          '<div class="cm-mover-head">' +
+            '<span class="cm-mover-name">' + escHtml(m.name) + '</span>' +
+            '<span class="cm-mover-ticker">' + m.ticker + '</span>' +
+            '<span class="gf-chip ' + chipCls + '">' + arrow + fmtPct(m.chgPct) + '</span>' +
+          '</div>' +
+          '<div class="cm-mover-reason">' + reason + src + '</div>' +
+        '</div>';
+      });
+      html += '</div>';
+    }
+
+    html += '<div class="commentary-foot">※ 지수·섹터·종목 등락 수치와 실제 뉴스 헤드라인에 기반한 자동 생성 요약 (투자 판단의 근거가 아님)</div>';
     html += '</div>';
     return html;
   }

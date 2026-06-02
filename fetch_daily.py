@@ -402,49 +402,132 @@ def fetch_news(ticker: str, max_items: int = 4) -> list:
         return []
 
 
-def build_commentary(rmeta, indices_out, sectors_out, featured_out) -> list:
-    """지수·섹터·특징주 수치로부터 그날의 시황 코멘트를 문장으로 생성한다.
-    LLM 없이 계산된 숫자에 기반한 룰 기반 요약 (데이터 갱신 시 자동 갱신)."""
-    lines = []
+def load_macro_snapshot():
+    """benchmarks.js에서 VIX·금리·유가·환율 등 매크로 스냅샷을 읽어온다."""
+    try:
+        s = (HERE / "benchmarks.js").read_text(encoding="utf-8")
+        j = json.loads(s[s.find("{"):s.rfind("}") + 1])
+    except Exception as e:
+        print(f"  [warn] benchmarks.js 로드 실패: {e}", file=sys.stderr)
+        return {}
+    return {it.get("ticker"): it for it in j.get("indices", []) if it.get("ticker")}
 
-    # 1) 대표 지수 방향
+
+def build_macro_line(macro: dict) -> str:
+    """글로벌 매크로 한 줄 요약 (변동성·금리·유가·환율)."""
+    if not macro:
+        return ""
+    parts = []
+    vix = macro.get("^VIX")
+    if vix and vix.get("current") is not None:
+        lvl = vix["current"]; dp = vix.get("daily_pct") or 0
+        senti = "위험선호 우위" if lvl < 17 else ("경계감이 상존하는" if lvl < 22 else "위험회피 심리가 강한")
+        parts.append(f"변동성지수(VIX) {lvl:.1f}({dp:+.1f}%)로 {senti} 국면")
+    tnx = macro.get("^TNX")
+    if tnx and tnx.get("current") is not None:
+        parts.append(f"미 10년물 국채금리 {tnx['current']:.2f}%")
+    wti = macro.get("CL=F")
+    if wti and wti.get("current") is not None:
+        parts.append(f"WTI 유가 {wti['current']:.1f}달러({(wti.get('daily_pct') or 0):+.1f}%)")
+    krw = macro.get("KRW=X")
+    if krw and krw.get("current") is not None:
+        parts.append(f"원/달러 환율 {krw['current']:,.0f}원({(krw.get('daily_pct') or 0):+.1f}%)")
+    if not parts:
+        return ""
+    return "글로벌 매크로 환경은 " + ", ".join(parts) + " 흐름을 나타냈다."
+
+
+# GICS 성장(경기민감) vs 방어 섹터 분류 — 로테이션 해석용
+GROWTH_SECTORS    = {"정보기술", "커뮤니케이션", "경기소비재"}
+DEFENSIVE_SECTORS = {"필수소비재", "유틸리티", "헬스케어"}
+
+
+def build_commentary(rmeta, indices_out, sectors_out, featured_out,
+                     macro_line="", events=None) -> dict:
+    """지수·섹터·특징주·뉴스로부터 풍부한 시황 코멘트(구조화 객체)를 생성한다.
+    종목 등락 사유는 실제 수집된 뉴스 헤드라인을 근거로 제시한다."""
+
+    # ── 1) 시장 총평 (방향·강도·breadth) ─────────────────────────────────
+    summary = ""
     idx_valid = [i for i in indices_out if i.get("chgPct") is not None]
     if idx_valid:
         up   = [i for i in idx_valid if i["chgPct"] > 0]
         down = [i for i in idx_valid if i["chgPct"] < 0]
         lead = idx_valid[0]
-        dir_word = "상승" if (lead["chgPct"] or 0) > 0 else ("하락" if (lead["chgPct"] or 0) < 0 else "보합")
-        breadth = f"지수 {len(up)}개 상승·{len(down)}개 하락"
-        lines.append(
-            f"{rmeta['name']} 증시는 {lead['name']}이(가) {lead['chgPct']:+.2f}% {dir_word}하며 "
-            f"{breadth}로 마감했다."
+        cp = lead["chgPct"] or 0
+        mag = abs(cp)
+        if   mag >= 1.5: mword = "큰 폭으로"
+        elif mag >= 0.7: mword = "뚜렷하게"
+        elif mag >  0.2: mword = "완만하게"
+        else:            mword = "강보합권에서" if cp >= 0 else "약보합권에서"
+        dir_word = "상승" if cp > 0 else ("하락" if cp < 0 else "보합")
+        if   len(up) > len(down): breadth = "상승 종목이 우위를 보인"
+        elif len(down) > len(up): breadth = "하락 종목이 우위를 보인"
+        else:                     breadth = "등락이 엇갈린 혼조세의"
+        others = idx_valid[1:4]
+        others_txt = ", ".join(f"{o['name']} {o['chgPct']:+.2f}%" for o in others)
+        summary = (
+            f"{rmeta['name']} 증시는 대표지수인 {lead['name']}이 {cp:+.2f}% {mword} {dir_word} 마감했다. "
+            f"주요 지수 {len(up)}개가 오르고 {len(down)}개가 내리는 등 {breadth} 장세였으며, "
+            f"{others_txt} 등의 흐름을 보였다."
         )
 
-    # 2) 섹터 주도 / 부진
+    # ── 2) 섹터 로테이션 해석 ────────────────────────────────────────────
+    sectors_txt = ""
     sec_valid = [s for s in sectors_out if s.get("chgPct") is not None]
     if sec_valid:
-        best  = max(sec_valid, key=lambda s: s["chgPct"])
-        worst = min(sec_valid, key=lambda s: s["chgPct"])
-        if best["name"] != worst["name"]:
-            lines.append(
-                f"섹터별로는 {best['name']}({best['chgPct']:+.2f}%)이(가) 강세를 주도한 반면 "
-                f"{worst['name']}({worst['chgPct']:+.2f}%)은(는) 가장 부진했다."
-            )
+        ups   = sorted(sec_valid, key=lambda s: s["chgPct"], reverse=True)[:3]
+        downs = sorted(sec_valid, key=lambda s: s["chgPct"])[:2]
+        g_vals = [s["chgPct"] for s in sec_valid if s["name"] in GROWTH_SECTORS]
+        d_vals = [s["chgPct"] for s in sec_valid if s["name"] in DEFENSIVE_SECTORS]
+        rot = ""
+        if g_vals and d_vals:
+            g_avg = sum(g_vals) / len(g_vals)
+            d_avg = sum(d_vals) / len(d_vals)
+            if   g_avg - d_avg > 0.3: rot = " 성장·경기민감 섹터가 방어주를 앞서며 위험선호(risk-on) 색채가 두드러졌다."
+            elif d_avg - g_avg > 0.3: rot = " 방어 섹터가 성장주 대비 선전하며 위험회피(risk-off) 심리가 우위였다."
+            else:                     rot = " 성장주와 방어주 간 뚜렷한 우열 없이 종목별 차별화 장세가 나타났다."
+        sectors_txt = (
+            "섹터별로는 "
+            + ", ".join(f"{s['name']}({s['chgPct']:+.2f}%)" for s in ups)
+            + "이(가) 강세를 주도했고, "
+            + ", ".join(f"{s['name']}({s['chgPct']:+.2f}%)" for s in downs)
+            + "은(는) 부진했다." + rot
+        )
 
-    # 3) 특징주 (최대 상승 / 최대 하락)
+    # ── 3) 종목별 등락 사유 (실제 뉴스 헤드라인 근거) ────────────────────
+    movers = []
     feat_valid = [f for f in featured_out if f.get("chgPct") is not None]
-    if feat_valid:
-        g = max(feat_valid, key=lambda f: f["chgPct"])
-        l = min(feat_valid, key=lambda f: f["chgPct"])
-        parts = []
-        if g["chgPct"] > 0:
-            parts.append(f"{g['name']}이(가) {g['chgPct']:+.2f}%로 가장 크게 올랐고")
-        if l["chgPct"] < 0 and l["ticker"] != g["ticker"]:
-            parts.append(f"{l['name']}은(는) {l['chgPct']:+.2f}%로 낙폭이 컸다")
-        if parts:
-            lines.append("종목별로는 " + ", ".join(parts) + ".")
+    feat_sorted = sorted(feat_valid, key=lambda f: abs(f["chgPct"]), reverse=True)[:5]
+    for f in feat_sorted:
+        news = f.get("news") or []
+        if news:
+            reason = news[0].get("title", "")
+            source = news[0].get("publisher", "")
+            link   = news[0].get("link", "")
+        else:
+            ud = "강세" if f["chgPct"] >= 0 else "약세"
+            reason = (f"개별 호재·악재 뉴스는 확인되지 않았으며, {f.get('sector','해당')} "
+                      f"섹터 전반의 {ud} 흐름에 연동된 것으로 보인다.")
+            source = ""; link = ""
+        movers.append({
+            "name":   f["name"],
+            "ticker": f["ticker"],
+            "sector": f.get("sector", ""),
+            "chgPct": f["chgPct"],
+            "dir":    "up" if f["chgPct"] >= 0 else "down",
+            "reason": reason,
+            "source": source,
+            "link":   link,
+        })
 
-    return lines
+    return {
+        "summary":  summary,
+        "macro":    macro_line,
+        "sectors":  sectors_txt,
+        "events":   events or [],
+        "movers":   movers,
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -464,6 +547,10 @@ def build():
     print(f"[fetch_daily] 티커 {len(all_tickers)}개 다운로드 중…")
     price_map = batch_daily(all_tickers, now_utc)
     print(f"[fetch_daily] 수신: {len(price_map)}개")
+
+    # 매크로 스냅샷 (benchmarks.js) → 글로벌 매크로 코멘트
+    macro = load_macro_snapshot()
+    macro_line = build_macro_line(macro)
 
     regions_out = []
 
@@ -574,7 +661,18 @@ def build():
                 "news":  news,
             })
 
-        commentary = build_commentary(rmeta, indices_out, sectors_out, featured_out)
+        # 주요 이벤트: 대표 지수 레벨 뉴스 (시장 전반을 움직인 헤드라인)
+        events = []
+        if REGION_INDICES[rkey]:
+            lead_idx_ticker = REGION_INDICES[rkey][0][0]
+            for n in fetch_news(lead_idx_ticker, max_items=3):
+                t = n.get("title", "").strip()
+                if t:
+                    src = n.get("publisher", "")
+                    events.append({"title": t, "source": src, "link": n.get("link", "")})
+
+        commentary = build_commentary(rmeta, indices_out, sectors_out, featured_out,
+                                      macro_line=macro_line, events=events)
 
         regions_out.append({
             "key":        rkey,
