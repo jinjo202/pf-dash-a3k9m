@@ -123,6 +123,14 @@
   .rtab:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
   .rtab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
 
+  /* ── As-of date badge ── */
+  .asof-badge {
+    display:inline-block; padding:6px 12px; border-radius:8px; margin-bottom:14px;
+    background:var(--accent-soft); color:var(--accent); font-size:12px; font-weight:600;
+    border:1px solid var(--border);
+  }
+  .asof-badge b { font-weight:800; }
+
   /* ── Index summary bar ── */
   .idx-bar {
     display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;
@@ -260,6 +268,7 @@
   }
   .ov-card:hover { border-color:var(--accent); transform:translateY(-1px); box-shadow:var(--shadow-md); }
   .ov-card .ov-region { font-size:13px; font-weight:700; display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+  .ov-card .ov-date { margin-left:auto; font-size:10px; font-weight:600; color:var(--muted); background:var(--neu-soft); padding:2px 6px; border-radius:6px; }
   .ov-card .ov-main-idx { font-size:11px; color:var(--muted); margin-bottom:4px; }
   .ov-card .ov-main-chg { font-size:20px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
   .ov-card .ov-sub { font-size:11px; color:var(--muted); margin-top:4px; }
@@ -387,7 +396,8 @@ function makeSpark(data, opts) {
   }
 
   document.getElementById('subtitle').textContent =
-    D.as_of + ' 기준  •  생성: ' + (D.generated_utc || '').replace('T', ' ').replace('Z', ' UTC');
+    '최신 거래일 ' + D.as_of + '  •  지역별 기준일은 각 탭 참고  •  생성: ' +
+    (D.generated_utc || '').replace('T', ' ').replace('Z', ' UTC');
 
   // 현재 선택 지역
   var currentRegion = 'overview';
@@ -407,7 +417,9 @@ function makeSpark(data, opts) {
       var chgPct = main ? main.chgPct : null;
       var cc = colorClass(chgPct);
       html += '<div class="ov-card" onclick="switchRegion(\'' + r.key + '\')">' +
-        '<div class="ov-region">' + r.flag + ' ' + r.name + '</div>' +
+        '<div class="ov-region">' + r.flag + ' ' + r.name +
+          (r.as_of ? '<span class="ov-date">' + r.as_of + '</span>' : '') +
+        '</div>' +
         '<div class="ov-main-idx">' + (main ? main.name : '—') + '</div>' +
         '<div class="ov-main-chg ' + cc + '">' + fmtPct(chgPct) + '</div>' +
         '<div class="ov-sub">' +
@@ -423,8 +435,9 @@ function makeSpark(data, opts) {
     var usR = getRegion('us');
     if (usR && usR.sectors && usR.sectors.length) {
       html += '<div class="panel">';
-      html += '<div class="panel-title">🗂 미국 GICS 섹터 (SPDR ETF 기준)</div>';
-      html += '<div class="panel-hint">S&P 500 섹터별 일간 등락. XLK·XLF·XLV 등 SPDR 섹터 ETF 종가 기준.</div>';
+      html += '<div class="panel-title">🗂 미국 GICS 섹터 (SPDR ETF 기준)' +
+        (usR.as_of ? ' <span style="font-size:11px;font-weight:600;color:var(--muted)">· ' + usR.as_of + ' 종가</span>' : '') + '</div>';
+      html += '<div class="panel-hint">S&P 500 11개 GICS 섹터 일간 등락. XLK·XLF·XLV 등 SPDR 섹터 ETF 종가 기준.</div>';
       html += renderSectorHeatmap(usR.sectors);
       html += '</div>';
     }
@@ -440,6 +453,14 @@ function makeSpark(data, opts) {
     html += '</div>';
 
     return html;
+  }
+
+  /* ── 기준일 배지 ── */
+  function renderAsOfBadge(r) {
+    if (!r || !r.as_of) return '';
+    var prevTxt = r.prev_date ? ' <span style="opacity:.7">(전일 대비: ' + r.prev_date + ')</span>' : '';
+    return '<div class="asof-badge">📅 ' + (r.flag || '') + ' ' + r.name +
+      ' 기준일 <b>' + r.as_of + '</b>' + prevTxt + '</div>';
   }
 
   /* ── 섹터 히트맵 ── */
@@ -561,6 +582,9 @@ function makeSpark(data, opts) {
     var r = getRegion(rkey);
     if (!r) return '<div class="empty-note">데이터 없음</div>';
     var html = '';
+
+    // 기준일 배지
+    html += renderAsOfBadge(r);
 
     // 지수 요약
     html += '<div class="section-label">주요 지수</div>';

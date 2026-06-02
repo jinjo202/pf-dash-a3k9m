@@ -10,7 +10,7 @@ daily-data.js (window.DAILY = {...}) 로 저장한다.
 import json
 import sys
 import io
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
@@ -224,6 +224,47 @@ REGION_META = {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
+# 거래소별 정규장 마감 시각 (UTC, 서머타임 기준 근사). yfinance가 진행 중인
+# 장중 일봉을 마지막 종가처럼 반환하므로, 마감 전 봉은 "미체결"로 보고 제외한다.
+# 티커 suffix → (hour, minute) UTC. 데이터 지연 대비 10분 버퍼를 추가로 적용.
+# ─────────────────────────────────────────────────────────────────────────────
+MARKET_CLOSE_UTC_BY_SUFFIX = {
+    ".L":   (15, 30),   # London
+    ".PA":  (15, 30),   # Euronext Paris
+    ".AS":  (15, 30),   # Euronext Amsterdam
+    ".BR":  (15, 30),   # Euronext Brussels
+    ".DE":  (15, 30),   # Xetra Frankfurt
+    ".MC":  (15, 30),   # Madrid
+    ".MI":  (15, 30),   # Milan
+    ".SW":  (15, 20),   # SIX Swiss
+    ".CO":  (15, 0),    # Copenhagen
+    ".T":   (6, 0),     # Tokyo (15:00 JST)
+    ".HK":  (8, 0),     # Hong Kong (16:00 HKT)
+    ".SS":  (7, 0),     # Shanghai (15:00 CST)
+    ".SZ":  (7, 0),     # Shenzhen
+    ".KS":  (6, 30),    # KRX (15:30 KST)
+    ".KQ":  (6, 30),    # KOSDAQ
+}
+# 지수 티커는 suffix가 없으므로 개별 매핑
+MARKET_CLOSE_UTC_BY_TICKER = {
+    "^GSPC": (20, 0), "^IXIC": (20, 0), "^DJI": (20, 0), "^RUT": (20, 0), "^VIX": (21, 15),
+    "^STOXX50E": (15, 30), "^GDAXI": (15, 30), "^FTSE": (15, 30), "^FCHI": (15, 30),
+    "000001.SS": (7, 0), "399001.SZ": (7, 0), "^HSI": (8, 0), "^HSCE": (8, 0),
+    "^N225": (6, 0), "^TPX": (6, 0),
+    "^KS11": (6, 30), "^KQ11": (6, 30),
+}
+
+
+def market_close_utc(ticker: str):
+    """티커의 정규장 마감 시각 (UTC hour, minute). 기본값 = 미국(20:00)."""
+    if ticker in MARKET_CLOSE_UTC_BY_TICKER:
+        return MARKET_CLOSE_UTC_BY_TICKER[ticker]
+    for suf, hm in MARKET_CLOSE_UTC_BY_SUFFIX.items():
+        if ticker.endswith(suf):
+            return hm
+    return (20, 0)   # 미국(suffix 없음)
+
+# ─────────────────────────────────────────────────────────────────────────────
 # 유틸리티
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -257,8 +298,17 @@ def last_two_closes(df_or_series):
         return None, None
 
 
-def batch_daily(tickers: list[str]) -> dict:
-    """tickers 리스트를 한 번에 다운로드 → {ticker: {price, chg, chgPct, spark}} dict."""
+def is_settled(bar_date, ticker, now_utc) -> bool:
+    """해당 일봉이 정규장 마감 후 확정된 종가인지 판정 (장중 진행봉 제외)."""
+    h, m = market_close_utc(ticker)
+    close_dt = datetime(bar_date.year, bar_date.month, bar_date.day, h, m, tzinfo=timezone.utc)
+    # 데이터 지연 대비 10분 버퍼
+    return now_utc >= close_dt + timedelta(minutes=10)
+
+
+def batch_daily(tickers: list[str], now_utc: datetime) -> dict:
+    """tickers 리스트를 한 번에 다운로드 → {ticker: {price, chg, chgPct, spark}} dict.
+    장중 진행 중인 미체결 일봉은 제외하고, 마지막으로 '확정된 종가'를 기준으로 한다."""
     if not tickers:
         return {}
     try:
@@ -292,16 +342,30 @@ def batch_daily(tickers: list[str]) -> dict:
 
             if close.empty:
                 continue
-            cur, prev = float(close.iloc[-1]), float(close.iloc[-2]) if len(close) >= 2 else (float(close.iloc[-1]), None)
-            chg_pct = pct_chg(cur, prev) if prev else None
-            chg = round(cur - prev, 4) if prev else None
-            # sparkline: 마지막 20일 종가
-            spark = [safe_float(v, 4) for v in close.iloc[-20:].tolist()]
+            # 장중 진행 중인 미체결 일봉 제외: 뒤에서부터 첫 '확정 종가' 위치를 찾는다.
+            cur_i = None
+            for i in range(len(close) - 1, -1, -1):
+                if is_settled(close.index[i].date(), t, now_utc):
+                    cur_i = i
+                    break
+            if cur_i is None:
+                continue
+            prev_i = cur_i - 1 if cur_i >= 1 else None
+            cur = float(close.iloc[cur_i])
+            prev = float(close.iloc[prev_i]) if prev_i is not None else None
+            last_date = str(close.index[cur_i].date())
+            prev_date = str(close.index[prev_i].date()) if prev_i is not None else None
+            chg_pct = pct_chg(cur, prev) if prev is not None else None
+            chg = round(cur - prev, 4) if prev is not None else None
+            # sparkline: 확정 종가까지의 마지막 20일
+            spark = [safe_float(v, 4) for v in close.iloc[:cur_i + 1].iloc[-20:].tolist()]
             result[t] = {
                 "price":  safe_float(cur, 4),
                 "chg":    safe_float(chg, 4),
                 "chgPct": chg_pct,
                 "spark":  spark,
+                "date":     last_date,
+                "prevDate": prev_date,
             }
         except Exception as e:
             print(f"  [warn] {t} 파싱 실패: {e}", file=sys.stderr)
@@ -353,7 +417,7 @@ def build():
     all_tickers = list(dict.fromkeys(all_index_tickers + sector_tickers + universe_tickers))
 
     print(f"[fetch_daily] 티커 {len(all_tickers)}개 다운로드 중…")
-    price_map = batch_daily(all_tickers)
+    price_map = batch_daily(all_tickers, now_utc)
     print(f"[fetch_daily] 수신: {len(price_map)}개")
 
     regions_out = []
@@ -373,7 +437,30 @@ def build():
                 "chgPct":  d["chgPct"],
                 "currency": currency,
                 "spark":   d["spark"],
+                "date":    d.get("date"),
             })
+
+        # ── 지역 기준일: 대표 지수들의 마지막 종가 날짜 중 최빈/최신값 ──────
+        region_dates = [
+            price_map[t]["date"]
+            for t, _, _ in REGION_INDICES[rkey]
+            if price_map.get(t) and price_map[t].get("date")
+        ]
+        # 종목 기준일도 보강 (지수가 없을 때 대비)
+        if not region_dates:
+            region_dates = [
+                price_map[t]["date"]
+                for t, _, _ in UNIVERSE[rkey]
+                if price_map.get(t) and price_map[t].get("date")
+            ]
+        region_as_of = max(region_dates) if region_dates else today_str
+        # 전일 대비 기준 (직전 거래일)
+        region_prev = None
+        for t, _, _ in REGION_INDICES[rkey]:
+            d = price_map.get(t)
+            if d and d.get("date") == region_as_of and d.get("prevDate"):
+                region_prev = d["prevDate"]
+                break
 
         # ── 2. GICS 섹터 (11개 전부 표시, 데이터 없으면 chgPct=null) ─────────
         if rkey == "us":
@@ -453,17 +540,23 @@ def build():
             })
 
         regions_out.append({
-            "key":      rkey,
-            "name":     rmeta["name"],
-            "flag":     rmeta["flag"],
-            "indices":  indices_out,
-            "sectors":  sectors_out,
-            "stocks":   stocks_out,
-            "featured": featured_out,
+            "key":       rkey,
+            "name":      rmeta["name"],
+            "flag":      rmeta["flag"],
+            "as_of":     region_as_of,   # 이 지역 데이터의 실제 마지막 거래일
+            "prev_date": region_prev,    # 전일 대비 기준 거래일
+            "indices":   indices_out,
+            "sectors":   sectors_out,
+            "stocks":    stocks_out,
+            "featured":  featured_out,
         })
 
+    # 전역 as_of = 모든 지역 중 가장 최신 거래일
+    all_region_dates = [r["as_of"] for r in regions_out if r.get("as_of")]
+    global_as_of = max(all_region_dates) if all_region_dates else today_str
+
     payload = {
-        "as_of":         today_str,
+        "as_of":         global_as_of,
         "generated_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "regions":       regions_out,
     }
