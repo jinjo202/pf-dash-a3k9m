@@ -555,6 +555,7 @@ def build():
                 "price":   d["price"],
                 "chg":     d["chg"],
                 "chgPct":  d["chgPct"],
+                "spark":   d.get("spark", []),
             })
 
         # ── 4. 특징주 (당일 절대 변동 상위 5종목) ────────────────────────────

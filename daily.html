@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-02a";</script>
+<script>window.CODE_VERSION = "2026-06-02b";</script>
 <script>
   (function () {
     try {
@@ -155,11 +155,56 @@
   }
   .idx-card .iname { font-size:11px; color:var(--muted); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .idx-card .iprice { font-size:17px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
-  .idx-card .ichg { font-size:12px; font-weight:600; font-variant-numeric:tabular-nums; }
-  .idx-card .ispark { margin-top:4px; }
+  .idx-card .ispark { margin-top:6px; margin-bottom:6px; }
+  .idx-card .ichg-chip {
+    align-self:flex-start; display:inline-block; padding:2px 7px; border-radius:7px;
+    font-size:12px; font-weight:700; font-variant-numeric:tabular-nums;
+  }
   .pos { color:var(--pos); }
   .neg { color:var(--neg); }
   .neu { color:var(--neu); }
+
+  /* ── 등락 칩 (Google Finance 스타일) ── */
+  .gf-chip {
+    display:inline-block; padding:3px 8px; border-radius:8px;
+    font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+  .chip-pos { background:var(--pos-soft); color:var(--pos); }
+  .chip-neg { background:var(--neg-soft); color:var(--neg); }
+  .chip-neu { background:var(--neu-soft); color:var(--neu); }
+
+  /* ── Google Finance 리스트 행 ── */
+  .gf-list { display:flex; flex-direction:column; }
+  .gf-row {
+    display:flex; align-items:center; gap:12px; padding:10px 8px; border-radius:8px;
+    border-top:1px solid var(--border);
+  }
+  .gf-row:first-child { border-top:none; }
+  .gf-row:hover { background:var(--row-hover); }
+  .gf-rank {
+    width:22px; height:22px; flex-shrink:0; border-radius:50%;
+    background:var(--neu-soft); color:var(--muted); font-size:10px; font-weight:700;
+    text-align:center; line-height:22px;
+  }
+  .gf-rank.top3 { background:var(--accent-soft); color:var(--accent); }
+  .gf-id { flex:1 1 auto; min-width:0; }
+  .gf-name { font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .gf-ticker { font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .gf-spark { width:84px; flex-shrink:0; }
+  .gf-price { width:104px; text-align:right; font-size:13.5px; font-weight:600; font-variant-numeric:tabular-nums; flex-shrink:0; }
+  .gf-chg { width:92px; text-align:right; flex-shrink:0; }
+
+  /* ── 마켓 트렌드 탭 ── */
+  .trend-tabs {
+    display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px;
+    border-bottom:1px solid var(--border); padding-bottom:10px;
+  }
+  .trend-tab {
+    padding:5px 13px; border-radius:16px; border:1px solid var(--border); background:var(--panel);
+    color:var(--muted); font-size:12px; font-weight:600; cursor:pointer; transition:all .15s;
+  }
+  .trend-tab:hover { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .trend-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
 
   /* ── Sector heatmap ── */
   .sector-grid {
@@ -183,44 +228,6 @@
   .heat-neg-light { background:#dc262611; color:var(--neg); border:1px solid #dc262622; }
   .heat-neg       { background:#dc262622; color:var(--neg); border:1px solid #dc262633; }
   .heat-big-neg   { background:var(--neg);  color:#fff; }
-
-  /* ── Stock table ── */
-  .stock-table-wrap { overflow-x:auto; }
-  table.stock-table {
-    width:100%; border-collapse:collapse; font-size:13px;
-  }
-  table.stock-table th {
-    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
-    color:var(--muted); border-bottom:2px solid var(--border); padding:8px 10px;
-    text-align:right; cursor:pointer; user-select:none; white-space:nowrap;
-    transition:background .12s;
-  }
-  table.stock-table th.left { text-align:left; }
-  table.stock-table th:hover { background:var(--accent-soft); color:var(--accent); }
-  table.stock-table th.sorted { color:var(--accent); }
-  table.stock-table td {
-    padding:9px 10px; border-bottom:1px solid var(--border);
-    text-align:right; font-variant-numeric:tabular-nums; vertical-align:middle;
-  }
-  table.stock-table td.left { text-align:left; }
-  table.stock-table tbody tr:hover { background:var(--row-hover); }
-  .rank-badge {
-    display:inline-block; width:22px; height:22px; border-radius:50%;
-    background:var(--neu-soft); color:var(--muted); font-size:10px; font-weight:700;
-    text-align:center; line-height:22px;
-  }
-  .rank-badge.top3 { background:var(--accent-soft); color:var(--accent); }
-  .ticker-code { font-size:11px; color:var(--muted); font-weight:600; }
-  .sector-badge {
-    display:inline-block; padding:2px 7px; border-radius:10px; font-size:10px; font-weight:600;
-    background:var(--neu-soft); color:var(--muted); white-space:nowrap;
-  }
-  .chg-bar {
-    display:inline-block; height:3px; border-radius:2px; vertical-align:middle; margin-left:4px;
-    min-width:2px; max-width:60px;
-  }
-  .bar-pos { background:var(--pos); }
-  .bar-neg { background:var(--neg); }
 
   /* ── Featured stocks ── */
   .featured-grid {
@@ -259,7 +266,8 @@
 
   /* ── Sparkline SVG ── */
   .sparkline { display:block; width:100%; height:40px; }
-  .sparkline-sm { display:block; width:80px; height:24px; flex-shrink:0; }
+  .sparkline-sm { display:block; width:80px; height:26px; flex-shrink:0; }
+  .spark-wide { display:block; width:100%; height:34px; }
 
   /* ── Loading / empty ── */
   .loading { text-align:center; color:var(--muted); padding:60px 0; font-size:15px; }
@@ -292,6 +300,9 @@
     .featured-grid { grid-template-columns:1fr; }
     .idx-bar { gap:6px; }
     .idx-card { flex:1 1 130px; min-width:120px; }
+    .gf-spark { display:none; }
+    .gf-price { width:84px; }
+    .gf-chg { width:78px; }
   }
 </style>
 </head>
@@ -350,7 +361,8 @@ function relTime(isoStr) {
   } catch(e) { return ''; }
 }
 
-/* ── Sparkline SVG ── */
+/* ── Sparkline SVG (Google Finance 스타일 area chart 지원) ── */
+var _sparkId = 0;
 function makeSpark(data, opts) {
   var o = opts || {};
   var w = o.w || 120, h = o.h || 40;
@@ -360,7 +372,7 @@ function makeSpark(data, opts) {
   if (vals.length < 2) return '<svg class="' + cls + '" viewBox="0 0 ' + w + ' ' + h + '"></svg>';
   var mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
   var rng = mx - mn || 1;
-  var pad = h * 0.1;
+  var pad = h * 0.12;
   var pts = vals.map(function(v, i) {
     var x = (i / (vals.length - 1)) * w;
     var y = pad + (1 - (v - mn) / rng) * (h - pad * 2);
@@ -368,12 +380,19 @@ function makeSpark(data, opts) {
   }).join(' ');
   var isPos = vals[vals.length-1] >= vals[0];
   var stroke = isPos ? 'var(--pos)' : 'var(--neg)';
-  var lastX = ((vals.length-1) / (vals.length-1)) * w;
   var lastY = pad + (1 - (vals[vals.length-1] - mn) / rng) * (h - pad * 2);
-  return '<svg class="' + cls + '" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' +
-    '<polyline points="' + pts + '" fill="none" stroke="' + stroke + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<circle cx="' + lastX.toFixed(1) + '" cy="' + lastY.toFixed(1) + '" r="2.5" fill="' + stroke + '"/>' +
+  var svg = '<svg class="' + cls + '" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">';
+  if (o.area) {
+    var gid = 'spk' + (_sparkId++);
+    svg += '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="' + stroke + '" stop-opacity="0.20"/>' +
+      '<stop offset="100%" stop-color="' + stroke + '" stop-opacity="0"/></linearGradient></defs>';
+    svg += '<polygon points="0,' + h + ' ' + pts + ' ' + w + ',' + h + '" fill="url(#' + gid + ')" stroke="none"/>';
+  }
+  svg += '<polyline points="' + pts + '" fill="none" stroke="' + stroke + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<circle cx="' + w.toFixed(1) + '" cy="' + lastY.toFixed(1) + '" r="2.5" fill="' + stroke + '"/>' +
     '</svg>';
+  return svg;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -503,60 +522,74 @@ function makeSpark(data, opts) {
     return html;
   }
 
-  /* ── 지수 카드 바 ── */
+  /* ── 지수 카드 바 (Google Finance 스타일) ── */
+  function chipClass(v) {
+    if (v == null) return 'chip-neu';
+    return v > 0 ? 'chip-pos' : v < 0 ? 'chip-neg' : 'chip-neu';
+  }
+  function arrowFor(v) {
+    if (v == null || v === 0) return '';
+    return v > 0 ? '▲ ' : '▼ ';
+  }
   function renderIndexBar(indices) {
     var html = '<div class="idx-bar">';
     indices.forEach(function(idx) {
-      var cc = colorClass(idx.chgPct);
       var priceStr = idx.currency === '' ? fmt(idx.price, 2) : idx.price ? idx.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—';
       html += '<div class="idx-card">' +
         '<div class="iname">' + idx.name + '</div>' +
         '<div class="iprice tnum">' + priceStr + (idx.currency ? ' <span style="font-size:10px;color:var(--muted)">' + idx.currency + '</span>' : '') + '</div>' +
-        '<div class="ichg ' + cc + '">' + fmtPct(idx.chgPct) + (idx.chg ? ' (' + (idx.chg>0?'+':'') + fmt(idx.chg,2) + ')' : '') + '</div>' +
-        '<div class="ispark">' + makeSpark(idx.spark, {w:120, h:28, cls:'sparkline-sm'}) + '</div>' +
+        '<div class="ispark">' + makeSpark(idx.spark, {w:160, h:34, cls:'spark-wide', area:true}) + '</div>' +
+        '<div class="ichg-chip ' + chipClass(idx.chgPct) + '">' + arrowFor(idx.chgPct) + fmtPct(idx.chgPct) +
+          (idx.chg ? ' (' + (idx.chg>0?'+':'') + fmt(idx.chg,2) + ')' : '') + '</div>' +
         '</div>';
     });
     html += '</div>';
     return html;
   }
 
-  /* ── 종목 테이블 ── */
-  function renderStockTable(stocks) {
-    if (!stocks || !stocks.length) return '<div class="empty-note">종목 데이터 없음</div>';
-    var maxAbs = Math.max.apply(null, stocks.map(function(s){ return s.chgPct ? Math.abs(s.chgPct) : 0; }));
+  /* ── Google Finance 리스트 행 ── */
+  function renderGFRow(s, i) {
+    var pos = (s.chgPct || 0) >= 0;
+    var priceStr = s.price != null ? s.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—';
+    var rankCls = i < 3 ? 'gf-rank top3' : 'gf-rank';
+    return '<div class="gf-row">' +
+      '<div class="' + rankCls + '">' + (i + 1) + '</div>' +
+      '<div class="gf-id">' +
+        '<div class="gf-name">' + escHtml(s.name) + '</div>' +
+        '<div class="gf-ticker">' + s.ticker + ' · ' + s.sector + '</div>' +
+      '</div>' +
+      '<div class="gf-spark">' + makeSpark(s.spark || [], {w:84, h:26, cls:'sparkline-sm', area:true}) + '</div>' +
+      '<div class="gf-price tnum">' + priceStr + '</div>' +
+      '<div class="gf-chg"><span class="gf-chip ' + chipClass(s.chgPct) + '">' + arrowFor(s.chgPct) + fmtPct(s.chgPct) + '</span></div>' +
+    '</div>';
+  }
 
-    var html = '<div class="stock-table-wrap"><table class="stock-table">' +
-      '<thead><tr>' +
-      '<th class="left" style="width:30px">#</th>' +
-      '<th class="left" style="min-width:140px">종목</th>' +
-      '<th class="left">섹터</th>' +
-      '<th>현재가</th>' +
-      '<th>등락</th>' +
-      '<th style="min-width:100px">등락률</th>' +
-      '</tr></thead><tbody>';
+  /* ── 마켓 트렌드 리스트 (정렬 모드별) ── */
+  function renderTrendList(stocks, mode) {
+    var arr = (stocks || []).slice();
+    if (mode === 'gain')        arr.sort(function(a,b){ return (b.chgPct||0) - (a.chgPct||0); });
+    else if (mode === 'lose')   arr.sort(function(a,b){ return (a.chgPct||0) - (b.chgPct||0); });
+    else if (mode === 'active') arr.sort(function(a,b){ return Math.abs(b.chgPct||0) - Math.abs(a.chgPct||0); });
+    else                        arr.sort(function(a,b){ return a.rank - b.rank; });
+    if (mode === 'gain' || mode === 'lose' || mode === 'active') arr = arr.slice(0, 12);
+    if (!arr.length) return '<div class="empty-note">종목 데이터 없음</div>';
+    return arr.map(renderGFRow).join('');
+  }
 
-    stocks.forEach(function(s, i) {
-      var cc = colorClass(s.chgPct);
-      var chgPctAbs = s.chgPct ? Math.abs(s.chgPct) : 0;
-      var barW = maxAbs > 0 ? Math.round((chgPctAbs / maxAbs) * 60) : 0;
-      var barCls = s.chgPct >= 0 ? 'bar-pos' : 'bar-neg';
-      var rankCls = i < 3 ? 'rank-badge top3' : 'rank-badge';
-      html += '<tr>' +
-        '<td class="left"><span class="' + rankCls + '">' + s.rank + '</span></td>' +
-        '<td class="left">' +
-          '<div style="font-weight:600">' + s.name + '</div>' +
-          '<div class="ticker-code">' + s.ticker + '</div>' +
-        '</td>' +
-        '<td class="left"><span class="sector-badge">' + s.sector + '</span></td>' +
-        '<td>' + (s.price ? s.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—') + '</td>' +
-        '<td class="' + cc + '">' + (s.chg != null ? (s.chg>0?'+':'') + fmt(s.chg,2) : '—') + '</td>' +
-        '<td class="' + cc + '" style="white-space:nowrap">' +
-          fmtPct(s.chgPct) +
-          '<span class="chg-bar ' + barCls + '" style="width:' + barW + 'px"></span>' +
-        '</td>' +
-        '</tr>';
+  /* ── 마켓 트렌드 패널 (탭 + 리스트) ── */
+  function renderTrendPanel(rkey, r) {
+    var tabs = [['rank','시총순'],['gain','상승'],['lose','하락'],['active','활발']];
+    var html = '<div class="panel">';
+    html += '<div class="panel-title">📈 마켓 트렌드</div>';
+    html += '<div class="panel-hint">대표 종목 일간 등락 · 탭으로 상승/하락/거래활발 종목 정렬</div>';
+    html += '<div class="trend-tabs" id="trendTabs_' + rkey + '">';
+    tabs.forEach(function(t, i) {
+      html += '<button class="trend-tab' + (i === 0 ? ' active' : '') + '" data-mode="' + t[0] + '" ' +
+        'onclick="switchTrend(\'' + rkey + '\',\'' + t[0] + '\')">' + t[1] + '</button>';
     });
-    html += '</tbody></table></div>';
+    html += '</div>';
+    html += '<div class="gf-list" id="trendList_' + rkey + '">' + renderTrendList(r.stocks, 'rank') + '</div>';
+    html += '</div>';
     return html;
   }
 
@@ -618,9 +651,12 @@ function makeSpark(data, opts) {
     html += '<div class="section-label">주요 지수</div>';
     html += renderIndexBar(r.indices || []);
 
-    // GICS 섹터
+    // 마켓 트렌드 (탭 리스트) + GICS 섹터 — two-col on wide screens
+    html += '<div class="two-col">';
+    html += renderTrendPanel(rkey, r);
+
     if (r.sectors && r.sectors.length) {
-      html += '<div class="panel">';
+      html += '<div class="panel" style="margin:0">';
       html += '<div class="panel-title">🗂 GICS 섹터 움직임</div>';
       if (rkey === 'us') {
         html += '<div class="panel-hint">SPDR 섹터 ETF 종가 기준 일간 등락</div>';
@@ -630,44 +666,19 @@ function makeSpark(data, opts) {
       html += renderSectorHeatmap(r.sectors);
       html += '</div>';
     }
+    html += '</div>'; // .two-col
 
-    // 시총 상위 종목 테이블 + 특징주 — two-col on wide screens
-    html += '<div class="two-col">';
-
-    // 시총 상위
-    html += '<div class="panel" style="margin:0">';
-    html += '<div class="panel-title">📋 시총 상위 종목 현황</div>';
-    html += '<div class="panel-hint">대표 대형주 일간 등락 · 시가총액 순 정렬</div>';
-
-    // Sort controls
-    html += '<div id="sortMeta_' + rkey + '" style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">';
-    ['chgPct-desc','chgPct-asc','rank-asc'].forEach(function(s) {
-      var label = s === 'chgPct-desc' ? '등락↑' : s === 'chgPct-asc' ? '등락↓' : '시총순';
-      var active = s === 'rank-asc' ? ' style="background:var(--accent);color:#fff;border-color:var(--accent)"' : '';
-      html += '<button onclick="sortStocks(\'' + rkey + '\',\'' + s + '\')" ' +
-        'id="sortBtn_' + rkey + '_' + s + '" ' +
-        'style="padding:4px 10px;border-radius:14px;border:1px solid var(--border);background:var(--panel);' +
-        'color:var(--muted);font-size:11px;font-weight:600;cursor:pointer"' + active + '>' + label + '</button>';
-    });
-    html += '</div>';
-
-    html += '<div id="stockTableWrap_' + rkey + '">' + renderStockTable(r.stocks || []) + '</div>';
-    html += '</div>';
-
-    // 특징주
-    html += '<div>';
-    html += '<div class="section-label" style="margin-bottom:10px">⚡ 오늘의 특징주</div>';
+    // 오늘의 특징주 & 관련 뉴스
+    html += '<div class="section-label" style="margin-bottom:10px">⚡ 오늘의 특징주 & 관련 뉴스</div>';
     if (r.featured && r.featured.length) {
+      html += '<div class="featured-grid">';
       r.featured.forEach(function(feat) {
         html += renderFeatCard(feat, null);
-        html += '<div style="height:12px"></div>';
       });
+      html += '</div>';
     } else {
       html += '<div class="empty-note">데이터 없음</div>';
     }
-    html += '</div>';
-
-    html += '</div>'; // .two-col
 
     return html;
   }
@@ -683,23 +694,12 @@ function makeSpark(data, opts) {
       key === 'overview' ? renderOverview() : renderRegion(key);
   };
 
-  window.sortStocks = function(rkey, mode) {
+  window.switchTrend = function(rkey, mode) {
     var r = getRegion(rkey);
     if (!r || !r.stocks) return;
-    var stocks = r.stocks.slice();
-    if (mode === 'chgPct-desc') stocks.sort(function(a,b){ return (b.chgPct||0) - (a.chgPct||0); });
-    else if (mode === 'chgPct-asc') stocks.sort(function(a,b){ return (a.chgPct||0) - (b.chgPct||0); });
-    else stocks.sort(function(a,b){ return a.rank - b.rank; });
-    document.getElementById('stockTableWrap_' + rkey).innerHTML = renderStockTable(stocks);
-    // 버튼 active
-    ['chgPct-desc','chgPct-asc','rank-asc'].forEach(function(s) {
-      var btn = document.getElementById('sortBtn_' + rkey + '_' + s);
-      if (!btn) return;
-      if (s === mode) {
-        btn.style.background='var(--accent)'; btn.style.color='#fff'; btn.style.borderColor='var(--accent)';
-      } else {
-        btn.style.background='var(--panel)'; btn.style.color='var(--muted)'; btn.style.borderColor='var(--border)';
-      }
+    document.getElementById('trendList_' + rkey).innerHTML = renderTrendList(r.stocks, mode);
+    document.querySelectorAll('#trendTabs_' + rkey + ' .trend-tab').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.mode === mode);
     });
   };
 
