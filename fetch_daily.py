@@ -402,6 +402,51 @@ def fetch_news(ticker: str, max_items: int = 4) -> list:
         return []
 
 
+def build_commentary(rmeta, indices_out, sectors_out, featured_out) -> list:
+    """지수·섹터·특징주 수치로부터 그날의 시황 코멘트를 문장으로 생성한다.
+    LLM 없이 계산된 숫자에 기반한 룰 기반 요약 (데이터 갱신 시 자동 갱신)."""
+    lines = []
+
+    # 1) 대표 지수 방향
+    idx_valid = [i for i in indices_out if i.get("chgPct") is not None]
+    if idx_valid:
+        up   = [i for i in idx_valid if i["chgPct"] > 0]
+        down = [i for i in idx_valid if i["chgPct"] < 0]
+        lead = idx_valid[0]
+        dir_word = "상승" if (lead["chgPct"] or 0) > 0 else ("하락" if (lead["chgPct"] or 0) < 0 else "보합")
+        breadth = f"지수 {len(up)}개 상승·{len(down)}개 하락"
+        lines.append(
+            f"{rmeta['name']} 증시는 {lead['name']}이(가) {lead['chgPct']:+.2f}% {dir_word}하며 "
+            f"{breadth}로 마감했다."
+        )
+
+    # 2) 섹터 주도 / 부진
+    sec_valid = [s for s in sectors_out if s.get("chgPct") is not None]
+    if sec_valid:
+        best  = max(sec_valid, key=lambda s: s["chgPct"])
+        worst = min(sec_valid, key=lambda s: s["chgPct"])
+        if best["name"] != worst["name"]:
+            lines.append(
+                f"섹터별로는 {best['name']}({best['chgPct']:+.2f}%)이(가) 강세를 주도한 반면 "
+                f"{worst['name']}({worst['chgPct']:+.2f}%)은(는) 가장 부진했다."
+            )
+
+    # 3) 특징주 (최대 상승 / 최대 하락)
+    feat_valid = [f for f in featured_out if f.get("chgPct") is not None]
+    if feat_valid:
+        g = max(feat_valid, key=lambda f: f["chgPct"])
+        l = min(feat_valid, key=lambda f: f["chgPct"])
+        parts = []
+        if g["chgPct"] > 0:
+            parts.append(f"{g['name']}이(가) {g['chgPct']:+.2f}%로 가장 크게 올랐고")
+        if l["chgPct"] < 0 and l["ticker"] != g["ticker"]:
+            parts.append(f"{l['name']}은(는) {l['chgPct']:+.2f}%로 낙폭이 컸다")
+        if parts:
+            lines.append("종목별로는 " + ", ".join(parts) + ".")
+
+    return lines
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 메인 빌드
 # ─────────────────────────────────────────────────────────────────────────────
@@ -512,22 +557,11 @@ def build():
                 "chgPct":  d["chgPct"],
             })
 
-        # ── 4. 특징주 (당일 절대 변동 상위) ──────────────────────────────────
+        # ── 4. 특징주 (당일 절대 변동 상위 5종목) ────────────────────────────
         valid = [s for s in stocks_out if s["chgPct"] is not None]
         sorted_by_abs = sorted(valid, key=lambda x: abs(x["chgPct"]), reverse=True)
-        featured_tickers = []
-
-        top_gainer = max(valid, key=lambda x: x["chgPct"], default=None)
-        top_loser  = min(valid, key=lambda x: x["chgPct"], default=None)
-        top_mover  = sorted_by_abs[0] if sorted_by_abs else None
-
-        featured_raw = []
-        seen = set()
-        for item in [top_mover, top_gainer, top_loser]:
-            if item and item["ticker"] not in seen:
-                seen.add(item["ticker"])
-                featured_raw.append(item)
-                featured_tickers.append(item["ticker"])
+        # 등락 양방향이 고르게 보이도록 상위 5개를 절대 변동 기준으로 선정
+        featured_raw = sorted_by_abs[:5]
 
         featured_out = []
         for item in featured_raw:
@@ -539,16 +573,19 @@ def build():
                 "news":  news,
             })
 
+        commentary = build_commentary(rmeta, indices_out, sectors_out, featured_out)
+
         regions_out.append({
-            "key":       rkey,
-            "name":      rmeta["name"],
-            "flag":      rmeta["flag"],
-            "as_of":     region_as_of,   # 이 지역 데이터의 실제 마지막 거래일
-            "prev_date": region_prev,    # 전일 대비 기준 거래일
-            "indices":   indices_out,
-            "sectors":   sectors_out,
-            "stocks":    stocks_out,
-            "featured":  featured_out,
+            "key":        rkey,
+            "name":       rmeta["name"],
+            "flag":       rmeta["flag"],
+            "as_of":      region_as_of,   # 이 지역 데이터의 실제 마지막 거래일
+            "prev_date":  region_prev,    # 전일 대비 기준 거래일
+            "indices":    indices_out,
+            "sectors":    sectors_out,
+            "stocks":     stocks_out,
+            "featured":   featured_out,
+            "commentary": commentary,     # 시황 코멘트 (룰 기반 자동 생성)
         })
 
     # 전역 as_of = 모든 지역 중 가장 최신 거래일

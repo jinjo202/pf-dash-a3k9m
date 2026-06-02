@@ -131,6 +131,18 @@
   }
   .asof-badge b { font-weight:800; }
 
+  /* ── 시황 코멘트 ── */
+  .commentary-box {
+    background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--accent);
+    border-radius:10px; padding:14px 16px; margin-bottom:20px; box-shadow:var(--shadow-sm);
+  }
+  .commentary-title { font-size:13px; font-weight:800; color:var(--accent); margin-bottom:8px; }
+  .commentary-line {
+    margin:0 0 6px; font-size:13.5px; line-height:1.7; color:var(--text);
+  }
+  .commentary-line:last-of-type { margin-bottom:0; }
+  .commentary-foot { margin-top:10px; font-size:11px; color:var(--muted); }
+
   /* ── Index summary bar ── */
   .idx-bar {
     display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;
@@ -463,6 +475,19 @@ function makeSpark(data, opts) {
       ' 기준일 <b>' + r.as_of + '</b>' + prevTxt + '</div>';
   }
 
+  /* ── 시황 코멘트 ── */
+  function renderCommentary(r) {
+    if (!r || !r.commentary || !r.commentary.length) return '';
+    var html = '<div class="commentary-box">';
+    html += '<div class="commentary-title">📝 시황 코멘트</div>';
+    r.commentary.forEach(function(line) {
+      html += '<p class="commentary-line">' + line + '</p>';
+    });
+    html += '<div class="commentary-foot">※ 당일 지수·섹터·종목 등락 데이터에 기반한 자동 요약</div>';
+    html += '</div>';
+    return html;
+  }
+
   /* ── 섹터 히트맵 ── */
   function renderSectorHeatmap(sectors) {
     var html = '<div class="sector-grid">';
@@ -585,6 +610,9 @@ function makeSpark(data, opts) {
 
     // 기준일 배지
     html += renderAsOfBadge(r);
+
+    // 시황 코멘트
+    html += renderCommentary(r);
 
     // 지수 요약
     html += '<div class="section-label">주요 지수</div>';
