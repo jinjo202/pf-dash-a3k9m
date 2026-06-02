@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>데일리 시장 동향</title>
+<script>window.CODE_VERSION = "2026-06-02a";</script>
+<script>
+  (function () {
+    try {
+      var u = new URL(window.location.href);
+      if (u.searchParams.get('cb')) return;
+      var docMs = new Date(document.lastModified).getTime();
+      fetch(window.location.pathname + '?probe=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
+        .then(function (r) {
+          var srv = r.headers.get('Last-Modified');
+          if (!srv) return;
+          var srvMs = new Date(srv).getTime();
+          if (isFinite(srvMs) && isFinite(docMs) && srvMs > docMs + 2000) {
+            u.searchParams.set('cb', Date.now());
+            window.location.replace(u.toString());
+          }
+        }).catch(function () {});
+    } catch (e) {}
+  })();
+</script>
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('pf_theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet" />
+<script>
+  (function () {
+    var v = Math.floor(Date.now() / 60000);
+    document.write('<sc'+'ript src="daily-data.js?v=' + v + '"><\/sc'+'ript>');
+  })();
+</script>
+<style>
+  :root {
+    --bg:#f6f7f9; --panel:#ffffff; --panel-soft:#fafbfc; --border:#e6e8eb;
+    --row-alt:#fafbfc; --row-hover:#eff6ff; --text:#0f172a; --text-soft:#334155;
+    --muted:#64748b; --muted-soft:#cbd5e1; --accent:#2563eb; --accent-hover:#1d4ed8;
+    --accent-soft:#eff6ff; --pos:#15803d; --neg:#b91c1c; --neu:#64748b;
+    --pos-soft:#dcfce7; --neg-soft:#fee2e2; --neu-soft:#f1f5f9;
+    --shadow-sm:0 1px 2px 0 rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px -2px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --bg:#0b1020; --panel:#141a2e; --panel-soft:#1a2138; --border:#2a324a;
+    --row-alt:#1a2138; --row-hover:#1e2942; --text:#e2e8f0; --text-soft:#cbd5e1;
+    --muted:#94a3b8; --muted-soft:#475569; --accent:#60a5fa; --accent-hover:#3b82f6;
+    --accent-soft:#1e3a8a55; --pos:#22c55e; --neg:#f87171; --neu:#94a3b8;
+    --pos-soft:#14331f; --neg-soft:#3a1414; --neu-soft:#1a2138;
+    --shadow-sm:0 1px 2px 0 rgba(0,0,0,.5);
+    --shadow-md:0 4px 12px -2px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { transition: background-color 200ms, color 200ms; }
+  html, body {
+    margin:0; padding:0; background:var(--bg); color:var(--text);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+
+  /* ── Header ── */
+  header {
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:20;
+  }
+  header h1 { font-size:18px; margin:0; font-weight:800; letter-spacing:-.02em; }
+  header .sub { font-size:12px; color:var(--muted); margin-top:2px; }
+  .header-actions { display:inline-flex; align-items:center; gap:10px; }
+  .theme-toggle {
+    display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+    background:var(--panel); color:var(--text); border:1px solid var(--border);
+    border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;
+    box-shadow:var(--shadow-sm); transition:all .15s; user-select:none;
+  }
+  .theme-toggle:hover { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  .nav-link {
+    font-size:12px; font-weight:600; color:var(--muted); text-decoration:none;
+    padding:7px 10px; border-radius:6px;
+  }
+  .nav-link:hover { background:var(--accent-soft); color:var(--accent); }
+
+  /* ── Layout ── */
+  main { max-width:1280px; margin:0 auto; padding:20px 24px 64px; }
+  .section-label {
+    font-size:11px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:10px;
+  }
+  .panel {
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    box-shadow:var(--shadow-sm); padding:18px 20px; margin-bottom:20px;
+  }
+  .panel-title {
+    font-size:15px; font-weight:700; letter-spacing:-.01em; margin:0 0 4px;
+  }
+  .panel-hint { font-size:12px; color:var(--muted); margin:0 0 14px; }
+
+  /* ── Region tabs ── */
+  .region-tabs {
+    display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px;
+  }
+  .rtab {
+    padding:7px 14px; border-radius:20px; font-size:13px; font-weight:600;
+    cursor:pointer; border:1px solid var(--border); background:var(--panel);
+    color:var(--muted); transition:all .15s; user-select:none;
+  }
+  .rtab:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+  .rtab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+  /* ── Index summary bar ── */
+  .idx-bar {
+    display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;
+  }
+  .idx-card {
+    flex:1 1 160px; min-width:140px; max-width:220px;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px; box-shadow:var(--shadow-sm);
+    display:flex; flex-direction:column; gap:3px;
+  }
+  .idx-card .iname { font-size:11px; color:var(--muted); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .idx-card .iprice { font-size:17px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+  .idx-card .ichg { font-size:12px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .idx-card .ispark { margin-top:4px; }
+  .pos { color:var(--pos); }
+  .neg { color:var(--neg); }
+  .neu { color:var(--neu); }
+
+  /* ── Sector heatmap ── */
+  .sector-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap:8px; margin-bottom:20px;
+  }
+  .sector-cell {
+    border-radius:8px; padding:10px 12px;
+    display:flex; flex-direction:column; gap:2px;
+    transition:transform .12s;
+  }
+  .sector-cell:hover { transform:translateY(-1px); }
+  .sector-cell .sname { font-size:11px; font-weight:700; color:inherit; opacity:.85; }
+  .sector-cell .spct { font-size:16px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .sector-cell .setf { font-size:10px; opacity:.6; margin-top:1px; }
+  .heat-big-pos   { background:var(--pos);  color:#fff; }
+  .heat-pos       { background:#16a34a22; color:var(--pos); border:1px solid #16a34a33; }
+  .heat-pos-light { background:#16a34a11; color:var(--pos); border:1px solid #16a34a22; }
+  .heat-neu       { background:var(--neu-soft); color:var(--neu); border:1px solid var(--border); }
+  .heat-neg-light { background:#dc262611; color:var(--neg); border:1px solid #dc262622; }
+  .heat-neg       { background:#dc262622; color:var(--neg); border:1px solid #dc262633; }
+  .heat-big-neg   { background:var(--neg);  color:#fff; }
+
+  /* ── Stock table ── */
+  .stock-table-wrap { overflow-x:auto; }
+  table.stock-table {
+    width:100%; border-collapse:collapse; font-size:13px;
+  }
+  table.stock-table th {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--muted); border-bottom:2px solid var(--border); padding:8px 10px;
+    text-align:right; cursor:pointer; user-select:none; white-space:nowrap;
+    transition:background .12s;
+  }
+  table.stock-table th.left { text-align:left; }
+  table.stock-table th:hover { background:var(--accent-soft); color:var(--accent); }
+  table.stock-table th.sorted { color:var(--accent); }
+  table.stock-table td {
+    padding:9px 10px; border-bottom:1px solid var(--border);
+    text-align:right; font-variant-numeric:tabular-nums; vertical-align:middle;
+  }
+  table.stock-table td.left { text-align:left; }
+  table.stock-table tbody tr:hover { background:var(--row-hover); }
+  .rank-badge {
+    display:inline-block; width:22px; height:22px; border-radius:50%;
+    background:var(--neu-soft); color:var(--muted); font-size:10px; font-weight:700;
+    text-align:center; line-height:22px;
+  }
+  .rank-badge.top3 { background:var(--accent-soft); color:var(--accent); }
+  .ticker-code { font-size:11px; color:var(--muted); font-weight:600; }
+  .sector-badge {
+    display:inline-block; padding:2px 7px; border-radius:10px; font-size:10px; font-weight:600;
+    background:var(--neu-soft); color:var(--muted); white-space:nowrap;
+  }
+  .chg-bar {
+    display:inline-block; height:3px; border-radius:2px; vertical-align:middle; margin-left:4px;
+    min-width:2px; max-width:60px;
+  }
+  .bar-pos { background:var(--pos); }
+  .bar-neg { background:var(--neg); }
+
+  /* ── Featured stocks ── */
+  .featured-grid {
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:16px;
+  }
+  .feat-card {
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow-sm);
+  }
+  .feat-card .fc-header {
+    display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;
+  }
+  .feat-card .fc-name { font-size:15px; font-weight:800; letter-spacing:-.01em; }
+  .feat-card .fc-ticker { font-size:11px; color:var(--muted); margin-top:2px; }
+  .feat-card .fc-badge {
+    font-size:10px; font-weight:700; padding:3px 8px; border-radius:10px;
+    white-space:nowrap;
+  }
+  .badge-pos { background:var(--pos-soft); color:var(--pos); }
+  .badge-neg { background:var(--neg-soft); color:var(--neg); }
+  .feat-card .fc-price { font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
+  .feat-card .fc-chg { font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .feat-card .fc-spark { margin:10px 0; }
+  .feat-card .news-list { margin-top:10px; display:flex; flex-direction:column; gap:8px; }
+  .news-item {
+    padding:9px 11px; background:var(--panel-soft); border-radius:8px;
+    border-left:3px solid var(--accent);
+  }
+  .news-item .ntitle {
+    font-size:12px; font-weight:600; line-height:1.4; color:var(--text);
+  }
+  .news-item a.ntitle { text-decoration:none; color:var(--text); }
+  .news-item a.ntitle:hover { color:var(--accent); }
+  .news-item .nmeta { font-size:11px; color:var(--muted); margin-top:3px; }
+  .no-news { font-size:12px; color:var(--muted); font-style:italic; padding:8px 0; }
+
+  /* ── Sparkline SVG ── */
+  .sparkline { display:block; width:100%; height:40px; }
+  .sparkline-sm { display:block; width:80px; height:24px; flex-shrink:0; }
+
+  /* ── Loading / empty ── */
+  .loading { text-align:center; color:var(--muted); padding:60px 0; font-size:15px; }
+  .empty-note { color:var(--muted); font-size:12px; font-style:italic; padding:20px 0; }
+
+  /* ── Two-col layout ── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+  @media (max-width:840px) { .two-col { grid-template-columns:1fr; } }
+
+  /* ── Summary overview ── */
+  .overview-grid {
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:12px;
+    margin-bottom:20px;
+  }
+  .ov-card {
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; box-shadow:var(--shadow-sm); cursor:pointer; transition:all .15s;
+  }
+  .ov-card:hover { border-color:var(--accent); transform:translateY(-1px); box-shadow:var(--shadow-md); }
+  .ov-card .ov-region { font-size:13px; font-weight:700; display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+  .ov-card .ov-main-idx { font-size:11px; color:var(--muted); margin-bottom:4px; }
+  .ov-card .ov-main-chg { font-size:20px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
+  .ov-card .ov-sub { font-size:11px; color:var(--muted); margin-top:4px; }
+
+  /* ── Responsive ── */
+  @media (max-width:600px) {
+    main { padding:12px 12px 48px; }
+    header { padding:12px 14px; }
+    .featured-grid { grid-template-columns:1fr; }
+    .idx-bar { gap:6px; }
+    .idx-card { flex:1 1 130px; min-width:120px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>📊 데일리 시장 동향</h1>
+    <div class="sub" id="subtitle">로딩 중…</div>
+  </div>
+  <div class="header-actions">
+    <a class="nav-link" href="portfolio.html">← 포트폴리오</a>
+    <a class="nav-link" href="macro.html">매크로</a>
+    <button class="theme-toggle" id="themeToggle"><span class="icon">🌙</span><span class="label">다크</span></button>
+  </div>
+</header>
+
+<main id="app">
+  <div class="loading">데이터를 불러오는 중입니다…</div>
+</main>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   유틸리티
+───────────────────────────────────────────────────────────── */
+function fmt(v, d) {
+  if (v == null) return '—';
+  return Number(v).toFixed(d != null ? d : 2);
+}
+function fmtPct(v) {
+  if (v == null) return '—';
+  var sign = v > 0 ? '+' : '';
+  return sign + fmt(v, 2) + '%';
+}
+function colorClass(v) {
+  if (v == null) return 'neu';
+  return v > 0 ? 'pos' : v < 0 ? 'neg' : 'neu';
+}
+function heatClass(v) {
+  if (v == null) return 'heat-neu';
+  if (v >= 2)   return 'heat-big-pos';
+  if (v >= 0.5) return 'heat-pos';
+  if (v > 0)    return 'heat-pos-light';
+  if (v === 0)  return 'heat-neu';
+  if (v > -0.5) return 'heat-neg-light';
+  if (v > -2)   return 'heat-neg';
+  return 'heat-big-neg';
+}
+function relTime(isoStr) {
+  if (!isoStr) return '';
+  try {
+    var d = new Date(isoStr);
+    var diff = (Date.now() - d.getTime()) / 1000;
+    if (diff < 3600)  return Math.floor(diff/60) + '분 전';
+    if (diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    return Math.floor(diff/86400) + '일 전';
+  } catch(e) { return ''; }
+}
+
+/* ── Sparkline SVG ── */
+function makeSpark(data, opts) {
+  var o = opts || {};
+  var w = o.w || 120, h = o.h || 40;
+  var cls = o.cls || 'sparkline';
+  if (!data || data.length < 2) return '<svg class="' + cls + '" viewBox="0 0 ' + w + ' ' + h + '"></svg>';
+  var vals = data.filter(function(v){ return v != null; });
+  if (vals.length < 2) return '<svg class="' + cls + '" viewBox="0 0 ' + w + ' ' + h + '"></svg>';
+  var mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
+  var rng = mx - mn || 1;
+  var pad = h * 0.1;
+  var pts = vals.map(function(v, i) {
+    var x = (i / (vals.length - 1)) * w;
+    var y = pad + (1 - (v - mn) / rng) * (h - pad * 2);
+    return x.toFixed(1) + ',' + y.toFixed(1);
+  }).join(' ');
+  var isPos = vals[vals.length-1] >= vals[0];
+  var stroke = isPos ? 'var(--pos)' : 'var(--neg)';
+  var lastX = ((vals.length-1) / (vals.length-1)) * w;
+  var lastY = pad + (1 - (vals[vals.length-1] - mn) / rng) * (h - pad * 2);
+  return '<svg class="' + cls + '" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' +
+    '<polyline points="' + pts + '" fill="none" stroke="' + stroke + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<circle cx="' + lastX.toFixed(1) + '" cy="' + lastY.toFixed(1) + '" r="2.5" fill="' + stroke + '"/>' +
+    '</svg>';
+}
+
+/* ─────────────────────────────────────────────────────────────
+   테마 토글
+───────────────────────────────────────────────────────────── */
+(function() {
+  var btn = document.getElementById('themeToggle');
+  function syncBtn() {
+    var t = document.documentElement.getAttribute('data-theme') || 'light';
+    btn.querySelector('.icon').textContent = t === 'dark' ? '☀️' : '🌙';
+    btn.querySelector('.label').textContent = t === 'dark' ? '라이트' : '다크';
+  }
+  syncBtn();
+  btn.addEventListener('click', function() {
+    var cur = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('pf_theme', next); } catch(e) {}
+    syncBtn();
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   메인 렌더링
+───────────────────────────────────────────────────────────── */
+(function() {
+  var D = window.DAILY;
+  if (!D) {
+    document.getElementById('app').innerHTML =
+      '<div class="loading">daily-data.js를 불러올 수 없습니다. 로컬에서 fetch_daily.py를 먼저 실행해 주세요.</div>';
+    return;
+  }
+
+  document.getElementById('subtitle').textContent =
+    D.as_of + ' 기준  •  생성: ' + (D.generated_utc || '').replace('T', ' ').replace('Z', ' UTC');
+
+  // 현재 선택 지역
+  var currentRegion = 'overview';
+
+  function getRegion(key) {
+    return (D.regions || []).find(function(r){ return r.key === key; });
+  }
+
+  /* ── 전체 개요 카드 ── */
+  function renderOverview() {
+    var html = '';
+
+    // 개요 카드 (5개 지역)
+    html += '<div class="overview-grid">';
+    (D.regions || []).forEach(function(r) {
+      var main = r.indices && r.indices[0];
+      var chgPct = main ? main.chgPct : null;
+      var cc = colorClass(chgPct);
+      html += '<div class="ov-card" onclick="switchRegion(\'' + r.key + '\')">' +
+        '<div class="ov-region">' + r.flag + ' ' + r.name + '</div>' +
+        '<div class="ov-main-idx">' + (main ? main.name : '—') + '</div>' +
+        '<div class="ov-main-chg ' + cc + '">' + fmtPct(chgPct) + '</div>' +
+        '<div class="ov-sub">' +
+          (r.indices || []).slice(1, 3).map(function(idx) {
+            return '<span class="' + colorClass(idx.chgPct) + '">' + idx.name + ' ' + fmtPct(idx.chgPct) + '</span>';
+          }).join('  ·  ') +
+        '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+
+    // 전체 섹터 히트맵 (US 기준 GICS)
+    var usR = getRegion('us');
+    if (usR && usR.sectors && usR.sectors.length) {
+      html += '<div class="panel">';
+      html += '<div class="panel-title">🗂 미국 GICS 섹터 (SPDR ETF 기준)</div>';
+      html += '<div class="panel-hint">S&P 500 섹터별 일간 등락. XLK·XLF·XLV 등 SPDR 섹터 ETF 종가 기준.</div>';
+      html += renderSectorHeatmap(usR.sectors);
+      html += '</div>';
+    }
+
+    // 지역별 특징주 요약
+    html += '<div class="panel-title" style="margin:4px 0 14px;font-size:15px;font-weight:700;">⚡ 오늘의 특징주</div>';
+    html += '<div class="featured-grid">';
+    (D.regions || []).forEach(function(r) {
+      var feat = r.featured && r.featured[0];
+      if (!feat) return;
+      html += renderFeatCard(feat, r.name + ' ' + r.flag);
+    });
+    html += '</div>';
+
+    return html;
+  }
+
+  /* ── 섹터 히트맵 ── */
+  function renderSectorHeatmap(sectors) {
+    var html = '<div class="sector-grid">';
+    sectors.forEach(function(s) {
+      var cls = heatClass(s.chgPct);
+      html += '<div class="sector-cell ' + cls + '">' +
+        '<div class="sname">' + s.name + '</div>' +
+        '<div class="spct">' + fmtPct(s.chgPct) + '</div>' +
+        (s.etf ? '<div class="setf">' + s.etf + '</div>' : '') +
+        '</div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  /* ── 지수 카드 바 ── */
+  function renderIndexBar(indices) {
+    var html = '<div class="idx-bar">';
+    indices.forEach(function(idx) {
+      var cc = colorClass(idx.chgPct);
+      var priceStr = idx.currency === '' ? fmt(idx.price, 2) : idx.price ? idx.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—';
+      html += '<div class="idx-card">' +
+        '<div class="iname">' + idx.name + '</div>' +
+        '<div class="iprice tnum">' + priceStr + (idx.currency ? ' <span style="font-size:10px;color:var(--muted)">' + idx.currency + '</span>' : '') + '</div>' +
+        '<div class="ichg ' + cc + '">' + fmtPct(idx.chgPct) + (idx.chg ? ' (' + (idx.chg>0?'+':'') + fmt(idx.chg,2) + ')' : '') + '</div>' +
+        '<div class="ispark">' + makeSpark(idx.spark, {w:120, h:28, cls:'sparkline-sm'}) + '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  /* ── 종목 테이블 ── */
+  function renderStockTable(stocks) {
+    if (!stocks || !stocks.length) return '<div class="empty-note">종목 데이터 없음</div>';
+    var maxAbs = Math.max.apply(null, stocks.map(function(s){ return s.chgPct ? Math.abs(s.chgPct) : 0; }));
+
+    var html = '<div class="stock-table-wrap"><table class="stock-table">' +
+      '<thead><tr>' +
+      '<th class="left" style="width:30px">#</th>' +
+      '<th class="left" style="min-width:140px">종목</th>' +
+      '<th class="left">섹터</th>' +
+      '<th>현재가</th>' +
+      '<th>등락</th>' +
+      '<th style="min-width:100px">등락률</th>' +
+      '</tr></thead><tbody>';
+
+    stocks.forEach(function(s, i) {
+      var cc = colorClass(s.chgPct);
+      var chgPctAbs = s.chgPct ? Math.abs(s.chgPct) : 0;
+      var barW = maxAbs > 0 ? Math.round((chgPctAbs / maxAbs) * 60) : 0;
+      var barCls = s.chgPct >= 0 ? 'bar-pos' : 'bar-neg';
+      var rankCls = i < 3 ? 'rank-badge top3' : 'rank-badge';
+      html += '<tr>' +
+        '<td class="left"><span class="' + rankCls + '">' + s.rank + '</span></td>' +
+        '<td class="left">' +
+          '<div style="font-weight:600">' + s.name + '</div>' +
+          '<div class="ticker-code">' + s.ticker + '</div>' +
+        '</td>' +
+        '<td class="left"><span class="sector-badge">' + s.sector + '</span></td>' +
+        '<td>' + (s.price ? s.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—') + '</td>' +
+        '<td class="' + cc + '">' + (s.chg != null ? (s.chg>0?'+':'') + fmt(s.chg,2) : '—') + '</td>' +
+        '<td class="' + cc + '" style="white-space:nowrap">' +
+          fmtPct(s.chgPct) +
+          '<span class="chg-bar ' + barCls + '" style="width:' + barW + 'px"></span>' +
+        '</td>' +
+        '</tr>';
+    });
+    html += '</tbody></table></div>';
+    return html;
+  }
+
+  /* ── 특징주 카드 ── */
+  function renderFeatCard(feat, regionLabel) {
+    var cc = colorClass(feat.chgPct);
+    var badgeCls = feat.chgPct >= 0 ? 'badge-pos' : 'badge-neg';
+    var html = '<div class="feat-card">' +
+      '<div class="fc-header">' +
+        '<div>' +
+          '<div class="fc-name">' + feat.name + '</div>' +
+          '<div class="fc-ticker">' + feat.ticker + (regionLabel ? ' · ' + regionLabel : '') + ' · ' + feat.sector + '</div>' +
+        '</div>' +
+        '<span class="fc-badge ' + badgeCls + '">' + fmtPct(feat.chgPct) + '</span>' +
+      '</div>' +
+      '<div class="fc-price ' + cc + '">' + (feat.price ? feat.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—') + '</div>' +
+      '<div class="fc-chg ' + cc + '">' + (feat.chg != null ? (feat.chg>0?'+':'') + fmt(feat.chg,2) : '—') + ' 전일 대비</div>' +
+      '<div class="fc-spark">' + makeSpark(feat.spark, {w:280, h:50, cls:'sparkline'}) + '</div>';
+
+    if (feat.news && feat.news.length) {
+      html += '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;">관련 뉴스</div>';
+      html += '<div class="news-list">';
+      feat.news.forEach(function(n) {
+        var t = relTime(n.time);
+        html += '<div class="news-item">';
+        if (n.link) {
+          html += '<a class="ntitle" href="' + n.link + '" target="_blank" rel="noopener">' + escHtml(n.title) + '</a>';
+        } else {
+          html += '<div class="ntitle">' + escHtml(n.title) + '</div>';
+        }
+        html += '<div class="nmeta">' + escHtml(n.publisher || '') + (t ? ' · ' + t : '') + '</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<div class="no-news">이 종목의 최신 뉴스를 불러오지 못했습니다.</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function escHtml(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── 지역별 뷰 ── */
+  function renderRegion(rkey) {
+    var r = getRegion(rkey);
+    if (!r) return '<div class="empty-note">데이터 없음</div>';
+    var html = '';
+
+    // 지수 요약
+    html += '<div class="section-label">주요 지수</div>';
+    html += renderIndexBar(r.indices || []);
+
+    // GICS 섹터
+    if (r.sectors && r.sectors.length) {
+      html += '<div class="panel">';
+      html += '<div class="panel-title">🗂 GICS 섹터 움직임</div>';
+      if (rkey === 'us') {
+        html += '<div class="panel-hint">SPDR 섹터 ETF 종가 기준 일간 등락</div>';
+      } else {
+        html += '<div class="panel-hint">유니버스 구성 종목의 GICS 섹터 평균 등락</div>';
+      }
+      html += renderSectorHeatmap(r.sectors);
+      html += '</div>';
+    }
+
+    // 시총 상위 종목 테이블 + 특징주 — two-col on wide screens
+    html += '<div class="two-col">';
+
+    // 시총 상위
+    html += '<div class="panel" style="margin:0">';
+    html += '<div class="panel-title">📋 시총 상위 종목 현황</div>';
+    html += '<div class="panel-hint">대표 대형주 일간 등락 · 시가총액 순 정렬</div>';
+
+    // Sort controls
+    html += '<div id="sortMeta_' + rkey + '" style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">';
+    ['chgPct-desc','chgPct-asc','rank-asc'].forEach(function(s) {
+      var label = s === 'chgPct-desc' ? '등락↑' : s === 'chgPct-asc' ? '등락↓' : '시총순';
+      var active = s === 'rank-asc' ? ' style="background:var(--accent);color:#fff;border-color:var(--accent)"' : '';
+      html += '<button onclick="sortStocks(\'' + rkey + '\',\'' + s + '\')" ' +
+        'id="sortBtn_' + rkey + '_' + s + '" ' +
+        'style="padding:4px 10px;border-radius:14px;border:1px solid var(--border);background:var(--panel);' +
+        'color:var(--muted);font-size:11px;font-weight:600;cursor:pointer"' + active + '>' + label + '</button>';
+    });
+    html += '</div>';
+
+    html += '<div id="stockTableWrap_' + rkey + '">' + renderStockTable(r.stocks || []) + '</div>';
+    html += '</div>';
+
+    // 특징주
+    html += '<div>';
+    html += '<div class="section-label" style="margin-bottom:10px">⚡ 오늘의 특징주</div>';
+    if (r.featured && r.featured.length) {
+      r.featured.forEach(function(feat) {
+        html += renderFeatCard(feat, null);
+        html += '<div style="height:12px"></div>';
+      });
+    } else {
+      html += '<div class="empty-note">데이터 없음</div>';
+    }
+    html += '</div>';
+
+    html += '</div>'; // .two-col
+
+    return html;
+  }
+
+  /* ── 탭 전환 ── */
+  window.switchRegion = function(key) {
+    currentRegion = key;
+    // 탭 active 갱신
+    document.querySelectorAll('.rtab').forEach(function(el) {
+      el.classList.toggle('active', el.dataset.region === key);
+    });
+    document.getElementById('region-content').innerHTML =
+      key === 'overview' ? renderOverview() : renderRegion(key);
+  };
+
+  window.sortStocks = function(rkey, mode) {
+    var r = getRegion(rkey);
+    if (!r || !r.stocks) return;
+    var stocks = r.stocks.slice();
+    if (mode === 'chgPct-desc') stocks.sort(function(a,b){ return (b.chgPct||0) - (a.chgPct||0); });
+    else if (mode === 'chgPct-asc') stocks.sort(function(a,b){ return (a.chgPct||0) - (b.chgPct||0); });
+    else stocks.sort(function(a,b){ return a.rank - b.rank; });
+    document.getElementById('stockTableWrap_' + rkey).innerHTML = renderStockTable(stocks);
+    // 버튼 active
+    ['chgPct-desc','chgPct-asc','rank-asc'].forEach(function(s) {
+      var btn = document.getElementById('sortBtn_' + rkey + '_' + s);
+      if (!btn) return;
+      if (s === mode) {
+        btn.style.background='var(--accent)'; btn.style.color='#fff'; btn.style.borderColor='var(--accent)';
+      } else {
+        btn.style.background='var(--panel)'; btn.style.color='var(--muted)'; btn.style.borderColor='var(--border)';
+      }
+    });
+  };
+
+  /* ── 앱 마운트 ── */
+  var regions = D.regions || [];
+  var app = document.getElementById('app');
+
+  // 탭 바
+  var tabHtml = '<div class="region-tabs">';
+  tabHtml += '<button class="rtab active" data-region="overview" onclick="switchRegion(\'overview\')">🌐 전체 개요</button>';
+  regions.forEach(function(r) {
+    tabHtml += '<button class="rtab" data-region="' + r.key + '" onclick="switchRegion(\'' + r.key + '\')">' +
+      r.flag + ' ' + r.name + '</button>';
+  });
+  tabHtml += '</div>';
+  tabHtml += '<div id="region-content"></div>';
+
+  app.innerHTML = tabHtml;
+  document.getElementById('region-content').innerHTML = renderOverview();
+})();
+</script>
+</body>
+</html>
