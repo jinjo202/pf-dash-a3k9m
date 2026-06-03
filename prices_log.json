@@ -1,5 +1,5 @@
 {
-  "as_of_date": "2026-06-02",
+  "as_of_date": "2026-06-03",
   "prices": {
     "삼성 ESG 착한 책임투자": 141575.0,
     "마이다스 책임투자": 141575.0,
@@ -10,23 +10,23 @@
     "KoAct 바이오헬스케어액티브": 17820.0,
     "Hanaro 원자력 iSelect": 71070.0,
     "Plus K-방산 ETF": 63510.0,
-    "KODEX S&P500(H)": 759.549988,
+    "KODEX S&P500(H)": 759.570007,
     "State Street Tech ETF (XLK)": 198.210007,
-    "SPDR Communication ETF (XLC)": 113.580002,
-    "SS Industrial Select SPDR ETF (XLI)": 174.169998,
-    "SS Materials Select SPDR ETF (XLB)": 51.509998,
-    "T.Rowe Capital Appreciation ETF (TCAF)": 40.895,
+    "SPDR Communication ETF (XLC)": 113.57,
+    "SS Industrial Select SPDR ETF (XLI)": 174.190002,
+    "SS Materials Select SPDR ETF (XLB)": 51.52,
+    "T.Rowe Capital Appreciation ETF (TCAF)": 40.900002,
     "Fidelity Fundamental Small-Mid Cap ETF (FFSM)": 36.389999,
     "KoAct 글로벌AI&로봇액티브 ETF": 38705.0,
     "Invesco NASDAQ-100 ETF (QQQM)": 307.230011,
-    "Xtrackers DAX ETF (XDAX)": 43.560001,
-    "Fidelity European Dividend": 88.973,
-    "iShares FTSE MIB ETF (CSMIB)": 250.800003,
-    "Threadneedle European Select": 88.973,
-    "Dimensional International Value (DFIV)": 55.938599,
-    "Dimensional International (DFAI)": 41.834999,
+    "Xtrackers DAX ETF (XDAX)": 43.57,
+    "Fidelity European Dividend": 88.959999,
+    "iShares FTSE MIB ETF (CSMIB)": 250.100006,
+    "Threadneedle European Select": 88.959999,
+    "Dimensional International Value (DFIV)": 55.939999,
+    "Dimensional International (DFAI)": 41.84,
     "T.Rowe Price International Equity (TOUS)": 37.970001,
-    "iShares MSCI Emerging (EEM)": 70.82,
-    "iShares Core Emerging ETF (IEMG)": 86.0
+    "iShares MSCI Emerging (EEM)": 70.800003,
+    "iShares Core Emerging ETF (IEMG)": 85.989998
   }
 }
