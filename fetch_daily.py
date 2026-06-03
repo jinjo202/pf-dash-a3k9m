@@ -10,6 +10,9 @@ daily-data.js (window.DAILY = {...}) 로 저장한다.
 import json
 import sys
 import io
+import re
+import urllib.request
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -402,6 +405,112 @@ def fetch_news(ticker: str, max_items: int = 4) -> list:
         return []
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# RSS 뉴스 수집 (investing.com 시장 뉴스 + Yahoo Finance 종목별 헤드라인)
+# yfinance.news 보다 관련성·설명(snippet)이 풍부해 시황 코멘트를 보강한다.
+# 각 소스를 try/except 로 감싸 cron 안정성(차단·타임아웃)을 확보한다.
+# ─────────────────────────────────────────────────────────────────────────────
+RSS_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/121.0 Safari/537.36")
+
+_TAG_RE = re.compile(r"<[^>]+>")
+_WS_RE = re.compile(r"\s+")
+
+
+def _clean_text(s: str, limit: int = 220) -> str:
+    """HTML 태그 제거 + 공백 정리 + 길이 제한."""
+    if not s:
+        return ""
+    s = _TAG_RE.sub("", s)
+    s = _WS_RE.sub(" ", s).strip()
+    if len(s) > limit:
+        s = s[:limit].rstrip() + "…"
+    return s
+
+
+def _http_get(url: str, timeout: int = 12) -> bytes:
+    req = urllib.request.Request(url, headers={
+        "User-Agent": RSS_UA,
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+    })
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read()
+
+
+def _parse_rss(xml_bytes: bytes, max_items: int) -> list:
+    """RSS 2.0 → [{title, desc, link, time, publisher}]"""
+    items = []
+    try:
+        root = ET.fromstring(xml_bytes)
+    except Exception:
+        return items
+    for item in root.iter("item"):
+        title = (item.findtext("title") or "").strip()
+        if not title:
+            continue
+        link = (item.findtext("link") or "").strip()
+        desc = _clean_text(item.findtext("description") or "")
+        pub = (item.findtext("pubDate") or "").strip()
+        src_el = item.find("source")
+        src = src_el.text.strip() if (src_el is not None and src_el.text) else ""
+        items.append({"title": title, "desc": desc, "link": link,
+                      "time": pub, "publisher": src})
+        if len(items) >= max_items:
+            break
+    return items
+
+
+def fetch_rss(url: str, max_items: int = 6) -> list:
+    try:
+        return _parse_rss(_http_get(url), max_items)
+    except Exception as e:
+        print(f"  [warn] RSS 실패 {url}: {e}", file=sys.stderr)
+        return []
+
+
+def fetch_yahoo_ticker_news(ticker: str, max_items: int = 4) -> list:
+    """Yahoo Finance 종목별 RSS — 헤드라인 + 설명 snippet 포함."""
+    url = (f"https://feeds.finance.yahoo.com/rss/2.0/headline?"
+           f"s={ticker}&region=US&lang=en-US")
+    items = fetch_rss(url, max_items)
+    for it in items:
+        if not it.get("publisher"):
+            it["publisher"] = "Yahoo Finance"
+    return items
+
+
+# investing.com 시장/매크로 뉴스 피드 (글로벌 주요 이벤트)
+INVESTING_FEEDS = [
+    "https://www.investing.com/rss/news_25.rss",   # 주요 시장 뉴스
+    "https://www.investing.com/rss/news_301.rss",  # 시장·경제
+]
+
+
+def fetch_investing_news(max_items: int = 5) -> list:
+    """investing.com 글로벌 시장 뉴스 → 시장을 움직인 주요 이벤트."""
+    out, seen = [], set()
+    for url in INVESTING_FEEDS:
+        for it in fetch_rss(url, max_items + 2):
+            key = it["title"].lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            if not it.get("publisher"):
+                it["publisher"] = "Investing.com"
+            out.append(it)
+            if len(out) >= max_items:
+                return out
+    return out
+
+
+def fetch_featured_news(ticker: str, max_items: int = 4) -> list:
+    """특징주 뉴스: Yahoo 종목 RSS 우선, 비면 yfinance.news 로 폴백."""
+    news = fetch_yahoo_ticker_news(ticker, max_items=max_items)
+    if news:
+        return news
+    return fetch_news(ticker, max_items=max_items)
+
+
 def load_macro_snapshot():
     """benchmarks.js에서 VIX·금리·유가·환율 등 매크로 스냅샷을 읽어온다."""
     try:
@@ -501,8 +610,10 @@ def build_commentary(rmeta, indices_out, sectors_out, featured_out,
     feat_sorted = sorted(feat_valid, key=lambda f: abs(f["chgPct"]), reverse=True)[:5]
     for f in feat_sorted:
         news = f.get("news") or []
+        detail = ""
         if news:
             reason = news[0].get("title", "")
+            detail = news[0].get("desc", "") or ""
             source = news[0].get("publisher", "")
             link   = news[0].get("link", "")
         else:
@@ -517,6 +628,7 @@ def build_commentary(rmeta, indices_out, sectors_out, featured_out,
             "chgPct": f["chgPct"],
             "dir":    "up" if f["chgPct"] >= 0 else "down",
             "reason": reason,
+            "detail": detail,
             "source": source,
             "link":   link,
         })
@@ -551,6 +663,10 @@ def build():
     # 매크로 스냅샷 (benchmarks.js) → 글로벌 매크로 코멘트
     macro = load_macro_snapshot()
     macro_line = build_macro_line(macro)
+
+    # 글로벌 시장 뉴스 (investing.com) — 모든 지역의 "주요 이벤트"에 공통 반영
+    global_events = fetch_investing_news(max_items=5)
+    print(f"[fetch_daily] investing.com 글로벌 뉴스 {len(global_events)}건")
 
     regions_out = []
 
@@ -653,7 +769,7 @@ def build():
 
         featured_out = []
         for item in featured_raw:
-            news = fetch_news(item["ticker"])
+            news = fetch_featured_news(item["ticker"])
             spark = price_map.get(item["ticker"], {}).get("spark", [])
             featured_out.append({
                 **item,
@@ -661,15 +777,28 @@ def build():
                 "news":  news,
             })
 
-        # 주요 이벤트: 대표 지수 레벨 뉴스 (시장 전반을 움직인 헤드라인)
+        # 주요 이벤트: 지역 지수 레벨 뉴스 + investing.com 글로벌 시장 뉴스
         events = []
+        seen_titles = set()
+
+        def _add_event(title, source, link, desc="", scope="region"):
+            t = (title or "").strip()
+            if not t or t.lower() in seen_titles:
+                return
+            seen_titles.add(t.lower())
+            events.append({"title": t, "source": source or "",
+                           "link": link or "", "desc": desc or "", "scope": scope})
+
+        # (a) 지역 대표 지수 관련 뉴스 (지역 고유 헤드라인 우선 노출)
         if REGION_INDICES[rkey]:
             lead_idx_ticker = REGION_INDICES[rkey][0][0]
-            for n in fetch_news(lead_idx_ticker, max_items=3):
-                t = n.get("title", "").strip()
-                if t:
-                    src = n.get("publisher", "")
-                    events.append({"title": t, "source": src, "link": n.get("link", "")})
+            for n in fetch_news(lead_idx_ticker, max_items=2):
+                _add_event(n.get("title"), n.get("publisher"), n.get("link"),
+                           n.get("desc", ""), scope="region")
+        # (b) investing.com 글로벌 시장 뉴스 (매크로·이벤트 컨텍스트)
+        for n in global_events[:3]:
+            _add_event(n.get("title"), n.get("publisher"), n.get("link"),
+                       n.get("desc", ""), scope="global")
 
         commentary = build_commentary(rmeta, indices_out, sectors_out, featured_out,
                                       macro_line=macro_line, events=events)

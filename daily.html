@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-02d";</script>
+<script>window.CODE_VERSION = "2026-06-03a";</script>
 <script>
   (function () {
     try {
@@ -147,9 +147,14 @@
     padding-top:12px; border-top:1px dashed var(--border);
   }
   .cm-event-list { margin:0; padding-left:18px; }
-  .cm-event-list li { font-size:13px; line-height:1.6; margin-bottom:5px; color:var(--text); }
+  .cm-event-list li { font-size:13px; line-height:1.6; margin-bottom:8px; color:var(--text); }
   .cm-event-list a { color:var(--text); text-decoration:none; }
   .cm-event-list a:hover { color:var(--accent); text-decoration:underline; }
+  .cm-event-desc { font-size:12px; line-height:1.55; color:var(--muted); margin-top:2px; }
+  .cm-scope { display:inline-block; font-size:10px; font-weight:700; padding:1px 6px; border-radius:9px; vertical-align:middle; }
+  .cm-scope-g { background:rgba(79,140,255,.16); color:#5b8cff; }
+  .cm-scope-r { background:rgba(120,120,120,.18); color:var(--muted); }
+  .cm-mover-detail { font-size:12px; line-height:1.55; color:var(--muted); margin-top:3px; }
   .cm-src { font-size:11px; color:var(--muted); font-weight:600; }
   .cm-mover-list { display:flex; flex-direction:column; gap:10px; }
   .cm-mover {
@@ -586,8 +591,13 @@ function makeSpark(data, opts) {
       html += '<ul class="cm-event-list">';
       c.events.forEach(function(e) {
         var src = e.source ? ' <span class="cm-src">· ' + escHtml(e.source) + '</span>' : '';
+        var badge = (e.scope === 'global')
+          ? '<span class="cm-scope cm-scope-g">글로벌</span> '
+          : '<span class="cm-scope cm-scope-r">지역</span> ';
         var title = escHtml(e.title);
-        html += '<li>' + (e.link ? '<a href="' + e.link + '" target="_blank" rel="noopener">' + title + '</a>' : title) + src + '</li>';
+        var head = e.link ? '<a href="' + e.link + '" target="_blank" rel="noopener">' + title + '</a>' : title;
+        var desc = e.desc ? '<div class="cm-event-desc">' + escHtml(e.desc) + '</div>' : '';
+        html += '<li>' + badge + head + src + desc + '</li>';
       });
       html += '</ul>';
     }
@@ -602,6 +612,7 @@ function makeSpark(data, opts) {
         var src = m.source ? ' <span class="cm-src">· ' + escHtml(m.source) + '</span>' : '';
         var reason = escHtml(m.reason);
         if (m.link) reason = '<a href="' + m.link + '" target="_blank" rel="noopener">' + reason + '</a>';
+        var detail = m.detail ? '<div class="cm-mover-detail">' + escHtml(m.detail) + '</div>' : '';
         html += '<div class="cm-mover">' +
           '<div class="cm-mover-head">' +
             '<span class="cm-mover-name">' + escHtml(m.name) + '</span>' +
@@ -609,6 +620,7 @@ function makeSpark(data, opts) {
             '<span class="gf-chip ' + chipCls + '">' + arrow + fmtPct(m.chgPct) + '</span>' +
           '</div>' +
           '<div class="cm-mover-reason">' + reason + src + '</div>' +
+          detail +
         '</div>';
       });
       html += '</div>';
