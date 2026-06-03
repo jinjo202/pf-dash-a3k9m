@@ -160,6 +160,35 @@
     padding:4px 8px; cursor:pointer; font-variant-numeric:tabular-nums;
   }
   .bf-date-sel:hover { border-color:var(--accent); }
+  /* 날짜별 시황 — 캘린더 picker + 이전/다음 화살표 */
+  .bf-date-nav {
+    margin-left:auto; display:inline-flex; align-items:center; gap:4px;
+    background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:2px;
+  }
+  .bf-date-arrow {
+    font-size:11px; font-weight:700; color:var(--text-soft);
+    background:transparent; border:none; border-radius:6px;
+    width:24px; height:24px; padding:0; cursor:pointer; line-height:1;
+    display:inline-flex; align-items:center; justify-content:center;
+    transition:background .12s ease, color .12s ease;
+  }
+  .bf-date-arrow:hover:not(:disabled) { background:var(--bg); color:var(--text); }
+  .bf-date-arrow:disabled { opacity:0.25; cursor:not-allowed; }
+  .bf-date-picker {
+    font-size:12px; font-weight:600; color:var(--text);
+    background:transparent; border:none; border-radius:6px;
+    padding:3px 6px; cursor:pointer; font-variant-numeric:tabular-nums;
+    color-scheme: dark;
+    min-width:120px;
+  }
+  .bf-date-picker:hover { background:var(--bg); }
+  .bf-date-picker:focus { outline:none; background:var(--bg); }
+  .bf-date-nav + .bf-word-btn { margin-left:8px; }
+  .bf-date-count {
+    font-size:10.5px; color:var(--muted); font-weight:600;
+    padding-left:6px; padding-right:2px; font-variant-numeric:tabular-nums;
+  }
   .bf-word-btn {
     font-size:12px; font-weight:700; color:#fff; background:var(--accent);
     border:1px solid var(--accent); border-radius:7px; padding:4px 10px; cursor:pointer;
@@ -662,20 +691,38 @@ function makeSpark(data, opts) {
     if (!sel) sel = list[0];
     feed.selected = sel.as_of;
 
+    // 사용 가능 날짜 셋 (Set 으로 빠른 lookup)
+    var availSet = {};
+    list.forEach(function(b) { if (b.as_of) availSet[b.as_of] = true; });
+    var idx = -1;
+    for (var ii = 0; ii < list.length; ii++) { if (list[ii].as_of === sel.as_of) { idx = ii; break; } }
+    // list 는 newest-first 정렬. 이전(과거) = idx+1, 다음(최신) = idx-1
+    var prevAvail = (idx >= 0 && idx + 1 < list.length) ? list[idx + 1].as_of : '';
+    var nextAvail = (idx > 0) ? list[idx - 1].as_of : '';
+    var minDate = list[list.length - 1].as_of || '';
+    var maxDate = list[0].as_of || '';
+
     var html = '<div class="briefing-box" id="' + feed.boxId + '">';
     html += '<div class="bf-head">' +
       '<span class="bf-badge">' + feed.badge + '</span>' +
       '<span class="bf-title">' + escHtml(sel.title || feed.defaultTitle) + '</span>';
+    // 날짜별 시황: 캘린더 picker + 이전/다음 화살표 (1건뿐이어도 picker 노출, 화살표만 disabled)
+    html += '<div class="bf-date-nav">';
+    html += '<button type="button" class="bf-date-arrow" title="이전 브리핑"' +
+      (prevAvail ? ' onclick="' + feed.selectFn + '(\'' + prevAvail + '\')"' : ' disabled') +
+      '>◀</button>';
+    html += '<input type="date" class="bf-date-picker"' +
+      ' min="' + minDate + '" max="' + maxDate + '"' +
+      ' value="' + sel.as_of + '"' +
+      ' onchange="' + feed.selectFn + '(this.value)"' +
+      ' title="날짜를 클릭해 해당일 시황 보기">';
+    html += '<button type="button" class="bf-date-arrow" title="다음 브리핑"' +
+      (nextAvail ? ' onclick="' + feed.selectFn + '(\'' + nextAvail + '\')"' : ' disabled') +
+      '>▶</button>';
     if (list.length > 1) {
-      html += '<select class="bf-date-sel" onchange="' + feed.selectFn + '(this.value)">';
-      list.forEach(function(b) {
-        html += '<option value="' + b.as_of + '"' + (b.as_of === sel.as_of ? ' selected' : '') + '>' +
-          b.as_of + '</option>';
-      });
-      html += '</select>';
-    } else {
-      html += (sel.as_of ? '<span class="bf-asof">기준일 ' + sel.as_of + '</span>' : '');
+      html += '<span class="bf-date-count">' + (idx + 1) + '/' + list.length + '</span>';
     }
+    html += '</div>';
     html += '<button type="button" class="bf-word-btn" onclick="exportBriefingWord(\'' + feed.key + '\')">' +
       '📄 ' + feed.wordLabel + ' Word</button>';
     html += '</div>';
@@ -714,7 +761,24 @@ function makeSpark(data, opts) {
 
   function makeBriefingSelector(feed) {
     return function(date) {
-      feed.selected = date;
+      if (!date) return;
+      var list = getBriefings(feed);
+      if (!list.length) return;
+      // 정확히 일치하는 날짜가 있으면 그대로. 없으면 가장 가까운 날짜로 snap.
+      var exact = null;
+      for (var i = 0; i < list.length; i++) { if (list[i].as_of === date) { exact = list[i]; break; } }
+      if (exact) {
+        feed.selected = date;
+      } else {
+        var tgtMs = Date.parse(date);
+        var closest = list[0].as_of;
+        var minDiff = Math.abs(Date.parse(closest) - tgtMs);
+        for (var j = 1; j < list.length; j++) {
+          var diff = Math.abs(Date.parse(list[j].as_of) - tgtMs);
+          if (diff < minDiff) { minDiff = diff; closest = list[j].as_of; }
+        }
+        feed.selected = closest;
+      }
       var box = document.getElementById(feed.boxId);
       if (box) box.outerHTML = renderBriefingFeed(feed);
     };
