@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-03g";</script>
+<script>window.CODE_VERSION = "2026-06-03h";</script>
 <script>
   (function () {
     try {
@@ -295,6 +295,8 @@
   .sector-cell:hover { transform:translateY(-1px); }
   .sector-cell .sname { font-size:11px; font-weight:700; color:inherit; opacity:.85; }
   .sector-cell .spct { font-size:16px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .sector-cell .sperf { font-size:9.5px; font-weight:600; opacity:.72; margin-top:2px;
+    font-variant-numeric:tabular-nums; letter-spacing:-.01em; white-space:nowrap; }
   .sector-cell .setf { font-size:10px; opacity:.6; margin-top:1px; }
   .heat-big-pos   { background:var(--pos);  color:#fff; }
   .heat-pos       { background:#16a34a22; color:var(--pos); border:1px solid #16a34a33; }
@@ -882,7 +884,7 @@ function makeSpark(data, opts) {
       html += '<div class="panel">';
       html += '<div class="panel-title">🗂 미국 GICS 섹터 (SPDR ETF 기준)' +
         (usR.as_of ? ' <span style="font-size:11px;font-weight:600;color:var(--muted)">· ' + usR.as_of + ' 종가</span>' : '') + '</div>';
-      html += '<div class="panel-hint">S&P 500 11개 GICS 섹터 일간 등락. XLK·XLF·XLV 등 SPDR 섹터 ETF 종가 기준.</div>';
+      html += '<div class="panel-hint">S&P 500 11개 GICS 섹터 일간·월초(MTD)·연초(YTD) 등락. XLK·XLF·XLV 등 SPDR 섹터 ETF 종가 기준.</div>';
       html += renderSectorHeatmap(usR.sectors);
       html += '</div>';
     }
@@ -978,9 +980,13 @@ function makeSpark(data, opts) {
     var html = '<div class="sector-grid">';
     sectors.forEach(function(s) {
       var cls = heatClass(s.chgPct);
+      var perfBits = [];
+      if (s.mtdPct != null) perfBits.push('MTD ' + (s.mtdPct>0?'+':'') + fmt(s.mtdPct,1) + '%');
+      if (s.ytdPct != null) perfBits.push('YTD ' + (s.ytdPct>0?'+':'') + fmt(s.ytdPct,1) + '%');
       html += '<div class="sector-cell ' + cls + '">' +
         '<div class="sname">' + s.name + '</div>' +
         '<div class="spct">' + fmtPct(s.chgPct) + '</div>' +
+        (perfBits.length ? '<div class="sperf">' + perfBits.join(' · ') + '</div>' : '') +
         (s.etf ? '<div class="setf">' + s.etf + '</div>' : '') +
         '</div>';
     });
@@ -997,6 +1003,18 @@ function makeSpark(data, opts) {
     if (v == null || v === 0) return '';
     return v > 0 ? '▲ ' : '▼ ';
   }
+  // MTD·YTD 수익률 한 줄 (지수·섹터 공용). 값 없으면 해당 항목 생략.
+  function perfPct(v) {
+    return '<span class="' + (v >= 0 ? 'ytd-pos' : 'ytd-neg') + '">' +
+      (v > 0 ? '+' : '') + fmt(v, 1) + '%</span>';
+  }
+  function perfRow(mtd, ytd) {
+    var bits = [];
+    if (mtd != null) bits.push('월초 ' + perfPct(mtd));
+    if (ytd != null) bits.push('연초 ' + perfPct(ytd));
+    if (!bits.length) return '';
+    return '<div class="iytd">' + bits.join(' · ') + '</div>';
+  }
   function renderIndexBar(indices) {
     var html = '<div class="idx-bar">';
     indices.forEach(function(idx) {
@@ -1007,7 +1025,7 @@ function makeSpark(data, opts) {
         '<div class="ispark">' + makeSpark(idx.spark, {w:160, h:34, cls:'spark-wide', area:true}) + '</div>' +
         '<div class="ichg-chip ' + chipClass(idx.chgPct) + '">' + arrowFor(idx.chgPct) + fmtPct(idx.chgPct) +
           (idx.chg ? ' (' + (idx.chg>0?'+':'') + fmt(idx.chg,2) + ')' : '') + '</div>' +
-        (idx.ytdPct != null ? '<div class="iytd">연초대비 <span class="' + (idx.ytdPct>=0?'ytd-pos':'ytd-neg') + '">' + (idx.ytdPct>0?'+':'') + fmt(idx.ytdPct,1) + '%</span></div>' : '') +
+        perfRow(idx.mtdPct, idx.ytdPct) +
         '</div>';
     });
     html += '</div>';
@@ -1126,9 +1144,9 @@ function makeSpark(data, opts) {
       html += '<div class="panel" style="margin:0">';
       html += '<div class="panel-title">🗂 GICS 섹터 움직임</div>';
       if (rkey === 'us') {
-        html += '<div class="panel-hint">SPDR 섹터 ETF 종가 기준 일간 등락</div>';
+        html += '<div class="panel-hint">SPDR 섹터 ETF 종가 기준 일간·월초(MTD)·연초(YTD) 등락</div>';
       } else {
-        html += '<div class="panel-hint">유니버스 구성 종목의 GICS 섹터 평균 등락</div>';
+        html += '<div class="panel-hint">유니버스 구성 종목의 GICS 섹터 평균 일간·월초(MTD)·연초(YTD) 등락</div>';
       }
       html += renderSectorHeatmap(r.sectors);
       html += '</div>';

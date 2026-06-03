@@ -375,9 +375,11 @@ def batch_daily(tickers: list[str], now_utc: datetime) -> dict:
     return result
 
 
-def fetch_ytd(tickers: list, now_utc: datetime) -> dict:
-    """티커별 연초대비(YTD) 수익률(%) — 전년 마지막 종가 기준.
-    indices_out 등에 ytdPct 로 붙인다. 데이터 부족 시 해당 티커 생략."""
+def fetch_period_returns(tickers: list, now_utc: datetime) -> dict:
+    """티커별 연초대비(YTD)·월초대비(MTD) 수익률(%) 동시 산출.
+    기준일(마지막 확정 종가)의 연·월을 기준으로, 직전 연도/직전 월의 마지막
+    종가 대비 변동률을 계산한다. 반환: {ticker: {"ytd": x, "mtd": y}}.
+    데이터 부족 시 해당 티커/항목은 생략(None)."""
     out = {}
     if not tickers:
         return out
@@ -389,9 +391,8 @@ def fetch_ytd(tickers: list, now_utc: datetime) -> dict:
         else:
             close_all = raw["Close"]
     except Exception as e:
-        print(f"  [warn] YTD 다운로드 실패: {e}", file=sys.stderr)
+        print(f"  [warn] 기간수익률 다운로드 실패: {e}", file=sys.stderr)
         return out
-    year = now_utc.year
     for t in tickers:
         try:
             if t not in close_all.columns:
@@ -399,11 +400,7 @@ def fetch_ytd(tickers: list, now_utc: datetime) -> dict:
             close = close_all[t].dropna()
             if close.empty:
                 continue
-            # 전년도 마지막 종가를 기준(baseline)으로 — 없으면 올해 첫 종가
-            prev_year_vals = [float(v) for d, v in zip(close.index, close.values)
-                              if d.year < year]
-            base = prev_year_vals[-1] if prev_year_vals else float(close.iloc[0])
-            # 현재 = 마지막 확정 종가
+            # 현재 = 마지막 확정 종가 (장중 진행봉 제외)
             cur_i = None
             for i in range(len(close) - 1, -1, -1):
                 if is_settled(close.index[i].date(), t, now_utc):
@@ -411,9 +408,24 @@ def fetch_ytd(tickers: list, now_utc: datetime) -> dict:
                     break
             if cur_i is None:
                 continue
-            out[t] = pct_chg(float(close.iloc[cur_i]), base)
+            cur = float(close.iloc[cur_i])
+            cur_date = close.index[cur_i].date()
+            dates = [d.date() if hasattr(d, "date") else d for d in close.index]
+            vals = [float(v) for v in close.values]
+            # YTD 기준: 직전 연도 마지막 종가 (없으면 올해 첫 종가)
+            ytd_prev = [vals[i] for i in range(len(dates))
+                        if dates[i].year < cur_date.year]
+            ytd_base = ytd_prev[-1] if ytd_prev else vals[0]
+            # MTD 기준: 직전 월 마지막 종가 (없으면 이번 달 첫 종가)
+            mtd_prev = [vals[i] for i in range(len(dates))
+                        if (dates[i].year, dates[i].month) < (cur_date.year, cur_date.month)]
+            mtd_base = mtd_prev[-1] if mtd_prev else vals[0]
+            out[t] = {
+                "ytd": pct_chg(cur, ytd_base),
+                "mtd": pct_chg(cur, mtd_base),
+            }
         except Exception as e:
-            print(f"  [warn] {t} YTD 실패: {e}", file=sys.stderr)
+            print(f"  [warn] {t} 기간수익률 실패: {e}", file=sys.stderr)
     return out
 
 
@@ -702,9 +714,9 @@ def build():
     price_map = batch_daily(all_tickers, now_utc)
     print(f"[fetch_daily] 수신: {len(price_map)}개")
 
-    # 지수 연초대비(YTD) 수익률 (별도 1년치 다운로드)
-    ytd_map = fetch_ytd(all_index_tickers, now_utc)
-    print(f"[fetch_daily] 지수 YTD {len(ytd_map)}개 계산")
+    # 연초대비(YTD)·월초대비(MTD) 수익률 (지수·섹터ETF·종목 전체, 별도 1년치 다운로드)
+    pr_map = fetch_period_returns(all_tickers, now_utc)
+    print(f"[fetch_daily] YTD·MTD {len(pr_map)}개 계산")
 
     # 매크로 스냅샷 (benchmarks.js) → 글로벌 매크로 코멘트
     macro = load_macro_snapshot()
@@ -723,13 +735,15 @@ def build():
             d = price_map.get(ticker)
             if d is None:
                 continue
+            pr = pr_map.get(ticker) or {}
             indices_out.append({
                 "ticker":  ticker,
                 "name":    name,
                 "price":   d["price"],
                 "chg":     d["chg"],
                 "chgPct":  d["chgPct"],
-                "ytdPct":  ytd_map.get(ticker),
+                "ytdPct":  pr.get("ytd"),
+                "mtdPct":  pr.get("mtd"),
                 "currency": currency,
                 "spark":   d["spark"],
                 "date":    d.get("date"),
@@ -765,30 +779,48 @@ def build():
             for sector_name in GICS_ORDER:
                 if sector_name in etf_map:
                     etf, name_en, d = etf_map[sector_name]
+                    epr = pr_map.get(etf) or {}
                     sectors_out.append({
                         "name":    sector_name,
                         "nameEn":  name_en,
                         "etf":     etf,
                         "chgPct":  d["chgPct"] if d else None,
                         "price":   d["price"]   if d else None,
+                        "ytdPct":  epr.get("ytd"),
+                        "mtdPct":  epr.get("mtd"),
                     })
                 else:
-                    sectors_out.append({"name": sector_name, "chgPct": None})
+                    sectors_out.append({"name": sector_name, "chgPct": None,
+                                        "ytdPct": None, "mtdPct": None})
         else:
             # 다른 지역: 종목 구성 GICS 평균 — 데이터 없는 섹터도 null로 포함
             sector_buckets: dict[str, list] = {}
+            sector_pr_buckets: dict[str, dict] = {}   # name → {"ytd": [...], "mtd": [...]}
             for ticker, _, sector in UNIVERSE[rkey]:
                 d = price_map.get(ticker)
                 if d and d["chgPct"] is not None:
                     sector_buckets.setdefault(sector, []).append(d["chgPct"])
+                pr = pr_map.get(ticker)
+                if pr:
+                    b = sector_pr_buckets.setdefault(sector, {"ytd": [], "mtd": []})
+                    if pr.get("ytd") is not None:
+                        b["ytd"].append(pr["ytd"])
+                    if pr.get("mtd") is not None:
+                        b["mtd"].append(pr["mtd"])
+
+            def _avg(arr):
+                return round(sum(arr) / len(arr), 2) if arr else None
+
             sectors_out = []
             for sector_name in GICS_ORDER:
                 vals = sector_buckets.get(sector_name)
-                avg = round(sum(vals) / len(vals), 2) if vals else None
+                prb = sector_pr_buckets.get(sector_name, {})
                 sectors_out.append({
                     "name":   sector_name,
-                    "chgPct": avg,
+                    "chgPct": _avg(vals) if vals else None,
                     "count":  len(vals) if vals else 0,
+                    "ytdPct": _avg(prb.get("ytd", [])),
+                    "mtdPct": _avg(prb.get("mtd", [])),
                 })
 
         # ── 3. 종목 등락 테이블 ───────────────────────────────────────────────
