@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-03e";</script>
+<script>window.CODE_VERSION = "2026-06-03f";</script>
 <script>
   (function () {
     try {
@@ -43,6 +43,7 @@
     var v = Math.floor(Date.now() / 60000);
     document.write('<sc'+'ript src="daily-data.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="briefings-archive.js?v=' + v + '"><\/sc'+'ript>');
+    document.write('<sc'+'ript src="briefings-archive-asia.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="briefing-data.js?v=' + v + '"><\/sc'+'ript>');
   })();
 </script>
@@ -593,34 +594,64 @@ function makeSpark(data, opts) {
     return html;
   }
 
-  /* ── 미국장 마감 시황 브리핑 (서술형, 날짜별 아카이브) ── */
-  function getBriefings() {
-    if (window.BRIEFINGS && window.BRIEFINGS.length) {
-      // 최신순 정렬 보장
-      return window.BRIEFINGS.slice().sort(function(a, b) {
+  /* ── 시황 브리핑 (서술형, 날짜별 아카이브) — 미국장/아시아장 공용 ── */
+  var BRIEFING_FEEDS = {
+    us: {
+      boxId: 'briefingBoxUs',
+      badge: '🗞 미국장 브리핑',
+      defaultTitle: '국내외 금융시장 동향',
+      foot: '※ 미국장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)',
+      selectFn: 'selectBriefingUs',
+      archive: function() { return window.BRIEFINGS; },
+      single: function() { return window.BRIEFING; },
+      selected: null
+    },
+    asia: {
+      boxId: 'briefingBoxAsia',
+      badge: '🌏 아시아장 브리핑',
+      defaultTitle: '아시아 증시 시황',
+      foot: '※ 아시아장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)',
+      selectFn: 'selectBriefingAsia',
+      archive: function() { return window.BRIEFINGS_ASIA; },
+      single: function() { return window.BRIEFING_ASIA; },
+      selected: null
+    }
+  };
+
+  function getBriefings(feed) {
+    var arr = feed.archive();
+    if (arr && arr.length) {
+      return arr.slice().sort(function(a, b) {
         return (b.as_of || '').localeCompare(a.as_of || '');
       });
     }
-    if (window.BRIEFING && window.BRIEFING.paragraphs) return [window.BRIEFING];
+    var single = feed.single();
+    if (single && single.paragraphs) return [single];
     return [];
   }
-  var selectedBriefingDate = null;
-  function renderBriefing() {
-    var list = getBriefings();
+
+  function feedLatestUtc(feed) {
+    var list = getBriefings(feed);
+    if (!list.length) return '';
+    return list[0].generated_utc || list[0].as_of || '';
+  }
+
+  function renderBriefingFeed(feed) {
+    var list = getBriefings(feed);
     if (!list.length) return '';
     var sel = null;
-    if (selectedBriefingDate) {
-      for (var i = 0; i < list.length; i++) { if (list[i].as_of === selectedBriefingDate) { sel = list[i]; break; } }
+    if (feed.selected) {
+      for (var i = 0; i < list.length; i++) { if (list[i].as_of === feed.selected) { sel = list[i]; break; } }
     }
     if (!sel) sel = list[0];
-    selectedBriefingDate = sel.as_of;
+    feed.selected = sel.as_of;
 
-    var html = '<div class="briefing-box" id="briefingBox">';
+    var html = '<div class="briefing-box" id="' + feed.boxId + '">';
     html += '<div class="bf-head">' +
-      '<span class="bf-badge">🗞 데일리 브리핑</span>' +
-      '<span class="bf-title">' + escHtml(sel.title || '국내외 금융시장 동향') + '</span>';
+      '<span class="bf-badge">' + feed.badge + '</span>' +
+      '<span class="bf-title">' + escHtml(sel.title || feed.defaultTitle) + '</span>';
     if (list.length > 1) {
-      html += '<select class="bf-date-sel" onchange="selectBriefing(this.value)">';
+      html += '<select class="bf-date-sel" onchange="' + feed.selectFn + '(this.value)">';
       list.forEach(function(b) {
         html += '<option value="' + b.as_of + '"' + (b.as_of === sel.as_of ? ' selected' : '') + '>' +
           b.as_of + '</option>';
@@ -638,23 +669,41 @@ function makeSpark(data, opts) {
         html += '<div class="bf-stat">' + escHtml(t.replace(/^\*\s*/, '')) + '</div>';
       } else if (t.charAt(0) === '※') {
         html += '<div class="bf-note">' + escHtml(t) + '</div>';
-      } else if (t === '안녕하십니까' || t === '감사합니다.' || t === '감사합니다') {
+      } else if (t === '안녕하십니까' || t === '감사합니다.' || t === '감사합니다' ||
+                 t === '금일 아시아 증시 시황 보고 드립니다.') {
         html += '<p class="bf-greet">' + escHtml(t) + '</p>';
       } else {
         html += '<p class="bf-p">' + escHtml(t) + '</p>';
       }
     });
     var total = list.length;
-    html += '<div class="commentary-foot">※ 미국장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)' +
+    html += '<div class="commentary-foot">' + feed.foot +
       (total > 1 ? ' · 총 ' + total + '건 아카이브' : '') + '</div>';
     html += '</div>';
     return html;
   }
-  window.selectBriefing = function(date) {
-    selectedBriefingDate = date;
-    var box = document.getElementById('briefingBox');
-    if (box) box.outerHTML = renderBriefing();
-  };
+
+  // 두 브리핑 박스를 최신 생성시각 순으로 정렬해 렌더
+  function renderBriefing() {
+    var feeds = [BRIEFING_FEEDS.us, BRIEFING_FEEDS.asia].filter(function(f) {
+      return getBriefings(f).length > 0;
+    });
+    feeds.sort(function(a, b) {
+      return (feedLatestUtc(b) || '').localeCompare(feedLatestUtc(a) || '');
+    });
+    return feeds.map(function(f) { return renderBriefingFeed(f); }).join('');
+  }
+
+  function makeBriefingSelector(feed) {
+    return function(date) {
+      feed.selected = date;
+      var box = document.getElementById(feed.boxId);
+      if (box) box.outerHTML = renderBriefingFeed(feed);
+    };
+  }
+  window.selectBriefingUs = makeBriefingSelector(BRIEFING_FEEDS.us);
+  window.selectBriefingAsia = makeBriefingSelector(BRIEFING_FEEDS.asia);
+  window.selectBriefing = window.selectBriefingUs; // backward-compat
 
   /* ── 전체 개요 카드 ── */
   function renderOverview() {
