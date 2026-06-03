@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-03b";</script>
+<script>window.CODE_VERSION = "2026-06-03c";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -714,6 +714,18 @@
   }
   .alpha-detail-head .badge.auto { background: var(--info-bg); color: var(--info-fg); border: 1px solid var(--info-bd); }
   .alpha-detail-head .badge.manual { background: var(--warn-bg); color: var(--warn-fg); border: 1px solid var(--warn-bd); }
+  /* 섹터 코멘트 박스 (언더퍼폼 종목 분석) */
+  .holding-note { border-left: 3px solid var(--neg); background: var(--panel-soft);
+    border-radius: 6px; padding: 8px 12px; margin: 8px 0; }
+  .holding-note .hn-head { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .holding-note .hn-tag { display:inline-block; font-size:9px; font-weight:700; padding:1px 6px;
+    border-radius:4px; background:var(--neg); color:#fff; margin-right:6px; vertical-align:middle; }
+  .holding-note .hn-sum { font-size: 11px; color: var(--text-soft); line-height: 1.5; margin-bottom: 5px; }
+  .holding-note ul { margin: 3px 0 5px; padding-left: 16px; }
+  .holding-note li { font-size: 10.5px; color: var(--muted); line-height: 1.55; margin-bottom: 1px; }
+  .holding-note .hn-refs { font-size: 10px; margin-top: 4px; }
+  .holding-note .hn-refs a { color: var(--accent); text-decoration: none; }
+  .holding-note .hn-refs a:hover { text-decoration: underline; }
   .alpha-holdings {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1428,6 +1440,89 @@ let activeRegion = 'ALL';
 let pnlMode = 'ytd';  // 'cum' | 'ytd' (손익 기여도 차트용 — 디폴트 YTD)
 let basisMode = 'ytd';  // 'cum' | 'ytd' (KPI 카드 기준 — 디폴트 YTD)
 let expandedAlphaName = null;  // 알파 분해 테이블에서 펼쳐진 행 (종목명으로 추적)
+
+// ── 언더퍼폼 종목 섹터 코멘트 (수동 큐레이션 + 뉴스 출처) ──────────
+// KOSPI(반도체 대형주 주도)가 급등하는 국면에서 상대 부진한 섹터들의 원인 분석.
+// portfolio.html에 두어 cron 데이터 갱신에 안 지워짐. 뉴스 확인 후 주기적 갱신 권장.
+const HOLDING_NOTES = {
+  "KoAct 바이오헬스케어액티브": {
+    tag: "바이오·헬스케어",
+    asof: "2026-06",
+    summary: "삼천당제약 사태로 투자심리 훼손 + 글로벌 금리 급등이 겹쳤다. 신약개발은 개발기간 길고 자본투입 큰 구조라 금리에 가장 민감 — KOSPI 반도체 랠리에서 가장 소외된 섹터.",
+    drivers: [
+      "삼천당제약 사태로 제약·바이오 섹터 신뢰도·투자심리 동반 훼손",
+      "글로벌 금리 급등 → 장기 R&D 현금흐름 할인율↑ (밸류에이션 압박)",
+      "후기 임상 연이은 실패·기술이전 성과 저조 (알테오젠 1Q 매출 -14.5%, 리가켐바이오 -30.4% 적자확대)",
+      "코스닥150 헬스케어지수 연초대비 -11% (시장 호황 속 소외)",
+    ],
+    refs: [
+      { t: "‘한달 만에 16% 털썩’ 바이오주 믿었다가 후회 (헤럴드경제)", u: "https://biz.heraldcorp.com/article/10740663" },
+      { t: "코스피 7000시대 소외된 제약바이오주 (데일리팜)", u: "https://m.dailypharm.com/user/news/338191?view_mode=pc" },
+      { t: "제약: 과도한 조정, 기술적 성과로 반등 기대 (SK증권)", u: "https://file.alphasquare.co.kr/media/pdfs/market-report/%EC%A0%9C%EC%95%BD%EA%B3%BC%EB%8F%84%ED%95%9C20260528SK%EC%A6%9D%EA%B6%8C.pdf" },
+    ],
+  },
+  "KODEX 코스닥150 ETF": {
+    tag: "코스닥 중소형",
+    asof: "2026-06",
+    summary: "KOSPI 랠리가 삼성전자·SK하이닉스 등 반도체 대형주에 집중됐다. 코스닥은 이익성장률이 낮고 헬스케어 비중이 높아 소외 — 최근 한달 코스피 +26.7% vs 코스닥 -11.9%.",
+    drivers: [
+      "지수 상승이 반도체 대형주에 집중 (코스피 영업이익 +108% vs 코스닥 +66%, 삼성·하이닉스 편중)",
+      "외국인은 코스피서 28조 순매도(차익실현)하면서도 코스닥엔 3.9조 순매수했으나 지수 방어엔 역부족",
+      "코스닥150 내 헬스케어(바이오) 비중 높음 → 바이오 부진이 지수 끌어내림",
+      "2025년 4월 저점 이후 반등폭: 코스피 +178% vs 코스닥 +91% (격차 확대)",
+    ],
+    refs: [
+      { t: "외국인 매수 늘어나는 코스닥, 다시 강해질까 (KB자산운용)", u: "https://www.kbam.co.kr/board/view/991" },
+      { t: "코스닥 마감시황 — 외국인 순매수에도 하락 (서울신문)", u: "https://www.seoul.co.kr/news/economy/securities/2026/06/01/20260601500234" },
+    ],
+  },
+  "Plus K-방산 ETF": {
+    tag: "방산",
+    asof: "2026-06",
+    summary: "1월 급등 후 밸류에이션 부담으로 2월 급락(한화시스템 -9.5% 등). 러-우 종전 협상 진행 → 유럽 방산 피어 동반 하락. 단 폴란드 K2 3차 계약 등 수출 모멘텀은 유효해 '조정' 성격.",
+    drivers: [
+      "1월 강세 후 밸류에이션 부담 → 2월 단기 급락 (현대로템 -9.4%, LIG넥스원 -7.4%)",
+      "러시아-우크라이나 종전 협상 진행 → 유럽 방산주 하락에 동조화",
+      "수출 모멘텀은 견조: 방산 4사 4개분기 연속 1조 영업익, 폴란드 K2 3차 계약 논의",
+      "수주 인식 시점의 lumpy함 → 분기 실적 변동성",
+    ],
+    refs: [
+      { t: "방위산업: 주가 급락 후 투자포인트 재점검 (한국투자증권)", u: "https://m.truefriend.com/main/research/research/StrategyDetail.jsp?jkGubun=6&id=152152" },
+      { t: "지금이 살 타이밍?…주가 주춤한데 깜짝 전망 방산주 (한국경제)", u: "https://www.hankyung.com/article/2026032693571" },
+      { t: "방산 4社 4개분기 연속 1조 영업익 (헤럴드K)", u: "https://heraldk.com/2026/05/09/" },
+    ],
+  },
+  "Hanaro 원자력 iSelect": {
+    tag: "원자력·SMR",
+    asof: "2026-06",
+    summary: "원전주 자체는 상승(두산에너빌리티 +28%)했으나, 2025년 기대감 선반영 후 2026은 '현실화 원년'으로 실제 수주·착공 검증 구간. 반도체 대형주 랠리 대비 상대 부진.",
+    drivers: [
+      "2025년 기대감(체코 수주·SMR 테마) 선반영 후 차익실현·숨고르기",
+      "2026은 수주·착공 실적 검증 국면 — 모멘텀이 '실현'으로 전환되는 과도기",
+      "정책·대형 프로젝트 의존도 높아 수주 인식이 lumpy",
+      "KOSPI 상승 주도주(반도체)와 테마 달라 상대 소외",
+    ],
+    refs: [
+      { t: "에너지안보·탄소중립에 원전주 재부각…체코·SMR 모멘텀 (이투데이)", u: "https://www.etoday.co.kr/news/view/2556710" },
+      { t: "2026 무엇이 40년 만의 원전 사이클을 만드는가 (KB증권)", u: "https://kbthink.com/securities-view.html?docId=20251114150116617K" },
+    ],
+  },
+  "KODEX AI전력핵심설비 ETF": {
+    tag: "전력기기·AI전력",
+    asof: "2026-06",
+    summary: "AI 데이터센터 전력수요로 강세(+91%)였으나 KOSPI(+104%)엔 소폭 못 미침. 판가(P) 상승이 이미 주가에 반영 → 물량(Q) 증설 검증 국면으로 차별화 진행.",
+    drivers: [
+      "AI 데이터센터 전력수요 급증 → 765kV 초고압 변압기 등 핵심 수혜 (구조적 강세)",
+      "다만 판가(P) 상승분이 주가에 선반영 → 추가 동력은 물량(Q) 증설 여부",
+      "증설 완료 기업 vs 미완료 기업 실적 차별화 진행 → ETF 내 종목별 편차",
+      "고밸류에이션 부담으로 KOSPI 대형주 랠리 대비 소폭 부진",
+    ],
+    refs: [
+      { t: "전력 인프라 투자 수혜…전기장비株 '불기둥' (머니투데이)", u: "https://www.mt.co.kr/stock/2026/05/08/2026050816544052287" },
+      { t: "AI 데이터센터 급증에 송전망 재조명 (다음)", u: "https://v.daum.net/v/20260226093717851" },
+    ],
+  },
+};
 let alphaSortKey = 'alpha';    // 알파 분해 정렬 기준
 let alphaSortDir = 'desc';     // 'asc' | 'desc'
 let holdingsSortKey = 'w';      // 보유종목 상세 정렬 기준 컬럼
@@ -2985,6 +3080,19 @@ function renderAlphaContribution() {
     },
   });
 
+  // 섹터 코멘트 박스 HTML (HOLDING_NOTES에 있으면)
+  const noteBlock = (name) => {
+    const n = HOLDING_NOTES[name];
+    if (!n) return '';
+    return `
+      <div class="holding-note">
+        <div class="hn-head"><span class="hn-tag">${n.tag}</span>📉 지역BM 언더퍼폼 — 섹터 코멘트 <span style="font-weight:400;color:var(--muted);font-size:9px">(${n.asof} 기준)</span></div>
+        <div class="hn-sum">${n.summary}</div>
+        <ul>${n.drivers.map(x => `<li>${x}</li>`).join('')}</ul>
+        <div class="hn-refs">📰 참고: ${n.refs.map(r => `<a href="${r.u}" target="_blank" rel="noopener">${r.t}</a>`).join(' · ')}</div>
+      </div>`;
+  };
+
   // 테이블 — 행 클릭 시 펼침
   const detailRow = (c) => {
     const sourceBadge = c.topSource === 'manual'
@@ -3062,6 +3170,7 @@ function renderAlphaContribution() {
         <span class="stat">${c.bmName} 수익률 <b class="${cls(c.bmRetPct)}">${c.bmRetPct != null ? fmtPct(c.bmRetPct, 2) : '-'}</b></span>
         <span class="stat">→ ${c.bmName} 대비 초과 <b class="${cls(c.bmExcessPct)}">${c.bmExcessPct != null ? fmtPct(c.bmExcessPct, 2) : '-'}</b></span>
       </div>
+      ${noteBlock(c.name)}
       ${body}
     `;
   };
@@ -3085,15 +3194,17 @@ function renderAlphaContribution() {
     <tbody>
       ${contributions.map((c, i) => {
         const isOpen = expandedAlphaName === c.name;
-        const hasHoldings = c.topHoldings && c.topHoldings.length;
+        const hasNote = !!HOLDING_NOTES[c.name];
+        const hasHoldings = (c.topHoldings && c.topHoldings.length) || hasNote;
         const indicator = hasHoldings
           ? `<span style="color:var(--muted);font-size:10px;margin-right:4px">${isOpen ? '▼' : '▶'}</span>`
           : `<span style="color:var(--muted-soft);font-size:10px;margin-right:4px">·</span>`;
         const periodTip = c.periodLabel === 'YTD' ? 'YTD (작년말부터 보유)' : `${c.periodFrom}~ (26년 매수 후)`;
+        const noteBadge = hasNote ? ` <span title="섹터 부진 코멘트 — 클릭해 펼치기" style="cursor:pointer">📉</span>` : '';
         return `
           <tr class="alpha-row ${isOpen ? 'expanded' : ''}" data-name="${c.name.replace(/"/g, '&quot;')}">
             <td><span class="region-pill" data-r="${c.region}">${c.region}</span></td>
-            <td>${indicator}${c.name}${c.proxy ? ' <span style="color:var(--muted);font-size:10px">†</span>' : ''}</td>
+            <td>${indicator}${c.name}${noteBadge}${c.proxy ? ' <span style="color:var(--muted);font-size:10px">†</span>' : ''}</td>
             <td>${fmt(c.weight, 2)}%</td>
             <td class="${cls(c.retPct)}" title="${periodTip}">${fmtPct(c.retPct, 2)}</td>
             <td class="${cls(c.bmExcessPct)}" title="${c.bmName}${c.bmFallback ? '(유럽 미수록→ACWI 대용)' : ''} · ${periodTip} · 종목 ${fmtPct(c.retPct,2)} vs ${c.bmName} ${c.bmRetPct!=null?fmtPct(c.bmRetPct,2):'-'}">
