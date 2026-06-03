@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-03a";</script>
+<script>window.CODE_VERSION = "2026-06-03b";</script>
 <script>
   (function () {
     try {
@@ -501,6 +501,62 @@ function makeSpark(data, opts) {
       '</div>';
     });
     html += '</div>';
+
+    // ── 글로벌 주요 이벤트 (investing.com 등, 지역 공통) ──
+    var gEvents = [], gSeen = {};
+    regions.forEach(function(r) {
+      var c = r.commentary; if (!c || Array.isArray(c) || !c.events) return;
+      c.events.forEach(function(e) {
+        if (e.scope !== 'global') return;
+        var k = (e.title || '').toLowerCase(); if (!k || gSeen[k]) return;
+        gSeen[k] = 1; gEvents.push(e);
+      });
+    });
+    if (gEvents.length) {
+      html += '<div class="cm-subtitle">📰 시장을 움직인 글로벌 주요 이벤트</div>';
+      html += '<ul class="cm-event-list">';
+      gEvents.slice(0, 5).forEach(function(e) {
+        var src = e.source ? ' <span class="cm-src">· ' + escHtml(e.source) + '</span>' : '';
+        var title = escHtml(e.title);
+        var head = e.link ? '<a href="' + e.link + '" target="_blank" rel="noopener">' + title + '</a>' : title;
+        var desc = e.desc ? '<div class="cm-event-desc">' + escHtml(e.desc) + '</div>' : '';
+        html += '<li>' + head + src + desc + '</li>';
+      });
+      html += '</ul>';
+    }
+
+    // ── 오늘의 주요 등락 종목 (전 지역 통합 Top) ──
+    var allMovers = [];
+    regions.forEach(function(r) {
+      var c = r.commentary; if (!c || Array.isArray(c) || !c.movers) return;
+      c.movers.forEach(function(m) {
+        if (m.chgPct == null) return;
+        allMovers.push({ m: m, flag: r.flag, rkey: r.key });
+      });
+    });
+    allMovers.sort(function(a, b){ return Math.abs(b.m.chgPct) - Math.abs(a.m.chgPct); });
+    if (allMovers.length) {
+      html += '<div class="cm-subtitle">🎯 오늘의 주요 등락 종목</div>';
+      html += '<div class="cm-mover-list">';
+      allMovers.slice(0, 6).forEach(function(x) {
+        var m = x.m, chipCls = chipClass(m.chgPct), arrow = arrowFor(m.chgPct);
+        var src = m.source ? ' <span class="cm-src">· ' + escHtml(m.source) + '</span>' : '';
+        var reason = escHtml(m.reason);
+        if (m.link) reason = '<a href="' + m.link + '" target="_blank" rel="noopener">' + reason + '</a>';
+        var detail = m.detail ? '<div class="cm-mover-detail">' + escHtml(m.detail) + '</div>' : '';
+        html += '<div class="cm-mover" onclick="switchRegion(\'' + x.rkey + '\')" style="cursor:pointer">' +
+          '<div class="cm-mover-head">' +
+            '<span class="cm-mover-name">' + x.flag + ' ' + escHtml(m.name) + '</span>' +
+            '<span class="cm-mover-ticker">' + m.ticker + '</span>' +
+            '<span class="gf-chip ' + chipCls + '">' + arrow + fmtPct(m.chgPct) + '</span>' +
+          '</div>' +
+          '<div class="cm-mover-reason">' + reason + src + '</div>' +
+          detail +
+        '</div>';
+      });
+      html += '</div>';
+    }
+
     html += '<div class="commentary-foot">※ 각 지역 탭에서 매크로·주요 이벤트·특징주 등락 요인을 자세히 확인할 수 있습니다.</div>';
     html += '</div>';
     return html;
