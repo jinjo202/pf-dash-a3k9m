@@ -101,8 +101,10 @@ def main():
         if primary and (h.get("book") or 0) > 0:
             holding_tickers.append((h, primary, fallback))
 
+    # STOXX 600: ^STOXX는 YTD 시작 데이터 누락이 잦음 → IEUR(iShares Core MSCI Europe)
+    #   ETF로 유럽 벤치마크를 안정적으로 추적 (지역 BM 비교용).
     BM_TICKERS = [("MSCI ACWI", "ACWI"), ("S&P 500", "^GSPC"), ("KOSPI", "^KS11"),
-                  ("STOXX 600", "^STOXX"), ("니케이 225", "^N225"), ("MSCI EM", "EEM")]
+                  ("STOXX 600", "IEUR"), ("니케이 225", "EWJ"), ("MSCI EM", "EEM")]
     # 섹터 proxy ETF (US sector SPDRs)
     SECTOR_TICKERS = [("IT","XLK"), ("Communication","XLC"), ("Industrials","XLI"),
                       ("Materials","XLB"), ("Healthcare","XLV"), ("Cons Disc","XLY"),

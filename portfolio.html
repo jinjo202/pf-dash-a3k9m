@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-05-31e";</script>
+<script>window.CODE_VERSION = "2026-06-03a";</script>
 <!-- 자동 캐시 무력화: 이 HTML이 10분(GitHub Pages max-age) 캐시될 수 있어
      로드 직후 서버의 최신 버전과 비교, 더 최신이면 1회 강제 새로고침 (?cb= 추가) -->
 <script>
@@ -2834,6 +2834,24 @@ function renderAlphaContribution() {
   const pfRet = pfTwrSeries ? pfTwrSeries[pfTwrSeries.length - 1] / 100 : 0;
   const startTotal = pf[0];
 
+  // 지역 → 대표 벤치마크 (historical.benchmarks 키와 일치)
+  const REGION_TO_BM = {
+    '한국': 'KOSPI', '미국': 'S&P 500', '이머징': 'MSCI EM',
+    '글로벌': 'MSCI ACWI', '유럽': 'STOXX 600',
+  };
+  const benchHist = hist.benchmarks || {};
+  // 지역 벤치마크의 [fromIdx, toIdx] 구간 수익률 (없으면 ACWI fallback)
+  function regionalBm(region, fromIdx, toIdx) {
+    const want = REGION_TO_BM[region] || 'MSCI ACWI';
+    for (const nm of [want, 'MSCI ACWI']) {
+      const ser = benchHist[nm] && benchHist[nm].values;
+      if (ser && ser.length > toIdx && ser[fromIdx] && ser[toIdx] != null) {
+        return { name: nm, ret: ser[toIdx] / ser[fromIdx] - 1, fallback: nm !== want };
+      }
+    }
+    return { name: want, ret: null, fallback: false };
+  }
+
   // 종목별 기여도 — 연중 매수 종목(series[0]=0)도 모두 포함.
   // 가중치는 '평균잔액(시간가중 시장가치)' 기준 → 연중 매수 종목도 자연스럽게 반영.
   // 수익률은 종목별 TWR (cashflow 제외, 매수 이후 가격변동만).
@@ -2853,6 +2871,10 @@ function renderAlphaContribution() {
     const r = twrH ? twrH[twrH.length - 1] / 100 : (endVal / startVal - 1);
     // 평균잔액 (가중치 분모로 사용)
     const avgBal = computeAvgBalanceFromHistorical(h.name, 0, endIdx) || 0;
+    // 지역 벤치마크 대비 (보유 기간 동일 구간 [firstIdx, endIdx])
+    // → 작년부터 보유: firstIdx=0(YTD 전체), 26년 매수: firstIdx=매수일
+    const rbm = regionalBm(h.region, firstIdx, endIdx);
+    const heldFromYearStart = firstIdx === 0;
     contributions.push({
       name: h.name,
       region: h.region,
@@ -2862,6 +2884,13 @@ function renderAlphaContribution() {
       _avgBal: avgBal,                  // 가중치 정규화용 (아래에서 weight 계산)
       retPct: r * 100,
       excessPct: (r - acwiRet) * 100,
+      // 지역 벤치마크 비교
+      bmName: rbm.name,
+      bmFallback: rbm.fallback,
+      bmRetPct: rbm.ret != null ? rbm.ret * 100 : null,
+      bmExcessPct: rbm.ret != null ? (r - rbm.ret) * 100 : null,
+      periodFrom: datesA[firstIdx],
+      periodLabel: heldFromYearStart ? 'YTD' : `${datesA[firstIdx]}~ (매수후)`,
       topHoldings: h.top_holdings || null,
       topSource: h.top_holdings_source || 'auto',
     });
@@ -2881,6 +2910,7 @@ function renderAlphaContribution() {
     weight:     (a, b) => (a.weight || 0) - (b.weight || 0),
     retPct:     (a, b) => (a.retPct || 0) - (b.retPct || 0),
     excessPct:  (a, b) => (a.excessPct || 0) - (b.excessPct || 0),
+    bmExcessPct: (a, b) => ((a.bmExcessPct ?? -9e9)) - ((b.bmExcessPct ?? -9e9)),
     totalContrib: (a, b) => (a.totalContrib || 0) - (b.totalContrib || 0),
     alpha:      (a, b) => (a.alpha || 0) - (b.alpha || 0),
   };
@@ -3015,14 +3045,21 @@ function renderAlphaContribution() {
         </div>
       `;
     }
+    const periodTxt = c.periodLabel === 'YTD' ? 'YTD (작년말부터 보유)' : `${c.periodFrom}~ (26년 매수 후)`;
     return `
       <div class="alpha-detail-head">
         <span class="ttl">${c.name}</span>
         <span class="stat">티커 <b>${c.ticker || '-'}</b>${c.proxy ? ` · 프록시 추적 <b>${c.proxyTicker}</b>` : ''}</span>
-        <span class="stat">ETF YTD: <b class="${cls(c.retPct)}">${fmtPct(c.retPct, 2)}</b></span>
+        <span class="stat">기간 <b>${periodTxt}</b></span>
+        <span class="stat">종목 수익률 <b class="${cls(c.retPct)}">${fmtPct(c.retPct, 2)}</b></span>
         <span class="stat">ETF 시작 비중: <b>${fmt(c.weight, 2)}%</b></span>
         <span class="stat">α 기여: <b class="${cls(c.alpha)}">${fmtPct(c.alpha, 2)}</b></span>
         ${sourceBadge}
+      </div>
+      <div class="alpha-detail-head" style="margin-top:6px;background:var(--accent-soft);border-radius:6px;padding:6px 10px">
+        <span class="stat">📊 지역 벤치마크 <b>${c.bmName}${c.bmFallback ? ' (유럽 미수록 → ACWI 대용)' : ''}</b></span>
+        <span class="stat">${c.bmName} 수익률 <b class="${cls(c.bmRetPct)}">${c.bmRetPct != null ? fmtPct(c.bmRetPct, 2) : '-'}</b></span>
+        <span class="stat">→ ${c.bmName} 대비 초과 <b class="${cls(c.bmExcessPct)}">${c.bmExcessPct != null ? fmtPct(c.bmExcessPct, 2) : '-'}</b></span>
       </div>
       ${body}
     `;
@@ -3037,8 +3074,9 @@ function renderAlphaContribution() {
         ${ah('region', '지역')}
         ${ah('name', '종목명')}
         ${ah('weight', '시작 비중')}
-        ${ah('retPct', 'YTD 수익률')}
-        ${ah('excessPct', 'ACWI 대비 초과')}
+        ${ah('retPct', '수익률')}
+        ${ah('bmExcessPct', '지역BM 대비')}
+        ${ah('excessPct', 'ACWI 대비')}
         ${ah('totalContrib', '포트폴리오 기여')}
         ${ah('alpha', 'α 기여도')}
       </tr>
@@ -3050,17 +3088,22 @@ function renderAlphaContribution() {
         const indicator = hasHoldings
           ? `<span style="color:var(--muted);font-size:10px;margin-right:4px">${isOpen ? '▼' : '▶'}</span>`
           : `<span style="color:var(--muted-soft);font-size:10px;margin-right:4px">·</span>`;
+        const periodTip = c.periodLabel === 'YTD' ? 'YTD (작년말부터 보유)' : `${c.periodFrom}~ (26년 매수 후)`;
         return `
           <tr class="alpha-row ${isOpen ? 'expanded' : ''}" data-name="${c.name.replace(/"/g, '&quot;')}">
             <td><span class="region-pill" data-r="${c.region}">${c.region}</span></td>
             <td>${indicator}${c.name}${c.proxy ? ' <span style="color:var(--muted);font-size:10px">†</span>' : ''}</td>
             <td>${fmt(c.weight, 2)}%</td>
-            <td class="${cls(c.retPct)}">${fmtPct(c.retPct, 2)}</td>
+            <td class="${cls(c.retPct)}" title="${periodTip}">${fmtPct(c.retPct, 2)}</td>
+            <td class="${cls(c.bmExcessPct)}" title="${c.bmName}${c.bmFallback ? '(유럽 미수록→ACWI 대용)' : ''} · ${periodTip} · 종목 ${fmtPct(c.retPct,2)} vs ${c.bmName} ${c.bmRetPct!=null?fmtPct(c.bmRetPct,2):'-'}">
+              ${c.bmExcessPct != null ? fmtPct(c.bmExcessPct, 1) : '—'}
+              <div style="font-size:9px;color:var(--muted);font-weight:400">vs ${c.bmName}${c.bmFallback ? '*' : ''} · ${c.periodLabel === 'YTD' ? 'YTD' : '매수후'}</div>
+            </td>
             <td class="${cls(c.excessPct)}">${fmtPct(c.excessPct, 2)}</td>
             <td class="${cls(c.totalContrib)}">${fmtPct(c.totalContrib, 2)}</td>
             <td class="${cls(c.alpha)}" style="font-weight:600">${fmtPct(c.alpha, 2)}</td>
           </tr>
-          ${isOpen ? `<tr class="alpha-detail"><td colspan="7">${detailRow(c)}</td></tr>` : ''}
+          ${isOpen ? `<tr class="alpha-detail"><td colspan="8">${detailRow(c)}</td></tr>` : ''}
         `;
       }).join('')}
       <tr style="font-weight:700;background:var(--panel-soft);border-top:2px solid var(--border)">
@@ -3068,6 +3111,7 @@ function renderAlphaContribution() {
         <td title="현재 보유 ${allHoldings.filter(h => h.mkt > 0).length}개 중 YTD 시작가 데이터가 있는 종목만 분석">${contributions.length}개<span style="font-weight:400;color:var(--muted);font-size:10px"> / ${allHoldings.filter(h => h.mkt > 0).length}</span></td>
         <td>${fmt(contributions.reduce((s, c) => s + c.weight, 0), 2)}%</td>
         <td class="${cls(pfRet)}">${fmtPct(pfRet * 100, 2)}</td>
+        <td style="color:var(--muted);font-size:10px">종목별</td>
         <td class="${cls(pfRet - acwiRet)}">${fmtPct((pfRet - acwiRet) * 100, 2)}</td>
         <td class="${cls(totalContribSum)}">${fmtPct(totalContribSum, 2)}</td>
         <td class="${cls(totalAlpha)}">${fmtPct(totalAlpha, 2)}</td>
