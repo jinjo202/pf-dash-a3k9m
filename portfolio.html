@@ -58,6 +58,7 @@
     document.write('<script src="portfolio-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="benchmarks.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="holding-news.js?v=' + v + '" onerror="window.HOLDING_NEWS=window.HOLDING_NEWS||{}"></scr' + 'ipt>');
+    document.write('<script src="constituent-news.js?v=' + v + '" onerror="window.CONSTITUENT_NEWS=window.CONSTITUENT_NEWS||{}"></scr' + 'ipt>');
   })();
 </script>
 <style>
@@ -749,6 +750,26 @@
   }
   .alpha-h-card .row .v { color: var(--text); font-weight: 600; }
   .alpha-h-card .bar { height: 3px; background: var(--accent); border-radius: 2px; margin-top: 4px; opacity: 0.5; }
+  /* ETF 상위 종목 — 종목별 최신 뉴스 (Google News RSS, fetch_constituent_news.py) */
+  .alpha-h-card .ch-news {
+    border-top: 1px dashed var(--border);
+    margin-top: 6px; padding-top: 4px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .alpha-h-card .ch-news .ch-news-head {
+    font-size: 9.5px; color: var(--muted); font-weight: 700;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .alpha-h-card .ch-news a {
+    font-size: 10px; color: var(--text-soft); text-decoration: none;
+    line-height: 1.35; display: block;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .alpha-h-card .ch-news a:hover { color: var(--accent); text-decoration: underline; }
+  .alpha-h-card .ch-news .ch-news-meta {
+    font-size: 9px; color: var(--muted); font-weight: 400;
+  }
+  .alpha-h-card.has-hot-news { border-color: var(--accent); }
   .alpha-na { color: var(--muted); font-style: italic; font-size: 12px; padding: 8px 0; }
 
   /* ===== ETF 상위 5 구성종목 그리드 (사용 X — 인라인 드릴다운으로 대체) ===== */
@@ -3151,8 +3172,29 @@ function renderAlphaContribution() {
               ? (c.weight / 100) * (wEtf / 100) * (stockYtd - bmYtdRow) * 100
               : null;
             const val = uVal[x.name] || {};
+            // ETF 내 상위 종목별 최신 뉴스 (Google News RSS, fetch_constituent_news.py 로 갱신)
+            const cnews = (window.CONSTITUENT_NEWS && window.CONSTITUENT_NEWS[x.name]) || [];
+            const _now = Date.now();
+            const _7d = _now - 7 * 86400000;
+            const _3d = _now - 3 * 86400000;
+            const _parseDate = (s) => { const t = s ? Date.parse(s) : NaN; return isNaN(t) ? 0 : t; };
+            const recentNews = cnews.filter(n => _parseDate(n.date) >= _7d)
+                                    .sort((a, b) => _parseDate(b.date) - _parseDate(a.date));
+            const hotCount = cnews.filter(n => _parseDate(n.date) >= _3d).length;
+            const isHot = hotCount >= 3;  // 최근 3일 내 3건+ → 큰 이슈
+            const topNews = recentNews.slice(0, 2);
+            const newsBlock = topNews.length ? `
+              <div class="ch-news">
+                <div class="ch-news-head">${isHot ? '🔥' : '📰'} 최근 뉴스${isHot ? ' (이슈)' : ''}</div>
+                ${topNews.map(n => `
+                  <div>
+                    <a href="${n.url}" target="_blank" rel="noopener" title="${(n.title || '').replace(/"/g, '&quot;')} · ${n.source} · ${n.date}">${n.title}</a>
+                    <span class="ch-news-meta">${n.source}${n.date ? ' · ' + n.date.slice(5) : ''}</span>
+                  </div>
+                `).join('')}
+              </div>` : '';
             return `
-              <div class="alpha-h-card">
+              <div class="alpha-h-card${isHot ? ' has-hot-news' : ''}">
                 <div class="nm" title="${x.name}${ticker ? ' · ' + ticker : ''}">${x.name}${ticker ? ` <span style="color:var(--muted);font-size:9px;font-weight:400">(${ticker})</span>` : ''}</div>
                 <div class="row"><span>종목 YTD 수익률</span><span class="v ${cls(stockYtd)}">${stockYtd != null ? fmtPct(stockYtd, 2) : '—'}</span></div>
                 <div class="row"><span>ETF 내 비중</span><span class="v">${wEtf.toFixed(2)}%</span></div>
@@ -3164,6 +3206,7 @@ function renderAlphaContribution() {
                   <div class="row"><span>PBR</span><span class="v">${val.pb ? val.pb.toFixed(2) + 'x' : '—'}</span></div>
                   <div class="row"><span>ROE</span><span class="v ${cls(val.roe)}">${val.roe != null ? val.roe.toFixed(1) + '%' : '—'}</span></div>
                 </div>
+                ${newsBlock}
               </div>
             `;
           }).join('')}

@@ -83,6 +83,10 @@ jobs:
         run: python fetch_sector_news.py
         continue-on-error: true
 
+      - name: Fetch ETF constituent news (Google News RSS → constituent-news.js)
+        run: python fetch_constituent_news.py
+        continue-on-error: true
+
       - name: Compute historical YTD series + sector returns
         run: python compute_historical.py
         continue-on-error: true
@@ -117,7 +121,7 @@ jobs:
           # cron이 건드려야 할 파일은 데이터 3종뿐. portfolio.html 등 소스 파일은
           # 절대 cron이 commit하면 안 됨 (과거: soft-reset 패턴이 옛 working tree의
           # portfolio.html을 그대로 커밋해 사용자 변경을 되돌리는 버그 발생).
-          TRACKED="portfolio-data.js prices_log.json benchmarks.js macro-data.js kr_flows.json daily-data.js holding-news.js"
+          TRACKED="portfolio-data.js prices_log.json benchmarks.js macro-data.js kr_flows.json daily-data.js holding-news.js constituent-news.js"
 
           # 생성된 데이터 파일을 임시 백업 (origin 정렬 시 보존)
           TMP="$(mktemp -d)"
