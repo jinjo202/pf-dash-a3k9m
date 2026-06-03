@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-02c";</script>
+<script>window.CODE_VERSION = "2026-06-02d";</script>
 <script>
   (function () {
     try {
@@ -162,6 +162,14 @@
   .cm-mover-reason { font-size:12.5px; line-height:1.6; color:var(--text-soft); }
   .cm-mover-reason a { color:var(--text-soft); text-decoration:none; }
   .cm-mover-reason a:hover { color:var(--accent); text-decoration:underline; }
+  .cm-region-list { display:flex; flex-direction:column; gap:8px; }
+  .cm-region {
+    background:var(--panel-soft); border:1px solid var(--border); border-radius:8px;
+    padding:10px 12px; cursor:pointer; transition:all .15s;
+  }
+  .cm-region:hover { border-color:var(--accent); background:var(--accent-soft); }
+  .cm-region-name { font-size:13px; font-weight:700; margin-bottom:3px; }
+  .cm-region-text { font-size:12.5px; line-height:1.6; color:var(--text-soft); }
 
   /* ── Index summary bar ── */
   .idx-bar {
@@ -457,9 +465,48 @@ function makeSpark(data, opts) {
     return (D.regions || []).find(function(r){ return r.key === key; });
   }
 
+  /* ── 전체 개요 글로벌 시황 ── */
+  function renderOverviewCommentary() {
+    var regions = D.regions || [];
+    // 매크로 라인 (지역 공통) — 있는 것 중 첫 번째
+    var macro = '';
+    for (var i = 0; i < regions.length; i++) {
+      var c = regions[i].commentary;
+      if (c && !Array.isArray(c) && c.macro) { macro = c.macro; break; }
+    }
+    var hasAny = macro || regions.some(function(r){
+      var c = r.commentary; return c && !Array.isArray(c) && c.summary;
+    });
+    if (!hasAny) return '';
+
+    var html = '<div class="commentary-box">';
+    html += '<div class="commentary-title">📝 오늘의 글로벌 시황</div>';
+    if (macro) html += '<p class="commentary-line"><b>🌐 매크로</b> · ' + escHtml(macro) + '</p>';
+
+    html += '<div class="cm-subtitle">🗺 지역별 한줄 요약</div>';
+    html += '<div class="cm-region-list">';
+    regions.forEach(function(r) {
+      var c = r.commentary;
+      var summary = (c && !Array.isArray(c) && c.summary) ? c.summary : '';
+      if (!summary) return;
+      html += '<div class="cm-region" onclick="switchRegion(\'' + r.key + '\')">' +
+        '<div class="cm-region-name">' + r.flag + ' ' + escHtml(r.name) +
+          (r.as_of ? ' <span class="cm-src">' + r.as_of + '</span>' : '') + '</div>' +
+        '<div class="cm-region-text">' + escHtml(summary) + '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+    html += '<div class="commentary-foot">※ 각 지역 탭에서 매크로·주요 이벤트·특징주 등락 요인을 자세히 확인할 수 있습니다.</div>';
+    html += '</div>';
+    return html;
+  }
+
   /* ── 전체 개요 카드 ── */
   function renderOverview() {
     var html = '';
+
+    // 글로벌 시황 코멘트
+    html += renderOverviewCommentary();
 
     // 개요 카드 (5개 지역)
     html += '<div class="overview-grid">';
