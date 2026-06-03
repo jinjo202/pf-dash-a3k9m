@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-03b";</script>
+<script>window.CODE_VERSION = "2026-06-03c";</script>
 <script>
   (function () {
     try {
@@ -189,6 +189,9 @@
   .idx-card .iname { font-size:11px; color:var(--muted); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .idx-card .iprice { font-size:17px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
   .idx-card .ispark { margin-top:6px; margin-bottom:6px; }
+  .idx-card .iytd { font-size:10.5px; color:var(--muted); margin-top:4px; }
+  .idx-card .iytd .ytd-pos { color:var(--pos); font-weight:700; }
+  .idx-card .iytd .ytd-neg { color:var(--neg); font-weight:700; }
   .idx-card .ichg-chip {
     align-self:flex-start; display:inline-block; padding:2px 7px; border-radius:7px;
     font-size:12px; font-weight:700; font-variant-numeric:tabular-nums;
@@ -721,6 +724,7 @@ function makeSpark(data, opts) {
         '<div class="ispark">' + makeSpark(idx.spark, {w:160, h:34, cls:'spark-wide', area:true}) + '</div>' +
         '<div class="ichg-chip ' + chipClass(idx.chgPct) + '">' + arrowFor(idx.chgPct) + fmtPct(idx.chgPct) +
           (idx.chg ? ' (' + (idx.chg>0?'+':'') + fmt(idx.chg,2) + ')' : '') + '</div>' +
+        (idx.ytdPct != null ? '<div class="iytd">연초대비 <span class="' + (idx.ytdPct>=0?'ytd-pos':'ytd-neg') + '">' + (idx.ytdPct>0?'+':'') + fmt(idx.ytdPct,1) + '%</span></div>' : '') +
         '</div>';
     });
     html += '</div>';

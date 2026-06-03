@@ -375,6 +375,48 @@ def batch_daily(tickers: list[str], now_utc: datetime) -> dict:
     return result
 
 
+def fetch_ytd(tickers: list, now_utc: datetime) -> dict:
+    """티커별 연초대비(YTD) 수익률(%) — 전년 마지막 종가 기준.
+    indices_out 등에 ytdPct 로 붙인다. 데이터 부족 시 해당 티커 생략."""
+    out = {}
+    if not tickers:
+        return out
+    try:
+        raw = yf.download(tickers, period="1y", interval="1d",
+                          auto_adjust=True, progress=False)
+        if len(tickers) == 1:
+            close_all = raw[["Close"]].rename(columns={"Close": tickers[0]})
+        else:
+            close_all = raw["Close"]
+    except Exception as e:
+        print(f"  [warn] YTD 다운로드 실패: {e}", file=sys.stderr)
+        return out
+    year = now_utc.year
+    for t in tickers:
+        try:
+            if t not in close_all.columns:
+                continue
+            close = close_all[t].dropna()
+            if close.empty:
+                continue
+            # 전년도 마지막 종가를 기준(baseline)으로 — 없으면 올해 첫 종가
+            prev_year_vals = [float(v) for d, v in zip(close.index, close.values)
+                              if d.year < year]
+            base = prev_year_vals[-1] if prev_year_vals else float(close.iloc[0])
+            # 현재 = 마지막 확정 종가
+            cur_i = None
+            for i in range(len(close) - 1, -1, -1):
+                if is_settled(close.index[i].date(), t, now_utc):
+                    cur_i = i
+                    break
+            if cur_i is None:
+                continue
+            out[t] = pct_chg(float(close.iloc[cur_i]), base)
+        except Exception as e:
+            print(f"  [warn] {t} YTD 실패: {e}", file=sys.stderr)
+    return out
+
+
 def fetch_news(ticker: str, max_items: int = 4) -> list:
     """yfinance Ticker.news → [{title, publisher, link, time}]"""
     try:
@@ -660,6 +702,10 @@ def build():
     price_map = batch_daily(all_tickers, now_utc)
     print(f"[fetch_daily] 수신: {len(price_map)}개")
 
+    # 지수 연초대비(YTD) 수익률 (별도 1년치 다운로드)
+    ytd_map = fetch_ytd(all_index_tickers, now_utc)
+    print(f"[fetch_daily] 지수 YTD {len(ytd_map)}개 계산")
+
     # 매크로 스냅샷 (benchmarks.js) → 글로벌 매크로 코멘트
     macro = load_macro_snapshot()
     macro_line = build_macro_line(macro)
@@ -683,6 +729,7 @@ def build():
                 "price":   d["price"],
                 "chg":     d["chg"],
                 "chgPct":  d["chgPct"],
+                "ytdPct":  ytd_map.get(ticker),
                 "currency": currency,
                 "spark":   d["spark"],
                 "date":    d.get("date"),
