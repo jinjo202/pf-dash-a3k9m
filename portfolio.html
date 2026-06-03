@@ -8,23 +8,24 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-03a";</script>
-<!-- 자동 캐시 무력화: 이 HTML이 10분(GitHub Pages max-age) 캐시될 수 있어
-     로드 직후 서버의 최신 버전과 비교, 더 최신이면 1회 강제 새로고침 (?cb= 추가) -->
+<script>window.CODE_VERSION = "2026-06-03b";</script>
+<!-- 자동 캐시 무력화 (버전 직접 비교 방식):
+     GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
+     문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
+     로드된 버전과 서버 버전이 다르면 ?cb= 붙여 1회 강제 새로고침. -->
 <script>
   (function() {
     try {
       var u = new URL(window.location.href);
-      if (u.searchParams.get('cb')) return;  // 이미 강제 새로고침된 상태면 중복 방지
-      var docMs = new Date(document.lastModified).getTime();  // 현재(캐시된) 문서 수정시각
-      // probe: 캐시 우회 HEAD로 서버의 진짜 Last-Modified 조회
-      fetch(window.location.pathname + '?probe=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
-        .then(function(r) {
-          var srv = r.headers.get('Last-Modified');
-          if (!srv) return;
-          var srvMs = new Date(srv).getTime();
-          if (isFinite(srvMs) && isFinite(docMs) && srvMs > docMs + 2000) {
-            u.searchParams.set('cb', Date.now());  // 서버가 2초+ 더 최신 → 캐시 우회 reload
+      if (u.searchParams.get('cb')) return;            // 이미 강제 새로고침됨 → 중복 방지
+      var loaded = window.CODE_VERSION || '';
+      // 캐시 우회 GET으로 서버의 최신 HTML을 받아 CODE_VERSION 추출
+      fetch(window.location.pathname + '?probe=' + Date.now(), { cache: 'no-store' })
+        .then(function(r) { return r.text(); })
+        .then(function(txt) {
+          var m = txt.match(/CODE_VERSION\s*=\s*"([^"]+)"/);
+          if (m && m[1] && loaded && m[1] !== loaded) {
+            u.searchParams.set('cb', Date.now());        // 버전 불일치 → 최신으로 강제 reload
             window.location.replace(u.toString());
           }
         }).catch(function(){});
