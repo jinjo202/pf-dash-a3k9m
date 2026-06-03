@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-03c";</script>
+<script>window.CODE_VERSION = "2026-06-03d";</script>
 <script>
   (function () {
     try {
@@ -42,6 +42,7 @@
   (function () {
     var v = Math.floor(Date.now() / 60000);
     document.write('<sc'+'ript src="daily-data.js?v=' + v + '"><\/sc'+'ript>');
+    document.write('<sc'+'ript src="briefing-data.js?v=' + v + '"><\/sc'+'ript>');
   })();
 </script>
 <style>
@@ -137,6 +138,26 @@
     border-radius:10px; padding:14px 16px; margin-bottom:20px; box-shadow:var(--shadow-sm);
   }
   .commentary-title { font-size:13px; font-weight:800; color:var(--accent); margin-bottom:8px; }
+  /* 데일리 브리핑 (서술형) */
+  .briefing-box {
+    background:linear-gradient(180deg, var(--accent-soft), var(--panel) 60%);
+    border:1px solid var(--border); border-left:3px solid var(--accent);
+    border-radius:10px; padding:16px 18px; margin-bottom:20px; box-shadow:var(--shadow-sm);
+  }
+  .bf-head { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;
+    padding-bottom:10px; border-bottom:1px dashed var(--border); }
+  .bf-badge { font-size:11px; font-weight:800; color:#fff; background:var(--accent);
+    padding:3px 9px; border-radius:20px; }
+  .bf-title { font-size:15px; font-weight:800; color:var(--text); letter-spacing:-.01em; }
+  .bf-asof { font-size:11px; color:var(--muted); margin-left:auto; font-weight:600; }
+  .bf-greet { margin:0 0 10px; font-size:13.5px; font-weight:700; color:var(--text-soft); }
+  .bf-p { margin:0 0 11px; font-size:13.5px; line-height:1.85; color:var(--text); }
+  .bf-stat {
+    margin:4px 0 13px; font-size:12.5px; font-weight:700; color:var(--text-soft);
+    background:var(--panel-soft); border:1px solid var(--border); border-radius:8px;
+    padding:9px 12px; line-height:1.7; font-variant-numeric:tabular-nums;
+  }
+  .bf-note { margin:-6px 0 12px; font-size:12px; color:var(--muted); font-weight:600; }
   .commentary-line {
     margin:0 0 6px; font-size:13.5px; line-height:1.7; color:var(--text);
   }
@@ -565,9 +586,40 @@ function makeSpark(data, opts) {
     return html;
   }
 
+  /* ── 미국장 마감 시황 브리핑 (서술형, 예약작업이 매일 갱신) ── */
+  function renderBriefing() {
+    var b = window.BRIEFING;
+    if (!b || !b.paragraphs || !b.paragraphs.length) return '';
+    var html = '<div class="briefing-box">';
+    html += '<div class="bf-head">' +
+      '<span class="bf-badge">🗞 데일리 브리핑</span>' +
+      '<span class="bf-title">' + escHtml(b.title || '국내외 금융시장 동향') + '</span>' +
+      (b.as_of ? '<span class="bf-asof">기준일 ' + b.as_of + '</span>' : '') +
+    '</div>';
+    b.paragraphs.forEach(function(p) {
+      var t = (p == null ? '' : String(p)).trim();
+      if (!t) return;
+      if (t.charAt(0) === '*') {
+        html += '<div class="bf-stat">' + escHtml(t.replace(/^\*\s*/, '')) + '</div>';
+      } else if (t.charAt(0) === '※') {
+        html += '<div class="bf-note">' + escHtml(t) + '</div>';
+      } else if (t === '안녕하십니까' || t === '감사합니다.' || t === '감사합니다') {
+        html += '<p class="bf-greet">' + escHtml(t) + '</p>';
+      } else {
+        html += '<p class="bf-p">' + escHtml(t) + '</p>';
+      }
+    });
+    html += '<div class="commentary-foot">※ 미국장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)</div>';
+    html += '</div>';
+    return html;
+  }
+
   /* ── 전체 개요 카드 ── */
   function renderOverview() {
     var html = '';
+
+    // 미국장 마감 시황 브리핑 (최상단)
+    html += renderBriefing();
 
     // 글로벌 시황 코멘트
     html += renderOverviewCommentary();
