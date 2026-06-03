@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-03T15:37:00
+// 갱신: 2026-06-03T16:10:38
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -35,6 +35,12 @@ window.HOLDING_NEWS = {
    "date": "2026-06-01"
   },
   {
+   "title": "‘형 따라가기 힘드네’…코스닥, 언제 빛 볼까? - 쿠키뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBhbmhkVU5YQXNzSWZGQ3RQbEp1eTBpbWxHTnNlcm9TMWZKZ1hLaHZmNGNfQmJxQTh5VGhsWFNSQ0VmUDVQS3E2Sk1NNkROaGhiMzBfN3RVTHh3S0JWYTloTUtHVQ?oc=5",
+   "source": "쿠키뉴스",
+   "date": "2026-06-01"
+  },
+  {
    "title": "\"코스닥, 지수 투자매력 약화…'AI 밸류체인' 종목선별해야\" - KB Think",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBES1hVdkRYV19Ja0NhN0s5ejQ3Z19zZGdoNWhvN1lOTmxxMWFhazhHSUVBVnFSZ2NqLWxnZmxIVVRzRENqb0FwZGFOdC16a0ppcFhWalFFUG55VHM2T213S1Bwdm92NkdtZlRZTFhBcGFuUQ?oc=5",
    "source": "KB Think",
@@ -45,12 +51,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5ubURlZzRrLUpWc2ZqQ2ZreEJhXzBHQmN6TmdhZmp5LTRPMjRXektjR2RDMDFEMW02cVl4bWZyUlFNTGt0Q0hBcHc2WjVkc20zUkHSAVNBVV95cUxNd01GeVVpQU9jLWlkVHVwRXRPY296aXQ3cFNoRG5RRkg5eXlVN2lITXpKZnFEOVZmTGxMX1ZkaEw4QUFHakRRcFBVbkVneFItMXZDZw?oc=5",
    "source": "서울경제",
    "date": "2026-05-23"
-  },
-  {
-   "title": "내일 출격하는 국민참여성장펀드…부진한 코스닥에 단비될까 - 뉴시스",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5JLVNFT2RCSmFGejBNZV9mWUhCcS1VN09OcS1yWUZlQm14S1JGZTNGTUhZNzROdDBPS25RQmZaYzdndWVxOHFqQmp1RTlqSVY0Y0tWWFNMVWpWdllPN2xyctIBeEFVX3lxTFBpOUpwQmZ1R0FrUnZjV2ZSM2tOQmdmN1ltanNfMElIb1VSakxNVkFHOF8wdDdIQVU3b1NYWkJSMEl6RGl2cmM4LXkyTy0tTk9tems1d1QtcHVWUXJudF9NNVhaVUJDaDJMNmI0U1p4TE5Hamh1dnZRYg?oc=5",
-   "source": "뉴시스",
-   "date": "2026-05-21"
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
@@ -73,10 +73,10 @@ window.HOLDING_NEWS = {
    "date": "2026-05-20"
   },
   {
-   "title": "AI 데이터센터 수요 폭발에'들썩'...전력기기株 '슈퍼사이클' 온다 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9UTnBkamMwMExSTU9aeXQwaGxvRWdTV3BfM3ZGazQyN1BwSDBlazc4cmlLTkhJdTRrajBIRkpFeVU4WXlETkg0QVBScENHRU0?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-04-24"
+   "title": "효성·LS 등 전력 4사, 주가 폭풍 질주…\"삼성 안 부러워\" - 딜사이트",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE96d19fSVlrenBLNEJLcUxHUl9zUHF6OFNNYnpDLTRGeVhuSXVYV1JiaE1LdzVUWmNQRlg1WU9HR1ozZGNPSm5NYkJ5NlRGMGc?oc=5",
+   "source": "딜사이트",
+   "date": "2026-02-16"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -353,16 +353,16 @@ window.HOLDING_NEWS = {
    "date": "2026-03-03"
   },
   {
+   "title": "뉴욕증시, 30% 넘게 폭락한 은값 충격파…하락 마감 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ieGJDV3QydXV4blg2OTd1ZmFKQnpjXy1jbGRydlFIakd0Sk85VnVOdUJoNkQxRldjeGhTTTUxTHppRVdFS2RzSV8teFFOQkR2dWtYUjdnNk1UNnPSAWBBVV95cUxQSU1PWTdkYTRnYktfRnJNTEV1dUpVbER0bVR5dWZCXzVnOEJJUzhxRGRfVF9mNUZWQVRxQnNSdVJUdGgzSkFQbW1hRG9IWnBvdXFiS1Q5SXFybnd4LVM0NGw?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-01-31"
+  },
+  {
    "title": "하나증권 \"미국·EU 긴장 지속에 소재 업종 강세, 고려아연 엘컴텍 아이티센글로벌 주목\" - 비즈니스포스트",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBOcWVjczR5VGpmb0J4eU1ySl90QlJFb3V0SlQwNlppcWo3bjVpZnJVUWpodFNiRzBZbE9sVVViWVJyczZadEoyOVlHeGxHU2xaOU10MlZHamVCQzJkdVBrbUZoMVktWFZPaG5aUUhQbTJ5aFU?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-01-26"
-  },
-  {
-   "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
-   "source": "아시아투데이",
-   "date": "2026-02-09"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -483,16 +483,16 @@ window.HOLDING_NEWS = {
    "date": "2026-02-11"
   },
   {
-   "title": "“현대차, 미래성장주 본격 전환…글로벌 로봇 핵심 플레이어 부상” - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9XMTNZc0xlSldYR1J6Wm94a0lSUTdOVnp0VmlrUWZTUHVRSWxDN0tadlFzQXcyU2Q0V2ExUU9Va1Z1Vmg1Um9uM1FoQkdJc2pqaXc?oc=5",
-   "source": "매일경제 마켓",
-   "date": "2026-04-09"
-  },
-  {
    "title": "'포스트 엔비디아' 찾는다면 전력·인프라株…AI 가치주 5선 주목 - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTHg1TkFNaDFKTkliYWtaNnFpbnlPb1oxYXlyeTQ4WVRpeXFzYkFaQ3lwSjNraEUzS2l0bkpCaUJjSWI2a0ZNSUNCQ2JQWTBzRVlPSDN0Z2xCd1Z4eURIT0ZqZF9mazlOc2plU2JfN3R4bzZDdV9tdmE4QUVmLUd0TF9jOWZmaTVF?oc=5",
    "source": "글로벌이코노믹",
    "date": "2026-02-04"
+  },
+  {
+   "title": "지금 바로 매수해야 할 저평가 해외 가치주 ‘TOP 10’ - Benzinga",
+   "url": "https://news.google.com/rss/articles/CBMisgJBVV95cUxQZldBZzVtRkFjUF9nSnVoX3QwUDE0TzU0aFpLbVlCUGp4U1RBd3BucEpxUFY5R281MEJILVdmNTZKWFVIUUcyR2xFYWpUR05kV1B3WVNsUVVmdnNoaWZIcC05dmQtSHl0V2l5bkRMb2ZSaUFMS0hIZVZ5NzhvX21fdzFLYmlKeXdZVXlraDRoNTVROHhGckpyQkJSMTlIeFVCOUZmY2NBbVhaY2ZEUlRRWk9tNlBOVm1GUmVWcXlTenphVnRYaGNFZVVtaEJMaXNoaExfWndCNTZTZlJCUzdzN0YxMzlRMFNYVUJ5dDF6TU50Tkh2UTVqTW1UNXVYTDR3eTFPYWlOUGs4N2JReEpUOHlYcUZGZEo0OXk3d1FKTWxNOGxudTNsbGZUVEktLTZGZlE?oc=5",
+   "source": "Benzinga",
+   "date": "2026-01-10"
   }
  ],
  "Xtrackers DAX ETF (XDAX)": [
