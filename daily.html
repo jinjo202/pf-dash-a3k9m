@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-03d";</script>
+<script>window.CODE_VERSION = "2026-06-03e";</script>
 <script>
   (function () {
     try {
@@ -42,6 +42,7 @@
   (function () {
     var v = Math.floor(Date.now() / 60000);
     document.write('<sc'+'ript src="daily-data.js?v=' + v + '"><\/sc'+'ript>');
+    document.write('<sc'+'ript src="briefings-archive.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="briefing-data.js?v=' + v + '"><\/sc'+'ript>');
   })();
 </script>
@@ -150,6 +151,12 @@
     padding:3px 9px; border-radius:20px; }
   .bf-title { font-size:15px; font-weight:800; color:var(--text); letter-spacing:-.01em; }
   .bf-asof { font-size:11px; color:var(--muted); margin-left:auto; font-weight:600; }
+  .bf-date-sel {
+    margin-left:auto; font-size:12px; font-weight:600; color:var(--text-soft);
+    background:var(--panel); border:1px solid var(--border); border-radius:7px;
+    padding:4px 8px; cursor:pointer; font-variant-numeric:tabular-nums;
+  }
+  .bf-date-sel:hover { border-color:var(--accent); }
   .bf-greet { margin:0 0 10px; font-size:13.5px; font-weight:700; color:var(--text-soft); }
   .bf-p { margin:0 0 11px; font-size:13.5px; line-height:1.85; color:var(--text); }
   .bf-stat {
@@ -586,17 +593,45 @@ function makeSpark(data, opts) {
     return html;
   }
 
-  /* ── 미국장 마감 시황 브리핑 (서술형, 예약작업이 매일 갱신) ── */
+  /* ── 미국장 마감 시황 브리핑 (서술형, 날짜별 아카이브) ── */
+  function getBriefings() {
+    if (window.BRIEFINGS && window.BRIEFINGS.length) {
+      // 최신순 정렬 보장
+      return window.BRIEFINGS.slice().sort(function(a, b) {
+        return (b.as_of || '').localeCompare(a.as_of || '');
+      });
+    }
+    if (window.BRIEFING && window.BRIEFING.paragraphs) return [window.BRIEFING];
+    return [];
+  }
+  var selectedBriefingDate = null;
   function renderBriefing() {
-    var b = window.BRIEFING;
-    if (!b || !b.paragraphs || !b.paragraphs.length) return '';
-    var html = '<div class="briefing-box">';
+    var list = getBriefings();
+    if (!list.length) return '';
+    var sel = null;
+    if (selectedBriefingDate) {
+      for (var i = 0; i < list.length; i++) { if (list[i].as_of === selectedBriefingDate) { sel = list[i]; break; } }
+    }
+    if (!sel) sel = list[0];
+    selectedBriefingDate = sel.as_of;
+
+    var html = '<div class="briefing-box" id="briefingBox">';
     html += '<div class="bf-head">' +
       '<span class="bf-badge">🗞 데일리 브리핑</span>' +
-      '<span class="bf-title">' + escHtml(b.title || '국내외 금융시장 동향') + '</span>' +
-      (b.as_of ? '<span class="bf-asof">기준일 ' + b.as_of + '</span>' : '') +
-    '</div>';
-    b.paragraphs.forEach(function(p) {
+      '<span class="bf-title">' + escHtml(sel.title || '국내외 금융시장 동향') + '</span>';
+    if (list.length > 1) {
+      html += '<select class="bf-date-sel" onchange="selectBriefing(this.value)">';
+      list.forEach(function(b) {
+        html += '<option value="' + b.as_of + '"' + (b.as_of === sel.as_of ? ' selected' : '') + '>' +
+          b.as_of + '</option>';
+      });
+      html += '</select>';
+    } else {
+      html += (sel.as_of ? '<span class="bf-asof">기준일 ' + sel.as_of + '</span>' : '');
+    }
+    html += '</div>';
+
+    (sel.paragraphs || []).forEach(function(p) {
       var t = (p == null ? '' : String(p)).trim();
       if (!t) return;
       if (t.charAt(0) === '*') {
@@ -609,10 +644,17 @@ function makeSpark(data, opts) {
         html += '<p class="bf-p">' + escHtml(t) + '</p>';
       }
     });
-    html += '<div class="commentary-foot">※ 미국장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)</div>';
+    var total = list.length;
+    html += '<div class="commentary-foot">※ 미국장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)' +
+      (total > 1 ? ' · 총 ' + total + '건 아카이브' : '') + '</div>';
     html += '</div>';
     return html;
   }
+  window.selectBriefing = function(date) {
+    selectedBriefingDate = date;
+    var box = document.getElementById('briefingBox');
+    if (box) box.outerHTML = renderBriefing();
+  };
 
   /* ── 전체 개요 카드 ── */
   function renderOverview() {
