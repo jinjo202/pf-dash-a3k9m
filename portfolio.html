@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-03c";</script>
+<script>window.CODE_VERSION = "2026-06-03d";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -57,6 +57,7 @@
     var v = Math.floor(Date.now() / 60000);  // 분 단위로 변경
     document.write('<script src="portfolio-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="benchmarks.js?v=' + v + '"></scr' + 'ipt>');
+    document.write('<script src="holding-news.js?v=' + v + '" onerror="window.HOLDING_NEWS=window.HOLDING_NEWS||{}"></scr' + 'ipt>');
   })();
 </script>
 <style>
@@ -1506,6 +1507,17 @@ const HOLDING_NOTES = {
       { t: "에너지안보·탄소중립에 원전주 재부각…체코·SMR 모멘텀 (이투데이)", u: "https://www.etoday.co.kr/news/view/2556710" },
       { t: "2026 무엇이 40년 만의 원전 사이클을 만드는가 (KB증권)", u: "https://kbthink.com/securities-view.html?docId=20251114150116617K" },
     ],
+  },
+  "SPDR Communication ETF (XLC)": {
+    tag: "미국 커뮤니케이션",
+    asof: "2026-06",
+    summary: "S&P 500(빅테크·반도체 주도) 대비 소폭 부진. 구글·메타 등 광고 대형주 비중이 높은데, 시장 주도주가 AI 반도체(엔비디아 등)로 쏠리며 상대적으로 덜 올랐다.",
+    drivers: [
+      "지수 상승 주도가 AI 반도체(엔비디아·브로드컴)로 집중 → 광고·미디어 상대 소외",
+      "구글·메타 광고 매출은 견조하나 멀티플 재평가 폭이 반도체보다 작음",
+      "넷플릭스·통신 등 일부 구성종목의 개별 약세",
+    ],
+    refs: [],
   },
   "KODEX AI전력핵심설비 ETF": {
     tag: "전력기기·AI전력",
@@ -3080,17 +3092,26 @@ function renderAlphaContribution() {
     },
   });
 
-  // 섹터 코멘트 박스 HTML (HOLDING_NOTES에 있으면)
+  // 섹터 코멘트 박스 HTML — 정성 코멘트(수동) + 최신 뉴스(자동) 결합
   const noteBlock = (name) => {
-    const n = HOLDING_NOTES[name];
-    if (!n) return '';
-    return `
-      <div class="holding-note">
-        <div class="hn-head"><span class="hn-tag">${n.tag}</span>📉 지역BM 언더퍼폼 — 섹터 코멘트 <span style="font-weight:400;color:var(--muted);font-size:9px">(${n.asof} 기준)</span></div>
+    const n = HOLDING_NOTES[name];                              // 정성 분석 (수동 큐레이션)
+    const news = (window.HOLDING_NEWS && window.HOLDING_NEWS[name]) || [];  // 최신 뉴스 (자동)
+    if (!n && !news.length) return '';
+    let html = '';
+    if (n) {
+      html += `
+        <div class="hn-head"><span class="hn-tag">${n.tag}</span>📉 지역BM 언더퍼폼 — 섹터 코멘트 <span style="font-weight:400;color:var(--muted);font-size:9px">(${n.asof} 기준 · 수동 분석)</span></div>
         <div class="hn-sum">${n.summary}</div>
-        <ul>${n.drivers.map(x => `<li>${x}</li>`).join('')}</ul>
-        <div class="hn-refs">📰 참고: ${n.refs.map(r => `<a href="${r.u}" target="_blank" rel="noopener">${r.t}</a>`).join(' · ')}</div>
-      </div>`;
+        <ul>${n.drivers.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    }
+    if (news.length) {
+      html += `<div class="hn-refs" style="margin-top:${n ? '6' : '2'}px">📰 <b>최근 뉴스 (자동 갱신)</b><br>`
+        + news.map(x => `<a href="${x.url}" target="_blank" rel="noopener" title="${x.source} · ${x.date}">· ${x.title}</a> <span style="color:var(--muted);font-size:9px">${x.source}${x.date ? ' '+x.date.slice(5) : ''}</span>`).join('<br>')
+        + `</div>`;
+    } else if (n && n.refs) {
+      html += `<div class="hn-refs">📰 참고: ${n.refs.map(r => `<a href="${r.u}" target="_blank" rel="noopener">${r.t}</a>`).join(' · ')}</div>`;
+    }
+    return `<div class="holding-note">${html}</div>`;
   };
 
   // 테이블 — 행 클릭 시 펼침
@@ -3195,12 +3216,14 @@ function renderAlphaContribution() {
       ${contributions.map((c, i) => {
         const isOpen = expandedAlphaName === c.name;
         const hasNote = !!HOLDING_NOTES[c.name];
-        const hasHoldings = (c.topHoldings && c.topHoldings.length) || hasNote;
+        const hasNews = !!(window.HOLDING_NEWS && window.HOLDING_NEWS[c.name] && window.HOLDING_NEWS[c.name].length);
+        const hasHoldings = (c.topHoldings && c.topHoldings.length) || hasNote || hasNews;
         const indicator = hasHoldings
           ? `<span style="color:var(--muted);font-size:10px;margin-right:4px">${isOpen ? '▼' : '▶'}</span>`
           : `<span style="color:var(--muted-soft);font-size:10px;margin-right:4px">·</span>`;
         const periodTip = c.periodLabel === 'YTD' ? 'YTD (작년말부터 보유)' : `${c.periodFrom}~ (26년 매수 후)`;
-        const noteBadge = hasNote ? ` <span title="섹터 부진 코멘트 — 클릭해 펼치기" style="cursor:pointer">📉</span>` : '';
+        const noteBadge = hasNote ? ` <span title="섹터 부진 코멘트 + 최신뉴스 — 클릭해 펼치기" style="cursor:pointer">📉</span>`
+          : (hasNews ? ` <span title="최신 뉴스 — 클릭해 펼치기" style="cursor:pointer">📰</span>` : '');
         return `
           <tr class="alpha-row ${isOpen ? 'expanded' : ''}" data-name="${c.name.replace(/"/g, '&quot;')}">
             <td><span class="region-pill" data-r="${c.region}">${c.region}</span></td>
