@@ -1,0 +1,80 @@
+name: Asia Market Briefing
+
+on:
+  schedule:
+    # 아시아장 마감(15:30 KST = 06:30 UTC) 직후. 무료 cron 지연 대비 백업 2회.
+    # 멱등성 가드(--skip-if-exists)로 중복 생성·발송 방지.
+    - cron: '50 6 * * 1-5'   # 15:50 KST (주력)
+    - cron: '20 7 * * 1-5'   # 16:20 KST (백업1)
+    - cron: '0 8 * * 1-5'    # 17:00 KST (백업2)
+  workflow_dispatch:
+  repository_dispatch:
+    types: [briefing-asia-trigger]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: briefing-asia
+  cancel-in-progress: false
+
+jobs:
+  briefing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install anthropic python-docx
+
+      - name: Refresh market data (not committed)
+        run: |
+          python fetch_daily.py || true
+          python fetch_benchmarks.py || true
+
+      - name: Generate briefing (Claude API)
+        id: gen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+        run: python briefing/generate_briefing.py asia --skip-if-exists
+
+      - name: Commit & push briefing files
+        if: steps.gen.outputs.status == 'generated'
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # fetch 로 변경된 데이터 파일은 커밋 대상 아님 — 원복.
+          git checkout -- daily-data.js benchmarks.js 2>/dev/null || true
+          git add briefings-archive-asia.js briefings
+          if git diff --staged --quiet; then
+            echo "변경 없음."; exit 0
+          fi
+          git commit -m "briefing: ${{ steps.gen.outputs.as_of }} 아시아장 마감 시황 브리핑"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase origin/main && git push; then
+              echo "push 성공 (attempt $attempt)"; exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 5))
+          done
+          echo "::error::3회 시도 후 push 실패"; exit 1
+
+      - name: Send email (SMTP)
+        if: steps.gen.outputs.status == 'generated'
+        env:
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python briefing/send_email_asia.py briefings-archive-asia.js ${{ steps.gen.outputs.as_of }}
