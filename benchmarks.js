@@ -16,7 +16,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-03",
       "decimals": 2,
       "valuation": {
-        "pe": 23.19,
+        "pe": 23.18,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2204,7 +2204,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-03",
       "decimals": 2,
       "valuation": {
-        "pe": 23.47,
+        "pe": 23.46,
         "pb": 1.76,
         "roe": null,
         "src": "SPY (top derived)",
@@ -2751,7 +2751,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-03",
       "decimals": 2,
       "valuation": {
-        "pe": 24.61,
+        "pe": 24.6,
         "pb": 2.08,
         "roe": null,
         "src": "QQQ (top derived)",
@@ -3298,7 +3298,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-03",
       "decimals": 2,
       "valuation": {
-        "pe": 24.6,
+        "pe": 24.58,
         "pb": 1.45,
         "roe": null,
         "src": "SOXX (top derived)",
@@ -3836,16 +3836,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 621.03,
+      "current": 620.5,
       "baseline": 592.78,
       "mtd_baseline": 626.0,
-      "ytd_pct": 4.7657,
-      "mtd_pct": -0.7939,
-      "daily_pct": -0.0258,
+      "ytd_pct": 4.6763,
+      "mtd_pct": -0.8786,
+      "daily_pct": -0.1111,
       "as_of": "2026-06-04",
       "decimals": 2,
       "valuation": {
-        "pe": 14.16,
+        "pe": 14.08,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4375,7 +4375,7 @@ window.BENCHMARKS = {
           621.24,
           625.34,
           621.19,
-          621.03
+          620.5
         ]
       }
     },
@@ -4939,7 +4939,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-04",
       "decimals": 2,
       "valuation": {
-        "pe": 11.82,
+        "pe": 11.84,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5477,12 +5477,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1534.88,
+      "current": 1534.1,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 6.7438,
-      "mtd_pct": 2.6476,
-      "daily_pct": 1.2053,
+      "ytd_pct": 6.6896,
+      "mtd_pct": 2.5955,
+      "daily_pct": 1.1539,
       "as_of": "2026-06-04",
       "decimals": 2,
       "valuation": {
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1506.84,
           1511.27,
           1516.6,
-          1534.88
+          1534.1
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 95.1,
+      "current": 94.95,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 65.6217,
-      "mtd_pct": 8.8599,
-      "daily_pct": -0.9581,
+      "ytd_pct": 65.3605,
+      "mtd_pct": 8.6882,
+      "daily_pct": -1.1144,
       "as_of": "2026-06-04",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           92.16,
           93.76,
           96.02,
-          95.1
+          94.95
         ]
       }
     },
@@ -7118,13 +7118,13 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 16.06,
+      "current": 16.6,
       "baseline": 14.95,
       "mtd_baseline": 15.32,
-      "ytd_pct": 7.4247,
-      "mtd_pct": 4.8303,
-      "daily_pct": 1.8389,
-      "as_of": "2026-06-03",
+      "ytd_pct": 11.0368,
+      "mtd_pct": 8.3551,
+      "daily_pct": 3.3624,
+      "as_of": "2026-06-04",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -7136,7 +7136,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-05-22",
           "2025-05-23",
           "2025-05-27",
           "2025-05-28",
@@ -7395,10 +7394,10 @@ window.BENCHMARKS = {
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
-          "2026-06-03"
+          "2026-06-03",
+          "2026-06-04"
         ],
         "values": [
-          20.28,
           22.29,
           18.96,
           19.31,
@@ -7657,7 +7656,8 @@ window.BENCHMARKS = {
           15.32,
           16.05,
           15.77,
-          16.06
+          16.06,
+          16.6
         ]
       }
     },
