@@ -32,7 +32,8 @@ ARCHIVE_ASIA = os.path.join(REPO, "briefings-archive-asia.js")
 ARCHIVE_US = os.path.join(REPO, "briefings-archive.js")
 BRIEFING_DATA_US = os.path.join(REPO, "briefing-data.js")
 
-DEFAULT_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-6")
+# ANTHROPIC_MODEL 가 비어 있거나 미설정이면 sonnet 기본(비용 절감).
+DEFAULT_MODEL = os.environ.get("ANTHROPIC_MODEL") or "claude-sonnet-4-5"
 MAX_KEEP = 120
 
 
