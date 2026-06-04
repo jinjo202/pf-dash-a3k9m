@@ -72,6 +72,16 @@ MANUAL = {
         "note": "옵션 시장 심리(주식 P/C 0.39·SPX 0.88 동반). 역발상 — 높을수록(공포) 강세, "
                 "0.7 아래는 낙관·과열. ※요청의 '풋콜 패리티'는 심리지표인 풋/콜 비율로 해석. cboe.com 일간.",
     },
+    "vkospi": {
+        "name": "VKOSPI (한국 변동성)",
+        "pillar": "sentiment",
+        "current": 21.0,
+        "prev": 22.5,
+        "as_of": "2026-06-03",
+        "unit": "",
+        "note": "코스피200 변동성지수(한국판 VIX). 낮을수록 안정. VIX 대비 한국 시장 공포 정도. "
+                "무료 실시간 API 없어 수동 — KRX(data.krx.co.kr 변동성지수)/Investing.com에서 갱신.",
+    },
 }
 
 # 수급(flows) 수동 지표 — 무료 자동 API 없음(KOFIA/KRX/노무라 추정 등). 별도 dict.
@@ -120,10 +130,19 @@ MANUAL_FLOWS = {
 
 
 # ── HTTP / 파싱 헬퍼 ──────────────────────────────────────────────────────
-def http_get(url, timeout=30):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 macro-monitor"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read().decode("utf-8", errors="replace")
+def http_get(url, timeout=30, retries=4):
+    """GET + 재시도(GitHub Actions에서 FRED/multpl throttling 대응)."""
+    import time
+    last = None
+    for a in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 macro-monitor"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read().decode("utf-8", errors="replace")
+        except Exception as e:
+            last = e
+            time.sleep(1.2 * (a + 1))  # 1.2s, 2.4s, 3.6s 백오프
+    raise last
 
 
 def fetch_multpl(slug):
@@ -339,6 +358,11 @@ def score_indicator(key, cur, hist_vals, ctx):
     if key == "put_call":
         # 역발상: 높을수록(공포)→강세, 낮을수록(낙관)→약세
         return clamp((cur - 0.95) / 0.35)
+    if key == "vkospi":
+        # VKOSPI 낮으면 안정(호재), 30+ 악재 (한국 변동성, VIX보다 베이스 높음)
+        if cur >= 35:
+            return clamp(-1.0 + (cur - 35) / 30.0 * 0.4)
+        return clamp((22 - cur) / 12.0)
     if key == "cta_pos":
         # 포지셔닝 낮을수록 매수여력(호재), 높을수록 되돌림 위험
         return clamp((50 - cur) / 40.0)
@@ -698,6 +722,7 @@ MANUAL_URLS = {
     "cnn_fng": "https://www.cnn.com/markets/fear-and-greed",
     "aaii_spread": "https://www.aaii.com/sentimentsurvey",
     "put_call": "https://www.cboe.com/us/options/market_statistics/daily/",
+    "vkospi": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd",
     "cta_pos": "https://www.isabelnet.com/?s=CTA+equity+positioning",
     "retail_alloc": "https://www.aaii.com/assetallocationsurvey",
     "kr_deposit": "https://freesis.kofia.or.kr/",
@@ -1611,8 +1636,10 @@ def build():
     # 품질 게이트: 이번 수집이 빈약(일부 FRED/yfinance 실패)하면 직전 좋은 버전 보존.
     # cron이 하루 8회(백업 포함) 도므로, 한 번 실패해도 다음 정상 실행이 갱신.
     us_n = (earn["data"].get("countries", {}).get("US") or {}).get("n", 0)
-    if OUT.exists() and (len(indicators) < 24 or us_n < 10 or not regime_history):
-        print(f"\n[guard] 빈약한 수집(지표 {len(indicators)}/24, US이익 n={us_n}, "
+    if OUT.exists() and (len(indicators) < 16 or not regime_history):
+        # 심각한 실패(지표 절반 이상 누락 등)만 차단 — 일부 지표 누락은 그대로 발행해
+        # KR 수급·시장 데이터 등 신선한 부분이 반영되게 함.
+        print(f"\n[guard] 심각한 수집 실패(지표 {len(indicators)}/16, US이익 n={us_n}, "
               f"레짐히스토리 {len(regime_history)}) → macro-data.js 갱신 생략(직전 보존).")
         return
 

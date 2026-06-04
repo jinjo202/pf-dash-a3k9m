@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-01n";</script>
+<script>window.CODE_VERSION = "2026-06-04a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -1205,12 +1205,37 @@ function render(M) {
   }
 }
 
+function doRender(M) {
+  try { render(M); }
+  catch (e) { document.getElementById('app').innerHTML = '<div class="loading">렌더 오류: ' + e.message + '</div>'; console.error(e); }
+}
+// kr_flows.json을 직접 읽어 macro-data.js보다 신선하면 한국 수급을 덮어씀
+// (무거운 fetch_macro가 늦어도 한국 수급은 항상 최신 — fetch_kr_flows는 매일 안정 갱신)
+function loadFreshKrFlows(M, done) {
+  if (!M || !M.kr_flows_ts) { done(M); return; }
+  var v = Math.floor(Date.now() / 60000);
+  fetch('kr_flows.json?v=' + v, { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (kr) {
+      try {
+        var liveDate = (M.kr_flows_ts.latest || {}).date;
+        if (kr && kr.latest && kr.latest.date && (!liveDate || kr.latest.date > liveDate)) {
+          var dep = M.kr_flows_ts.deposit, depSrc = M.kr_flows_ts.deposit_source, src = M.kr_flows_ts.source, srcUrl = M.kr_flows_ts.source_url;
+          M.kr_flows_ts = Object.assign({}, M.kr_flows_ts, kr, { deposit: dep, deposit_source: depSrc, source: src, source_url: srcUrl });
+          if (M.indicators.kr_flows && kr.mtd) M.indicators.kr_flows.current = kr.mtd.foreign;
+          console.log('KR flows refreshed from kr_flows.json:', kr.latest.date);
+        }
+      } catch (e) {}
+    })
+    .catch(function () {})
+    .finally(function () { done(M); });
+}
 window.addEventListener('DOMContentLoaded', function () {
   // 모달 닫기 핸들러 (1회 등록)
   document.getElementById('mClose').addEventListener('click', closeIndModal);
   document.getElementById('indModal').addEventListener('click', function (e) { if (e.target === this) closeIndModal(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeIndModal(); });
-  if (window.MACRO) { try { render(window.MACRO); } catch (e) { document.getElementById('app').innerHTML = '<div class="loading">렌더 오류: ' + e.message + '</div>'; console.error(e); } }
+  if (window.MACRO) loadFreshKrFlows(window.MACRO, doRender);
   else document.getElementById('app').innerHTML = '<div class="loading">macro-data.js를 불러오지 못했습니다. fetch_macro.py를 먼저 실행하세요.</div>';
 });
 </script>
