@@ -16,7 +16,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-05",
       "decimals": 2,
       "valuation": {
-        "pe": 22.5,
+        "pe": 22.49,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2204,7 +2204,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-05",
       "decimals": 2,
       "valuation": {
-        "pe": 21.07,
+        "pe": 21.06,
         "pb": 1.72,
         "roe": null,
         "src": "SPY (top derived)",
