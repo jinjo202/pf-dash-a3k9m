@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-03d";</script>
+<script>window.CODE_VERSION = "2026-06-05a";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1076,6 +1076,10 @@
       <button type="submit" id="pwBtn">열기</button>
       <div class="error" id="pwError"></div>
       <label class="remember">
+        <input type="checkbox" id="pwShow" />
+        비밀번호 표시 (한/영 키가 한글이면 글자가 보입니다)
+      </label>
+      <label class="remember">
         <input type="checkbox" id="pwRemember" checked />
         이 브라우저에서 기억 (로컬에만 저장, 다른 기기엔 전송 안 됨)
       </label>
@@ -2011,13 +2015,36 @@ function showGate() {
   document.getElementById('dashboard').classList.add('hidden');
   document.getElementById('empty').classList.add('hidden');
   const form = document.getElementById('gateForm');
+  // 비밀번호 표시 토글 — 한/영 키가 한글 모드일 때 글자가 보여 바로 알아챔
+  const showChk = document.getElementById('pwShow');
+  if (showChk) showChk.addEventListener('change', () => {
+    document.getElementById('pw').type = showChk.checked ? 'text' : 'password';
+  });
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const pw = document.getElementById('pw').value;
+    const raw = document.getElementById('pw').value;
+    // 공백 + BOM(U+FEFF) 제거 — 자동완성/복붙 시 끼는 보이지 않는 문자 정리
+    const pw = raw.replace(/^﻿/, '').trim().replace(/^﻿/, '');
     const remember = document.getElementById('pwRemember').checked;
     const errEl = document.getElementById('pwError');
     const btn = document.getElementById('pwBtn');
     errEl.textContent = '';
+    // 진단 1: 데이터 파일 미로딩
+    if (!window.PORTFOLIO_ENCRYPTED) {
+      errEl.textContent = '데이터 파일(portfolio-data.js)을 불러오지 못했습니다. 새로고침(Ctrl+Shift+R) 후 다시 시도하세요.';
+      return;
+    }
+    // 진단 2: crypto.subtle 미지원 (비보안 컨텍스트 / 일부 인앱 브라우저)
+    if (!window.crypto || !window.crypto.subtle) {
+      errEl.textContent = '이 브라우저에서는 보안 복호화를 사용할 수 없습니다. https 주소로 크롬·엣지에서 열어주세요.';
+      return;
+    }
+    // 진단 3: 한글/비ASCII 입력 (한/영 키가 한글 모드)
+    if (/[^\x20-\x7E]/.test(pw)) {
+      errEl.textContent = '한글이 입력된 것 같습니다(' + pw + '). 한/영 키를 영문으로 바꾼 뒤 "비밀번호 표시"로 확인하며 다시 입력하세요.';
+      document.getElementById('pw').select();
+      return;
+    }
     btn.disabled = true;
     btn.textContent = '복호화 중...';
     try {
@@ -2027,7 +2054,7 @@ function showGate() {
       (remember ? localStorage : sessionStorage).setItem('pf_pw', pw);
       loadFromData(data);
     } catch (err) {
-      errEl.textContent = '비밀번호가 틀렸거나 데이터가 손상되었습니다.';
+      errEl.textContent = '비밀번호가 틀렸습니다 (' + pw.length + '자 입력됨). 한/영 키·자동완성·앞뒤 공백을 확인하세요.';
       btn.disabled = false;
       btn.textContent = '열기';
       document.getElementById('pw').select();
