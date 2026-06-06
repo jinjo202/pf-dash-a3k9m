@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-05a";</script>
+<script>window.CODE_VERSION = "2026-06-05b";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -51,10 +51,11 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <!-- 캐시 무력화: portfolio-data.js / benchmarks.js는 cron에 의해 자주 바뀜.
-     쿼리스트링에 분 단위 timestamp 붙여 GitHub Pages CDN 캐시 우회. -->
+     매 로드마다 완전 유니크 토큰(ms+난수)을 붙여 브라우저/프록시/CDN 캐시 적중을
+     원천 차단. (분 단위 버스트는 일부 환경에서 옛 파일이 끼는 사례가 있어 변경) -->
 <script>
   (function() {
-    var v = Math.floor(Date.now() / 60000);  // 분 단위로 변경
+    var v = Date.now() + '-' + Math.floor(Math.random() * 1e9);  // 매번 유일
     document.write('<script src="portfolio-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="benchmarks.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="holding-news.js?v=' + v + '" onerror="window.HOLDING_NEWS=window.HOLDING_NEWS||{}"></scr' + 'ipt>');
@@ -2047,18 +2048,50 @@ function showGate() {
     }
     btn.disabled = true;
     btn.textContent = '복호화 중...';
-    try {
-      const data = await decryptBlob(
-        window.PORTFOLIO_ENCRYPTED, pw, window.PBKDF2_ITERATIONS || 200000
-      );
+    const finishOk = (data) => {
       (remember ? localStorage : sessionStorage).setItem('pf_pw', pw);
       loadFromData(data);
-    } catch (err) {
-      errEl.textContent = '비밀번호가 틀렸습니다 (' + pw.length + '자 입력됨). 한/영 키·자동완성·앞뒤 공백을 확인하세요.';
+    };
+    const fail = (msgHtml) => {
+      errEl.innerHTML = msgHtml;
       btn.disabled = false;
       btn.textContent = '열기';
       document.getElementById('pw').select();
+    };
+    // 1차: 페이지에 로드된 blob으로 복호화
+    try {
+      finishOk(await decryptBlob(window.PORTFOLIO_ENCRYPTED, pw, window.PBKDF2_ITERATIONS || 200000));
+      return;
+    } catch (e1) { /* 2차 자가치유로 진행 */ }
+    // 2차(자가치유): 페이지가 캐시된 옛 데이터를 들고 있을 수 있어,
+    // portfolio-data.js를 강제로 새로 받아(no-store + 유니크) 같은 비번으로 재시도.
+    btn.textContent = '최신 데이터로 재시도 중...';
+    let freshBlob = null, freshIters = 200000, fetchErr = null;
+    try {
+      const bust = Date.now() + '-' + Math.floor(Math.random() * 1e9);
+      const txt = await (await fetch('portfolio-data.js?fresh=' + bust, { cache: 'no-store' })).text();
+      const bm = txt.match(/window\.PORTFOLIO_ENCRYPTED\s*=\s*"([^"]+)"/);
+      const im = txt.match(/window\.PBKDF2_ITERATIONS\s*=\s*(\d+)/);
+      if (bm) { freshBlob = bm[1]; if (im) freshIters = +im[1]; }
+    } catch (e2) { fetchErr = e2; }
+
+    if (freshBlob) {
+      try {
+        finishOk(await decryptBlob(freshBlob, pw, freshIters));
+        console.log('[gate] 자가치유 성공: 캐시된 옛 데이터 → 최신 재시도로 로그인');
+        return;
+      } catch (e3) {
+        // 최신 데이터로도 실패 → 비번 자체 문제 (서버는 ssfire 검증됨)
+        const sameBlob = freshBlob === window.PORTFOLIO_ENCRYPTED;
+        fail('비밀번호가 틀렸습니다 (' + pw.length + '자 입력됨). 한/영 키·자동완성·앞뒤 공백을 확인하세요.' +
+             (sameBlob ? '' : '<br><small>※ 캐시 갱신됨 — 그래도 실패하면 비번 문제</small>'));
+        return;
+      }
     }
+    // 데이터를 새로 받지도 못함 (네트워크/프록시 차단)
+    const loadedLen = (window.PORTFOLIO_ENCRYPTED || '').length;
+    fail('데이터를 새로 받지 못했습니다(네트워크/프록시 가능). 입력 ' + pw.length +
+         '자 · 페이지데이터 ' + loadedLen + 'B.<br>Ctrl+Shift+R 강력 새로고침 또는 시크릿창에서 열어보세요.');
   });
 }
 
