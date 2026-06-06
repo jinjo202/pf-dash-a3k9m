@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-05b";</script>
+<script>window.CODE_VERSION = "2026-06-05c";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1076,6 +1076,7 @@
       <input type="password" id="pw" placeholder="비밀번호" autocomplete="current-password" autofocus />
       <button type="submit" id="pwBtn">열기</button>
       <div class="error" id="pwError"></div>
+      <div id="gateVer" style="margin-top:8px;font-size:11px;color:var(--muted);font-family:monospace"></div>
       <label class="remember">
         <input type="checkbox" id="pwShow" />
         비밀번호 표시 (한/영 키가 한글이면 글자가 보입니다)
@@ -2015,6 +2016,12 @@ function showGate() {
   document.getElementById('gate').classList.remove('hidden');
   document.getElementById('dashboard').classList.add('hidden');
   document.getElementById('empty').classList.add('hidden');
+  // 진단용: 게이트 화면에 코드버전 + 로드된 데이터 길이 노출
+  // (회사 프록시/캐시가 옛 파일을 주는지 사용자가 바로 확인 가능)
+  const verEl = document.getElementById('gateVer');
+  if (verEl) verEl.textContent = '코드 ' + (window.CODE_VERSION || '?') +
+    ' · 데이터 ' + ((window.PORTFOLIO_ENCRYPTED || '').length) + 'B' +
+    ' · 서버기준 198412B';
   const form = document.getElementById('gateForm');
   // 비밀번호 표시 토글 — 한/영 키가 한글 모드일 때 글자가 보여 바로 알아챔
   const showChk = document.getElementById('pwShow');
