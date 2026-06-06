@@ -12,11 +12,25 @@
 """
 
 import json
+import math
 import re
 import sys
 import io
 from datetime import datetime, timedelta, date
 from pathlib import Path
+
+
+def _num(x):
+    """float 변환 + NaN/Inf 차단 → 유효 숫자면 float, 아니면 None.
+    yfinance가 NaN 종가를 반환하면 mkt가 NaN 오염되어 브라우저 JSON.parse가
+    깨지는 사고(2026-06-05) 방지. NaN은 None으로 취급해 carry-forward 시킴."""
+    try:
+        f = float(x)
+    except (TypeError, ValueError):
+        return None
+    if math.isnan(f) or math.isinf(f):
+        return None
+    return f
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -108,7 +122,7 @@ def close_on_or_before(hist, target: date) -> float | None:
         sub = hist[hist.index.strftime("%Y-%m-%d") <= target_ts]
         if sub.empty:
             return None
-        return float(sub["Close"].iloc[-1])
+        return _num(sub["Close"].iloc[-1])
     except Exception:
         return None
 
@@ -116,16 +130,16 @@ def close_on_or_before(hist, target: date) -> float | None:
 def last_close(hist) -> float | None:
     if hist is None or hist.empty:
         return None
-    return float(hist["Close"].iloc[-1])
+    return _num(hist["Close"].iloc[-1])
 
 
 def last_two_closes(hist) -> tuple[float | None, float | None]:
-    """가장 최근 종가, 그 전 거래일 종가"""
+    """가장 최근 종가, 그 전 거래일 종가 (NaN 종가는 제외하고 유효값만)"""
     if hist is None or hist.empty:
         return None, None
-    closes = hist["Close"].tolist()
-    latest = float(closes[-1]) if len(closes) >= 1 else None
-    prev = float(closes[-2]) if len(closes) >= 2 else None
+    closes = [v for v in (_num(c) for c in hist["Close"].tolist()) if v is not None]
+    latest = closes[-1] if len(closes) >= 1 else None
+    prev = closes[-2] if len(closes) >= 2 else None
     return latest, prev
 
 
@@ -201,10 +215,17 @@ def main():
                 # 못 구하면 today 가격을 baseline으로 — 변화율 0
                 baseline = today_close
 
-        cur_mkt = h.get("mkt") or 0
-        if baseline > 0 and cur_mkt > 0:
+        cur_mkt = _num(h.get("mkt")) or 0
+        baseline = _num(baseline)
+        if baseline and baseline > 0 and cur_mkt > 0:
             ratio = today_close / baseline
             new_mkt = cur_mkt * ratio
+            # 최종 NaN 가드: 계산 결과가 NaN/Inf면 mkt를 건드리지 않고 직전값 유지
+            if _num(new_mkt) is None:
+                print(f"  [nan-guard] {name}  (today={today_close}, base={baseline}) → 직전 mkt 유지")
+                h["daily_chg_pct"] = 0
+                h["daily_pnl"] = 0
+                continue
             h["mkt"] = round(new_mkt, 2)
             chg_pct = (ratio - 1) * 100
 

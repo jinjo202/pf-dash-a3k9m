@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-05d";</script>
+<script>window.CODE_VERSION = "2026-06-05e";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -2156,7 +2156,15 @@ async function decryptBlob(b64, password, iterations) {
     ['decrypt']
   );
   const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: nonce }, key, ct);
-  return JSON.parse(new TextDecoder().decode(plain));
+  // 복호화 성공(인증태그 통과 = 비번 맞음). 다만 데이터에 무효 JSON 토큰(NaN/Infinity)이
+  // 섞이면 JSON.parse가 깨져 "비번 틀림"으로 오인되는 사고(2026-06-05)가 있어, 값 위치의
+  // NaN/Infinity를 null로 치환해 페이지가 살아있게 방어. (서버측 encrypt_data.py도 정화함)
+  let text = new TextDecoder().decode(plain);
+  try {
+    return JSON.parse(text);
+  } catch (_) {
+    return JSON.parse(text.replace(/([:\[,]\s*)(NaN|-?Infinity)\b/g, '$1null'));
+  }
 }
 
 const fileInput = document.getElementById('file');

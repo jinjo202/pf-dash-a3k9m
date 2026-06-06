@@ -51,6 +51,20 @@ def _clean(s: str) -> str:
     return s.lstrip("﻿").strip().lstrip("﻿")
 
 
+def _sanitize_nan(o):
+    """NaN/Infinity → None 치환. 파이썬 json은 NaN을 출력하지만 이는 무효 JSON이라
+    브라우저 JSON.parse가 깨진다(2026-06-05 사고: mkt NaN → 전 페이지 로그인 실패).
+    암호화 직전 반드시 정화해 출력이 항상 유효 JSON이 되도록 보장."""
+    import math
+    if isinstance(o, dict):
+        return {k: _sanitize_nan(v) for k, v in o.items()}
+    if isinstance(o, list):
+        return [_sanitize_nan(v) for v in o]
+    if isinstance(o, float) and (math.isnan(o) or math.isinf(o)):
+        return None
+    return o
+
+
 def get_password(arg: str | None) -> str:
     if arg:
         return _clean(arg)
@@ -79,8 +93,12 @@ def encrypt(password: str) -> None:
     obj_str = re.sub(r",(\s*[}\]])", r"\1", obj_str)
     data = json.loads(obj_str)
 
-    # 최소 크기로 직렬화 (compact)
-    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    # NaN/Inf 정화 후 직렬화. allow_nan=False로 혹시 남은 무효 float이 있으면
+    # 조용히 NaN을 쓰지 않고 즉시 에러로 잡아 사고를 사전에 차단.
+    data = _sanitize_nan(data)
+    payload = json.dumps(
+        data, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+    ).encode("utf-8")
 
     salt = os.urandom(16)
     nonce = os.urandom(12)
