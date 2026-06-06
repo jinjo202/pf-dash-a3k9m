@@ -4939,7 +4939,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-05",
       "decimals": 2,
       "valuation": {
-        "pe": 11.95,
+        "pe": 11.96,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
