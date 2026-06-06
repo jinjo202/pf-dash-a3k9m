@@ -171,6 +171,8 @@ def fetch_multpl(slug):
 
 def fred_csv(series_id, start=START):
     """FRED CSV → (dates[ISO], values[float]). 결측('.')은 건너뜀."""
+    import time
+    time.sleep(0.15)  # rate-limit 정중함(연속 요청 throttling 완화)
     url = FRED_CSV.format(id=series_id, start=start)
     txt = http_get(url)
     dates, vals = [], []
@@ -1555,6 +1557,20 @@ def build():
             "as_of": today.isoformat(), "history": None,
             "source": {"name": "yfinance/FactSet", "url": "https://insight.factset.com/topic/earnings"}}
         pillar_scores["valuation"].append(ps)
+
+    # --- Carry-forward: 이번에 못 받은 지표는 직전 macro-data.js 값 사용 ---
+    # (FRED/yfinance transient 실패로 지표가 누락돼도 출력이 항상 완전하게 유지)
+    prev = load_prev()
+    carried = 0
+    for k, pdv in prev.get("indicators", {}).items():
+        if k not in indicators and pdv.get("pillar") in pillar_scores:
+            indicators[k] = {**pdv, "stale": True}
+            sc = pdv.get("score")
+            if sc is not None:
+                pillar_scores[pdv["pillar"]].append(sc)
+            carried += 1
+    if carried:
+        print(f"  [carry-forward] 직전값 사용 지표 {carried}개(이번 실패분)")
 
     # --- 축별/종합 레짐 점수 (-100 ~ +100) ---
     pillars_out = {}
