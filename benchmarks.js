@@ -3845,7 +3845,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-05",
       "decimals": 2,
       "valuation": {
-        "pe": 15.23,
+        "pe": 15.21,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -5477,13 +5477,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1558.84,
+      "current": 1559.4301,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 8.4101,
-      "mtd_pct": 4.25,
-      "daily_pct": 1.6809,
-      "as_of": "2026-06-06",
+      "ytd_pct": 8.4512,
+      "mtd_pct": 4.2895,
+      "daily_pct": 1.7194,
+      "as_of": "2026-06-07",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5754,7 +5754,7 @@ window.BENCHMARKS = {
           "2026-06-03",
           "2026-06-04",
           "2026-06-05",
-          "2026-06-06"
+          "2026-06-07"
         ],
         "values": [
           1354.55,
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1516.6,
           1530.11,
           1533.0699,
-          1558.84
+          1559.4301
         ]
       }
     },
@@ -6571,13 +6571,13 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 90.54,
+      "current": 93.15,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 57.6803,
-      "mtd_pct": 3.6401,
-      "daily_pct": -2.687,
-      "as_of": "2026-06-05",
+      "ytd_pct": 62.2257,
+      "mtd_pct": 6.6277,
+      "daily_pct": 2.8827,
+      "as_of": "2026-06-07",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -6589,7 +6589,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-05-27",
           "2025-05-28",
           "2025-05-29",
           "2025-05-30",
@@ -6848,10 +6847,10 @@ window.BENCHMARKS = {
           "2026-06-02",
           "2026-06-03",
           "2026-06-04",
-          "2026-06-05"
+          "2026-06-05",
+          "2026-06-07"
         ],
         "values": [
-          60.89,
           61.84,
           60.94,
           60.79,
@@ -7110,7 +7109,8 @@ window.BENCHMARKS = {
           93.76,
           96.02,
           93.04,
-          90.54
+          90.54,
+          93.15
         ]
       }
     },
