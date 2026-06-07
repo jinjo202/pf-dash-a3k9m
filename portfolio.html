@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-05e";</script>
+<script>window.CODE_VERSION = "2026-06-06a";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -3568,6 +3568,9 @@ function computeBrinson() {
 function computeBrinsonSector() {
   const hist = portfolioData && portfolioData.historical;
   if (!hist || !hist.holdings_mkt || !hist.sector_returns || !hist.acwi_sector_weights) return null;
+  // 섹터 수익률이 비어 있으면(yfinance 실패로 {}) 배분효과가 전부 0으로 오인되므로
+  // 차라리 null 반환 → 패널이 "섹터 데이터 부족"으로 표시되게 함
+  if (!Object.keys(hist.sector_returns).length || !Object.keys(hist.acwi_sector_weights).length) return null;
 
   const acwiSec = hist.acwi_sector_weights;
   const secRet = hist.sector_returns;  // {sector: ytd_pct}  (full year — sector_returns_series 없으면 fallback)

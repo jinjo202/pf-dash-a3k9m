@@ -303,6 +303,18 @@ def main():
 
     # 기존 attribution 메타 보존
     prev_hist = data.get("historical") or {}
+
+    # sector_returns carry-forward: yfinance가 섹터 ETF 가격을 못 받으면 이번 계산이
+    # 빈 dict가 되어 Brinson 섹터배분 효과가 전부 0으로 깨진다(2026-06-06 사고).
+    # 직전 값과 merge — 이번에 받은 섹터만 갱신하고, 못 받은 섹터는 직전값 유지.
+    prev_sr = prev_hist.get("sector_returns") or {}
+    if len(sector_returns) < len(prev_sr):
+        merged_sr = dict(prev_sr)
+        merged_sr.update(sector_returns)  # 받은 값으로 덮어쓰고 나머지는 직전값
+        print(f"  [carry-forward] sector_returns: 이번 {len(sector_returns)}개 수신 "
+              f"→ 직전 {len(prev_sr)}개 보존(merge)")
+        sector_returns = merged_sr
+
     data["historical"] = {
         "from": dates_str[0],
         "to": dates_str[-1],
