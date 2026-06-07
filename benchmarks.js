@@ -3845,7 +3845,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-05",
       "decimals": 2,
       "valuation": {
-        "pe": 15.24,
+        "pe": 15.23,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
