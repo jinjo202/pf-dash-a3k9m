@@ -16,7 +16,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-08",
       "decimals": 2,
       "valuation": {
-        "pe": 22.19,
+        "pe": 22.2,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2204,7 +2204,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-08",
       "decimals": 2,
       "valuation": {
-        "pe": 20.98,
+        "pe": 20.99,
         "pb": 1.72,
         "roe": null,
         "src": "SPY (top derived)",
@@ -2751,7 +2751,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-08",
       "decimals": 2,
       "valuation": {
-        "pe": 20.64,
+        "pe": 20.65,
         "pb": 1.98,
         "roe": null,
         "src": "QQQ (top derived)",
@@ -3836,16 +3836,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 619.24,
+      "current": 614.11,
       "baseline": 592.78,
       "mtd_baseline": 626.0,
-      "ytd_pct": 4.4637,
-      "mtd_pct": -1.0799,
-      "daily_pct": -0.4005,
+      "ytd_pct": 3.5983,
+      "mtd_pct": -1.8994,
+      "daily_pct": -1.2256,
       "as_of": "2026-06-10",
       "decimals": 2,
       "valuation": {
-        "pe": 14.94,
+        "pe": 14.83,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4375,7 +4375,7 @@ window.BENCHMARKS = {
           624.45,
           622.66,
           621.73,
-          619.24
+          614.11
         ]
       }
     },
@@ -4939,7 +4939,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-10",
       "decimals": 2,
       "valuation": {
-        "pe": 11.73,
+        "pe": 11.74,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5477,12 +5477,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1526.53,
+      "current": 1524.63,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 6.1631,
-      "mtd_pct": 2.0892,
-      "daily_pct": -0.1537,
+      "ytd_pct": 6.031,
+      "mtd_pct": 1.9622,
+      "daily_pct": -0.278,
       "as_of": "2026-06-10",
       "decimals": 2,
       "valuation": {
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1533.0699,
           1554.48,
           1528.88,
-          1526.53
+          1524.63
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 88.04,
+      "current": 89.98,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 53.3264,
-      "mtd_pct": 0.7784,
-      "daily_pct": -0.1814,
+      "ytd_pct": 56.705,
+      "mtd_pct": 2.9991,
+      "daily_pct": 2.0181,
       "as_of": "2026-06-10",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           90.54,
           91.3,
           88.2,
-          88.04
+          89.98
         ]
       }
     },
@@ -7118,13 +7118,13 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 18.92,
+      "current": 22.05,
       "baseline": 14.95,
       "mtd_baseline": 15.32,
-      "ytd_pct": 26.5552,
-      "mtd_pct": 23.4987,
-      "daily_pct": -12.0409,
-      "as_of": "2026-06-08",
+      "ytd_pct": 47.4916,
+      "mtd_pct": 43.9295,
+      "daily_pct": 16.5433,
+      "as_of": "2026-06-10",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -7136,7 +7136,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-05-28",
           "2025-05-29",
           "2025-05-30",
           "2025-06-02",
@@ -7395,10 +7394,10 @@ window.BENCHMARKS = {
           "2026-06-03",
           "2026-06-04",
           "2026-06-05",
-          "2026-06-08"
+          "2026-06-08",
+          "2026-06-10"
         ],
         "values": [
-          19.31,
           19.18,
           18.57,
           18.36,
@@ -7657,7 +7656,8 @@ window.BENCHMARKS = {
           16.06,
           15.4,
           21.51,
-          18.92
+          18.92,
+          22.05
         ]
       }
     },
