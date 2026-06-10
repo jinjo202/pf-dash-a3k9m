@@ -408,6 +408,18 @@ def load_enrich():
         return None
 
 
+def load_current_override():
+    """weekly/current_override.json (yfinance 지연 시 현재가 수동 보정). 없으면 None."""
+    p = os.path.join(HERE, "current_override.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
 # Factor 섹션 라벨(정규화) → 표준 키. 사용자가 띄어쓰기를 바꿔도 매칭.
 _FACTOR_LABELS = {
     "기업이익": "기업이익", "경제지표": "경제지표", "수급": "수급",
@@ -513,6 +525,12 @@ def build(target, bench, macro, kr, pdata, daily, sentiment, template):
         for row, val in ((8, ye), (9, cur), (10, mb), (11, wkb)):
             if val is not None:
                 _set(ws, "%s%d" % (col, row), round(val, 2))
+    # yfinance 지연 등으로 현재가가 stale 할 때, 수동 오버라이드(현재=row9)를 적용.
+    ovr = load_current_override()
+    if ovr and ovr.get("as_of") == target.strftime("%Y-%m-%d"):
+        for col, val in (ovr.get("levels") or {}).items():
+            if val is not None:
+                _set(ws, "%s9" % col, round(float(val), 2))
     # 좌측 표(D~L)의 연말·현재 표시값은 수식이 아닌 하드값이므로 우측과 동일하게 복사.
     LR = [("D", "P"), ("E", "Q"), ("F", "R"), ("G", "S"), ("H", "T"),
           ("I", "U"), ("J", "V"), ("K", "W"), ("L", "X")]

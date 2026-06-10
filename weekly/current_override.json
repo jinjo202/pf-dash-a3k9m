@@ -1,0 +1,15 @@
+{
+  "_note": "yfinance 지연 등으로 benchmarks 현재가가 stale 할 때, 시장변동표 '현재'(row 9) 종가를 수동 오버라이드. as_of 가 보고서 기준일(target)과 같을 때만 적용. 컬럼키: P=KOSPI Q=KOSDAQ R=S&P500 S=나스닥 T=EuroStoxx50 U=닛케이 V=상해종합 W=ACWI X=EM. 출처: 웹(tradingeconomics/언론) + yfinance.",
+  "as_of": "2026-06-10",
+  "levels": {
+    "P": 7730.82,
+    "Q": 956.63,
+    "R": 7266.99,
+    "S": 25169.50,
+    "T": 6012.10,
+    "U": 64179.27,
+    "V": 3993.03,
+    "W": 152.24,
+    "X": 64.66
+  }
+}
