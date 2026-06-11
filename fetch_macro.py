@@ -601,6 +601,10 @@ MONTHLY_FACTORS = {
              "impact": "한국 선진지수 편입 관찰대상 여부·지수 리밸런싱 패시브 자금. 편입 진전 시 중장기 외인 유입 재료."},
         ],
         "themes": [
+            {"title": "🇺🇸 나스닥 변동성 리포트 — AI 밸류 논쟁", "dir": "watch",
+             "outlook": "VIX 15~17로 절대수준은 낮으나 빅테크 쏠림에 일중·종목 변동 확대. 변동요인 ①AI capex/매출 강도 40%대 정당성 논쟁(엔비디아·하이퍼스케일러 가이던스 민감) ②CAPE 42·PEG 1.5 고밸류로 실적·금리 실망 시 멀티플 압축 ③이란發 유가로 Fed 인하 지연. 지수 하방보다 그로스↔밸류 로테이션·종목 분산 변동성이 핵심."},
+            {"title": "🇰🇷 코스피 변동성·수급 리포트 — 외인 매도 vs 개인 흡수", "dir": "watch",
+             "outlook": "VKOSPI 21로 VIX보다 높음(한국 특유 변동성). 수급: 외국인 YTD 120조대 대규모 순매도(차익실현·환헤지)를 개인·기관이 흡수하는 구조(상세는 아래 한국 수급 패널). 변동요인 ①삼성·하이닉스 시총 절반 쏠림(메모리 사이클 레버리지) ②원화 1,500+ 약세로 외인 환손실 ③신용잔고 증가(레버리지 확대) ④MSCI 리뷰·밸류업 기대. 외인 순매도 진정·환율 안정이 변동성 축소의 키."},
             {"title": "이란 전쟁 · 종전 협상", "dir": "watch",
              "outlook": "휴전 진전 시 유가 급락 → 인플레 완화·위험선호 회복(에너지 비중 축소, 항공·소비재 반등). 교착·확전 시 유가 $100+ 고착으로 인플레·멀티플 압박 지속. 6월 협상 헤드라인이 방향타."},
             {"title": "AI capex 버블 논쟁", "dir": "watch",
@@ -716,6 +720,33 @@ KR_DEPOSIT_SERIES = {
     "2025-01": 55, "2025-04": 58, "2025-07": 62, "2025-10": 70,
     "2026-01": 78, "2026-02": 82, "2026-03": 86, "2026-04": 90, "2026-05": 95,
 }
+
+# 한국 신용거래융자 잔고(조원) — KOSPI/KOSDAQ. 무료 안정 소스 없어 월별 수동 시드.
+#  갱신: KOFIA freesis 증시자금추이 / KRX 신용거래. {YYYY-MM: (KOSPI, KOSDAQ)}
+KR_CREDIT_SERIES = {
+    "2024-03": (10.5, 8.3), "2024-06": (10.8, 8.5), "2024-09": (10.2, 7.9), "2024-12": (10.6, 8.4),
+    "2025-03": (11.2, 8.8), "2025-06": (11.8, 9.2), "2025-09": (12.5, 9.8), "2025-12": (13.4, 10.3),
+    "2026-03": (14.6, 11.0), "2026-04": (15.1, 11.3), "2026-05": (15.8, 11.7), "2026-06": (16.3, 12.0),
+}
+
+
+def build_kr_credit(kospi_me, kosdaq_me):
+    """KOSPI/KOSDAQ 신용잔고 + 같은 시점 지수 정렬 → 추이 차트용."""
+    months = sorted(KR_CREDIT_SERIES)
+    dates, kospi_c, kosdaq_c, total, kospi_i, kosdaq_i = [], [], [], [], [], []
+    for m in months:
+        kc, qc = KR_CREDIT_SERIES[m]
+        dates.append(m + "-01")
+        kospi_c.append(kc); kosdaq_c.append(qc); total.append(round(kc + qc, 1))
+        kospi_i.append(round(kospi_me[m], 1) if m in kospi_me else None)
+        kosdaq_i.append(round(kosdaq_me[m], 2) if m in kosdaq_me else None)
+    last = months[-1]
+    lk, lq = KR_CREDIT_SERIES[last]
+    return {"dates": dates, "kospi_credit": kospi_c, "kosdaq_credit": kosdaq_c, "total_credit": total,
+            "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i, "unit": "조원",
+            "current": {"kospi": lk, "kosdaq": lq, "total": round(lk + lq, 1), "as_of": last},
+            "source": "KOFIA/KRX 신용거래(수동 시드)",
+            "source_url": "https://freesis.kofia.or.kr/"}
 
 
 # 수동 지표 원본 데이터 링크 (클릭 시 원천 확인)
@@ -1417,6 +1448,12 @@ def build():
         print(f"  [ok] KOSPI 월간 {len(kospi_vals)}개")
     except Exception as e:
         print(f"  [err] KOSPI: {e}")
+    kosdaq_dates, kosdaq_vals = [], []
+    try:
+        kosdaq_dates, kosdaq_vals = yf_monthly("^KQ11")
+        print(f"  [ok] KOSDAQ 월간 {len(kosdaq_vals)}개")
+    except Exception as e:
+        print(f"  [err] KOSDAQ: {e}")
 
     # spx 200일(월) 모멘텀 파생
     spx_mom_d, spx_mom_v = [], []
@@ -1615,8 +1652,10 @@ def build():
     # --- 국가 선호도 + 과거 레짐 타임머신 ---
     spx_me = to_month_end(spx_dates, spx_vals)
     kospi_me = to_month_end(kospi_dates, kospi_vals)
+    kosdaq_me = to_month_end(kosdaq_dates, kosdaq_vals)
     country_pref = build_country_pref(earn["data"], bench)
     regime_history = build_regime_history(monthly, spx_me, kospi_me)
+    kr_credit = build_kr_credit(kospi_me, kosdaq_me)
 
     # --- 업데이트 알림 (직전 대비 변경분) ---
     prev = load_prev()
@@ -1639,6 +1678,7 @@ def build():
         "country_pref": country_pref,
         "regime_history": regime_history,
         "kr_flows_ts": kr_flows_ts,
+        "kr_credit": kr_credit,
         "indicators": indicators,
         "indices": indices,
         "analogs": analogs,

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-04a";</script>
+<script>window.CODE_VERSION = "2026-06-10a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -919,22 +919,46 @@ function pctLineChart(canvas, pts, suffix) {
 
 function renderKrFlows(M) {
   var t = M.kr_flows_ts; if (!t || !t.ytd_cum) return '';
-  var yt = t.ytd_total || {}, dep = t.deposit;
+  var yt = t.ytd_total || {}, dep = t.deposit, cr = M.kr_credit;
   var html = '<div class="panel"><h2>한국 수급 시계열 — 외국인·기관·개인 + 투자자예탁금</h2>' +
     '<p class="hint">KOSPI 투자자별 순매수 YTD 누적·최근월 일별(네이버 금융 실측) + 투자자예탁금 추이. 기준 ' + (t.as_of || '') + '.</p>';
   html += '<div class="ai-stats">' +
     statBox('외국인 YTD 누적', sgn(yt.foreign, 1, '조'), '기관 ' + sgn(yt.inst, 1, '조') + ' · 개인 ' + sgn(yt.retail, 1, '조') + '(흡수)') +
     statBox('외국인 ' + (t.month || '') + ' 월(MTD)', sgn(t.mtd.foreign, 1, '조'), '개인 ' + sgn(t.mtd.retail, 1, '조') + ' · 기관 ' + sgn(t.mtd.inst, 1, '조')) +
     statBox('투자자예탁금', (dep && dep.values.length ? dep.values[dep.values.length - 1] + '조' : '–'), '증시 대기자금(추정)') +
+    (cr ? '<div class="ai-stat clickable" id="krCreditStat" style="cursor:pointer"><div class="l">신용잔고(KOSPI+KOSDAQ) 📈</div><div class="v">' + cr.current.total + '조</div><div class="s">KOSPI ' + cr.current.kospi + '조 · KOSDAQ ' + cr.current.kosdaq + '조 · 클릭→추이</div></div>' : '') +
     '</div>';
   html += '<div class="fin-grid">' +
     '<div class="fin-box"><div class="fin-t">투자자별 YTD 누적 순매수 (조원)</div><div class="fin-c"><canvas id="krYtd"></canvas></div></div>' +
     '<div class="fin-box"><div class="fin-t">외국인 최근월 일별 순매수 (조원)</div><div class="fin-c"><canvas id="krMonth"></canvas></div></div>' +
     '<div class="fin-box"><div class="fin-t">투자자예탁금 추이 (조원)</div><div class="fin-c"><canvas id="krDeposit"></canvas></div></div>' +
     '</div>';
-  html += '<p class="disclaimer">투자자별 수급=네이버 금융 일별(실측, ' + (t.month || '') + '월 기준). 예탁금=KOFIA 근사 시드(fetch_macro.py KR_DEPOSIT_SERIES 편집). ' +
+  if (cr) {
+    html += '<div id="krCreditDetail" style="display:none;margin-top:6px">' +
+      '<div class="sub-label">지수 vs 신용잔고 추이 (좌축=지수, 우축=신용잔고 조원)</div>' +
+      '<div class="fin-grid">' +
+      '<div class="fin-box"><div class="fin-t">KOSPI 지수 · 신용잔고</div><div class="fin-c"><canvas id="krCreditKospi"></canvas></div></div>' +
+      '<div class="fin-box"><div class="fin-t">KOSDAQ 지수 · 신용잔고</div><div class="fin-c"><canvas id="krCreditKosdaq"></canvas></div></div>' +
+      '</div></div>';
+  }
+  html += '<p class="disclaimer">투자자별 수급=네이버 금융 일별(실측, ' + (t.month || '') + '월 기준). 예탁금·신용잔고=KOFIA/KRX 근사 시드(fetch_macro.py KR_DEPOSIT_SERIES·KR_CREDIT_SERIES 편집). ' +
     (t.source_url ? '<a href="' + t.source_url + '" target="_blank" rel="noopener">↗ 원본(네이버)</a>' : '') + '</p>';
   return html + '</div>';
+}
+
+function krCreditChart(canvas, dates, idx, credit, idxName) {
+  var c = new Chart(canvas.getContext('2d'), {
+    type: 'line', data: { labels: dates, datasets: [
+      { label: idxName + ' 지수', data: idx, borderColor: '#2563eb', backgroundColor: 'transparent', borderWidth: 1.8, pointRadius: 0, tension: .15, yAxisID: 'y' },
+      { label: '신용잔고', data: credit, borderColor: '#e11d48', backgroundColor: '#e11d4818', borderWidth: 1.8, pointRadius: 2, tension: .15, fill: true, yAxisID: 'y1' }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 9 }, color: cssVar('--muted'), boxWidth: 9, padding: 6 } },
+        tooltip: { callbacks: { title: function (i) { return i[0].label.slice(0, 7); }, label: function (i) { return i.dataset.label + ' ' + i.raw + (i.dataset.yAxisID === 'y1' ? '조' : ''); } } } },
+      scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 6, font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(2, 7) : ''; } } },
+        y: { position: 'left', grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: '#2563eb' } },
+        y1: { position: 'right', grid: { display: false }, ticks: { font: { size: 8 }, color: '#e11d48', callback: function (v) { return v + '조'; } } } } }
+  });
+  CHARTS.push(c);
 }
 
 function krMultiLine(canvas, ycum) {
@@ -1191,6 +1215,22 @@ function render(M) {
     var ky = document.getElementById('krYtd'); if (ky && M.kr_flows_ts.ytd_cum) krMultiLine(ky, M.kr_flows_ts.ytd_cum);
     var km = document.getElementById('krMonth'); if (km && M.kr_flows_ts.month_daily) krMonthBars(km, M.kr_flows_ts.month_daily);
     var kd = document.getElementById('krDeposit'); if (kd && M.kr_flows_ts.deposit) depositLine(kd, M.kr_flows_ts.deposit);
+  }
+  // 신용잔고: 클릭 시 지수·신용잔고 추이 토글
+  if (M.kr_credit) {
+    var cstat = document.getElementById('krCreditStat');
+    var creditDrawn = false;
+    if (cstat) cstat.addEventListener('click', function () {
+      var det = document.getElementById('krCreditDetail'); if (!det) return;
+      var show = det.style.display === 'none';
+      det.style.display = show ? 'block' : 'none';
+      if (show && !creditDrawn) {
+        var cr = M.kr_credit;
+        var k = document.getElementById('krCreditKospi'); if (k) krCreditChart(k, cr.dates, cr.kospi_idx, cr.kospi_credit, 'KOSPI');
+        var q = document.getElementById('krCreditKosdaq'); if (q) krCreditChart(q, cr.dates, cr.kosdaq_idx, cr.kosdaq_credit, 'KOSDAQ');
+        creditDrawn = true;
+      }
+    });
   }
   // AI 섹션 차트
   if (M.ai) {
