@@ -375,24 +375,30 @@ def resolve_factor_content(macro, kr, sentiment, bench):
 
 
 # ════════════════════════ 템플릿 ════════════════════════
-def find_template(explicit=None):
+def find_template(explicit=None, exclude=None):
+    """양식 템플릿 = 가장 최근 폴더의 가장 최근 수정된 주간회의자료*.xlsx.
+    구조(서식·수식·병합)는 세대 간 보존되므로 직전 산출물도 템플릿으로 안전.
+    exclude: 이 경로는 후보에서 제외(자기 자신 덮어쓰기 방지)."""
     if explicit:
         return explicit
-    # 사용자가 손본 양식 우선순위: 주간회의자료_.xlsx > 주간회의자료.xlsx (auto 출력 제외).
-    best = None
-    for name in ("주간회의자료_.xlsx", "주간회의자료.xlsx"):
-        cands = []
-        for p in glob.glob(os.path.join(ONEDRIVE_BASE, "*", name)):
-            folder = os.path.basename(os.path.dirname(p))
-            if re.fullmatch(r"\d{8}", folder):
-                cands.append((folder, p))
-        if cands:
-            cands.sort()
-            best = cands[-1][1]
-            break
-    if not best:
+    cands = []
+    for p in glob.glob(os.path.join(ONEDRIVE_BASE, "*", "주간회의자료*.xlsx")):
+        folder = os.path.basename(os.path.dirname(p))
+        if not re.fullmatch(r"\d{8}", folder):
+            continue
+        if os.path.basename(p).startswith("~$"):  # Excel 잠금 임시파일
+            continue
+        if exclude and os.path.abspath(p) == os.path.abspath(exclude):
+            continue
+        try:
+            mt = os.path.getmtime(p)
+        except OSError:
+            mt = 0
+        cands.append((folder, mt, p))
+    if not cands:
         raise FileNotFoundError("템플릿(주간회의자료*.xlsx)을 찾을 수 없음: " + ONEDRIVE_BASE)
-    return best
+    cands.sort(key=lambda x: (x[0], x[1]))
+    return cands[-1][2]
 
 
 def load_enrich():
@@ -646,13 +652,31 @@ def _n(v):
 
 
 # ════════════════════════ main ════════════════════════
-def next_monday(today):
-    return today if today.weekday() == 0 else today + timedelta(days=(7 - today.weekday()))
+# 회의는 매주 월요일(0)·목요일(3). 자료는 회의 전 영업일 데이터로, 회의날짜 폴더에 저장.
+MEETING_WEEKDAYS = (0, 3)
+
+
+def next_meeting(today):
+    """오늘 다음날부터 가장 가까운 회의일(월/목)."""
+    for i in range(1, 8):
+        d = today + timedelta(days=i)
+        if d.weekday() in MEETING_WEEKDAYS:
+            return d
+    return today + timedelta(days=1)
+
+
+def prev_business_day(d):
+    """회의 전 영업일(주말이면 직전 금요일)."""
+    p = d - timedelta(days=1)
+    while p.weekday() >= 5:  # 토(5)/일(6)
+        p -= timedelta(days=1)
+    return p
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--date", default=None)
+    ap.add_argument("--meeting", default=None, help="회의 날짜 YYYY-MM-DD (기본: 다음 월/목)")
+    ap.add_argument("--date", default=None, help="데이터 기준일 YYYY-MM-DD (기본: 회의 전 영업일)")
     ap.add_argument("--out", default=None)
     ap.add_argument("--template", default=None)
     ap.add_argument("--today", default=None)
@@ -660,8 +684,18 @@ def main():
     args = ap.parse_args()
 
     today = datetime.strptime(args.today, "%Y-%m-%d").date() if args.today else date.today()
+    meeting = (datetime.strptime(args.meeting, "%Y-%m-%d").date() if args.meeting
+               else next_meeting(today))
+    # 데이터 기준일(보고서 '현재'·제목) = 회의 전 영업일.
     target = (datetime.strptime(args.date, "%Y-%m-%d").date() if args.date
-              else next_monday(today))
+              else prev_business_day(meeting))
+
+    # 출력 경로 먼저 결정 (폴더 = 회의 날짜, 파일명 = 주간회의자료_{데이터기준일}.xlsx).
+    out = args.out
+    if not out:
+        folder = os.path.join(ONEDRIVE_BASE, meeting.strftime("%Y%m%d"))
+        os.makedirs(folder, exist_ok=True)
+        out = os.path.join(folder, "주간회의자료_%s.xlsx" % target.strftime("%Y%m%d"))
 
     bench = load_benchmarks()
     macro = load_macro()
@@ -669,15 +703,10 @@ def main():
     pdata = load_portfolio()
     daily = load_daily()
     sentiment = get_sentiment(not args.no_sentiment)
-    template = find_template(args.template)
+    template = find_template(args.template, exclude=out)
 
     wb = build(target, bench, macro, kr, pdata, daily, sentiment, template)
 
-    out = args.out
-    if not out:
-        folder = os.path.join(ONEDRIVE_BASE, target.strftime("%Y%m%d"))
-        os.makedirs(folder, exist_ok=True)
-        out = os.path.join(folder, "주간회의자료_auto.xlsx")
     try:
         wb.save(out)
     except PermissionError:
@@ -685,9 +714,10 @@ def main():
         out = base + "_" + datetime.now().strftime("%H%M%S") + ext
         wb.save(out)
     print("saved:", out)
-    print("  template:", os.path.basename(os.path.dirname(template)),
-          "| sentiment cnn:", bool(sentiment.get("cnn_fng")),
-          "aaii:", bool(sentiment.get("aaii")))
+    print("  meeting:", meeting.strftime("%Y-%m-%d (%a)"),
+          "| data:", target.strftime("%Y-%m-%d"),
+          "| template:", os.path.basename(os.path.dirname(template)),
+          "| sentiment:", bool(sentiment.get("cnn_fng")))
 
 
 if __name__ == "__main__":
