@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-13b";</script>
+<script>window.CODE_VERSION = "2026-06-13c";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -754,9 +754,13 @@ function tryNotifyUpdates(M) {
 }
 
 var MF_DIR = { pos: ['호재', 'pos'], neg: ['악재', 'neg'], neu: ['중립', 'neu'], watch: ['관전·변수', 'watch'] };
-function renderMonthly(M) {
-  var m = M.monthly_factors; if (!m) return '';
-  var ym = m.month.slice(0, 4) + '년 ' + m.month.slice(5) + '월';
+function mfRel(month, cur) { return month > cur ? 'future' : (month < cur ? 'past' : 'current'); }
+function mfBodyHtml(m, cur) {
+  if (!m) return '';
+  var rel = mfRel(m.month, cur || m.month);
+  var tag = rel === 'future'
+    ? ' <span class="upd-count" style="background:var(--accent);color:#fff">🔮 다음달 전망</span>'
+    : (rel === 'past' ? ' <span class="upd-count" style="background:var(--muted);color:#fff">지난달 기록</span>' : '');
   function badge(dir) { var t = MF_DIR[dir] || MF_DIR.watch; return '<span class="mf-badge ' + t[1] + '">' + t[0] + '</span>'; }
   var ev = (m.events || []).map(function (e) {
     return '<div class="mf-item ' + (e.dir || 'watch') + '"><div class="mf-top"><span class="mf-date">' + e.date + '</span>' +
@@ -767,11 +771,32 @@ function renderMonthly(M) {
     return '<div class="mf-item ' + (e.dir || 'watch') + '"><div class="mf-top"><span class="mf-title">' + e.title + '</span>' + badge(e.dir) + '</div>' +
       '<div class="mf-impact">' + e.outlook + '</div></div>';
   }).join('');
-  return '<div class="panel"><h2>🗓️ 이달의 정성 요인 & 캘린더 — ' + ym +
-    (m.stale ? ' <span class="upd-count" style="background:var(--warn-fg);color:#fff">갱신 필요</span>' : '') + '</h2>' +
-    '<p class="hint">' + (m.headline || '') + '<br>정량 지표가 못 잡는 이벤트·지정학·테마 판단. 매월 갱신(fetch_macro.py의 MONTHLY_FACTORS).</p>' +
+  return '<p class="hint">' + (m.headline || '') + tag +
+    '<br>정량 지표가 못 잡는 이벤트·지정학·테마 판단. 매월 갱신(fetch_macro.py의 MONTHLY_FACTORS).</p>' +
     '<div class="mf-grid"><div><div class="sub-label">📅 주요 일정·이벤트</div>' + ev + '</div>' +
-    '<div><div class="sub-label">🔍 진행 이슈·테마 전망</div>' + th + '</div></div></div>';
+    '<div><div class="sub-label">🔍 진행 이슈·테마 전망</div>' + th + '</div></div>';
+}
+function mfSelectMonth(ym) {
+  var list = (window.MF_ALL || []), m = list.find(function (x) { return x.month === ym; });
+  var body = document.getElementById('mfBody'); if (body && m) body.innerHTML = mfBodyHtml(m, window.MF_CUR);
+}
+function renderMonthly(M) {
+  var all = (M.monthly_all && M.monthly_all.length) ? M.monthly_all : (M.monthly_factors ? [M.monthly_factors] : []);
+  if (!all.length) return '';
+  window.MF_ALL = all;
+  // 현재월 = 이달(monthly_factors) 있으면 그 달, 없으면 최신 정의월
+  var cur = (M.monthly_factors && M.monthly_factors.month) || all[0].month;
+  window.MF_CUR = cur;
+  var relLbl = { future: ' · 다음달', past: ' · 지난달', current: ' · 이달' };
+  var sel = '<select id="mfMonthSel" class="mf-sel" onchange="mfSelectMonth(this.value)" ' +
+    'style="margin-left:10px;font-size:13px;font-weight:600;padding:3px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;vertical-align:middle">' +
+    all.map(function (x) {
+      var lbl = x.month.slice(0, 4) + '년 ' + x.month.slice(5) + '월' + relLbl[mfRel(x.month, cur)];
+      return '<option value="' + x.month + '"' + (x.month === cur ? ' selected' : '') + '>' + lbl + '</option>';
+    }).join('') + '</select>';
+  var body = all.find(function (x) { return x.month === cur; }) || all[0];
+  return '<div class="panel"><h2>🗓️ 이달의 정성 요인 & 캘린더 ' + sel + '</h2>' +
+    '<div id="mfBody">' + mfBodyHtml(body, cur) + '</div></div>';
 }
 
 function renderCycle(M) {
@@ -929,7 +954,9 @@ function renderKrFlows(M) {
     statBox('외국인 YTD 누적', sgn(yt.foreign, 1, '조'), '기관 ' + sgn(yt.inst, 1, '조') + ' · 개인 ' + sgn(yt.retail, 1, '조') + '(흡수)') +
     statBox('외국인 ' + (t.month || '') + ' 월(MTD)', sgn(t.mtd.foreign, 1, '조'), '개인 ' + sgn(t.mtd.retail, 1, '조') + ' · 기관 ' + sgn(t.mtd.inst, 1, '조')) +
     statBox('투자자예탁금', (dep && dep.values.length ? dep.values[dep.values.length - 1] + '조' : '–'), '증시 대기자금(추정)') +
-    (cr ? '<div class="ai-stat clickable" id="krCreditStat" style="cursor:pointer"><div class="l">신용거래융자 잔고 📈</div><div class="v">' + cr.current.total + '조</div><div class="s">' + (cr.realtime ? '실측' : '시드') + ' · 레버리지 게이지 · 클릭→지수·신용 추이</div></div>' : '') +
+    (cr ? '<div class="ai-stat clickable" id="krCreditStat" style="cursor:pointer"><div class="l">신용거래융자 잔고 📈</div><div class="v">' + cr.current.total + '조</div><div class="s">' +
+      (cr.current.kospi != null ? '코스피 ' + cr.current.kospi + '조 · 코스닥 ' + cr.current.kosdaq + '조<br>' : '') +
+      (cr.realtime ? '실측' : '시드') + ' · 클릭→시장별 지수·신용 추이</div></div>' : '') +
     '</div>';
   html += '<div class="fin-grid">' +
     '<div class="fin-box"><div class="fin-t">투자자별 YTD 누적 순매수 (조원)</div><div class="fin-c"><canvas id="krYtd"></canvas></div></div>' +
@@ -1230,8 +1257,8 @@ function render(M) {
       det.style.display = show ? 'block' : 'none';
       if (show && !creditDrawn) {
         var cr = M.kr_credit;
-        var k = document.getElementById('krCreditKospi'); if (k) krCreditChart(k, cr.dates, cr.kospi_idx, cr.total_credit, 'KOSPI');
-        var q = document.getElementById('krCreditKosdaq'); if (q) krCreditChart(q, cr.dates, cr.kosdaq_idx, cr.total_credit, 'KOSDAQ');
+        var k = document.getElementById('krCreditKospi'); if (k) krCreditChart(k, cr.dates, cr.kospi_idx, cr.kospi_credit || cr.total_credit, 'KOSPI');
+        var q = document.getElementById('krCreditKosdaq'); if (q) krCreditChart(q, cr.dates, cr.kosdaq_idx, cr.kosdaq_credit || cr.total_credit, 'KOSDAQ');
         creditDrawn = true;
       }
     });

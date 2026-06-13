@@ -633,6 +633,35 @@ MONTHLY_FACTORS = {
              "outlook": "유가 인플레로 2026 인하 지연 컨센서스. CAPE 42·PEG 1.5로 밸류 부담 → 금리·실적 실망 시 변동성. 퀄리티·현금흐름주 선호."},
         ],
     },
+    "2026-07": {
+        "headline": "Q2 어닝시즌 — 빅테크 AI capex 정당성 검증 + 7월 FOMC·CPI가 하반기 방향 결정",
+        "events": [
+            {"date": "7/1", "title": "한국 6월 수출(관세청)", "dir": "watch", "sector": "반도체·한국",
+             "impact": "반도체·자동차 중심 수출 모멘텀 확인. HBM·메모리 단가 강세 지속 여부가 코스피 EPS 상향의 키. 6월 10일·20일 잠정치 대비 월간 확정."},
+            {"date": "7/3", "title": "미국 6월 고용", "dir": "watch",
+             "impact": "냉각 연착륙 vs 급랭. 실업률·임금이 7월 FOMC 인하 기대를 좌우. 견조하면 'higher for longer' 재확인."},
+            {"date": "7/15", "title": "미국 6월 CPI", "dir": "watch",
+             "impact": "이란發 유가가 헤드라인에 본격 반영되는 첫 지표. 코어 안정 vs 헤드라인 재가속 — 4%대 고착이면 고밸류 멀티플 압박."},
+            {"date": "7/22~31", "title": "빅테크 Q2 실적 (MSFT·GOOGL·META·AMZN·AAPL)", "dir": "neu", "sector": "AI·테크",
+             "impact": "하이퍼스케일러 capex 가이던스 상향 폭 + AI 매출 기여가 핵심. capex/매출 40%대 정당화 못 하면 'AI 버블' 논쟁 재점화 → 그로스 조정. (6번 AI 섹션 참조)"},
+            {"date": "7/24", "title": "한국 2분기 GDP(속보)", "dir": "watch", "sector": "한국",
+             "impact": "수출 회복의 성장 기여 확인. 내수 부진 지속 시 한은 인하 기대 — 원화·금리 변수."},
+            {"date": "7/하순", "title": "삼성전자·SK하이닉스 Q2 실적", "dir": "pos", "sector": "반도체",
+             "impact": "HBM·DDR5 가격 강세의 실적 반영. 가이던스·HBM capa 증설 코멘트가 메모리 슈퍼사이클 지속성 판단 근거."},
+            {"date": "7/28~29", "title": "FOMC", "dir": "neu",
+             "impact": "유가 인플레로 동결 유력하나, 6~7월 CPI·고용 둔화 시 9월 인하 시그널 가능. 파월 톤이 하반기 위험선호 방향타."},
+        ],
+        "themes": [
+            {"title": "🇺🇸 Q2 어닝시즌 — AI capex 정당성의 분수령", "dir": "watch",
+             "outlook": "빅4 capex/매출 40%대(역대 최고)가 클라우드·AI 매출로 정당화되는지 Q2 실적이 첫 본격 검증대. 가이던스 상향+AI ARR 가속이면 랠리 연장, 'capex만 늘고 매출 미온'이면 그로스→밸류 로테이션·멀티플 압축. 엔비디아 8월 실적 전 하이퍼스케일러 발주 톤이 선행 지표."},
+            {"title": "🇰🇷 코스피 Q2 실적 — 메모리 슈퍼사이클 실적 확인", "dir": "pos",
+             "outlook": "삼성·하이닉스 Q2 HBM·DRAM 강세의 실적 반영 + 가이던스. 외국인 순매도(YTD 120조대) 진정·환율(1,500+) 안정 시 수급 개선. 변수: ①메모리 고정가·HBM capa ②최근 EPS 수정 모멘텀 둔화 신호 ③밸류업·MSCI 후속."},
+            {"title": "이란 종전 후속 · 유가 경로", "dir": "watch",
+             "outlook": "휴전 정착 시 유가 하향 안정 → 인플레 완화·Fed 인하 여지 확대(위험선호). 재확전·호르무즈 리스크 재부각 시 $100+ 재고착으로 7월 CPI·멀티플 압박. 6월 협상 결과의 지속성이 7월 변수."},
+            {"title": "Fed 9월 인하 기대 vs 유가 인플레", "dir": "neu",
+             "outlook": "6~7월 CPI·고용 둔화가 확인되면 9월 인하 컨센서스 형성 → 듀레이션·그로스 우호. 유가발 인플레 재가속이면 인하 후퇴로 되돌림. 7월 FOMC 점도표·도트가 분기점."},
+        ],
+    },
 }
 
 
@@ -647,6 +676,13 @@ def build_monthly(today):
     if not key:
         return None
     return {"month": key, "stale": key != ym, **MONTHLY_FACTORS[key]}
+
+
+def build_monthly_all(today):
+    """정의된 모든 달의 정성요인 (월 선택 드롭다운용, 최신월 먼저)."""
+    ym = today.strftime("%Y-%m")
+    return [{"month": k, "stale": k != ym, **MONTHLY_FACTORS[k]}
+            for k in sorted(MONTHLY_FACTORS, reverse=True)]
 
 
 # 섹터별 주요 이슈/지표 — 정성 코멘트. 발표·뉴스 흐름에 맞춰 주기적으로 갱신.
@@ -748,34 +784,56 @@ KR_CREDIT_SERIES = {
 }
 
 
+def _kospi_credit_share(m):
+    """월 m 시점의 신용잔고 중 KOSPI 비중(0~1) — KR_CREDIT_SERIES 시드(코스피,코스닥)에서
+    가장 가까운 시점 비율. 네이버 실측은 총액만 줘서 시장별 분해에 시드 비율을 사용."""
+    seed = sorted(KR_CREDIT_SERIES)
+    le = [s for s in seed if s <= m]
+    key = le[-1] if le else seed[0]
+    kc, qc = KR_CREDIT_SERIES[key]
+    tot = kc + qc
+    return (kc / tot) if tot else 0.57
+
+
 def build_kr_credit(kospi_me, kosdaq_me):
     """신용잔고(총) + 같은 시점 KOSPI/KOSDAQ 지수 정렬 → 추이 차트용.
-    네이버 증시자금추이 실측(총 신용잔고). 없으면 KOSPI/KOSDAQ 시드 합산."""
+    네이버 증시자금추이 실측(총 신용잔고)을 시드 비율로 코스피/코스닥 신용잔고로 분해.
+    실측 없으면 KOSPI/KOSDAQ 시드 합산."""
     kd = load_kr_deposit()
     if kd and kd.get("credit", {}).get("values"):
         cme = to_month_end(kd["credit"]["dates"], kd["credit"]["values"])
         months = sorted(cme)
-        dates, total, kospi_i, kosdaq_i = [], [], [], []
+        dates, total, kospi_i, kosdaq_i, kospi_c, kosdaq_c = [], [], [], [], [], []
         for m in months:
-            dates.append(m + "-01"); total.append(round(cme[m], 1))
+            tot = round(cme[m], 1); sh = _kospi_credit_share(m)
+            dates.append(m + "-01"); total.append(tot)
+            kospi_c.append(round(tot * sh, 1)); kosdaq_c.append(round(tot * (1 - sh), 1))
             kospi_i.append(round(kospi_me[m], 1) if m in kospi_me else None)
             kosdaq_i.append(round(kosdaq_me[m], 2) if m in kosdaq_me else None)
         cur = kd["current"]
-        return {"dates": dates, "total_credit": total, "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i,
+        csh = _kospi_credit_share(months[-1]) if months else 0.57
+        ct = cur.get("credit")
+        return {"dates": dates, "total_credit": total, "kospi_credit": kospi_c, "kosdaq_credit": kosdaq_c,
+                "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i,
                 "unit": "조원", "realtime": True,
-                "current": {"total": cur.get("credit"), "deposit": cur.get("deposit"), "as_of": cur.get("as_of")},
-                "source": "네이버 증시자금추이(실측)", "source_url": kd.get("source_url")}
-    # fallback: KOSPI/KOSDAQ 시드
+                "current": {"total": ct, "deposit": cur.get("deposit"), "as_of": cur.get("as_of"),
+                            "kospi": round(ct * csh, 1) if ct else None,
+                            "kosdaq": round(ct * (1 - csh), 1) if ct else None},
+                "source": "네이버 증시자금추이(실측·시장별은 시드비율 분해)", "source_url": kd.get("source_url")}
+    # fallback: KOSPI/KOSDAQ 시드 (시장별 직접)
     months = sorted(KR_CREDIT_SERIES)
-    dates, total, kospi_i, kosdaq_i = [], [], [], []
+    dates, total, kospi_i, kosdaq_i, kospi_c, kosdaq_c = [], [], [], [], [], []
     for m in months:
         kc, qc = KR_CREDIT_SERIES[m]
         dates.append(m + "-01"); total.append(round(kc + qc, 1))
+        kospi_c.append(round(kc, 1)); kosdaq_c.append(round(qc, 1))
         kospi_i.append(round(kospi_me[m], 1) if m in kospi_me else None)
         kosdaq_i.append(round(kosdaq_me[m], 2) if m in kosdaq_me else None)
     last = months[-1]; lk, lq = KR_CREDIT_SERIES[last]
-    return {"dates": dates, "total_credit": total, "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i,
-            "unit": "조원", "current": {"total": round(lk + lq, 1), "as_of": last},
+    return {"dates": dates, "total_credit": total, "kospi_credit": kospi_c, "kosdaq_credit": kosdaq_c,
+            "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i,
+            "unit": "조원", "current": {"total": round(lk + lq, 1), "as_of": last,
+                                        "kospi": round(lk, 1), "kosdaq": round(lq, 1)},
             "source": "KRX 신용거래(시드)", "source_url": "https://freesis.kofia.or.kr/"}
 
 
@@ -1783,8 +1841,14 @@ def build():
     prev_rh = prev.get("regime_history", [])
     degraded = ("vix" not in monthly) or ("usdkrw" not in monthly) or ("baa_spread" not in monthly)
     if prev_rh and (degraded or len(regime_history) < len(prev_rh) - 2):
-        print(f"  [regime_history] 빈약(degraded={degraded}, len={len(regime_history)}) → 직전({len(prev_rh)}) 보존")
-        regime_history = prev_rh
+        # 장기 히스토리는 직전(정상 FRED 기반)을 신뢰. 단, 직전에 없는 '더 최근 월'
+        # (예: 5·6월 — spx/kospi는 yfinance라 차단과 무관)은 이번 build(carry-forward)에서
+        # 가져와 append → 타임머신에 최근월이 빠지지 않게 함.
+        prev_last = prev_rh[-1]["date"] if prev_rh else "0000-00-00"
+        tail = [r for r in regime_history if r["date"] > prev_last]
+        print(f"  [regime_history] degraded={degraded}, fresh={len(regime_history)} "
+              f"→ 직전({len(prev_rh)}) 보존 + 신규월 {len(tail)}개 append")
+        regime_history = prev_rh + tail
     kr_credit = build_kr_credit(kospi_me, kosdaq_me)
 
     # --- 업데이트 알림 (직전 대비 변경분) ---
@@ -1805,6 +1869,7 @@ def build():
                    "pillars": pillars_out},
         "cycle": cycle,
         "monthly_factors": build_monthly(today),
+        "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,
         "regime_history": regime_history,
         "kr_flows_ts": kr_flows_ts,
