@@ -412,13 +412,13 @@ INDICATORS = [
     ("cape",         "S&P500 CAPE(실러 PE)",  "valuation", "shiller-pe", "multpl", 1, "배", "경기조정 P/E(최근 10년 평균이익). 역사평균 ~17, 높을수록 장기 고평가"),
     ("kospi_fwd_pe", "KOSPI 12M Fwd PER",    "valuation", "bench", "bench", 1, "배", "한국 밸류에이션"),
     ("erp",          "주식위험프리미엄(ERP)","valuation", "derived","derived",2,"%p","S&P 어닝일드 − 미 10Y. 높을수록 주식 매력"),
-    ("us10y",        "미국 10Y 금리",        "valuation", "DGS10", "daily", 2, "%",  "할인율. 급등 시 밸류 부담"),
+    ("us10y",        "미국 10Y 금리",        "valuation", "US 10Y", "benchlvl", 2, "%",  "할인율. 급등 시 밸류 부담"),
     # 수급·유동성
     ("m2_yoy",       "M2 통화량 (YoY)",      "flows", "M2SL",          "yoy",   1, "%", "유동성. 증가할수록 위험자산 우호"),
     ("baa_spread",   "신용 스프레드(Baa-10Y)","flows", "BAA10Y",       "daily", 2, "%p","위험선호 게이지. 낮을수록 강세, 4%+ 스트레스"),
-    ("usdkrw",       "USD/KRW",              "flows", "DEXKOUS",       "daily", 1, "원","원화 약세는 위험회피·외인 유출"),
+    ("usdkrw",       "USD/KRW",              "flows", "USD/KRW",       "benchlvl", 1, "원","원화 약세는 위험회피·외인 유출"),
     # 센티먼트
-    ("vix",          "VIX 변동성",           "sentiment", "VIXCLS", "daily", 1, "",  "공포 게이지. 낮을수록 안정"),
+    ("vix",          "VIX 변동성",           "sentiment", "VIX", "benchlvl", 1, "",  "공포 게이지. 낮을수록 안정"),
     ("spx_mom",      "S&P500 12M 모멘텀",    "sentiment", "spxmom", "spxmom",1, "%",  "추세. 200일선 상회 여부 포함"),
 ]
 
@@ -765,6 +765,9 @@ MANUAL_URLS = {
 
 def indicator_source(key, src, transform):
     """지표 원본 데이터 출처 {name, url}. 없으면 None."""
+    if transform == "benchlvl":
+        ytk = {"vix": "%5EVIX", "us10y": "%5ETNX", "usdkrw": "KRW=X"}.get(key, "")
+        return {"name": "yfinance (benchmarks.js)", "url": f"https://finance.yahoo.com/quote/{ytk}"}
     if transform == "multpl":
         return {"name": "multpl.com", "url": f"https://www.multpl.com/{src}"}
     if transform in ("yoy", "mom", "level", "daily", "oilyoy") and src and len(src) <= 14 and src.replace("_", "").isalnum() and any(ch.isupper() for ch in src):
@@ -1492,6 +1495,20 @@ def build():
                 d, v = fred_csv(src); dates, vals = downsample_monthly(d, v)
             elif transform == "daily":
                 d, v = fred_csv(src); dates, vals = downsample_monthly(d, v)
+            elif transform == "benchlvl":
+                # benchmarks.js(yfinance, cron 안정 갱신)에서 직접 — FRED 차단 무관 항상 최신
+                bi = bench.get(src) or {}
+                bh = bi.get("history") or {}
+                bd, bv = bh.get("dates", []), list(bh.get("values", []))
+                if bv:
+                    dates, vals = downsample_monthly(bd, bv)
+                    # 최신 current를 마지막 값으로, 날짜는 실제 최신일로 보정
+                    if bi.get("current") is not None:
+                        if dates:
+                            vals[-1] = round(bi["current"], 4)
+                            dates[-1] = bi.get("as_of", dates[-1])
+                        else:
+                            dates, vals = [bi.get("as_of", today.isoformat())], [round(bi["current"], 4)]
             elif transform == "oilyoy":
                 d, v = fred_csv(src)
                 me = to_month_end(d, v); keys = sorted(me)
@@ -1608,6 +1625,21 @@ def build():
             carried += 1
     if carried:
         print(f"  [carry-forward] 직전값 사용 지표 {carried}개(이번 실패분)")
+
+    # oil_yoy 현재값을 benchmarks.js WTI(yfinance)로 보정 — FRED 차단 시 stale 방지
+    wti = bench.get("WTI 유가") or {}
+    wv = (wti.get("history") or {}).get("values") or []
+    if "oil_yoy" in indicators and wti.get("current") and wv and wv[0] > 0:
+        yoy_now = round((wti["current"] / wv[0] - 1) * 100, 1)
+        oi = indicators["oil_yoy"]
+        old = oi.get("score")
+        if old is not None and old in pillar_scores.get("macro", []):
+            pillar_scores["macro"].remove(old)
+        sc = score_indicator("oil_yoy", yoy_now, [yoy_now], {})
+        pillar_scores["macro"].append(sc)
+        lbl, cls = signal_label(sc)
+        oi.update({"current": yoy_now, "as_of": wti.get("as_of", oi.get("as_of")),
+                   "score": round(sc, 2), "signal": lbl, "signal_cls": cls, "stale": False})
 
     # --- 축별/종합 레짐 점수 (-100 ~ +100) ---
     pillars_out = {}
