@@ -731,22 +731,34 @@ KR_CREDIT_SERIES = {
 
 
 def build_kr_credit(kospi_me, kosdaq_me):
-    """KOSPI/KOSDAQ 신용잔고 + 같은 시점 지수 정렬 → 추이 차트용."""
+    """신용잔고(총) + 같은 시점 KOSPI/KOSDAQ 지수 정렬 → 추이 차트용.
+    네이버 증시자금추이 실측(총 신용잔고). 없으면 KOSPI/KOSDAQ 시드 합산."""
+    kd = load_kr_deposit()
+    if kd and kd.get("credit", {}).get("values"):
+        cme = to_month_end(kd["credit"]["dates"], kd["credit"]["values"])
+        months = sorted(cme)
+        dates, total, kospi_i, kosdaq_i = [], [], [], []
+        for m in months:
+            dates.append(m + "-01"); total.append(round(cme[m], 1))
+            kospi_i.append(round(kospi_me[m], 1) if m in kospi_me else None)
+            kosdaq_i.append(round(kosdaq_me[m], 2) if m in kosdaq_me else None)
+        cur = kd["current"]
+        return {"dates": dates, "total_credit": total, "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i,
+                "unit": "조원", "realtime": True,
+                "current": {"total": cur.get("credit"), "deposit": cur.get("deposit"), "as_of": cur.get("as_of")},
+                "source": "네이버 증시자금추이(실측)", "source_url": kd.get("source_url")}
+    # fallback: KOSPI/KOSDAQ 시드
     months = sorted(KR_CREDIT_SERIES)
-    dates, kospi_c, kosdaq_c, total, kospi_i, kosdaq_i = [], [], [], [], [], []
+    dates, total, kospi_i, kosdaq_i = [], [], [], []
     for m in months:
         kc, qc = KR_CREDIT_SERIES[m]
-        dates.append(m + "-01")
-        kospi_c.append(kc); kosdaq_c.append(qc); total.append(round(kc + qc, 1))
+        dates.append(m + "-01"); total.append(round(kc + qc, 1))
         kospi_i.append(round(kospi_me[m], 1) if m in kospi_me else None)
         kosdaq_i.append(round(kosdaq_me[m], 2) if m in kosdaq_me else None)
-    last = months[-1]
-    lk, lq = KR_CREDIT_SERIES[last]
-    return {"dates": dates, "kospi_credit": kospi_c, "kosdaq_credit": kosdaq_c, "total_credit": total,
-            "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i, "unit": "조원",
-            "current": {"kospi": lk, "kosdaq": lq, "total": round(lk + lq, 1), "as_of": last},
-            "source": "KOFIA/KRX 신용거래(수동 시드)",
-            "source_url": "https://freesis.kofia.or.kr/"}
+    last = months[-1]; lk, lq = KR_CREDIT_SERIES[last]
+    return {"dates": dates, "total_credit": total, "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i,
+            "unit": "조원", "current": {"total": round(lk + lq, 1), "as_of": last},
+            "source": "KRX 신용거래(시드)", "source_url": "https://freesis.kofia.or.kr/"}
 
 
 # 수동 지표 원본 데이터 링크 (클릭 시 원천 확인)
@@ -1383,7 +1395,21 @@ def build_earnings():
     return {"data": data, "cards": cards, "pillar_score": pillar}
 
 
+def load_kr_deposit():
+    """kr_deposit.json(네이버 증시자금추이) → dict 또는 None."""
+    f = HERE / "kr_deposit.json"
+    if f.exists():
+        try:
+            return json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return None
+
+
 def _deposit_series():
+    kd = load_kr_deposit()
+    if kd and kd.get("deposit", {}).get("values"):
+        return kd["deposit"]   # 실측(네이버 일별)
     ks = sorted(KR_DEPOSIT_SERIES)
     return {"dates": [k + "-01" for k in ks], "values": [KR_DEPOSIT_SERIES[k] for k in ks]}
 
@@ -1392,7 +1418,19 @@ def load_kr_flows():
     """kr_flows.json → (MANUAL_FLOWS 패치본, 시계열 dict)."""
     f = HERE / "kr_flows.json"
     flows = dict(MANUAL_FLOWS)
-    ts = {"deposit": _deposit_series(), "deposit_source": "KOFIA freesis(근사·편집 가능)"}
+    kd = load_kr_deposit()
+    dep_ser = _deposit_series()
+    ts = {"deposit": dep_ser,
+          "deposit_source": ("네이버 증시자금추이(실측)" if kd else "KOFIA freesis(근사·편집)")}
+    # 예탁금 지표 현재값을 실측으로 갱신
+    if kd and kd.get("current", {}).get("deposit") is not None:
+        dme = to_month_end(dep_ser["dates"], dep_ser["values"]); mk = sorted(dme)
+        dhist = {"dates": [k + "-01" for k in mk], "values": [round(dme[k], 1) for k in mk]}
+        flows["kr_deposit"] = {**MANUAL_FLOWS["kr_deposit"], "current": kd["current"]["deposit"],
+            "as_of": kd["current"].get("as_of", kd.get("as_of")), "history": dhist,
+            "source": {"name": "네이버 증시자금추이", "url": kd.get("source_url")},
+            "note": f"증시 대기자금(고객예탁금). 신용잔고 {kd['current'].get('credit')}조 동반. "
+                    f"자동수집(네이버 증시자금추이). 예탁금 증가=매수 여력 확대. 카드 클릭→누적 추이."}
     if not f.exists():
         return flows, ts
     try:
@@ -1588,8 +1626,8 @@ def build():
             "name": m["name"], "pillar": m["pillar"], "current": m["current"],
             "unit": m.get("unit", ""), "z": None, "pct": None, "score": round(score, 2),
             "signal": lbl, "signal_cls": cls, "desc": m.get("note", ""),
-            "as_of": m["as_of"], "history": None, "manual": True,
-            "source": ({"name": "원본 데이터", "url": MANUAL_URLS[key]} if key in MANUAL_URLS else None),
+            "as_of": m["as_of"], "history": m.get("history"), "manual": True,
+            "source": m.get("source") or ({"name": "원본 데이터", "url": MANUAL_URLS[key]} if key in MANUAL_URLS else None),
         }
 
     # --- 기업이익 축 (국가/섹터 Forward EPS·ERR) ---

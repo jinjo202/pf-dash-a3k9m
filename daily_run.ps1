@@ -26,6 +26,9 @@ if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_benchmarks 실패 — 지수 띠
 python fetch_kr_flows.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_kr_flows 실패 — 직전 수급값 유지" }
 
+python fetch_kr_deposit.py
+if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_kr_deposit 실패 — 직전 예탁금/신용잔고 유지" }
+
 # 2c-2) 매크로 레짐 모니터 데이터 (FRED + yfinance → macro-data.js)
 python fetch_macro.py
 if ($LASTEXITCODE -ne 0) { Write-Warning "fetch_macro 실패 — 매크로 대시보드는 직전 값 유지" }
@@ -51,7 +54,7 @@ python encrypt_data.py encrypt
 if ($LASTEXITCODE -ne 0) { throw "encrypt 실패" }
 
 # 4) 변경분 push
-git add portfolio-data.js prices_log.json benchmarks.js macro-data.js kr_flows.json
+git add portfolio-data.js prices_log.json benchmarks.js macro-data.js kr_flows.json kr_deposit.json
 $staged = git diff --cached --name-only
 if (-not $staged) {
     Write-Host "변경 없음."

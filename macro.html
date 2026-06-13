@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-10a";</script>
+<script>window.CODE_VERSION = "2026-06-13a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -926,7 +926,7 @@ function renderKrFlows(M) {
     statBox('외국인 YTD 누적', sgn(yt.foreign, 1, '조'), '기관 ' + sgn(yt.inst, 1, '조') + ' · 개인 ' + sgn(yt.retail, 1, '조') + '(흡수)') +
     statBox('외국인 ' + (t.month || '') + ' 월(MTD)', sgn(t.mtd.foreign, 1, '조'), '개인 ' + sgn(t.mtd.retail, 1, '조') + ' · 기관 ' + sgn(t.mtd.inst, 1, '조')) +
     statBox('투자자예탁금', (dep && dep.values.length ? dep.values[dep.values.length - 1] + '조' : '–'), '증시 대기자금(추정)') +
-    (cr ? '<div class="ai-stat clickable" id="krCreditStat" style="cursor:pointer"><div class="l">신용잔고(KOSPI+KOSDAQ) 📈</div><div class="v">' + cr.current.total + '조</div><div class="s">KOSPI ' + cr.current.kospi + '조 · KOSDAQ ' + cr.current.kosdaq + '조 · 클릭→추이</div></div>' : '') +
+    (cr ? '<div class="ai-stat clickable" id="krCreditStat" style="cursor:pointer"><div class="l">신용거래융자 잔고 📈</div><div class="v">' + cr.current.total + '조</div><div class="s">' + (cr.realtime ? '실측' : '시드') + ' · 레버리지 게이지 · 클릭→지수·신용 추이</div></div>' : '') +
     '</div>';
   html += '<div class="fin-grid">' +
     '<div class="fin-box"><div class="fin-t">투자자별 YTD 누적 순매수 (조원)</div><div class="fin-c"><canvas id="krYtd"></canvas></div></div>' +
@@ -1226,8 +1226,8 @@ function render(M) {
       det.style.display = show ? 'block' : 'none';
       if (show && !creditDrawn) {
         var cr = M.kr_credit;
-        var k = document.getElementById('krCreditKospi'); if (k) krCreditChart(k, cr.dates, cr.kospi_idx, cr.kospi_credit, 'KOSPI');
-        var q = document.getElementById('krCreditKosdaq'); if (q) krCreditChart(q, cr.dates, cr.kosdaq_idx, cr.kosdaq_credit, 'KOSDAQ');
+        var k = document.getElementById('krCreditKospi'); if (k) krCreditChart(k, cr.dates, cr.kospi_idx, cr.total_credit, 'KOSPI');
+        var q = document.getElementById('krCreditKosdaq'); if (q) krCreditChart(q, cr.dates, cr.kosdaq_idx, cr.total_credit, 'KOSDAQ');
         creditDrawn = true;
       }
     });
