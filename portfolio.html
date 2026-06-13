@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-13a";</script>
+<script>window.CODE_VERSION = "2026-06-13b";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1321,7 +1321,7 @@
     <div class="panel" style="margin-bottom:16px">
       <h3>종목별 수익률</h3>
       <div class="toolbar" id="pnlModeChips">
-        <span class="chip" data-m="cum">누적 (매입가 대비)</span>
+        <span class="chip" data-m="cum">누적 (장부가 대비)</span>
         <span class="chip active" data-m="ytd">YTD (장부가 대비)</span>
       </div>
       <div class="chart-wrap tall"><canvas id="barPnL"></canvas></div>
@@ -4369,7 +4369,7 @@ function renderKPIs() {
   const pnlLabel   = isYtd ? 'YTD 총손익 (평균잔액 기준)' : '누적 평가손익';
   const pnlSub     = isYtd
     ? (basePnlPct != null ? fmtPct(basePnlPct) : '-') + ` · 평균잔액 ${fmtAmtBig(ytdA.base)}`
-    : (basePnlPct != null ? fmtPct(basePnlPct) + ' (매입가 대비)' : '-');
+    : (basePnlPct != null ? fmtPct(basePnlPct) + ' (장부가 대비)' : '-');
 
   const kpis = [
     { label: '총 평가금액 (시가)', value: fmtAmtBig(totalMkt), sub: `현재 보유 ${owned}개 종목` },
@@ -4505,7 +4505,7 @@ function renderRegionTable() {
         <th rowspan="2">시가 (억원)</th>
         <th rowspan="2">매입가 (억원)</th>
         <th rowspan="2">장부가 (억원)</th>
-        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (장부가 대비)</th>
         <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (평균잔액)</th>
         <th rowspan="2">비중</th>
         <th rowspan="2">가중 260D</th>
@@ -4666,7 +4666,9 @@ function renderBarPnL() {
         pnl = ym.pnl;
         pnlPct = (ym.pct != null) ? ym.pct : (ym.base > 0 ? ym.pnl / ym.base * 100 : 0);
       } else {
-        const base = h.buy || 0;
+        // 누적(장부가 대비) = (시가 − 장부가) / 장부가. book_basis(장부가)는 부분매도 시
+        // 잔여분 원가로 정확히 줄어듦. (buy 필드는 종목마다 단위가 불일치해 사용 금지)
+        const base = (h.book_basis != null ? h.book_basis : (h.buy || 0));
         pnl = (h.mkt || 0) - base;
         pnlPct = base > 0 ? (pnl / base) * 100 : 0;
       }
@@ -4784,7 +4786,7 @@ function renderHoldingsSummary(h) {
       <div class="sub">${ownedCnt}/${h.length}개 보유</div>
     </div>
     <div class="stat cum">
-      <div class="lbl">누적 손익 (매입가 대비)</div>
+      <div class="lbl">누적 손익 (장부가 대비)</div>
       <div class="val ${cls(pnlCum)}">${fmtAmtBig(pnlCum)}</div>
       <div class="sub ${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</div>
     </div>
@@ -4825,8 +4827,8 @@ function renderHoldings() {
     buy:       (a, b) => (a.buy || 0) - (b.buy || 0),
     book:      (a, b) => (a.book || 0) - (b.book || 0),
     mkt:       (a, b) => (a.mkt || 0) - (b.mkt || 0),
-    pnlCum:    (a, b) => ((a.mkt - a.buy) || 0) - ((b.mkt - b.buy) || 0),
-    pnlCumPct: (a, b) => ((a.buy > 0 ? (a.mkt - a.buy) / a.buy : 0) - (b.buy > 0 ? (b.mkt - b.buy) / b.buy : 0)),
+    pnlCum:    (a, b) => ((a.mkt - cumBase(a)) || 0) - ((b.mkt - cumBase(b)) || 0),
+    pnlCumPct: (a, b) => ((cumBase(a) > 0 ? (a.mkt - cumBase(a)) / cumBase(a) : 0) - (cumBase(b) > 0 ? (b.mkt - cumBase(b)) / cumBase(b) : 0)),
     pnlYtd:    (a, b) => (ytdMetrics(a).pnl - ytdMetrics(b).pnl),
     pnlYtdPct: (a, b) => ((ytdMetrics(a).pct || -9e9) - (ytdMetrics(b).pct || -9e9)),
     pnlYtdU:   (a, b) => (ytdMetrics(a).unrealized - ytdMetrics(b).unrealized),
@@ -4859,7 +4861,7 @@ function renderHoldings() {
         ${sh2('buy', '매입가', 'rowspan="2"')}
         ${sh2('book', '장부가', 'rowspan="2"')}
         ${sh2('mkt', '시가', 'rowspan="2"')}
-        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (매입가 대비)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">누적 (장부가 대비)</th>
         <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border)" title="1/1/2026 시작가치 + 연중 매매 (Modified Dietz)">YTD (평균잔액)</th>
         <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">${dailyHeader}</th>
         ${sh2('v260', '260D', 'rowspan="2"')}
@@ -4876,8 +4878,9 @@ function renderHoldings() {
     </thead>
     <tbody>
       ${h.map(x => {
-        const pnlCum    = x.mkt != null && x.buy  != null ? x.mkt - x.buy  : null;
-        const pnlCumPct = (x.buy  && x.buy  > 0)  ? (pnlCum / x.buy)  * 100 : null;
+        const cBase     = cumBase(x);
+        const pnlCum    = (x.mkt != null && cBase > 0) ? x.mkt - cBase : null;
+        const pnlCumPct = (cBase > 0) ? (pnlCum / cBase) * 100 : null;
         // YTD: Modified Dietz per-holding
         const yM        = ytdMetrics(x);
         const pnlYtd    = yM.pnl;
@@ -4893,7 +4896,7 @@ function renderHoldings() {
             <td><span class="region-pill" data-r="${x.region}">${x.region}</span></td>
             <td>${x.name}${x.proxy_ticker ? `<span class="proxy-tag" title="가격 추적 프록시: ${x.proxy_ticker}">proxy: ${x.proxy_ticker}</span>` : ''}</td>
             <td>${fmt(x.buy, 2)}</td>
-            <td>${fmt(x.book, 2)}</td>
+            <td>${fmt(x.book_basis != null ? x.book_basis : x.book, 2)}</td>
             <td>${fmt(x.mkt, 2)}</td>
             <td class="${cls(pnlCum)}">${fmt(pnlCum, 2)}</td>
             <td class="${cls(pnlCumPct)}">${fmtPct(pnlCumPct)}</td>
@@ -5044,6 +5047,12 @@ function snapBadge() {
 //        = (start × 기간일수 + Σ trade.signed_amount × 잔여일수) / 기간일수
 //   pct  = total / base × 100  (base > 0 일 때만)
 //   → x.avg_invested 가 없으면 Modified Dietz 근사로 fallback
+// 누적(장부가 대비) 수익률의 원가 기준 = 장부가(book_basis). 부분매도 시 잔여분 원가로
+// 정확히 줄어듦. buy 필드는 종목마다 단위(주당가/억)가 불일치해 사용하지 않음.
+function cumBase(x) {
+  return (x && x.book_basis != null) ? x.book_basis : ((x && x.buy) || 0);
+}
+
 function ytdMetrics(x) {
   const start = (x && x.start_2026 != null) ? x.start_2026 : ((x && x.book) || 0);
   const buy   = (x && x.ytd_buy)  || 0;
