@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-06a";</script>
+<script>window.CODE_VERSION = "2026-06-13a";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -3934,6 +3934,37 @@ function renderTrades() {
   }
 }
 
+// 지수의 history({dates,values})에서 스냅샷 날짜 기준 값/YTD/MTD/일변동 계산.
+// 스냅샷 모드일 때 시장지수 띠가 그 시점 값을 보여주도록. null 반환 시 최신값 fallback.
+function indexAsOf(idx, dateStr) {
+  const h = idx && idx.history;
+  if (!h || !Array.isArray(h.dates) || !Array.isArray(h.values) || !h.dates.length) return null;
+  const dates = h.dates, vals = h.values;
+  let j = -1;
+  for (let i = 0; i < dates.length; i++) { if (dates[i] <= dateStr) j = i; else break; }
+  if (j < 0) return null;                          // 스냅샷이 시계열 시작 이전
+  let cur = null;
+  for (let i = j; i >= 0; i--) { if (vals[i] != null) { cur = vals[i]; j = i; break; } }
+  if (cur == null) return null;
+  let prev = null;
+  for (let i = j - 1; i >= 0; i--) { if (vals[i] != null) { prev = vals[i]; break; } }
+  let ytdBase = null;                              // 2026 첫 거래일
+  for (let i = 0; i < dates.length; i++) { if (dates[i] >= '2026-01-01' && vals[i] != null) { ytdBase = vals[i]; break; } }
+  const ym = dateStr.slice(0, 7);                  // 스냅샷 달 첫 거래일
+  let mtdBase = null;
+  for (let i = 0; i <= j; i++) { if (dates[i].slice(0, 7) === ym && vals[i] != null) { mtdBase = vals[i]; break; } }
+  const pct = (a, b) => (a != null && b != null && b !== 0) ? (a / b - 1) * 100 : null;
+  return {
+    current: cur,
+    daily_pct: pct(cur, prev),
+    ytd_pct: pct(cur, ytdBase),
+    mtd_pct: pct(cur, mtdBase),
+    baseline: ytdBase,
+    mtd_baseline: mtdBase,
+    as_of: dates[j],
+  };
+}
+
 function renderBenchmarks() {
   const wrap = document.getElementById('benchmarks');
   if (!wrap) return;
@@ -3967,28 +3998,34 @@ function renderBenchmarks() {
   }
 
   const benchCard = idx => {
-    const ytd = idx.ytd_pct;
-    const day = idx.daily_pct;
+    // 스냅샷 모드면 그 시점 값, 아니면 최신값
+    const asof = snapshotDate ? indexAsOf(idx, snapshotDate) : null;
+    const curVal = asof ? asof.current : idx.current;
+    const ytd = asof ? asof.ytd_pct : idx.ytd_pct;
+    const day = asof ? asof.daily_pct : idx.daily_pct;
+    const mtd = asof ? asof.mtd_pct : idx.mtd_pct;
+    const baseVal = asof ? asof.baseline : idx.baseline;
+    const mtdBaseVal = asof ? asof.mtd_baseline : idx.mtd_baseline;
+    const asofStr = asof ? asof.as_of : (idx.as_of || '');
     const ytdCls = ytd == null ? '' : (ytd > 0 ? 'pos' : ytd < 0 ? 'neg' : '');
     const dayCls = day == null ? '' : (day > 0 ? 'pos' : day < 0 ? 'neg' : '');
     const arrow = ytd == null ? '' : (ytd > 0 ? '▲' : ytd < 0 ? '▼' : '·');
     const dec = idx.decimals ?? 2;
-    const cur = Number(idx.current).toLocaleString('ko-KR', {
+    const cur = Number(curVal).toLocaleString('ko-KR', {
       maximumFractionDigits: dec, minimumFractionDigits: dec
     });
     // 금리 카테고리는 bps 단위로 변동 표시
     const isYield = idx.category === '금리';
     const bpsStr = b => (b > 0 ? '+' : '') + Math.round(b) + 'bps';
-    const mtd = idx.mtd_pct;
     const mtdCls = mtd == null ? '' : (mtd > 0 ? 'pos' : mtd < 0 ? 'neg' : '');
     let ytdLine, mtdLine, dailyLine;
     if (isYield) {
-      const ytdBps = (idx.baseline != null && idx.current != null)
-        ? (idx.current - idx.baseline) * 100 : null;
-      const mtdBps = (idx.mtd_baseline != null && idx.current != null)
-        ? (idx.current - idx.mtd_baseline) * 100 : null;
-      const dailyBps = (day != null && idx.current != null)
-        ? idx.current * day / (100 + day) * 100 : null;
+      const ytdBps = (baseVal != null && curVal != null)
+        ? (curVal - baseVal) * 100 : null;
+      const mtdBps = (mtdBaseVal != null && curVal != null)
+        ? (curVal - mtdBaseVal) * 100 : null;
+      const dailyBps = (day != null && curVal != null)
+        ? curVal * day / (100 + day) * 100 : null;
       ytdLine = `<div class="ytd ${ytdCls}">${arrow} YTD ${ytdBps != null ? bpsStr(ytdBps) : '—'}</div>`;
       mtdLine = `<div class="mtd ${mtdCls}">MTD ${mtdBps != null ? bpsStr(mtdBps) : '—'}</div>`;
       dailyLine = `<div class="daily ${dayCls}">Δ ${dailyBps != null ? bpsStr(dailyBps) : '—'}</div>`;
@@ -4022,7 +4059,7 @@ function renderBenchmarks() {
         ${mtdLine}
         ${dailyLine}
         ${valRow}
-        <div class="asof">${idx.as_of || ''}</div>
+        <div class="asof">${asofStr}</div>
       </div>
     `;
   };
@@ -4032,7 +4069,10 @@ function renderBenchmarks() {
   // 누락된 카테고리도 (만약 새 카테고리 추가 시 뒤에 붙음)
   for (const c of Object.keys(groups)) if (!orderedCats.includes(c)) orderedCats.push(c);
 
-  wrap.innerHTML = orderedCats.map(cat => `
+  const snapNote = snapshotDate
+    ? `<div style="width:100%;margin:0 0 6px;padding:3px 9px;border-radius:5px;background:var(--warn-bg);color:var(--warn-fg);font-size:11px;font-weight:700;letter-spacing:0.03em">📌 ${snapshotDate} 기준 지수 (스냅샷) — 날짜 변경 시 지수도 그 시점 값으로 표시</div>`
+    : '';
+  wrap.innerHTML = snapNote + orderedCats.map(cat => `
     <div class="bench-group">
       <div class="bench-group-label">${cat}</div>
       <div class="bench-cards">
