@@ -19,7 +19,7 @@
                                  [--template PATH] [--today YYYY-MM-DD] [--no-sentiment]
 """
 import sys, os, re, io, json, argparse, glob
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 
 import openpyxl
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
@@ -718,6 +718,47 @@ def main():
           "| data:", target.strftime("%Y-%m-%d"),
           "| template:", os.path.basename(os.path.dirname(template)),
           "| sentiment:", bool(sentiment.get("cnn_fng")))
+
+    # 대시보드용 요약본 weekly-data.js (자료 내용을 웹에서 미리 확인). repo 루트에 덮어쓴다.
+    try:
+        write_weekly_data(meeting, target, bench, macro, kr, pdata, daily, sentiment, out)
+    except Exception as e:
+        sys.stderr.write("weekly-data.js write fail: %s\n" % e)
+
+
+def write_weekly_data(meeting, target, bench, macro, kr, pdata, daily, sentiment, xlsx_path):
+    """대시보드(daily.html)가 읽을 weekly-data.js (window.WEEKLY) 생성."""
+    content = resolve_factor_content(macro, kr, sentiment, bench)
+    # 시장변동표 (Mon/Tue: YTD·MTD·1W 백분율)
+    by_t = {x.get("ticker"): x for x in (bench.get("indices") or [])}
+    market = []
+    for ko, tk in [("KOSPI", "^KS11"), ("KOSDAQ", "^KQ11"), ("S&P500", "^GSPC"),
+                   ("나스닥", "^IXIC"), ("니케이225", "^N225"), ("상해종합", "000001.SS"),
+                   ("MSCI ACWI", "ACWI"), ("MSCI EM", "EEM")]:
+        x = by_t.get(tk) or {}
+        market.append({"name": ko, "current": x.get("current"),
+                       "ytd": x.get("ytd_pct"), "mtd": x.get("mtd_pct"),
+                       "daily": x.get("daily_pct")})
+    pnl = build_pnl(pdata)
+    country, sec = build_weights(pdata)
+    out = {
+        "meeting": meeting.strftime("%Y-%m-%d"),
+        "meeting_weekday": meeting.strftime("%a"),
+        "target": target.strftime("%Y-%m-%d"),
+        "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "xlsx_name": os.path.basename(xlsx_path),
+        "xlsx_folder": meeting.strftime("%Y%m%d"),
+        "title": "주식 시황회의 (%d월 %d주차)" % (meeting.month, (meeting.day - 1) // 7 + 1),
+        "market": market,
+        "factor": content,           # {기업이익:[...], 경제지표:[...], ...}
+        "pnl": pnl,                  # {ytd:{realized,unrealized,pnl}, to_may:..., jun:...}
+        "weights": {"country": country, "sector": sec},
+    }
+    dest = os.path.join(REPO, "weekly-data.js")
+    with open(dest, "w", encoding="utf-8") as f:
+        f.write("// 주간회의자료 요약 (대시보드용). weekly/weekly_report.py 가 갱신.\n"
+                "window.WEEKLY = " + json.dumps(out, ensure_ascii=False, indent=2) + ";\n")
+    print("  weekly-data.js:", dest)
 
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@
     document.write('<sc'+'ript src="briefings-archive.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="briefings-archive-asia.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="briefing-data.js?v=' + v + '"><\/sc'+'ript>');
+    document.write('<sc'+'ript src="weekly-data.js?v=' + v + '" onerror="window.WEEKLY=null"><\/sc'+'ript>');
   })();
 </script>
 <!-- 워드(.docx) 생성용 라이브러리 (클라이언트 사이드, 브리핑 → 개조식 보고서) -->
@@ -101,8 +102,66 @@
   }
   .nav-link:hover { background:var(--accent-soft); color:var(--accent); }
 
-  /* ── Layout ── */
-  main { max-width:1280px; margin:0 auto; padding:20px 24px 64px; }
+  /* ── Layout (좌측 사이드바 + 메인 컨텐츠) ── */
+  main { max-width:1400px; margin:0 auto; padding:20px 24px 64px;
+         display:grid; grid-template-columns:220px 1fr; gap:24px; align-items:start; }
+  .sidebar { position:sticky; top:14px; }
+  .sb-section { margin-bottom:18px; }
+  .sb-label {
+    font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); padding:0 10px 6px; border-bottom:1px solid var(--border); margin-bottom:6px;
+  }
+  .sb-item {
+    display:flex; align-items:center; gap:8px; padding:8px 12px;
+    border-radius:8px; cursor:pointer; font-size:13px; font-weight:500;
+    color:var(--text); border:1px solid transparent; user-select:none;
+    transition:background .12s, color .12s, border-color .12s;
+  }
+  .sb-item:hover { background:var(--accent-soft); color:var(--accent); }
+  .sb-item.active {
+    background:var(--accent); color:#fff; border-color:var(--accent); font-weight:600;
+  }
+  .sb-item.sub { padding-left:30px; font-size:12.5px; }
+  .sb-icon { width:18px; text-align:center; flex-shrink:0; }
+  .sb-foot {
+    font-size:11px; color:var(--muted); padding:8px 10px; margin-top:8px;
+    border-top:1px solid var(--border);
+  }
+  #view-content { min-width:0; }
+  @media (max-width:900px) {
+    main { grid-template-columns:1fr; }
+    .sidebar { position:static; }
+    .sb-section { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:10px; }
+    .sb-label { width:100%; padding:0 4px 4px; }
+    .sb-item { padding:6px 12px; border-radius:16px; border:1px solid var(--border); }
+    .sb-item.sub { padding-left:12px; }
+    .sb-foot { width:100%; }
+  }
+
+  /* ── 주간회의자료 패널 ── */
+  .wk-meta { display:flex; gap:16px; flex-wrap:wrap; align-items:baseline;
+             margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+  .wk-meta-item { font-size:12.5px; color:var(--muted); }
+  .wk-meta-item b { color:var(--text); font-size:13px; font-weight:700; margin-left:4px; }
+  .wk-market-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:6px 0 18px; }
+  .wk-market-table th, .wk-market-table td { padding:6px 10px; text-align:right; border-bottom:1px solid var(--border); }
+  .wk-market-table th { font-size:11.5px; font-weight:600; color:var(--muted); text-align:right; }
+  .wk-market-table th:first-child, .wk-market-table td:first-child { text-align:left; }
+  .wk-market-table td.pos { color:var(--pos); font-weight:600; }
+  .wk-market-table td.neg { color:var(--neg); font-weight:600; }
+  .wk-factor { margin-bottom:18px; }
+  .wk-factor-h { font-size:14px; font-weight:700; color:var(--accent);
+                 margin:0 0 6px; padding-bottom:4px; border-bottom:1px solid var(--accent-soft); }
+  .wk-factor-line { font-size:13px; line-height:1.6; color:var(--text);
+                    padding:3px 0 3px 8px; border-left:2px solid var(--accent-soft); }
+  .wk-pnl, .wk-weights { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .wk-mini-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .wk-mini-table th, .wk-mini-table td { padding:5px 8px; text-align:right; border-bottom:1px solid var(--border); }
+  .wk-mini-table th:first-child, .wk-mini-table td:first-child { text-align:left; }
+  .wk-mini-title { font-size:13px; font-weight:700; margin:0 0 4px; }
+  .wk-note { font-size:11.5px; color:var(--muted); margin-top:8px; }
+
+  /* ── Layout-legacy ── */
   .section-label {
     font-size:11px; font-weight:700; letter-spacing:.06em;
     text-transform:uppercase; color:var(--muted); margin-bottom:10px;
@@ -1232,16 +1291,8 @@ function makeSpark(data, opts) {
     return html;
   }
 
-  /* ── 탭 전환 ── */
-  window.switchRegion = function(key) {
-    currentRegion = key;
-    // 탭 active 갱신
-    document.querySelectorAll('.rtab').forEach(function(el) {
-      el.classList.toggle('active', el.dataset.region === key);
-    });
-    document.getElementById('region-content').innerHTML =
-      key === 'overview' ? renderOverview() : renderRegion(key);
-  };
+  /* ── (호환용) 탭 전환 — 좌측 메뉴로 대체됨 ── */
+  window.switchRegion = function(key) { window.switchView('region:' + key); };
 
   window.switchTrend = function(rkey, mode) {
     var r = getRegion(rkey);
@@ -1252,22 +1303,182 @@ function makeSpark(data, opts) {
     });
   };
 
+  /* ── 단일 브리핑 렌더 (글로벌/아시아 분리 보기) ── */
+  function renderBriefingOnly(feedKey) {
+    var feed = BRIEFING_FEEDS[feedKey];
+    if (!feed) return '<div class="loading">알 수 없는 브리핑입니다.</div>';
+    var html = renderBriefingFeed(feed);
+    if (!html) {
+      var name = feedKey === 'us' ? '글로벌' : '아시아';
+      return '<div class="panel"><div class="panel-title">' + name + ' 시황 브리핑</div>' +
+             '<div class="panel-hint">아직 게시된 ' + name + ' 시황이 없습니다.</div></div>';
+    }
+    return html;
+  }
+
+  /* ── 주간회의자료 렌더 ── */
+  function renderWeekly() {
+    var W = window.WEEKLY;
+    if (!W) {
+      return '<div class="panel"><div class="panel-title">📋 주간회의자료</div>' +
+             '<div class="panel-hint">weekly-data.js가 아직 생성되지 않았습니다. ' +
+             '<code>python weekly/weekly_report.py</code> 를 한 번 실행해 주세요.</div></div>';
+    }
+    var html = '<div class="panel">';
+    html += '<div class="panel-title">📋 ' + escHtml(W.title || '주간회의자료') + '</div>';
+    html += '<div class="wk-meta">';
+    html += '<div class="wk-meta-item">회의 <b>' + W.meeting + '</b> (' + (W.meeting_weekday || '') + ')</div>';
+    html += '<div class="wk-meta-item">데이터 기준 <b>' + W.target + '</b></div>';
+    html += '<div class="wk-meta-item">파일 <b>' + escHtml(W.xlsx_folder + '/' + W.xlsx_name) + '</b></div>';
+    html += '</div>';
+
+    // 시장변동표
+    if (W.market && W.market.length) {
+      html += '<div class="section-label">□ 주간 주식시장 변동</div>';
+      html += '<table class="wk-market-table"><thead><tr>' +
+              '<th>지수</th><th>현재가</th><th>전일대비</th><th>MTD</th><th>YTD</th>' +
+              '</tr></thead><tbody>';
+      W.market.forEach(function(m) {
+        html += '<tr>' +
+          '<td>' + escHtml(m.name) + '</td>' +
+          '<td>' + (m.current != null ? Number(m.current).toLocaleString(undefined,{maximumFractionDigits:2}) : '—') + '</td>' +
+          '<td class="' + colorClass(m.daily) + '">' + fmtPct(m.daily) + '</td>' +
+          '<td class="' + colorClass(m.mtd) + '">' + fmtPct(m.mtd) + '</td>' +
+          '<td class="' + colorClass(m.ytd) + '">' + fmtPct(m.ytd) + '</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table>';
+    }
+
+    // 주요 Factor 점검
+    if (W.factor) {
+      html += '<div class="section-label">□ 주요 Factor 점검</div>';
+      ['기업이익','경제지표','수급','주요 이벤트','센티먼트','주요 보고서'].forEach(function(key) {
+        var lines = W.factor[key];
+        if (!lines || !lines.length) return;
+        html += '<div class="wk-factor">';
+        html += '<h4 class="wk-factor-h">' + key + '</h4>';
+        lines.forEach(function(ln) {
+          html += '<div class="wk-factor-line">' + escHtml(ln) + '</div>';
+        });
+        html += '</div>';
+      });
+    }
+
+    // 손익 + 비중
+    if (W.pnl || W.weights) {
+      html += '<div class="section-label">□ 주식 손익 & 국가/섹터 비중</div>';
+      html += '<div class="wk-pnl">';
+      if (W.pnl && W.pnl.ytd) {
+        var fmtAmt = function(v) { return v == null ? '—' : Number(v).toFixed(1) + ' 억'; };
+        html += '<div><h5 class="wk-mini-title">주식 손익 (YTD)</h5>' +
+                '<table class="wk-mini-table"><tbody>' +
+                '<tr><td>FVPL 평가</td><td class="' + colorClass(W.pnl.ytd.unrealized) + '">' + fmtAmt(W.pnl.ytd.unrealized) + '</td></tr>' +
+                '<tr><td>매각/배당</td><td class="' + colorClass(W.pnl.ytd.realized) + '">' + fmtAmt(W.pnl.ytd.realized) + '</td></tr>' +
+                '<tr><td><b>계</b></td><td class="' + colorClass(W.pnl.ytd.pnl) + '"><b>' + fmtAmt(W.pnl.ytd.pnl) + '</b></td></tr>' +
+                '</tbody></table></div>';
+      }
+      if (W.weights) {
+        var renderWMap = function(m, title) {
+          if (!m) return '';
+          var keys = Object.keys(m);
+          if (!keys.length) return '';
+          var rows = keys.map(function(k){ return [k, m[k]]; })
+                          .sort(function(a,b){ return b[1]-a[1]; });
+          var s = '<div><h5 class="wk-mini-title">' + title + '</h5>' +
+                  '<table class="wk-mini-table"><tbody>';
+          rows.forEach(function(r) {
+            s += '<tr><td>' + escHtml(r[0]) + '</td><td>' + (r[1]*100).toFixed(1) + '%</td></tr>';
+          });
+          s += '</tbody></table></div>';
+          return s;
+        };
+        html += renderWMap(W.weights.country, '국가 비중');
+        html += renderWMap(W.weights.sector,  '섹터 비중');
+      }
+      html += '</div>';
+    }
+    html += '<div class="wk-note">※ 자동 생성된 주간회의자료 요약. 전체 자료는 OneDrive ' +
+            escHtml(W.xlsx_folder) + ' 폴더의 ' + escHtml(W.xlsx_name) + ' 참조.</div>';
+    html += '</div>';
+    return html;
+  }
+
+  /* ── 좌측 메뉴 뷰 라우터 ── */
+  // 뷰 키: overview / global / asia / weekly / region:us / region:europe / region:china / region:japan / region:korea
+  var currentView = 'overview';
+
+  function renderView(view) {
+    if (view === 'overview') return renderOverview();
+    if (view === 'global')   return renderBriefingOnly('us');
+    if (view === 'asia')     return renderBriefingOnly('asia');
+    if (view === 'weekly')   return renderWeekly();
+    if (view.indexOf('region:') === 0) return renderRegion(view.slice(7));
+    return '<div class="loading">알 수 없는 뷰입니다.</div>';
+  }
+
+  window.switchView = function(view) {
+    currentView = view;
+    document.querySelectorAll('.sb-item').forEach(function(el) {
+      el.classList.toggle('active', el.dataset.view === view);
+    });
+    var c = document.getElementById('view-content');
+    if (c) {
+      c.innerHTML = renderView(view);
+      // 모바일에서 컨텐츠로 스크롤
+      if (window.matchMedia('(max-width:900px)').matches) {
+        c.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    }
+  };
+
+  // 호환: renderOverview 안에서 부르는 selectBriefingUs/Asia가 region-content를 갱신
+  // → 새 레이아웃에서는 view-content가 같은 역할이므로 alias 가 필요 없음(같은 요소를 selectBriefing이 다시 그림)
+
   /* ── 앱 마운트 ── */
   var regions = D.regions || [];
   var app = document.getElementById('app');
 
-  // 탭 바
-  var tabHtml = '<div class="region-tabs">';
-  tabHtml += '<button class="rtab active" data-region="overview" onclick="switchRegion(\'overview\')">🌐 전체 개요</button>';
-  regions.forEach(function(r) {
-    tabHtml += '<button class="rtab" data-region="' + r.key + '" onclick="switchRegion(\'' + r.key + '\')">' +
-      r.flag + ' ' + r.name + '</button>';
-  });
-  tabHtml += '</div>';
-  tabHtml += '<div id="region-content"></div>';
+  // 좌측 메뉴 + 컨텐츠 영역
+  var hasGlobal = getBriefings(BRIEFING_FEEDS.us).length > 0;
+  var hasAsia   = getBriefings(BRIEFING_FEEDS.asia).length > 0;
 
-  app.innerHTML = tabHtml;
-  document.getElementById('region-content').innerHTML = renderOverview();
+  var sbHtml = '<aside class="sidebar">';
+  sbHtml += '<div class="sb-section">' +
+            '<div class="sb-label">개요</div>' +
+            '<div class="sb-item active" data-view="overview" onclick="switchView(\'overview\')">' +
+            '<span class="sb-icon">🌐</span><span>전체 개요</span></div>' +
+            '</div>';
+  sbHtml += '<div class="sb-section">' +
+            '<div class="sb-label">일간 시황</div>' +
+            '<div class="sb-item" data-view="global" onclick="switchView(\'global\')">' +
+            '<span class="sb-icon">🗞</span><span>글로벌</span>' +
+            (hasGlobal ? '' : '<span style="margin-left:auto;font-size:10px;color:var(--muted)">N/A</span>') +
+            '</div>' +
+            '<div class="sb-item" data-view="asia" onclick="switchView(\'asia\')">' +
+            '<span class="sb-icon">🌏</span><span>아시아</span>' +
+            (hasAsia ? '' : '<span style="margin-left:auto;font-size:10px;color:var(--muted)">N/A</span>') +
+            '</div>' +
+            '</div>';
+  sbHtml += '<div class="sb-section">' +
+            '<div class="sb-label">주간 자료</div>' +
+            '<div class="sb-item" data-view="weekly" onclick="switchView(\'weekly\')">' +
+            '<span class="sb-icon">📋</span><span>주간회의자료</span></div>' +
+            '</div>';
+  if (regions.length) {
+    sbHtml += '<div class="sb-section"><div class="sb-label">지역별 상세</div>';
+    regions.forEach(function(r) {
+      sbHtml += '<div class="sb-item sub" data-view="region:' + r.key + '" onclick="switchView(\'region:' + r.key + '\')">' +
+                '<span class="sb-icon">' + r.flag + '</span><span>' + r.name + '</span></div>';
+    });
+    sbHtml += '</div>';
+  }
+  sbHtml += '<div class="sb-foot">데이터 기준 ' + (D.as_of || '') + '</div>';
+  sbHtml += '</aside>';
+
+  app.innerHTML = sbHtml + '<div id="view-content"></div>' +
+                  '<div id="region-content" style="display:none"></div>';  // 레거시 호환
+  document.getElementById('view-content').innerHTML = renderOverview();
 })();
 </script>
 </body>
