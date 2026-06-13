@@ -427,35 +427,44 @@
     display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:16px;
   }
   .feat-card {
-    background:var(--panel); border:1px solid var(--border); border-radius:12px;
-    padding:16px 18px; box-shadow:var(--shadow-sm);
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:0; box-shadow:var(--shadow-sm); overflow:hidden;
+    transition:transform .15s, box-shadow .15s, border-color .15s;
   }
+  .feat-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-md); border-color:var(--accent); }
+  .feat-card.dir-pos { border-top:3px solid var(--pos); }
+  .feat-card.dir-neg { border-top:3px solid var(--neg); }
+  .feat-card .fc-body { padding:15px 18px 6px; }
   .feat-card .fc-header {
-    display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px;
   }
-  .feat-card .fc-name { font-size:15px; font-weight:800; letter-spacing:-.01em; }
-  .feat-card .fc-ticker { font-size:11px; color:var(--muted); margin-top:2px; }
+  .feat-card .fc-name { font-size:15.5px; font-weight:800; letter-spacing:-.01em; line-height:1.25; }
+  .feat-card .fc-ticker { font-size:11px; color:var(--muted); margin-top:3px; display:flex; gap:6px; flex-wrap:wrap; }
+  .feat-card .fc-tag { background:var(--neu-soft); padding:1px 7px; border-radius:6px; font-weight:600; }
   .feat-card .fc-badge {
-    font-size:10px; font-weight:700; padding:3px 8px; border-radius:10px;
-    white-space:nowrap;
+    font-size:12px; font-weight:800; padding:5px 10px; border-radius:10px;
+    white-space:nowrap; font-variant-numeric:tabular-nums;
   }
   .badge-pos { background:var(--pos-soft); color:var(--pos); }
   .badge-neg { background:var(--neg-soft); color:var(--neg); }
-  .feat-card .fc-price { font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
-  .feat-card .fc-chg { font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; margin-top:2px; }
-  .feat-card .fc-spark { margin:10px 0; }
-  .feat-card .news-list { margin-top:10px; display:flex; flex-direction:column; gap:8px; }
+  .feat-card .fc-priceline { display:flex; align-items:baseline; gap:8px; }
+  .feat-card .fc-price { font-size:23px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
+  .feat-card .fc-chg { font-size:12.5px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .feat-card .fc-spark { margin:8px 0 2px; }
+  .feat-card .news-wrap { padding:4px 18px 16px; }
+  .feat-card .news-head { font-size:10.5px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--muted); margin:8px 0 7px; }
+  .feat-card .news-list { display:flex; flex-direction:column; gap:7px; }
   .news-item {
-    padding:9px 11px; background:var(--panel-soft); border-radius:8px;
-    border-left:3px solid var(--accent);
+    padding:9px 11px; background:var(--panel-soft); border-radius:9px;
+    border-left:3px solid var(--accent); transition:background .12s;
   }
-  .news-item .ntitle {
-    font-size:12px; font-weight:600; line-height:1.4; color:var(--text);
-  }
+  .news-item:hover { background:var(--accent-soft); }
+  .news-item .ntitle { font-size:12px; font-weight:600; line-height:1.45; color:var(--text); display:block; }
   .news-item a.ntitle { text-decoration:none; color:var(--text); }
   .news-item a.ntitle:hover { color:var(--accent); }
-  .news-item .nmeta { font-size:11px; color:var(--muted); margin-top:3px; }
-  .no-news { font-size:12px; color:var(--muted); font-style:italic; padding:8px 0; }
+  .news-item .nmeta { font-size:10.5px; color:var(--muted); margin-top:4px; }
+  .no-news { font-size:12px; color:var(--muted); font-style:italic; padding:8px 18px 16px; }
 
   /* ── Sparkline SVG ── */
   .sparkline { display:block; width:100%; height:40px; }
@@ -999,12 +1008,27 @@ function makeSpark(data, opts) {
   };
 
   /* ── 전체 개요 카드 ── */
+  // 뉴스 표기: daily-data.js 가 fetch 단계에서 한글로 번역되어 들어오므로 그대로 표시.
+  // (영문 원문이 남아 있으면 끝에 표기) — 번역은 데이터 계층(fetch_daily.py)에서 수행.
+  function transNews(title) {
+    if (!title) return '';
+    if (typeof title === 'object') return title.ko || title.title || '';
+    return title;
+  }
+
+  // 종목명 표기: 한글명(영문 티커). 이름에 티커가 이미 있거나 동일하면 티커 생략.
+  function stockLabel(name, ticker) {
+    name = (name || '').trim();
+    if (!ticker) return name || '';
+    if (!name) return ticker;
+    if (name === ticker || name.toUpperCase().indexOf(ticker.toUpperCase()) >= 0) return name;
+    return name + '(' + ticker + ')';
+  }
+
   function renderOverview() {
     var html = '';
 
-    // 미국장 마감 시황 브리핑 (최상단)
-    html += renderBriefing();
-
+    // (시황 브리핑은 좌측 메뉴 '일간 시황'으로 이동 — 개요에서는 생략)
     // 글로벌 시황 코멘트
     html += renderOverviewCommentary();
 
@@ -1110,8 +1134,7 @@ function makeSpark(data, opts) {
         var detail = m.detail ? '<div class="cm-mover-detail">' + escHtml(m.detail) + '</div>' : '';
         html += '<div class="cm-mover">' +
           '<div class="cm-mover-head">' +
-            '<span class="cm-mover-name">' + escHtml(m.name) + '</span>' +
-            '<span class="cm-mover-ticker">' + m.ticker + '</span>' +
+            '<span class="cm-mover-name">' + escHtml(stockLabel(m.name, m.ticker)) + '</span>' +
             '<span class="gf-chip ' + chipCls + '">' + arrow + fmtPct(m.chgPct) + '</span>' +
           '</div>' +
           '<div class="cm-mover-reason">' + reason + src + '</div>' +
@@ -1191,8 +1214,8 @@ function makeSpark(data, opts) {
     return '<div class="gf-row">' +
       '<div class="' + rankCls + '">' + (i + 1) + '</div>' +
       '<div class="gf-id">' +
-        '<div class="gf-name">' + escHtml(s.name) + '</div>' +
-        '<div class="gf-ticker">' + s.ticker + ' · ' + s.sector + '</div>' +
+        '<div class="gf-name">' + escHtml(stockLabel(s.name, s.ticker)) + '</div>' +
+        '<div class="gf-ticker">' + escHtml(s.sector || '') + '</div>' +
       '</div>' +
       '<div class="gf-spark">' + makeSpark(s.spark || [], {w:84, h:26, cls:'sparkline-sm', area:true}) + '</div>' +
       '<div class="gf-price tnum">' + priceStr + '</div>' +
@@ -1232,38 +1255,44 @@ function makeSpark(data, opts) {
   /* ── 특징주 카드 ── */
   function renderFeatCard(feat, regionLabel) {
     var cc = colorClass(feat.chgPct);
+    var dir = (feat.chgPct || 0) >= 0 ? 'dir-pos' : 'dir-neg';
     var badgeCls = feat.chgPct >= 0 ? 'badge-pos' : 'badge-neg';
-    var html = '<div class="feat-card">' +
-      '<div class="fc-header">' +
-        '<div>' +
-          '<div class="fc-name">' + feat.name + '</div>' +
-          '<div class="fc-ticker">' + feat.ticker + (regionLabel ? ' · ' + regionLabel : '') + ' · ' + feat.sector + '</div>' +
+    var tags = [];
+    if (regionLabel) tags.push('<span class="fc-tag">' + escHtml(regionLabel) + '</span>');
+    if (feat.sector) tags.push('<span class="fc-tag">' + escHtml(feat.sector) + '</span>');
+    var html = '<div class="feat-card ' + dir + '">' +
+      '<div class="fc-body">' +
+        '<div class="fc-header">' +
+          '<div>' +
+            '<div class="fc-name">' + escHtml(stockLabel(feat.name, feat.ticker)) + '</div>' +
+            '<div class="fc-ticker">' + tags.join('') + '</div>' +
+          '</div>' +
+          '<span class="fc-badge ' + badgeCls + '">' + arrowFor(feat.chgPct) + fmtPct(feat.chgPct) + '</span>' +
         '</div>' +
-        '<span class="fc-badge ' + badgeCls + '">' + fmtPct(feat.chgPct) + '</span>' +
-      '</div>' +
-      '<div class="fc-price ' + cc + '">' + (feat.price ? feat.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—') + '</div>' +
-      '<div class="fc-chg ' + cc + '">' + (feat.chg != null ? (feat.chg>0?'+':'') + fmt(feat.chg,2) : '—') + ' 전일 대비</div>' +
-      '<div class="fc-spark">' + makeSpark(feat.spark, {w:280, h:50, cls:'sparkline'}) + '</div>';
+        '<div class="fc-priceline">' +
+          '<span class="fc-price ' + cc + '">' + (feat.price ? feat.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—') + '</span>' +
+          '<span class="fc-chg ' + cc + '">' + (feat.chg != null ? (feat.chg>0?'+':'') + fmt(feat.chg,2) + ' 전일대비' : '') + '</span>' +
+        '</div>' +
+        '<div class="fc-spark">' + makeSpark(feat.spark, {w:280, h:46, cls:'sparkline', area:true}) + '</div>' +
+      '</div>';
 
+    html += '<div class="news-wrap">';
     if (feat.news && feat.news.length) {
-      html += '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;">관련 뉴스</div>';
-      html += '<div class="news-list">';
-      feat.news.forEach(function(n) {
+      html += '<div class="news-head">📰 관련 뉴스</div><div class="news-list">';
+      feat.news.slice(0, 3).forEach(function(n) {
         var t = relTime(n.time);
         html += '<div class="news-item">';
-        if (n.link) {
-          html += '<a class="ntitle" href="' + n.link + '" target="_blank" rel="noopener">' + escHtml(n.title) + '</a>';
-        } else {
-          html += '<div class="ntitle">' + escHtml(n.title) + '</div>';
-        }
+        var title = escHtml(transNews(n.title));
+        if (n.link) html += '<a class="ntitle" href="' + n.link + '" target="_blank" rel="noopener">' + title + '</a>';
+        else html += '<span class="ntitle">' + title + '</span>';
         html += '<div class="nmeta">' + escHtml(n.publisher || '') + (t ? ' · ' + t : '') + '</div>';
         html += '</div>';
       });
       html += '</div>';
     } else {
-      html += '<div class="no-news">이 종목의 최신 뉴스를 불러오지 못했습니다.</div>';
+      html += '<div class="no-news">최신 뉴스를 불러오지 못했습니다.</div>';
     }
-    html += '</div>';
+    html += '</div></div>';
     return html;
   }
 
