@@ -769,6 +769,77 @@ def fetch_einfomax(max_items: int = 6) -> list:
     return out
 
 
+def _mktcap_usd(sym: str):
+    try:
+        fi = yf.Ticker(sym).fast_info
+        for k in ("market_cap", "marketCap"):
+            try:
+                v = fi[k]
+            except Exception:
+                v = getattr(fi, k, None)
+            if v:
+                return float(v)
+    except Exception:
+        pass
+    return None
+
+
+def fetch_sector_holdings(now_utc, top_n: int = 10) -> dict:
+    """각 GICS 섹터 ETF의 상위 top_n 종목 + 시총(USD)·일간/MTD/YTD 수익률."""
+    sector_rows = {}        # name_ko -> [(sym, name, weight)]
+    all_syms: set[str] = set()
+    for etf, name_ko, _ in US_SECTORS:
+        rows = []
+        try:
+            fd = getattr(yf.Ticker(etf), "funds_data", None)
+            df = getattr(fd, "top_holdings", None) if fd else None
+            if df is not None and len(df):
+                for idx, row in df.head(top_n).iterrows():
+                    nm = None
+                    for key in ("Name", "holdingName", "name", "Holding Name"):
+                        v = row.get(key) if hasattr(row, "get") else None
+                        if v:
+                            nm = v; break
+                    w = None
+                    for key in ("Holding Percent", "holdingPercent", "weight", "Weight"):
+                        v = row.get(key) if hasattr(row, "get") else None
+                        if v is not None:
+                            w = v; break
+                    try:
+                        w = float(w)
+                        if w > 1.5:
+                            w /= 100
+                    except Exception:
+                        w = None
+                    sym = str(idx)
+                    rows.append((sym, str(nm or sym), w))
+                    all_syms.add(sym)
+        except Exception as e:
+            print(f"  [warn] 섹터 {etf} holdings 실패: {e}", file=sys.stderr)
+        sector_rows[name_ko] = rows
+
+    syms = sorted(all_syms)
+    daily = batch_daily(syms, now_utc) if syms else {}
+    rets = fetch_period_returns(syms, now_utc) if syms else {}
+    mcap = {s: _mktcap_usd(s) for s in syms}
+
+    out = {}
+    for name_ko, rows in sector_rows.items():
+        lst = []
+        for sym, nm, w in rows:
+            dd = daily.get(sym) or {}
+            rr = rets.get(sym) or {}
+            lst.append({
+                "name": nm, "ticker": sym, "weight": w,
+                "mktcap": mcap.get(sym),
+                "daily": dd.get("chgPct"),
+                "mtd": rr.get("mtd"), "ytd": rr.get("ytd"),
+            })
+        out[name_ko] = lst
+    print(f"[fetch_daily] 섹터 상위종목 {len(syms)}개 수집")
+    return out
+
+
 def build():
     now_utc = datetime.now(timezone.utc)
     today_str = now_utc.strftime("%Y-%m-%d")
@@ -794,6 +865,15 @@ def build():
     # 글로벌 시장 뉴스 (investing.com) — 모든 지역의 "주요 이벤트"에 공통 반영
     global_events = fetch_investing_news(max_items=5)
     print(f"[fetch_daily] investing.com 글로벌 뉴스 {len(global_events)}건")
+
+    # GICS 섹터별 상위 종목 (US) + 원/달러 환율
+    sector_holdings = fetch_sector_holdings(now_utc, top_n=10)
+    krw_rate = None
+    try:
+        _kh = yf.Ticker("KRW=X").history(period="5d")["Close"].dropna()
+        krw_rate = round(float(_kh.iloc[-1]), 2) if len(_kh) else None
+    except Exception as e:
+        print(f"  [warn] KRW=X 환율 실패: {e}", file=sys.stderr)
 
     regions_out = []
 
@@ -857,6 +937,7 @@ def build():
                         "price":   d["price"]   if d else None,
                         "ytdPct":  epr.get("ytd"),
                         "mtdPct":  epr.get("mtd"),
+                        "holdings": sector_holdings.get(sector_name) or [],
                     })
                 else:
                     sectors_out.append({"name": sector_name, "chgPct": None,
@@ -987,6 +1068,7 @@ def build():
     payload = {
         "as_of":         global_as_of,
         "generated_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "krw":           krw_rate,        # 원/달러 (시총 원화 환산용)
         "regions":       regions_out,
     }
 

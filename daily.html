@@ -414,6 +414,27 @@
   .sector-cell .sperf { font-size:9.5px; font-weight:600; opacity:.72; margin-top:2px;
     font-variant-numeric:tabular-nums; letter-spacing:-.01em; white-space:nowrap; }
   .sector-cell .setf { font-size:10px; opacity:.6; margin-top:1px; }
+  .sector-cell.clickable { cursor:pointer; }
+  .sector-cell.clickable:hover { box-shadow:0 0 0 2px var(--accent) inset; }
+  .sector-cell .smore { font-size:9.5px; font-weight:700; opacity:.7; margin-top:3px; }
+  .sector-cell.sel { box-shadow:0 0 0 2px var(--accent) inset; }
+  /* 섹터 상위종목 패널 */
+  .sector-hold-panel {
+    margin-top:12px; background:var(--panel); border:1px solid var(--border);
+    border-radius:12px; padding:14px 16px; box-shadow:var(--shadow-sm);
+  }
+  .sh-title { font-size:14px; font-weight:800; margin-bottom:10px; display:flex; align-items:center; }
+  .sh-close { margin-left:auto; font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; padding:2px 8px; border-radius:6px; }
+  .sh-close:hover { background:var(--neu-soft); color:var(--text); }
+  .sh-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .sh-table th, .sh-table td { padding:7px 9px; border-bottom:1px solid var(--border); }
+  .sh-table th { font-size:11px; font-weight:600; color:var(--muted); text-align:left; }
+  .sh-table td.mom { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .sh-table .sh-rank { color:var(--muted); width:24px; text-align:center; }
+  .sh-table .sh-name { font-weight:700; }
+  .sh-table .sh-mc { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .sh-table .sh-krw { color:var(--muted); font-size:11px; }
+  .sh-table tbody tr:hover { background:var(--panel-soft); }
   .heat-big-pos   { background:var(--pos);  color:#fff; }
   .heat-pos       { background:#16a34a22; color:var(--pos); border:1px solid #16a34a33; }
   .heat-pos-light { background:#16a34a11; color:var(--pos); border:1px solid #16a34a22; }
@@ -1150,23 +1171,79 @@ function makeSpark(data, opts) {
   }
 
   /* ── 섹터 히트맵 ── */
+  var _sectorHold = {};
   function renderSectorHeatmap(sectors) {
     var html = '<div class="sector-grid">';
     sectors.forEach(function(s) {
       var cls = heatClass(s.chgPct);
+      var has = s.holdings && s.holdings.length;
+      if (has) _sectorHold[s.name] = s.holdings;
       var perfBits = [];
       if (s.mtdPct != null) perfBits.push('MTD ' + (s.mtdPct>0?'+':'') + fmt(s.mtdPct,1) + '%');
       if (s.ytdPct != null) perfBits.push('YTD ' + (s.ytdPct>0?'+':'') + fmt(s.ytdPct,1) + '%');
-      html += '<div class="sector-cell ' + cls + '">' +
+      html += '<div class="sector-cell ' + cls + (has ? ' clickable' : '') + '" data-sector="' + escHtml(s.name) + '"' +
+        (has ? ' onclick="showSectorHoldings(this.dataset.sector)"' : '') + '>' +
         '<div class="sname">' + s.name + '</div>' +
         '<div class="spct">' + fmtPct(s.chgPct) + '</div>' +
         (perfBits.length ? '<div class="sperf">' + perfBits.join(' · ') + '</div>' : '') +
         (s.etf ? '<div class="setf">' + s.etf + '</div>' : '') +
+        (has ? '<div class="smore">상위10 ▾</div>' : '') +
         '</div>';
     });
     html += '</div>';
+    html += '<div id="sectorHoldPanel" class="sector-hold-panel" style="display:none"></div>';
     return html;
   }
+
+  // 시총 포맷 (USD) + 원화 환산
+  function fmtMktcapUsd(usd) {
+    if (usd == null) return '—';
+    if (usd >= 1e12) return '$' + (usd/1e12).toFixed(2) + 'T';
+    if (usd >= 1e9)  return '$' + (usd/1e9).toFixed(1) + 'B';
+    if (usd >= 1e6)  return '$' + (usd/1e6).toFixed(0) + 'M';
+    return '$' + usd.toFixed(0);
+  }
+  function fmtMktcapKrw(usd) {
+    var krw = (D && D.krw) || 0;
+    if (usd == null || !krw) return '';
+    var won = usd * krw;
+    if (won >= 1e12) return '₩' + (won/1e12).toFixed(1) + '조';
+    if (won >= 1e8)  return '₩' + Math.round(won/1e8).toLocaleString('ko-KR') + '억';
+    return '₩' + (won/1e8).toFixed(2) + '억';
+  }
+  function renderSectorHoldings(name, holds) {
+    if (!holds || !holds.length) return '<div class="empty-note">' + escHtml(name) + ' 상위 종목 데이터 없음</div>';
+    var rows = holds.map(function(h, i) {
+      return '<tr>' +
+        '<td class="sh-rank">' + (i+1) + '</td>' +
+        '<td class="sh-name">' + escHtml(stockLabel(h.name, h.ticker)) + '</td>' +
+        '<td class="sh-mc">' + fmtMktcapUsd(h.mktcap) +
+          (h.mktcap ? ' <span class="sh-krw">(' + fmtMktcapKrw(h.mktcap) + ')</span>' : '') + '</td>' +
+        '<td class="mom ' + colorClass(h.daily) + '">' + fmtPct(h.daily) + '</td>' +
+        '<td class="mom ' + colorClass(h.mtd) + '">' + fmtPct(h.mtd) + '</td>' +
+        '<td class="mom ' + colorClass(h.ytd) + '">' + fmtPct(h.ytd) + '</td>' +
+      '</tr>';
+    }).join('');
+    return '<div class="sh-title">📊 ' + escHtml(name) + ' 상위 ' + holds.length + '종목' +
+      ' <span class="sh-close" onclick="showSectorHoldings(\'' + escHtml(name).replace(/'/g,'') + '\')">✕ 닫기</span></div>' +
+      '<table class="sh-table"><thead><tr>' +
+      '<th></th><th>종목</th><th style="text-align:right">시총 (원화환산)</th>' +
+      '<th style="text-align:right">일간</th><th style="text-align:right">MTD</th><th style="text-align:right">YTD</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+  window.showSectorHoldings = function(name) {
+    var panel = document.getElementById('sectorHoldPanel');
+    if (!panel) return;
+    document.querySelectorAll('.sector-cell.sel').forEach(function(e){ e.classList.remove('sel'); });
+    if (panel.dataset.open === name && panel.style.display !== 'none') {
+      panel.style.display = 'none'; panel.dataset.open = ''; return;
+    }
+    panel.innerHTML = renderSectorHoldings(name, _sectorHold[name]);
+    panel.style.display = 'block'; panel.dataset.open = name;
+    var cell = document.querySelector('.sector-cell[data-sector="' + name + '"]');
+    if (cell) cell.classList.add('sel');
+    panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  };
 
   /* ── 지수 카드 바 (Google Finance 스타일) ── */
   function chipClass(v) {
