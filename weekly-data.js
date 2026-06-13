@@ -3,8 +3,8 @@ window.WEEKLY = {
   "meeting": "2026-06-15",
   "meeting_weekday": "Mon",
   "target": "2026-06-12",
-  "generated_utc": "2026-06-13T12:13:21Z",
-  "xlsx_name": "주간회의자료_20260612_211321.xlsx",
+  "generated_utc": "2026-06-13T12:17:45Z",
+  "xlsx_name": "주간회의자료_20260612.xlsx",
   "xlsx_folder": "20260615",
   "title": "주식 시황회의 (6월 3주차)",
   "market": [
@@ -161,6 +161,15 @@ window.WEEKLY = {
         "ytd": 24.0724,
         "mtd": -1.0496,
         "daily": 0.563
+      },
+      {
+        "name": "일본",
+        "ticker": "^N225",
+        "pref": "비중확대",
+        "text": "DM 내 예외적 강세 — 반도체 장비(도쿄일렉트론·어드밴테스트)·거버넌스 개혁·엔저 수혜. 단 BOJ 정상화·엔강세 전환은 리스크",
+        "ytd": 31.1496,
+        "mtd": -0.4666,
+        "daily": 2.8073
       },
       {
         "name": "미국",
