@@ -381,7 +381,13 @@
   .gf-id { flex:1 1 auto; min-width:0; }
   .gf-name { font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .gf-ticker { font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .gf-meta { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.5;
+             display:flex; flex-wrap:wrap; gap:4px 8px; }
+  .gf-meta .mpos { color:var(--pos); font-weight:600; }
+  .gf-meta .mneg { color:var(--neg); font-weight:600; }
+  .gf-meta b { color:var(--text); font-weight:700; }
   .gf-spark { width:84px; flex-shrink:0; }
+  @media (max-width:600px){ .gf-spark { display:none; } }
   .gf-price { width:104px; text-align:right; font-size:13.5px; font-weight:600; font-variant-numeric:tabular-nums; flex-shrink:0; }
   .gf-chg { width:92px; text-align:right; flex-shrink:0; }
 
@@ -1285,14 +1291,20 @@ function makeSpark(data, opts) {
 
   /* ── Google Finance 리스트 행 ── */
   function renderGFRow(s, i) {
-    var pos = (s.chgPct || 0) >= 0;
     var priceStr = s.price != null ? s.price.toLocaleString('ko-KR', {maximumFractionDigits:2}) : '—';
     var rankCls = i < 3 ? 'gf-rank top3' : 'gf-rank';
+    var meta = [];
+    if (s.sector) meta.push(escHtml(s.sector));
+    if (s.mktcap) meta.push('시총 <b>' + fmtMktcapUsd(s.mktcap) + '</b>' +
+        ((D && D.krw) ? ' (' + fmtMktcapKrw(s.mktcap) + ')' : ''));
+    if (s.fwdPER != null) meta.push('Fwd PER <b>' + s.fwdPER + '</b>');
+    if (s.ytdPct != null) meta.push('<span class="' + (s.ytdPct>=0?'mpos':'mneg') + '">YTD ' + (s.ytdPct>0?'+':'') + fmt(s.ytdPct,1) + '%</span>');
+    if (s.mtdPct != null) meta.push('<span class="' + (s.mtdPct>=0?'mpos':'mneg') + '">MTD ' + (s.mtdPct>0?'+':'') + fmt(s.mtdPct,1) + '%</span>');
     return '<div class="gf-row">' +
       '<div class="' + rankCls + '">' + (i + 1) + '</div>' +
       '<div class="gf-id">' +
         '<div class="gf-name">' + escHtml(stockLabel(s.name, s.ticker)) + '</div>' +
-        '<div class="gf-ticker">' + escHtml(s.sector || '') + '</div>' +
+        '<div class="gf-meta">' + meta.join('<span style="opacity:.4">·</span>') + '</div>' +
       '</div>' +
       '<div class="gf-spark">' + makeSpark(s.spark || [], {w:84, h:26, cls:'sparkline-sm', area:true}) + '</div>' +
       '<div class="gf-price tnum">' + priceStr + '</div>' +
@@ -1306,7 +1318,11 @@ function makeSpark(data, opts) {
     if (mode === 'gain')        arr.sort(function(a,b){ return (b.chgPct||0) - (a.chgPct||0); });
     else if (mode === 'lose')   arr.sort(function(a,b){ return (a.chgPct||0) - (b.chgPct||0); });
     else if (mode === 'active') arr.sort(function(a,b){ return Math.abs(b.chgPct||0) - Math.abs(a.chgPct||0); });
-    else                        arr.sort(function(a,b){ return a.rank - b.rank; });
+    else arr.sort(function(a,b){   // 시총순: 실제 시총(USD) 내림차순, 없으면 rank
+      var ma = a.mktcap || 0, mb = b.mktcap || 0;
+      if (ma || mb) return mb - ma;
+      return (a.rank||999) - (b.rank||999);
+    });
     if (mode === 'gain' || mode === 'lose' || mode === 'active') arr = arr.slice(0, 12);
     if (!arr.length) return '<div class="empty-note">종목 데이터 없음</div>';
     return arr.map(renderGFRow).join('');

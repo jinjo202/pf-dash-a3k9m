@@ -784,6 +784,27 @@ def _mktcap_usd(sym: str):
     return None
 
 
+def fetch_fundamentals(tickers: list) -> dict:
+    """티커별 시총(USD) + 12M Forward PER. yfinance .info 기반(없으면 fast_info 시총)."""
+    out = {}
+    for tk in tickers:
+        mc = fpe = None
+        try:
+            info = yf.Ticker(tk).info or {}
+            mc = info.get("marketCap")
+            fpe = info.get("forwardPE")
+        except Exception:
+            pass
+        if mc is None:
+            mc = _mktcap_usd(tk)
+        out[tk] = {
+            "mktcap": float(mc) if mc else None,
+            "fwd_pe": round(float(fpe), 1) if (fpe and fpe > 0) else None,
+        }
+    print(f"[fetch_daily] 종목 펀더멘털(시총·Fwd PER) {len(out)}개 수집")
+    return out
+
+
 def fetch_sector_holdings(now_utc, top_n: int = 10) -> dict:
     """각 GICS 섹터 ETF의 상위 top_n 종목 + 시총(USD)·일간/MTD/YTD 수익률."""
     sector_rows = {}        # name_ko -> [(sym, name, weight)]
@@ -857,6 +878,9 @@ def build():
     # 연초대비(YTD)·월초대비(MTD) 수익률 (지수·섹터ETF·종목 전체, 별도 1년치 다운로드)
     pr_map = fetch_period_returns(all_tickers, now_utc)
     print(f"[fetch_daily] YTD·MTD {len(pr_map)}개 계산")
+
+    # 종목 시총 + Forward PER (마켓 트렌드 표시·시총순 정렬용)
+    fund_map = fetch_fundamentals(universe_tickers)
 
     # 매크로 스냅샷 (benchmarks.js) → 글로벌 매크로 코멘트
     macro = load_macro_snapshot()
@@ -979,6 +1003,8 @@ def build():
             d = price_map.get(ticker)
             if d is None:
                 continue
+            fm = fund_map.get(ticker) or {}
+            pr = pr_map.get(ticker) or {}
             stocks_out.append({
                 "rank":    rank,
                 "ticker":  ticker,
@@ -988,6 +1014,10 @@ def build():
                 "chg":     d["chg"],
                 "chgPct":  d["chgPct"],
                 "spark":   d.get("spark", []),
+                "mktcap":  fm.get("mktcap"),
+                "fwdPER":  fm.get("fwd_pe"),
+                "ytdPct":  pr.get("ytd"),
+                "mtdPct":  pr.get("mtd"),
             })
 
         # ── 4. 특징주 (당일 절대 변동 상위 5종목) ────────────────────────────
