@@ -598,8 +598,10 @@ def build(target, bench, macro, kr, pdata, daily, sentiment, template):
         if label in sec:
             _set(ws, "K%d" % row, round(sec[label], 4))
 
-    # ── □ 종합의견 (시장 전망 & 포트폴리오) ─ 하단에 덧붙임 ──
-    add_conclusion_block(ws, conclusion, start_row=_last_content_row(ws) + 2)
+    # ── □ 지역배분 + □ 종합의견 ─ 하단에 덧붙임 ──
+    regional = build_regional(enrich, bench)
+    next_row = add_regional_block(ws, regional, _last_content_row(ws) + 2)
+    add_conclusion_block(ws, conclusion, start_row=next_row + 1)
 
     # 좌측 표가 우측 raw 종가를 참조하는 수식이므로, 열 때 강제 재계산.
     try:
@@ -610,7 +612,55 @@ def build(target, bench, macro, kr, pdata, daily, sentiment, template):
 
 
 _RATING_RGB = {"긍정": "FF1F7A1F", "중립": "FF7A7A7A", "부정": "FFC00000",
-               "한국 우위": "FF1F7A1F", "미국 우위": "FF1F4FC0", "조정": "FF1F4FC0"}
+               "한국 우위": "FF1F7A1F", "미국 우위": "FF1F4FC0", "조정": "FF1F4FC0",
+               "비중확대": "FF1F7A1F", "축소": "FFC00000",
+               "EM 선호": "FF1F7A1F", "DM 선호": "FF1F4FC0"}
+
+
+def build_regional(enrich, bench):
+    """지역배분: enrich.regional 에 benchmarks 실모멘텀(YTD/MTD/일간) 결합."""
+    reg = (enrich or {}).get("regional") or {}
+    by_t = {x.get("ticker"): x for x in (bench.get("indices") or [])}
+    countries = []
+    for c in (reg.get("countries") or []):
+        x = by_t.get(c.get("ticker")) or {}
+        d = dict(c)
+        d["ytd"] = x.get("ytd_pct")
+        d["mtd"] = x.get("mtd_pct")
+        d["daily"] = x.get("daily_pct")
+        countries.append(d)
+    return {"dm_em": reg.get("dm_em") or {}, "countries": countries}
+
+
+def add_regional_block(ws, regional, start_row):
+    """□ 지역배분: DM/EM + 국가별(선호도 + 실모멘텀 + 근거)."""
+    if not regional or not regional.get("countries"):
+        return start_row
+    def _wrap(r, text, size, bold=False, color=None, h=None):
+        ws["B%d" % r] = text
+        ws["B%d" % r].font = Font(name=F_NAME, size=size, bold=bold, color=color)
+        ws["B%d" % r].alignment = Alignment(wrap_text=True, vertical="top")
+        try:
+            ws.merge_cells("B%d:L%d" % (r, r))
+        except Exception:
+            pass
+        if h:
+            ws.row_dimensions[r].height = h
+    r = start_row
+    _wrap(r, "□ 지역배분 (DM/EM · 국가 선호)", 12, bold=True); r += 1
+    dm = regional.get("dm_em") or {}
+    if dm:
+        _wrap(r, "DM vs EM  【%s】" % (dm.get("pref") or ""), 11, bold=True,
+              color=_RATING_RGB.get(dm.get("pref"))); r += 1
+        _wrap(r, "  " + (dm.get("text") or ""), 10, h=28); r += 1
+    for c in regional["countries"]:
+        mom = ""
+        if c.get("ytd") is not None:
+            mom = "  (YTD %+.1f%% · MTD %+.1f%%)" % (c["ytd"], c.get("mtd") or 0)
+        _wrap(r, "%s  【%s】%s" % (c.get("name"), c.get("pref") or "", mom), 11,
+              bold=True, color=_RATING_RGB.get(c.get("pref"))); r += 1
+        _wrap(r, "  " + (c.get("text") or ""), 10, h=26); r += 1
+    return r
 
 
 def _tint_font(cell, rgb):
@@ -832,6 +882,7 @@ def write_weekly_data(meeting, target, bench, macro, kr, pdata, daily, sentiment
         "factor": content,           # {기업이익:[...], 경제지표:[...], ...}
         "ratings": enrich.get("ratings") or {},      # {섹션: 긍정/중립/부정}
         "conclusion": enrich.get("conclusion") or {},  # 종합의견 4파트
+        "regional": build_regional(enrich, bench),    # 지역배분 (DM/EM + 국가 + 모멘텀)
         "pnl": pnl,                  # {ytd:{realized,unrealized,pnl}, to_may:..., jun:...}
         "weights": {"country": country, "sector": sec},
     }

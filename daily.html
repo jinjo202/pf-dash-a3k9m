@@ -178,6 +178,16 @@
   .wk-concl-head { font-size:13.5px; font-weight:700; margin:0 0 4px; }
   .wk-concl-label { color:var(--muted); font-weight:600; }
   .wk-concl-text { font-size:12.5px; line-height:1.65; color:var(--text); margin:0; }
+  /* 지역배분 */
+  .wk-region { margin-top:18px; }
+  .wk-region-dm { padding:10px 12px; border-radius:8px; background:var(--accent-soft);
+                  border:1px solid var(--border); margin-bottom:10px; font-size:12.5px; line-height:1.6; }
+  .wk-region-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .wk-region-table th, .wk-region-table td { padding:7px 10px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; }
+  .wk-region-table th { font-size:11.5px; font-weight:600; color:var(--muted); }
+  .wk-region-table td.mom { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .wk-region-table .rgn-name { font-weight:700; white-space:nowrap; }
+  .wk-region-table .rgn-text { color:var(--text); }
 
   /* ── Layout-legacy ── */
   .section-label {
@@ -1372,9 +1382,12 @@ function makeSpark(data, opts) {
     var RT = W.ratings || {};
     function rateBadge(rt) {
       if (!rt) return '';
-      var cls = rt.indexOf('긍정') >= 0 || rt.indexOf('한국') >= 0 ? 'rate-pos' :
-                rt.indexOf('부정') >= 0 ? 'rate-neg' :
-                rt.indexOf('미국') >= 0 || rt === '조정' ? 'rate-us' : 'rate-neu';
+      var cls;
+      if (rt.indexOf('긍정') >= 0 || rt.indexOf('한국') >= 0 ||
+          rt.indexOf('비중확대') >= 0 || rt.indexOf('EM') >= 0 || rt === '선호') cls = 'rate-pos';
+      else if (rt.indexOf('부정') >= 0 || rt.indexOf('축소') >= 0) cls = 'rate-neg';
+      else if (rt.indexOf('미국') >= 0 || rt === '조정' || rt.indexOf('DM') >= 0) cls = 'rate-us';
+      else cls = 'rate-neu';
       return '<span class="rate-badge ' + cls + '">' + escHtml(rt) + '</span>';
     }
     if (W.factor) {
@@ -1389,6 +1402,30 @@ function makeSpark(data, opts) {
         });
         html += '</div>';
       });
+    }
+
+    // 지역배분 (DM/EM · 국가 선호)
+    if (W.regional && W.regional.countries && W.regional.countries.length) {
+      var RG = W.regional;
+      html += '<div class="section-label">□ 지역배분 (DM/EM · 국가 선호)</div>';
+      html += '<div class="wk-region">';
+      if (RG.dm_em && RG.dm_em.text) {
+        html += '<div class="wk-region-dm"><b>DM vs EM</b> ' + rateBadge(RG.dm_em.pref) +
+                '<br>' + escHtml(RG.dm_em.text) + '</div>';
+      }
+      html += '<table class="wk-region-table"><thead><tr>' +
+              '<th>국가</th><th>선호</th><th style="text-align:right">YTD</th><th style="text-align:right">MTD</th><th>근거</th>' +
+              '</tr></thead><tbody>';
+      RG.countries.forEach(function(c) {
+        html += '<tr>' +
+          '<td class="rgn-name">' + escHtml(c.name) + '</td>' +
+          '<td>' + rateBadge(c.pref) + '</td>' +
+          '<td class="mom ' + colorClass(c.ytd) + '">' + fmtPct(c.ytd) + '</td>' +
+          '<td class="mom ' + colorClass(c.mtd) + '">' + fmtPct(c.mtd) + '</td>' +
+          '<td class="rgn-text">' + escHtml(c.text || '') + '</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table></div>';
     }
 
     // 종합의견 (시장 전망 & 포트폴리오)
