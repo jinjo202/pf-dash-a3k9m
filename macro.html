@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-13a";</script>
+<script>window.CODE_VERSION = "2026-06-13b";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -144,6 +144,9 @@
   .ind-card .desc { font-size:10.5px; color:var(--muted); border-top:1px dashed var(--border); padding-top:5px; margin-top:2px; }
   .ind-card.clickable { cursor:pointer; }
   .ind-card.clickable:hover { border-color:var(--accent); box-shadow:var(--shadow-md); }
+  .ind-card.forward { border-style:dashed; border-color:#7c3aed; background:linear-gradient(180deg, #7c3aed0a, transparent); }
+  .fwd-tag { font-size:9px; font-weight:800; color:#7c3aed; background:#ede9fe; padding:1px 5px; border-radius:4px; vertical-align:middle; }
+  [data-theme="dark"] .fwd-tag { background:#2e1065; color:#c4b5fd; }
   .src-link { font-size:10px; color:var(--accent); text-decoration:none; font-weight:600; margin-top:auto; padding-top:3px; display:inline-block; }
   .src-link:hover { text-decoration:underline; }
   .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:100; display:none; align-items:center; justify-content:center; padding:20px; }
@@ -1023,7 +1026,7 @@ function render(M) {
   var scoreColor = r.score > 6 ? cssVar('--pos') : (r.score < -6 ? cssVar('--neg') : cssVar('--neu'));
   html += '<div class="panel"><div class="regime-wrap">';
   html += '<div class="regime-score"><div class="num" style="color:' + scoreColor + '">' + (r.score > 0 ? '+' : '') + r.score + '</div>' +
-    '<div class="label">' + r.label + '</div><div class="as-of">종합 레짐 점수 (−100 ~ +100)</div></div>';
+    '<div class="label">' + r.label + '</div><div class="as-of">종합 레짐 점수 (−100 ~ +100)<br>🕒 갱신 ' + (M.as_of || '') + (M.generated ? ' · ' + M.generated.slice(11, 16) + ' UTC' : '') + '</div></div>';
   html += '<div><div class="section-label">시장 국면 게이지</div>' +
     '<div class="gauge"><div class="marker" style="left:' + markerPct + '%"></div></div>' +
     '<div class="gauge-scale"><span>리스크오프 −100</span><span>중립 0</span><span>+100 리스크온</span></div>';
@@ -1085,7 +1088,8 @@ function render(M) {
       if (d.pct !== null && d.pct !== undefined) metaParts.push('상위/하위 ' + d.pct + '%');
       metaParts.push('as of ' + d.as_of);
       var clk = d.history ? ' clickable' : '';
-      html += '<div class="ind-card' + clk + '"' + (d.history ? ' data-ind="' + k + '"' : '') + '><div class="top"><span class="nm">' + d.name + (d.history ? ' <span style="color:var(--accent);font-size:10px">📈</span>' : '') + '</span>' +
+      var fwd = d.kind === 'forward';
+      html += '<div class="ind-card' + clk + (fwd ? ' forward' : '') + '"' + (d.history ? ' data-ind="' + k + '"' : '') + '><div class="top"><span class="nm">' + (fwd ? '<span class="fwd-tag">🔮 전망</span> ' : '') + d.name + (d.history ? ' <span style="color:var(--accent);font-size:10px">📈</span>' : '') + '</span>' +
         '<span class="badge ' + badgeCls(d.signal_cls) + '">' + d.signal + '</span></div>' +
         '<div class="val tnum">' + fmtNum(d.current, (d.current === null ? 0 : Math.abs(d.current) >= 100 ? 0 : Number.isInteger(d.current) ? 0 : Math.abs(d.current) < 2 ? 2 : 1)) +
         '<span class="u">' + (d.unit || '') + '</span></div>' +

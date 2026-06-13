@@ -43,6 +43,17 @@ MANUAL = {
         "unit": "",
         "note": "ISM 공식 발표치. 50 위 = 확장. FRED 무료 장기시계열 없어 수동 유지.",
     },
+    "citi_surprise": {
+        "name": "Citi 경제 서프라이즈(미)",
+        "pillar": "macro",
+        "current": -8.0,
+        "prev": 5.0,
+        "as_of": "2026-06-12",
+        "unit": "",
+        "kind": "forward",
+        "note": "실제 발표가 컨센서스를 얼마나 상회/하회하는지(+면 호조). 데이터 모멘텀 선행 지표. "
+                "무료 API 없어 수동 — macromicro.me(45866)/Bloomberg에서 갱신.",
+    },
     "cnn_fng": {
         "name": "CNN 공포·탐욕 지수",
         "pillar": "sentiment",
@@ -130,7 +141,7 @@ MANUAL_FLOWS = {
 
 
 # ── HTTP / 파싱 헬퍼 ──────────────────────────────────────────────────────
-def http_get(url, timeout=30, retries=4):
+def http_get(url, timeout=22, retries=3):
     """GET + 재시도(GitHub Actions에서 FRED/multpl throttling 대응)."""
     import time
     last = None
@@ -141,7 +152,7 @@ def http_get(url, timeout=30, retries=4):
                 return r.read().decode("utf-8", errors="replace")
         except Exception as e:
             last = e
-            time.sleep(1.2 * (a + 1))  # 1.2s, 2.4s, 3.6s 백오프
+            time.sleep(1.0 * (a + 1))
     raise last
 
 
@@ -310,6 +321,12 @@ def score_indicator(key, cur, hist_vals, ctx):
         lvl = clamp((cur - 100) / 1.5)
         trd = clamp(chg3 / 0.4)
         return clamp(lvl * 0.6 + trd * 0.4)
+    if key == "gdpnow":
+        # GDP nowcast. 2% 추세 기준, 높을수록 호재
+        return clamp((cur - 2.0) / 2.0)
+    if key == "citi_surprise":
+        # 경제지표 서프라이즈. +면 데이터 호조(호재)
+        return clamp(cur / 40.0)
     if key == "m2_yoy":
         # 유동성 증가 호재. 0% 중립, 6%+ 강세, 마이너스 악재
         return clamp(cur / 5.0)
@@ -406,19 +423,20 @@ INDICATORS = [
     ("consumer_sent","소비자심리(미시간)",   "macro", "UMCSENT",   "level", 1, "",   "소비 모멘텀 선행"),
     ("yield_curve",  "장단기 금리차(10Y-2Y)","macro", "T10Y2Y",    "daily", 2, "%p", "역전은 침체 경고, 정상화는 회복 신호"),
     ("cli_us",       "OECD 경기선행지수(미)", "macro", "USALOLITOAASTSAM", "level", 1, "", "100=추세선. 위·상승=확장, 아래·하락=수축 (진폭조정)"),
+    ("gdpnow",       "GDPNow (애틀랜타 연준)","macro", "GDPNOW", "level", 1, "%", "실시간 GDP 성장 추정(nowcast). 발표 전 선행 추정치"),
     ("oil_yoy",      "WTI 유가 (YoY)",       "macro", "DCOILWTICO","oilyoy",1, "%",  "급등 시 인플레·비용 압력"),
     # 밸류에이션
     ("spx_fwd_pe",   "S&P500 12M Fwd PER",   "valuation", "bench", "bench", 1, "배", "이익 대비 가격. 높을수록 기대수익 낮음"),
     ("cape",         "S&P500 CAPE(실러 PE)",  "valuation", "shiller-pe", "multpl", 1, "배", "경기조정 P/E(최근 10년 평균이익). 역사평균 ~17, 높을수록 장기 고평가"),
     ("kospi_fwd_pe", "KOSPI 12M Fwd PER",    "valuation", "bench", "bench", 1, "배", "한국 밸류에이션"),
     ("erp",          "주식위험프리미엄(ERP)","valuation", "derived","derived",2,"%p","S&P 어닝일드 − 미 10Y. 높을수록 주식 매력"),
-    ("us10y",        "미국 10Y 금리",        "valuation", "US 10Y", "benchlvl", 2, "%",  "할인율. 급등 시 밸류 부담"),
+    ("us10y",        "미국 10Y 금리",        "valuation", "DGS10", "daily", 2, "%",  "할인율. 급등 시 밸류 부담"),
     # 수급·유동성
     ("m2_yoy",       "M2 통화량 (YoY)",      "flows", "M2SL",          "yoy",   1, "%", "유동성. 증가할수록 위험자산 우호"),
     ("baa_spread",   "신용 스프레드(Baa-10Y)","flows", "BAA10Y",       "daily", 2, "%p","위험선호 게이지. 낮을수록 강세, 4%+ 스트레스"),
-    ("usdkrw",       "USD/KRW",              "flows", "USD/KRW",       "benchlvl", 1, "원","원화 약세는 위험회피·외인 유출"),
+    ("usdkrw",       "USD/KRW",              "flows", "DEXKOUS",       "daily", 1, "원","원화 약세는 위험회피·외인 유출"),
     # 센티먼트
-    ("vix",          "VIX 변동성",           "sentiment", "VIX", "benchlvl", 1, "",  "공포 게이지. 낮을수록 안정"),
+    ("vix",          "VIX 변동성",           "sentiment", "VIXCLS", "daily", 1, "",  "공포 게이지. 낮을수록 안정"),
     ("spx_mom",      "S&P500 12M 모멘텀",    "sentiment", "spxmom", "spxmom",1, "%",  "추세. 200일선 상회 여부 포함"),
 ]
 
@@ -1004,6 +1022,8 @@ def build_annual(cc):
 RELEASE_KEYS = {"cpi_yoy", "core_cpi_yoy", "unemployment", "payrolls", "fed_funds",
                 "consumer_sent", "m2_yoy", "cli_us", "oil_yoy", "cape",
                 "ism_pmi", "cnn_fng", "aaii_spread", "put_call", "cta_pos", "retail_alloc", "kr_deposit"}
+# 미래 추정·nowcast 지표(실제 발표 데이터와 구분 표기)
+FORWARD_KEYS = {"gdpnow", "citi_surprise"}
 
 
 def load_prev():
@@ -1266,7 +1286,21 @@ def build_regime_history(monthly, spx_me, kospi_me, max_months=192):
     if len(core_keys) < 8:
         return []
     sets = [set(monthly[k].keys()) for k in core_keys]
-    common = sorted(set.intersection(*sets))[-max_months:]
+    inter = sorted(set.intersection(*sets))
+    if not inter:
+        return []
+    # 시작월(전 지표 존재)~최신월(가장 최근 데이터)까지 월 시퀀스 — 늦게 발표되는
+    # 지표(CLI·CPI 등)는 carry-forward(kk<=mo)로 채워 5·6월 등 최근월도 포함.
+    latest = max(max(monthly[k]) for k in core_keys)
+    if spx_me:
+        latest = max(latest, max(spx_me))
+    common, y, m = [], int(inter[0][:4]), int(inter[0][5:7])
+    while f"{y:04d}-{m:02d}" <= latest:
+        common.append(f"{y:04d}-{m:02d}")
+        m += 1
+        if m > 12:
+            m = 1; y += 1
+    common = common[-max_months:]
     out = []
     for mo in common:
         pil = {}
@@ -1613,6 +1647,7 @@ def build():
             "as_of": dates[-1][:10], "history": hist,
             "z_from": dates[0][:7] if z is not None else None,   # z-score 기준 시작월
             "z_n": len(vals) if z is not None else None,         # z-score 표본 수(월)
+            "kind": "forward" if key in FORWARD_KEYS else "release",
             "source": indicator_source(key, src, transform),
         }
 
@@ -1627,6 +1662,7 @@ def build():
             "unit": m.get("unit", ""), "z": None, "pct": None, "score": round(score, 2),
             "signal": lbl, "signal_cls": cls, "desc": m.get("note", ""),
             "as_of": m["as_of"], "history": m.get("history"), "manual": True,
+            "kind": m.get("kind", "release"),
             "source": m.get("source") or ({"name": "원본 데이터", "url": MANUAL_URLS[key]} if key in MANUAL_URLS else None),
         }
 
@@ -1664,20 +1700,37 @@ def build():
     if carried:
         print(f"  [carry-forward] 직전값 사용 지표 {carried}개(이번 실패분)")
 
-    # oil_yoy 현재값을 benchmarks.js WTI(yfinance)로 보정 — FRED 차단 시 stale 방지
-    wti = bench.get("WTI 유가") or {}
-    wv = (wti.get("history") or {}).get("values") or []
-    if "oil_yoy" in indicators and wti.get("current") and wv and wv[0] > 0:
-        yoy_now = round((wti["current"] / wv[0] - 1) * 100, 1)
-        oi = indicators["oil_yoy"]
-        old = oi.get("score")
-        if old is not None and old in pillar_scores.get("macro", []):
-            pillar_scores["macro"].remove(old)
-        sc = score_indicator("oil_yoy", yoy_now, [yoy_now], {})
-        pillar_scores["macro"].append(sc)
+    # 현재값을 benchmarks.js(yfinance)로 보정 — FRED 차단/지연 시 헤드라인 stale 방지.
+    # (히스토리·z·레짐은 FRED 장기시계열 유지, 카드 현재값만 최신으로)
+    def bench_override(key, bname, dec, yoy=False):
+        bi = bench.get(bname) or {}
+        bcur = bi.get("current")
+        if key not in indicators or bcur is None:
+            return
+        ind = indicators[key]
+        if yoy:
+            vv = (bi.get("history") or {}).get("values") or []
+            if len(vv) < 2 or vv[0] <= 0:
+                return
+            newcur = round((bcur / vv[0] - 1) * 100, 1)
+        else:
+            newcur = round(bcur, dec)
+        # 점수 재계산 (기존 히스토리 + 새 current로 chg3 등 반영)
+        hist = (ind.get("history") or {}).get("values") or []
+        hv = (hist[-12:] + [newcur]) if hist else [newcur]
+        sc = score_indicator(key, newcur, hv, {})
+        old = ind.get("score"); ps = pillar_scores.get(ind.get("pillar"), [])
+        if old is not None and old in ps:
+            ps.remove(old)
+        ps.append(sc)
         lbl, cls = signal_label(sc)
-        oi.update({"current": yoy_now, "as_of": wti.get("as_of", oi.get("as_of")),
-                   "score": round(sc, 2), "signal": lbl, "signal_cls": cls, "stale": False})
+        ind.update({"current": newcur, "as_of": bi.get("as_of", ind.get("as_of")),
+                    "score": round(sc, 2), "signal": lbl, "signal_cls": cls, "stale": False})
+
+    bench_override("vix", "VIX", 1)
+    bench_override("us10y", "US 10Y", 2)
+    bench_override("usdkrw", "USD/KRW", 1)
+    bench_override("oil_yoy", "WTI 유가", 1, yoy=True)
 
     # --- 축별/종합 레짐 점수 (-100 ~ +100) ---
     pillars_out = {}
@@ -1725,6 +1778,13 @@ def build():
     kosdaq_me = to_month_end(kosdaq_dates, kosdaq_vals)
     country_pref = build_country_pref(earn["data"], bench)
     regime_history = build_regime_history(monthly, spx_me, kospi_me)
+    # FRED 일별(vix/환율 등)이 차단돼 장기 히스토리가 끊기면 레짐히스토리 품질 저하
+    # → 직전 좋은 값 보존(cron의 정상 실행이 갱신). 길이 급감 또는 핵심 일별 누락 시.
+    prev_rh = prev.get("regime_history", [])
+    degraded = ("vix" not in monthly) or ("usdkrw" not in monthly) or ("baa_spread" not in monthly)
+    if prev_rh and (degraded or len(regime_history) < len(prev_rh) - 2):
+        print(f"  [regime_history] 빈약(degraded={degraded}, len={len(regime_history)}) → 직전({len(prev_rh)}) 보존")
+        regime_history = prev_rh
     kr_credit = build_kr_credit(kospi_me, kosdaq_me)
 
     # --- 업데이트 알림 (직전 대비 변경분) ---

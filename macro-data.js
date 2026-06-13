@@ -240,33 +240,17 @@ window.MACRO = {
       "detail": "외국인 26.06.12 +2.2조 · YTD누적 -122.75조"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-06-13",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "95조원 → 127.6조원 (2026-06-10 발표)",
-      "as_of": "2026-06-10"
-    },
-    {
-      "date": "2026-06-13",
-      "type": "flows",
-      "key": "krflow_26.06.12",
-      "title": "한국 투자자 수급 갱신",
-      "detail": "외국인 26.06.12 +2.2조 · YTD누적 -122.75조"
-    }
-  ],
-  "generated": "2026-06-13T11:08:10Z",
+  "updates_today": [],
+  "generated": "2026-06-13T12:09:26Z",
   "regime": {
-    "score": 15,
+    "score": 14,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
       "macro": {
         "name": "매크로",
-        "score": -10,
-        "n": 10
+        "score": -4,
+        "n": 12
       },
       "valuation": {
         "name": "밸류에이션",
@@ -275,7 +259,7 @@ window.MACRO = {
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 28,
+        "score": 18,
         "n": 7
       },
       "sentiment": {
@@ -7027,6 +7011,7 @@ window.MACRO = {
       },
       "z_from": "2001-01",
       "z_n": 304,
+      "kind": "release",
       "source": {
         "name": "FRED: CPIAUCSL",
         "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
@@ -7660,6 +7645,7 @@ window.MACRO = {
       },
       "z_from": "2001-01",
       "z_n": 304,
+      "kind": "release",
       "source": {
         "name": "FRED: CPILFESL",
         "url": "https://fred.stlouisfed.org/series/CPILFESL"
@@ -8317,6 +8303,7 @@ window.MACRO = {
       },
       "z_from": "2000-01",
       "z_n": 316,
+      "kind": "release",
       "source": {
         "name": "FRED: UNRATE",
         "url": "https://fred.stlouisfed.org/series/UNRATE"
@@ -8974,6 +8961,7 @@ window.MACRO = {
       },
       "z_from": "2000-02",
       "z_n": 316,
+      "kind": "release",
       "source": {
         "name": "FRED: PAYEMS",
         "url": "https://fred.stlouisfed.org/series/PAYEMS"
@@ -9633,6 +9621,7 @@ window.MACRO = {
       },
       "z_from": "2000-01",
       "z_n": 317,
+      "kind": "release",
       "source": {
         "name": "FRED: FEDFUNDS",
         "url": "https://fred.stlouisfed.org/series/FEDFUNDS"
@@ -10290,6 +10279,7 @@ window.MACRO = {
       },
       "z_from": "2000-01",
       "z_n": 316,
+      "kind": "release",
       "source": {
         "name": "FRED: UMCSENT",
         "url": "https://fred.stlouisfed.org/series/UMCSENT"
@@ -10947,7 +10937,154 @@ window.MACRO = {
       },
       "z_from": "2000-01",
       "z_n": 316,
+      "kind": "release",
       "source": null
+    },
+    "gdpnow": {
+      "name": "GDPNow (애틀랜타 연준)",
+      "pillar": "macro",
+      "current": 3.3,
+      "unit": "%",
+      "z": 0.13,
+      "pct": 76.7,
+      "score": 0.65,
+      "signal": "강한 호재",
+      "signal_cls": "pos",
+      "desc": "실시간 GDP 성장 추정(nowcast). 발표 전 선행 추정치",
+      "as_of": "2026-04-01",
+      "history": {
+        "dates": [
+          "2011-07-01",
+          "2011-10-01",
+          "2012-01-01",
+          "2012-04-01",
+          "2012-07-01",
+          "2012-10-01",
+          "2013-01-01",
+          "2013-04-01",
+          "2013-07-01",
+          "2013-10-01",
+          "2014-01-01",
+          "2014-04-01",
+          "2014-07-01",
+          "2014-10-01",
+          "2015-01-01",
+          "2015-04-01",
+          "2015-07-01",
+          "2015-10-01",
+          "2016-01-01",
+          "2016-04-01",
+          "2016-07-01",
+          "2016-10-01",
+          "2017-01-01",
+          "2017-04-01",
+          "2017-07-01",
+          "2017-10-01",
+          "2018-01-01",
+          "2018-04-01",
+          "2018-07-01",
+          "2018-10-01",
+          "2019-01-01",
+          "2019-04-01",
+          "2019-07-01",
+          "2019-10-01",
+          "2020-01-01",
+          "2020-04-01",
+          "2020-07-01",
+          "2020-10-01",
+          "2021-01-01",
+          "2021-04-01",
+          "2021-07-01",
+          "2021-10-01",
+          "2022-01-01",
+          "2022-04-01",
+          "2022-07-01",
+          "2022-10-01",
+          "2023-01-01",
+          "2023-04-01",
+          "2023-07-01",
+          "2023-10-01",
+          "2024-01-01",
+          "2024-04-01",
+          "2024-07-01",
+          "2024-10-01",
+          "2025-01-01",
+          "2025-04-01",
+          "2025-07-01",
+          "2025-10-01",
+          "2026-01-01",
+          "2026-04-01"
+        ],
+        "values": [
+          3.2445,
+          5.1684,
+          3.0151,
+          0.2243,
+          1.849,
+          0.0776,
+          2.8718,
+          1.3,
+          2.3233,
+          3.1249,
+          0.3489,
+          2.6666,
+          2.6999,
+          3.4918,
+          0.0988,
+          2.4328,
+          1.0637,
+          1.0179,
+          0.6209,
+          1.8333,
+          2.0953,
+          2.8814,
+          0.1699,
+          2.8194,
+          2.7182,
+          3.406,
+          1.9834,
+          3.8225,
+          3.5537,
+          1.8466,
+          2.6711,
+          1.3334,
+          1.6752,
+          1.7394,
+          -0.9691,
+          -32.0844,
+          36.9708,
+          7.16,
+          7.8694,
+          6.4265,
+          0.195,
+          6.4986,
+          0.3728,
+          -1.2002,
+          3.0885,
+          3.5294,
+          1.1326,
+          2.4126,
+          5.4052,
+          2.3834,
+          2.7047,
+          2.6132,
+          2.789,
+          2.2711,
+          -2.7318,
+          2.902,
+          3.4728,
+          4.2373,
+          1.2392,
+          3.2906
+        ]
+      },
+      "z_from": "2011-07",
+      "z_n": 60,
+      "kind": "forward",
+      "source": {
+        "name": "FRED: GDPNOW",
+        "url": "https://fred.stlouisfed.org/series/GDPNOW"
+      }
     },
     "spx_fwd_pe": {
       "name": "S&P500 12M Fwd PER",
@@ -10964,6 +11101,7 @@ window.MACRO = {
       "history": null,
       "z_from": null,
       "z_n": null,
+      "kind": "release",
       "source": {
         "name": "FactSet/yfinance",
         "url": "https://insight.factset.com/topic/earnings"
@@ -11629,6 +11767,7 @@ window.MACRO = {
       },
       "z_from": "1871-02",
       "z_n": 1866,
+      "kind": "release",
       "source": {
         "name": "multpl.com",
         "url": "https://www.multpl.com/shiller-pe"
@@ -11649,80 +11788,10 @@ window.MACRO = {
       "history": null,
       "z_from": null,
       "z_n": null,
+      "kind": "release",
       "source": {
         "name": "yfinance (EWY)",
         "url": "https://finance.yahoo.com/quote/EWY"
-      }
-    },
-    "erp": {
-      "name": "주식위험프리미엄(ERP)",
-      "pillar": "valuation",
-      "current": 0.35,
-      "unit": "%p",
-      "z": null,
-      "pct": null,
-      "score": -0.22,
-      "signal": "악재",
-      "signal_cls": "neg",
-      "desc": "S&P 어닝일드 − 미 10Y. 높을수록 주식 매력",
-      "as_of": "2026-06-13",
-      "history": null,
-      "z_from": null,
-      "z_n": null,
-      "source": {
-        "name": "FactSet/yfinance",
-        "url": "https://insight.factset.com/topic/earnings"
-      }
-    },
-    "us10y": {
-      "name": "미국 10Y 금리",
-      "pillar": "valuation",
-      "current": 4.49,
-      "unit": "%",
-      "z": 1.62,
-      "pct": 100.0,
-      "score": 0.0,
-      "signal": "중립",
-      "signal_cls": "neu",
-      "desc": "할인율. 급등 시 밸류 부담",
-      "as_of": "2026-06-12",
-      "history": {
-        "dates": [
-          "2025-06-01",
-          "2025-07-01",
-          "2025-08-01",
-          "2025-09-01",
-          "2025-10-01",
-          "2025-11-01",
-          "2025-12-01",
-          "2026-01-01",
-          "2026-02-01",
-          "2026-03-01",
-          "2026-04-01",
-          "2026-05-01",
-          "2026-06-01"
-        ],
-        "values": [
-          4.23,
-          4.36,
-          4.227,
-          4.148,
-          4.101,
-          4.017,
-          4.163,
-          4.241,
-          3.962,
-          4.311,
-          4.39,
-          4.453,
-          4.487
-        ]
-      },
-      "z_from": "2025-06",
-      "z_n": 13,
-      "source": {
-        "name": "yfinance (benchmarks.js)",
-        "url": "https://finance.yahoo.com/quote/%5ETNX"
       }
     },
     "m2_yoy": {
@@ -12353,111 +12422,10 @@ window.MACRO = {
       },
       "z_from": "2001-01",
       "z_n": 304,
+      "kind": "release",
       "source": {
         "name": "FRED: M2SL",
         "url": "https://fred.stlouisfed.org/series/M2SL"
-      }
-    },
-    "usdkrw": {
-      "name": "USD/KRW",
-      "pillar": "flows",
-      "current": 1517.9,
-      "unit": "원",
-      "z": 1.57,
-      "pct": 100.0,
-      "score": -0.04,
-      "signal": "중립",
-      "signal_cls": "neu",
-      "desc": "원화 약세는 위험회피·외인 유출",
-      "as_of": "2026-06-12",
-      "history": {
-        "dates": [
-          "2025-06-01",
-          "2025-07-01",
-          "2025-08-01",
-          "2025-09-01",
-          "2025-10-01",
-          "2025-11-01",
-          "2025-12-01",
-          "2026-01-01",
-          "2026-02-01",
-          "2026-03-01",
-          "2026-04-01",
-          "2026-05-01",
-          "2026-06-01"
-        ],
-        "values": [
-          1363.59,
-          1392.52,
-          1384.41,
-          1399.33,
-          1424.02,
-          1461.4,
-          1437.91,
-          1428.76,
-          1432.3199,
-          1516.13,
-          1487.38,
-          1495.29,
-          1517.89
-        ]
-      },
-      "z_from": "2025-06",
-      "z_n": 13,
-      "source": {
-        "name": "yfinance (benchmarks.js)",
-        "url": "https://finance.yahoo.com/quote/KRW=X"
-      }
-    },
-    "vix": {
-      "name": "VIX 변동성",
-      "pillar": "sentiment",
-      "current": 17.7,
-      "unit": "",
-      "z": 0.11,
-      "pct": 84.6,
-      "score": 0.03,
-      "signal": "중립",
-      "signal_cls": "neu",
-      "desc": "공포 게이지. 낮을수록 안정",
-      "as_of": "2026-06-12",
-      "history": {
-        "dates": [
-          "2025-06-01",
-          "2025-07-01",
-          "2025-08-01",
-          "2025-09-01",
-          "2025-10-01",
-          "2025-11-01",
-          "2025-12-01",
-          "2026-01-01",
-          "2026-02-01",
-          "2026-03-01",
-          "2026-04-01",
-          "2026-05-01",
-          "2026-06-01"
-        ],
-        "values": [
-          16.73,
-          16.72,
-          15.36,
-          16.28,
-          17.44,
-          16.35,
-          14.95,
-          17.44,
-          19.86,
-          25.25,
-          16.89,
-          15.32,
-          17.68
-        ]
-      },
-      "z_from": "2025-06",
-      "z_n": 13,
-      "source": {
-        "name": "yfinance (benchmarks.js)",
-        "url": "https://finance.yahoo.com/quote/%5EVIX"
       }
     },
     "spx_mom": {
@@ -13092,6 +13060,7 @@ window.MACRO = {
       },
       "z_from": "2001-01",
       "z_n": 306,
+      "kind": "release",
       "source": {
         "name": "Yahoo Finance (^GSPC)",
         "url": "https://finance.yahoo.com/quote/%5EGSPC/history"
@@ -13111,10 +13080,28 @@ window.MACRO = {
       "as_of": "2026-04-30",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/"
       }
+    },
+    "citi_surprise": {
+      "name": "Citi 경제 서프라이즈(미)",
+      "pillar": "macro",
+      "current": -8.0,
+      "unit": "",
+      "z": null,
+      "pct": null,
+      "score": -0.2,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "실제 발표가 컨센서스를 얼마나 상회/하회하는지(+면 호조). 데이터 모멘텀 선행 지표. 무료 API 없어 수동 — macromicro.me(45866)/Bloomberg에서 갱신.",
+      "as_of": "2026-06-12",
+      "history": null,
+      "manual": true,
+      "kind": "forward",
+      "source": null
     },
     "cnn_fng": {
       "name": "CNN 공포·탐욕 지수",
@@ -13130,6 +13117,7 @@ window.MACRO = {
       "as_of": "2026-05-29",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://www.cnn.com/markets/fear-and-greed"
@@ -13149,6 +13137,7 @@ window.MACRO = {
       "as_of": "2026-05-28",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://www.aaii.com/sentimentsurvey"
@@ -13168,6 +13157,7 @@ window.MACRO = {
       "as_of": "2026-05-28",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://www.cboe.com/us/options/market_statistics/daily/"
@@ -13187,6 +13177,7 @@ window.MACRO = {
       "as_of": "2026-06-03",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd"
@@ -13206,6 +13197,7 @@ window.MACRO = {
       "as_of": "2026-05-29",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://www.isabelnet.com/?s=CTA+equity+positioning"
@@ -13225,6 +13217,7 @@ window.MACRO = {
       "as_of": "2026-05-29",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://www.aaii.com/assetallocationsurvey"
@@ -13303,6 +13296,7 @@ window.MACRO = {
         ]
       },
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "네이버 증시자금추이",
         "url": "https://finance.naver.com/sise/sise_deposit.naver"
@@ -13322,6 +13316,7 @@ window.MACRO = {
       "as_of": "2026-06-13",
       "history": null,
       "manual": true,
+      "kind": "release",
       "source": {
         "name": "원본 데이터",
         "url": "https://finance.naver.com/sise/investorDealTrendDay.naver?sosok=01"
@@ -13430,6 +13425,183 @@ window.MACRO = {
         "name": "yfinance/FactSet",
         "url": "https://insight.factset.com/topic/earnings"
       }
+    },
+    "erp": {
+      "name": "주식위험프리미엄(ERP)",
+      "pillar": "valuation",
+      "current": 0.35,
+      "unit": "%p",
+      "z": null,
+      "pct": null,
+      "score": -0.22,
+      "signal": "악재",
+      "signal_cls": "neg",
+      "desc": "S&P 어닝일드 − 미 10Y. 높을수록 주식 매력",
+      "as_of": "2026-06-13",
+      "history": null,
+      "z_from": null,
+      "z_n": null,
+      "source": {
+        "name": "FactSet/yfinance",
+        "url": "https://insight.factset.com/topic/earnings"
+      },
+      "stale": true
+    },
+    "us10y": {
+      "name": "미국 10Y 금리",
+      "pillar": "valuation",
+      "current": 4.49,
+      "unit": "%",
+      "z": 1.62,
+      "pct": 100.0,
+      "score": 0.0,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "할인율. 급등 시 밸류 부담",
+      "as_of": "2026-06-12",
+      "history": {
+        "dates": [
+          "2025-06-01",
+          "2025-07-01",
+          "2025-08-01",
+          "2025-09-01",
+          "2025-10-01",
+          "2025-11-01",
+          "2025-12-01",
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01"
+        ],
+        "values": [
+          4.23,
+          4.36,
+          4.227,
+          4.148,
+          4.101,
+          4.017,
+          4.163,
+          4.241,
+          3.962,
+          4.311,
+          4.39,
+          4.453,
+          4.487
+        ]
+      },
+      "z_from": "2025-06",
+      "z_n": 13,
+      "source": {
+        "name": "yfinance (benchmarks.js)",
+        "url": "https://finance.yahoo.com/quote/%5ETNX"
+      },
+      "stale": false
+    },
+    "usdkrw": {
+      "name": "USD/KRW",
+      "pillar": "flows",
+      "current": 1517.9,
+      "unit": "원",
+      "z": 1.57,
+      "pct": 100.0,
+      "score": -0.76,
+      "signal": "강한 악재",
+      "signal_cls": "neg",
+      "desc": "원화 약세는 위험회피·외인 유출",
+      "as_of": "2026-06-12",
+      "history": {
+        "dates": [
+          "2025-06-01",
+          "2025-07-01",
+          "2025-08-01",
+          "2025-09-01",
+          "2025-10-01",
+          "2025-11-01",
+          "2025-12-01",
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01"
+        ],
+        "values": [
+          1363.59,
+          1392.52,
+          1384.41,
+          1399.33,
+          1424.02,
+          1461.4,
+          1437.91,
+          1428.76,
+          1432.3199,
+          1516.13,
+          1487.38,
+          1495.29,
+          1517.89
+        ]
+      },
+      "z_from": "2025-06",
+      "z_n": 13,
+      "source": {
+        "name": "yfinance (benchmarks.js)",
+        "url": "https://finance.yahoo.com/quote/KRW=X"
+      },
+      "stale": false
+    },
+    "vix": {
+      "name": "VIX 변동성",
+      "pillar": "sentiment",
+      "current": 17.7,
+      "unit": "",
+      "z": 0.11,
+      "pct": 84.6,
+      "score": 0.03,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "공포 게이지. 낮을수록 안정",
+      "as_of": "2026-06-12",
+      "history": {
+        "dates": [
+          "2025-06-01",
+          "2025-07-01",
+          "2025-08-01",
+          "2025-09-01",
+          "2025-10-01",
+          "2025-11-01",
+          "2025-12-01",
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01"
+        ],
+        "values": [
+          16.73,
+          16.72,
+          15.36,
+          16.28,
+          17.44,
+          16.35,
+          14.95,
+          17.44,
+          19.86,
+          25.25,
+          16.89,
+          15.32,
+          17.68
+        ]
+      },
+      "z_from": "2025-06",
+      "z_n": 13,
+      "source": {
+        "name": "yfinance (benchmarks.js)",
+        "url": "https://finance.yahoo.com/quote/%5EVIX"
+      },
+      "stale": false
     },
     "yield_curve": {
       "name": "장단기 금리차(10Y-2Y)",
@@ -19816,12 +19988,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 33.9%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 33.9%(강한 악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 20.7배(강한 악재)·KOSPI 12M Fwd PER 6.2배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.49%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.9원(중립)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 127.6조원(강한 호재)·한국 투자자별 수급(외국인, 월) -22.9조원(악재)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.9원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 127.6조원(강한 호재)·한국 투자자별 수급(외국인, 월) -22.9조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 17.7(중립)·S&P500 12M 모멘텀 19.8%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.1%(유지)·한국 ERR(이익수정비율) 0.292(상향 우위)·한국 Fwd EPS 수정(1개월) 0.1%(유지)",
-    "overall": "종합 레짐 점수 +15. 매크로 -10, 밸류 -10, 수급 +28, 센티 +18, 기업이익 +46."
+    "overall": "종합 레짐 점수 +14. 매크로 -4, 밸류 -10, 수급 +18, 센티 +18, 기업이익 +46."
   },
   "outlook": {
     "short": {
