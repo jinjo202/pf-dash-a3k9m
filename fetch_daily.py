@@ -700,6 +700,75 @@ def build_commentary(rmeta, indices_out, sectors_out, featured_out,
 # 메인 빌드
 # ─────────────────────────────────────────────────────────────────────────────
 
+# ─────────────────────────────────────────────────────────────────────────────
+# 한글 번역 (영문 뉴스 → 한국어) + 연합인포맥스 한국 뉴스
+# ─────────────────────────────────────────────────────────────────────────────
+_TRANS_CACHE: dict[str, str] = {}
+
+
+def _has_korean(s: str) -> bool:
+    return any('가' <= ch <= '힣' for ch in (s or ""))
+
+
+def _translate_ko(text: str) -> str:
+    """영문 텍스트를 한국어로. 이미 한글이거나 실패 시 원문 유지(캐시)."""
+    text = (text or "").strip()
+    if not text or _has_korean(text):
+        return text
+    if text in _TRANS_CACHE:
+        return _TRANS_CACHE[text]
+    out = text
+    try:
+        from deep_translator import GoogleTranslator
+        out = GoogleTranslator(source="auto", target="ko").translate(text[:480]) or text
+    except Exception as e:
+        print(f"  [warn] 번역 실패: {e}", file=sys.stderr)
+    _TRANS_CACHE[text] = out
+    return out
+
+
+def translate_region(region: dict) -> dict:
+    """region 의 뉴스성 영문 필드(이벤트·등락사유·특징주 뉴스)를 한글로 번역."""
+    c = region.get("commentary") or {}
+    for e in (c.get("events") or []):
+        e["title"] = _translate_ko(e.get("title", ""))
+        if e.get("desc"):
+            e["desc"] = _translate_ko(e["desc"])
+    for m in (c.get("movers") or []):
+        m["reason"] = _translate_ko(m.get("reason", ""))
+        if m.get("detail"):
+            m["detail"] = _translate_ko(m["detail"])
+    for f in (region.get("featured") or []):
+        for n in (f.get("news") or []):
+            n["title"] = _translate_ko(n.get("title", ""))
+            if n.get("desc"):
+                n["desc"] = _translate_ko(n["desc"])
+    return region
+
+
+EINFOMAX_RSS = "https://news.einfomax.co.kr/rss/allArticle.xml"
+
+
+def fetch_einfomax(max_items: int = 6) -> list:
+    """연합인포맥스 RSS → 한국 시장 주요 뉴스(한글). events 형식으로 반환."""
+    import html as _html
+    out = []
+    for it in fetch_rss(EINFOMAX_RSS, max_items + 6):
+        title = _html.unescape(_clean_text(it.get("title", ""), 140))
+        if not title:
+            continue
+        out.append({
+            "title": title,
+            "source": "연합인포맥스",
+            "link": it.get("link", ""),
+            "desc": _html.unescape(_clean_text(it.get("desc", ""), 200)),
+            "scope": "region",
+        })
+        if len(out) >= max_items:
+            break
+    return out
+
+
 def build():
     now_utc = datetime.now(timezone.utc)
     today_str = now_utc.strftime("%Y-%m-%d")
@@ -894,6 +963,22 @@ def build():
             "featured":   featured_out,
             "commentary": commentary,     # 시황 코멘트 (룰 기반 자동 생성)
         })
+
+    # ── 한국 지역에 연합인포맥스 뉴스 추가 + 영문 뉴스 한글 번역 ──
+    try:
+        einfo = fetch_einfomax(6)
+    except Exception as e:
+        print(f"  [warn] einfomax 실패: {e}", file=sys.stderr)
+        einfo = []
+    n_trans = 0
+    for r in regions_out:
+        if r.get("key") == "korea" and einfo:
+            c = r.setdefault("commentary", {})
+            c["events"] = einfo + (c.get("events") or [])
+        translate_region(r)
+        n_trans += 1
+    print(f"[fetch_daily] 뉴스 한글 번역 {n_trans}개 지역 (캐시 {len(_TRANS_CACHE)}건), "
+          f"연합인포맥스 {len(einfo)}건")
 
     # 전역 as_of = 모든 지역 중 가장 최신 거래일
     all_region_dates = [r["as_of"] for r in regions_out if r.get("as_of")]
