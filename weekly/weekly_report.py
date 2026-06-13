@@ -363,11 +363,16 @@ def sentiment_fallback_lines(sentiment, bench, macro):
     return out or [" - 센티먼트 지표 기재"]
 
 
+_NON_SECTION = {"ratings", "conclusion"}
+
+
 def resolve_factor_content(macro, kr, sentiment, bench):
-    """Factor 콘텐츠 {표준키: [라인]}. enrich.json(웹 보강) 우선, 없으면 macro 자동."""
+    """Factor 콘텐츠 {표준키: [라인]}. enrich.json(웹 보강) 우선, 없으면 macro 자동.
+    ratings/conclusion 등 비-섹션(dict) 키는 제외."""
     enrich = load_enrich()
     if enrich:
-        return {_std_key(k): v for k, v in enrich.items()}
+        return {_std_key(k): v for k, v in enrich.items()
+                if k not in _NON_SECTION and isinstance(v, list)}
     fb = build_factor_lines(macro, kr)  # {라벨:(lines,row)}
     out = {_std_key(k): v[0] for k, v in fb.items()}
     out.setdefault("센티먼트", sentiment_fallback_lines(sentiment, bench, macro))
@@ -552,16 +557,25 @@ def build(target, bench, macro, kr, pdata, daily, sentiment, template):
     _set(ws, "N10", datetime.combine(prev_month_end, datetime.min.time()))
     _set(ws, "N11", datetime.combine(as_of_d - timedelta(days=7), datetime.min.time()))
 
-    # ── 주요 Factor 점검 ─ 섹션 행을 동적 탐지, 콘텐츠는 enrich.json(웹 보강) 우선 ──
+    # ── 주요 Factor 점검 ─ 섹션 행 동적 탐지 + 섹션별 긍정/중립/부정 평가 ──
+    enrich = load_enrich() or {}
+    ratings = enrich.get("ratings") or {}
+    conclusion = enrich.get("conclusion") or {}
     content = resolve_factor_content(macro, kr, sentiment, bench)
     sections = detect_factor_rows(ws)
     for key, (start, end) in sections.items():
-        lines = content.get(key) or []
+        lines = list(content.get(key) or [])
+        rt = ratings.get(key)
+        if rt and lines:
+            lines[0] = "【" + rt + "】" + lines[0]
         for rr in range(start, end + 1):  # 기존 내용 클리어
             ws["D%d" % rr] = None
         for i, ln in enumerate(lines):
             if start + i <= end:
                 _set(ws, "D%d" % (start + i), ln)
+        # 섹션 라벨(B열) 색상으로 평가 시각화 — 폰트명/크기 보존, 색만 변경.
+        if rt:
+            _tint_font(ws["B%d" % start], _RATING_RGB.get(rt))
 
     # ── 주식 손익 (FVPL 평가/매각·배당/계 × 1~5월/6월/계) ─ 동적 행 ──
     pnl = build_pnl(pdata)
@@ -584,12 +598,76 @@ def build(target, bench, macro, kr, pdata, daily, sentiment, template):
         if label in sec:
             _set(ws, "K%d" % row, round(sec[label], 4))
 
+    # ── □ 종합의견 (시장 전망 & 포트폴리오) ─ 하단에 덧붙임 ──
+    add_conclusion_block(ws, conclusion, start_row=_last_content_row(ws) + 2)
+
     # 좌측 표가 우측 raw 종가를 참조하는 수식이므로, 열 때 강제 재계산.
     try:
         wb.calculation.fullCalcOnLoad = True
     except Exception:
         pass
     return wb
+
+
+_RATING_RGB = {"긍정": "FF1F7A1F", "중립": "FF7A7A7A", "부정": "FFC00000",
+               "한국 우위": "FF1F7A1F", "미국 우위": "FF1F4FC0", "조정": "FF1F4FC0"}
+
+
+def _tint_font(cell, rgb):
+    """셀 폰트의 색만 변경(이름·크기·굵기 보존)."""
+    if not rgb:
+        return
+    from copy import copy as _copy
+    f = _copy(cell.font)
+    cell.font = Font(name=f.name, size=f.size, bold=f.bold, italic=f.italic,
+                     underline=f.underline, color=rgb)
+
+
+def _last_content_row(ws, max_row=80):
+    last = 1
+    for r in range(1, max_row):
+        for c in range(1, 16):
+            if ws.cell(row=r, column=c).value not in (None, ""):
+                last = r
+                break
+    return last
+
+
+def add_conclusion_block(ws, conclusion, start_row):
+    """□ 종합의견: 시장방향 / 미국vs한국 / 섹터모멘텀 / 포트폴리오 4파트."""
+    if not conclusion:
+        return
+    from openpyxl.utils import get_column_letter
+    r = start_row
+    ws["B%d" % r] = "□ 종합의견 (시장 전망 & 포트폴리오)"
+    ws["B%d" % r].font = Font(name=F_NAME, size=12, bold=True)
+    r += 1
+    order = [("시장방향", "1. 증시 방향"), ("미국vs한국", "2. 미국 vs 한국"),
+             ("섹터모멘텀", "3. 섹터 모멘텀"), ("포트폴리오", "4. 포트폴리오 조정")]
+    for k, label in order:
+        item = conclusion.get(k) or {}
+        rt = item.get("rating") or ""
+        head = label + (" 【%s】" % rt if rt else "")
+        if item.get("label"):
+            head += " — " + item["label"]
+        ws["B%d" % r] = head
+        ws["B%d" % r].font = Font(name=F_NAME, size=11, bold=True,
+                                  color=_RATING_RGB.get(rt))
+        try:
+            ws.merge_cells("B%d:L%d" % (r, r))
+        except Exception:
+            pass
+        r += 1
+        ws["B%d" % r] = "  " + (item.get("text") or "")
+        ws["B%d" % r].font = Font(name=F_NAME, size=10)
+        ws["B%d" % r].alignment = Alignment(wrap_text=True, vertical="top")
+        try:
+            ws.merge_cells("B%d:L%d" % (r, r))
+        except Exception:
+            pass
+        ws.row_dimensions[r].height = 30
+        r += 1
+    return r
 
 
 def add_sentiment_block(ws, sentiment, bench, macro, start_row):
@@ -741,6 +819,7 @@ def write_weekly_data(meeting, target, bench, macro, kr, pdata, daily, sentiment
                        "daily": x.get("daily_pct")})
     pnl = build_pnl(pdata)
     country, sec = build_weights(pdata)
+    enrich = load_enrich() or {}
     out = {
         "meeting": meeting.strftime("%Y-%m-%d"),
         "meeting_weekday": meeting.strftime("%a"),
@@ -751,6 +830,8 @@ def write_weekly_data(meeting, target, bench, macro, kr, pdata, daily, sentiment
         "title": "주식 시황회의 (%d월 %d주차)" % (meeting.month, (meeting.day - 1) // 7 + 1),
         "market": market,
         "factor": content,           # {기업이익:[...], 경제지표:[...], ...}
+        "ratings": enrich.get("ratings") or {},      # {섹션: 긍정/중립/부정}
+        "conclusion": enrich.get("conclusion") or {},  # 종합의견 4파트
         "pnl": pnl,                  # {ytd:{realized,unrealized,pnl}, to_may:..., jun:...}
         "weights": {"country": country, "sector": sec},
     }
