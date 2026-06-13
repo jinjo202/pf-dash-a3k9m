@@ -563,7 +563,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-12",
       "decimals": 2,
       "valuation": {
-        "pe": 9.4,
+        "pe": 9.37,
         "pb": 1.29,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1110,7 +1110,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-12",
       "decimals": 0,
       "valuation": {
-        "pe": 6.19,
+        "pe": 6.16,
         "pb": 2.24,
         "roe": null,
         "src": "EWY (top derived)",
@@ -3845,7 +3845,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-12",
       "decimals": 2,
       "valuation": {
-        "pe": 15.36,
+        "pe": 15.37,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
