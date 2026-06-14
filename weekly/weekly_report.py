@@ -617,19 +617,49 @@ _RATING_RGB = {"긍정": "FF1F7A1F", "중립": "FF7A7A7A", "부정": "FFC00000",
                "EM 선호": "FF1F7A1F", "DM 선호": "FF1F4FC0"}
 
 
+_TICKER_BY_CODE = {"US": "^GSPC", "KR": "^KS11", "EU": "^STOXX", "JP": "^N225", "CN": "EEM"}
+
+
 def build_regional(enrich, bench):
-    """지역배분: enrich.regional 에 benchmarks 실모멘텀(YTD/MTD/일간) 결합."""
+    """지역배분: 멀티팩터 국가선호 모델(country_model) 기반 + benchmarks YTD/MTD 결합.
+    모델 실패 시 enrich.regional(큐레이션)로 폴백."""
     reg = (enrich or {}).get("regional") or {}
     by_t = {x.get("ticker"): x for x in (bench.get("indices") or [])}
+    enrich_txt = {c.get("name"): c.get("text") for c in (reg.get("countries") or [])}
+    try:
+        sys.path.insert(0, HERE)
+        import country_model as cm
+        model = cm.compute()
+    except Exception as e:
+        sys.stderr.write("country_model fail: %s\n" % e)
+        # 폴백: 기존 enrich 방식
+        countries = []
+        for c in (reg.get("countries") or []):
+            x = by_t.get(c.get("ticker")) or {}
+            d = dict(c); d["ytd"] = x.get("ytd_pct"); d["mtd"] = x.get("mtd_pct")
+            countries.append(d)
+        return {"dm_em": reg.get("dm_em") or {}, "countries": countries, "model": False}
+
     countries = []
-    for c in (reg.get("countries") or []):
-        x = by_t.get(c.get("ticker")) or {}
-        d = dict(c)
-        d["ytd"] = x.get("ytd_pct")
-        d["mtd"] = x.get("mtd_pct")
-        d["daily"] = x.get("daily_pct")
-        countries.append(d)
-    return {"dm_em": reg.get("dm_em") or {}, "countries": countries}
+    for m in model:
+        x = by_t.get(_TICKER_BY_CODE.get(m["code"])) or {}
+        countries.append({
+            "name": m["name"], "pref": m["pref"], "score": m["score"],
+            "factors": m["z"],                 # value/momentum/earnings/macro/currency z
+            "ytd": x.get("ytd_pct"), "mtd": x.get("mtd_pct"),
+            "text": cm.rationale(m),
+        })
+    # DM vs EM: DM(US/EU/JP) 평균 vs EM(KR/CN) 평균 종합점수
+    sc = {m["code"]: m["score"] for m in model}
+    dm_avg = sum(sc.get(c, 0) for c in ("US", "EU", "JP")) / 3
+    em_avg = sum(sc.get(c, 0) for c in ("KR", "CN")) / 2
+    dm_em = {
+        "pref": "EM 선호" if em_avg > dm_avg else "DM 선호",
+        "text": ((reg.get("dm_em") or {}).get("text") or "") +
+                (" / [모델] EM 평균 %+.2f vs DM 평균 %+.2f" % (em_avg, dm_avg)),
+    }
+    return {"dm_em": dm_em, "countries": countries, "model": True,
+            "weights": cm.WEIGHTS}
 
 
 def add_regional_block(ws, regional, start_row):
@@ -647,18 +677,28 @@ def add_regional_block(ws, regional, start_row):
         if h:
             ws.row_dimensions[r].height = h
     r = start_row
-    _wrap(r, "□ 지역배분 (DM/EM · 국가 선호)", 12, bold=True); r += 1
+    title = "□ 지역배분 — 멀티팩터 국가선호 모델" if regional.get("model") else "□ 지역배분 (DM/EM · 국가 선호)"
+    _wrap(r, title, 12, bold=True); r += 1
+    if regional.get("model"):
+        _wrap(r, "  팩터: Value25·Momentum25·Earnings20·Macro20·Currency10 (횡단면 z-score 가중합)", 9); r += 1
     dm = regional.get("dm_em") or {}
     if dm:
         _wrap(r, "DM vs EM  【%s】" % (dm.get("pref") or ""), 11, bold=True,
               color=_RATING_RGB.get(dm.get("pref"))); r += 1
         _wrap(r, "  " + (dm.get("text") or ""), 10, h=28); r += 1
     for c in regional["countries"]:
-        mom = ""
+        extra = ""
+        if c.get("score") is not None:
+            extra += "  종합 %+.2f" % c["score"]
         if c.get("ytd") is not None:
-            mom = "  (YTD %+.1f%% · MTD %+.1f%%)" % (c["ytd"], c.get("mtd") or 0)
-        _wrap(r, "%s  【%s】%s" % (c.get("name"), c.get("pref") or "", mom), 11,
+            extra += " (YTD %+.1f%%·MTD %+.1f%%)" % (c["ytd"], c.get("mtd") or 0)
+        _wrap(r, "%s  【%s】%s" % (c.get("name"), c.get("pref") or "", extra), 11,
               bold=True, color=_RATING_RGB.get(c.get("pref"))); r += 1
+        fz = c.get("factors")
+        if fz:
+            _wrap(r, "  팩터 z: 밸류 %+.1f·모멘텀 %+.1f·이익 %+.1f·매크로 %+.1f·통화 %+.1f" % (
+                fz.get("value", 0), fz.get("momentum", 0), fz.get("earnings", 0),
+                fz.get("macro", 0), fz.get("currency", 0)), 9); r += 1
         _wrap(r, "  " + (c.get("text") or ""), 10, h=26); r += 1
     return r
 

@@ -188,6 +188,15 @@
   .wk-region-table td.mom { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
   .wk-region-table .rgn-name { font-weight:700; white-space:nowrap; }
   .wk-region-table .rgn-text { color:var(--text); }
+  .wk-model-note { font-size:11px; color:var(--muted); margin-bottom:10px; padding:8px 10px;
+                   background:var(--panel-soft); border-radius:8px; line-height:1.5; }
+  .wk-model-src { opacity:.7; font-style:italic; }
+  .fac-chips { display:flex; flex-wrap:wrap; gap:4px; }
+  .fac-chip { font-size:10px; padding:1px 6px; border-radius:8px; white-space:nowrap;
+              background:var(--neu-soft); color:var(--muted); }
+  .fac-chip.fc-pos { background:rgba(31,122,31,.13); color:#1f7a1f; }
+  .fac-chip.fc-neg { background:rgba(192,0,0,.11); color:#c00000; }
+  .fac-chip b { font-variant-numeric:tabular-nums; }
 
   /* ── Layout-legacy ── */
   .section-label {
@@ -1526,24 +1535,45 @@ function makeSpark(data, opts) {
       });
     }
 
-    // 지역배분 (DM/EM · 국가 선호)
+    // 지역배분 — 멀티팩터 국가선호 모델
     if (W.regional && W.regional.countries && W.regional.countries.length) {
       var RG = W.regional;
-      html += '<div class="section-label">□ 지역배분 (DM/EM · 국가 선호)</div>';
+      var isModel = RG.model;
+      html += '<div class="section-label">□ 지역배분 ' +
+              (isModel ? '— 멀티팩터 국가선호 모델' : '(DM/EM · 국가 선호)') + '</div>';
       html += '<div class="wk-region">';
+      if (isModel) {
+        html += '<div class="wk-model-note">5팩터 횡단면 z-score 가중합 · ' +
+                'Value 25% · Momentum 25% · Earnings 20% · Macro 20% · Currency 10% ' +
+                '<span class="wk-model-src">(Asness·Moskowitz·Pedersen 2013, Keimling 2016, Zaremba 외 2022)</span></div>';
+      }
       if (RG.dm_em && RG.dm_em.text) {
         html += '<div class="wk-region-dm"><b>DM vs EM</b> ' + rateBadge(RG.dm_em.pref) +
                 '<br>' + escHtml(RG.dm_em.text) + '</div>';
       }
+      var facList = [['value','밸류'],['momentum','모멘텀'],['earnings','이익'],['macro','매크로'],['currency','통화']];
+      function facChips(f) {
+        if (!f) return '';
+        return '<div class="fac-chips">' + facList.map(function(o){
+          var z = f[o[0]]; if (z == null) z = 0;
+          var cls = z >= 0.3 ? 'fc-pos' : z <= -0.3 ? 'fc-neg' : 'fc-neu';
+          return '<span class="fac-chip ' + cls + '" title="' + o[1] + ' z=' + z.toFixed(1) + '">' +
+                 o[1] + ' <b>' + (z>0?'+':'') + z.toFixed(1) + '</b></span>';
+        }).join('') + '</div>';
+      }
       html += '<table class="wk-region-table"><thead><tr>' +
-              '<th>국가</th><th>선호</th><th style="text-align:right">YTD</th><th style="text-align:right">MTD</th><th>근거</th>' +
-              '</tr></thead><tbody>';
+              '<th>국가</th><th>선호</th>' + (isModel ? '<th style="text-align:right">종합</th><th>팩터 z-score</th>' :
+              '<th style="text-align:right">YTD</th><th style="text-align:right">MTD</th>') +
+              '<th>근거</th></tr></thead><tbody>';
       RG.countries.forEach(function(c) {
+        var mid = isModel
+          ? '<td class="mom"><b>' + (c.score>0?'+':'') + (c.score!=null?c.score.toFixed(2):'—') + '</b></td>' +
+            '<td>' + facChips(c.factors) + '</td>'
+          : '<td class="mom ' + colorClass(c.ytd) + '">' + fmtPct(c.ytd) + '</td>' +
+            '<td class="mom ' + colorClass(c.mtd) + '">' + fmtPct(c.mtd) + '</td>';
         html += '<tr>' +
           '<td class="rgn-name">' + escHtml(c.name) + '</td>' +
-          '<td>' + rateBadge(c.pref) + '</td>' +
-          '<td class="mom ' + colorClass(c.ytd) + '">' + fmtPct(c.ytd) + '</td>' +
-          '<td class="mom ' + colorClass(c.mtd) + '">' + fmtPct(c.mtd) + '</td>' +
+          '<td>' + rateBadge(c.pref) + '</td>' + mid +
           '<td class="rgn-text">' + escHtml(c.text || '') + '</td>' +
           '</tr>';
       });

@@ -3,7 +3,7 @@ window.WEEKLY = {
   "meeting": "2026-06-15",
   "meeting_weekday": "Mon",
   "target": "2026-06-12",
-  "generated_utc": "2026-06-13T12:17:45Z",
+  "generated_utc": "2026-06-14T08:45:32Z",
   "xlsx_name": "주간회의자료_20260612.xlsx",
   "xlsx_folder": "20260615",
   "title": "주식 시황회의 (6월 3주차)",
@@ -141,61 +141,99 @@ window.WEEKLY = {
   "regional": {
     "dm_em": {
       "pref": "EM 선호",
-      "text": "반도체 사이클·밸류 매력·약달러로 EM이 DM 대비 우위(YTD EM 약 +24% > ACWI +11%·S&P +9%·유럽 +7%). 단 6월 MTD는 EM 소폭 약세·유럽 견조로 단기 모멘텀 일부 둔화 — 중기 EM 비중확대, 단기 분할 접근"
+      "text": "반도체 사이클·밸류 매력·약달러로 EM이 DM 대비 우위(YTD EM 약 +24% > ACWI +11%·S&P +9%·유럽 +7%). 단 6월 MTD는 EM 소폭 약세·유럽 견조로 단기 모멘텀 일부 둔화 — 중기 EM 비중확대, 단기 분할 접근 / [모델] EM 평균 +0.41 vs DM 평균 -0.27"
     },
     "countries": [
       {
         "name": "한국",
-        "ticker": "^KS11",
         "pref": "비중확대",
-        "text": "반도체 수출 +205.8%·메모리 슈퍼사이클·밸류(Fwd PER 7.1배)로 최선호. 외국인 순매도·월중 조정은 분할 매수 기회",
+        "score": 1.353,
+        "factors": {
+          "value": 1.81,
+          "momentum": 1.92,
+          "earnings": 0.36,
+          "macro": 1.68,
+          "currency": 0.12
+        },
         "ytd": 92.7692,
         "mtd": -4.1591,
-        "daily": 4.6326
-      },
-      {
-        "name": "이머징",
-        "ticker": "EEM",
-        "pref": "비중확대",
-        "text": "한국·대만 반도체가 주도, 밸류 매력·약달러 수혜. 중국은 정책·지정학 변수로 선별 접근",
-        "ytd": 24.0724,
-        "mtd": -1.0496,
-        "daily": 0.563
-      },
-      {
-        "name": "일본",
-        "ticker": "^N225",
-        "pref": "비중확대",
-        "text": "DM 내 예외적 강세 — 반도체 장비(도쿄일렉트론·어드밴테스트)·거버넌스 개혁·엔저 수혜. 단 BOJ 정상화·엔강세 전환은 리스크",
-        "ytd": 31.1496,
-        "mtd": -0.4666,
-        "daily": 2.8073
+        "text": "강점 모멘텀·밸류·매크로 → 비중확대"
       },
       {
         "name": "미국",
-        "ticker": "^GSPC",
         "pref": "중립",
-        "text": "AI 이익 견조하나 Fwd PER 23.6배 고밸류·빅테크 편중·시장폭 협소·CPI 부담. broadening(소형·가치) 선별",
+        "score": -0.146,
+        "factors": {
+          "value": -0.96,
+          "momentum": -0.65,
+          "earnings": 0.67,
+          "macro": 0.01,
+          "currency": 1.19
+        },
         "ytd": 8.5598,
         "mtd": -1.9604,
-        "daily": 0.5026
+        "text": "강점 통화캐리·이익수정, 부담 밸류·모멘텀 → 중립"
+      },
+      {
+        "name": "일본",
+        "pref": "중립",
+        "score": -0.231,
+        "factors": {
+          "value": -0.49,
+          "momentum": -0.03,
+          "earnings": 1.15,
+          "macro": -0.75,
+          "currency": -1.79
+        },
+        "ytd": 31.1496,
+        "mtd": -0.4666,
+        "text": "강점 이익수정, 부담 통화캐리·매크로·밸류 → 중립"
       },
       {
         "name": "유럽",
-        "ticker": "^STOXX",
         "pref": "축소",
-        "text": "YTD 부진·ECB 인상·성장 둔화. 방어·가치 성격으로 전술적 비중만 유지",
+        "score": -0.436,
+        "factors": {
+          "value": -0.68,
+          "momentum": -0.86,
+          "earnings": -0.5,
+          "macro": 0.29,
+          "currency": -0.12
+        },
         "ytd": 6.8204,
         "mtd": 1.1518,
-        "daily": 1.8792
+        "text": "부담 모멘텀·밸류·이익수정 → 축소"
+      },
+      {
+        "name": "이머징",
+        "pref": "축소",
+        "score": -0.541,
+        "factors": {
+          "value": 0.32,
+          "momentum": -0.39,
+          "earnings": -1.69,
+          "macro": -1.23,
+          "currency": 0.6
+        },
+        "ytd": 24.0724,
+        "mtd": -1.0496,
+        "text": "강점 통화캐리, 부담 이익수정·매크로 → 축소"
       }
-    ]
+    ],
+    "model": true,
+    "weights": {
+      "value": 0.25,
+      "momentum": 0.25,
+      "earnings": 0.2,
+      "macro": 0.2,
+      "currency": 0.1
+    }
   },
   "pnl": {
     "ytd": {
-      "realized": 37.61999999999995,
-      "unrealized": 940.8399999999999,
-      "pnl": 978.4599999999998
+      "realized": 31.599999999999937,
+      "unrealized": 946.8600000000001,
+      "pnl": 978.46
     },
     "to_may": {
       "realized": 60.87577807848439,
@@ -203,9 +241,9 @@ window.WEEKLY = {
       "pnl": 1053.16
     },
     "jun": {
-      "realized": -23.25577807848444,
-      "unrealized": -51.444221921515805,
-      "pnl": -74.70000000000027
+      "realized": -29.27577807848445,
+      "unrealized": -45.424221921515596,
+      "pnl": -74.70000000000005
     }
   },
   "weights": {
