@@ -117,14 +117,97 @@ def backtest():
     }
 
 
+STATE = os.path.join(REPO, "country-model-state.json")
+_FAC_KO = {"value": "밸류", "momentum": "모멘텀", "earnings": "이익수정",
+           "macro": "매크로", "currency": "통화캐리"}
+SCORE_THRESH = 0.40    # 종합점수 변화 임계 (이벤트 리밸런싱)
+FACTOR_THRESH = 0.80   # 단일 팩터 z 변화 임계
+MONTHLY_DAYS = 30
+
+
+def _load_state():
+    if os.path.exists(STATE):
+        try:
+            return json.load(open(STATE, encoding="utf-8"))
+        except Exception:
+            pass
+    return {"last_rebalance": None, "snapshot": {}, "changes": []}
+
+
+def _days_since(d, today):
+    try:
+        return (datetime.strptime(today, "%Y-%m-%d") - datetime.strptime(d, "%Y-%m-%d")).days
+    except Exception:
+        return 999
+
+
+def detect_changes(prev_snap, current, last_rebalance, today):
+    """직전 리밸런싱 대비 변화 감지 → (리밸런싱 여부, trigger, 변화목록)."""
+    changes, rebal_event = [], False
+    for r in current:
+        nm = r["name"]
+        prev = prev_snap.get(nm)
+        if not prev:
+            continue
+        pf, pz = prev.get("factors") or {}, None
+        # 가장 크게 변한 팩터(드라이버)
+        deltas = {f: r["z"].get(f, 0) - pf.get(f, 0) for f in _FAC_KO}
+        drv = max(deltas, key=lambda f: abs(deltas[f]))
+        drv_txt = "%s z%+.1f→%+.1f" % (_FAC_KO[drv], pf.get(drv, 0), r["z"].get(drv, 0))
+        flipped = prev.get("pref") != r["pref"]
+        d_score = r["score"] - prev.get("score", 0)
+        if flipped or abs(d_score) >= SCORE_THRESH or abs(deltas[drv]) >= FACTOR_THRESH:
+            rebal_event = True
+            changes.append({
+                "country": nm,
+                "from_pref": prev.get("pref"), "to_pref": r["pref"],
+                "flipped": flipped,
+                "d_score": round(d_score, 2),
+                "driver": drv_txt,
+            })
+    monthly_due = (last_rebalance is None) or (_days_since(last_rebalance, today) >= MONTHLY_DAYS)
+    rebal = rebal_event or monthly_due
+    trigger = ("이벤트(팩터 변화)" if rebal_event else
+               ("정기(월 1회)" if monthly_due else "변화 없음"))
+    return rebal, trigger, changes
+
+
 def main():
     sys.path.insert(0, HERE)
     import country_model as cm
     current = cm.compute()
     bt = backtest()
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    # ── 상태 추적 · 이벤트 리밸런싱 ──
+    state = _load_state()
+    rebal, trigger, changes = detect_changes(
+        state.get("snapshot") or {}, current, state.get("last_rebalance"), today)
+    snap_now = {r["name"]: {"pref": r["pref"], "score": r["score"], "factors": r["z"]}
+                for r in current}
+    log = list(state.get("changes") or [])
+    if rebal:
+        entry = {"date": today, "trigger": trigger, "items": changes}
+        if changes or trigger.startswith("정기"):
+            log = [entry] + log
+        log = log[:10]
+        state = {"last_rebalance": today, "snapshot": snap_now, "changes": log}
+        json.dump(state, open(STATE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
+    methodology = (
+        "방법론: 5개 팩터를 5개국 횡단면 z-score(평균0·표준편차1)로 표준화 후 가중합성. "
+        "Value=12M Fwd PER 적정대비 괴리(쌀수록+), Momentum=12-1개월 가격(최근1M skip), "
+        "Earnings=이익수정비율(ERR)+1M수정, Macro=OECD CLI 수준+통화정책 방향, "
+        "Currency=KRW 대비 정책금리 캐리. 종합점수 ≥+0.25 비중확대, ≤−0.25 축소, 그 외 중립. "
+        "리밸런싱: 월 1회 정기 + 선호변경·점수 ±0.4·단일팩터 z ±0.8 이상 변화 시 이벤트.")
+
     out = {
-        "asof": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        "rebalance": "월 1회 (매월 말)",
+        "asof": today,
+        "rebalance": "월 1회 + 팩터 변화 시 (이벤트)",
+        "last_rebalance": state.get("last_rebalance"),
+        "rebalance_trigger": trigger,
+        "changes": log,
+        "methodology": methodology,
         "weights": cm.WEIGHTS,
         "current": [{"name": r["name"], "pref": r["pref"], "score": r["score"],
                      "factors": r["z"], "rationale": cm.rationale(r)} for r in current],

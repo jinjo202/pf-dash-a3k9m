@@ -1,0 +1,100 @@
+{
+ "last_rebalance": "2026-06-14",
+ "snapshot": {
+  "한국": {
+   "pref": "비중확대",
+   "score": 1.05,
+   "factors": {
+    "value": 1.81,
+    "momentum": 1.92,
+    "earnings": 0.3,
+    "macro": 0.23,
+    "currency": 0.12
+   }
+  },
+  "이머징": {
+   "pref": "중립",
+   "score": -0.097,
+   "factors": {
+    "value": 0.32,
+    "momentum": -0.39,
+    "earnings": -1.68,
+    "macro": 0.98,
+    "currency": 0.6
+   }
+  },
+  "미국": {
+   "pref": "축소",
+   "score": -0.251,
+   "factors": {
+    "value": -0.96,
+    "momentum": -0.65,
+    "earnings": 0.69,
+    "macro": -0.53,
+    "currency": 1.19
+   }
+  },
+  "유럽": {
+   "pref": "축소",
+   "score": -0.297,
+   "factors": {
+    "value": -0.68,
+    "momentum": -0.86,
+    "earnings": -0.48,
+    "macro": 0.98,
+    "currency": -0.12
+   }
+  },
+  "일본": {
+   "pref": "축소",
+   "score": -0.408,
+   "factors": {
+    "value": -0.49,
+    "momentum": -0.03,
+    "earnings": 1.17,
+    "macro": -1.66,
+    "currency": -1.79
+   }
+  }
+ },
+ "changes": [
+  {
+   "date": "2026-06-14",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "한국",
+     "from_pref": "비중확대",
+     "to_pref": "비중확대",
+     "flipped": false,
+     "d_score": -0.3,
+     "driver": "매크로 z+1.7→+0.2"
+    },
+    {
+     "country": "이머징",
+     "from_pref": "축소",
+     "to_pref": "중립",
+     "flipped": true,
+     "d_score": 0.44,
+     "driver": "매크로 z-1.2→+1.0"
+    },
+    {
+     "country": "미국",
+     "from_pref": "중립",
+     "to_pref": "축소",
+     "flipped": true,
+     "d_score": -0.1,
+     "driver": "매크로 z+0.0→-0.5"
+    },
+    {
+     "country": "일본",
+     "from_pref": "중립",
+     "to_pref": "축소",
+     "flipped": true,
+     "d_score": -0.18,
+     "driver": "매크로 z-0.8→-1.7"
+    }
+   ]
+  }
+ ]
+}
