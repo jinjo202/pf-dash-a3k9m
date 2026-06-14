@@ -46,6 +46,7 @@
   (function () {
     var v = Math.floor(Date.now() / 60000);
     document.write('<script src="macro-data.js?v=' + v + '"></scr' + 'ipt>');
+    document.write('<script src="country-model.js?v=' + v + '"></scr' + 'ipt>');
   })();
 </script>
 <style>
@@ -220,6 +221,38 @@
   .pref-table td.nm { font-weight:700; }
   .sc-cell { display:inline-block; min-width:38px; padding:2px 6px; border-radius:5px; font-weight:700; font-size:11.5px; }
   .pref-note { font-size:10.5px; color:var(--muted); text-align:left !important; }
+  /* 국가배분 모델 */
+  .rebal-badge { font-size:11px; font-weight:600; color:var(--accent); background:var(--accent-soft);
+                 padding:3px 9px; border-radius:10px; margin-left:8px; vertical-align:middle; }
+  .cm-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .cm-table th, .cm-table td { padding:8px 9px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  .cm-table th { font-size:11px; color:var(--muted); text-align:left; font-weight:600; }
+  .cm-table td.nm { font-weight:700; white-space:nowrap; }
+  .cm-table td.sc { text-align:right; font-variant-numeric:tabular-nums; }
+  .pm-badge { font-size:11px; font-weight:700; padding:3px 9px; border-radius:10px; white-space:nowrap; }
+  .pm-pos { color:#1f7a1f; } .pm-neg { color:#c00000; } .pm-neu { color:#6b7280; }
+  .pm-badge.pm-pos { background:rgba(31,122,31,.14); } .pm-badge.pm-neg { background:rgba(192,0,0,.12); }
+  .pm-badge.pm-neu { background:var(--neu-soft); }
+  .cm-fchips { display:flex; flex-wrap:wrap; gap:4px; }
+  .cm-fchip { font-size:10px; padding:1px 6px; border-radius:8px; white-space:nowrap; background:var(--neu-soft); color:var(--muted); font-variant-numeric:tabular-nums; }
+  .cm-fchip.cm-pos { background:rgba(31,122,31,.13); color:#1f7a1f; }
+  .cm-fchip.cm-neg { background:rgba(192,0,0,.11); color:#c00000; }
+  .bt-head { font-size:13.5px; font-weight:700; margin:20px 0 4px; }
+  .bt-stats { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 14px; }
+  .bt-stat { flex:1 1 100px; background:var(--panel-soft); border-radius:8px; padding:9px 12px; border:1px solid var(--border); }
+  .bt-stat .bl { font-size:10.5px; color:var(--muted); margin-bottom:3px; }
+  .bt-stat .bv { font-size:15px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .bt-chart { height:260px; }
+  .rebal-info { font-size:12px; color:var(--muted); margin:-6px 0 12px; }
+  .rebal-info b { color:var(--text); }
+  .rebal-head { font-size:13px; font-weight:700; margin:16px 0 6px; }
+  .chg-list { display:flex; flex-direction:column; gap:8px; }
+  .chg-row { padding:9px 12px; background:var(--panel-soft); border-radius:8px; border-left:3px solid var(--accent); }
+  .chg-date { font-size:11px; font-weight:700; color:var(--accent); }
+  .chg-trig { font-size:10.5px; color:var(--muted); margin-left:8px; }
+  .chg-items { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:5px; }
+  .chg-item { font-size:12px; }
+  .chg-drv { color:var(--muted); font-size:11px; }
   .tm-row { display:flex; align-items:center; gap:12px; margin:6px 0 12px; }
   .tm-slider { flex:1; accent-color:var(--accent); height:4px; cursor:pointer; }
   .tm-reset { border:1px solid var(--border); background:var(--panel-soft); color:var(--text); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; }
@@ -837,6 +870,86 @@ function renderCountryPref(M) {
     '<p class="disclaimer">밸류=PER 적정대비, 이익=ERR·수정모멘텀, 환율=3개월 통화강세, 통화=정책방향(완화+), 경기=CLI 수준·모멘텀. 통화정책 방향·유·일·중 PER은 편집 가능 시드.</p></div>';
 }
 
+function renderCountryModel(CM) {
+  if (!CM || !CM.current || !CM.current.length) return '';
+  function prefCls(p){ return p==='비중확대'?'pm-pos':p==='축소'?'pm-neg':'pm-neu'; }
+  var facList = [['value','밸류'],['momentum','모멘텀'],['earnings','이익'],['macro','매크로'],['currency','통화']];
+  var rows = CM.current.map(function(c){
+    var chips = facList.map(function(o){
+      var z = c.factors[o[0]]; if (z==null) z=0;
+      var cls = z>=0.3?'cm-pos':z<=-0.3?'cm-neg':'cm-neu';
+      return '<span class="cm-fchip '+cls+'">'+o[1]+' '+(z>0?'+':'')+z.toFixed(1)+'</span>';
+    }).join('');
+    return '<tr><td class="nm">'+c.name+'</td>'+
+      '<td><span class="pm-badge '+prefCls(c.pref)+'">'+c.pref+'</span></td>'+
+      '<td class="sc tnum"><b>'+(c.score>0?'+':'')+c.score.toFixed(2)+'</b></td>'+
+      '<td><div class="cm-fchips">'+chips+'</div></td>'+
+      '<td class="pref-note">'+(c.rationale||'')+'</td></tr>';
+  }).join('');
+  var bt = CM.backtest||{}, bs = bt.stats_strategy||{}, bb = bt.stats_benchmark||{};
+  var w = CM.weights||{};
+  var html = '<div class="panel"><h2>🌐 국가배분 모델 (멀티팩터) '+
+    '<span class="rebal-badge">⟳ '+(CM.rebalance||'월 1회')+'</span></h2>'+
+    '<p class="hint">국가배분 학술 연구 표준 팩터를 횡단면 z-score로 가중합성 — '+
+    'Value '+Math.round((w.value||0)*100)+'% · Momentum '+Math.round((w.momentum||0)*100)+'% · '+
+    'Earnings '+Math.round((w.earnings||0)*100)+'% · Macro '+Math.round((w.macro||0)*100)+'% · '+
+    'Currency '+Math.round((w.currency||0)*100)+'%. '+
+    '<span style="opacity:.7">(Asness·Moskowitz·Pedersen 2013, Keimling 2016, Zaremba 외 2022)</span></p>'+
+    (CM.last_rebalance ? '<div class="rebal-info">최근 리밸런싱 <b>'+CM.last_rebalance+'</b>'+
+       (CM.rebalance_trigger ? ' · '+CM.rebalance_trigger : '')+'</div>' : '')+
+    '<div style="overflow-x:auto"><table class="cm-table"><thead><tr>'+
+    '<th>국가</th><th>선호</th><th>종합</th><th>팩터 z-score</th><th class="pref-note">근거</th>'+
+    '</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  // 최근 리밸런싱 변화 — 어떤 요인이 바뀌었나
+  var chgs = (CM.changes||[]).filter(function(e){ return e.items && e.items.length; });
+  if (chgs.length) {
+    html += '<div class="rebal-head">📌 최근 리밸런싱 변화 — 어떤 요인이 바뀌었나</div><div class="chg-list">';
+    chgs.slice(0,4).forEach(function(e){
+      html += '<div class="chg-row"><span class="chg-date">'+e.date+'</span>'+
+        '<span class="chg-trig">'+(e.trigger||'')+'</span><div class="chg-items">'+
+        e.items.map(function(it){
+          var verdict = it.flipped ? '<b>'+(it.from_pref||'')+' → '+(it.to_pref||'')+'</b>'
+                                   : '점수 '+(it.d_score>0?'+':'')+it.d_score;
+          return '<span class="chg-item">'+it.country+': '+verdict+' <span class="chg-drv">('+it.driver+')</span></span>';
+        }).join('')+'</div></div>';
+    });
+    html += '</div>';
+  }
+  // 백테스트
+  if (bt.dates && bt.dates.length) {
+    html += '<div class="bt-head">📈 백테스트 — 상위 2개국 롱 (Value+Momentum 코어, 월 리밸런싱) vs 5개국 동일비중</div>'+
+      '<p class="hint">'+bt.period+' · '+bt.rebalances+'회 리밸런싱 · 가격으로 재구성 가능한 코어 2팩터(12-1 모멘텀 + 5년 장기반전 밸류, AMP 2013 방식). 전체 5팩터는 시점데이터로 forward 적용.</p>'+
+      '<div class="bt-stats">'+
+        '<div class="bt-stat"><div class="bl">전략 CAGR</div><div class="bv pm-pos">'+bs.cagr+'%</div></div>'+
+        '<div class="bt-stat"><div class="bl">전략 Sharpe</div><div class="bv">'+bs.sharpe+'</div></div>'+
+        '<div class="bt-stat"><div class="bl">전략 MDD</div><div class="bv pm-neg">'+bs.mdd+'%</div></div>'+
+        '<div class="bt-stat"><div class="bl">누적수익</div><div class="bv pm-pos">+'+bs.total+'%</div></div>'+
+        '<div class="bt-stat"><div class="bl">벤치 대비</div><div class="bv">CAGR '+bb.cagr+'% / 적중 '+bt.hit_rate+'%</div></div>'+
+      '</div>'+
+      '<div class="bt-chart"><canvas id="btChart"></canvas></div>';
+  }
+  if (CM.methodology) html += '<p class="disclaimer"><b>📐 ' + CM.methodology + '</b></p>';
+  html += '<p class="disclaimer">학술 팩터 모델(연구·교육용). 백테스트는 코어 2팩터·소표본(5개국)·거래비용 미반영 — 실제 성과를 보장하지 않습니다.</p></div>';
+  return html;
+}
+
+function drawBacktestChart(CM) {
+  var bt = CM && CM.backtest; if (!bt || !bt.dates) return;
+  var cv = document.getElementById('btChart'); if (!cv) return;
+  new Chart(cv.getContext('2d'), {
+    type:'line',
+    data:{ labels: bt.dates, datasets:[
+      { label:'모델 전략(상위2)', data: bt.strategy, borderColor:'#1f7a1f', backgroundColor:'rgba(31,122,31,.08)', borderWidth:2, pointRadius:0, fill:true, tension:.1 },
+      { label:'벤치(EW 5개국)', data: bt.benchmark, borderColor:'#888', borderWidth:1.5, pointRadius:0, borderDash:[5,4], tension:.1 }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+      plugins:{ legend:{ labels:{ boxWidth:14, font:{size:11} } },
+        tooltip:{ callbacks:{ label:function(c){ return c.dataset.label+': '+((c.parsed.y-1)*100).toFixed(0)+'%'; } } } },
+      scales:{ x:{ ticks:{ maxTicksLimit:8, font:{size:10} }, grid:{display:false} },
+        y:{ ticks:{ callback:function(v){ return ((v-1)*100).toFixed(0)+'%'; }, font:{size:10} } } } }
+  });
+}
+
 function renderTimeMachine(M) {
   if (!M.regime_history || !M.regime_history.length) return '';
   var n = M.regime_history.length;
@@ -1074,6 +1187,7 @@ function render(M) {
   html += renderMonthly(M);
   html += renderUpdates(M);
   html += renderTimeMachine(M);
+  if (window.COUNTRY_MODEL) html += renderCountryModel(window.COUNTRY_MODEL);
   html += renderCountryPref(M);
   if (M.kr_flows_ts) html += renderKrFlows(M);
 
@@ -1193,6 +1307,7 @@ function render(M) {
   app.innerHTML = html;
 
   /* draw charts after DOM */
+  if (window.COUNTRY_MODEL) drawBacktestChart(window.COUNTRY_MODEL);
   Object.keys(M.indicators).forEach(function (k) {
     var d = M.indicators[k];
     var cv = document.getElementById('spk_' + k);
