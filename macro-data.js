@@ -241,7 +241,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-14T11:40:46Z",
+  "generated": "2026-06-14T13:39:43Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -516,17 +516,17 @@ window.MACRO = {
         "earn": 39,
         "fx": 0,
         "mon": -10,
-        "cycle": 0
+        "cycle": 33
       },
       "horizon": {
-        "m1": 10,
-        "m3": 4,
-        "m12": 0
+        "m1": 17,
+        "m3": 12,
+        "m12": 6
       },
       "fx_val": null,
       "fx_chg": null,
       "cli": null,
-      "phase": null,
+      "phase": "확장 (Expansion)*",
       "mon_note": "Fed 동결·인하 지연(제약적)"
     },
     "KR": {
@@ -536,19 +536,19 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 23,
-        "fx": 0,
+        "fx": -44,
         "mon": 10,
-        "cycle": 0
+        "cycle": 100
       },
       "horizon": {
-        "m1": 8,
-        "m3": 22,
-        "m12": 37
+        "m1": 13,
+        "m3": 38,
+        "m12": 53
       },
-      "fx_val": null,
-      "fx_chg": null,
+      "fx_val": 1517.89,
+      "fx_chg": -2.2,
       "cli": null,
-      "phase": null,
+      "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
     },
     "EU": {
@@ -558,19 +558,19 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": -2,
-        "fx": 0,
+        "fx": 6,
         "mon": 30,
-        "cycle": 0
+        "cycle": -24
       },
       "horizon": {
-        "m1": 4,
-        "m3": 2,
-        "m12": 0
+        "m1": 1,
+        "m3": -3,
+        "m12": -4
       },
-      "fx_val": null,
-      "fx_chg": null,
+      "fx_val": 1.16,
+      "fx_chg": 0.3,
       "cli": null,
-      "phase": null,
+      "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
     },
     "JP": {
@@ -580,19 +580,19 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 35,
-        "fx": 0,
+        "fx": -4,
         "mon": -40,
-        "cycle": 0
+        "cycle": 23
       },
       "horizon": {
-        "m1": 4,
-        "m3": 3,
-        "m12": 3
+        "m1": 8,
+        "m3": 8,
+        "m12": 7
       },
-      "fx_val": null,
-      "fx_chg": null,
+      "fx_val": 160.18,
+      "fx_chg": -0.2,
       "cli": null,
-      "phase": null,
+      "phase": "확장 (Expansion)*",
       "mon_note": "BOJ 정상화(긴축, −)"
     },
     "CN": {
@@ -602,19 +602,19 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -28,
-        "fx": 0,
+        "fx": 36,
         "mon": 30,
-        "cycle": 0
+        "cycle": 4
       },
       "horizon": {
-        "m1": -4,
-        "m3": 5,
-        "m12": 13
+        "m1": 10,
+        "m3": 13,
+        "m12": 17
       },
-      "fx_val": null,
-      "fx_chg": null,
+      "fx_val": 6.76,
+      "fx_chg": 1.8,
       "cli": null,
-      "phase": null,
+      "phase": "둔화 (Slowdown)*",
       "mon_note": "인민은행 부양(+)"
     }
   },
@@ -17557,7 +17557,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2198701867008,
               "fwdpe": 21.7,
-              "pbr": 94.27,
+              "pbr": 64.85,
               "rets": {
                 "w1": 2.3,
                 "m1": 6.3,
