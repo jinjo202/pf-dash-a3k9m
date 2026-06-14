@@ -524,21 +524,29 @@ COUNTRY_EXTRA = {
 #  US = S&P500 Bottom-Up EPS 실값(FactSet). 나머지 = 지수(2020=100) 근사치(편집 가능).
 #  actual_through 이후 연도는 추정(E)으로 표시.
 COUNTRY_EPS_ANNUAL = {
-    "US": {"unit": "$ (S&P500 Bottom-Up, FactSet)", "actual_through": 2025, "source": "FactSet",
+    "US": {"unit": "$ (S&P500 Bottom-Up, FactSet)", "actual_through": 2025, "source": "FactSet Earnings Insight",
+           "eps_as_of": "2026-06-12",
+           "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. "
+                   "S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
            "eps": {"2020": 140.23, "2021": 208.01, "2022": 219.17, "2023": 220.21,
-                   "2024": 243.02, "2025": 271.23, "2026": 337.47, "2027": 389.45}},
-    "KR": {"unit": "지수(2020=100, 컨센서스)", "actual_through": 2025, "source": "GS/FactSet/MSCI",
+                   "2024": 243.02, "2025": 275.24, "2026": 339.10, "2027": 394.04}},
+    "KR": {"unit": "지수(2020=100, 컨센서스)", "actual_through": 2025, "source": "Goldman Sachs/MSCI",
+           "eps_as_of": "2026-05-31",
            "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. "
-                   "연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과.",
+                   "연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. "
+                   "※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
            "eps": {"2020": 100, "2021": 170, "2022": 130, "2023": 55,
                    "2024": 100, "2025": 130, "2026": 475, "2027": 540}},
     "EU": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
+           "eps_as_of": "2026-05-31",
            "eps": {"2020": 100, "2021": 142, "2022": 156, "2023": 150,
                    "2024": 156, "2025": 166, "2026": 181, "2027": 196}},
     "JP": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
+           "eps_as_of": "2026-05-31",
            "eps": {"2020": 100, "2021": 128, "2022": 145, "2023": 160,
                    "2024": 176, "2025": 188, "2026": 203, "2027": 218}},
     "CN": {"unit": "지수(2020=100, 근사)", "actual_through": 2025, "source": "추정·편집 가능",
+           "eps_as_of": "2026-05-31",
            "eps": {"2020": 100, "2021": 112, "2022": 100, "2023": 106,
                    "2024": 112, "2025": 117, "2026": 124, "2027": 133}},
 }
@@ -1072,7 +1080,23 @@ def build_annual(cc):
         prev = a["eps"][years[i - 1]] if i > 0 else None
         yoy = round((eps / prev - 1) * 100, 1) if (prev and prev != 0) else None
         out.append({"y": int(y), "eps": eps, "yoy": yoy, "est": int(y) > a["actual_through"]})
-    return {"unit": a["unit"], "source": a["source"], "actual_through": a["actual_through"],
+    # EPS 시드 신선도 — cron이 매일 재빌드하므로 경과일·갱신필요 배지가 자동 갱신.
+    # showCountryDetail이 source를 그대로 표시 → macro.html 수정 없이 신선도 노출.
+    eps_as_of = a.get("eps_as_of")
+    days_old, stale, src = None, False, a["source"]
+    if eps_as_of:
+        try:
+            days_old = (date.today() - date.fromisoformat(eps_as_of)).days
+        except Exception:
+            days_old = None
+        src = f"{a['source']} · EPS 기준 {eps_as_of[5:7]}/{eps_as_of[8:10]}"
+        if days_old is not None:
+            src += f" ({days_old}일 경과)"
+            stale = days_old >= 14
+        if stale:
+            src = "⚠️ 갱신 필요 · " + src
+    return {"unit": a["unit"], "source": src, "actual_through": a["actual_through"],
+            "eps_as_of": eps_as_of, "days_old": days_old, "stale": stale,
             "note": a.get("note"), "years": out}
 
 
