@@ -1,7 +1,7 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-06-13",
+  "as_of": "2026-06-14",
   "update_log": [
     {
       "date": "2026-06-01",
@@ -241,7 +241,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-13T22:51:51Z",
+  "generated": "2026-06-14T07:51:34Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -5936,7 +5936,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-06-13",
+    "as_of": "2026-06-14",
     "month": "2026.06",
     "unit": "조원",
     "ytd_total": {
@@ -6646,7 +6646,7 @@ window.MACRO = {
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -7333,7 +7333,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -8228,7 +8228,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "2026.06 KOSPI 누적(조원): 외국인 -22.9·기관 +2.6·개인 +19.8(9일). 최근 26.06.12: 외국인 +2.20·기관 +2.29·개인 -4.32. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -8248,7 +8248,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": null
     },
     "eps_rev_us": {
@@ -8262,7 +8262,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.1%. 그래프=90일 경로.",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": {
         "dates": [
           "90일전",
@@ -8291,7 +8291,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": null
     },
     "eps_rev_kr": {
@@ -8305,7 +8305,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +1.5%. 그래프=90일 경로.",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": {
         "dates": [
           "90일전",
@@ -8334,7 +8334,7 @@ window.MACRO = {
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 20.68 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-06-13",
+      "as_of": "2026-06-14",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
@@ -17119,7 +17119,7 @@ window.MACRO = {
     ]
   },
   "earnings": {
-    "as_of": "2026-06-13",
+    "as_of": "2026-06-14",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -17557,7 +17557,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2198701867008,
               "fwdpe": 21.7,
-              "pbr": 94.27,
+              "pbr": 64.85,
               "rets": {
                 "w1": 2.3,
                 "m1": 6.3,
