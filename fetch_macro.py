@@ -1269,6 +1269,26 @@ def _fred_chg(series_id, months):
         return None, None
 
 
+# 환율: yfinance 통화쌍 (FRED 차단 무관). sign: USD 기준쌍은 -1(통화약세→음), EURUSD는 +1.
+FX_YF = {"KR": ("KRW=X", -1), "JP": ("JPY=X", -1), "EU": ("EURUSD=X", 1), "CN": ("CNY=X", -1)}
+
+
+def _yf_fx_3m(ticker):
+    """yfinance 통화쌍 3개월 변화율(%). (최신값, pct) 또는 (None, None)."""
+    try:
+        import yfinance as yf
+        h = yf.Ticker(ticker).history(period="4mo")["Close"].dropna()
+        if len(h) < 50:
+            return None, None
+        cur = float(h.iloc[-1])
+        ago = float(h.iloc[-63]) if len(h) >= 63 else float(h.iloc[0])
+        if ago <= 0:
+            return None, None
+        return round(cur, 2), round((cur / ago - 1) * 100, 1)
+    except Exception:
+        return None, None
+
+
 def build_country_pref(earn, bench):
     """국가 선호도: 밸류·이익·환율·통화정책·경기 종합 → 1·3·12개월 점수."""
     print("=== 국가 선호도 ===")
@@ -1282,16 +1302,16 @@ def build_country_pref(earn, bench):
         ec = earn.get("countries", {}).get(cc, {})
         err, rev = ec.get("err"), ec.get("rev30")
         earn_s = clamp((err or 0) * 1.3) * 0.6 + clamp((rev or 0) / 8.0) * 0.4
-        # 환율 모멘텀 (통화 강세 = +)
+        # 환율 모멘텀 (통화 강세 = +) — yfinance (FRED 차단과 무관). 미국=USD 기준이라 0.
         fx_s, fx_chg, fx_val = 0.0, None, None
-        if cfg["fx"]:
-            last, chg = _fred_chg(cfg["fx"], 3)
-            if chg is not None and last and (last - chg):
-                pct = chg / (last - chg) * 100
-                strength = -pct if cfg["fx_invert"] else pct
-                fx_chg, fx_s, fx_val = round(strength, 1), clamp(strength / 5.0), round(last, 1)
+        yf_fx = FX_YF.get(cc)
+        if yf_fx:
+            last, pct3 = _yf_fx_3m(yf_fx[0])
+            if pct3 is not None and last is not None:
+                strength = yf_fx[1] * pct3   # sign 으로 통화강세(+)/약세(−) 처리
+                fx_chg, fx_s, fx_val = round(strength, 1), clamp(strength / 5.0), round(last, 2)
         mon_s = MON_SEED.get(cc, 0.0)
-        # 경기 (CLI)
+        # 경기 — 1순위 FRED CLI, 실패/미설정 시 이익성장(growth_cy) 프록시(비-가격 펀더멘털)
         cyc_s, cli_now, phase = 0.0, None, None
         if cfg["cli"]:
             try:
@@ -1304,6 +1324,12 @@ def build_country_pref(earn, bench):
                     cp = cycle_phase(vals); phase = cp["phase"] if cp else None
             except Exception:
                 pass
+        if cli_now is None:   # FRED CLI 실패/미설정 → 이익성장 프록시
+            g = ec.get("growth_cy")
+            if g is not None:
+                cyc_s = clamp((g - 12.0) / 18.0)  # ~12% 추세 기준 정규화
+                phase = ("확장 (Expansion)" if g >= 13 else
+                         "수축 (Contraction)" if g <= 4 else "둔화 (Slowdown)") + "*"
         comp = {"val": round(val * 100), "earn": round(earn_s * 100), "fx": round(fx_s * 100),
                 "mon": round(mon_s * 100), "cycle": round(cyc_s * 100)}
         horizon = {h: round(sum(comp[k] * w for k, w in wts.items())) for h, wts in PREF_WEIGHTS.items()}
