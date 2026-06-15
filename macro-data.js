@@ -246,21 +246,45 @@ window.MACRO = {
       "title": "WTI 유가 (YoY)",
       "detail": "33.9% → 28.7% (2026-06-14 발표)",
       "as_of": "2026-06-14"
+    },
+    {
+      "date": "2026-06-14",
+      "type": "release",
+      "key": "kr_deposit",
+      "title": "한국 투자자예탁금",
+      "detail": "127.6조원 → 127.4조원 (2026-06-11 발표)",
+      "as_of": "2026-06-11"
+    },
+    {
+      "date": "2026-06-14",
+      "type": "revision",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "28.7% → 29.0% (수정)",
+      "as_of": "2026-06-14"
     }
   ],
   "updates_today": [
     {
       "date": "2026-06-14",
       "type": "release",
+      "key": "kr_deposit",
+      "title": "한국 투자자예탁금",
+      "detail": "127.6조원 → 127.4조원 (2026-06-11 발표)",
+      "as_of": "2026-06-11"
+    },
+    {
+      "date": "2026-06-14",
+      "type": "revision",
       "key": "oil_yoy",
       "title": "WTI 유가 (YoY)",
-      "detail": "33.9% → 28.7% (2026-06-14 발표)",
+      "detail": "28.7% → 29.0% (수정)",
       "as_of": "2026-06-14"
     }
   ],
-  "generated": "2026-06-14T22:46:43Z",
+  "generated": "2026-06-15T00:17:42Z",
   "regime": {
-    "score": 14,
+    "score": 15,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
@@ -276,7 +300,7 @@ window.MACRO = {
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 17,
+        "score": 18,
         "n": 7
       },
       "sentiment": {
@@ -553,17 +577,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 23,
-        "fx": -18,
+        "fx": -44,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 22,
-        "m3": 44,
-        "m12": 55
+        "m1": 13,
+        "m3": 38,
+        "m12": 53
       },
-      "fx_val": 1518.57,
-      "fx_chg": -0.9,
+      "fx_val": 1517.38,
+      "fx_chg": -2.2,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -4908,7 +4932,6 @@ window.MACRO = {
   "kr_flows_ts": {
     "deposit": {
       "dates": [
-        "2024-04-17",
         "2024-04-18",
         "2024-04-19",
         "2024-04-22",
@@ -5427,10 +5450,10 @@ window.MACRO = {
         "2026-06-05",
         "2026-06-08",
         "2026-06-09",
-        "2026-06-10"
+        "2026-06-10",
+        "2026-06-11"
       ],
       "values": [
-        55.3,
         55.1,
         55.5,
         56.6,
@@ -5949,7 +5972,8 @@ window.MACRO = {
         134.2,
         136.4,
         130.1,
-        127.6
+        127.6,
+        127.4
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
@@ -6521,7 +6545,7 @@ window.MACRO = {
       32.5,
       35.2,
       37.4,
-      36.2
+      36.1
     ],
     "kospi_credit": [
       10.7,
@@ -6550,7 +6574,7 @@ window.MACRO = {
       18.5,
       20.1,
       21.5,
-      20.9
+      20.8
     ],
     "kosdaq_credit": [
       8.4,
@@ -6642,10 +6666,10 @@ window.MACRO = {
     "unit": "조원",
     "realtime": true,
     "current": {
-      "total": 36.2,
-      "deposit": 127.6,
-      "as_of": "2026-06-10",
-      "kospi": 20.9,
+      "total": 36.1,
+      "deposit": 127.4,
+      "as_of": "2026-06-11",
+      "kospi": 20.8,
       "kosdaq": 15.3
     },
     "source": "네이버 증시자금추이(실측·시장별은 시드비율 분해)",
@@ -8158,15 +8182,15 @@ window.MACRO = {
     "kr_deposit": {
       "name": "한국 투자자예탁금",
       "pillar": "flows",
-      "current": 127.6,
+      "current": 127.4,
       "unit": "조원",
       "z": null,
       "pct": null,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
-      "desc": "증시 대기자금(고객예탁금). 신용잔고 36.2조 동반. 자동수집(네이버 증시자금추이). 예탁금 증가=매수 여력 확대. 카드 클릭→누적 추이.",
-      "as_of": "2026-06-10",
+      "desc": "증시 대기자금(고객예탁금). 신용잔고 36.1조 동반. 자동수집(네이버 증시자금추이). 예탁금 증가=매수 여력 확대. 카드 클릭→누적 추이.",
+      "as_of": "2026-06-11",
       "history": {
         "dates": [
           "2024-04-01",
@@ -8224,7 +8248,7 @@ window.MACRO = {
           110.3,
           124.8,
           131.6,
-          127.6
+          127.4
         ]
       },
       "manual": true,
@@ -8265,7 +8289,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-14",
+      "as_of": "2026-06-15",
       "history": null
     },
     "eps_rev_us": {
@@ -8279,7 +8303,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.1%. 그래프=90일 경로.",
-      "as_of": "2026-06-14",
+      "as_of": "2026-06-15",
       "history": {
         "dates": [
           "90일전",
@@ -8308,7 +8332,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-14",
+      "as_of": "2026-06-15",
       "history": null
     },
     "eps_rev_kr": {
@@ -8322,7 +8346,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +1.5%. 그래프=90일 경로.",
-      "as_of": "2026-06-14",
+      "as_of": "2026-06-15",
       "history": {
         "dates": [
           "90일전",
@@ -13780,15 +13804,15 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1518.6,
+      "current": 1517.4,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
-      "score": -0.78,
+      "score": -0.75,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "원화 약세는 위험회피·외인 유출",
-      "as_of": "2026-06-14",
+      "as_of": "2026-06-12",
       "history": {
         "dates": [
           "2025-06-01",
@@ -14544,7 +14568,7 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 28.7,
+      "current": 29.0,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
@@ -17136,7 +17160,7 @@ window.MACRO = {
     ]
   },
   "earnings": {
-    "as_of": "2026-06-14",
+    "as_of": "2026-06-15",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -17162,10 +17186,10 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "FactSet Earnings Insight · EPS 기준 06/12 (2일 경과)",
+          "source": "FactSet Earnings Insight · EPS 기준 06/12 (3일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-06-12",
-          "days_old": 2,
+          "days_old": 3,
           "stale": false,
           "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
           "years": [
@@ -17243,10 +17267,10 @@ window.MACRO = {
         "n": 29,
         "annual": {
           "unit": "지수(2020=100, 컨센서스)",
-          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (14일 경과)",
+          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (15일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 14,
+          "days_old": 15,
           "stale": true,
           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. ※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
           "years": [
@@ -17324,10 +17348,10 @@ window.MACRO = {
         "n": 6,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (14일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (15일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 14,
+          "days_old": 15,
           "stale": true,
           "note": null,
           "years": [
@@ -17405,10 +17429,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (14일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (15일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 14,
+          "days_old": 15,
           "stale": true,
           "note": null,
           "years": [
@@ -17486,10 +17510,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (14일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (15일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 14,
+          "days_old": 15,
           "stale": true,
           "note": null,
           "years": [
@@ -20013,12 +20037,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 28.7%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 29.0%(강한 악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 20.7배(강한 악재)·KOSPI 12M Fwd PER 6.2배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.49%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1518.6원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 127.6조원(강한 호재)·한국 투자자별 수급(외국인, 월) -22.9조원(악재)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1517.4원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 127.4조원(강한 호재)·한국 투자자별 수급(외국인, 월) -22.9조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 17.7(중립)·S&P500 12M 모멘텀 19.8%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.1%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.0%(유지)",
-    "overall": "종합 레짐 점수 +14. 매크로 -3, 밸류 -10, 수급 +17, 센티 +18, 기업이익 +46."
+    "overall": "종합 레짐 점수 +15. 매크로 -3, 밸류 -10, 수급 +18, 센티 +18, 기업이익 +46."
   },
   "outlook": {
     "short": {
