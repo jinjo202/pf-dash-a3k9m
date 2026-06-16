@@ -327,15 +327,15 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-16T18:44:26Z",
+  "generated": "2026-06-16T20:22:55Z",
   "regime": {
-    "score": 16,
+    "score": 15,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
       "macro": {
         "name": "매크로",
-        "score": -1,
+        "score": -2,
         "n": 12
       },
       "valuation": {
@@ -595,7 +595,7 @@ window.MACRO = {
   "country_pref": {
     "US": {
       "name": "미국",
-      "pe": 21.2,
+      "pe": 21.1,
       "fair_pe": 19.0,
       "components": {
         "val": -38,
@@ -631,7 +631,7 @@ window.MACRO = {
         "m3": 42,
         "m12": 55
       },
-      "fx_val": 1508.62,
+      "fx_val": 1509.09,
       "fx_chg": -1.3,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -666,17 +666,17 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 35,
-        "fx": -2,
+        "fx": -32,
         "mon": -40,
         "cycle": 23
       },
       "horizon": {
-        "m1": 8,
-        "m3": 8,
-        "m12": 7
+        "m1": -2,
+        "m3": 2,
+        "m12": 4
       },
-      "fx_val": 159.96,
-      "fx_chg": -0.1,
+      "fx_val": 160.45,
+      "fx_chg": -1.6,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOJ 정상화(긴축, −)"
@@ -6740,11 +6740,11 @@ window.MACRO = {
     "spx_fwd_pe": {
       "name": "S&P500 12M Fwd PER",
       "pillar": "valuation",
-      "current": 21.2,
+      "current": 21.1,
       "unit": "배",
       "z": null,
       "pct": null,
-      "score": -0.8,
+      "score": -0.79,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
@@ -8435,7 +8435,7 @@ window.MACRO = {
       "score": 0.25,
       "signal": "호재",
       "signal_cls": "pos",
-      "desc": "Fwd PER 21.19 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
+      "desc": "Fwd PER 21.15 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
       "as_of": "2026-06-16",
       "history": null,
       "source": {
@@ -13813,7 +13813,7 @@ window.MACRO = {
     "us10y": {
       "name": "미국 10Y 금리",
       "pillar": "valuation",
-      "current": 4.42,
+      "current": 4.43,
       "unit": "%",
       "z": 1.62,
       "pct": 100.0,
@@ -13865,7 +13865,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1508.6,
+      "current": 1508.5,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
@@ -13917,13 +13917,13 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 15.9,
+      "current": 16.2,
       "unit": "",
       "z": 0.11,
       "pct": 84.6,
-      "score": 0.21,
-      "signal": "호재",
-      "signal_cls": "pos",
+      "score": 0.18,
+      "signal": "중립",
+      "signal_cls": "neu",
       "desc": "공포 게이지. 낮을수록 안정",
       "as_of": "2026-06-16",
       "history": {
@@ -14629,12 +14629,12 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 18.6,
+      "current": 20.4,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.47,
-      "signal": "악재",
+      "score": -0.51,
+      "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
       "as_of": "2026-06-16",
@@ -17657,14 +17657,14 @@ window.MACRO = {
             {
               "ticker": "NVDA",
               "name": "NVIDIA Corporation",
-              "mktcap": 5060493312000,
-              "fwdpe": 16.4,
-              "pbr": 25.89,
+              "mktcap": 5023677808640,
+              "fwdpe": 16.3,
+              "pbr": 25.7,
               "rets": {
-                "w1": 0.4,
-                "m1": -7.2,
-                "m3": 15.0,
-                "ytd": 12.2
+                "w1": -0.4,
+                "m1": -7.8,
+                "m3": 14.1,
+                "ytd": 11.3
               },
               "rev30": 7.428904398161773,
               "note": "AI 가속기 사실상 독점·데이터센터 폭증"
@@ -17672,14 +17672,14 @@ window.MACRO = {
             {
               "ticker": "TSM",
               "name": "Taiwan Semiconductor Manufactur",
-              "mktcap": 2237911531520,
-              "fwdpe": 22.0,
-              "pbr": 95.95,
+              "mktcap": 2208556122112,
+              "fwdpe": 21.7,
+              "pbr": 65.14,
               "rets": {
-                "w1": 1.1,
-                "m1": 7.0,
-                "m3": 25.0,
-                "ytd": 42.7
+                "w1": -0.3,
+                "m1": 5.6,
+                "m3": 23.4,
+                "ytd": 40.9
               },
               "rev30": 1.0960304977896795,
               "note": "AI칩 위탁생산 독점적"
@@ -17687,14 +17687,14 @@ window.MACRO = {
             {
               "ticker": "AVGO",
               "name": "Broadcom Inc.",
-              "mktcap": 1812020068352,
-              "fwdpe": 19.7,
-              "pbr": 20.67,
+              "mktcap": 1792228065280,
+              "fwdpe": 19.5,
+              "pbr": 20.44,
               "rets": {
-                "w1": -2.9,
-                "m1": -10.4,
-                "m3": 18.8,
-                "ytd": 10.3
+                "w1": -3.9,
+                "m1": -11.4,
+                "m3": 17.5,
+                "ytd": 9.1
               },
               "rev30": 1.922550557421232,
               "note": "맞춤형 AI칩(ASIC)·네트워킹"
@@ -17702,14 +17702,14 @@ window.MACRO = {
             {
               "ticker": "MU",
               "name": "Micron Technology, Inc.",
-              "mktcap": 1169178230784,
-              "fwdpe": 9.1,
-              "pbr": 16.14,
+              "mktcap": 1151145738240,
+              "fwdpe": 9.0,
+              "pbr": 15.89,
               "rets": {
-                "w1": 10.8,
-                "m1": 43.1,
-                "m3": 124.6,
-                "ytd": 263.4
+                "w1": 9.1,
+                "m1": 40.9,
+                "m3": 121.2,
+                "ytd": 257.8
               },
               "rev30": 2.9713521396947495,
               "note": "HBM·메모리 업사이클"
@@ -17717,14 +17717,14 @@ window.MACRO = {
             {
               "ticker": "AMD",
               "name": "Advanced Micro Devices, Inc.",
-              "mktcap": 843265146880,
-              "fwdpe": 39.5,
-              "pbr": 13.08,
+              "mktcap": 827187396608,
+              "fwdpe": 38.7,
+              "pbr": 12.83,
               "rets": {
-                "w1": 8.8,
-                "m1": 21.9,
-                "m3": 163.4,
-                "ytd": 141.5
+                "w1": 6.7,
+                "m1": 19.6,
+                "m3": 158.4,
+                "ytd": 136.9
               },
               "rev30": 0.08273208795956943,
               "note": "AI GPU 추격·MI 시리즈"
@@ -17756,13 +17756,13 @@ window.MACRO = {
             {
               "ticker": "AAPL",
               "name": "Apple Inc.",
-              "mktcap": 4397981761536,
+              "mktcap": 4395044175872,
               "fwdpe": 31.2,
-              "pbr": 41.25,
+              "pbr": 41.22,
               "rets": {
-                "w1": 3.1,
+                "w1": 3.0,
                 "m1": -0.3,
-                "m3": 17.9,
+                "m3": 17.8,
                 "ytd": 10.3
               },
               "rev30": 0.2400412087912196,
@@ -17771,14 +17771,14 @@ window.MACRO = {
             {
               "ticker": "MSFT",
               "name": "Microsoft Corporation",
-              "mktcap": 2915920773120,
-              "fwdpe": 20.3,
-              "pbr": 7.04,
+              "mktcap": 2925540409344,
+              "fwdpe": 20.4,
+              "pbr": 7.06,
               "rets": {
-                "w1": -2.7,
-                "m1": -6.8,
-                "m3": -1.5,
-                "ytd": -18.5
+                "w1": -2.4,
+                "m1": -6.5,
+                "m3": -1.2,
+                "ytd": -18.2
               },
               "rev30": 0.1636287394163327,
               "note": "Azure·코파일럿 AI 수익화"
@@ -17786,14 +17786,14 @@ window.MACRO = {
             {
               "ticker": "ORCL",
               "name": "Oracle Corporation",
-              "mktcap": 546458796032,
-              "fwdpe": 17.4,
-              "pbr": 16.29,
+              "mktcap": 541775167488,
+              "fwdpe": 17.3,
+              "pbr": 16.15,
               "rets": {
-                "w1": -7.7,
-                "m1": -1.5,
-                "m3": 23.3,
-                "ytd": -1.9
+                "w1": -8.5,
+                "m1": -2.4,
+                "m3": 22.2,
+                "ytd": -2.8
               },
               "rev30": 0.3117981272181103,
               "note": "OCI 클라우드 수주 급증"
@@ -17801,14 +17801,14 @@ window.MACRO = {
             {
               "ticker": "PLTR",
               "name": "Palantir Technologies Inc.",
-              "mktcap": 314371506176,
-              "fwdpe": 63.0,
-              "pbr": 37.2,
+              "mktcap": 319441829888,
+              "fwdpe": 64.1,
+              "pbr": 37.8,
               "rets": {
-                "w1": -0.7,
-                "m1": -2.1,
-                "m3": -15.4,
-                "ytd": -26.2
+                "w1": 0.9,
+                "m1": -0.6,
+                "m3": -14.1,
+                "ytd": -25.0
               },
               "rev30": 0.6169802812282077,
               "note": "AIP 정부·기업 수요"
@@ -17816,14 +17816,14 @@ window.MACRO = {
             {
               "ticker": "CRM",
               "name": "Salesforce, Inc.",
-              "mktcap": 132067852288,
+              "mktcap": 132440498176,
               "fwdpe": 10.4,
-              "pbr": 3.86,
+              "pbr": 3.87,
               "rets": {
-                "w1": -7.8,
-                "m1": -6.8,
-                "m3": -17.0,
-                "ytd": -38.8
+                "w1": -7.5,
+                "m1": -6.6,
+                "m3": -16.8,
+                "ytd": -38.6
               },
               "rev30": 7.1842972902537605,
               "note": "에이전트포스 AI"
@@ -17855,14 +17855,14 @@ window.MACRO = {
             {
               "ticker": "GOOGL",
               "name": "Alphabet Inc.",
-              "mktcap": 4548020666368,
-              "fwdpe": 25.7,
-              "pbr": 9.43,
+              "mktcap": 4554610442240,
+              "fwdpe": 25.8,
+              "pbr": 9.45,
               "rets": {
-                "w1": 2.3,
-                "m1": -6.0,
-                "m3": 19.9,
-                "ytd": 19.2
+                "w1": 2.5,
+                "m1": -5.9,
+                "m3": 20.1,
+                "ytd": 19.4
               },
               "rev30": -0.015468349998137843,
               "note": "검색·Gemini·클라우드"
@@ -17870,14 +17870,14 @@ window.MACRO = {
             {
               "ticker": "META",
               "name": "Meta Platforms, Inc.",
-              "mktcap": 1519271804928,
-              "fwdpe": 16.5,
-              "pbr": 6.23,
+              "mktcap": 1523587088384,
+              "fwdpe": 16.6,
+              "pbr": 6.25,
               "rets": {
-                "w1": 2.5,
-                "m1": -2.5,
-                "m3": -3.8,
-                "ytd": -9.2
+                "w1": 2.8,
+                "m1": -2.2,
+                "m3": -3.5,
+                "ytd": -8.9
               },
               "rev30": 0.06921244105058122,
               "note": "광고 회복·AI 추천"
@@ -17885,14 +17885,14 @@ window.MACRO = {
             {
               "ticker": "NFLX",
               "name": "Netflix, Inc.",
-              "mktcap": 329600270336,
-              "fwdpe": 20.4,
-              "pbr": 10.59,
+              "mktcap": 331474075648,
+              "fwdpe": 20.5,
+              "pbr": 10.65,
               "rets": {
-                "w1": -3.9,
-                "m1": -10.0,
-                "m3": -17.0,
-                "ytd": -16.5
+                "w1": -3.3,
+                "m1": -9.5,
+                "m3": -16.6,
+                "ytd": -16.0
               },
               "rev30": -0.006955902361382993,
               "note": "광고요금제·콘텐츠"
@@ -17900,13 +17900,13 @@ window.MACRO = {
             {
               "ticker": "DIS",
               "name": "Walt Disney Company (The)",
-              "mktcap": 176047521792,
+              "mktcap": 175960719360,
               "fwdpe": 13.5,
               "pbr": 1.63,
               "rets": {
-                "w1": 2.1,
-                "m1": -1.3,
-                "m3": 1.1,
+                "w1": 2.0,
+                "m1": -1.4,
+                "m3": 1.0,
                 "ytd": -10.9
               },
               "rev30": 0.4843900774318177,
@@ -17939,14 +17939,14 @@ window.MACRO = {
             {
               "ticker": "JPM",
               "name": "JP Morgan Chase & Co.",
-              "mktcap": 884453081088,
-              "fwdpe": 14.0,
-              "pbr": 2.57,
+              "mktcap": 887293411328,
+              "fwdpe": 14.1,
+              "pbr": 2.58,
               "rets": {
-                "w1": 5.6,
-                "m1": 10.8,
-                "m3": 15.6,
-                "ytd": 3.4
+                "w1": 5.9,
+                "m1": 11.2,
+                "m3": 16.0,
+                "ytd": 3.8
               },
               "rev30": 0.12477188736779166,
               "note": "NIM·IB 회복"
@@ -17954,14 +17954,14 @@ window.MACRO = {
             {
               "ticker": "BAC",
               "name": "Bank of America Corporation",
-              "mktcap": 402412208128,
-              "fwdpe": 11.2,
+              "mktcap": 403370213376,
+              "fwdpe": 11.3,
               "pbr": 1.47,
               "rets": {
-                "w1": 4.2,
-                "m1": 14.5,
-                "m3": 20.6,
-                "ytd": 4.2
+                "w1": 4.4,
+                "m1": 14.8,
+                "m3": 20.8,
+                "ytd": 4.5
               },
               "rev30": 0.0031301633721447786,
               "note": "예금·금리 레버리지"
@@ -17969,14 +17969,14 @@ window.MACRO = {
             {
               "ticker": "MS",
               "name": "Morgan Stanley",
-              "mktcap": 347704557568,
-              "fwdpe": 17.3,
-              "pbr": 3.33,
+              "mktcap": 348311814144,
+              "fwdpe": 17.4,
+              "pbr": 3.34,
               "rets": {
-                "w1": 3.9,
-                "m1": 13.3,
-                "m3": 42.3,
-                "ytd": 25.5
+                "w1": 5.0,
+                "m1": 14.7,
+                "m3": 40.7,
+                "ytd": 25.7
               },
               "rev30": -0.15738544690137024,
               "note": "WM·IB"
@@ -17984,14 +17984,14 @@ window.MACRO = {
             {
               "ticker": "GS",
               "name": "Goldman Sachs Group, Inc. (The)",
-              "mktcap": 321667235840,
+              "mktcap": 321755774976,
               "fwdpe": 16.6,
               "pbr": 3.06,
               "rets": {
                 "w1": 5.7,
                 "m1": 15.5,
                 "m3": 35.7,
-                "ytd": 25.2
+                "ytd": 25.3
               },
               "rev30": 0.20542739341864458,
               "note": "IB·트레이딩"
@@ -17999,14 +17999,14 @@ window.MACRO = {
             {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
-              "mktcap": 259045048320,
-              "fwdpe": 10.7,
-              "pbr": 1.59,
+              "mktcap": 260284416000,
+              "fwdpe": 10.8,
+              "pbr": 1.6,
               "rets": {
-                "w1": 3.2,
-                "m1": 15.3,
-                "m3": 11.7,
-                "ytd": -8.2
+                "w1": 3.7,
+                "m1": 15.8,
+                "m3": 12.2,
+                "ytd": -7.8
               },
               "rev30": 0.02850398482843186,
               "note": "자산상한 해제 기대"
@@ -18038,14 +18038,14 @@ window.MACRO = {
             {
               "ticker": "LLY",
               "name": "Eli Lilly and Company",
-              "mktcap": 1005844103168,
-              "fwdpe": 25.4,
-              "pbr": 32.3,
+              "mktcap": 1001523642368,
+              "fwdpe": 25.2,
+              "pbr": 32.17,
               "rets": {
-                "w1": -1.5,
-                "m1": 12.2,
-                "m3": 21.4,
-                "ytd": 5.3
+                "w1": -1.9,
+                "m1": 11.8,
+                "m3": 20.9,
+                "ytd": 4.9
               },
               "rev30": 0.05651057037818763,
               "note": "GLP-1 비만치료 선두"
@@ -18053,14 +18053,14 @@ window.MACRO = {
             {
               "ticker": "JNJ",
               "name": "Johnson & Johnson",
-              "mktcap": 564444200960,
-              "fwdpe": 18.4,
-              "pbr": 6.95,
+              "mktcap": 566129262592,
+              "fwdpe": 18.5,
+              "pbr": 6.97,
               "rets": {
-                "w1": -1.1,
-                "m1": 4.0,
-                "m3": -1.0,
-                "ytd": 14.6
+                "w1": -0.8,
+                "m1": 4.3,
+                "m3": -0.7,
+                "ytd": 14.9
               },
               "rev30": -0.008898265183854281,
               "note": "제약·의료기기"
@@ -18068,14 +18068,14 @@ window.MACRO = {
             {
               "ticker": "ABBV",
               "name": "AbbVie Inc.",
-              "mktcap": 392068988928,
+              "mktcap": 393111404544,
               "fwdpe": 13.7,
               "pbr": null,
               "rets": {
-                "w1": -1.6,
-                "m1": 5.5,
-                "m3": 1.8,
-                "ytd": -1.3
+                "w1": -1.3,
+                "m1": 5.8,
+                "m3": 2.1,
+                "ytd": -1.0
               },
               "rev30": 0.06317190338347434,
               "note": "면역질환 후속"
@@ -18083,14 +18083,14 @@ window.MACRO = {
             {
               "ticker": "UNH",
               "name": "UnitedHealth Group Incorporated",
-              "mktcap": 371839729664,
-              "fwdpe": 19.6,
-              "pbr": 3.8,
+              "mktcap": 370205065216,
+              "fwdpe": 19.5,
+              "pbr": 3.78,
               "rets": {
-                "w1": 1.3,
-                "m1": 3.2,
-                "m3": 44.2,
-                "ytd": 25.7
+                "w1": -0.7,
+                "m1": 4.1,
+                "m3": 42.6,
+                "ytd": 25.2
               },
               "rev30": null,
               "note": "관리의료 마진"
@@ -18098,14 +18098,14 @@ window.MACRO = {
             {
               "ticker": "MRK",
               "name": "Merck & Company, Inc.",
-              "mktcap": 283782840320,
+              "mktcap": 284449669120,
               "fwdpe": 12.0,
-              "pbr": 6.19,
+              "pbr": 6.2,
               "rets": {
-                "w1": -3.2,
-                "m1": 3.9,
-                "m3": -0.1,
-                "ytd": 10.8
+                "w1": -3.0,
+                "m1": 4.1,
+                "m3": 0.1,
+                "ytd": 11.0
               },
               "rev30": 0.0,
               "note": "키트루다·종양"
@@ -18137,14 +18137,14 @@ window.MACRO = {
             {
               "ticker": "AMZN",
               "name": "Amazon.com, Inc.",
-              "mktcap": 2651950153728,
-              "fwdpe": 25.0,
-              "pbr": 6.0,
+              "mktcap": 2646249046016,
+              "fwdpe": 24.9,
+              "pbr": 5.99,
               "rets": {
-                "w1": 1.0,
-                "m1": -6.7,
-                "m3": 14.6,
-                "ytd": 6.8
+                "w1": 0.7,
+                "m1": -6.9,
+                "m3": 14.3,
+                "ytd": 6.6
               },
               "rev30": 0.5043073590054847,
               "note": "AWS·리테일 마진"
@@ -18152,14 +18152,14 @@ window.MACRO = {
             {
               "ticker": "TSLA",
               "name": "Tesla, Inc.",
-              "mktcap": 1522269945856,
-              "fwdpe": 162.1,
-              "pbr": 18.51,
+              "mktcap": 1519791243264,
+              "fwdpe": 161.9,
+              "pbr": 18.48,
               "rets": {
-                "w1": 2.2,
-                "m1": -4.0,
-                "m3": 1.5,
-                "ytd": -9.9
+                "w1": 2.0,
+                "m1": -4.2,
+                "m3": 1.3,
+                "ytd": -10.0
               },
               "rev30": 0.53799399516683,
               "note": "FSD·로보택시 기대"
@@ -18167,14 +18167,14 @@ window.MACRO = {
             {
               "ticker": "HD",
               "name": "Home Depot, Inc. (The)",
-              "mktcap": 335499853824,
+              "mktcap": 336118054912,
               "fwdpe": 20.9,
-              "pbr": 24.18,
+              "pbr": 24.22,
               "rets": {
-                "w1": 4.7,
-                "m1": 13.9,
-                "m3": -0.7,
-                "ytd": -0.8
+                "w1": 4.9,
+                "m1": 14.2,
+                "m3": -0.5,
+                "ytd": -0.6
               },
               "rev30": -0.5859659169801912,
               "note": "주택수리"
@@ -18182,14 +18182,14 @@ window.MACRO = {
             {
               "ticker": "MCD",
               "name": "McDonald's Corporation",
-              "mktcap": 203846893568,
+              "mktcap": 204575948800,
               "fwdpe": 20.2,
               "pbr": null,
               "rets": {
-                "w1": 1.6,
-                "m1": 4.5,
-                "m3": -11.5,
-                "ytd": -5.0
+                "w1": 2.0,
+                "m1": 4.9,
+                "m3": -11.2,
+                "ytd": -4.6
               },
               "rev30": 0.0877979367870374,
               "note": "가성비 메뉴"
@@ -18197,14 +18197,14 @@ window.MACRO = {
             {
               "ticker": "NKE",
               "name": "Nike, Inc.",
-              "mktcap": 67121205248,
-              "fwdpe": 25.0,
-              "pbr": 4.76,
+              "mktcap": 66699153408,
+              "fwdpe": 24.8,
+              "pbr": 4.73,
               "rets": {
-                "w1": 1.5,
-                "m1": 9.2,
-                "m3": -17.0,
-                "ytd": -27.7
+                "w1": 0.9,
+                "m1": 8.5,
+                "m3": -17.6,
+                "ytd": -28.2
               },
               "rev30": 0.04601625907820761,
               "note": "리브랜딩·중국"
@@ -18236,14 +18236,14 @@ window.MACRO = {
             {
               "ticker": "XOM",
               "name": "Exxon Mobil Corporation",
-              "mktcap": 585142173696,
-              "fwdpe": 13.2,
-              "pbr": 2.27,
+              "mktcap": 588043649024,
+              "fwdpe": 13.3,
+              "pbr": 2.29,
               "rets": {
-                "w1": -5.2,
-                "m1": -10.6,
-                "m3": -10.5,
-                "ytd": 18.9
+                "w1": -4.7,
+                "m1": -10.2,
+                "m3": -10.1,
+                "ytd": 19.5
               },
               "rev30": 2.6017252227345855,
               "note": "유가 레버리지·정제"
@@ -18251,14 +18251,14 @@ window.MACRO = {
             {
               "ticker": "CVX",
               "name": "Chevron Corporation",
-              "mktcap": 358038667264,
+              "mktcap": 358786301952,
               "fwdpe": 14.3,
               "pbr": 1.94,
               "rets": {
-                "w1": -3.7,
-                "m1": -5.1,
-                "m3": -8.4,
-                "ytd": 20.2
+                "w1": -3.5,
+                "m1": -4.9,
+                "m3": -8.2,
+                "ytd": 20.5
               },
               "rev30": 7.2928793063000485,
               "note": "배당·가이아나"
@@ -18266,14 +18266,14 @@ window.MACRO = {
             {
               "ticker": "COP",
               "name": "ConocoPhillips",
-              "mktcap": 135060078592,
+              "mktcap": 135644848128,
               "fwdpe": 12.1,
-              "pbr": 2.09,
+              "pbr": 2.1,
               "rets": {
-                "w1": -5.1,
-                "m1": -9.4,
-                "m3": -9.1,
-                "ytd": 20.2
+                "w1": -4.7,
+                "m1": -9.0,
+                "m3": -8.7,
+                "ytd": 20.8
               },
               "rev30": 4.394238039946496,
               "note": "셰일 효율"
@@ -18281,14 +18281,14 @@ window.MACRO = {
             {
               "ticker": "SLB",
               "name": "SLB Limited",
-              "mktcap": 79865978880,
-              "fwdpe": 16.0,
-              "pbr": 3.05,
+              "mktcap": 79342706688,
+              "fwdpe": 15.9,
+              "pbr": 3.03,
               "rets": {
-                "w1": -4.4,
-                "m1": -3.0,
-                "m3": 16.4,
-                "ytd": 40.7
+                "w1": -5.0,
+                "m1": -3.7,
+                "m3": 15.6,
+                "ytd": 39.8
               },
               "rev30": -0.4375179271440821,
               "note": "유전서비스"
@@ -18320,14 +18320,14 @@ window.MACRO = {
             {
               "ticker": "CAT",
               "name": "Caterpillar, Inc.",
-              "mktcap": 441106628608,
-              "fwdpe": 31.8,
-              "pbr": 23.64,
+              "mktcap": 435471286272,
+              "fwdpe": 31.4,
+              "pbr": 23.34,
               "rets": {
-                "w1": 4.7,
-                "m1": 7.8,
-                "m3": 36.7,
-                "ytd": 67.9
+                "w1": 3.4,
+                "m1": 6.4,
+                "m3": 34.9,
+                "ytd": 65.7
               },
               "rev30": 1.2419854311255474,
               "note": "인프라·전력장비"
@@ -18335,14 +18335,14 @@ window.MACRO = {
             {
               "ticker": "GE",
               "name": "GE Aerospace",
-              "mktcap": 367868837888,
+              "mktcap": 367497936896,
               "fwdpe": 40.5,
-              "pbr": 20.34,
+              "pbr": 20.32,
               "rets": {
-                "w1": 6.6,
-                "m1": 25.1,
-                "m3": 16.5,
-                "ytd": 14.5
+                "w1": 6.4,
+                "m1": 24.9,
+                "m3": 16.4,
+                "ytd": 14.4
               },
               "rev30": 0.20928321492947877,
               "note": "항공엔진 수주"
@@ -18350,14 +18350,14 @@ window.MACRO = {
             {
               "ticker": "BA",
               "name": "Boeing Company (The)",
-              "mktcap": 179705331712,
-              "fwdpe": 54.5,
-              "pbr": 30.03,
+              "mktcap": 179330908160,
+              "fwdpe": 54.4,
+              "pbr": 29.97,
               "rets": {
-                "w1": 6.3,
-                "m1": 3.4,
-                "m3": 8.1,
-                "ytd": 5.0
+                "w1": 6.1,
+                "m1": 3.2,
+                "m3": 7.9,
+                "ytd": 4.8
               },
               "rev30": null,
               "note": "생산정상화"
@@ -18365,12 +18365,12 @@ window.MACRO = {
             {
               "ticker": "UNP",
               "name": "Union Pacific Corporation",
-              "mktcap": 158758912000,
+              "mktcap": 158788599808,
               "fwdpe": 19.5,
               "pbr": 8.18,
               "rets": {
                 "w1": -1.4,
-                "m1": -0.7,
+                "m1": -0.6,
                 "m3": 10.9,
                 "ytd": 16.8
               },
@@ -18380,14 +18380,14 @@ window.MACRO = {
             {
               "ticker": "HON",
               "name": "Honeywell International Inc.",
-              "mktcap": 146172379136,
-              "fwdpe": 20.2,
-              "pbr": 10.76,
+              "mktcap": 145417060352,
+              "fwdpe": 20.0,
+              "pbr": 10.7,
               "rets": {
-                "w1": 6.9,
-                "m1": 8.2,
-                "m3": 0.2,
-                "ytd": 19.5
+                "w1": 6.4,
+                "m1": 7.6,
+                "m3": -0.3,
+                "ytd": 18.9
               },
               "rev30": -0.032308335550568223,
               "note": "자동화·항공"
@@ -20098,12 +20098,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 18.6%(악재)",
-    "valuation": "[부담 우위] S&P500 12M Fwd PER 21.2배(강한 악재)·KOSPI 12M Fwd PER 6.7배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.42%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1508.6원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 121.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -20.2조원(악재)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 15.9(호재)·S&P500 12M 모멘텀 21.7%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 20.4%(강한 악재)",
+    "valuation": "[부담 우위] S&P500 12M Fwd PER 21.1배(강한 악재)·KOSPI 12M Fwd PER 6.7배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.43%(중립)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1508.5원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 121.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -20.2조원(악재)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 16.2(중립)·S&P500 12M 모멘텀 21.7%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.1%(유지)",
-    "overall": "종합 레짐 점수 +16. 매크로 -1, 밸류 -13, 수급 +21, 센티 +21, 기업이익 +45."
+    "overall": "종합 레짐 점수 +15. 매크로 -2, 밸류 -13, 수급 +21, 센티 +21, 기업이익 +45."
   },
   "outlook": {
     "short": {
