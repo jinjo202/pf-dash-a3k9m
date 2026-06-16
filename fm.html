@@ -1057,11 +1057,17 @@ function updateModeUI(){
   var note = '', status = '';
   if (mode==='sub'){
     if (backendHealth && backendHealth.claude){
-      status = '<span class="ok">✓ Claude 요금제 연결됨 — 구독 차감</span>';
-      note = '로컬 Claude Code(구독 인증)로 호출 → 토큰은 API가 아니라 구독에서 차감됩니다.';
       var risky = (backendHealth.risky_env||[]);
-      if (risky.length) note += ' 🛡 청구관련 환경변수 '+risky.length+'개('+risky.join(', ')+') 감지 → 서버가 호출 시 제거해 API/클라우드 청구를 차단합니다.';
-      if (backendHealth.api_key_helper) note += ' ⚠ settings의 apiKeyHelper 감지 — `--bare`로 무시하지만, 확실히 하려면 제거를 권장합니다.';
+      var quota = (backendHealth.daily_max!=null) ? (' · 하루상한 '+(backendHealth.daily_used||0)+'/'+backendHealth.daily_max+'회') : '';
+      if (backendHealth.blocked){
+        status = '<span style="color:var(--neg);font-weight:700">🛑 과금 안전장치로 차단됨</span>';
+        note = 'strict 가드: 유료 청구 가능 환경변수('+risky.join(', ')+')가 감지되어 채팅을 거부합니다(과금 0). 해당 변수를 해제하고 serve.py를 재실행하세요.';
+      } else {
+        status = '<span class="ok">✓ Claude 요금제 연결됨 — 구독 차감</span>';
+        note = '로컬 Claude Code(구독 인증)로 호출 → 토큰은 API가 아니라 구독에서 차감됩니다. 🛡 가드='+(backendHealth.guard||'strict')+quota+' (유료 청구 경로 차단·하루 호출 상한).';
+        if (risky.length) note += ' 청구관련 env '+risky.length+'개 감지 → 호출 시 자동 제거.';
+        if (backendHealth.api_key_helper) note += ' ⚠ settings의 apiKeyHelper 감지 — `--bare`로 무시.';
+      }
     } else if (backendHealth && !backendHealth.claude){
       status = '<span style="color:var(--warn-fg)">⚠ Claude Code 미발견</span>';
       note = '로컬 서버는 실행 중이나 `claude` CLI를 찾지 못했습니다. Claude Code 설치 후 로그인하거나, API 키 모드로 전환하세요. (CLAUDE_BIN 환경변수로 경로 지정 가능)';

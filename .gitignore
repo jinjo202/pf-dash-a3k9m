@@ -14,6 +14,7 @@ state.json
 
 # 로컬 환경 생성물
 phone_qr.png
+.fm_chat_usage.json
 *.log
 __pycache__/
 *.pyc

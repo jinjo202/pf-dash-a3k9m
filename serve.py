@@ -53,6 +53,47 @@ BILLING_ENV_STRIP = [
 ]
 
 
+# ▶ 과금 backstop 설정 (환경변수로 조정 가능)
+#   FM_BILLING_GUARD: "strict"(기본) = 유료 청구 env가 하나라도 있으면 채팅 거부 / "strip" = 제거만 하고 진행
+#   FM_CHAT_DAILY_MAX: 하루 채팅 호출 상한(폭주·예기치 못한 사용 차단). 기본 200.
+GUARD_MODE = os.environ.get("FM_BILLING_GUARD", "strict").lower()
+try:
+    DAILY_MAX = max(1, int(os.environ.get("FM_CHAT_DAILY_MAX", "200")))
+except ValueError:
+    DAILY_MAX = 200
+# strict 모드에서 '하나라도 있으면 거부'할 진짜 유료 청구 활성화 변수
+HARD_REFUSE_ENV = [
+    "ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_BASE_URL",
+    "CLAUDE_CODE_USE_BEDROCK", "CLAUDE_CODE_USE_VERTEX", "CLAUDE_CODE_USE_FOUNDRY",
+]
+USAGE_FILE = HERE / ".fm_chat_usage.json"
+
+
+def _today() -> str:
+    import datetime as _dt
+    return _dt.date.today().isoformat()
+
+
+def usage_state() -> dict:
+    try:
+        d = json.loads(USAGE_FILE.read_text(encoding="utf-8"))
+        if d.get("date") == _today():
+            return {"date": d["date"], "count": int(d.get("count", 0))}
+    except Exception:
+        pass
+    return {"date": _today(), "count": 0}
+
+
+def usage_bump() -> int:
+    s = usage_state()
+    s["count"] += 1
+    try:
+        USAGE_FILE.write_text(json.dumps(s), encoding="utf-8")
+    except Exception:
+        pass
+    return s["count"]
+
+
 def settings_has_api_key_helper() -> bool:
     """전역/프로젝트 settings.json에 apiKeyHelper(설정 기반 API 키)가 있는지 — 있으면 구독보다 우선해 API 청구 위험.
     (--bare 로 settings를 무시하지만, 사용자에게 경고를 노출하기 위해 점검)."""
@@ -150,6 +191,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             "risky_env": risky,
             "api_key_helper": settings_has_api_key_helper(),
             "oauth_token": bool(os.environ.get("CLAUDE_CODE_OAUTH_TOKEN")),
+            # 과금 backstop 상태
+            "guard": GUARD_MODE,
+            "daily_max": DAILY_MAX,
+            "daily_used": usage_state()["count"],
+            # strict 모드인데 유료 env가 있으면 채팅이 거부됨(=과금 불가)
+            "blocked": (GUARD_MODE == "strict" and bool(risky)),
         }).encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -184,6 +231,30 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     "설치 후 `claude` 로 로그인하거나, 우측 상단에서 'API 키' 모드로 전환하세요.\n"
                     "(설치되어 있다면 CLAUDE_BIN 환경변수로 경로를 지정할 수 있습니다.)")
             return
+
+        # ── Backstop 1: strict 모드 — 유료 청구 env가 하나라도 있으면 아예 실행 거부(과금 원천 차단) ──
+        present = [k for k in HARD_REFUSE_ENV if os.environ.get(k)]
+        if GUARD_MODE == "strict" and present:
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.end_headers()
+            self._w("🛑 과금 안전장치(strict)로 채팅을 거부했습니다.\n"
+                    "유료 청구 가능 환경변수가 감지됨: " + ", ".join(present) + "\n"
+                    "이 터미널에서 해당 변수를 해제(예: PowerShell `Remove-Item Env:ANTHROPIC_API_KEY`) 후 "
+                    "serve.py를 다시 실행하세요.\n"
+                    "구독으로만 청구되는 게 확실하면 FM_BILLING_GUARD=strip 으로 우회할 수 있습니다(권장하지 않음).")
+            return
+
+        # ── Backstop 2: 하루 호출 상한(폭주·예기치 못한 사용 차단) ──
+        used = usage_state()["count"]
+        if used >= DAILY_MAX:
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.end_headers()
+            self._w("🛑 오늘 채팅 한도(%d회)에 도달했습니다. 폭주/예상치 못한 사용을 막기 위한 상한입니다.\n"
+                    "내일 자동 초기화되며, 상한을 바꾸려면 FM_CHAT_DAILY_MAX 환경변수로 조정하세요." % DAILY_MAX)
+            return
+        usage_bump()
 
         # 대화 → 단일 프롬프트(stdin). 컨텍스트는 길어서 stdin으로(시스템/인자 길이 제한 회피).
         convo = []
@@ -326,9 +397,14 @@ def main():
     else:
         print("  QR:    (선택) pip install qrcode pillow")
     if claude:
-        api = " (⚠ ANTHROPIC_API_KEY 감지 — 서브프로세스에선 제거해 구독으로 청구)" \
-              if os.environ.get("ANTHROPIC_API_KEY") else ""
-        print(f"  펀드매니저 채팅: 구독 차감 가능 (claude={claude}){api}")
+        present = [k for k in HARD_REFUSE_ENV if os.environ.get(k)]
+        print(f"  펀드매니저 채팅: 구독 차감 가능 (claude={claude})")
+        print(f"  과금 backstop: guard={GUARD_MODE} · 하루상한={DAILY_MAX}회 · 오늘 {usage_state()['count']}회")
+        if present:
+            if GUARD_MODE == "strict":
+                print(f"    🛑 유료청구 env 감지 {present} → strict로 채팅 거부됨(과금 불가). 해제 후 재실행하세요.")
+            else:
+                print(f"    ⚠ 유료청구 env 감지 {present} → strip로 제거 후 진행(구독 청구).")
     else:
         print("  펀드매니저 채팅: Claude Code 미발견 → API 키 모드로 폴백")
     print("\n  Ctrl+C 로 종료\n")
