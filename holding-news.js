@@ -1,18 +1,18 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-16T17:06:13
+// 갱신: 2026-06-16T18:45:56
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
-  {
-   "title": "[AI MY 증시전망] \"유가 급락·반도체 강세에 코스피 추가 상승 기대\" - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBvcXlWOG1ocjRzbU9TWkVITEdRNl9iZ0xXdDZla1ZYZXBJcGJIX3RDYy1obVVxQ3FucDhVN18xdlBDVklCbllBMmJzMXNaLU1EdHBzTG12WXhWbUJD?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-06-15"
-  },
   {
    "title": "이번주 코스피 운명은…18일에 긴장해야 하는 이유 [이번주 증시 전망] - 서울경제",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE50dFVVNU9Mc24xdmZzQzVZT0dPcTVxbWhUcW9MMzZGUUZDdjNVY2tXci04RURSWE5TR01GQTJUaHhJV1UyVFFUc0VwVnVVN1dtYnfSAVNBVV95cUxPQ0N2OUtuV2RhQ2Q1bVlOVGdDTVZ3NkVPc3hkbF9SYlAtMGVKeGNuZkJHVEkwNF85cm9ZTWNGY3R2aG5LaHRtcC1aMVZVcjlMcDJQOA?oc=5",
    "source": "서울경제",
    "date": "2026-06-14"
+  },
+  {
+   "title": "[AI MY 증시전망] \"유가 급락·반도체 강세에 코스피 추가 상승 기대\" - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBvcXlWOG1ocjRzbU9TWkVITEdRNl9iZ0xXdDZla1ZYZXBJcGJIX3RDYy1obVVxQ3FucDhVN18xdlBDVklCbllBMmJzMXNaLU1EdHBzTG12WXhWbUJD?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-06-15"
   },
   {
    "title": "8000선 회복한 코스피…“상승 탄력 vs 추가 조정”[주간증시전망] - 이데일리",
@@ -93,16 +93,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-13"
   },
   {
-   "title": "ASCO·기술수출·정책 훈풍…바닥찍은 K-바이오 반등 시동 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPaVg4cTlZNXM0RkU3LVI3ZHFyY0pha0c0V2lJQ0txT3o3QzhURVhRTVpPWDZOMkNlSnF6YXAxcUh3OFVQSkhvZmNwYy1VVkt6dGZQc01vR25oeFVCQ3VYUnQ4RlVjalIzZGVlWXhlZjNsd2dGRW02U0JXVVFISnZsTDYtWC1pRknSAZsBQVVfeXFMTk1XLTl6WGlpSGNhb0taTHVMZlVINTVTbEJYUGlzbTBfdWdrbWFFOG9aTTFzMUZ1TWpZRjdaV1kzaHhacWtRV3ZsSlUxY0tIZzNzNmlnbzI1QzhMSTAzeC05SnhIUV9INDlobnNEN1VVSFF1RmduczlwNktxbnZPVEFwVmdNbWZoUGVZQU5nS25aYldDS05jNFlwYUU?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-05-22"
+   "title": "악재엔 동반 하락…코스피 7000시대 소외된 제약바이오주 - 데일리팜",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBPMmM5TURxVTVXNFBjOGR4aFlWZzV0Qzc5ZmNOdkh0TEYyVkdWVWwwWFg5cE1vR1ZMSkc2QW9DWDhiTGl0RWR4SndoSjBMUzFiM0FnVUJn?oc=5",
+   "source": "데일리팜",
+   "date": "2026-05-07"
   },
   {
-   "title": "[반도체로 쏠린 코스피] ⑤ 제약·바이오 수난시대...최우선 선호주는 - 오피니언뉴스",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5Takt1dVZvTFkxc2ZjbUxXNEhCaUV6bE5YV3l0ZDNtZlJJRkUyMGtwWFlRUGNCRzVKN2pyTkZBSV9kSlZGdmxic0hPVkZvSDBxVUkwa2otdHVoUllQZTl4QU5XZjVxVXZPMncybUFWd3l1UQ?oc=5",
-   "source": "오피니언뉴스",
-   "date": "2026-06-04"
+   "title": "\"코스닥 제약지수 3월比 41% 급락...가장 가파른 가격조정\" - 메디파나뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5wTDlHQ0pYX0lkWmE2NjBzM2xPLWs1V1NjRGlwQTdsY0RtYVc1WW5kSi1RNS1heGlFQ2NQcndla1lJX1d3MXdHLUZNYXJNVnJVNUp5VXQ1bGJMUjM3WGx4MUsydktUbEFQTTlv?oc=5",
+   "source": "메디파나뉴스",
+   "date": "2026-06-09"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -419,10 +419,10 @@ window.HOLDING_NEWS = {
  ],
  "KODEX S&P500(H)": [
   {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
-   "source": "YTN",
-   "date": "2026-06-07"
+   "title": "다우존스, 나스닥, S&P 500 주간 전망: 월가, 워시의 Fed 데뷔에 주목 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0zYlhRRUw3MGFDTmlCUkM4eWxhaTExNkpXbTVYa19zeE1ja211QmRDbWI5NklzQ3k5ZDBFWWJpSjZGZDBuNjFlUmJLcW5HQ0NFVFh4aHB4TEd5YldxQ3NTaWhybXgyY2syeG9kbGpOcEw?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2026-06-15"
   },
   {
    "title": "[뉴욕증시-주간전망] 트럼프 '최종 결단'은 매도 버튼일까…비농업 고용도 주시 - 연합뉴스",
@@ -431,16 +431,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-31"
   },
   {
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
+   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
+   "source": "YTN",
+   "date": "2026-06-07"
+  },
+  {
    "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53TEFmRmwwWmUxZUJlZlBka0N4b0dXclJzSVhlcUdhb1dENzFXTUlldzdIYThtMEJJZ21zZkRXWUlzTDY2YzQ3SFdPSjBnOFpmUVN1bGhDV2ZzTHV5WkxUWVRxYkhZdkVEU0c3bG93eVg?oc=5",
    "source": "연합인포맥스",
    "date": "2025-12-12"
-  },
-  {
-   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
-   "source": "뉴닉",
-   "date": "2026-05-11"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
