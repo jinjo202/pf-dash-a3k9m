@@ -327,7 +327,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-16T20:22:55Z",
+  "generated": "2026-06-16T21:01:25Z",
   "regime": {
     "score": 15,
     "label": "비중확대 우위",
@@ -335,12 +335,12 @@ window.MACRO = {
     "pillars": {
       "macro": {
         "name": "매크로",
-        "score": -2,
+        "score": -1,
         "n": 12
       },
       "valuation": {
         "name": "밸류에이션",
-        "score": -13,
+        "score": -12,
         "n": 6
       },
       "flows": {
@@ -350,7 +350,7 @@ window.MACRO = {
       },
       "sentiment": {
         "name": "센티먼트",
-        "score": 21,
+        "score": 20,
         "n": 6
       },
       "earnings": {
@@ -598,7 +598,7 @@ window.MACRO = {
       "pe": 21.1,
       "fair_pe": 19.0,
       "components": {
-        "val": -38,
+        "val": -37,
         "earn": 40,
         "fx": 0,
         "mon": -10,
@@ -631,7 +631,7 @@ window.MACRO = {
         "m3": 42,
         "m12": 55
       },
-      "fx_val": 1509.09,
+      "fx_val": 1509.32,
       "fx_chg": -1.3,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -675,7 +675,7 @@ window.MACRO = {
         "m3": 2,
         "m12": 4
       },
-      "fx_val": 160.45,
+      "fx_val": 160.43,
       "fx_chg": -1.6,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -6744,7 +6744,7 @@ window.MACRO = {
       "unit": "배",
       "z": null,
       "pct": null,
-      "score": -0.79,
+      "score": -0.78,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
@@ -7448,10 +7448,10 @@ window.MACRO = {
     "spx_mom": {
       "name": "S&P500 12M 모멘텀",
       "pillar": "sentiment",
-      "current": 21.7,
+      "current": 21.1,
       "unit": "%",
-      "z": 0.84,
-      "pct": 84.0,
+      "z": 0.8,
+      "pct": 83.3,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
@@ -8072,7 +8072,7 @@ window.MACRO = {
           16.3345,
           29.4475,
           28.2215,
-          21.7462
+          21.0542
         ]
       },
       "z_from": "2001-01",
@@ -8435,7 +8435,7 @@ window.MACRO = {
       "score": 0.25,
       "signal": "호재",
       "signal_cls": "pos",
-      "desc": "Fwd PER 21.15 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
+      "desc": "Fwd PER 21.1 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
       "as_of": "2026-06-16",
       "history": null,
       "source": {
@@ -13865,11 +13865,11 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1508.5,
+      "current": 1509.1,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
-      "score": -0.53,
+      "score": -0.54,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "원화 약세는 위험회피·외인 유출",
@@ -13917,11 +13917,11 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 16.2,
+      "current": 16.4,
       "unit": "",
       "z": 0.11,
       "pct": 84.6,
-      "score": 0.18,
+      "score": 0.16,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "공포 게이지. 낮을수록 안정",
@@ -14629,12 +14629,12 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 20.4,
+      "current": 19.8,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.51,
-      "signal": "강한 악재",
+      "score": -0.49,
+      "signal": "악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
       "as_of": "2026-06-16",
@@ -16564,9 +16564,9 @@ window.MACRO = {
         6528.52,
         7209.0098,
         7580.0601,
-        7554.29
+        7511.3501
       ],
-      "current": 7554.29
+      "current": 7511.35
     },
     "kospi": {
       "name": "KOSPI",
@@ -17786,9 +17786,9 @@ window.MACRO = {
             {
               "ticker": "ORCL",
               "name": "Oracle Corporation",
-              "mktcap": 541775167488,
+              "mktcap": 541645766656,
               "fwdpe": 17.3,
-              "pbr": 16.15,
+              "pbr": 16.14,
               "rets": {
                 "w1": -8.5,
                 "m1": -2.4,
@@ -17900,14 +17900,14 @@ window.MACRO = {
             {
               "ticker": "DIS",
               "name": "Walt Disney Company (The)",
-              "mktcap": 175960719360,
+              "mktcap": 175873884160,
               "fwdpe": 13.5,
               "pbr": 1.63,
               "rets": {
                 "w1": 2.0,
                 "m1": -1.4,
                 "m3": 1.0,
-                "ytd": -10.9
+                "ytd": -11.0
               },
               "rev30": 0.4843900774318177,
               "note": "스트리밍 흑자 전환"
@@ -17999,7 +17999,7 @@ window.MACRO = {
             {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
-              "mktcap": 260284416000,
+              "mktcap": 260269113344,
               "fwdpe": 10.8,
               "pbr": 1.6,
               "rets": {
@@ -18038,14 +18038,14 @@ window.MACRO = {
             {
               "ticker": "LLY",
               "name": "Eli Lilly and Company",
-              "mktcap": 1001523642368,
+              "mktcap": 1000979693568,
               "fwdpe": 25.2,
-              "pbr": 32.17,
+              "pbr": 32.15,
               "rets": {
                 "w1": -1.9,
-                "m1": 11.8,
+                "m1": 11.7,
                 "m3": 20.9,
-                "ytd": 4.9
+                "ytd": 4.8
               },
               "rev30": 0.05651057037818763,
               "note": "GLP-1 비만치료 선두"
@@ -18068,12 +18068,12 @@ window.MACRO = {
             {
               "ticker": "ABBV",
               "name": "AbbVie Inc.",
-              "mktcap": 393111404544,
+              "mktcap": 393058418688,
               "fwdpe": 13.7,
               "pbr": null,
               "rets": {
                 "w1": -1.3,
-                "m1": 5.8,
+                "m1": 5.7,
                 "m3": 2.1,
                 "ytd": -1.0
               },
@@ -18236,7 +18236,7 @@ window.MACRO = {
             {
               "ticker": "XOM",
               "name": "Exxon Mobil Corporation",
-              "mktcap": 588043649024,
+              "mktcap": 588002230272,
               "fwdpe": 13.3,
               "pbr": 2.29,
               "rets": {
@@ -18251,14 +18251,14 @@ window.MACRO = {
             {
               "ticker": "CVX",
               "name": "Chevron Corporation",
-              "mktcap": 358786301952,
+              "mktcap": 358706675712,
               "fwdpe": 14.3,
               "pbr": 1.94,
               "rets": {
-                "w1": -3.5,
+                "w1": -3.6,
                 "m1": -4.9,
                 "m3": -8.2,
-                "ytd": 20.5
+                "ytd": 20.4
               },
               "rev30": 7.2928793063000485,
               "note": "배당·가이아나"
@@ -20098,12 +20098,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 20.4%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 19.8%(악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 21.1배(강한 악재)·KOSPI 12M Fwd PER 6.7배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.43%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1508.5원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 121.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -20.2조원(악재)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 16.2(중립)·S&P500 12M 모멘텀 21.7%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1509.1원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 121.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -20.2조원(악재)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 16.4(중립)·S&P500 12M 모멘텀 21.1%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.1%(유지)",
-    "overall": "종합 레짐 점수 +15. 매크로 -2, 밸류 -13, 수급 +21, 센티 +21, 기업이익 +45."
+    "overall": "종합 레짐 점수 +15. 매크로 -1, 밸류 -12, 수급 +21, 센티 +20, 기업이익 +45."
   },
   "outlook": {
     "short": {
