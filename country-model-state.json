@@ -3,7 +3,7 @@
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.039,
+   "score": 1.038,
    "factors": {
     "value": 1.74,
     "momentum": 1.92,
@@ -14,10 +14,10 @@
   },
   "이머징": {
    "pref": "중립",
-   "score": -0.098,
+   "score": -0.097,
    "factors": {
     "value": 0.44,
-    "momentum": -0.4,
+    "momentum": -0.39,
     "earnings": -1.83,
     "macro": 0.98,
     "currency": 0.6
@@ -25,7 +25,7 @@
   },
   "미국": {
    "pref": "중립",
-   "score": -0.246,
+   "score": -0.245,
    "factors": {
     "value": -1.03,
     "momentum": -0.66,
@@ -35,11 +35,11 @@
    }
   },
   "유럽": {
-   "pref": "중립",
-   "score": -0.246,
+   "pref": "축소",
+   "score": -0.25,
    "factors": {
     "value": -0.68,
-    "momentum": -0.85,
+    "momentum": -0.86,
     "earnings": -0.23,
     "macro": 0.98,
     "currency": -0.12
@@ -47,10 +47,10 @@
   },
   "일본": {
    "pref": "축소",
-   "score": -0.449,
+   "score": -0.447,
    "factors": {
     "value": -0.47,
-    "momentum": -0.01,
+    "momentum": -0.0,
     "earnings": 0.91,
     "macro": -1.66,
     "currency": -1.79
@@ -67,8 +67,16 @@
      "from_pref": "축소",
      "to_pref": "중립",
      "flipped": true,
-     "d_score": 0.01,
+     "d_score": 0.02,
      "driver": "밸류 z-1.1→-1.0"
+    },
+    {
+     "country": "유럽",
+     "from_pref": "중립",
+     "to_pref": "축소",
+     "flipped": true,
+     "d_score": -0.01,
+     "driver": "밸류 z-0.7→-0.7"
     }
    ]
   },
