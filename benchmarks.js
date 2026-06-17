@@ -3836,16 +3836,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 635.77,
+      "current": 637.77,
       "baseline": 592.78,
       "mtd_baseline": 626.0,
-      "ytd_pct": 7.2523,
-      "mtd_pct": 1.5607,
-      "daily_pct": -0.0362,
+      "ytd_pct": 7.5897,
+      "mtd_pct": 1.8802,
+      "daily_pct": 0.2783,
       "as_of": "2026-06-17",
       "decimals": 2,
       "valuation": {
-        "pe": 15.37,
+        "pe": 15.46,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4375,7 +4375,7 @@ window.BENCHMARKS = {
           633.21,
           634.44,
           636.0,
-          635.77
+          637.77
         ]
       }
     },
@@ -4939,7 +4939,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-17",
       "decimals": 2,
       "valuation": {
-        "pe": 11.29,
+        "pe": 11.3,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5477,12 +5477,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1511.58,
+      "current": 1515.5699,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 5.1234,
-      "mtd_pct": 1.0894,
-      "daily_pct": -0.1143,
+      "ytd_pct": 5.4009,
+      "mtd_pct": 1.3563,
+      "daily_pct": 0.1493,
       "as_of": "2026-06-17",
       "decimals": 2,
       "valuation": {
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1517.38,
           1509.5,
           1513.3101,
-          1511.58
+          1515.5699
         ]
       }
     },
@@ -6024,13 +6024,13 @@ window.BENCHMARKS = {
       "name": "US 10Y",
       "ticker": "^TNX",
       "category": "금리",
-      "current": 4.487,
+      "current": 4.439,
       "baseline": 4.163,
       "mtd_baseline": 4.453,
-      "ytd_pct": 7.7828,
-      "mtd_pct": 0.7635,
-      "daily_pct": 0.5378,
-      "as_of": "2026-06-12",
+      "ytd_pct": 6.6298,
+      "mtd_pct": -0.3144,
+      "daily_pct": -1.0698,
+      "as_of": "2026-06-17",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -6042,7 +6042,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-06-02",
           "2025-06-03",
           "2025-06-04",
           "2025-06-05",
@@ -6301,10 +6300,10 @@ window.BENCHMARKS = {
           "2026-06-09",
           "2026-06-10",
           "2026-06-11",
-          "2026-06-12"
+          "2026-06-12",
+          "2026-06-17"
         ],
         "values": [
-          4.462,
           4.46,
           4.365,
           4.394,
@@ -6563,7 +6562,8 @@ window.BENCHMARKS = {
           4.528,
           4.542,
           4.463,
-          4.487
+          4.487,
+          4.439
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 74.33,
+      "current": 75.99,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 29.4497,
-      "mtd_pct": -14.9153,
-      "daily_pct": -2.2617,
+      "ytd_pct": 32.3406,
+      "mtd_pct": -13.0151,
+      "daily_pct": -0.0789,
       "as_of": "2026-06-17",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           84.88,
           80.75,
           76.05,
-          74.33
+          75.99
         ]
       }
     },
@@ -7118,13 +7118,13 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 16.41,
+      "current": 16.35,
       "baseline": 14.95,
       "mtd_baseline": 15.32,
-      "ytd_pct": 9.7659,
-      "mtd_pct": 7.1149,
-      "daily_pct": 1.2963,
-      "as_of": "2026-06-16",
+      "ytd_pct": 9.3646,
+      "mtd_pct": 6.7232,
+      "daily_pct": -0.3656,
+      "as_of": "2026-06-17",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -7136,7 +7136,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-06-05",
           "2025-06-06",
           "2025-06-09",
           "2025-06-10",
@@ -7395,10 +7394,10 @@ window.BENCHMARKS = {
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
-          "2026-06-16"
+          "2026-06-16",
+          "2026-06-17"
         ],
         "values": [
-          18.48,
           16.77,
           17.16,
           16.95,
@@ -7657,7 +7656,8 @@ window.BENCHMARKS = {
           19.44,
           17.68,
           16.2,
-          16.41
+          16.41,
+          16.35
         ]
       }
     },
