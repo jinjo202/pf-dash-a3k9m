@@ -293,6 +293,23 @@
   .bf-asof + .bf-word-btn, .bf-date-sel + .bf-word-btn { margin-left:8px; }
   .bf-word-btn:hover { filter:brightness(1.08); }
   .bf-word-btn:active { filter:brightness(.95); }
+  /* ── 섹터별 주요 종목 보드 ── */
+  .secstock-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:14px; }
+  .secstock-card { border:1px solid var(--border); border-radius:12px; padding:12px 14px;
+    background:var(--panel); }
+  .secstock-head { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .ss-name { font-weight:800; font-size:14px; color:var(--text); }
+  .ss-chip { font-size:12px; font-weight:700; padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .secstock-sub { font-size:10.5px; color:var(--muted); margin:2px 0 8px; }
+  .secstock-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+  .secstock-tbl th { font-size:9.5px; color:var(--muted); font-weight:600; text-align:right;
+    padding:2px 4px 4px; border-bottom:1px solid var(--border); }
+  .secstock-tbl th:first-child { text-align:left; }
+  .secstock-tbl td { padding:5px 4px; border-bottom:1px solid var(--panel-soft); }
+  .secstock-tbl tr:last-child td { border-bottom:none; }
+  .ss-stk { font-weight:600; color:var(--text-soft); }
+  .ss-mc { font-size:9.5px; color:var(--muted); margin-left:6px; font-weight:500; }
+  .ss-mom { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
   .bf-mail-btn {
     font-size:12px; font-weight:700; color:#fff; background:#16a34a;
     border:1px solid #16a34a; border-radius:7px; padding:4px 10px; cursor:pointer;
@@ -1497,6 +1514,47 @@ function makeSpark(data, opts) {
       html += '<div class="empty-note">데이터 없음</div>';
     }
 
+    // 섹터별 주요 종목 (각 GICS 섹터의 대표 종목 일간·MTD·YTD)
+    html += renderSectorStockBoard(r.sectors);
+
+    return html;
+  }
+
+  /* ── 섹터별 주요 종목 보드 ── */
+  function renderSectorStockBoard(sectors) {
+    var arr = (sectors || []).filter(function(s){ return s.holdings && s.holdings.length; });
+    if (!arr.length) return '';
+    // 오늘 등락이 큰 섹터 먼저
+    arr = arr.slice().sort(function(a, b){ return Math.abs(b.chgPct || 0) - Math.abs(a.chgPct || 0); });
+    var html = '<div class="section-label" style="margin:24px 0 4px">🏭 섹터별 주요 종목</div>';
+    html += '<div class="panel-hint" style="margin-bottom:12px">GICS 섹터별 대표 종목의 일간·월초(MTD)·연초(YTD) 등락 · 섹터 등락 큰 순</div>';
+    html += '<div class="secstock-grid">';
+    arr.forEach(function(s) {
+      var top = (s.holdings || []).slice(0, 6);
+      html += '<div class="secstock-card">';
+      html += '<div class="secstock-head">' +
+        '<span class="ss-name">' + escHtml(s.name) + '</span>' +
+        '<span class="ss-chip ' + chipClass(s.chgPct) + '">' + arrowFor(s.chgPct) + fmtPct(s.chgPct) + '</span>' +
+        '</div>';
+      var perf = [];
+      if (s.mtdPct != null) perf.push('MTD ' + (s.mtdPct > 0 ? '+' : '') + fmt(s.mtdPct, 1) + '%');
+      if (s.ytdPct != null) perf.push('YTD ' + (s.ytdPct > 0 ? '+' : '') + fmt(s.ytdPct, 1) + '%');
+      if (s.etf) perf.push(s.etf);
+      if (perf.length) html += '<div class="secstock-sub">' + perf.join(' · ') + '</div>';
+      html += '<table class="secstock-tbl"><thead><tr>' +
+        '<th>종목</th><th>일간</th><th>MTD</th><th>YTD</th></tr></thead><tbody>';
+      top.forEach(function(h) {
+        html += '<tr>' +
+          '<td class="ss-stk">' + escHtml(stockLabel(h.name, h.ticker)) +
+            (h.mktcap ? '<span class="ss-mc">' + fmtMktcapUsd(h.mktcap) + '</span>' : '') + '</td>' +
+          '<td class="ss-mom ' + colorClass(h.daily) + '">' + fmtPct(h.daily) + '</td>' +
+          '<td class="ss-mom ' + colorClass(h.mtd) + '">' + fmtPct(h.mtd) + '</td>' +
+          '<td class="ss-mom ' + colorClass(h.ytd) + '">' + fmtPct(h.ytd) + '</td>' +
+        '</tr>';
+      });
+      html += '</tbody></table></div>';
+    });
+    html += '</div>';
     return html;
   }
 
