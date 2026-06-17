@@ -599,6 +599,9 @@ def build(target, bench, macro, kr, pdata, daily, sentiment, template):
             _set(ws, "K%d" % row, round(sec[label], 4))
 
     # ── □ 지역배분 + □ 종합의견 ─ 하단에 덧붙임 ──
+    # 직전 산출물을 템플릿으로 쓰므로, 지난주에 append 된 지역배분/종합의견/센티먼트
+    # 블록이 남아 있다. 새로 쓰기 전에 제거해 중복(이중 표기)을 방지. (weights/pnl 행은 위쪽이라 보존)
+    _clear_appended_blocks(ws)
     regional = build_regional(enrich, bench)
     next_row = add_regional_block(ws, regional, _last_content_row(ws) + 2)
     add_conclusion_block(ws, conclusion, start_row=next_row + 1)
@@ -711,6 +714,31 @@ def _tint_font(cell, rgb):
     f = _copy(cell.font)
     cell.font = Font(name=f.name, size=f.size, bold=f.bold, italic=f.italic,
                      underline=f.underline, color=rgb)
+
+
+_APPENDED_HEADERS = ("□ 지역배분", "□ 종합의견", "□ 시장 센티먼트")
+
+
+def _clear_appended_blocks(ws, scan_from=46, scan_to=170):
+    """직전 산출물(템플릿)에 누적된 지역배분/종합의견/센티먼트 블록 제거.
+    이 블록들은 매 회 시트 하단에 append 되므로, 새로 쓰기 전 옛 것을 지워 중복 방지.
+    scan_from=46 → weights/pnl(≤45)·향후계획 등 고정영역은 건드리지 않음."""
+    start = None
+    for r in range(scan_from, scan_to):
+        b = ws["B%d" % r].value
+        if b and any(str(b).strip().startswith(h) for h in _APPENDED_HEADERS):
+            start = r
+            break
+    if start is None:
+        return
+    for rng in list(ws.merged_cells.ranges):
+        if rng.min_row >= start:
+            ws.unmerge_cells(str(rng))
+    for r in range(start, scan_to):
+        for c in range(1, 17):
+            ws.cell(row=r, column=c).value = None
+        if r in ws.row_dimensions:
+            ws.row_dimensions[r].height = None
 
 
 def _last_content_row(ws, max_row=80):
