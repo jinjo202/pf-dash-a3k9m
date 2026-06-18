@@ -63,20 +63,26 @@
    "trigger": "이벤트(팩터 변화)",
    "items": [
     {
-     "country": "미국",
-     "from_pref": "축소",
-     "to_pref": "중립",
-     "flipped": true,
-     "d_score": 0.02,
-     "driver": "밸류 z-1.1→-1.0"
-    },
-    {
      "country": "유럽",
      "from_pref": "중립",
      "to_pref": "축소",
      "flipped": true,
-     "d_score": -0.01,
-     "driver": "밸류 z-0.7→-0.7"
+     "d_score": -0.0,
+     "driver": "모멘텀 z-0.8→-0.9"
+    }
+   ]
+  },
+  {
+   "date": "2026-06-17",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "미국",
+     "from_pref": "축소",
+     "to_pref": "중립",
+     "flipped": true,
+     "d_score": 0.01,
+     "driver": "밸류 z-1.1→-1.0"
     }
    ]
   },
