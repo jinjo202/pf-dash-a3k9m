@@ -1,63 +1,77 @@
 {
- "last_rebalance": "2026-06-17",
+ "last_rebalance": "2026-06-18",
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.038,
+   "score": 1.039,
    "factors": {
-    "value": 1.74,
-    "momentum": 1.92,
-    "earnings": 0.33,
+    "value": 1.73,
+    "momentum": 1.88,
+    "earnings": 0.38,
     "macro": 0.23,
     "currency": 0.12
    }
   },
   "이머징": {
    "pref": "중립",
-   "score": -0.097,
+   "score": -0.093,
    "factors": {
-    "value": 0.44,
-    "momentum": -0.39,
+    "value": 0.46,
+    "momentum": -0.4,
     "earnings": -1.83,
     "macro": 0.98,
     "currency": 0.6
    }
   },
   "미국": {
-   "pref": "중립",
-   "score": -0.245,
+   "pref": "축소",
+   "score": -0.259,
    "factors": {
-    "value": -1.03,
-    "momentum": -0.66,
-    "earnings": 0.82,
+    "value": -1.04,
+    "momentum": -0.69,
+    "earnings": 0.8,
     "macro": -0.53,
     "currency": 1.19
    }
   },
   "유럽": {
    "pref": "축소",
-   "score": -0.25,
+   "score": -0.262,
    "factors": {
-    "value": -0.68,
-    "momentum": -0.86,
-    "earnings": -0.23,
+    "value": -0.69,
+    "momentum": -0.9,
+    "earnings": -0.25,
     "macro": 0.98,
     "currency": -0.12
    }
   },
   "일본": {
    "pref": "축소",
-   "score": -0.447,
+   "score": -0.424,
    "factors": {
     "value": -0.47,
-    "momentum": -0.0,
-    "earnings": 0.91,
+    "momentum": 0.1,
+    "earnings": 0.89,
     "macro": -1.66,
     "currency": -1.79
    }
   }
  },
  "changes": [
+  {
+   "date": "2026-06-18",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "미국",
+     "from_pref": "중립",
+     "to_pref": "축소",
+     "flipped": true,
+     "d_score": -0.01,
+     "driver": "모멘텀 z-0.7→-0.7"
+    }
+   ]
+  },
   {
    "date": "2026-06-17",
    "trigger": "이벤트(팩터 변화)",
