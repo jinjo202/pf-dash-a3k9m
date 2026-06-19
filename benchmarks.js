@@ -3836,12 +3836,12 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 636.27,
+      "current": 635.88,
       "baseline": 592.78,
       "mtd_baseline": 626.0,
-      "ytd_pct": 7.3366,
-      "mtd_pct": 1.6406,
-      "daily_pct": -0.1365,
+      "ytd_pct": 7.2708,
+      "mtd_pct": 1.5783,
+      "daily_pct": -0.1978,
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
@@ -4375,7 +4375,7 @@ window.BENCHMARKS = {
           636.0,
           639.31,
           637.14,
-          636.27
+          635.88
         ]
       }
     },
@@ -5477,12 +5477,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1529.89,
+      "current": 1529.66,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 6.3968,
-      "mtd_pct": 2.3139,
-      "daily_pct": 0.293,
+      "ytd_pct": 6.3808,
+      "mtd_pct": 2.2986,
+      "daily_pct": 0.278,
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1513.3101,
           1510.96,
           1525.42,
-          1529.89
+          1529.66
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 76.04,
+      "current": 76.08,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 32.4277,
-      "mtd_pct": -12.9579,
-      "daily_pct": -0.7311,
+      "ytd_pct": 32.4974,
+      "mtd_pct": -12.9121,
+      "daily_pct": -0.6788,
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           76.05,
           76.79,
           76.6,
-          76.04
+          76.08
         ]
       }
     },
@@ -7118,12 +7118,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 17.17,
+      "current": 17.12,
       "baseline": 14.95,
       "mtd_baseline": 15.32,
-      "ytd_pct": 14.8495,
-      "mtd_pct": 12.0757,
-      "daily_pct": 4.6951,
+      "ytd_pct": 14.5151,
+      "mtd_pct": 11.7494,
+      "daily_pct": 4.3903,
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
@@ -7657,7 +7657,7 @@ window.BENCHMARKS = {
           16.41,
           18.44,
           16.4,
-          17.17
+          17.12
         ]
       }
     },
