@@ -1,95 +1,55 @@
-# pf-dash-a3k9m — Claude 작업 규칙
+# CLAUDE.md — pf-dash-a3k9m
 
-## ⚠️ 모든 작업 시작 전 필수: 최신 main 동기화
+> **전체 지침은 [AGENTS.md](AGENTS.md)가 단일 소스 오브 트루스다.** 작업 시작 전 AGENTS.md를 읽어라.
+> 이 파일은 가장 중요한 안전규칙만 추려 빠르게 상기시키는 용도다.
+> 한국어로 소통한다(사용자 선호: 간결·직설).
 
-이 repo는 GitHub Actions cron이 **하루 8번** (한국장 마감 직후 4번, 미국장 마감 후 4번) 자동으로 데이터를 갱신해서 push해. 어떤 작업이든 시작하기 전에 반드시:
+---
 
-```bash
-git status                          # 1. 깨끗한지 확인
-git fetch origin main               # 2. 원격 상태 가져오기
-git pull --ff-only origin main      # 3. fast-forward로 동기화
-```
+## ⚠️ 이 폴더엔 여러 프로젝트가 섞여 있다
 
-**fast-forward 불가**(로컬에 commit이 있는데 원격이 앞서 있음) 시:
-1. 로컬 변경사항을 `git stash` 로 일시 보관
-2. `git pull --ff-only` 로 동기화
-3. `git stash pop` 으로 복원
-4. 충돌 발생 시 데이터 파일(`portfolio-data.js`, `prices_log.json`, `benchmarks.js`)은 **항상 원격 우선**(`git checkout --theirs <파일>`) — 그 다음 필요하면 스크립트 재실행
+하나의 git repo지만 성격이 다른 작업이 공존한다. 작업 전 지금 파일이 어디 속하는지 분류하라:
 
-자동 데이터 파일을 직접 편집하지 마. 항상 source script(`update_prices.py`, `_apply_real_returns.py`, `fetch_*.py` 등)를 통해서.
+- **P1 포트폴리오·시황 대시보드** (메인, committed, cron 하루 8회) — `portfolio/macro/daily/fm.html` + 데이터 파이프라인
+- **P2 KIND 배당공시 모니터링** (별개, gitignored, PowerShell/SMTP) — `config.json`·`fetch_disclosures.ps1`·`state.json` 등. **P1 작업 중 건드리지 말 것**
+- **P3 로컬 유틸** — `serve.py`·`*.ps1`·`_*.py`
 
-## 파일 구조 요약
+→ 모듈 지도·데이터 흐름·작업 시퀀스 전체는 **AGENTS.md** 참조.
 
-- `portfolio-data.plain.js` — 평문 (gitignored, 로컬 작업용)
-- `portfolio-data.js` — 암호화본 (committed). `encrypt_data.py` 로 평문↔암호 변환
-- `_apply_real_returns.py` — 매매내역/xlsx snapshot 적용. **gitignored**. 거래 추가/수정 시 사용
-- `update_prices.py` — yfinance에서 일일 가격 받아 mkt 갱신
-- `compute_historical.py` — historical YTD 시리즈 생성
-- `fetch_benchmarks.py` — 벤치마크 지수 (KOSPI, S&P, VIX, KR 10Y 등)
-- `.password` — 암호화 키 (gitignored). UTF-8 BOM 없이 저장 (encrypt_data.py가 BOM 자동 제거하지만 안전을 위해)
+---
+
+## 🔴 절대 규칙 (위반 시 데이터 손실)
+
+1. **작업 전 동기화 필수**: `git status` → `git fetch origin main` → `git pull --ff-only origin main`. cron이 하루 8회 push한다.
+   - fast-forward 불가 시: `git stash` → `git pull --ff-only` → `git stash pop`. 데이터 파일 충돌은 **원격 우선**(`git checkout origin/main -- <파일>`).
+2. **절대 금지**:
+   - `git push --force` / `--force-with-lease` (cron 데이터 손실)
+   - 평문 `portfolio-data.plain.js` commit
+   - `.password` commit
+   - 자동 데이터 파일(`portfolio-data.js`, `prices_log.json`, `benchmarks.js`, `macro-data.js`, `daily-data.js`, `kr_*.json` 등) 직접 편집 → **항상 source script 경유**
+3. **commit/push는 사용자가 요청할 때만.** 메시지 끝: `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`
+4. **public repo**: holdings 실내용·평문 데이터 노출 금지. 민감 메모는 `_ref/`(gitignored)에만.
+5. **검증은 Node Web Crypto로** (Python `json.loads`는 NaN을 통과시켜 버그를 숨긴다).
 
 ## 비밀번호
 
-`ssfire`. `.password` 파일 또는 `PORTFOLIO_PASSWORD` env var.
+포트폴리오 게이트 비번은 **`.password` 파일 또는 `PORTFOLIO_PASSWORD` env var에만 보관한다**(소스·문서에 평문 금지 — public repo). 암복호화: `python encrypt_data.py decrypt|encrypt`.
 
-## 표준 작업 sequence (거래 추가/snapshot 갱신 후)
-
-```bash
-# 1. 동기화 (필수)
-git pull --ff-only origin main
-
-# 2. 평문 복호화 (작업 시작 전)
-python encrypt_data.py decrypt
-
-# 3. _apply_real_returns.py 등으로 데이터 수정
-python _apply_real_returns.py
-python update_prices.py
-python compute_historical.py     # historical 시리즈도 필요하면
-
-# 4. 재암호화
-python encrypt_data.py encrypt
-
-# 5. 다시 한번 fast-forward 시도 (긴 작업 동안 cron이 push했을 수 있음)
-git fetch origin main
-git log HEAD..origin/main --oneline | head
-
-# 만약 원격이 앞섰다면:
-# - 우리 변경(portfolio-data.js)을 stash
-# - git pull --ff-only
-# - 재암호화 (왜냐하면 원격의 portfolio-data.js를 기반으로 복호화/재처리 필요)
-# - commit + push
-
-# 6. 정상 case
-git add portfolio-data.js
-git commit -m "..."
-git push
-```
-
-## Push 충돌 처리
-
-원격이 작업 중에 변했고 push 실패 시:
+## 표준 작업 시퀀스 (데이터 변경 시)
 
 ```bash
-git fetch origin main
-git reset --soft origin/main      # 우리 commit 취소, 변경사항은 staged 유지
-git add portfolio-data.js          # 다시 add
-git commit -m "..."                # origin/main 위에 새 commit
-git push
+git fetch origin main && git pull --ff-only origin main   # 1. 동기화
+python encrypt_data.py decrypt                             # 2. 복호화
+#   ... 스크립트로 데이터 수정 (update_prices.py / _apply_real_returns.py / fetch_*.py) ...
+python encrypt_data.py encrypt                             # 3. 재암호화
+git fetch origin main; git log HEAD..origin/main --oneline # 4. cron 경합 재확인 (비어야 안전)
+git add <파일>; git commit -m "..."; git push              # 5. 커밋
 ```
+Push 충돌 시: `git fetch` → `git reset --soft origin/main` → 재 add → 재 commit → push (daily-update.yml과 동일 패턴).
 
-이게 daily-update.yml workflow가 쓰는 패턴과 동일.
+## 📌 핸드오프 인덱스 참고
 
-## ❌ 절대 하지 말 것
+특정 작업의 깊은 맥락(회계 모델, 버그 히스토리, 브리핑/매크로/펀드매니저 세부, 자격증명, 펜딩 작업)이 필요하면 **`_ref/_HANDOFF_INDEX.md`** 를 먼저 읽고 거기서 가리키는 개별 핸드오프 문서로 들어가라. 어떤 상황에 어느 문서를 볼지는 AGENTS.md §7에 정리돼 있다. 핸드오프와 코드가 어긋나면 **코드를 신뢰**하라.
 
-- `git push --force` / `git push --force-with-lease` (cron 데이터 손실 위험)
-- 평문 `portfolio-data.plain.js` commit
-- `.password` 파일 commit (gitignored 확인)
-- 자동 데이터 파일 (`portfolio-data.js`, `prices_log.json`, `benchmarks.js`) 직접 편집
-
-## 자동 워크플로우 (참고)
-
-`.github/workflows/daily-update.yml`:
-- 한국장 마감: 06:37, 06:53, 07:11, 07:29 UTC (= 15:37~16:29 KST)
-- 미국장 마감: 21:41, 22:07, 22:29, 23:47 UTC (= 06:41~08:47 KST 다음날)
-- 동시 실행은 concurrency lock으로 직렬화
-- Push 실패 시 `git reset --soft origin/main` 후 재커밋 패턴으로 5회 재시도
+---
+_세부 사항·모듈 지도·반복 함정·워크플로 전체는 [AGENTS.md](AGENTS.md)에 있다._
