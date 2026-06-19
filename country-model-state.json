@@ -3,55 +3,55 @@
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.019,
+   "score": 1.008,
    "factors": {
     "value": 1.68,
     "momentum": 1.87,
-    "earnings": 0.37,
+    "earnings": 0.31,
     "macro": 0.23,
     "currency": 0.12
    }
   },
   "이머징": {
    "pref": "중립",
-   "score": -0.08,
+   "score": -0.093,
    "factors": {
     "value": 0.52,
     "momentum": -0.38,
-    "earnings": -1.85,
+    "earnings": -1.92,
     "macro": 0.98,
     "currency": 0.6
    }
   },
   "유럽": {
    "pref": "중립",
-   "score": -0.24,
+   "score": -0.194,
    "factors": {
     "value": -0.63,
     "momentum": -0.91,
-    "earnings": -0.19,
+    "earnings": 0.04,
     "macro": 0.98,
     "currency": -0.12
    }
   },
   "미국": {
    "pref": "축소",
-   "score": -0.295,
+   "score": -0.306,
    "factors": {
     "value": -1.15,
     "momentum": -0.71,
-    "earnings": 0.79,
+    "earnings": 0.74,
     "macro": -0.53,
     "currency": 1.19
    }
   },
   "일본": {
    "pref": "축소",
-   "score": -0.403,
+   "score": -0.414,
    "factors": {
     "value": -0.42,
     "momentum": 0.14,
-    "earnings": 0.88,
+    "earnings": 0.82,
     "macro": -1.66,
     "currency": -1.79
    }
@@ -67,8 +67,8 @@
      "from_pref": "축소",
      "to_pref": "중립",
      "flipped": true,
-     "d_score": 0.02,
-     "driver": "이익수정 z-0.2→-0.2"
+     "d_score": 0.06,
+     "driver": "이익수정 z-0.2→+0.0"
     }
    ]
   },
