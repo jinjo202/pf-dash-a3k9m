@@ -3836,16 +3836,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 637.05,
+      "current": 636.53,
       "baseline": 592.78,
       "mtd_baseline": 626.0,
-      "ytd_pct": 7.4682,
-      "mtd_pct": 1.7652,
-      "daily_pct": -0.0141,
+      "ytd_pct": 7.3805,
+      "mtd_pct": 1.6821,
+      "daily_pct": -0.0957,
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
-        "pe": 15.32,
+        "pe": 15.36,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4375,7 +4375,7 @@ window.BENCHMARKS = {
           636.0,
           639.31,
           637.14,
-          637.05
+          636.53
         ]
       }
     },
@@ -5477,12 +5477,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1526.29,
+      "current": 1530.2,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 6.1464,
-      "mtd_pct": 2.0732,
-      "daily_pct": 0.057,
+      "ytd_pct": 6.4183,
+      "mtd_pct": 2.3347,
+      "daily_pct": 0.3134,
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1513.3101,
           1510.96,
           1525.42,
-          1526.29
+          1530.2
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 76.21,
+      "current": 75.8,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 32.7238,
-      "mtd_pct": -12.7633,
-      "daily_pct": -0.5091,
+      "ytd_pct": 32.0098,
+      "mtd_pct": -13.2326,
+      "daily_pct": -1.0444,
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           76.05,
           76.79,
           76.6,
-          76.21
+          75.8
         ]
       }
     },
@@ -7118,13 +7118,13 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 16.4,
+      "current": 17.16,
       "baseline": 14.95,
       "mtd_baseline": 15.32,
-      "ytd_pct": 9.699,
-      "mtd_pct": 7.0496,
-      "daily_pct": -11.0629,
-      "as_of": "2026-06-18",
+      "ytd_pct": 14.7826,
+      "mtd_pct": 12.0104,
+      "daily_pct": 4.6341,
+      "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -7136,7 +7136,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-06-09",
           "2025-06-10",
           "2025-06-11",
           "2025-06-12",
@@ -7395,10 +7394,10 @@ window.BENCHMARKS = {
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
-          "2026-06-18"
+          "2026-06-18",
+          "2026-06-19"
         ],
         "values": [
-          17.16,
           16.95,
           17.26,
           18.02,
@@ -7657,7 +7656,8 @@ window.BENCHMARKS = {
           16.2,
           16.41,
           18.44,
-          16.4
+          16.4,
+          17.16
         ]
       }
     },
