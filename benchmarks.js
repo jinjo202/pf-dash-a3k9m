@@ -1110,7 +1110,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-19",
       "decimals": 0,
       "valuation": {
-        "pe": 7.23,
+        "pe": 7.22,
         "pb": 2.49,
         "roe": null,
         "src": "EWY (top derived)",
@@ -7118,13 +7118,13 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 16.78,
+      "current": 16.4,
       "baseline": 14.95,
       "mtd_baseline": 15.32,
-      "ytd_pct": 12.2408,
-      "mtd_pct": 9.53,
-      "daily_pct": 2.3171,
-      "as_of": "2026-06-19",
+      "ytd_pct": 9.699,
+      "mtd_pct": 7.0496,
+      "daily_pct": -11.0629,
+      "as_of": "2026-06-18",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -7136,6 +7136,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-06-09",
           "2025-06-10",
           "2025-06-11",
           "2025-06-12",
@@ -7394,10 +7395,10 @@ window.BENCHMARKS = {
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
-          "2026-06-18",
-          "2026-06-19"
+          "2026-06-18"
         ],
         "values": [
+          17.16,
           16.95,
           17.26,
           18.02,
@@ -7656,8 +7657,7 @@ window.BENCHMARKS = {
           16.2,
           16.41,
           18.44,
-          16.4,
-          16.78
+          16.4
         ]
       }
     },
