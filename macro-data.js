@@ -1,7 +1,7 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-06-19",
+  "as_of": "2026-06-20",
   "update_log": [
     {
       "date": "2026-06-01",
@@ -436,7 +436,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-20T00:22:32Z",
+  "generated": "2026-06-20T02:20:01Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -6131,7 +6131,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-06-19",
+    "as_of": "2026-06-20",
     "month": "2026.06",
     "unit": "조원",
     "ytd_total": {
@@ -6881,7 +6881,7 @@ window.MACRO = {
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-06-19",
+      "as_of": "2026-06-20",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -7568,7 +7568,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-06-19",
+      "as_of": "2026-06-20",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -8463,7 +8463,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "2026.06 KOSPI 누적(조원): 외국인 -20.3·기관 +2.3·개인 +17.8(14일). 최근 26.06.19: 외국인 -0.36·기관 -1.22·개인 +1.65. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-06-19",
+      "as_of": "2026-06-20",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -8569,7 +8569,7 @@ window.MACRO = {
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 21.32 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-06-19",
+      "as_of": "2026-06-20",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
@@ -18657,18 +18657,18 @@ window.MACRO = {
           "err": 0.429,
           "err_label": "강한 상향",
           "err_cls": "pos",
-          "rev7": 0.1,
-          "rev30": 0.2,
-          "rev90": -3.2,
+          "rev7": 0.0,
+          "rev30": 0.1,
+          "rev90": -3.1,
           "momentum": "유지",
-          "growth_cy": 17.9,
-          "growth_ny": 9.6,
+          "growth_cy": 17.8,
+          "growth_ny": 9.7,
           "trend": [
             100.0,
-            97.59,
-            96.62,
-            96.77,
-            96.84
+            97.71,
+            96.75,
+            96.88,
+            96.9
           ],
           "n": 2,
           "issue": "원화 약세(1,500+)로 수출채산성 개선 vs 미국 관세·전기차 둔화. 밸류업 배당 기대.",
@@ -18686,7 +18686,7 @@ window.MACRO = {
                 "m3": 12.9,
                 "ytd": 108.4
               },
-              "rev30": 0.05140715981364341,
+              "rev30": -0.08153360596127035,
               "note": "하이브리드·환율수혜"
             },
             {
@@ -18888,12 +18888,12 @@ window.MACRO = {
           "err": -0.083,
           "err_label": "중립",
           "err_cls": "neu",
-          "rev7": -0.0,
-          "rev30": 2.4,
+          "rev7": -0.5,
+          "rev30": -0.7,
           "rev90": 3.4,
           "momentum": "둔화",
-          "growth_cy": 58.3,
-          "growth_ny": 24.5,
+          "growth_cy": 57.2,
+          "growth_ny": 25.4,
           "trend": [
             100.0,
             98.88,
@@ -18917,7 +18917,7 @@ window.MACRO = {
                 "m3": -19.3,
                 "ytd": 19.2
               },
-              "rev30": 2.405887893516767,
+              "rev30": -0.6747249549370671,
               "note": "방산수출 호황"
             },
             {
