@@ -16,7 +16,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-18",
       "decimals": 2,
       "valuation": {
-        "pe": 22.35,
+        "pe": 22.33,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2204,7 +2204,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-18",
       "decimals": 2,
       "valuation": {
-        "pe": 21.26,
+        "pe": 21.25,
         "pb": 1.74,
         "roe": null,
         "src": "SPY (top derived)",
@@ -2751,7 +2751,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-18",
       "decimals": 2,
       "valuation": {
-        "pe": 21.38,
+        "pe": 21.37,
         "pb": 2.07,
         "roe": null,
         "src": "QQQ (top derived)",
@@ -3845,7 +3845,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-19",
       "decimals": 2,
       "valuation": {
-        "pe": 15.31,
+        "pe": 15.27,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4939,7 +4939,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-18",
       "decimals": 2,
       "valuation": {
-        "pe": 11.09,
+        "pe": 11.1,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",

@@ -436,7 +436,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-20T10:49:52Z",
+  "generated": "2026-06-20T22:46:44Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -704,10 +704,10 @@ window.MACRO = {
   "country_pref": {
     "US": {
       "name": "미국",
-      "pe": 21.3,
+      "pe": 21.2,
       "fair_pe": 19.0,
       "components": {
-        "val": -40,
+        "val": -39,
         "earn": 40,
         "fx": 0,
         "mon": -10,
@@ -716,7 +716,7 @@ window.MACRO = {
       "horizon": {
         "m1": 17,
         "m3": 11,
-        "m12": 3
+        "m12": 4
       },
       "fx_val": null,
       "fx_chg": null,
@@ -797,17 +797,17 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -28,
-        "fx": 36,
+        "fx": 40,
         "mon": 30,
         "cycle": 4
       },
       "horizon": {
-        "m1": 10,
-        "m3": 13,
-        "m12": 17
+        "m1": 11,
+        "m3": 14,
+        "m12": 18
       },
-      "fx_val": 6.77,
-      "fx_chg": 1.8,
+      "fx_val": 6.76,
+      "fx_chg": 2.0,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "인민은행 부양(+)"
@@ -6873,11 +6873,11 @@ window.MACRO = {
     "spx_fwd_pe": {
       "name": "S&P500 12M Fwd PER",
       "pillar": "valuation",
-      "current": 21.3,
+      "current": 21.2,
       "unit": "배",
       "z": null,
       "pct": null,
-      "score": -0.82,
+      "score": -0.81,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
@@ -8568,7 +8568,7 @@ window.MACRO = {
       "score": 0.25,
       "signal": "호재",
       "signal_cls": "pos",
-      "desc": "Fwd PER 21.26 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
+      "desc": "Fwd PER 21.25 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
       "as_of": "2026-06-20",
       "history": null,
       "source": {
@@ -17821,7 +17821,7 @@ window.MACRO = {
               "ticker": "AVGO",
               "name": "Broadcom Inc.",
               "mktcap": 1957030658048,
-              "fwdpe": 21.3,
+              "fwdpe": 21.2,
               "pbr": 22.32,
               "rets": {
                 "w1": 6.7,
@@ -17890,7 +17890,7 @@ window.MACRO = {
               "ticker": "AAPL",
               "name": "Apple Inc.",
               "mktcap": 4376979046400,
-              "fwdpe": 31.1,
+              "fwdpe": 31.0,
               "pbr": 41.05,
               "rets": {
                 "w1": 0.8,
@@ -18271,7 +18271,7 @@ window.MACRO = {
               "ticker": "AMZN",
               "name": "Amazon.com, Inc.",
               "mktcap": 2628929978368,
-              "fwdpe": 24.8,
+              "fwdpe": 24.7,
               "pbr": 5.95,
               "rets": {
                 "w1": 1.2,
@@ -20232,7 +20232,7 @@ window.MACRO = {
   },
   "commentary": {
     "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 17.8%(악재)",
-    "valuation": "[부담 우위] S&P500 12M Fwd PER 21.3배(강한 악재)·KOSPI 12M Fwd PER 7.2배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.49%(중립)",
+    "valuation": "[부담 우위] S&P500 12M Fwd PER 21.2배(강한 악재)·KOSPI 12M Fwd PER 7.2배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.49%(중립)",
     "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1529.9원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 124.6조원(강한 호재)·한국 투자자별 수급(외국인, 월) -20.3조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 16.4(중립)·S&P500 12M 모멘텀 20.9%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.1%(유지)",
