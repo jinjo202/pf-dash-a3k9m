@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 미국·유럽 시황: SMTP 발송.
-양식: '일일 금융시장 동향(M/D)'. 한국어 본문.
+양식: '글로벌 증시 동향(M/D)'. 한국어 본문.
 
   - "_ {본문}" 으로 시작하는 paragraph → 본문 전체 bold + underline
   - "* " 인덱스 라인 → "* " 그대로, 파란 12pt + letter-spacing:-0.4pt
@@ -90,7 +90,7 @@ def build_html(brief):
     parts.append(
         '<p>'
         '<span style="font-weight:bold;font-family:' + TITLE_FONT + ';font-size:13.3333px">Title</span>'
-        '<span style="font-family:' + TITLE_FONT + ';font-size:13.3333px">  : 일일 금융시장 동향(' + md + ')</span>'
+        '<span style="font-family:' + TITLE_FONT + ';font-size:13.3333px">  : 글로벌 증시 동향(' + md + ')</span>'
         '</p>'
     )
     parts.append('<p><br></p>')
@@ -138,7 +138,7 @@ def build_plain(brief):
 
 def build_message(brief, sender, test=False):
     md = md_from(brief.get("as_of"))
-    subject = "일일 금융시장 동향(%s)" % md
+    subject = "글로벌 증시 동향(%s)" % md
     if test:
         subject = "[테스트] " + subject
 
@@ -161,7 +161,7 @@ def build_message(brief, sender, test=False):
         docx_bytes,
         _subtype="vnd.openxmlformats-officedocument.wordprocessingml.document",
     )
-    fname = "일일금융시장동향_%s.docx" % (brief.get("as_of") or "")
+    fname = "글로벌증시동향_%s.docx" % (brief.get("as_of") or "")
     att.add_header("Content-Disposition", "attachment",
                    filename=("utf-8", "", fname))
     msg.attach(att)
