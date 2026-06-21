@@ -32,20 +32,26 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install anthropic python-docx
+          npm install -g @anthropic-ai/claude-code
 
       - name: Refresh market data (not committed)
         run: |
           python fetch_daily.py || true
           python fetch_benchmarks.py || true
 
-      - name: Generate briefing (Claude API)
+      - name: Generate briefing (Claude Code, 구독 차감)
         id: gen
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # 구독(Max) 차감 — claude -p CLI 경유. API 키 없이 작동.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
         run: python briefing/generate_briefing.py us --skip-if-exists
 
