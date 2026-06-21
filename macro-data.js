@@ -436,7 +436,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-21T10:45:55Z",
+  "generated": "2026-06-21T11:17:15Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -17807,7 +17807,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2396773416960,
               "fwdpe": 23.5,
-              "pbr": null,
+              "pbr": 70.69,
               "rets": {
                 "w1": 9.7,
                 "m1": 18.0,

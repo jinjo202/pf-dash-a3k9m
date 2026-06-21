@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-21T10:47:23
+// 갱신: 2026-06-21T11:18:45
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -22,7 +22,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "금리는 묶었지만 물가·반도체가 변수…코스피 8200~9500 [주간 증시 전망] - 데일리안",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1YTFRpTTB6S3ZNYkNxcVRvOWlMRU9QeHd2SldyVEpGMERYSmtMN1BhbzFxSkhfbkVoeHNLbzNWUGVrMmhqeHBKUGU1RktrczVnQ2VyZVpB0gGkAkFVX3lxTE1QeVR6LWZNNThYVWRJcWpya0lsakQ1Y1NzUThQUXZWUjFJLUZiRUdfLXhqUW44RmpvamZaTV8wYWhYVXg1eHBuRjFEb1A0NWU2QkZiQkVZMkV6WFZ3REtoUzZhZUFycHZoOTZYSGVWX3pJRUw0YzVyMUtfWFpPZ3NTZnN6NFpOSl9YdU1MU3hITDJvYUxzNXlZUmFTUXJNTW1fTzBONTZ5UUxiYmFBaHpLTWtVSXY5ZWNHNDJ5UGwyWmFFWWsxMFJMVG9STVlSSTR0S2tnLWIzeHdFVmJfak9sZFJpNUxhNXM5d3dlZnZ6eFg2Nms3TzdKYTZSc0xMRnRtR2VnY2c5M3NiSWd4OHJfMFdWUkNkOHhLN1JsTlFGRXlLY2w?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiogJBVV95cUxQVW9fNF9ac0xEekpVdFN3RE9PcUxyVFA5N05MajM4MkZPQXFVX1hpWFlRejFDa0hWM3lIOWRqZU4tWjliUkxfSWtPM1NwLWhTZWxZc1hrNVJkNXlmc1hKWkhUNzV3dzQxXzNzNVhpOXRTQWRtdG9FU0c0VWhWeTdnd25FM1g1ZG5GSTBJeU9GQXdZemdsaUdlb0FISm9XdUJFWFVtREV4V3lVb0FDMEYyS1dqZW1jTzQtT0lyOEZrT21FOGlaYWpWdS1Oc2ZrVkd5Y1VjbVR0SVpVSWpEY2txZV8xZkRsWndBNFUxREp5T0lvWm9MTkhBVWhiVXVORmtJRzg5cG1NaWdjQTc1c3VncEVCUHNqdzNYSzJqZDE4T0FOZ9IBpAJBVV95cUxNUHlUei1mTTU4WFVkSXFqcmtJbGpENWNTc1E4UFF2VlIxSS1GYkVHXy14alFuOEZqb2pmWk1fMGFoWFV4NXhwbkYxRG9QNDVlNkJGYkJFWTJFelhWd0RLaFM2YWVBcnB2aDk2WEhlVl96SUVMNGM1cjFLX1haT2dzU2ZzejRaTkpfWHVNTFN4SEwyb2FMczV5WVJhU1FyTU1tX08wTjU2eVFMYmJhQWh6S01rVUl2OWVjRzQyeVBsMlphRVlrMTBSTFRvUk1ZUkk0dEtrZy1iM3h3RVZiX2pPbGRSaTVMYTVzOXd3ZWZ2enhYNjZrN083SmE2UnNMTEZ0bUdlZ2NnOTNzYklneDhyXzBXVlJDZDh4SzdSbE5RRkV5S2Ns?oc=5",
    "source": "데일리안",
    "date": "2026-06-20"
   }
@@ -238,7 +238,7 @@ window.HOLDING_NEWS = {
  "KODEX 자동차": [
   {
    "title": "현대차·기아·현대모비스 동반 강세…자동차주 훈풍에 투자심리 개선 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE05a2VkZDVubTZPTTBjM1lIdVg2V1dmQUkzczNxcDNBZGRlbjRtSlpoVUFmbDBUN2RCdktDb01Sbk5XMVljSFFTRHk3ZlFFUmpXcE5nVU9JUWl3bGNnS3lyUE92dE5TSW9F?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE41ckx3d2R2ZXlSV3UwX2FGTVhoaGZ1NTVLcWJjSFQzQ3ktV2Z4QTFuUk1kUUNUMExrSERZR1BGQnU0QW0yTEFmNGVNS3FOWmpKUlkwUmFVRmlsRWQ3c2IzaHFsQQ?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-15"
   },
@@ -399,16 +399,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-17"
   },
   {
-   "title": "[넥스트-샷] 생태계 교란종 된 스페이스X…나스닥100, 기술주 '발작' - 여성경제신문",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1ldmNTOG92bWQ3OHVLdDFmdHJNYTVlZWR0RkE0bXRaNy1rUlRwV2R4S2VlX1FOQmp1bWJfMzJKX2I5SFRGT3lfSUZGc1Zfa0V3b19fSmpBZjN5WnNKbUk2NmpSRHBMZjUxWG5LaVpGbGFNOVHSAXdBVV95cUxPUm55RWhubVNqX2xjRHBqS3pFSGl2SzI0WllJRWo2bGV3bmFaTjZMa1RtdDVKbHZJNnl5Vi1fRmdUd3IzdzBPRmFrbGlScmZPS2lhendadWtFZnFnNHRoRWVNSmhJd202TS1qVi1PVG1IMXN6Zlptdw?oc=5",
-   "source": "여성경제신문",
-   "date": "2026-06-16"
-  },
-  {
    "title": "빅테크 지고 '넥스트성장주' 뜬다…나스닥액티브ETF 수익률 20%대 - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9PRUtYVXJTV3JBQkRlbllRbTRvLWJKdnQwbW05cWlwakpGaVVlVkxOcEJqMTdtVHhCdXVoemIxdlFKRUdQS2w1TjJHcUp1bG5aQllpVFppS0FZc2PSAWBBVV95cUxQTEFOT0ZEUEttRkR3X2xneXE0QmpmdHB4TDJmaFIwc2JDbm14bkJEcTNjWkNJSUt3alB5Ql9GZ0V1YjJnczdYUndQOW9jWE42WENPeGZNeW1hYndwQlkxOVg?oc=5",
    "source": "연합뉴스",
    "date": "2026-04-15"
+  },
+  {
+   "title": "[넥스트-샷] 생태계 교란종 된 스페이스X…나스닥100, 기술주 '발작' - 여성경제신문",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1ldmNTOG92bWQ3OHVLdDFmdHJNYTVlZWR0RkE0bXRaNy1rUlRwV2R4S2VlX1FOQmp1bWJfMzJKX2I5SFRGT3lfSUZGc1Zfa0V3b19fSmpBZjN5WnNKbUk2NmpSRHBMZjUxWG5LaVpGbGFNOVHSAXdBVV95cUxPUm55RWhubVNqX2xjRHBqS3pFSGl2SzI0WllJRWo2bGV3bmFaTjZMa1RtdDVKbHZJNnl5Vi1fRmdUd3IzdzBPRmFrbGlScmZPS2lhendadWtFZnFnNHRoRWVNSmhJd202TS1qVi1PVG1IMXN6Zlptdw?oc=5",
+   "source": "여성경제신문",
+   "date": "2026-06-16"
   },
   {
    "title": "TIME 액티브 ETF는 샌디스크·인텔 잘 될 줄 어떻게 알았어요? - 나스닥100 2배 넘게 이긴 비결 대공개 - 뉴닉",
