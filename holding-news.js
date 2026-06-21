@@ -1,7 +1,19 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-21T00:38:54
+// 갱신: 2026-06-21T02:33:51
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
+  {
+   "title": "[주간증시전망] ‘종전 훈풍’에 9000선 진입한 코스피, 반도체 실적·MSCI 시험대 - 브릿지경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFB0VUh4eHdUMnIzUW5xcHI0aGpnMzVsaDA5OG40b0d5a29VY0lTNklfVWpNaDZDVk40RFFKemF4S21SZHJIYlctUDFEblhEeHY4RWZ4Z19OOFFsdw?oc=5",
+   "source": "브릿지경제",
+   "date": "2026-06-21"
+  },
+  {
+   "title": "[주간증시전망] 코스피 9000선 안착 시험대…마이크론·MSCI 등이 변수 - ebn.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBBNmt2WjZDS09mbXNKdTR0a3dNN3k4bGJiZFc5XzhKT2xHdEduaXgzTTRhNUVCVS1pcHRtYko0bHlueVVaM3o1VnA1V2NIcUZvb0E1TEN5c1FtVU8taFQ5WXN4UWtPY2lT?oc=5",
+   "source": "ebn.co.kr",
+   "date": "2026-06-20"
+  },
   {
    "title": "금리 불확실성 속 반도체 실적 기대… MSCI 지정 여부 주목 [주간증시전망] - IT조선",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0ybWVsZlZjVkZuUEtXYVhWMXRWY0ZSYmlrMmczMVJRZC1hc0VqSlRtdzc1bW5aZ01Ed0QtbWRxN21zekF6SDJEZS1PU3JsaXJucEpZaERPd1JUc0VQZlZ2S0xDbTRjZ3lTLVdpY2VxNDHSAXRBVV95cUxQdWJpVGFTTXZNVmFCbFJsZExxd01aU2JBRnJ6b3RHRmpGMksxRzhXMHBzaEowblBZVjJWUHVDaGs4WTJRQWlBd0xyZmExZDNyREFYaFd3aDB1MllBTGRSYzhVMFo3QTF0MFNCVjVLUXhJejgyTw?oc=5",
@@ -10,20 +22,8 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "금리는 묶었지만 물가·반도체가 변수…코스피 8200~9500 [주간 증시 전망] - 데일리안",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1YTFRpTTB6S3ZNYkNxcVRvOWlMRU9QeHd2SldyVEpGMERYSmtMN1BhbzFxSkhfbkVoeHNLbzNWUGVrMmhqeHBKUGU1RktrczVnQ2VyZVpB?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiogJBVV95cUxQVW9fNF9ac0xEekpVdFN3RE9PcUxyVFA5N05MajM4MkZPQXFVX1hpWFlRejFDa0hWM3lIOWRqZU4tWjliUkxfSWtPM1NwLWhTZWxZc1hrNVJkNXlmc1hKWkhUNzV3dzQxXzNzNVhpOXRTQWRtdG9FU0c0VWhWeTdnd25FM1g1ZG5GSTBJeU9GQXdZemdsaUdlb0FISm9XdUJFWFVtREV4V3lVb0FDMEYyS1dqZW1jTzQtT0lyOEZrT21FOGlaYWpWdS1Oc2ZrVkd5Y1VjbVR0SVpVSWpEY2txZV8xZkRsWndBNFUxREp5T0lvWm9MTkhBVWhiVXVORmtJRzg5cG1NaWdjQTc1c3VncEVCUHNqdzNYSzJqZDE4T0FOZ9IBpAJBVV95cUxNUHlUei1mTTU4WFVkSXFqcmtJbGpENWNTc1E4UFF2VlIxSS1GYkVHXy14alFuOEZqb2pmWk1fMGFoWFV4NXhwbkYxRG9QNDVlNkJGYkJFWTJFelhWd0RLaFM2YWVBcnB2aDk2WEhlVl96SUVMNGM1cjFLX1haT2dzU2ZzejRaTkpfWHVNTFN4SEwyb2FMczV5WVJhU1FyTU1tX08wTjU2eVFMYmJhQWh6S01rVUl2OWVjRzQyeVBsMlphRVlrMTBSTFRvUk1ZUkk0dEtrZy1iM3h3RVZiX2pPbGRSaTVMYTVzOXd3ZWZ2enhYNjZrN083SmE2UnNMTEZ0bUdlZ2NnOTNzYklneDhyXzBXVlJDZDh4SzdSbE5RRkV5S2Ns?oc=5",
    "source": "데일리안",
-   "date": "2026-06-20"
-  },
-  {
-   "title": "[증시전망] 9000선 넘은 코스피 행방은...PCE·마이크론 실적 주목 - 디지털투데이",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFB6TG9qbU5fSzlHOHdPMVo3dExTZzZOSGg3UzhHN3hEbWJmMFIzdXJUd3dkYTVvcEN2ZXVsX2tEeVNCWkYxM21oMWhTR293eVZHX2xuLUZQRnV4azA0M2NqcEY2TmRjUXJVSzh1ajVnSFF5OUk?oc=5",
-   "source": "디지털투데이",
-   "date": "2026-06-20"
-  },
-  {
-   "title": "[주간증시전망] 코스피 9000선 안착 시험대…마이크론·MSCI 등이 변수 - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9VN1BwVlctSnhpYWhkRlhQdW1EemVDbVJaY2E3N2ltVVJSWDAwbWFEYk9JZFR1cWYxWnRJSTFqU1R2VFpkWUNEd2tMUXBfSkcxUVJ2S3hpQ2REMmZ0dGNUUw?oc=5",
-   "source": "네이트",
    "date": "2026-06-20"
   }
  ],
@@ -35,22 +35,22 @@ window.HOLDING_NEWS = {
    "date": "2026-06-17"
   },
   {
-   "title": "[애널픽] '9000피 시대' 코스닥 부진 이유 - 뷰어스",
-   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1qbDVIWkZRVnF2NnA2eXRUQXNfQ1I5MDR2ZXUxYzJSYWVSeU1XZUdDRjdiMDktclRtSXJjUjA5bnNEN2pZTmVYSkRCVERqMlBOWVo2Nm5TRnc?oc=5",
-   "source": "뷰어스",
-   "date": "2026-06-18"
-  },
-  {
    "title": "코스피 독주에 코스닥은 부진…롱쇼트 ETF 수익률 양극화 심화 - 뉴시스",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBTVWRhdC01R3pjR2cySmQ3QUNBZmJaNnNFZHNOU3RvWDZxZlR6dGRtWmM5R1dRclFVWUpfTlZ2cjhGTE43ZkZ2QUZubzNWNi1uZTh6cWt4YTJ2a3hkNS1rMtIBeEFVX3lxTE8xWlNsdTZxR0swc3RlUXY2cVk4V2tzajZrQUNBVUV0QmVCa0NHYUl4OGxjTzlrYlQtU3prV1c1Q3lDWEpDR0ZQMy1HaEkyb2tQZkV6RnViVC1abTlCME4xMUxzbVNYLVJ4dGVPM3c5WWswTjVuc3BUTg?oc=5",
    "source": "뉴시스",
    "date": "2026-06-19"
   },
   {
-   "title": "\"코스닥, 지수 투자매력 약화…'AI 밸류체인' 종목선별해야\" - KB Think",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBES1hVdkRYV19Ja0NhN0s5ejQ3Z19zZGdoNWhvN1lOTmxxMWFhazhHSUVBVnFSZ2NqLWxnZmxIVVRzRENqb0FwZGFOdC16a0ppcFhWalFFUG55VHM2T213S1Bwdm92NkdtZlRZTFhBcGFuUQ?oc=5",
-   "source": "KB Think",
-   "date": "2026-05-19"
+   "title": "[애널픽] '9000피 시대' 코스닥 부진 이유 - 뷰어스",
+   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1qbDVIWkZRVnF2NnA2eXRUQXNfQ1I5MDR2ZXUxYzJSYWVSeU1XZUdDRjdiMDktclRtSXJjUjA5bnNEN2pZTmVYSkRCVERqMlBOWVo2Nm5TRnc?oc=5",
+   "source": "뷰어스",
+   "date": "2026-06-18"
+  },
+  {
+   "title": "\"코스피 반등해도 코스닥 부진은 그대로\"…쏠림장 후폭풍 넘을까 - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5ScjIzN1d0d1VHUERqbGhBRndNT0g5X3RBWGJ2X1k5N1I5MTZhSW10eHVQQmhQT3FwNVNnRkxmbGhHZENKSE9xblBITDFIYklpdG9xbw?oc=5",
+   "source": "v.daum.net",
+   "date": "2026-06-10"
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
@@ -177,10 +177,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-03"
   },
   {
-   "title": "“로봇, 주도주로 볼 수 없어…반도체·배터리와 보조 맞추는 AI 짝꿍” - 서울경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBwTmtoOHRNaURyeURuNElHRjliMC1mVkZjbWF4U2h0T3VFUVhWeTVJbnB6a2lMS3MwY29pZzdwT1REV3B5eE9DM09WTGtxS1NIU1HSAVNBVV95cUxQZjJhNERIcTZCTW5TYlAtWWlnT1dzWW14SENtWDBYeXRxMHF5UmNmVHhYYWk0SUhoMU5lV2xnZnlZc0Q5ZklmLUZJUGx3TnlybVVqMA?oc=5",
-   "source": "서울경제",
-   "date": "2026-06-14"
+   "title": "AI 다음은 로봇?…LG전자 327%·두산로보틱스 114% 뛰었다 - 이데일리TV",
+   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9qOTQwYTN2MDlmWG1fakN6NmdKelBWMU9FeFFTV1pWS3ZwVndoeVRleC1jSjN1aXpKV3VNQm5MWjlmNk53SG1kUzNlUFUwcW9VVkRSUlZnWDBrRG95aTVoeElwVzdmX0pTQ01BakgtMzlrNk50MHN4MGc0NA?oc=5",
+   "source": "이데일리TV",
+   "date": "2026-06-03"
   }
  ],
  "삼성 ESG 착한 책임투자": [
@@ -315,10 +315,10 @@ window.HOLDING_NEWS = {
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
   {
-   "title": "AI 주가 뛰는데 농기계 회사 주가도 뛰는 이유는? \"전통 산업주, AI 수혜주로 부상\" - 더구루",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5RMUltNWo3Yl9UaExyeEFjRVd1bWRlVkNyR1J6cHlmWi1JTzdKY3BvMDBqdmUyc3RJYl9qNlAzSFVucHVDaU1nQUZGeGlHSXMyY2l5UWpwRkJBelAwNjV3SWRLYw?oc=5",
-   "source": "더구루",
-   "date": "2026-05-13"
+   "title": "글로벌 제조업 경기 둔화 직격탄 맞은 일리노이 툴 워크스, 수익성 방어 기제 시험대 올랐다 : 금융 - 재경일보",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9OVTY1d0VGdFFud0c0cW9fTEZjVlJycEdaM1ZxRDVvaVVQb3c5QlVnM3RhUzR6THJfTTBHb0tRbmwwT2xyd0Q0Wm53?oc=5",
+   "source": "재경일보",
+   "date": "2026-06-03"
   },
   {
    "title": "AI 열풍 속 미지근한 美증시…소재·산업재 주목 - 한국경제",
@@ -327,16 +327,16 @@ window.HOLDING_NEWS = {
    "date": "2026-02-23"
   },
   {
+   "title": "AI 주가 뛰는데 농기계 회사 주가도 뛰는 이유는? \"전통 산업주, AI 수혜주로 부상\" - 더구루",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5RMUltNWo3Yl9UaExyeEFjRVd1bWRlVkNyR1J6cHlmWi1JTzdKY3BvMDBqdmUyc3RJYl9qNlAzSFVucHVDaU1nQUZGeGlHSXMyY2l5UWpwRkJBelAwNjV3SWRLYw?oc=5",
+   "source": "더구루",
+   "date": "2026-05-13"
+  },
+  {
    "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
    "source": "뉴스핌",
    "date": "2026-04-17"
-  },
-  {
-   "title": "글로벌 제조업 경기 둔화 직격탄 맞은 일리노이 툴 워크스, 수익성 방어 기제 시험대 올랐다 : 금융 - 재경일보",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9OVTY1d0VGdFFud0c0cW9fTEZjVlJycEdaM1ZxRDVvaVVQb3c5QlVnM3RhUzR6THJfTTBHb0tRbmwwT2xyd0Q0Wm53?oc=5",
-   "source": "재경일보",
-   "date": "2026-06-03"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
