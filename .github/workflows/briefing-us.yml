@@ -8,6 +8,11 @@ on:
     - cron: '40 23 * * 1-5'  # 08:40 KST (백업1)
     - cron: '30 0 * * 2-6'   # 09:30 KST (백업2)
   workflow_dispatch:
+    inputs:
+      send_as_of:
+        description: "기존 브리핑 이메일만 재발송할 날짜(YYYY-MM-DD). 비우면 평소대로 생성·발송."
+        required: false
+        default: ""
   repository_dispatch:
     types: [briefing-us-trigger]
 
@@ -83,3 +88,10 @@ jobs:
           GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: python briefing/send_email_us.py briefings-archive.js ${{ steps.gen.outputs.as_of }}
+
+      - name: Re-send existing briefing email (manual)
+        if: ${{ github.event.inputs.send_as_of != '' }}
+        env:
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python briefing/send_email_us.py briefings-archive.js ${{ github.event.inputs.send_as_of }}
