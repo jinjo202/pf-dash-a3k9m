@@ -433,10 +433,27 @@ window.MACRO = {
       "title": "WTI 유가 (YoY)",
       "detail": "15.9% → 17.3% (2026-06-19 발표)",
       "as_of": "2026-06-19"
+    },
+    {
+      "date": "2026-06-21",
+      "type": "release",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "17.8% → 19.9% (2026-06-21 발표)",
+      "as_of": "2026-06-21"
     }
   ],
-  "updates_today": [],
-  "generated": "2026-06-21T11:49:09Z",
+  "updates_today": [
+    {
+      "date": "2026-06-21",
+      "type": "release",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "17.8% → 19.9% (2026-06-21 발표)",
+      "as_of": "2026-06-21"
+    }
+  ],
+  "generated": "2026-06-21T22:47:34Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -731,17 +748,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 23,
-        "fx": -44,
+        "fx": -38,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 13,
-        "m3": 38,
+        "m1": 15,
+        "m3": 40,
         "m12": 53
       },
-      "fx_val": 1529.89,
-      "fx_chg": -2.2,
+      "fx_val": 1529.1,
+      "fx_chg": -1.9,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -753,17 +770,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 2,
-        "fx": -26,
+        "fx": -16,
         "mon": 30,
         "cycle": -24
       },
       "horizon": {
-        "m1": -9,
-        "m3": -8,
-        "m12": -6
+        "m1": -5,
+        "m3": -6,
+        "m12": -5
       },
       "fx_val": 1.15,
-      "fx_chg": -1.3,
+      "fx_chg": -0.8,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -775,17 +792,17 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 32,
-        "fx": -24,
+        "fx": -26,
         "mon": -40,
         "cycle": 23
       },
       "horizon": {
-        "m1": 0,
+        "m1": -1,
         "m3": 3,
         "m12": 4
       },
-      "fx_val": 161.27,
-      "fx_chg": -1.2,
+      "fx_val": 161.45,
+      "fx_chg": -1.3,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOJ 정상화(긴축, −)"
@@ -797,17 +814,17 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -28,
-        "fx": 40,
+        "fx": 38,
         "mon": 30,
         "cycle": 4
       },
       "horizon": {
-        "m1": 11,
+        "m1": 10,
         "m3": 14,
-        "m12": 18
+        "m12": 17
       },
-      "fx_val": 6.76,
-      "fx_chg": 2.0,
+      "fx_val": 6.77,
+      "fx_chg": 1.9,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "인민은행 부양(+)"
@@ -14006,7 +14023,7 @@ window.MACRO = {
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "원화 약세는 위험회피·외인 유출",
-      "as_of": "2026-06-19",
+      "as_of": "2026-06-21",
       "history": {
         "dates": [
           "2025-06-01",
@@ -14762,15 +14779,15 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 17.8,
+      "current": 19.9,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.45,
+      "score": -0.5,
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
-      "as_of": "2026-06-19",
+      "as_of": "2026-06-21",
       "history": {
         "dates": [
           "2001-01-01",
@@ -17807,7 +17824,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2396773416960,
               "fwdpe": 23.5,
-              "pbr": null,
+              "pbr": 70.69,
               "rets": {
                 "w1": 9.7,
                 "m1": 18.0,
@@ -17935,7 +17952,7 @@ window.MACRO = {
               "ticker": "PLTR",
               "name": "Palantir Technologies Inc.",
               "mktcap": 307982663680,
-              "fwdpe": 61.8,
+              "fwdpe": 61.7,
               "pbr": 36.45,
               "rets": {
                 "w1": -2.0,
@@ -20231,7 +20248,7 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 17.8%(악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 19.9%(악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 21.2배(강한 악재)·KOSPI 12M Fwd PER 7.2배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.45%(중립)",
     "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1529.9원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 124.6조원(강한 호재)·한국 투자자별 수급(외국인, 월) -20.3조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 16.4(중립)·S&P500 12M 모멘텀 20.9%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
