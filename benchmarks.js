@@ -3298,7 +3298,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-18",
       "decimals": 2,
       "valuation": {
-        "pe": 21.15,
+        "pe": 21.14,
         "pb": 1.51,
         "roe": null,
         "src": "SOXX (top derived)",
