@@ -511,7 +511,7 @@ def _set(ws, coord, value):
 
 
 # ════════════════════════ 빌드 ════════════════════════
-def build(target, bench, macro, kr, pdata, daily, sentiment, template):
+def build(target, meeting, bench, macro, kr, pdata, daily, sentiment, template):
     # 템플릿이 Excel/OneDrive 로 잠겨 있을 수 있으므로 임시본을 만들어 로드.
     import tempfile, shutil
     tmpl_copy = os.path.join(tempfile.gettempdir(), "_wk_template.xlsx")
@@ -523,10 +523,11 @@ def build(target, bench, macro, kr, pdata, daily, sentiment, template):
     wb = openpyxl.load_workbook(src)  # 서식 보존
     ws = stock_sheet(wb)
     ws.title = target.strftime("%Y%m%d")
-    wk = (target.day - 1) // 7 + 1
+    # 주차·월은 회의일 기준(대시보드 weekly-data.js 와 동일). 시트명·데이터는 target 기준.
+    wk = (meeting.day - 1) // 7 + 1
 
     # 제목
-    _set(ws, "A1", "주식 시황회의(%d월 %d주차)" % (target.month, wk))
+    _set(ws, "A1", "주식 시황회의(%d월 %d주차)" % (meeting.month, wk))
 
     # ── 시장 종가표 ─ 우측 raw(P8:X11) + 좌측 표시값(rows 8·9) 동시 갱신 ──
     as_of_d = datetime.strptime(bench.get("as_of"), "%Y-%m-%d").date()
@@ -901,7 +902,7 @@ def main():
     sentiment = get_sentiment(not args.no_sentiment)
     template = find_template(args.template, exclude=out)
 
-    wb = build(target, bench, macro, kr, pdata, daily, sentiment, template)
+    wb = build(target, meeting, bench, macro, kr, pdata, daily, sentiment, template)
 
     try:
         wb.save(out)
