@@ -179,8 +179,9 @@ def main():
     js_path = args[0]
     as_of = args[1] if len(args) > 1 else None
 
-    sender = os.environ.get("GMAIL_SENDER")
-    password = os.environ.get("GMAIL_APP_PASSWORD")
+    _bom = chr(0xFEFF)
+    sender = (os.environ.get("GMAIL_SENDER") or "").replace(_bom, "").strip()
+    password = (os.environ.get("GMAIL_APP_PASSWORD") or "").replace(_bom, "").strip()
     if not sender or not password:
         sys.stderr.write("env GMAIL_SENDER / GMAIL_APP_PASSWORD missing\n")
         sys.exit(3)
