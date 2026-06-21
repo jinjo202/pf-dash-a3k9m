@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-21T22:49:06
+// 갱신: 2026-06-21T23:23:35
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -29,6 +29,12 @@ window.HOLDING_NEWS = {
  ],
  "KODEX 코스닥150 ETF": [
   {
+   "title": "\"9천피 시대 내 계좌는 왜 이래\"…코스닥 개미들 '한숨' [분석+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA4eGZMQzRCTjBOT2xyWVVMTnZ5M2FaWUNhMl83Y3JVQUtMeEx6eld6bnJHSkRxR21velotazFRWVFnTGJDYUlxeGRFbUx2TlM3TWRkcnJyZ2lBZ9IBVEFVX3lxTE5iaTV5cTVDeG5pc0tOc3BSRXUxeDZiUzV0WU9ySDZvNXk3OVdwMU1iZG15OEhqS3pVa3VZV0Z6V2VLdF9SNWUzTENHVjJBdnZXU2ptdQ?oc=5",
+   "source": "한국경제",
+   "date": "2026-06-21"
+  },
+  {
    "title": "코스피 '세계 1위' 코스닥 '세계 꼴찌'…극과극 양극화 - 이데일리",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPTU9XaDUxd1VTcGZrczRMVFNSQmx2N0hqYndFYjNZdmlOMTNjVmlUS3B4bFgwZ0tudVRmUU1JamxEd0xZdmMtcDVIVl9kRDloM3I1M2V2QXlZYXNYaml2YVZNZ19FYjJLYnZ1TXVZZ1pCeC1TcU9yNXpwaDBMZk15dg?oc=5",
    "source": "이데일리",
@@ -45,12 +51,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1qbDVIWkZRVnF2NnA2eXRUQXNfQ1I5MDR2ZXUxYzJSYWVSeU1XZUdDRjdiMDktclRtSXJjUjA5bnNEN2pZTmVYSkRCVERqMlBOWVo2Nm5TRnc?oc=5",
    "source": "뷰어스",
    "date": "2026-06-18"
-  },
-  {
-   "title": "코스피 독주에 코스닥은 부진…롱쇼트 ETF 수익률 양극화 심화 - 뉴시스",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBTVWRhdC01R3pjR2cySmQ3QUNBZmJaNnNFZHNOU3RvWDZxZlR6dGRtWmM5R1dRclFVWUpfTlZ2cjhGTE43ZkZ2QUZubzNWNi1uZTh6cWt4YTJ2a3hkNS1rMtIBeEFVX3lxTE8xWlNsdTZxR0swc3RlUXY2cVk4V2tzajZrQUNBVUV0QmVCa0NHYUl4OGxjTzlrYlQtU3prV1c1Q3lDWEpDR0ZQMy1HaEkyb2tQZkV6RnViVC1abTlCME4xMUxzbVNYLVJ4dGVPM3c5WWswTjVuc3BUTg?oc=5",
-   "source": "뉴시스",
-   "date": "2026-06-19"
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
@@ -119,16 +119,16 @@ window.HOLDING_NEWS = {
    "date": "2026-02-04"
   },
   {
-   "title": "[업종 주가 분석] 원전주, 美 원전 프로젝트에 40년 만의 호황 기대 - 소년한국일보",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9jTk91Y1I2ZWFjVkdnMFBLVUxVYUJ3aEVNZ0xUT2YxYWJmU05xbS1MdGVZcEFCRnZaUWwyaHp0Yi01eEs1U01Sa24tWTZndmRLMF81Yll0Mm5hTnR0M1loQzFpc0RUX0xHTG85VdIBcEFVX3lxTE10cV9MaUl3QUN2M254eXYxdVNZQjl1cV9kekFybXFqTHlUa1BxWWRjRG5iUXoxOG1JbE9aMkhTZVV0RnlkUWFHalJadmpkR19tR3hUTXpkRFdTMXpVRlhINU00TWFuYnNidHBUNXBSaDg?oc=5",
-   "source": "소년한국일보",
-   "date": "2025-11-13"
-  },
-  {
    "title": "“AI 수요증가에 원전 투자는 필연적”···국내 원전주 수혜 기대감↑ - 동양뉴스",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5kamdRVTdSY0hvUzYyaVc4Y2RyNVpUYnJ6S18yNTVCSHpOUDVhZHVpR3JMOEZEaE91M0E4SXNNRWtwVmZUT0Ffd3Q1dC14Q0I2dmNpZUo2Yjkyd1RwZUJJdA?oc=5",
    "source": "동양뉴스",
    "date": "2026-01-06"
+  },
+  {
+   "title": "[업종 주가 분석] 원전주, 美 원전 프로젝트에 40년 만의 호황 기대 - 소년한국일보",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9jTk91Y1I2ZWFjVkdnMFBLVUxVYUJ3aEVNZ0xUT2YxYWJmU05xbS1MdGVZcEFCRnZaUWwyaHp0Yi01eEs1U01Sa24tWTZndmRLMF81Yll0Mm5hTnR0M1loQzFpc0RUX0xHTG85VdIBcEFVX3lxTE10cV9MaUl3QUN2M254eXYxdVNZQjl1cV9kekFybXFqTHlUa1BxWWRjRG5iUXoxOG1JbE9aMkhTZVV0RnlkUWFHalJadmpkR19tR3hUTXpkRFdTMXpVRlhINU00TWFuYnNidHBUNXBSaDg?oc=5",
+   "source": "소년한국일보",
+   "date": "2025-11-13"
   }
  ],
  "Plus K-방산 ETF": [
@@ -289,28 +289,28 @@ window.HOLDING_NEWS = {
  ],
  "SPDR Communication ETF (XLC)": [
   {
+   "title": "알파벳 주식 투자 고민 중이라면... 리스크 없이 매수하는 방법,월트 디즈니,Fidelity MSCI Telecommunication Services Index ",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9lbTYwVVAwMUNvYU1SX2R2N3FaaGN4cFZ4RDlJRWhQWVFZeWNKNTd5anR1aDI1WTVpMGJjTC1FakhtRjh2c0JpeV8wZVkwSlNRa2lvM0Vqd21lVFl1b0tHanJWLVBHT3dU?oc=5",
+   "source": "wowglobal.co.kr",
+   "date": "2025-11-29"
+  },
+  {
    "title": "[매아리] \"휴전 시한 한국 시각 23일 오전\"…트럼프 \"종전 즉시 휘발윳값 정상화될 것\" - 매일경제 마켓",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5TWUZZdkdQQkNKTFRPWkJ4S3NKUlNKRG5mQ29DNXIxNkVJUDVHakRmTnZ2Wk55UlhZR2pGV0F4aUIzQ0VZSktPNEYzQUgyTkN1RkE?oc=5",
    "source": "매일경제 마켓",
    "date": "2026-04-21"
   },
   {
-   "title": "알파벳 주식 투자 고민 중이라면... 리스크 없이 매수하는 방법,월트 디즈니,Fidelity MSCI Telecommunication Services Index ",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9Ma1JMWkNTR3NVd3o5SWlUb01tWFlUMjZaLTh5QjMwNl9TM0VGY0JoODg0OFhUNExTYnNrb3lyQVBFbjFUZzQ4NDdRZ3lBcmUzTHBBRm5hdmdhUWQzVFRKSXo5bmVQdlpwZ2M1MW1jbXBBZE0?oc=5",
-   "source": "wowglobal.co.kr",
-   "date": "2025-11-29"
-  },
-  {
-   "title": "美 주정부, 애플에 소비자보호소송 제기…\"아동 성착취물 안막아\" - 뉴시스",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1kZHNpSXRlaUxJLTk5dlpqeS1mUHk4RmRPWWRWZGtCR3l4U2k5SEQ1SzFqd0Y4Y2JXWHliM2lrdFZOTDQ1aGZqWXRqVzBCNTU5NDE5ZU1obEs0OXpXN2poYdIBeEFVX3lxTE1OYVN0cE9ocThDOTF4a2JZNTVXMGV6NG9remd2YjhwaU9fMkFYSExFU0lhZzFDZ0YtRXZzcnIySEJJamJWSWRyeWVTdlh2ZVFxSThXVEVyRXdPOS1HdE53Z1A0NDI2aHBtdFRsSk1DWlV2U0YtejJySA?oc=5",
-   "source": "뉴시스",
-   "date": "2026-02-20"
-  },
-  {
    "title": "한때 답답했고 애태웠지만...이젠 뜨거워진 커뮤니케이션 주식 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOZHJ4UDRlV25lTEFPbTNaNVRvMHNoN19EVFhFc0NJLW1QZ1MtUVItUHFORHBQZVVaVzFuNExWM3JYVEFDWHVfSnpFMGNMaHNwVm9rWjJfcml6SFViS2VjXzQ4MFk4eXdwcG03Z09FNmRIdGFtZXNZeG50eTJpWU12UElfR0t5QQ?oc=5",
    "source": "조선일보",
    "date": "2024-07-25"
+  },
+  {
+   "title": "당장 1000만원으로 뭘 살까, 트럼프빨 받을 '상반기 종목' - 중앙일보",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE93elBwajZtZlRUbGxCY0VpcjIyM3BfQ3F2bC1PRWJEellkZTEwWWh6TE1wMmpFTEtzU3FHaUNWY0JtaVFOT1FtMTNsQ19Vc3Q4M0ppVF9B?oc=5",
+   "source": "중앙일보",
+   "date": "2025-02-16"
   }
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
@@ -341,16 +341,10 @@ window.HOLDING_NEWS = {
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "올리브영 미국 가더니…K뷰티 주가 줄줄이 '불기둥' [종목+] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE52ZV9YbEpOT3A2dXNWRVlyYjdWLVJROHhvaXMxSHpfN2JvdEJwZ2YxYW1SQW1mT190cUJRMXhiXzdqUE5CYThKZjcwaUlYNXk0RVlTbFM3WEIyZ9IBVEFVX3lxTFByZGN1Ty1pbFpZbENkLWk5MTJsLU9pUEJTNlB2c1BiT2xiUGd2ZWVYeEplQlA1Q2NhX1NKRzFBRjBYM2htZlUtREhua25LelJlUEI3Wg?oc=5",
-   "source": "한국경제",
-   "date": "2026-06-10"
-  },
-  {
-   "title": "뉴욕증시, 30% 넘게 폭락한 은값 충격파…하락 마감 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ieGJDV3QydXV4blg2OTd1ZmFKQnpjXy1jbGRydlFIakd0Sk85VnVOdUJoNkQxRldjeGhTTTUxTHppRVdFS2RzSV8teFFOQkR2dWtYUjdnNk1UNnPSAWBBVV95cUxQSU1PWTdkYTRnYktfRnJNTEV1dUpVbER0bVR5dWZCXzVnOEJJUzhxRGRfVF9mNUZWQVRxQnNSdVJUdGgzSkFQbW1hRG9IWnBvdXFiS1Q5SXFybnd4LVM0NGw?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-01-31"
+   "title": "올해 가장 매력적인 미국 투자 섹터는? [오대정의 경제지표 읽기] - 한경매거진&북",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1sRWhxT3RsRzA3T1NOQUJkcDE0cWdZZnhEZ1M1dEtBeExnZTI5RGxIbUlCRmlvWHFobGZqSDFoUXdEcElhQkxVNE84ZXVfYUxxWFQ2bUxJYWVYU3ZVSzc2ZTUxdmRVTjRqNDhuYg?oc=5",
+   "source": "한경매거진&북",
+   "date": "2026-03-03"
   },
   {
    "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
@@ -363,6 +357,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
    "source": "아시아투데이",
    "date": "2026-02-09"
+  },
+  {
+   "title": "미국 희토류 관련주 : 600% 상승한 앨버말, MP materials 주가 (feat. REMX ETF) - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQRzhTbENHdjJXZG1wZldCYWROa3ZoenpyVUwwdVozcmx5aWNLZlNoRHdZclcwdThnQjR1R2kxMEVGSlJGc19JN0IyRWxmSEp3eHJINlR6WFRKSnVtVFZzRmV2ZHJhaHJwcW9RRE1sTG92ZU9xTzJCQm83clJCQ1d0NVVIRQ?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2026-01-27"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -503,6 +503,12 @@ window.HOLDING_NEWS = {
    "date": "2026-03-02"
   },
   {
+   "title": "유럽증시, 이스라엘과 레바논 휴전합의 등 영향 반등⋯독일 0.60%-영국 0.27% 상승마감 - 이코노뉴스",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBVSGdsMTFhU0dUQ1JPTDJtLXZuME1uVjNEVFN3TllNbnVzNlJvaWJXYS03TXFUcWRud1E3N29lcER1Y1hQUFNMOUFjN01FQzFuLTNtV1dNSGpNbUlRRTdHMkZEZWs4d09rY0xSNkNLaw?oc=5",
+   "source": "이코노뉴스",
+   "date": "2026-06-05"
+  },
+  {
    "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
@@ -513,12 +519,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE8yeFNmRlF6T3VoekZVZGVFSnh6OF91dGJRMFprSnBPRkV5ODUxR3NxQ0lCMkwzSTJPbnhqRFl0QmNubHBrRGlJZ3N5aFpOU1Bwa1FDclJqeEx5Y1hPRDZqdQ?oc=5",
    "source": "아시아경제",
    "date": "2026-03-20"
-  },
-  {
-   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-02-24"
   }
  ],
  "Fidelity European Dividend": [
