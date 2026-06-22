@@ -6,14 +6,6 @@ window.MACRO = {
     {
       "date": "2026-06-01",
       "type": "release",
-      "key": "core_cpi_yoy",
-      "title": "미국 근원 CPI (YoY)",
-      "detail": "최근 발표 2.7% (2026-04-01)",
-      "as_of": "2026-04-01"
-    },
-    {
-      "date": "2026-06-01",
-      "type": "release",
       "key": "unemployment",
       "title": "미국 실업률",
       "detail": "최근 발표 4.3% (2026-04-01)",
@@ -472,19 +464,27 @@ window.MACRO = {
       "title": "S&P500 CAPE(실러 PE)",
       "detail": "41.7배 → 41.6배 (2026-06-22 발표)",
       "as_of": "2026-06-22"
+    },
+    {
+      "date": "2026-06-22",
+      "type": "release",
+      "key": "kr_deposit",
+      "title": "한국 투자자예탁금",
+      "detail": "128.4조원 → 129.4조원 (2026-06-19 발표)",
+      "as_of": "2026-06-19"
     }
   ],
   "updates_today": [
     {
       "date": "2026-06-22",
       "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "41.7배 → 41.6배 (2026-06-22 발표)",
-      "as_of": "2026-06-22"
+      "key": "kr_deposit",
+      "title": "한국 투자자예탁금",
+      "detail": "128.4조원 → 129.4조원 (2026-06-19 발표)",
+      "as_of": "2026-06-19"
     }
   ],
-  "generated": "2026-06-22T22:47:10Z",
+  "generated": "2026-06-22T23:31:35Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -779,17 +779,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 23,
-        "fx": -46,
+        "fx": -40,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 12,
-        "m3": 38,
+        "m1": 14,
+        "m3": 39,
         "m12": 53
       },
-      "fx_val": 1536.1,
-      "fx_chg": -2.3,
+      "fx_val": 1531.33,
+      "fx_chg": -2.0,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -801,17 +801,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 2,
-        "fx": -22,
+        "fx": -18,
         "mon": 30,
         "cycle": -24
       },
       "horizon": {
-        "m1": -7,
-        "m3": -7,
-        "m12": -6
+        "m1": -6,
+        "m3": -6,
+        "m12": -5
       },
       "fx_val": 1.14,
-      "fx_chg": -1.1,
+      "fx_chg": -0.9,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -823,17 +823,17 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 32,
-        "fx": -28,
+        "fx": -24,
         "mon": -40,
         "cycle": 23
       },
       "horizon": {
-        "m1": -2,
-        "m3": 2,
+        "m1": 0,
+        "m3": 3,
         "m12": 4
       },
-      "fx_val": 161.6,
-      "fx_chg": -1.4,
+      "fx_val": 161.57,
+      "fx_chg": -1.2,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOJ 정상화(긴축, −)"
@@ -5134,7 +5134,6 @@ window.MACRO = {
   "kr_flows_ts": {
     "deposit": {
       "dates": [
-        "2024-04-25",
         "2024-04-26",
         "2024-04-29",
         "2024-04-30",
@@ -5653,10 +5652,10 @@ window.MACRO = {
         "2026-06-15",
         "2026-06-16",
         "2026-06-17",
-        "2026-06-18"
+        "2026-06-18",
+        "2026-06-19"
       ],
       "values": [
-        55.7,
         56.5,
         56.8,
         57.2,
@@ -6175,7 +6174,8 @@ window.MACRO = {
         120.6,
         124.6,
         124.6,
-        128.4
+        128.4,
+        129.4
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
@@ -6795,7 +6795,7 @@ window.MACRO = {
       32.5,
       35.2,
       37.4,
-      37.4
+      37.9
     ],
     "kospi_credit": [
       10.7,
@@ -6824,7 +6824,7 @@ window.MACRO = {
       18.5,
       20.1,
       21.5,
-      21.5
+      21.8
     ],
     "kosdaq_credit": [
       8.4,
@@ -6853,7 +6853,7 @@ window.MACRO = {
       14.0,
       15.1,
       15.9,
-      15.9
+      16.1
     ],
     "kospi_idx": [
       2692.1,
@@ -6916,11 +6916,11 @@ window.MACRO = {
     "unit": "조원",
     "realtime": true,
     "current": {
-      "total": 37.4,
-      "deposit": 128.4,
-      "as_of": "2026-06-18",
-      "kospi": 21.5,
-      "kosdaq": 15.9
+      "total": 37.9,
+      "deposit": 129.4,
+      "as_of": "2026-06-19",
+      "kospi": 21.8,
+      "kosdaq": 16.1
     },
     "source": "네이버 증시자금추이(실측·시장별은 시드비율 분해)",
     "source_url": "https://finance.naver.com/sise/sise_deposit.naver"
@@ -8432,15 +8432,15 @@ window.MACRO = {
     "kr_deposit": {
       "name": "한국 투자자예탁금",
       "pillar": "flows",
-      "current": 128.4,
+      "current": 129.4,
       "unit": "조원",
       "z": null,
       "pct": null,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
-      "desc": "증시 대기자금(고객예탁금). 신용잔고 37.4조 동반. 자동수집(네이버 증시자금추이). 예탁금 증가=매수 여력 확대. 카드 클릭→누적 추이.",
-      "as_of": "2026-06-18",
+      "desc": "증시 대기자금(고객예탁금). 신용잔고 37.9조 동반. 자동수집(네이버 증시자금추이). 예탁금 증가=매수 여력 확대. 카드 클릭→누적 추이.",
+      "as_of": "2026-06-19",
       "history": {
         "dates": [
           "2024-04-01",
@@ -8498,7 +8498,7 @@ window.MACRO = {
           110.3,
           124.8,
           131.6,
-          128.4
+          129.4
         ]
       },
       "manual": true,
@@ -14054,7 +14054,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1533.4,
+      "current": 1531.3,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
@@ -14818,11 +14818,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 14.0,
+      "current": 14.3,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.35,
+      "score": -0.36,
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
@@ -20287,9 +20287,9 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 14.0%(악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 14.3%(악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 20.8배(강한 악재)·KOSPI 12M Fwd PER 7.4배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.51%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1533.4원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 128.4조원(강한 호재)·한국 투자자별 수급(외국인, 월) -22.9조원(악재)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1531.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 129.4조원(강한 호재)·한국 투자자별 수급(외국인, 월) -22.9조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 17.3(중립)·S&P500 12M 모멘텀 20.4%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.1%(유지)",
     "overall": "종합 레짐 점수 +14. 매크로 +0, 밸류 -12, 수급 +14, 센티 +19, 기업이익 +46."

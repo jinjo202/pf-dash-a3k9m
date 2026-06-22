@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-22T22:48:41
+// 갱신: 2026-06-22T23:33:04
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "\"1만 간다\" vs \"6500도 열려 있다\"… 5대 리서치센터장의 코스피 전망 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxORS0zSUlEZFk0WGExYW0wNGtBZVhUYXFlMkNJelZXS3FsSmljZEpHeE4tV01xMXhmNjZ6cWU5TzJMdGE4Z0l6U0pyNjJTWDZ2Ty1Wb1lkbzhjX2NvY1BqMnVTSS1WNHVPc1VhZTNrbkZoRVhNMjFrYzFhRi1IOEljcg?oc=5",
    "source": "조선일보",
+   "date": "2026-06-22"
+  },
+  {
+   "title": "“변동성 심한 코스피 7월에 1만 넘어설 것” - 여성동아",
+   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1IRUJQNFFVQUREaFd0YjBLN29Ma0UwVm43UnBOMklRWTJIU2JONmVPWU9fQlNZSmgzcEJUSFJBeFUybVZGRjFIWk9kZmhnb0dvZkZ6NEFpRGxzSVJRMlNTYndubFo?oc=5",
+   "source": "여성동아",
    "date": "2026-06-22"
   },
   {
@@ -18,12 +24,6 @@ window.HOLDING_NEWS = {
    "title": "투자자 둘 중 한 명, “코스피 1만 시대 온다” - 스트레이트뉴스",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5uOGNldjNmOGRLU1dmMlRnb044dVlWcFJaelE5TmY2WXloYmVQOTVyakpzRkFNdy1zTEczTHM1RkhzU2xxZkZNRUp4ZktudXB5NUs0bm9OWUdCWUNMai1CUGZkRjUzUjNoLTJtZ1lKZGtlb2fSAXdBVV95cUxOUjBCazYtbE91UVN1d0F0TlJTNmcxVUN3NVNhbUI2X183dzVZX2NiQjR6VjBGM21mMWxTZ3FMSHFMaDZWYkxhNmdCTWRVS1NiYW5LWmNQLXZTR0xrdlFfUzk2NnZpQnZIcGM3QlBVdDZUbHRtOGtCbw?oc=5",
    "source": "스트레이트뉴스",
-   "date": "2026-06-22"
-  },
-  {
-   "title": "신한투자증권 “개인투자자 2명 중 1명, 코스피 1만선 이상 기대”…주도주는 반도체 - 전자신문",
-   "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE96bEE2VWVnMUxMQVdYa01tdTV1UGFPS2VSOU9OOWFCeDlTVlpCaFUwVlFXalZJNUMtcVdQdDlvRTZJLTJSLVNObzVfZlJRUQ?oc=5",
-   "source": "전자신문",
    "date": "2026-06-22"
   }
  ],
@@ -87,12 +87,6 @@ window.HOLDING_NEWS = {
    "date": "2026-06-21"
   },
   {
-   "title": "‘먹구름’ 낀 제약ㆍ바이오株…셀트리온 3인방도 우울한 오전 - 메디컬투데이",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE42elZxRV90ME4ta01EUENoZkNsaU1FQ0ZaTzlDcFRORzdFRmNYWkdHVFJVSElIT1c2SzI5QzJGa3h0bURLclEzMUdDYzRSNExKT3dONllyMmpqcXpYb1B4WkoxNWcwbU5TaG5FWQ?oc=5",
-   "source": "메디컬투데이",
-   "date": "2026-06-22"
-  },
-  {
    "title": "'9300 코스피' 신화 이면…제약·바이오 주가 부진 극단적 대조 - 메디파나뉴스",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBzbnhDZFpXNzlVdlJyY0R4clg1cDloSkVaN2gtakVUU1BOVU13QXNrVnYySTlSTFNxaUNtOXA3aDBWMnNnYTk2dFFaSnczZDh1NGp3TWJfYmFVaDhDR3FUbm90NndISzFLdGpn?oc=5",
    "source": "메디파나뉴스",
@@ -103,6 +97,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA1aGJEajh0Y0o0RWZZUWRia2VLbW9xczRRZ1ZNNUxQSkV0QVhUTGZhS2ZHcDM1emMwYUs2c1JqSmtRcmRXUi1rUjJvLWJKakpRTlBXZXI2SGl4SWlYalNObGhwRzhUNGZ3TG84?oc=5",
    "source": "히트뉴스",
    "date": "2026-06-10"
+  },
+  {
+   "title": "﻿코스닥 훈풍 타고...K제약·바이오 IPO '재점화' - ebn.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9VMmVfNGY4c2xBdll5NXViRHhQMW5EZ01DSFRIX3B2SkRjYlRzOUt2SjBCaUkzSW5raEFLLWE3dVBYVlVHM09OU2NYLTdfakFhcmZYS2IzTkF4X3d1YzJndVFYaGxPWWNf?oc=5",
+   "source": "ebn.co.kr",
+   "date": "2026-06-17"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -139,16 +139,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-22"
   },
   {
-   "title": "방산주, 종전에도 급등세…\"K-방산 중동 수출 기회\" - 마켓인",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE51OWU2d3NKcUt6alpjTlBxbWJ4dkllMkg1NVdicU9Jb0FqcGFCSEJFVHdLSU03V1FkN1ZuUEgxWnRUSmFWUDBIeEt6RzBVVkJxLUVXQ2Fua2RVempzUWo1aGE2ZmVCbGpzaHMwazZEcE5EWlE?oc=5",
-   "source": "마켓인",
-   "date": "2026-06-16"
-  },
-  {
    "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
    "source": "뉴스1",
    "date": "2026-06-05"
+  },
+  {
+   "title": "방산주, 종전에도 급등세…\"K-방산 중동 수출 기회\" - 마켓인",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE51OWU2d3NKcUt6alpjTlBxbWJ4dkllMkg1NVdicU9Jb0FqcGFCSEJFVHdLSU03V1FkN1ZuUEgxWnRUSmFWUDBIeEt6RzBVVkJxLUVXQ2Fua2RVempzUWo1aGE2ZmVCbGpzaHMwazZEcE5EWlE?oc=5",
+   "source": "마켓인",
+   "date": "2026-06-16"
   },
   {
    "title": "\"K방산 고점? 내년 실적 미쳤다\"…저평가 된 알짜 종목 - 중앙일보",
@@ -270,7 +270,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "[속보]다우 강세·나스닥 약세…빅테크 약세에 미국 뉴욕증시 혼조 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5ndExzLW1heXdZNGVuN1ZIb3M5VnVQdnZiOEpSRjNqN1l0b2Z0WkJZN0QwUEs3Z0QyTHZUcjUwcm8xSHdzdlNiSjRzb3pXcnhtc0lscENJeko1LURtVlFjMlM2bmhpQWVO?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE4yYV9ONDh1NDFLLW5JYk9HQlp5Z25GNWtVS1o0ZjlXRUhGWjcwVWoxYVFuN1RLblhrbnVnR3dOeExUeGZYVm9FWTRwN3ZLSmx3eGZuWEN3LXdjVl93dTFQOTNCTlBWZms?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-22"
   },
@@ -337,32 +337,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
    "source": "뉴스핌",
    "date": "2026-04-17"
-  }
- ],
- "SS Materials Select SPDR ETF (XLB)": [
-  {
-   "title": "올리브영 미국 가더니…K뷰티 주가 줄줄이 '불기둥' [종목+] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE52ZV9YbEpOT3A2dXNWRVlyYjdWLVJROHhvaXMxSHpfN2JvdEJwZ2YxYW1SQW1mT190cUJRMXhiXzdqUE5CYThKZjcwaUlYNXk0RVlTbFM3WEIyZ9IBVEFVX3lxTFByZGN1Ty1pbFpZbENkLWk5MTJsLU9pUEJTNlB2c1BiT2xiUGd2ZWVYeEplQlA1Q2NhX1NKRzFBRjBYM2htZlUtREhua25LelJlUEI3Wg?oc=5",
-   "source": "한국경제",
-   "date": "2026-06-10"
-  },
-  {
-   "title": "뉴욕증시, 30% 넘게 폭락한 은값 충격파…하락 마감 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ieGJDV3QydXV4blg2OTd1ZmFKQnpjXy1jbGRydlFIakd0Sk85VnVOdUJoNkQxRldjeGhTTTUxTHppRVdFS2RzSV8teFFOQkR2dWtYUjdnNk1UNnPSAWBBVV95cUxQSU1PWTdkYTRnYktfRnJNTEV1dUpVbER0bVR5dWZCXzVnOEJJUzhxRGRfVF9mNUZWQVRxQnNSdVJUdGgzSkFQbW1hRG9IWnBvdXFiS1Q5SXFybnd4LVM0NGw?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-01-31"
-  },
-  {
-   "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9mT0ctREk4djBUMFB0dTA4YXI5TndwZlhGeVZ0ZHphU09WNWxBalh1a0NZXzlIRlNYTW90M1pqejBLQml3ZUg3SmkxYTg3Nnc2N0E?oc=5",
-   "source": "매일경제 마켓",
-   "date": "2026-05-14"
-  },
-  {
-   "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
-   "source": "아시아투데이",
-   "date": "2026-02-09"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
