@@ -1,7 +1,13 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-22T00:39:06
+// 갱신: 2026-06-22T02:37:51
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
+  {
+   "title": "투자자 둘 중 한 명, “코스피 1만 시대 온다” - 스트레이트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5uOGNldjNmOGRLU1dmMlRnb044dVlWcFJaelE5TmY2WXloYmVQOTVyakpzRkFNdy1zTEczTHM1RkhzU2xxZkZNRUp4ZktudXB5NUs0bm9OWUdCWUNMai1CUGZkRjUzUjNoLTJtZ1lKZGtlb2c?oc=5",
+   "source": "스트레이트뉴스",
+   "date": "2026-06-22"
+  },
   {
    "title": "[주간 증시전망] 코스피시장 대형주 접근이 바람직 - v.daum.net",
    "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE4wQmFRZTBNTTNQeUFHbUFJT1ltY00xd09vQ3RiUUw0UEdDeXRyamFnZ0lTVWY3cW9mTVRLb3VtM0tUaWVpV2c?oc=5",
@@ -9,25 +15,25 @@ window.HOLDING_NEWS = {
    "date": "2026-06-21"
   },
   {
-   "title": "[주간증시전망] 마이크론이 연 실적장세, 반도체 쏠림에 신중론도 고개 - jabon.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE0yMVNTdmtFOXlYaXVxNTgtYWF3RzFXd0FMaXlfTmt4T0FDUUpDWWxleWQzdnpSMFdfRHNNZUxoME9xeVJ4V3FMMDlWdGozcHZISTNyVWZOM25ORnR1SGh1X0g2U2I2a0k?oc=5",
-   "source": "jabon.co.kr",
+   "title": "신한투자증권 “개인투자자 2명 중 1명, 코스피 1만선 이상 기대”…주도주는 반도체 - 전자신문",
+   "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE96bEE2VWVnMUxMQVdYa01tdTV1UGFPS2VSOU9OOWFCeDlTVlpCaFUwVlFXalZJNUMtcVdQdDlvRTZJLTJSLVNObzVfZlJRUQ?oc=5",
+   "source": "전자신문",
    "date": "2026-06-22"
   },
   {
-   "title": "[AI MY 증시전망] 코스피, 9000선 안착 시도…반도체 쏠림 속 변동성 장세 전망 - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9OVUxpdDJmZmlsbWpKWlZUZDhNcnpibDJ6WWNJVXhxR2lPU1pUUW0zbGE4clBmeXBGa0poWGpTbEk2NFRQOEI2bnZ0WlhIMzVxZUpF?oc=5",
-   "source": "네이트",
-   "date": "2026-06-21"
-  },
-  {
-   "title": "[주간증시전망] ‘종전 훈풍’에 9000선 진입한 코스피, 반도체 실적·MSCI 시험대 - 브릿지경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFB0VUh4eHdUMnIzUW5xcHI0aGpnMzVsaDA5OG40b0d5a29VY0lTNklfVWpNaDZDVk40RFFKemF4S21SZHJIYlctUDFEblhEeHY4RWZ4Z19OOFFsdw?oc=5",
-   "source": "브릿지경제",
-   "date": "2026-06-21"
+   "title": "하반기 증시전망은?…투자자 2명 중 1명 \"코스피 1만 시대 온다\" - 파이낸셜뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA4TjhRNWE4bi1vSngyRGxwOTVfMUxZR01ZakFSVW5QNmw2UGNySXQ4bjdiTFFBR2lnZzZsalZUb0pyRTZvd1VzZkhGcXRxOTdWUUNwTmp2V216Zw?oc=5",
+   "source": "파이낸셜뉴스",
+   "date": "2026-06-22"
   }
  ],
  "KODEX 코스닥150 ETF": [
+  {
+   "title": "30주년 앞둔 코스닥, 소외감 심화…승강제 구체안 가을로 미뤄질듯 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1ERURLZzEtMnE2a2VXa0NVSVhDOV9HWjNXU1VFVzBkYlhsbGJRd01XaDFCOFhMajJIOGVyQlBXNXNrOHY0cTVwQXNjREpxQmpwQUpicmRTUkVFV0hRWjlpM9IBYEFVX3lxTE1ERURLZzEtMnE2a2VXa0NVSVhDOV9HWjNXU1VFVzBkYlhsbGJRd01XaDFCOFhMajJIOGVyQlBXNXNrOHY0cTVwQXNjREpxQmpwQUpicmRTUkVFV0hRWjlpMw?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-06-21"
+  },
   {
    "title": "9천피 시대라는데…\"내 계좌는 왜 이래\" 코스닥 개미 '눈물' [분석+] - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA4eGZMQzRCTjBOT2xyWVVMTnZ5M2FaWUNhMl83Y3JVQUtMeEx6eld6bnJHSkRxR21velotazFRWVFnTGJDYUlxeGRFbUx2TlM3TWRkcnJyZ2lBZ9IBVEFVX3lxTE5iaTV5cTVDeG5pc0tOc3BSRXUxeDZiUzV0WU9ySDZvNXk3OVdwMU1iZG15OEhqS3pVa3VZV0Z6V2VLdF9SNWUzTENHVjJBdnZXU2ptdQ?oc=5",
@@ -45,12 +51,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9SaWs5bHg1eC1CeEVDRnh5UkZTWnJDMk9YcGF3TUpWdnQzUG53YjN4Um1GSmRQMVZWZ0VaWkp5Q0I4UzFNb0RkeF9MYlFLZTlIT2YzVVRjdS15Uk1mb2tseA?oc=5",
    "source": "동양뉴스",
    "date": "2026-06-17"
-  },
-  {
-   "title": "[애널픽] '9000피 시대' 코스닥 부진 이유 - 뷰어스",
-   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1qbDVIWkZRVnF2NnA2eXRUQXNfQ1I5MDR2ZXUxYzJSYWVSeU1XZUdDRjdiMDktclRtSXJjUjA5bnNEN2pZTmVYSkRCVERqMlBOWVo2Nm5TRnc?oc=5",
-   "source": "뷰어스",
-   "date": "2026-06-18"
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
@@ -119,16 +119,16 @@ window.HOLDING_NEWS = {
    "date": "2026-02-04"
   },
   {
-   "title": "[업종 주가 분석] 원전주, 美 원전 프로젝트에 40년 만의 호황 기대 - 소년한국일보",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9jTk91Y1I2ZWFjVkdnMFBLVUxVYUJ3aEVNZ0xUT2YxYWJmU05xbS1MdGVZcEFCRnZaUWwyaHp0Yi01eEs1U01Sa24tWTZndmRLMF81Yll0Mm5hTnR0M1loQzFpc0RUX0xHTG85VdIBcEFVX3lxTE10cV9MaUl3QUN2M254eXYxdVNZQjl1cV9kekFybXFqTHlUa1BxWWRjRG5iUXoxOG1JbE9aMkhTZVV0RnlkUWFHalJadmpkR19tR3hUTXpkRFdTMXpVRlhINU00TWFuYnNidHBUNXBSaDg?oc=5",
-   "source": "소년한국일보",
-   "date": "2025-11-13"
-  },
-  {
    "title": "“AI 수요증가에 원전 투자는 필연적”···국내 원전주 수혜 기대감↑ - 동양뉴스",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5kamdRVTdSY0hvUzYyaVc4Y2RyNVpUYnJ6S18yNTVCSHpOUDVhZHVpR3JMOEZEaE91M0E4SXNNRWtwVmZUT0Ffd3Q1dC14Q0I2dmNpZUo2Yjkyd1RwZUJJdA?oc=5",
    "source": "동양뉴스",
    "date": "2026-01-06"
+  },
+  {
+   "title": "[업종 주가 분석] 원전주, 美 원전 프로젝트에 40년 만의 호황 기대 - 소년한국일보",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9jTk91Y1I2ZWFjVkdnMFBLVUxVYUJ3aEVNZ0xUT2YxYWJmU05xbS1MdGVZcEFCRnZaUWwyaHp0Yi01eEs1U01Sa24tWTZndmRLMF81Yll0Mm5hTnR0M1loQzFpc0RUX0xHTG85VdIBcEFVX3lxTE10cV9MaUl3QUN2M254eXYxdVNZQjl1cV9kekFybXFqTHlUa1BxWWRjRG5iUXoxOG1JbE9aMkhTZVV0RnlkUWFHalJadmpkR19tR3hUTXpkRFdTMXpVRlhINU00TWFuYnNidHBUNXBSaDg?oc=5",
+   "source": "소년한국일보",
+   "date": "2025-11-13"
   }
  ],
  "Plus K-방산 ETF": [
