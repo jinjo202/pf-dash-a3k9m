@@ -1,7 +1,7 @@
 // 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
-  "as_of": "2026-06-21",
+  "as_of": "2026-06-22",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5477,13 +5477,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1529.1,
+      "current": 1530.48,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 6.3418,
-      "mtd_pct": 2.2611,
-      "daily_pct": -0.5502,
-      "as_of": "2026-06-21",
+      "ytd_pct": 6.4378,
+      "mtd_pct": 2.3534,
+      "daily_pct": -0.4605,
+      "as_of": "2026-06-22",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5754,7 +5754,7 @@ window.BENCHMARKS = {
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
-          "2026-06-21"
+          "2026-06-22"
         ],
         "values": [
           1374.89,
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1510.96,
           1525.42,
           1537.5601,
-          1529.1
+          1530.48
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 77.68,
+      "current": 77.65,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 35.2839,
-      "mtd_pct": -11.0806,
-      "daily_pct": 1.4099,
+      "ytd_pct": 35.2316,
+      "mtd_pct": -11.1149,
+      "daily_pct": 1.3708,
       "as_of": "2026-06-21",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           76.05,
           76.79,
           76.6,
-          77.68
+          77.65
         ]
       }
     },

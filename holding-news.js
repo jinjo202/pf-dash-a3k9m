@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-22T00:05:20
+// 갱신: 2026-06-22T00:39:06
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,6 +7,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE4wQmFRZTBNTTNQeUFHbUFJT1ltY00xd09vQ3RiUUw0UEdDeXRyamFnZ0lTVWY3cW9mTVRLb3VtM0tUaWVpV2c?oc=5",
    "source": "v.daum.net",
    "date": "2026-06-21"
+  },
+  {
+   "title": "[주간증시전망] 마이크론이 연 실적장세, 반도체 쏠림에 신중론도 고개 - jabon.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE0yMVNTdmtFOXlYaXVxNTgtYWF3RzFXd0FMaXlfTmt4T0FDUUpDWWxleWQzdnpSMFdfRHNNZUxoME9xeVJ4V3FMMDlWdGozcHZISTNyVWZOM25ORnR1SGh1X0g2U2I2a0k?oc=5",
+   "source": "jabon.co.kr",
+   "date": "2026-06-22"
   },
   {
    "title": "[AI MY 증시전망] 코스피, 9000선 안착 시도…반도체 쏠림 속 변동성 장세 전망 - 네이트",
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFB0VUh4eHdUMnIzUW5xcHI0aGpnMzVsaDA5OG40b0d5a29VY0lTNklfVWpNaDZDVk40RFFKemF4S21SZHJIYlctUDFEblhEeHY4RWZ4Z19OOFFsdw?oc=5",
    "source": "브릿지경제",
    "date": "2026-06-21"
-  },
-  {
-   "title": "[주간증시전망] 8000선 다지는 코스피… 엔비디아 컴퓨텍스와 6·3 지방선거 주목 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPZVEwWjNEZV9iWnJFTG5oV2JZcjZ3ZmVqekZsTDJxcU1lTGVUYW8wMDhYc0Zzcko4N2NZN0hiWHlORDYyNTFzTDdTQWxDSmpMd240V1IzVElhelJLZzh1Y0kwbWNISl9LU3FhREV3b1o5RHNJVEFvbzdmSHZKdEx3MmRsakZCNlpt0gGcAUFVX3lxTE5KRkpRTUoxU1B5aFJsM0oxNXJFSUdIRlpqQk5iNno3MDh4WHF0TTQ2RW50MDBOYVZoaUp6YldwUnpZZnphejgwRkZsa2tzbmUxaG53Wk5CWDNwbDZUbl9nLWd2R2pSdzEzUlptQVhKdE53b3lKMURNQ3ByVHVyejlmOU1tQlk2V3doUnZHOXEtTEZLN1NSSmdzdlNxZg?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-05-31"
   }
  ],
  "KODEX 코스닥150 ETF": [
