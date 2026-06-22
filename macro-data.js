@@ -449,27 +449,27 @@ window.MACRO = {
       "title": "WTI 유가 (YoY)",
       "detail": "17.8% → 19.0% (2026-06-21 발표)",
       "as_of": "2026-06-21"
+    },
+    {
+      "date": "2026-06-21",
+      "type": "revision",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "19.0% → 19.5% (수정)",
+      "as_of": "2026-06-21"
     }
   ],
   "updates_today": [
     {
       "date": "2026-06-21",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "124.6조원 → 128.4조원 (2026-06-18 발표)",
-      "as_of": "2026-06-18"
-    },
-    {
-      "date": "2026-06-21",
-      "type": "release",
+      "type": "revision",
       "key": "oil_yoy",
       "title": "WTI 유가 (YoY)",
-      "detail": "17.8% → 19.0% (2026-06-21 발표)",
+      "detail": "19.0% → 19.5% (수정)",
       "as_of": "2026-06-21"
     }
   ],
-  "generated": "2026-06-21T23:22:05Z",
+  "generated": "2026-06-22T00:03:51Z",
   "regime": {
     "score": 14,
     "label": "비중확대 우위",
@@ -830,17 +830,17 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -28,
-        "fx": 40,
+        "fx": 38,
         "mon": 30,
         "cycle": 4
       },
       "horizon": {
-        "m1": 11,
+        "m1": 10,
         "m3": 14,
-        "m12": 18
+        "m12": 17
       },
-      "fx_val": 6.76,
-      "fx_chg": 2.0,
+      "fx_val": 6.77,
+      "fx_chg": 1.9,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "인민은행 부양(+)"
@@ -14795,11 +14795,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 19.0,
+      "current": 19.5,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.47,
+      "score": -0.49,
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
@@ -17840,7 +17840,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2396773416960,
               "fwdpe": 23.5,
-              "pbr": 70.69,
+              "pbr": null,
               "rets": {
                 "w1": 9.7,
                 "m1": 18.0,
@@ -20264,7 +20264,7 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 19.0%(악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 19.5%(악재)",
     "valuation": "[부담 우위] S&P500 12M Fwd PER 21.2배(강한 악재)·KOSPI 12M Fwd PER 7.2배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.45%(중립)",
     "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1529.1원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 128.4조원(강한 호재)·한국 투자자별 수급(외국인, 월) -20.3조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 16.4(중립)·S&P500 12M 모멘텀 20.9%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
