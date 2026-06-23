@@ -3,9 +3,9 @@
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.052,
+   "score": 1.053,
    "factors": {
-    "value": 1.8,
+    "value": 1.81,
     "momentum": 1.88,
     "earnings": 0.36,
     "macro": 0.23,
@@ -14,7 +14,7 @@
   },
   "이머징": {
    "pref": "중립",
-   "score": -0.116,
+   "score": -0.117,
    "factors": {
     "value": 0.35,
     "momentum": -0.41,
@@ -25,9 +25,9 @@
   },
   "미국": {
    "pref": "중립",
-   "score": -0.228,
+   "score": -0.223,
    "factors": {
-    "value": -0.91,
+    "value": -0.89,
     "momentum": -0.72,
     "earnings": 0.83,
     "macro": -0.53,
@@ -36,9 +36,9 @@
   },
   "유럽": {
    "pref": "축소",
-   "score": -0.282,
+   "score": -0.285,
    "factors": {
-    "value": -0.72,
+    "value": -0.73,
     "momentum": -0.87,
     "earnings": -0.34,
     "macro": 0.98,
@@ -47,9 +47,9 @@
   },
   "일본": {
    "pref": "축소",
-   "score": -0.426,
+   "score": -0.429,
    "factors": {
-    "value": -0.52,
+    "value": -0.53,
     "momentum": 0.12,
     "earnings": 0.93,
     "macro": -1.66,
