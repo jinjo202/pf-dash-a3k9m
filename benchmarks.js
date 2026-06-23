@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 74.3,
+      "current": 74.2,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 29.3974,
-      "mtd_pct": -14.9496,
-      "daily_pct": -3.0026,
+      "ytd_pct": 29.2233,
+      "mtd_pct": -15.0641,
+      "daily_pct": -3.1332,
       "as_of": "2026-06-22",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           76.05,
           76.79,
           76.6,
-          74.3
+          74.2
         ]
       }
     },
