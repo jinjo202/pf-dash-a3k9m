@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-23T10:49:55
+// 갱신: 2026-06-23T11:22:03
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -22,7 +22,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "[주간 증시전망] 코스피시장 대형주 접근이 바람직 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE96UDdKTENSWTJSYS1EVlFncDNIN0lHelVuY29EMzdwenlfN3RxalBhaDhtYVZ1Ni15bG1CUkJTaUY0RE1XdVFzUlUtVDQyT0U?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE4wQmFRZTBNTTNQeUFHbUFJT1ltY00xd09vQ3RiUUw0UEdDeXRyamFnZ0lTVWY3cW9mTVRLb3VtM0tUaWVpV2c?oc=5",
    "source": "v.daum.net",
    "date": "2026-06-21"
   }
@@ -93,16 +93,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-19"
   },
   {
+   "title": "‘먹구름’ 낀 제약ㆍ바이오株…셀트리온 3인방도 우울한 오전 - 메디컬투데이",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE42elZxRV90ME4ta01EUENoZkNsaU1FQ0ZaTzlDcFRORzdFRmNYWkdHVFJVSElIT1c2SzI5QzJGa3h0bURLclEzMUdDYzRSNExKT3dONllyMmpqcXpYb1B4WkoxNWcwbU5TaG5FWQ?oc=5",
+   "source": "메디컬투데이",
+   "date": "2026-06-22"
+  },
+  {
    "title": "[주식] 코스피·코스닥 나란히 하락 속 비보존제약 10%↑ - 히트뉴스",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA1aGJEajh0Y0o0RWZZUWRia2VLbW9xczRRZ1ZNNUxQSkV0QVhUTGZhS2ZHcDM1emMwYUs2c1JqSmtRcmRXUi1rUjJvLWJKakpRTlBXZXI2SGl4SWlYalNObGhwRzhUNGZ3TG84?oc=5",
    "source": "히트뉴스",
    "date": "2026-06-10"
-  },
-  {
-   "title": "﻿코스닥 훈풍 타고...K제약·바이오 IPO '재점화' - ebn.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9VMmVfNGY4c2xBdll5NXViRHhQMW5EZ01DSFRIX3B2SkRjYlRzOUt2SjBCaUkzSW5raEFLLWE3dVBYVlVHM09OU2NYLTdfakFhcmZYS2IzTkF4X3d1YzJndVFYaGxPWWNf?oc=5",
-   "source": "ebn.co.kr",
-   "date": "2026-06-17"
   }
  ],
  "Hanaro 원자력 iSelect": [
