@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-06-14a";</script>
+<script>window.CODE_VERSION = "2026-06-23b";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -44,6 +44,7 @@
     document.write('<script src="portfolio-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="macro-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="country-model.js?v=' + v + '"></scr' + 'ipt>');
+    document.write('<script src="benchmarks.js?v=' + v + '" onerror="window.BENCHMARKS=window.BENCHMARKS||null"></scr' + 'ipt>');
     document.write('<script src="fm-data.js?v=' + v + '" onerror="window.FM_DATA=window.FM_DATA||null"></scr' + 'ipt>');
     document.write('<script src="fm-financials.js?v=' + v + '" onerror="window.FM_FINANCIALS=window.FM_FINANCIALS||null"></scr' + 'ipt>');
   })();
@@ -235,6 +236,34 @@
   .memo-list li { display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.55; }
   .memo-list .k { flex:0 0 84px; font-weight:700; color:var(--muted); font-size:12px; padding-top:1px; }
   .stance-row { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
+
+  /* 오늘의 CIO 의견 */
+  .cio-ai-btn { margin-left:auto; padding:6px 11px; border:1px solid var(--border); border-radius:7px; background:var(--panel-soft); color:var(--text); font-size:12px; font-weight:700; cursor:pointer; }
+  .cio-ai-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+  .cio-ai-btn:disabled { opacity:.5; cursor:not-allowed; }
+  .cio-vol { border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:14px; background:var(--panel-soft); }
+  .cio-vol .vhead { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-weight:800; font-size:14px; }
+  .cio-verdict { font-size:11px; }
+  .cio-tape { font-size:12px; color:var(--text-soft); margin-top:6px; line-height:1.5; font-variant-numeric:tabular-nums; }
+  .cio-cols { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+  @media (max-width:680px){ .cio-cols { grid-template-columns:1fr; } }
+  .cio-col { border:1px solid var(--border); border-radius:8px; padding:9px 11px; background:var(--panel); }
+  .cio-col .ch { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; margin-bottom:5px; }
+  .cio-col ul { margin:0; padding-left:16px; font-size:12px; line-height:1.55; }
+  .cio-sec { border-left:3px solid var(--border); padding:3px 0 3px 12px; margin:0 0 12px; }
+  .cio-sec .sh { font-size:11px; font-weight:800; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; }
+  .cio-sec .sd { font-size:13px; color:var(--text-soft); line-height:1.6; margin-top:2px; }
+  .cio-sec.pos { border-left-color:var(--pos); }
+  .cio-sec.neg { border-left-color:var(--neg); }
+  .cio-sec.neu { border-left-color:var(--accent); }
+  .cio-trades { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media (max-width:680px){ .cio-trades { grid-template-columns:1fr; } }
+  .cio-trades .tcol { border:1px solid var(--border); border-radius:8px; padding:9px 11px; background:var(--panel); }
+  .cio-trades .tcol .ch { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; }
+  .cio-trades ul { margin:0; padding-left:16px; font-size:12.5px; line-height:1.55; }
+  #cioAiOut { margin-top:14px; border-top:1px dashed var(--border); padding-top:12px; }
+  #cioAiOut .cio-ai-head { font-weight:800; font-size:13px; margin-bottom:6px; }
+  #cioAiOut .bd { font-size:13.5px; line-height:1.6; }
 </style>
 </head>
 <body>
@@ -268,11 +297,16 @@
   </div>
 
   <div id="app" class="hidden">
-    <!-- CIO 메모 -->
-    <div class="panel" id="memoPanel">
-      <h2>📋 CIO 메모 — 오늘의 종합 판단</h2>
-      <p class="hint" id="memoHint"></p>
-      <ul class="memo-list" id="memoList"></ul>
+    <!-- 오늘의 CIO 의견 -->
+    <div class="panel" id="cioPanel">
+      <h2>🧭 오늘의 CIO 의견
+        <span id="cioStamp" style="font-size:11px;color:var(--muted);font-weight:600"></span>
+        <button type="button" id="cioAiBtn" class="cio-ai-btn" title="로컬 serve.py(구독 차감) 또는 API 키로 서술형 심층 브리핑 생성">🤖 AI 심층의견</button>
+      </h2>
+      <p class="hint" id="cioHint"></p>
+      <div id="cioVol"></div>
+      <div id="cioSections"></div>
+      <div id="cioAiOut" class="hidden"></div>
     </div>
 
     <!-- 1) 포지션 사이징 -->
@@ -450,7 +484,7 @@ function boot(data){
   renderSector();
   renderLongTerm();
   renderActions();
-  renderMemo();
+  renderCIO();
   initChat();
 }
 
@@ -755,27 +789,210 @@ function renderActions(){
   $('actionList').innerHTML = html || '<div class="note">도출된 조정 액션이 없습니다(현 비중이 목표에 근접).</div>';
 }
 
-/* ============================ 렌더: CIO 메모 ============================ */
-function renderMemo(){
-  var rs = RECS.sizing;
-  $('memoHint').textContent = '기준일 '+(SNAP.asOf||'')+' · 운용규모(본 계정) '+SNAP.total.toFixed(0)+' '+SNAP.unit+' · '+(PF.holdings||[]).length+'개 포지션';
-  // top country tilts
-  var ups = RECS.countries.filter(function(c){return c.delta>0.005 && c.name!=='기타';}).sort(function(a,b){return b.delta-a.delta;});
-  var dns = RECS.countries.filter(function(c){return c.delta<-0.005 && c.name!=='기타';}).sort(function(a,b){return a.delta-b.delta;});
-  var owSec = RECS.sectors.filter(function(s){return s.stance==='overweight';}).map(function(s){return s.name;});
-  var uwSec = RECS.sectors.filter(function(s){return s.stance==='underweight';}).map(function(s){return s.name;});
-  var topStocks = ((window.FM_DATA&&FM_DATA.stocks)||[]).filter(function(s){return (s.conviction||0)>=5;}).map(function(s){return s.name;});
-  function tag(arr,cls){ return arr.map(function(x){return '<span class="badge '+cls+'">'+esc(x)+'</span>';}).join(' '); }
-  var items = [
-    ['포지션', '레짐 <b>'+(rs.score>=0?'+':'')+rs.score+'</b> → 순노출 목표 <b>'+esc(rs.band.net)+'</b> (<b>'+esc(rs.band.label)+'</b>). '+esc(rs.band.desc)],
-    ['국가 확대', ups.length? tag(ups.map(function(c){return c.name+' '+pp(c.delta);}),'b-pos') : '<span class="delta-fl">해당 없음</span>'],
-    ['국가 축소', dns.length? tag(dns.map(function(c){return c.name+' '+pp(c.delta);}),'b-neg') : '<span class="delta-fl">해당 없음</span>'],
-    ['섹터 선호', '<div class="stance-row">확대 '+tag(owSec,'b-pos')+' / 축소 '+tag(uwSec,'b-neg')+'</div>'],
-    ['핵심 종목', tag(topStocks,'b-neu')]
+/* ============================ 시장 데이터 / 오늘의 CIO 의견 ============================ */
+function bmMap(){ var m={}; ((window.BENCHMARKS&&BENCHMARKS.indices)||[]).forEach(function(x){ m[x.name]=x; }); return m; }
+function sgn(v,dec){ if(v==null) return '—'; dec=dec==null?1:dec; return (v>=0?'+':'')+Number(v).toFixed(dec)+'%'; }
+
+// 채팅/AI 컨텍스트용 시황 요약 (벤치마크 일간/MTD/YTD/PER)
+function marketTape(){
+  var m=bmMap(); var names=['KOSPI','KOSDAQ','S&P 500','NASDAQ','필라델피아 반도체','니케이 225','MSCI ACWI','VIX','USD/KRW','US 10Y','WTI 유가'];
+  var out={}; names.forEach(function(n){ var x=m[n]; if(x) out[n]={일간:sgn(x.daily_pct),MTD:sgn(x.mtd_pct),YTD:sgn(x.ytd_pct),현재:x.current,PER:(x.valuation&&x.valuation.pe)||null}; });
+  if (window.BENCHMARKS) out.기준일=BENCHMARKS.as_of;
+  return out;
+}
+
+// 변동성/조정원인 진단: 기술적(수급·포지셔닝) vs 펀더멘털
+function analyzeMarket(){
+  var m=bmMap();
+  function obj(n){ return m[n]||null; }
+  function d(n){ var x=m[n]; return x&&x.daily_pct!=null?x.daily_pct:null; }
+  var EQ=['KOSPI','KOSDAQ','S&P 500','NASDAQ','니케이 225','STOXX 600','상해종합','MSCI ACWI','MSCI EM'];
+  var worst=null, worstN=null;
+  EQ.forEach(function(n){ var v=d(n); if(v!=null && (worst==null||v<worst)){ worst=v; worstN=n; } });
+  var pillars=(window.MACRO&&MACRO.regime&&MACRO.regime.pillars)||{};
+  var ep=pillars.earnings?pillars.earnings.score:null, mp=pillars.macro?pillars.macro.score:null;
+  var sox=d('필라델피아 반도체'), kospi=d('KOSPI'), kosdaq=d('KOSDAQ');
+  var vix=obj('VIX'), us10=obj('US 10Y'), wti=obj('WTI 유가'), krw=obj('USD/KRW');
+  var tech=[], fund=[], support=[], tScore=0, fScore=0;
+
+  if (sox!=null){
+    if (sox>0 || (worst!=null && sox>worst+1.0)){ tech.push('반도체 주도주 견조(SOX '+sgn(sox)+') → 로테이션·수급성'); tScore+=2; }
+    else if (sox<=-1.5){ fund.push('주도주(SOX '+sgn(sox)+')까지 동반 하락 → 펀더멘털 훼손 신호'); fScore+=3; }
+  }
+  if (kospi!=null && kosdaq!=null && (kosdaq-kospi)<=-1.0){ tech.push('대형↔소형 분열(코스닥 '+sgn(kosdaq)+' vs 코스피 '+sgn(kospi)+') → 투기/포지셔닝 디레버리징'); tScore+=1; }
+  if (vix && vix.current!=null){
+    if (vix.current<25){ tech.push('VIX '+vix.current.toFixed(1)+' (낮음) → 공포 일시적, 시스템 스트레스 아님'); tScore+=1; }
+    else { fund.push('VIX '+vix.current.toFixed(1)+' (≥25 위기수준) → 시스템 스트레스'); fScore+=3; }
+  }
+  if (ep!=null){
+    if (ep>=10){ tech.push('기업이익 레짐 견조('+(ep>=0?'+':'')+ep+') → 이익 펀더멘털 유지'); tScore+=2; }
+    else if (ep<=-10){ fund.push('기업이익 레짐 악화('+ep+')'); fScore+=3; }
+  }
+  if (us10 && us10.current!=null){
+    if (us10.current>=4.75){ fund.push('미 10Y '+us10.current.toFixed(2)+'% (≥4.75) → 금리발 멀티플 압박'); fScore+=2; }
+    else if (us10.daily_pct!=null && us10.daily_pct>0 && us10.current>=4.4){ tech.push('미 10Y '+us10.current.toFixed(2)+'% 소폭 상승 → 경계'); }
+  }
+  if (wti && wti.daily_pct!=null){
+    if (wti.daily_pct>=3){ fund.push('유가 급등('+sgn(wti.daily_pct)+') → 인플레 재점화'); fScore+=2; }
+    else if (wti.daily_pct<=-3){ support.push('유가 하락('+sgn(wti.daily_pct)+') → 디스인플레·멀티플 우호'); tScore+=1; }
+  }
+  if (mp!=null && mp<=-10){ fund.push('매크로 레짐 악화('+mp+')'); fScore+=2; }
+  if (krw && krw.current!=null && krw.current>=1500 && krw.daily_pct!=null && krw.daily_pct>0){ tech.push('원화 약세('+krw.current.toFixed(0)+') → 외국인 환손실·수급 압력(한국)'); tScore+=1; }
+
+  var triggered = (worst!=null && worst<=-1.5) || (vix && vix.daily_pct!=null && vix.daily_pct>=10);
+  var verdict, vcls;
+  if (fScore>tScore+1){ verdict='펀더멘털 균열 우위'; vcls='neg'; }
+  else if (tScore>fScore+1){ verdict='기술적·수급성 조정'; vcls='pos'; }
+  else { verdict='혼재 (펀더멘털 경계)'; vcls='neu'; }
+  return { triggered:triggered, worst:worst, worstN:worstN, tech:tech, fund:fund, support:support, verdict:verdict, vcls:vcls, tScore:tScore, fScore:fScore, m:m };
+}
+
+// 구체적 매매 후보 도출
+function tradeIdeas(a){
+  var buys=[], trims=[], holdingTrims=[];
+  RECS.sectors.forEach(function(s){
+    if (!s.view) return;
+    if (s.stance==='overweight' && s.delta>0.01){
+      var etf=(s.view.etfs&&s.view.etfs[0])?s.view.etfs[0].ticker:'';
+      buys.push({what:s.name+(etf?' ('+etf+')':''), why:'섹터 확대 '+pp(s.delta)+' · 현'+pct(s.cur)+'→목표'+pct(s.tgt)});
+    }
+    if (s.stance==='underweight' && s.delta<-0.005){ trims.push({what:s.name+' 축소', why:'현'+pct(s.cur)+'→목표'+pct(s.tgt)+' '+pp(s.delta)}); }
+  });
+  ((window.FM_DATA&&FM_DATA.stocks)||[]).forEach(function(st){
+    if (/확대/.test(st.action) && (st.conviction||0)>=5){ buys.push({what:st.name+' ('+st.ticker+')', why:st.theme+' · 컨빅션5'}); }
+  });
+  RECS.countries.forEach(function(c){
+    if (c.name==='기타') return;
+    if (c.delta>0.015) buys.push({what:c.name+' 확대', why:pp(c.delta)+' · 모델 '+c.pref});
+    if (c.delta<-0.015) trims.push({what:c.name+' 축소', why:pp(c.delta)+' · 모델 '+c.pref});
+  });
+  var uwKeys={}; RECS.sectors.forEach(function(s){ if(s.view&&s.stance==='underweight') uwKeys[s.key]=1; });
+  var tot=SNAP.total||1;
+  (PF.holdings||[]).slice().sort(function(x,y){return (y.mkt||0)-(x.mkt||0);}).forEach(function(h){
+    var se=h.sector_exposure||{}, topK=null, topV=0;
+    for(var k in se){ if(se[k]>topV){ topV=se[k]; topK=k; } }
+    if (topK && uwKeys[topK] && holdingTrims.length<4){ holdingTrims.push(h.name+' '+pct((h.mkt||0)/tot)); }
+  });
+  return {buys:buys, trims:trims, holdingTrims:holdingTrims};
+}
+
+function renderCIO(){
+  var panel=$('cioPanel'); if(!panel) return;
+  var a=analyzeMarket();
+  var rs=RECS.sizing, b=rs.band;
+  var pillars=(window.MACRO&&MACRO.regime&&MACRO.regime.pillars)||{};
+  var hasTape = !!(window.BENCHMARKS&&BENCHMARKS.indices&&BENCHMARKS.indices.length);
+
+  $('cioStamp').textContent = '· 기준일 '+(SNAP.asOf||'')+(hasTape?(' · 시황 '+BENCHMARKS.as_of):'');
+  $('cioHint').textContent = '운용규모 '+SNAP.total.toFixed(0)+' '+SNAP.unit+' · '+(PF.holdings||[]).length+'개 포지션 · 매일 데이터 기준 자동 산출. 서술형 심층의견은 우상단 버튼.';
+
+  // ── 변동성/조정원인 ──
+  var volHtml='';
+  if (hasTape){
+    var tapeBits=[], extreme=[];
+    ['KOSPI','KOSDAQ','NASDAQ','S&P 500','필라델피아 반도체','VIX'].forEach(function(n){
+      var x=a.m[n]; if(!x) return;
+      tapeBits.push(n+' '+sgn(x.daily_pct));
+      if (n!=='VIX' && x.daily_pct!=null && Math.abs(x.daily_pct)>=7) extreme.push(n+' '+sgn(x.daily_pct));
+    });
+    var vcl = a.vcls==='pos'?'b-pos':(a.vcls==='neg'?'b-neg':'b-neu');
+    var warnHtml = extreme.length ? '<div class="cio-tape" style="color:var(--warn-fg)">⚠ 큰 일간변동('+esc(extreme.join(', '))+') — yfinance 세션갭 과대계상 가능성. 매매·게시 전 네이버/거래소로 교차확인 권장.</div>' : '';
+    volHtml = '<div class="cio-vol">'+
+      '<div class="vhead">'+(a.triggered?'⚡ 변동성 확대 — 조정 원인 진단':'📈 시장 평온 — 일간 변동 정상범위')+
+        ' <span class="badge cio-verdict '+vcl+'">'+esc(a.verdict)+'</span></div>'+
+      '<div class="cio-tape">'+esc(tapeBits.join('  ·  '))+'</div>'+ warnHtml +
+      '<div class="cio-cols">'+
+        '<div class="cio-col"><div class="ch" style="color:var(--neg)">펀더멘털 요인</div>'+
+          (a.fund.length?'<ul><li>'+a.fund.map(esc).join('</li><li>')+'</li></ul>':'<div class="sd" style="color:var(--muted)">뚜렷한 펀더멘털 훼손 신호 없음</div>')+'</div>'+
+        '<div class="cio-col"><div class="ch" style="color:var(--pos)">기술적·수급 요인</div>'+
+          ((a.tech.length||a.support.length)?'<ul><li>'+a.tech.concat(a.support).map(esc).join('</li><li>')+'</li></ul>':'<div class="sd" style="color:var(--muted)">—</div>')+'</div>'+
+      '</div></div>';
+  }
+  $('cioVol').innerHTML=volHtml;
+
+  // ── 5개 섹션 ──
+  var ups=RECS.countries.filter(function(c){return c.delta>0.005&&c.name!=='기타';}).sort(function(x,y){return y.delta-x.delta;});
+  var dns=RECS.countries.filter(function(c){return c.delta<-0.005&&c.name!=='기타';}).sort(function(x,y){return x.delta-y.delta;});
+  var owSec=RECS.sectors.filter(function(s){return s.view&&s.stance==='overweight';});
+  var uwSec=RECS.sectors.filter(function(s){return s.view&&s.stance==='underweight';});
+  var topC=RECS.countries.slice().sort(function(x,y){return y.curW-x.curW;})[0];
+  function pl(v){ return (v>=0?'+':'')+v; }
+  var pk=Object.keys(pillars).map(function(k){return pillars[k];}).filter(Boolean);
+  var drivers=pk.filter(function(p){return p.score>=10;}).sort(function(x,y){return y.score-x.score;}).map(function(p){return esc(p.name)+pl(p.score);});
+  var drags=pk.filter(function(p){return p.score<=-10;}).sort(function(x,y){return x.score-y.score;}).map(function(p){return esc(p.name)+pl(p.score);});
+
+  var sec1='레짐 <b>'+pl(rs.score)+'</b> ('+esc(b.label)+'). 견인 '+(drivers.length?'<b>'+drivers.join('·')+'</b>':'—')+
+    ' / 발목 '+(drags.length?'<b>'+drags.join('·')+'</b>':'—')+'. '+(hasTape?'오늘 시장은 <b>'+esc(a.verdict)+'</b>. ':'')+'후기 사이클·고밸류 구간의 리스크온.';
+
+  var weightAdj;
+  if (a.fund.length>=2 && a.fScore>a.tScore){ weightAdj='단 오늘 펀더멘털 경계 → 밴드 <b>하단</b> 운용 + 헤지버퍼 확보, 신규 베타 보류.'; }
+  else if (a.triggered){ weightAdj='오늘 변동성은 <b>기술적 성격</b> → 비중 축소 불필요, 예정 리밸런싱 유지(조정은 매수 기회 관점).'; }
+  else { weightAdj='완전투자 유지 + 선호국/섹터 틸트.'; }
+  var sec2='순노출 목표 <b>'+esc(b.net)+'</b> ('+esc(b.label)+'). '+weightAdj;
+
+  function ctag(arr,cls){ return arr.map(function(c){return '<span class="badge '+cls+'">'+esc(c.name)+' '+pp(c.delta)+'</span>';}).join(' '); }
+  var sec3='확대 '+(ups.length?ctag(ups,'b-pos'):'<span class="delta-fl">— (현 비중이 목표 근접)</span>')+
+    ' / 축소 '+(dns.length?ctag(dns,'b-neg'):'<span class="delta-fl">—</span>')+
+    (topC?'. 현 최대 <b>'+esc(topC.name)+' '+pct(topC.curW)+'</b> — 단일국 집중 리스크 인지(헤지).':'');
+
+  function stag(arr,cls){ return arr.map(function(s){return '<span class="badge '+cls+'">'+esc(s.name)+'</span>';}).join(' '); }
+  var sec4='확대 '+(owSec.length?stag(owSec,'b-pos'):'—')+' / 축소 '+(uwSec.length?stag(uwSec,'b-neg'):'—')+'. 실행은 글로벌/국내 ETF(아래 섹터 패널).';
+
+  var ti=tradeIdeas(a);
+  var needTrade;
+  if (a.fund.length>=2 && a.fScore>a.tScore){ needTrade='<b style="color:var(--neg)">예 — 디리스킹 우선</b>: 고밸류·고베타부터 트림하고 헤지 추가.'; }
+  else if (ti.buys.length||ti.trims.length){ needTrade='<b>조건부</b>: 긴급 매매보다 아래 예정 리밸런싱을 분할 집행. '+(a.triggered?'기술적 조정이라 추격매도 자제.':''); }
+  else { needTrade='<b>아니오</b>: 현 비중이 목표에 근접 — 관망.'; }
+  function tlist(arr){ return arr.length?('<ul><li>'+arr.map(function(x){return '<b>'+esc(x.what)+'</b> — '+esc(x.why);}).join('</li><li>')+'</li></ul>'):''; }
+  var buyHtml=tlist(ti.buys)||'<div class="sd" style="color:var(--muted)">신규 매수 후보 없음</div>';
+  var trimInner=ti.trims.map(function(x){return '<b>'+esc(x.what)+'</b> — '+esc(x.why);});
+  if (ti.holdingTrims.length) trimInner.push('보유 중 트림 후보: '+esc(ti.holdingTrims.join(', ')));
+  var trimHtml=trimInner.length?('<ul><li>'+trimInner.join('</li><li>')+'</li></ul>'):'<div class="sd" style="color:var(--muted)">축소 후보 없음</div>';
+  var sec5=needTrade+'<div class="cio-trades" style="margin-top:8px">'+
+    '<div class="tcol"><div class="ch" style="color:var(--pos)">살 것 (매수/확대)</div>'+buyHtml+'</div>'+
+    '<div class="tcol"><div class="ch" style="color:var(--neg)">팔 것 (매도/축소)</div>'+trimHtml+'</div></div>';
+
+  var secs=[
+    {sh:'1) 매크로 뷰', cls:(rs.score>=10?'pos':rs.score<=-10?'neg':'neu'), html:sec1},
+    {sh:'2) 주식 비중', cls:b.cls, html:sec2},
+    {sh:'3) 국가 배분', cls:'neu', html:sec3},
+    {sh:'4) 섹터 배분', cls:'neu', html:sec4},
+    {sh:'5) 종합 매매 판단', cls:(a.fund.length>=2&&a.fScore>a.tScore?'neg':'pos'), html:sec5}
   ];
-  $('memoList').innerHTML = items.map(function(it){
-    return '<li><span class="k">'+it[0]+'</span><span>'+it[1]+'</span></li>';
+  $('cioSections').innerHTML=secs.map(function(s){
+    return '<div class="cio-sec '+s.cls+'"><div class="sh">'+s.sh+'</div><div class="sd">'+s.html+'</div></div>';
   }).join('');
+
+  var btn=$('cioAiBtn'); if(btn) btn.onclick=runCioAi;
+}
+
+// AI 심층의견: 고정 CIO 프롬프트로 /fm-chat(구독) 또는 API 호출
+function cioAiPrompt(){
+  return '오늘자 종합 CIO 브리핑을 작성하라. 다음 5개 항목을 순서대로, 각 항목은 결론을 먼저 제시한 뒤 근거: '+
+    '1) 전반적 매크로 뷰 2) 주식 비중(확대/축소/유지) 3) 국가 배분 4) 섹터 배분 5) 우리 포트폴리오에서 구체적으로 무엇을 팔고 무엇을 살지(티커·대략 비중%). '+
+    '추가로, <CONTEXT>의 시황_벤치마크 일간/MTD 움직임을 근거로 오늘 시장 변동성의 원인이 기술적(수급·포지셔닝)인지 펀더멘털 훼손인지 판정하고, 그에 따라 오늘 당장 매매가 필요한지 명확히 답하라. 막연한 양비론 없이 결정 지향적으로.';
+}
+async function runCioAi(){
+  if (chatBusy) return;
+  var out=$('cioAiOut'); out.classList.remove('hidden');
+  out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견 (Claude)</div><div class="bd"><span style="opacity:.6">생성 중…</span></div>';
+  var bd=out.querySelector('.bd');
+  var mode=$('chatMode')?$('chatMode').value:'api';
+  var model=$('modelSel')?$('modelSel').value:'claude-opus-4-8';
+  var msgs=[{role:'user', content:cioAiPrompt()}];
+  var acc=''; function onDelta(dt){ acc+=dt; bd.innerHTML=fmtAssistant(acc); }
+  chatBusy=true; var btn=$('cioAiBtn'); if(btn) btn.disabled=true;
+  try{
+    if (mode==='api'){
+      var key=(localStorage.getItem('fm_chat_key')||'').trim();
+      if(!key) throw new Error('API 키 미입력 — 아래 채팅 설정에서 키를 저장하거나, 로컬 serve.py(구독 차감)로 실행하세요.');
+      await streamChat(msgs, model, onDelta);
+    } else {
+      await streamChatSub(msgs, model, onDelta);
+    }
+    if(!acc.trim()) bd.innerHTML='<span style="opacity:.6">(빈 응답)</span>';
+  } catch(err){ bd.innerHTML='<span style="color:var(--neg)">⚠ '+esc(err.message)+'</span>'; }
+  finally{ chatBusy=false; if(btn) btn.disabled=false; }
 }
 
 /* ============================ 재무 모달 (손익계산서 + 컨센서스) ============================ */
@@ -927,6 +1144,7 @@ function buildContext(){
   var ctx = {
     스냅샷: snapTxt,
     상위보유: holdings,
+    시황_벤치마크: marketTape(),
     권고: recTxt,
     매크로레짐: (window.MACRO&&MACRO.regime)||null,
     매크로_국가선호: (window.MACRO&&MACRO.country_pref)||null,
