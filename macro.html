@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-13c";</script>
+<script>window.CODE_VERSION = "2026-06-23a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -789,12 +789,24 @@ function tryNotifyUpdates(M) {
 
 var MF_DIR = { pos: ['호재', 'pos'], neg: ['악재', 'neg'], neu: ['중립', 'neu'], watch: ['관전·변수', 'watch'] };
 function mfRel(month, cur) { return month > cur ? 'future' : (month < cur ? 'past' : 'current'); }
+function mfMonthDiff(month, cur) {
+  var a = month.split('-'), b = (cur || month).split('-');
+  return (parseInt(a[0], 10) * 12 + parseInt(a[1], 10)) - (parseInt(b[0], 10) * 12 + parseInt(b[1], 10));
+}
+function mfRelLabel(month, cur) {
+  var d = mfMonthDiff(month, cur);
+  if (d === 0) return '이달';
+  if (d === 1) return '다음달';
+  if (d === 2) return '다다음달';
+  if (d === -1) return '지난달';
+  return d > 0 ? d + '개월 후' : Math.abs(d) + '개월 전';
+}
 function mfBodyHtml(m, cur) {
   if (!m) return '';
   var rel = mfRel(m.month, cur || m.month);
   var tag = rel === 'future'
-    ? ' <span class="upd-count" style="background:var(--accent);color:#fff">🔮 다음달 전망</span>'
-    : (rel === 'past' ? ' <span class="upd-count" style="background:var(--muted);color:#fff">지난달 기록</span>' : '');
+    ? ' <span class="upd-count" style="background:var(--accent);color:#fff">🔮 ' + mfRelLabel(m.month, cur || m.month) + ' 전망</span>'
+    : (rel === 'past' ? ' <span class="upd-count" style="background:var(--muted);color:#fff">' + mfRelLabel(m.month, cur || m.month) + ' 기록</span>' : '');
   function badge(dir) { var t = MF_DIR[dir] || MF_DIR.watch; return '<span class="mf-badge ' + t[1] + '">' + t[0] + '</span>'; }
   var ev = (m.events || []).map(function (e) {
     return '<div class="mf-item ' + (e.dir || 'watch') + '"><div class="mf-top"><span class="mf-date">' + e.date + '</span>' +
@@ -821,11 +833,10 @@ function renderMonthly(M) {
   // 현재월 = 이달(monthly_factors) 있으면 그 달, 없으면 최신 정의월
   var cur = (M.monthly_factors && M.monthly_factors.month) || all[0].month;
   window.MF_CUR = cur;
-  var relLbl = { future: ' · 다음달', past: ' · 지난달', current: ' · 이달' };
   var sel = '<select id="mfMonthSel" class="mf-sel" onchange="mfSelectMonth(this.value)" ' +
     'style="margin-left:10px;font-size:13px;font-weight:600;padding:3px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;vertical-align:middle">' +
     all.map(function (x) {
-      var lbl = x.month.slice(0, 4) + '년 ' + x.month.slice(5) + '월' + relLbl[mfRel(x.month, cur)];
+      var lbl = x.month.slice(0, 4) + '년 ' + x.month.slice(5) + '월 · ' + mfRelLabel(x.month, cur);
       return '<option value="' + x.month + '"' + (x.month === cur ? ' selected' : '') + '>' + lbl + '</option>';
     }).join('') + '</select>';
   var body = all.find(function (x) { return x.month === cur; }) || all[0];
