@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-23T23:21:01
+// 갱신: 2026-06-23T23:53:29
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,6 +7,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxORS0zSUlEZFk0WGExYW0wNGtBZVhUYXFlMkNJelZXS3FsSmljZEpHeE4tV01xMXhmNjZ6cWU5TzJMdGE4Z0l6U0pyNjJTWDZ2Ty1Wb1lkbzhjX2NvY1BqMnVTSS1WNHVPc1VhZTNrbkZoRVhNMjFrYzFhRi1IOEljcg?oc=5",
    "source": "조선일보",
    "date": "2026-06-22"
+  },
+  {
+   "title": "[AI MY 증시전망] 코스피, 반도체 급락 여진 속 반등 시도…저가 매수세 유입 주목 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBDNkpmdXliQWFUSXRFbUF3SmNuZGxjNjBHc0FDQVJZS2Z1WFZxTWx0YVVzdkdSZ0ZOSWVLUTNqVkp0dm81WHRQS0ZVTWMxYlZ6NXJBZkFjY3VLMUpz?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-06-23"
   },
   {
    "title": "[주간 증시전망] 코스피시장 대형주 접근이 바람직 - v.daum.net",
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE45OURPd1FXWFdGY1pfZndiT1R3SVMxYzhUQXVpMlZ2eE44TU9uMFo5X2VWYTdITk01UmRUcDJBOW0teTV1SzZ2WEVWOHhXTzZyY0d5MUNwRDdhSGx4WFBHbEVndnJzN3k5blFlejlaY2pWZTDSAXdBVV95cUxQSVh6eFdDSjBVUGlHV3ZsX1ZGcll0NWl3cFl3YUF6LTBBUTQ0M1Y5MnZQT3QxcUdRLWRtZXRaMENCLW5SZk80cm9QY2tQTTVQZ2ZmV2VZR3VhQjlSM21ETUJTTl9pXzVicTQ0Ny1nTmhjUnNFWTF2Yw?oc=5",
    "source": "스트레이트뉴스",
    "date": "2026-06-23"
-  },
-  {
-   "title": "국내 주식투자자 절반 \"올 코스피 1만 넘을것\" - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBvOUZVMkhvYUI1OFBiUnkyazZlWFhVZHNiTmVpSWEtNUpTT1duc2F2NmxFdlNOWThBWncySEF6el9YMFk2LTBCdFpOXzUzbGpsRmc?oc=5",
-   "source": "매일경제 마켓",
-   "date": "2026-06-22"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -315,28 +315,28 @@ window.HOLDING_NEWS = {
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
   {
-   "title": "이번 주 미국 주식 시장 - 2026-06-22 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNS29Qb0xjMENlanJzOVBFekdyY1VpTFY1TDhIUGRydHFfUm0wZjlMVjEtaGw2bU5IUU5yUzkycTNyODJrdlBxcWR4dG5kcnlsZy1ubkhuRGhYWXdaanpoWVpJLVdfQURCVmM0bV8zY1hLME8ydjZMQ3VUcGNKYkg1UkRyanNXSGhqSFcwZQ?oc=5",
-   "source": "TradingKey",
-   "date": "2026-06-21"
-  },
-  {
    "title": "AI 열풍 속 미지근한 美증시…소재·산업재 주목 - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBoOVhXalNPMnlZZ01jeEIxdmxaUGJKTUY3QTlJMmY4aklzSm52dFdSVTZGdWZUYkRFWXhpYl9Tb05INnRGOE1TbC1uOFVCX242R3gzRHM3NThFQdIBVEFVX3lxTE9KZHFMdkZpQlNvcGo2RWpQcHdFdEZTNXhMUUVyTWsxYjFYcnlJalQtTHVaMm9XTmNKLTF5QjhTS3A4YWdFc000bG02WkFDX3dodnMyUw?oc=5",
    "source": "한국경제",
    "date": "2026-02-23"
   },
   {
-   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-04-17"
+   "title": "글로벌 제조업 경기 둔화 직격탄 맞은 일리노이 툴 워크스, 수익성 방어 기제 시험대 올랐다 : 금융 - 재경일보",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9OVTY1d0VGdFFud0c0cW9fTEZjVlJycEdaM1ZxRDVvaVVQb3c5QlVnM3RhUzR6THJfTTBHb0tRbmwwT2xyd0Q0Wm53?oc=5",
+   "source": "재경일보",
+   "date": "2026-06-03"
   },
   {
-   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
-   "source": "블루밍비트",
-   "date": "2026-05-30"
+   "title": "“저점 매수도 무섭다” M7 집어삼킨 호르무즈의 그림자 - 포춘코리아",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBrWUVVR0NIVFBrWWFENHExN2VwcnJRcjA0bzdlTG5taEM1c3NDRmpKWjc2a1VrZmoyUGp2akxlMHBYNHQzUXVRTk80eGRIdkFQSWUxbWYyMmRIMVVqQW02Tk1uSlIyQUt2S3Rtc2dNMVUzd9IBdkFVX3lxTE9iT2ptR3JvWDQ5T3RXUEtteU1TZmNLb1hwOVZXNGtlQzB2VklDaUhuUjZtaUNNa0lkdXRMQmhJWDNqNzYxdFBELUptbGluV043S1YzQVh4WkhkUk9LOHo3QmZiU2ZyTVNzN3cxT0RRRkxzemdFQkE?oc=5",
+   "source": "포춘코리아",
+   "date": "2026-03-30"
+  },
+  {
+   "title": "미국 관세 수혜주, 관련주, 대장주 TOP 10 - 브런치",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBUNEdrNFh1ZTBOT0tIWlhERlpDWU1YY21pMEVYdE1QWGxGc3dfVm8xd1l5T0VrM3NZOHVjRTVLcDRzRkNmYXZJRUxR?oc=5",
+   "source": "브런치",
+   "date": "2026-02-03"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
@@ -379,16 +379,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-18"
   },
   {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
-   "source": "YTN",
-   "date": "2026-06-07"
-  },
-  {
    "title": "[뉴욕증시-주간전망] 트럼프 '최종 결단'은 매도 버튼일까…비농업 고용도 주시 - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1DT3JnZ28xaU5ldDAxU0o1bXZqYjJUdzNuS3p3a09mMG9JSWh1aHBZQmNGWFRBV0FpX2gySExDWmFVSTNzNzAtM0hENUR1YnczcmpjYW9rM3RDMHfSAWBBVV95cUxNX3Z6XzdHQkxsdGtmRG1oY05ud1hQTWtaQkpyUldWWk9PQ3U2ZDZmT056UTl0d3lsbmg1RDRiaXYzTGJCbVI3eUcxM2NxQjA4MGV1UkFJSF9HSjZibzBHazY?oc=5",
    "source": "연합뉴스",
    "date": "2026-05-31"
+  },
+  {
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
+   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
+   "source": "YTN",
+   "date": "2026-06-07"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
@@ -431,16 +431,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-31"
   },
   {
-   "title": "FED, 향후 금리인상?...장중 미국증시 반도체주 '껑충', S&P500 '하락' - 초이스경제",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9wcDVSTTNGenZ4OWtfWmhJWExpR2pvUm9aUHF5WlJ5bVhqWnpkVTFPeGxTOTFMbHAzZlpUZUJmZmNKbWxYdExvV3B4UVZVZ2NoSVZUOUdMa241d1R2OGJfWVRYR0t1bjJXa0NZZmVqb9IBc0FVX3lxTE1Hc1Q4Q0IxNloxVHB0QW1INUNzeTVyck9CWlJsVWZmRnRUZk1yMnpQdWQtaWhZeXFlakFKd0JNS3hTbjQzbEFrX0ZENGtvN2NBTHBOalUxLThnclhDd2VoWHF3d0ZsQUxiSFk2QzRMZnpWMkU?oc=5",
-   "source": "초이스경제",
-   "date": "2026-06-17"
-  },
-  {
    "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53TEFmRmwwWmUxZUJlZlBka0N4b0dXclJzSVhlcUdhb1dENzFXTUlldzdIYThtMEJJZ21zZkRXWUlzTDY2YzQ3SFdPSjBnOFpmUVN1bGhDV2ZzTHV5WkxUWVRxYkhZdkVEU0c3bG93eVg?oc=5",
    "source": "연합인포맥스",
    "date": "2025-12-12"
+  },
+  {
+   "title": "2026년, 2027년, 2028~2030년 및 향후 S&P 500 예측 및 예상 - LiteFinance",
+   "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNeHd3RE54Nzdzd3RWQlVtTHoweVp4VktLUWlPQTJvZVdycnJpcVdjdHZDbklPY2JsOEl1U0c3YVpWT3Q5cHViUGs1bVVYeFdEU01GMGU3ZDVNOWtRWkRrMXY5QXg1MXV2dTVqWjFiV2ZEOVI4N2xEZllWRG41Nm9PbkdVcUtqMC1OU2c?oc=5",
+   "source": "LiteFinance",
+   "date": "2026-06-18"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
