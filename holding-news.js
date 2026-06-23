@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-23T07:48:30
+// 갱신: 2026-06-23T10:49:55
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -93,16 +93,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-19"
   },
   {
-   "title": "‘먹구름’ 낀 제약ㆍ바이오株…셀트리온 3인방도 우울한 오전 - 메디컬투데이",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE42elZxRV90ME4ta01EUENoZkNsaU1FQ0ZaTzlDcFRORzdFRmNYWkdHVFJVSElIT1c2SzI5QzJGa3h0bURLclEzMUdDYzRSNExKT3dONllyMmpqcXpYb1B4WkoxNWcwbU5TaG5FWQ?oc=5",
-   "source": "메디컬투데이",
-   "date": "2026-06-22"
-  },
-  {
    "title": "[주식] 코스피·코스닥 나란히 하락 속 비보존제약 10%↑ - 히트뉴스",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA1aGJEajh0Y0o0RWZZUWRia2VLbW9xczRRZ1ZNNUxQSkV0QVhUTGZhS2ZHcDM1emMwYUs2c1JqSmtRcmRXUi1rUjJvLWJKakpRTlBXZXI2SGl4SWlYalNObGhwRzhUNGZ3TG84?oc=5",
    "source": "히트뉴스",
    "date": "2026-06-10"
+  },
+  {
+   "title": "﻿코스닥 훈풍 타고...K제약·바이오 IPO '재점화' - ebn.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9VMmVfNGY4c2xBdll5NXViRHhQMW5EZ01DSFRIX3B2SkRjYlRzOUt2SjBCaUkzSW5raEFLLWE3dVBYVlVHM09OU2NYLTdfakFhcmZYS2IzTkF4X3d1YzJndVFYaGxPWWNf?oc=5",
+   "source": "ebn.co.kr",
+   "date": "2026-06-17"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -341,10 +341,16 @@ window.HOLDING_NEWS = {
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "올해 가장 매력적인 미국 투자 섹터는? [오대정의 경제지표 읽기] - 한경매거진&북",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1sRWhxT3RsRzA3T1NOQUJkcDE0cWdZZnhEZ1M1dEtBeExnZTI5RGxIbUlCRmlvWHFobGZqSDFoUXdEcElhQkxVNE84ZXVfYUxxWFQ2bUxJYWVYU3ZVSzc2ZTUxdmRVTjRqNDhuYg?oc=5",
-   "source": "한경매거진&북",
-   "date": "2026-03-03"
+   "title": "올리브영 미국 가더니…K뷰티 주가 줄줄이 '불기둥' [종목+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE52ZV9YbEpOT3A2dXNWRVlyYjdWLVJROHhvaXMxSHpfN2JvdEJwZ2YxYW1SQW1mT190cUJRMXhiXzdqUE5CYThKZjcwaUlYNXk0RVlTbFM3WEIyZ9IBVEFVX3lxTFByZGN1Ty1pbFpZbENkLWk5MTJsLU9pUEJTNlB2c1BiT2xiUGd2ZWVYeEplQlA1Q2NhX1NKRzFBRjBYM2htZlUtREhua25LelJlUEI3Wg?oc=5",
+   "source": "한국경제",
+   "date": "2026-06-10"
+  },
+  {
+   "title": "뉴욕증시, 30% 넘게 폭락한 은값 충격파…하락 마감 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ieGJDV3QydXV4blg2OTd1ZmFKQnpjXy1jbGRydlFIakd0Sk85VnVOdUJoNkQxRldjeGhTTTUxTHppRVdFS2RzSV8teFFOQkR2dWtYUjdnNk1UNnPSAWBBVV95cUxQSU1PWTdkYTRnYktfRnJNTEV1dUpVbER0bVR5dWZCXzVnOEJJUzhxRGRfVF9mNUZWQVRxQnNSdVJUdGgzSkFQbW1hRG9IWnBvdXFiS1Q5SXFybnd4LVM0NGw?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-01-31"
   },
   {
    "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
@@ -357,12 +363,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
    "source": "아시아투데이",
    "date": "2026-02-09"
-  },
-  {
-   "title": "미국 희토류 관련주 : 600% 상승한 앨버말, MP materials 주가 (feat. REMX ETF) - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQRzhTbENHdjJXZG1wZldCYWROa3ZoenpyVUwwdVozcmx5aWNLZlNoRHdZclcwdThnQjR1R2kxMEVGSlJGc19JN0IyRWxmSEp3eHJINlR6WFRKSnVtVFZzRmV2ZHJhaHJwcW9RRE1sTG92ZU9xTzJCQm83clJCQ1d0NVVIRQ?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
-   "date": "2026-01-27"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -425,16 +425,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-22"
   },
   {
-   "title": "2026년, 2027년, 2028~2030년 및 향후 S&P 500 예측 및 예상 - LiteFinance",
-   "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNeHd3RE54Nzdzd3RWQlVtTHoweVp4VktLUWlPQTJvZVdycnJpcVdjdHZDbklPY2JsOEl1U0c3YVpWT3Q5cHViUGs1bVVYeFdEU01GMGU3ZDVNOWtRWkRrMXY5QXg1MXV2dTVqWjFiV2ZEOVI4N2xEZllWRG41Nm9PbkdVcUtqMC1OU2c?oc=5",
-   "source": "LiteFinance",
-   "date": "2026-06-18"
-  },
-  {
    "title": "[뉴욕증시-주간전망] 트럼프 '최종 결단'은 매도 버튼일까…비농업 고용도 주시 - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1DT3JnZ28xaU5ldDAxU0o1bXZqYjJUdzNuS3p3a09mMG9JSWh1aHBZQmNGWFRBV0FpX2gySExDWmFVSTNzNzAtM0hENUR1YnczcmpjYW9rM3RDMHfSAWBBVV95cUxNX3Z6XzdHQkxsdGtmRG1oY05ud1hQTWtaQkpyUldWWk9PQ3U2ZDZmT056UTl0d3lsbmg1RDRiaXYzTGJCbVI3eUcxM2NxQjA4MGV1UkFJSF9HSjZibzBHazY?oc=5",
    "source": "연합뉴스",
    "date": "2026-05-31"
+  },
+  {
+   "title": "FED, 향후 금리인상?...장중 미국증시 반도체주 '껑충', S&P500 '하락' - 초이스경제",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9wcDVSTTNGenZ4OWtfWmhJWExpR2pvUm9aUHF5WlJ5bVhqWnpkVTFPeGxTOTFMbHAzZlpUZUJmZmNKbWxYdExvV3B4UVZVZ2NoSVZUOUdMa241d1R2OGJfWVRYR0t1bjJXa0NZZmVqb9IBc0FVX3lxTE1Hc1Q4Q0IxNloxVHB0QW1INUNzeTVyck9CWlJsVWZmRnRUZk1yMnpQdWQtaWhZeXFlakFKd0JNS3hTbjQzbEFrX0ZENGtvN2NBTHBOalUxLThnclhDd2VoWHF3d0ZsQUxiSFk2QzRMZnpWMkU?oc=5",
+   "source": "초이스경제",
+   "date": "2026-06-17"
   },
   {
    "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
@@ -503,22 +503,22 @@ window.HOLDING_NEWS = {
    "date": "2026-03-02"
   },
   {
-   "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-01-20"
-  },
-  {
-   "title": "유럽증시, ECB 금리인상 등 영향 일제히 올라⋯독일 0.06%-프랑스와 영국 0.48% 상승마감 - 이코노뉴스",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Mei1OZmt5LUw0dnJIZFlYVFVEVlMxMnRxcVZlOHBXMm9vVU04c1hLcE9aTkh4Ykh4ZExWSVpHNW90MzhtOUxJMUhsOUxFcmpESWFFWTl5UHVHY2JWTjRUY09rczFCWE16S0hKOXdpQQ?oc=5",
-   "source": "이코노뉴스",
-   "date": "2026-06-11"
-  },
-  {
    "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
    "date": "2026-02-09"
+  },
+  {
+   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
+   "source": "Chosunbiz",
+   "date": "2026-02-24"
+  },
+  {
+   "title": "[유럽개장]장 초반 상승세…독일 DAX 1.39%↑ - 아시아경제",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE8yeFNmRlF6T3VoekZVZGVFSnh6OF91dGJRMFprSnBPRkV5ODUxR3NxQ0lCMkwzSTJPbnhqRFl0QmNubHBrRGlJZ3N5aFpOU1Bwa1FDclJqeEx5Y1hPRDZqdQ?oc=5",
+   "source": "아시아경제",
+   "date": "2026-03-20"
   }
  ],
  "Fidelity European Dividend": [
