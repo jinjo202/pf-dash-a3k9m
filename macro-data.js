@@ -472,7 +472,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-25T10:21:50Z",
+  "generated": "2026-06-25T10:53:47Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -861,7 +861,7 @@ window.MACRO = {
         "m3": 40,
         "m12": 54
       },
-      "fx_val": 1541.48,
+      "fx_val": 1542.18,
       "fx_chg": -1.7,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -874,17 +874,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": -1,
-        "fx": -18,
+        "fx": -20,
         "mon": 30,
         "cycle": -26
       },
       "horizon": {
-        "m1": -7,
+        "m1": -8,
         "m3": -8,
-        "m12": -6
+        "m12": -7
       },
       "fx_val": 1.14,
-      "fx_chg": -0.9,
+      "fx_chg": -1.0,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -14151,7 +14151,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1541.1,
+      "current": 1541.4,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
@@ -14203,11 +14203,11 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 18.0,
+      "current": 17.9,
       "unit": "",
       "z": 0.11,
       "pct": 84.6,
-      "score": 0.0,
+      "score": 0.01,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "공포 게이지. 낮을수록 안정",
@@ -14915,11 +14915,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": -4.8,
+      "current": -4.6,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": 0.12,
+      "score": 0.11,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "급등 시 인플레·비용 압력",
@@ -17960,7 +17960,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2286353383424,
               "fwdpe": 22.1,
-              "pbr": 98.02,
+              "pbr": 67.43,
               "rets": {
                 "w1": 3.5,
                 "m1": 9.2,
@@ -20384,10 +20384,10 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) -4.8%(중립)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) -4.6%(중립)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 20.0배(악재)·KOSPI 12M Fwd PER 7.2배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.45%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1541.1원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 136.8조원(강한 호재)·한국 투자자별 수급(외국인, 월) -32.6조원(악재)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 18.0(중립)·S&P500 12M 모멘텀 18.6%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1541.4원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 136.8조원(강한 호재)·한국 투자자별 수급(외국인, 월) -32.6조원(악재)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 17.9(중립)·S&P500 12M 모멘텀 18.6%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.1%(유지)",
     "overall": "종합 레짐 점수 +16. 매크로 +4, 밸류 -7, 수급 +12, 센티 +18, 기업이익 +46."
   },
