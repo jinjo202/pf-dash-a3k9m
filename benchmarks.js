@@ -1,7 +1,7 @@
 // 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
-  "as_of": "2026-06-24",
+  "as_of": "2026-06-25",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5477,13 +5477,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1535.25,
+      "current": 1543.6801,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 6.7695,
-      "mtd_pct": 2.6724,
-      "daily_pct": -0.2469,
-      "as_of": "2026-06-24",
+      "ytd_pct": 7.3558,
+      "mtd_pct": 3.2362,
+      "daily_pct": 0.5491,
+      "as_of": "2026-06-25",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5495,7 +5495,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-06-24",
           "2025-06-25",
           "2025-06-26",
           "2025-06-27",
@@ -5754,10 +5753,10 @@ window.BENCHMARKS = {
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "values": [
-          1361.9399,
           1353.78,
           1357.03,
           1352.76,
@@ -6016,7 +6015,8 @@ window.BENCHMARKS = {
           1537.5601,
           1531.33,
           1539.05,
-          1535.25
+          1535.25,
+          1543.6801
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 69.89,
+      "current": 69.98,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 21.7172,
-      "mtd_pct": -19.9977,
-      "daily_pct": -4.5349,
+      "ytd_pct": 21.8739,
+      "mtd_pct": -19.8947,
+      "daily_pct": -4.412,
       "as_of": "2026-06-24",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           76.6,
           74.82,
           73.21,
-          69.89
+          69.98
         ]
       }
     },
