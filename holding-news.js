@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-25T07:48:05
+// 갱신: 2026-06-25T10:23:19
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,12 +7,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE96UDdKTENSWTJSYS1EVlFncDNIN0lHelVuY29EMzdwenlfN3RxalBhaDhtYVZ1Ni15bG1CUkJTaUY0RE1XdVFzUlUtVDQyT0U?oc=5",
    "source": "v.daum.net",
    "date": "2026-06-21"
-  },
-  {
-   "title": "[AI MY 증시전망] 코스피, 마이크론 '어닝 서프라이즈' 훈풍…반도체 중심 상승 전망 - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9lM0RoclgzT1lEWkVWQ0NScUtYT0I5cFZMLWpEZnkzb3psMmdoZzZkT1BuTHBkVlhzLWdkZjEyVzExVENnWTZHd1UtYmtRd2piTHBJ?oc=5",
-   "source": "네이트",
-   "date": "2026-06-24"
   },
   {
    "title": "신한투자증권 “개인투자자 2명 중 1명, 코스피 1만선 이상 기대”…주도주는 반도체 - 전자신문",
@@ -25,6 +19,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5uOGNldjNmOGRLU1dmMlRnb044dVlWcFJaelE5TmY2WXloYmVQOTVyakpzRkFNdy1zTEczTHM1RkhzU2xxZkZNRUp4ZktudXB5NUs0bm9OWUdCWUNMai1CUGZkRjUzUjNoLTJtZ1lKZGtlb2fSAXdBVV95cUxOUjBCazYtbE91UVN1d0F0TlJTNmcxVUN3NVNhbUI2X183dzVZX2NiQjR6VjBGM21mMWxTZ3FMSHFMaDZWYkxhNmdCTWRVS1NiYW5LWmNQLXZTR0xrdlFfUzk2NnZpQnZIcGM3QlBVdDZUbHRtOGtCbw?oc=5",
    "source": "스트레이트뉴스",
    "date": "2026-06-22"
+  },
+  {
+   "title": "[AI MY 증시전망] 코스피, 마이크론 '어닝 서프라이즈' 훈풍…반도체 중심 상승 전망 - 네이트",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9lM0RoclgzT1lEWkVWQ0NScUtYT0I5cFZMLWpEZnkzb3psMmdoZzZkT1BuTHBkVlhzLWdkZjEyVzExVENnWTZHd1UtYmtRd2piTHBJ?oc=5",
+   "source": "네이트",
+   "date": "2026-06-24"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -81,10 +81,16 @@ window.HOLDING_NEWS = {
  ],
  "KoAct 바이오헬스케어액티브": [
   {
-   "title": "[주식] 펩트론, ADC 개발 행보에 주가 15% '급등' - 히트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9wOW9TM05hVkxGYURJRmxOR3F3VGVmX3kxNC1ta1JlR2FKcU9vZlR4cWRONDhIM2lmSTBsb3R6SzZ5NkNkNzNfUDAwV09iTTRqWE5OSTB2Q2VZa09yek1PMGFuRkU0YVlTdUFV?oc=5",
+   "title": "코스닥 전선이 밀린다, 바이오도 밀렸다…펩트론·로킷헬스케어 급락 - 히트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBGMXBGYS1jMkZZUnRpTHZoYnFFcEtaTzNGN2xlODVrVHgyX1BrY3FfOU1Jd1hEM3VraXVkR2VNS1JrZnBuemsyT2ZBN2ZBa2F2b3R4WmhiRTNYNm1EUUFJRGdNQXpMMDBhQlVN?oc=5",
    "source": "히트뉴스",
-   "date": "2026-06-24"
+   "date": "2026-06-25"
+  },
+  {
+   "title": "논란 점철된 삼천당제약…코스닥 제약바이오의 '민낯' - 뉴스토마토",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9JUEtyVEt6Q3U2S0lnZGlvNmxQaDlTRkFBVjlzRl9aSDVRYmpQdlVwMGpUbjRBajMzSWgtS2lETC1IWUlZR3VTaHNJclVTT2lMQ0JPRDZwWlpUOEoyd3V3RA?oc=5",
+   "source": "뉴스토마토",
+   "date": "2026-06-25"
   },
   {
    "title": "코스닥 제약업종 시총 뒷걸음질…1조원 하락 기업만 4곳 - 의학신문",
@@ -97,12 +103,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBVTF9pbVZFLUlQLWpQaTJmamZxU2hFeXdUR21SNVJJRVN2QnUtNTVfX25KNm9TSHZJYzVpUk5ua0hGVzN2cU9oeFQyVW9UbmtpTWc?oc=5",
    "source": "매일경제 마켓",
    "date": "2026-06-24"
-  },
-  {
-   "title": "'9300 코스피' 신화의 이면…제약바이오 주가 부진 극단적 대조 - 메디파나뉴스",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBzbnhDZFpXNzlVdlJyY0R4clg1cDloSkVaN2gtakVUU1BOVU13QXNrVnYySTlSTFNxaUNtOXA3aDBWMnNnYTk2dFFaSnczZDh1NGp3TWJfYmFVaDhDR3FUbm90NndISzFLdGpn?oc=5",
-   "source": "메디파나뉴스",
-   "date": "2026-06-19"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -327,16 +327,16 @@ window.HOLDING_NEWS = {
    "date": "2026-02-23"
   },
   {
-   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-04-17"
-  },
-  {
    "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
    "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
    "source": "블루밍비트",
    "date": "2026-05-30"
+  },
+  {
+   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-04-17"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
@@ -471,16 +471,10 @@ window.HOLDING_NEWS = {
  ],
  "Dimensional International Value (DFIV)": [
   {
-   "title": "‘성장가치주’에 투자… 유안타증권, ‘유안타 코리아 랩’ 잔고 2400억 돌파 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNbjBJRU5wMGtRMWtZakVlamluT1pqZHlsSVMyd0FCMFBWQ09NVnhha2tTTkdmNWhvaExPVVdpSjNBUGsxaXMzSkthWk1Zbl9zc3E0OGp0T2Y0ZW5TOV9YdkUxTkd3WE8ydGZEaUFjdTJhMXlEdFA0WG5JZEZBVndxYW41NURrcDUz0gGcAUFVX3lxTE1sSEJuQ1FIMndyT1pMVXFfakFDS1ZaT2tXOUVNNGZvanB1a2VtWVJLOU9YZ0JURXRxMVZYaUxRV1JfYldhV2F1X01FRGY4M01fTHFQYWl1SE1uUHE3VkFOV0hmUE1rczdVcFdpUzYxLVdNX09BaG5YWDZIOTRkY1FOckxzeTZIQWF1dDVpUGFFTW9wbjU2N3J6bUNtcw?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-06-25"
-  },
-  {
-   "title": "'220조 큰손' 노르웨이 스토어브랜드 \"삼성화재·KCC·현대모비스, 숨겨진 가치주\" - 더구루",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9qYVBIeXFqM1JUOVBRZnVSaFNkSERuaW9PY2xQY2t1dng4blh6aWJ0ZTFSS2l4VWM3cXhqTzZXSjZNc0Q1eGRCNVM1Tk1BZG1TTlZEUTBmcG44S1ZRTGJPZHYyQQ?oc=5",
-   "source": "더구루",
-   "date": "2026-06-25"
+   "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - 글로벌이코노믹",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZVJXYXF5Qmg5SGNFQjhjZ3pZdkhSQzlYWHk0LTQ5akxrWFpYZGlZTGpZNkVWWm5Qd0JiMXMzajdVYXpRdHBOZ0F4dlM0eF9QMFhuaTFOQ1laSjljZV8zeDhxMlE4ZXRCLXJmTkZZRjZBUjlkcmxHdUl6aXFia1E5Zm5CcU9EeHRP?oc=5",
+   "source": "글로벌이코노믹",
+   "date": "2026-05-21"
   },
   {
    "title": "\"글로벌은 가치주인데…\" 한국 증시 '대형주 쏠림' 심화 - 프라임경제",
@@ -489,10 +483,16 @@ window.HOLDING_NEWS = {
    "date": "2026-03-03"
   },
   {
-   "title": "\"가치주 샀는데 엔비디아가?\"… 삼전·하이닉스 주주가 봐야 할 3가지 잣대 - 글로벌이코노믹",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOS3ZacTJONHRuenNPWTgzODYyQnRQYlRQUmp1cHVWUlllNWQzenZMS0p0TUxpYnVsLTNzQnZLdUx0a0pSTnRISUNHUVk4SVRjQWtxbFFXdjZCckEyYUFrcm5pLU9oZ3E1V19wbTVkWmR1UlB4OXVqbDVKRWVDWjdoanZWbHhLU25C?oc=5",
-   "source": "글로벌이코노믹",
-   "date": "2026-06-14"
+   "title": "\"방어형 가치주로 머니 무브...자산주·배당주 투자 유효\" [내일 전략] - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9xUWpULWkzVFZSS2h6UTJSckZqbzIybW96cjFWVElNLVM2SV9fWE5QR3BoTUlEV2V0d1FwZVZUaGt1ZjRDU0RjMjdwUWVnWkZneFBsRzdRYXBaTmkzclFXTFowRTNQV1Q3SGpLS0pzUDdUTkdCWlJ2V0xIM25Yd28?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2026-02-11"
+  },
+  {
+   "title": "올해 유럽 증시 강세 전망... 금융·산업재 등 가치주 주목해야 - 조선일보",
+   "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQOUUwRkdORzJtQ1ItenU2clRXbW1TZjFZR1k1YXlHVmFkeHpSOS01SVp2dDRrVU14S25yZW95V1dnT0xwbWdfaktPTGxHMlBzUVJlbzBLbG1VWEpWMmh1RVU0UDZiQ1NqTGVTOC1pWkdkZTczeDhFT3VMZVYyRnR5VkRhaVN3QQ?oc=5",
+   "source": "조선일보",
+   "date": "2025-03-20"
   }
  ],
  "Xtrackers DAX ETF (XDAX)": [
