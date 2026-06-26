@@ -481,7 +481,7 @@ window.MACRO = {
       "as_of": "2026-06-26"
     }
   ],
-  "generated": "2026-06-26T22:47:36Z",
+  "generated": "2026-06-26T23:20:48Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -18675,7 +18675,7 @@ window.MACRO = {
             {
               "ticker": "HON",
               "name": "Honeywell International Inc.",
-              "mktcap": 147140591616,
+              "mktcap": 73570295808,
               "fwdpe": 20.3,
               "pbr": 5.41,
               "rets": {
