@@ -1,7 +1,7 @@
 // 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
-  "as_of": "2026-06-25",
+  "as_of": "2026-06-26",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5477,13 +5477,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1542.76,
+      "current": 1547.38,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 7.2918,
-      "mtd_pct": 3.1746,
-      "daily_pct": 0.4892,
-      "as_of": "2026-06-25",
+      "ytd_pct": 7.6131,
+      "mtd_pct": 3.4836,
+      "daily_pct": 0.2995,
+      "as_of": "2026-06-26",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5495,7 +5495,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-06-25",
           "2025-06-26",
           "2025-06-27",
           "2025-06-30",
@@ -5754,10 +5753,10 @@ window.BENCHMARKS = {
           "2026-06-22",
           "2026-06-23",
           "2026-06-24",
-          "2026-06-25"
+          "2026-06-25",
+          "2026-06-26"
         ],
         "values": [
-          1353.78,
           1357.03,
           1352.76,
           1363.59,
@@ -6016,7 +6015,8 @@ window.BENCHMARKS = {
           1531.33,
           1539.05,
           1535.25,
-          1542.76
+          1542.76,
+          1547.38
         ]
       }
     },
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 71.5,
+      "current": 71.46,
       "baseline": 57.42,
       "mtd_baseline": 87.36,
-      "ytd_pct": 24.5211,
-      "mtd_pct": -18.1548,
-      "daily_pct": 1.6491,
+      "ytd_pct": 24.4514,
+      "mtd_pct": -18.2006,
+      "daily_pct": 1.5923,
       "as_of": "2026-06-25",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           74.82,
           73.21,
           70.34,
-          71.5
+          71.46
         ]
       }
     },
