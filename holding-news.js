@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-26T10:27:21
+// 갱신: 2026-06-26T10:59:34
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -165,21 +165,21 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "서암기계공업 계양전기 주가 폭등랠리… AI 시대 로봇주 폭발, 다음 주인공은? - 핀포인트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFA5TDhvNGUxLTNYWHdNNWxNN1FIblZiQWZsOVViem9MY3lpQlc0a21SZkYyRXhJZWZYOGZRZ2ZNa29zSENpWXVNYzVndU9iWWxxT0ZfSlFpcUk1R1NNbjNCRnV5bW0yMHV5VUxuZU1lTzhXclHSAXdBVV95cUxNZFVfSHZ3Q0dmTmJtUnJoUmtRS1BTOV9OZUU0WHB1RjVHSXNyamJxeWY3WnpKQ3B4UkFhdGNUcExPQzljQU1RUDBja3A2dFZfQTYwZ0tleGZNUW1YVzFuTC1JNkdxN1RGb0dMTGJKc254b2FrdXYxVQ?oc=5",
-   "source": "핀포인트뉴스",
-   "date": "2026-06-24"
-  },
-  {
    "title": "올해 대형 로봇주 150% 상승…'젠슨 황 효과' 주목 - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9JRi1JZ2YyaG1vdUxDbklkSFB2MUk4aFpqTURSMFA0SVZiejZ2ZXdLdWF1VFZndkJHMDR1RHFPQTJFem5GWDRYT0NaM0dDVGpRLTczMGI4Q2hRRTjSAWBBVV95cUxOdkV4d2VIQ3o3VG5lY0ZVdV9KNk91SXJWM3RTalpFQjNhdEV1a2FtVVhISHVCSUxIekN0TWd0MXk0bWNYU3YwbTg1M3BXVzdJMmh6dmVJSmU0YjdHOTlfcHA?oc=5",
    "source": "연합뉴스",
    "date": "2026-06-03"
   },
   {
-   "title": "AI 다음은 로봇?…LG전자 327%·두산로보틱스 114% 뛰었다 - 이데일리TV",
-   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9qOTQwYTN2MDlmWG1fakN6NmdKelBWMU9FeFFTV1pWS3ZwVndoeVRleC1jSjN1aXpKV3VNQm5MWjlmNk53SG1kUzNlUFUwcW9VVkRSUlZnWDBrRG95aTVoeElwVzdmX0pTQ01BakgtMzlrNk50MHN4MGc0NA?oc=5",
-   "source": "이데일리TV",
+   "title": "서암기계공업 계양전기 주가 폭등랠리… AI 시대 로봇주 폭발, 다음 주인공은? - 핀포인트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFA5TDhvNGUxLTNYWHdNNWxNN1FIblZiQWZsOVViem9MY3lpQlc0a21SZkYyRXhJZWZYOGZRZ2ZNa29zSENpWXVNYzVndU9iWWxxT0ZfSlFpcUk1R1NNbjNCRnV5bW0yMHV5VUxuZU1lTzhXclHSAXdBVV95cUxNZFVfSHZ3Q0dmTmJtUnJoUmtRS1BTOV9OZUU0WHB1RjVHSXNyamJxeWY3WnpKQ3B4UkFhdGNUcExPQzljQU1RUDBja3A2dFZfQTYwZ0tleGZNUW1YVzFuTC1JNkdxN1RGb0dMTGJKc254b2FrdXYxVQ?oc=5",
+   "source": "핀포인트뉴스",
+   "date": "2026-06-24"
+  },
+  {
+   "title": "‘젠슨 황 효과’에… 올해 대형 로봇株 155% 급등 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOcHlydk9qTWUzMzh2VWlpQWxLMXFUTThPSjJsMnJIVUM3MnRqV2JFZHVLOTVRd0lKeHBweF9VUlhiWHhuUzVQV3ZiQUlNVmU2V0ZjWEowQVVOUFlxRXNmQmlqc1UzbzRuSnVRQkVLVDR1RTBkOTkwNXEyTjJhbEFfbFZrcm1BdlA30gGcAUFVX3lxTE4yTUpCYWlmcDFEXzVNRDlhTWZ1TUJwLXlZTEM1eFQxWW5TQnljRDY3c080RS1EREtGZF9vclBpM3RLTFk1R08zNkszYzZTVzFUaHYzSGwtdlI5NUlfNkhhR25peF9yRVF5T19qWExjbGFGM2d3cXFqbEh5NmVLVkxWc0VMWnFYRGhUbjJ1cEhyZ3YxTXRXMTFSaEFxTg?oc=5",
+   "source": "Chosunbiz",
    "date": "2026-06-03"
   }
  ],
@@ -497,6 +497,18 @@ window.HOLDING_NEWS = {
  ],
  "Xtrackers DAX ETF (XDAX)": [
   {
+   "title": "유럽증시, 글로벌 기술주 약세 여파 일제히 떨어져⋯독일 0.81%, 프랑스 0.71% 하락-영국 약보합 마감 - 이코노뉴스",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFB2SktqU285aHRlRVVVd2ZhdWU4QldKT29JV0RpX204aDJFTlFuWVNZVXd4Y0Nkc0Y0aXVLcUtxTjFhS1RkVVY0TS1fcGdaUFBNR2tGZUp4VzlnZVdhbFRISUR5OGVpRW1HaWpPOVBudw?oc=5",
+   "source": "이코노뉴스",
+   "date": "2026-06-23"
+  },
+  {
+   "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-01-20"
+  },
+  {
    "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
@@ -507,18 +519,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
    "source": "Chosunbiz",
    "date": "2026-02-24"
-  },
-  {
-   "title": "[유럽개장]장 초반 하락세…독일 DAX, 1.56%↓ - 아시아경제",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBkT0lDelcyYkpZc284ZFNZakxsc3hjODJ6cXUwdnRLWFUtRS15YzlFV0NHLUZmM2xCWXNUQ0RqNlB2SFZHYS1fS3BHNGo5a05uQnhlVHlGVVNfWWlvSWRKVw?oc=5",
-   "source": "아시아경제",
-   "date": "2026-03-19"
-  },
-  {
-   "title": "\"저평가 유럽증시, 美보다 매력적\"…매주 100억달러 몰려 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5wT08xcTQzZGRfZk5CamVNNl9FVDBGWTRudUVFZ1p3eUtrNDg2YnEyck9RYzVvRHlycl95aDhzM05RV2lqcGJyM2dUdmdiYTdwVzVzZGMyajlkQdIBVEFVX3lxTE1pTnZkN3hDMGprLUJFTDZxaXhJSXB1M010ZkU2VUFLMEJBTlVVUnJwYmluQnFIX1Bqb21DeklONHMwV2xZY05OT1BCWm50MUxFc2VwOQ?oc=5",
-   "source": "한국경제",
-   "date": "2026-02-23"
   }
  ],
  "Fidelity European Dividend": [
@@ -535,10 +535,10 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
-   "source": "조세일보",
-   "date": "2026-01-23"
+   "title": "KB증권, 브랜드 광고 캠페인 송출…한국투자증권, 美 배당주 투자 서비스 개편 [증권오늘] - sisaon.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1XaVZ1NW9mNWZBVVBTbjhnTTYzZEJBZDRlX093eGUyUHhvZmo1eTRicGkxNzVwa3hvZXpBNzdKcHBlcldSeFNWd3Y1TnlFd0VjUFp4V29NZl9HUVFlVE5IbW0wanRyNzdXQWRv?oc=5",
+   "source": "sisaon.co.kr",
+   "date": "2025-09-18"
   },
   {
    "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - Investing.com 한국어",
