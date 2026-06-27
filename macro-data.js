@@ -471,17 +471,8 @@ window.MACRO = {
       "as_of": "2026-06-26"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-06-26",
-      "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "41.0배 → 40.7배 (2026-06-26 발표)",
-      "as_of": "2026-06-26"
-    }
-  ],
-  "generated": "2026-06-26T23:20:48Z",
+  "updates_today": [],
+  "generated": "2026-06-26T23:53:24Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -17969,7 +17960,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2242372173824,
               "fwdpe": 21.7,
-              "pbr": 66.14,
+              "pbr": 96.14,
               "rets": {
                 "w1": -6.4,
                 "m1": 2.5,
@@ -18083,7 +18074,7 @@ window.MACRO = {
               "name": "Oracle Corporation",
               "mktcap": 427836375040,
               "fwdpe": 13.6,
-              "pbr": 12.73,
+              "pbr": 11.39,
               "rets": {
                 "w1": -19.4,
                 "m1": -22.2,
