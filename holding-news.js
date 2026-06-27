@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-27T08:00:21
+// 갱신: 2026-06-27T09:42:01
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -315,28 +315,28 @@ window.HOLDING_NEWS = {
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
   {
-   "title": "'애플의 충격'…美 반도체·산업재 순환매 주목 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE95cXdMajQwZTVxM1k2X1k0MU1TLVBJdU9jMkU4VTd1OFFPWXd1azIwaUxLM0o2NHlYQlBoWnpLMDg0RGJnTFNJNmJYT1N2QnFRVGFsSkZBbHRjd9IBVEFVX3lxTE1UQVlwaG9Nd19oNHJEZ2VLYmxVLVVKbFhYX1FsUmtZdWVCWi1xZ2RXU3diSDhXS0ZoWDdYbWlPeTZlS3h2Q3JzaEdHRG5DZXpIRUFudw?oc=5",
+   "title": "AI 열풍 속 미지근한 美증시…소재·산업재 주목 - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBoOVhXalNPMnlZZ01jeEIxdmxaUGJKTUY3QTlJMmY4aklzSm52dFdSVTZGdWZUYkRFWXhpYl9Tb05INnRGOE1TbC1uOFVCX242R3gzRHM3NThFQdIBVEFVX3lxTE9KZHFMdkZpQlNvcGo2RWpQcHdFdEZTNXhMUUVyTWsxYjFYcnlJalQtTHVaMm9XTmNKLTF5QjhTS3A4YWdFc000bG02WkFDX3dodnMyUw?oc=5",
    "source": "한국경제",
-   "date": "2026-06-25"
+   "date": "2026-02-23"
   },
   {
-   "title": "캐터필러 주가 급락, 미국 제조업 지표 둔화에 휘청 : 해외증시 - 재경일보",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBTQ3ZUM2VkZWNwX0R4REtYWVo5Z04tMm44TENmNERoN1gwUWw5Y05qaFdEclNtU0hOUHVhUTFOQ0VFbjZBOVB1NThR?oc=5",
-   "source": "재경일보",
-   "date": "2026-06-26"
+   "title": "글로벌 제조업 경기 둔화 직격탄 맞은 일리노이 툴 워크스, 수익성 방어 기제 시험대 올랐다 : 금융 - news.jkn.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9OVTY1d0VGdFFud0c0cW9fTEZjVlJycEdaM1ZxRDVvaVVQb3c5QlVnM3RhUzR6THJfTTBHb0tRbmwwT2xyd0Q0Wm53?oc=5",
+   "source": "news.jkn.co.kr",
+   "date": "2026-06-03"
   },
   {
-   "title": "이번 주 미국 주식 시장 - 2026-06-22 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNS29Qb0xjMENlanJzOVBFekdyY1VpTFY1TDhIUGRydHFfUm0wZjlMVjEtaGw2bU5IUU5yUzkycTNyODJrdlBxcWR4dG5kcnlsZy1ubkhuRGhYWXdaanpoWVpJLVdfQURCVmM0bV8zY1hLME8ydjZMQ3VUcGNKYkg1UkRyanNXSGhqSFcwZQ?oc=5",
-   "source": "TradingKey",
-   "date": "2026-06-21"
+   "title": "미국 관세 수혜주, 관련주, 대장주 TOP 10 - 브런치",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBUNEdrNFh1ZTBOT0tIWlhERlpDWU1YY21pMEVYdE1QWGxGc3dfVm8xd1l5T0VrM3NZOHVjRTVLcDRzRkNmYXZJRUxR?oc=5",
+   "source": "브런치",
+   "date": "2026-02-03"
   },
   {
-   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
-   "source": "블루밍비트",
-   "date": "2026-05-30"
+   "title": "“오래 묻어둔 사람일수록 웃는다”...마음 편안한 ETF, 배당·AI·방산 주목을 - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE1LbUIxVW5pY3ZJVVJuRUg4SV9kWFZ0SEZPWk9CQzE1c0RaMUVXQUs0VGprRVJ6dTBlZk5jcklBUUJMNUM5TEJjcXpsVU91OXcw?oc=5",
+   "source": "매일경제 마켓",
+   "date": "2025-04-19"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
@@ -471,6 +471,12 @@ window.HOLDING_NEWS = {
  ],
  "Dimensional International Value (DFIV)": [
   {
+   "title": "‘성장가치주’에 투자… 유안타증권, ‘유안타 코리아 랩’ 잔고 2400억 돌파 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNbEhCbkNRSDJ3ck9aTFVxX2pBQ0tWWk9rVzlFTTRmb2pwdWtlbVlSSzlPWGdCVEV0cTFWWGlMUVdSX2JXYVdhdV9NRURmODNNX0xxUGFpdUhNblBxN1ZBTldIZlBNa3M3VXBXaVM2MS1XTV9PQWhuWFg2SDk0ZGNRTnJMc3k2SEFhdXQ1aVBhRU1vcG41Njdyem1DbXPSAZwBQVVfeXFMTWxIQm5DUUgyd3JPWkxVcV9qQUNLVlpPa1c5RU00Zm9qcHVrZW1ZUks5T1hnQlRFdHExVlhpTFFXUl9iV2FXYXVfTUVEZjgzTV9McVBhaXVITW5QcTdWQU5XSGZQTWtzN1VwV2lTNjEtV01fT0FoblhYNkg5NGRjUU5yTHN5NkhBYXV0NWlQYUVNb3BuNTY3cnptQ21z?oc=5",
+   "source": "Chosunbiz",
+   "date": "2026-06-25"
+  },
+  {
    "title": "'220조 큰손' 노르웨이 스토어브랜드 \"삼성화재·KCC·현대모비스, 숨겨진 가치주\" - 더구루",
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9qYVBIeXFqM1JUOVBRZnVSaFNkSERuaW9PY2xQY2t1dng4blh6aWJ0ZTFSS2l4VWM3cXhqTzZXSjZNc0Q1eGRCNVM1Tk1BZG1TTlZEUTBmcG44S1ZRTGJPZHYyQQ?oc=5",
    "source": "더구루",
@@ -487,12 +493,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1SSkVxS19nVko3eXNYalVvRVBRc29GU2w0VkRYUmFzbVZJbXBnZ09UVld6ME5DVXZQR3RsZzRocWRtMWZ2NzRFOTdwZHVHblFKczlRWWZtTDFfeFRnSmpLendCbw?oc=5",
    "source": "프라임경제",
    "date": "2026-03-03"
-  },
-  {
-   "title": "\"방어형 가치주로 머니 무브...자산주·배당주 투자 유효\" [내일 전략] - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9xUWpULWkzVFZSS2h6UTJSckZqbzIybW96cjFWVElNLVM2SV9fWE5QR3BoTUlEV2V0d1FwZVZUaGt1ZjRDU0RjMjdwUWVnWkZneFBsRzdRYXBaTmkzclFXTFowRTNQV1Q3SGpLS0pzUDdUTkdCWlJ2V0xIM25Yd28?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
-   "date": "2026-02-11"
   }
  ],
  "Xtrackers DAX ETF (XDAX)": [
