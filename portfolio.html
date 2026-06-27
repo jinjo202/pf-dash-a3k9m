@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-19a";</script>
+<script>window.CODE_VERSION = "2026-06-27a";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1210,13 +1210,14 @@
 
     <!-- 통합 알파 기여 요약 -->
     <div class="panel" style="margin-bottom:16px">
-      <h3>성과 기여도 요약 (vs MSCI ACWI)</h3>
+      <h3>성과 기여도 요약 (vs <span id="attribBmLabel">벤치마크</span>)</h3>
       <div id="attribSummary" class="attrib-summary"></div>
       <div class="footer-note">
-        <b>국가배분</b> = (PF 지역비중 − ACWI 지역비중) × 지역 인덱스 수익률 → 어디에 베팅했나<br>
-        <b>섹터배분</b> = (PF 섹터노출 − ACWI 섹터비중) × 섹터 ETF 수익률(XL* SPDR) → 어느 산업에 베팅했나<br>
-        <b>종목선택 (지역 내)</b> = Σ ACWI지역비중 × (PF지역수익률 − 지역인덱스수익률) → 같은 지역 안에서 더 좋은 종목 골랐는지<br>
-        <b>종목선택 (섹터 내)</b> = Σ ACWI섹터비중 × (PF섹터수익률 − 섹터ETF수익률) → 같은 섹터 안에서 더 좋은 종목 골랐는지<br>
+        <b>국가배분</b> = (PF 지역비중 − BM 지역비중) × 지역 인덱스 수익률 → 어디에 베팅했나<br>
+        <b>섹터배분</b> = (PF 섹터노출 − BM 섹터비중) × 섹터 ETF 수익률(XL* SPDR) → 어느 산업에 베팅했나<br>
+        <b>종목선택 (지역 내)</b> = Σ BM지역비중 × (PF지역수익률 − 지역인덱스수익률) → 같은 지역 안에서 더 좋은 종목 골랐는지<br>
+        <b>종목선택 (섹터 내)</b> = Σ BM섹터비중 × (PF섹터수익률 − 섹터ETF수익률) → 같은 섹터 안에서 더 좋은 종목 골랐는지<br>
+        ※ BM(벤치마크) 구성은 위 <b>벤치마크 선택 컨트롤</b>을 따릅니다 (기본 MSCI ACWI).<br>
         ※ 지역 분해와 섹터 분해는 <b>같은 총알파를 다른 각도로 본 것</b> — 두 분해 모두 alloc + selection + interaction = 총알파.<br>
         ※ Brinson PF 비중은 <b>YTD 시작 시점 기준</b>(연초 1/2 비중) — 도넛/지역요약의 "현재 시가 비중"과 다를 수 있음 (성과 측정엔 시작 비중이 표준).
       </div>
@@ -1224,7 +1225,7 @@
 
     <!-- Brinson 지역 성과 분해 패널 -->
     <div class="panel" style="margin-bottom:16px">
-      <h3>성과 기여도 분해 — Brinson (vs MSCI ACWI 지역구성)</h3>
+      <h3>성과 기여도 분해 — Brinson (vs <span id="brinsonRegBmLabel">벤치마크</span> 지역구성)</h3>
       <div style="color:var(--muted);font-size:11px;margin:-4px 0 12px;line-height:1.5">
         💡 <b>PF 비중은 YTD 시작 시점(연초 1/2)</b> 기준입니다. 성과 측정 시 시작 시점 비중을 쓰는 게 표준 — 그래야 "그동안 잘 간 종목 비중이 커진 효과"가 분리됩니다. 각 셀에 작게 표시된 <span style="color:var(--accent)">(현재 X.X%)</span>가 시가 변동 반영 후 현재 비중.
       </div>
@@ -1237,7 +1238,7 @@
         ・ <b>국가배분</b> = Σ (w<sub>p,i</sub> − w<sub>b,i</sub>) × (r<sub>b,i</sub> − r<sub>b</sub>) — 잘 가는 지역에 BM보다 많이 베팅한 효과<br>
         ・ <b>종목선택</b> = Σ w<sub>b,i</sub> × (r<sub>p,i</sub> − r<sub>b,i</sub>) — 같은 지역에서 BM 인덱스보다 잘 골랐는지 효과<br>
         ・ <b>상호작용</b> = Σ (w<sub>p,i</sub> − w<sub>b,i</sub>) × (r<sub>p,i</sub> − r<sub>b,i</sub>) — 두 효과의 상호작용<br>
-        ※ 벤치마크는 항상 MSCI ACWI (벤치마크 선택 컨트롤과 무관). 지역 대표지수: KR=KOSPI, US=S&P 500, EU=STOXX 600,
+        ※ 벤치마크는 위 <b>벤치마크 선택 컨트롤</b>을 따릅니다 (단일국 인덱스는 해당 지역 100%, 블렌드는 가중 합). 지역 대표지수: KR=KOSPI, US=S&P 500, EU=STOXX 600,
         <b>글로벌=니케이 225 (일본·호주·홍콩 등 선진국 ex-US/EU 대용)</b>, EM=MSCI EM.
         ACWI 지역 비중은 2025년 근사치 — 정확도 ±1~2%p.<br>
         <b>비중 기준</b>: Brinson은 <b>YTD 시작 시점</b> 비중 사용 (지역요약/도넛은 현재 시가 비중과 다를 수 있음).
@@ -1246,7 +1247,7 @@
 
     <!-- Brinson 섹터 성과 분해 패널 -->
     <div class="panel" style="margin-bottom:16px">
-      <h3>성과 기여도 분해 — Brinson (vs MSCI ACWI 섹터구성)</h3>
+      <h3>성과 기여도 분해 — Brinson (vs <span id="brinsonSecBmLabel">벤치마크</span> 섹터구성)</h3>
       <div style="color:var(--muted);font-size:11px;margin:-4px 0 12px;line-height:1.5">
         💡 PF 비중은 <b>YTD 시작 시점</b> 기준 (성과 측정 표준). 각 셀의 <span style="color:var(--accent)">(현재 X.X%, ±%p)</span>는 시가 변동 반영 후 현재 비중.
       </div>
@@ -1256,7 +1257,7 @@
       </div>
       <div class="footer-note">
         섹터 인덱스는 US 섹터 SPDR ETF로 대용: IT=XLK, Financials=XLF, Healthcare=XLV, Industrials=XLI, Materials=XLB,
-        Cons Disc=XLY, Cons Staples=XLP, Communication=XLC, Energy=XLE, Utilities=XLU. ACWI 섹터 비중은 2025년 근사.<br>
+        Cons Disc=XLY, Cons Staples=XLP, Communication=XLC, Energy=XLE, Utilities=XLU. 벤치마크 섹터 비중은 선택 벤치마크 기준 근사(ACWI/S&P/KOSPI), 섹터 수익률은 모든 벤치마크 공통으로 US 섹터 SPDR 대용.<br>
         각 종목의 섹터 노출은 광범위 ETF는 인덱스 섹터 분포, 단일섹터 ETF는 100% 그 섹터로 매핑.
       </div>
     </div>
@@ -1273,7 +1274,7 @@
         <b>계산식</b>: α<sub>i</sub> = w<sub>i</sub> × (r<sub>i</sub> − r<sub>BM</sub>) &nbsp;·&nbsp;
         w<sub>i</sub> = YTD 시작 시점 비중, r<sub>i</sub> = 종목 YTD 수익률, r<sub>BM</sub> = 선택 벤치마크 YTD 수익률<br>
         모든 종목의 α<sub>i</sub> 합 = 포트폴리오 총 alpha. 양수면 벤치마크 대비 기여, 음수면 drag.<br>
-        💡 <b>컬럼 헤더 클릭</b>으로 정렬 가능 (지역 / 비중 / YTD 수익률 / ACWI 대비 / 포트폴리오 기여 / α 기여도, 오름·내림 토글).<br>
+        💡 <b>컬럼 헤더 클릭</b>으로 정렬 가능 (지역 / 비중 / YTD 수익률 / BM 대비 / 포트폴리오 기여 / α 기여도, 오름·내림 토글).<br>
         💡 <b>각 종목 행 클릭</b>으로 해당 ETF의 상위 5 구성종목 펼침 표시.
       </div>
     </div>
@@ -3172,12 +3173,12 @@ function renderAlphaContribution() {
   // 요약 메트릭
   const card = (l, v, k, c = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
   summaryEl.innerHTML = [
-    card('총 alpha (vs ACWI)', fmtPct(totalAlpha, 2), 'alpha', cls(totalAlpha)),
+    card(`총 alpha (vs ${benchmarkLabel()})`, fmtPct(totalAlpha, 2), 'alpha', cls(totalAlpha)),
     card('상위 5종목 기여', fmtPct(top5, 2), 'pf', 'pos'),
     card('하위 5종목 기여', fmtPct(bot5, 2), 'pf', 'neg'),
     card('Hit ratio', `${positives.length}/${contributions.length}종목 (+)`, 'bm'),
     card('포트폴리오 YTD', fmtPct(pfRet * 100, 2), 'pf', cls(pfRet)),
-    card('ACWI YTD', fmtPct(acwiRet * 100, 2), 'bm', cls(acwiRet)),
+    card(`${benchmarkLabel()} YTD`, fmtPct(acwiRet * 100, 2), 'bm', cls(acwiRet)),
   ].join('');
 
   // 차트 (가로 막대)
@@ -3211,7 +3212,7 @@ function renderAlphaContribution() {
               const c = contributions[ctx.dataIndex];
               return [
                 `${c.region} · 시작 비중 ${fmt(c.weight, 2)}%`,
-                `YTD 수익률 ${fmtPct(c.retPct)} · ACWI 대비 ${fmtPct(c.excessPct)}`,
+                `YTD 수익률 ${fmtPct(c.retPct)} · BM 대비 ${fmtPct(c.excessPct)}`,
                 `α 기여도: ${fmtPct(c.alpha, 2)}`,
               ];
             },
@@ -3365,7 +3366,7 @@ function renderAlphaContribution() {
         ${ah('weight', '시작 비중')}
         ${ah('retPct', '수익률')}
         ${ah('bmExcessPct', '지역BM 대비')}
-        ${ah('excessPct', 'ACWI 대비')}
+        ${ah('excessPct', 'BM 대비')}
         ${ah('totalContrib', '포트폴리오 기여')}
         ${ah('alpha', 'α 기여도')}
       </tr>
@@ -3461,6 +3462,70 @@ const REGION_BM_LABEL = {
   '이머징': 'MSCI EM',
 };
 
+// ── 벤치마크 구성(지역·섹터) — 선택 벤치마크에 맞춰 Brinson 분해를 재구성하기 위함 ──
+// 각 벤치마크 인덱스의 지역 구성. 단일국 인덱스는 해당 지역 100%, ACWI는 위 ACWI_REGION_WEIGHTS.
+const BM_INDEX_REGION_WEIGHTS = {
+  'MSCI ACWI': ACWI_REGION_WEIGHTS,
+  'S&P 500':   { '미국': 1 },
+  'KOSPI':     { '한국': 1 },
+};
+// 각 벤치마크 인덱스의 섹터 구성(근사치, ACWI와 동일한 10섹터 분류).
+// ACWI는 데이터의 acwi_sector_weights를 사용하므로 여기엔 S&P·KOSPI만 둔다.
+const SPX_SECTOR_WEIGHTS = {
+  'IT': 0.33, 'Communication': 0.10, 'Financials': 0.13, 'Healthcare': 0.11,
+  'Cons Disc': 0.105, 'Industrials': 0.085, 'Cons Staples': 0.06,
+  'Energy': 0.03, 'Utilities': 0.025, 'Materials': 0.025,
+};
+const KOSPI_SECTOR_WEIGHTS = {
+  'IT': 0.38, 'Financials': 0.13, 'Industrials': 0.14, 'Cons Disc': 0.10,
+  'Materials': 0.07, 'Healthcare': 0.06, 'Communication': 0.05,
+  'Cons Staples': 0.035, 'Energy': 0.025, 'Utilities': 0.01,
+};
+
+// 선택 벤치마크 가중치(benchmarkState.weights)를 인덱스별 지역 구성으로 블렌드.
+// 예: 50% KOSPI + 50% ACWI → {한국: 0.5 + 0.5×0.015, 미국: 0.5×0.625, ...}
+function benchmarkRegionWeights() {
+  const w = benchmarkState.weights || {};
+  let totalW = 0;
+  for (const v of Object.values(w)) if (v > 0) totalW += v;
+  const out = {};
+  for (const region of Object.keys(ACWI_REGION_WEIGHTS)) out[region] = 0;
+  if (totalW <= 0) return { ...ACWI_REGION_WEIGHTS };
+  for (const [idx, wv] of Object.entries(w)) {
+    if (wv <= 0) continue;
+    const map = BM_INDEX_REGION_WEIGHTS[idx] || ACWI_REGION_WEIGHTS;
+    const frac = wv / totalW;
+    for (const [region, rw] of Object.entries(map)) {
+      out[region] = (out[region] || 0) + frac * rw;
+    }
+  }
+  return out;
+}
+
+// 선택 벤치마크 가중치를 인덱스별 섹터 구성으로 블렌드. ACWI 섹터는 데이터에서.
+function benchmarkSectorWeights(hist) {
+  const acwiSec = (hist && hist.acwi_sector_weights) || {};
+  const w = benchmarkState.weights || {};
+  let totalW = 0;
+  for (const v of Object.values(w)) if (v > 0) totalW += v;
+  if (totalW <= 0) return { ...acwiSec };
+  const idxSectorMap = {
+    'MSCI ACWI': acwiSec,
+    'S&P 500':   SPX_SECTOR_WEIGHTS,
+    'KOSPI':     KOSPI_SECTOR_WEIGHTS,
+  };
+  const out = {};
+  for (const [idx, wv] of Object.entries(w)) {
+    if (wv <= 0) continue;
+    const map = idxSectorMap[idx] || acwiSec;
+    const frac = wv / totalW;
+    for (const [sec, sw] of Object.entries(map)) {
+      out[sec] = (out[sec] || 0) + frac * sw;
+    }
+  }
+  return out;
+}
+
 function computeBrinson() {
   const hist = portfolioData && portfolioData.historical;
   const bms = window.BENCHMARKS && window.BENCHMARKS.indices;
@@ -3519,9 +3584,12 @@ function computeBrinson() {
     pfCurByRegion[region] = totalCurMkt > 0 ? sum / totalCurMkt : 0;
   }
 
+  // 선택 벤치마크에 맞춘 지역 구성 (단일국 인덱스는 100%, 블렌드는 가중 합)
+  const bmRegionW = benchmarkRegionWeights();
+
   // 전체 벤치마크 수익률
   let rb_total = 0;
-  for (const [region, wb] of Object.entries(ACWI_REGION_WEIGHTS)) {
+  for (const [region, wb] of Object.entries(bmRegionW)) {
     const idxName = REGION_TO_BENCHMARK[region];
     const r = bmRetByName[idxName];
     if (r != null) rb_total += wb * r;
@@ -3529,7 +3597,7 @@ function computeBrinson() {
 
   const rows = [];
   let allocSum = 0, selSum = 0, intSum = 0;
-  for (const [region, wb] of Object.entries(ACWI_REGION_WEIGHTS)) {
+  for (const [region, wb] of Object.entries(bmRegionW)) {
     const pf = pfByRegion[region] || { wp: 0, rp: 0 };
     const idxName = REGION_TO_BENCHMARK[region];
     const rbi = bmRetByName[idxName] || 0;
@@ -3574,7 +3642,7 @@ function computeBrinsonSector() {
   // 차라리 null 반환 → 패널이 "섹터 데이터 부족"으로 표시되게 함
   if (!Object.keys(hist.sector_returns).length || !Object.keys(hist.acwi_sector_weights).length) return null;
 
-  const acwiSec = hist.acwi_sector_weights;
+  const acwiSec = benchmarkSectorWeights(hist);  // 선택 벤치마크에 맞춘 섹터 구성
   const secRet = hist.sector_returns;  // {sector: ytd_pct}  (full year — sector_returns_series 없으면 fallback)
   const pfStart = hist.portfolio_total[0];
 
@@ -3621,8 +3689,8 @@ function computeBrinsonSector() {
     }
   }
 
-  // 전체 BM 수익률
-  const sectors = Object.keys(acwiSec);
+  // 전체 BM 수익률 (벤치마크·PF 섹터 합집합 — BM 비중 0인 섹터의 배분효과도 포착)
+  const sectors = Array.from(new Set([...Object.keys(acwiSec), ...Object.keys(pfSecW)]));
   let rb_total = 0;
   for (const s of sectors) {
     const r = (secRet[s] || 0) / 100;
@@ -3633,7 +3701,7 @@ function computeBrinsonSector() {
   let alloc = 0, sel = 0, inter = 0;
   for (const s of sectors) {
     const wp = pfSecW[s] || 0;
-    const wb = acwiSec[s];
+    const wb = acwiSec[s] || 0;
     const rp = pfSecRet[s] || 0;
     const rbi = (secRet[s] || 0) / 100;
     const a = (wp - wb) * (rbi - rb_total);
@@ -3676,10 +3744,13 @@ function renderBrinsonSector() {
     return;
   }
   const t = r.totals;
+  const bmL = (typeof benchmarkLabel === 'function') ? benchmarkLabel() : 'ACWI';
+  const secLabelEl = document.getElementById('brinsonSecBmLabel');
+  if (secLabelEl) secLabelEl.textContent = bmL;
   const card = (l, v, k = '', c = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
   sumEl.innerHTML = [
     card('포트폴리오 YTD',      fmtPct(t.pfReturn, 2),   'pf', cls(t.pfReturn)),
-    card('ACWI(섹터 가중) YTD', fmtPct(t.bmReturn, 2),   'bm', cls(t.bmReturn)),
+    card(`${bmL}(섹터 가중) YTD`, fmtPct(t.bmReturn, 2),   'bm', cls(t.bmReturn)),
     card('초과수익',            fmtPct(t.excess, 2),     'alpha', cls(t.excess)),
     card('섹터배분 효과',       fmtPct(t.allocation, 2), 'pf', cls(t.allocation)),
     card('종목선택 (섹터 내)',  fmtPct(t.selection, 2),  'pf', cls(t.selection)),
@@ -3697,7 +3768,7 @@ function renderBrinsonSector() {
         <th rowspan="2">상호작용</th>
         <th rowspan="2">기여 합</th>
       </tr>
-      <tr><th>PF</th><th>ACWI</th><th>PF</th><th>섹터 ETF</th></tr>
+      <tr><th>PF</th><th>BM</th><th>PF</th><th>섹터 ETF</th></tr>
     </thead>
     <tbody>
       ${r.rows.map(row => {
@@ -3743,9 +3814,12 @@ function renderAttributionSummary() {
     return;
   }
   const totalAlpha = region.totals.excess;  // 지역·섹터 분해 모두 같은 총알파
+  const bmL = (typeof benchmarkLabel === 'function') ? benchmarkLabel() : 'ACWI';
+  const sumLabelEl = document.getElementById('attribBmLabel');
+  if (sumLabelEl) sumLabelEl.textContent = bmL;
   const card = (l, v, k, sub, c) => `<div class="a ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div><div class="s">${sub}</div></div>`;
   const items = [
-    card('총 알파 (vs ACWI)',  fmtPct(totalAlpha, 2), 'total', '지역·섹터 분해 동일', cls(totalAlpha)),
+    card(`총 알파 (vs ${bmL})`,  fmtPct(totalAlpha, 2), 'total', '지역·섹터 분해 동일', cls(totalAlpha)),
     card('국가배분 효과',      fmtPct(region.totals.allocation, 2), 'alloc-region', '어디에 베팅했나', cls(region.totals.allocation)),
     sector ? card('섹터배분 효과', fmtPct(sector.totals.allocation, 2), 'alloc-sector', '어느 산업에 베팅했나', cls(sector.totals.allocation)) : '',
     card('종목선택 (지역 내)', fmtPct(region.totals.selection + region.totals.interaction, 2), 'select-region', '같은 지역에서 더 좋은 ETF', cls(region.totals.selection + region.totals.interaction)),
@@ -3765,10 +3839,13 @@ function renderBrinsonAttribution() {
   const t = r.totals;
 
   // 요약 카드
+  const bmL = (typeof benchmarkLabel === 'function') ? benchmarkLabel() : 'ACWI';
+  const regLabelEl = document.getElementById('brinsonRegBmLabel');
+  if (regLabelEl) regLabelEl.textContent = bmL;
   const card = (l, v, k = '', c = '') => `<div class="m ${k}"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`;
   sumEl.innerHTML = [
     card('포트폴리오 YTD',  fmtPct(t.pfReturn, 2),    'pf', cls(t.pfReturn)),
-    card('ACWI(지역 가중) YTD', fmtPct(t.bmReturn, 2),    'bm', cls(t.bmReturn)),
+    card(`${bmL}(지역 가중) YTD`, fmtPct(t.bmReturn, 2),    'bm', cls(t.bmReturn)),
     card('초과수익',         fmtPct(t.excess, 2),       'alpha', cls(t.excess)),
     card('국가배분 효과',   fmtPct(t.allocation, 2),   'pf', cls(t.allocation)),
     card('종목선택 효과',   fmtPct(t.selection, 2),    'pf', cls(t.selection)),
@@ -3788,7 +3865,7 @@ function renderBrinsonAttribution() {
         <th rowspan="2">기여 합</th>
       </tr>
       <tr>
-        <th>PF</th><th>ACWI</th>
+        <th>PF</th><th>BM</th>
         <th>PF</th><th>BM 인덱스</th>
       </tr>
     </thead>
