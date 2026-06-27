@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-21a";</script>
+<script>window.CODE_VERSION = "2026-06-27a";</script>
 <script>
   (function () {
     try {
@@ -515,17 +515,99 @@
   .feat-card .news-wrap { padding:4px 18px 16px; }
   .feat-card .news-head { font-size:10.5px; font-weight:700; text-transform:uppercase;
     letter-spacing:.06em; color:var(--muted); margin:8px 0 7px; }
-  .feat-card .news-list { display:flex; flex-direction:column; gap:7px; }
-  .news-item {
-    padding:9px 11px; background:var(--panel-soft); border-radius:9px;
-    border-left:3px solid var(--accent); transition:background .12s;
-  }
-  .news-item:hover { background:var(--accent-soft); }
-  .news-item .ntitle { font-size:12px; font-weight:600; line-height:1.45; color:var(--text); display:block; }
+  .feat-card .news-list { display:flex; flex-direction:column; }
+  /* 특징주 카드 내 뉴스 — Google Finance 스타일 구분선 리스트 */
+  .news-item { padding:9px 0; border-top:1px solid var(--border); transition:opacity .12s; }
+  .news-item:first-child { border-top:none; padding-top:2px; }
+  .news-item:hover { opacity:.82; }
+  .news-item .ntitle { font-size:12.5px; font-weight:600; line-height:1.45; color:var(--text); display:block; }
   .news-item a.ntitle { text-decoration:none; color:var(--text); }
   .news-item a.ntitle:hover { color:var(--accent); }
   .news-item .nmeta { font-size:10.5px; color:var(--muted); margin-top:4px; }
   .no-news { font-size:12px; color:var(--muted); font-style:italic; padding:8px 18px 16px; }
+
+  /* ── 개요 섹션 (Google Finance 스타일) ── */
+  .ov-sec { margin:22px 0; }
+  .ov-sec-head { display:flex; align-items:baseline; gap:9px; margin:0 0 13px; }
+  .ov-sec-title { font-size:16px; font-weight:800; letter-spacing:-.015em; color:var(--text); }
+  .ov-sec-sub { margin-left:auto; font-size:11px; color:var(--muted); font-weight:600; white-space:nowrap; }
+
+  /* 주요 이벤트 — 뉴스 카드 그리드 */
+  .ovn-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(290px,1fr)); gap:12px; }
+  .ovn-card {
+    display:flex; flex-direction:column; gap:7px;
+    background:var(--panel); border:1px solid var(--border); border-radius:13px;
+    padding:14px 16px; transition:border-color .15s, box-shadow .15s, transform .15s;
+  }
+  .ovn-card:hover { border-color:var(--accent); box-shadow:var(--shadow-sm); transform:translateY(-1px); }
+  .ovn-top { display:flex; align-items:center; gap:7px; }
+  .ovn-scope { font-size:9.5px; font-weight:800; letter-spacing:.03em; padding:2px 8px; border-radius:10px;
+    background:rgba(79,140,255,.16); color:#5b8cff; }
+  .ovn-src { font-size:11px; font-weight:700; color:var(--text-soft); white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis; }
+  .ovn-time { margin-left:auto; font-size:10.5px; color:var(--muted); font-weight:600; white-space:nowrap; }
+  .ovn-title { font-size:13.5px; font-weight:700; line-height:1.45; color:var(--text); }
+  .ovn-card a.ovn-title { text-decoration:none; color:var(--text); }
+  .ovn-card a.ovn-title:hover { color:var(--accent); }
+  .ovn-desc { font-size:12px; line-height:1.55; color:var(--muted);
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* 주요종목 등락 — Market trends 스타일 타일 */
+  .ovm-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(265px,1fr)); gap:11px; }
+  .ovm-tile {
+    background:var(--panel); border:1px solid var(--border); border-radius:13px;
+    padding:13px 15px; cursor:pointer; transition:border-color .15s, box-shadow .15s, transform .15s;
+  }
+  .ovm-tile:hover { border-color:var(--accent); box-shadow:var(--shadow-sm); transform:translateY(-1px); }
+  .ovm-thead { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+  .ovm-name { font-size:14px; font-weight:800; letter-spacing:-.01em; color:var(--text);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ovm-tkr { font-size:10.5px; color:var(--muted); font-weight:600; flex-shrink:0; }
+  .ovm-pill { margin-left:auto; flex-shrink:0; font-size:13.5px; font-weight:800; padding:3px 10px;
+    border-radius:10px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .ovm-reason { font-size:12px; line-height:1.6; color:var(--text-soft);
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .ovm-reason a { color:inherit; text-decoration:none; }
+  .ovm-reason a:hover { color:var(--accent); text-decoration:underline; }
+  .ovm-detail { font-size:11px; line-height:1.5; color:var(--muted); margin-top:4px; }
+  @media (max-width:600px) {
+    .ovn-grid, .ovm-grid { grid-template-columns:1fr; }
+  }
+  /* 방향 태그 (상승/하락 1위) */
+  .fc-dirtag { font-weight:800; }
+  .fc-dirtag.dt-pos { background:var(--pos-soft); color:var(--pos); }
+  .fc-dirtag.dt-neg { background:var(--neg-soft); color:var(--neg); }
+
+  /* 대표지수 클릭 → 히트맵 트리거 */
+  .ov-idx-map { cursor:pointer; color:var(--accent); font-weight:700; display:inline-flex; align-items:center; gap:4px; }
+  .ov-idx-map:hover { text-decoration:underline; }
+
+  /* ── finviz 스타일 트리맵 ── */
+  .treemap-panel {
+    margin:0 0 22px; background:var(--panel); border:1px solid var(--border);
+    border-radius:14px; padding:14px 16px 16px; box-shadow:var(--shadow-sm);
+  }
+  .tm-head { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px; }
+  .tm-title { font-size:15px; font-weight:800; letter-spacing:-.01em; color:var(--text); }
+  .tm-sub { font-size:11px; color:var(--muted); font-weight:600; }
+  .tm-close { margin-left:auto; font-size:12px; font-weight:700; color:var(--muted); cursor:pointer;
+    padding:3px 9px; border-radius:7px; border:1px solid var(--border); }
+  .tm-close:hover { background:var(--neu-soft); color:var(--text); }
+  .tm-legend { display:flex; align-items:center; gap:3px; font-size:10px; color:var(--muted); font-weight:600; margin:2px 0 10px; }
+  .tm-legend i { width:16px; height:11px; border-radius:2px; display:inline-block; }
+  .tm-canvas { position:relative; width:100%; aspect-ratio:1000 / 600; min-height:320px;
+    background:var(--bg); border-radius:8px; overflow:hidden; }
+  .tm-sector { position:absolute; box-sizing:border-box; border:1px solid var(--bg);
+    background:var(--panel-soft); overflow:hidden; }
+  .tm-sector-lbl { position:absolute; left:0; right:0; top:0; height:15px; line-height:15px;
+    font-size:10px; font-weight:800; color:var(--text-soft); padding:0 5px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:.85; pointer-events:none; }
+  .tm-tile { position:absolute; box-sizing:border-box; border:1px solid var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; line-height:1.1; overflow:hidden; cursor:default; }
+  .tm-tile .tm-tkr { font-weight:800; letter-spacing:-.02em; }
+  .tm-tile .tm-pct { font-weight:600; opacity:.92; }
+  .tm-empty { color:var(--muted); font-size:12px; font-style:italic; padding:30px 0; text-align:center; }
 
   /* ── Sparkline SVG ── */
   .sparkline { display:block; width:100%; height:40px; }
@@ -733,7 +815,14 @@ function makeSpark(data, opts) {
     });
     html += '</div>';
 
-    // ── 글로벌 주요 이벤트 (investing.com 등, 지역 공통) ──
+    html += '<div class="commentary-foot">※ 각 지역 탭에서 매크로·주요 이벤트·특징주 등락 요인을 자세히 확인할 수 있습니다.</div>';
+    html += '</div>';
+    return html;
+  }
+
+  /* ── 개요: 시장을 움직인 주요 이벤트 (뉴스 카드, GF 스타일) ── */
+  function renderOverviewEvents() {
+    var regions = D.regions || [];
     var gEvents = [], gSeen = {};
     regions.forEach(function(r) {
       var c = r.commentary; if (!c || Array.isArray(c) || !c.events) return;
@@ -743,20 +832,37 @@ function makeSpark(data, opts) {
         gSeen[k] = 1; gEvents.push(e);
       });
     });
-    if (gEvents.length) {
-      html += '<div class="cm-subtitle">📰 시장을 움직인 글로벌 주요 이벤트</div>';
-      html += '<ul class="cm-event-list">';
-      gEvents.slice(0, 5).forEach(function(e) {
-        var src = e.source ? ' <span class="cm-src">· ' + escHtml(e.source) + '</span>' : '';
-        var title = escHtml(e.title);
-        var head = e.link ? '<a href="' + e.link + '" target="_blank" rel="noopener">' + title + '</a>' : title;
-        var desc = e.desc ? '<div class="cm-event-desc">' + escHtml(e.desc) + '</div>' : '';
-        html += '<li>' + head + src + desc + '</li>';
-      });
-      html += '</ul>';
-    }
+    if (!gEvents.length) return '';
 
-    // ── 오늘의 주요 등락 종목 (전 지역 통합 Top) ──
+    var html = '<div class="ov-sec">';
+    html += '<div class="ov-sec-head">' +
+      '<span class="ov-sec-title">📰 시장을 움직인 주요 이벤트</span>' +
+      '<span class="ov-sec-sub">글로벌 매크로 헤드라인</span>' +
+    '</div>';
+    html += '<div class="ovn-grid">';
+    gEvents.slice(0, 6).forEach(function(e) {
+      var title = escHtml(e.title);
+      var head = e.link
+        ? '<a class="ovn-title" href="' + e.link + '" target="_blank" rel="noopener">' + title + '</a>'
+        : '<span class="ovn-title">' + title + '</span>';
+      var time = e.time ? relTime(e.time) : '';
+      html += '<div class="ovn-card">' +
+        '<div class="ovn-top">' +
+          '<span class="ovn-scope">글로벌</span>' +
+          (e.source ? '<span class="ovn-src">' + escHtml(e.source) + '</span>' : '') +
+          (time ? '<span class="ovn-time">' + escHtml(time) + '</span>' : '') +
+        '</div>' +
+        head +
+        (e.desc ? '<div class="ovn-desc">' + escHtml(e.desc) + '</div>' : '') +
+      '</div>';
+    });
+    html += '</div></div>';
+    return html;
+  }
+
+  /* ── 개요: 오늘의 주요종목 등락 (Market trends 타일, GF 스타일) ── */
+  function renderOverviewMovers() {
+    var regions = D.regions || [];
     var allMovers = [];
     regions.forEach(function(r) {
       var c = r.commentary; if (!c || Array.isArray(c) || !c.movers) return;
@@ -766,30 +872,31 @@ function makeSpark(data, opts) {
       });
     });
     allMovers.sort(function(a, b){ return Math.abs(b.m.chgPct) - Math.abs(a.m.chgPct); });
-    if (allMovers.length) {
-      html += '<div class="cm-subtitle">🎯 오늘의 주요 등락 종목</div>';
-      html += '<div class="cm-mover-list">';
-      allMovers.slice(0, 6).forEach(function(x) {
-        var m = x.m, chipCls = chipClass(m.chgPct), arrow = arrowFor(m.chgPct);
-        var src = m.source ? ' <span class="cm-src">· ' + escHtml(m.source) + '</span>' : '';
-        var reason = escHtml(m.reason);
-        if (m.link) reason = '<a href="' + m.link + '" target="_blank" rel="noopener">' + reason + '</a>';
-        var detail = m.detail ? '<div class="cm-mover-detail">' + escHtml(m.detail) + '</div>' : '';
-        html += '<div class="cm-mover" onclick="switchRegion(\'' + x.rkey + '\')" style="cursor:pointer">' +
-          '<div class="cm-mover-head">' +
-            '<span class="cm-mover-name">' + x.flag + ' ' + escHtml(m.name) + '</span>' +
-            '<span class="cm-mover-ticker">' + m.ticker + '</span>' +
-            '<span class="gf-chip ' + chipCls + '">' + arrow + fmtPct(m.chgPct) + '</span>' +
-          '</div>' +
-          '<div class="cm-mover-reason">' + reason + src + '</div>' +
-          detail +
-        '</div>';
-      });
-      html += '</div>';
-    }
+    if (!allMovers.length) return '';
 
-    html += '<div class="commentary-foot">※ 각 지역 탭에서 매크로·주요 이벤트·특징주 등락 요인을 자세히 확인할 수 있습니다.</div>';
-    html += '</div>';
+    var html = '<div class="ov-sec">';
+    html += '<div class="ov-sec-head">' +
+      '<span class="ov-sec-title">🎯 오늘의 주요종목 등락</span>' +
+      '<span class="ov-sec-sub">전 지역 통합 · 절대 등락률 순</span>' +
+    '</div>';
+    html += '<div class="ovm-grid">';
+    allMovers.slice(0, 8).forEach(function(x) {
+      var m = x.m, chipCls = chipClass(m.chgPct), arrow = arrowFor(m.chgPct);
+      var src = m.source ? ' <span class="cm-src">· ' + escHtml(m.source) + '</span>' : '';
+      var reason = escHtml(m.reason);
+      if (m.link) reason = '<a href="' + m.link + '" target="_blank" rel="noopener">' + reason + '</a>';
+      var detail = m.detail ? '<div class="ovm-detail">' + escHtml(m.detail) + '</div>' : '';
+      html += '<div class="ovm-tile" onclick="switchRegion(\'' + x.rkey + '\')">' +
+        '<div class="ovm-thead">' +
+          '<span class="ovm-name">' + x.flag + ' ' + escHtml(m.name) + '</span>' +
+          (m.ticker ? '<span class="ovm-tkr">' + escHtml(m.ticker) + '</span>' : '') +
+          '<span class="ovm-pill ' + chipCls + '">' + arrow + fmtPct(m.chgPct) + '</span>' +
+        '</div>' +
+        (reason ? '<div class="ovm-reason">' + reason + src + '</div>' : '') +
+        detail +
+      '</div>';
+    });
+    html += '</div></div>';
     return html;
   }
 
@@ -1145,7 +1252,7 @@ function makeSpark(data, opts) {
         '<div class="ov-region">' + r.flag + ' ' + r.name +
           (r.as_of ? '<span class="ov-date">' + r.as_of + '</span>' : '') +
         '</div>' +
-        '<div class="ov-main-idx">' + (main ? main.name : '—') + '</div>' +
+        '<div class="ov-main-idx ov-idx-map" title="구성종목 히트맵 보기" onclick="event.stopPropagation(); showTreemap(\'' + r.key + '\')">🗺 ' + (main ? main.name : '—') + '</div>' +
         '<div class="ov-main-chg ' + cc + '">' + fmtPct(chgPct) + '</div>' +
         '<div class="ov-sub">' +
           (r.indices || []).slice(1, 3).map(function(idx) {
@@ -1155,6 +1262,9 @@ function makeSpark(data, opts) {
         '</div>';
     });
     html += '</div>';
+
+    // 대표지수 클릭 시 펼쳐지는 finviz 스타일 트리맵 패널
+    html += '<div id="treemapPanel" class="treemap-panel" style="display:none"></div>';
 
     // 전체 섹터 히트맵 (US 기준 GICS)
     var usR = getRegion('us');
@@ -1167,15 +1277,33 @@ function makeSpark(data, opts) {
       html += '</div>';
     }
 
-    // 지역별 특징주 요약
-    html += '<div class="panel-title" style="margin:4px 0 14px;font-size:15px;font-weight:700;">⚡ 오늘의 특징주</div>';
-    html += '<div class="featured-grid">';
+    // 시장을 움직인 주요 이벤트 (뉴스 카드)
+    html += renderOverviewEvents();
+
+    // 오늘의 주요종목 등락 (Market trends 타일)
+    html += renderOverviewMovers();
+
+    // 오늘의 특징주 (지역별 상승 1위 + 하락 1위 — 단조로움 방지)
+    var featCards = [];
     (D.regions || []).forEach(function(r) {
-      var feat = r.featured && r.featured[0];
-      if (!feat) return;
-      html += renderFeatCard(feat, r.name + ' ' + r.flag);
+      var fs = (r.featured || []).filter(function(f) { return f.chgPct != null; });
+      if (!fs.length) return;
+      var label = r.name + ' ' + r.flag;
+      var up = fs.filter(function(f){ return f.chgPct > 0; }).sort(function(a,b){ return b.chgPct - a.chgPct; })[0];
+      var down = fs.filter(function(f){ return f.chgPct < 0; }).sort(function(a,b){ return a.chgPct - b.chgPct; })[0];
+      if (up)   featCards.push(renderFeatCard(up, label, '📈 상승 1위'));
+      if (down) featCards.push(renderFeatCard(down, label, '📉 하락 1위'));
+      if (!up && !down) featCards.push(renderFeatCard(fs[0], label));  // 변동 0뿐인 예외
     });
-    html += '</div>';
+    if (featCards.length) {
+      html += '<div class="ov-sec">';
+      html += '<div class="ov-sec-head">' +
+        '<span class="ov-sec-title">⚡ 오늘의 특징주</span>' +
+        '<span class="ov-sec-sub">지역별 상승·하락 1위 · 가격·차트·뉴스</span>' +
+      '</div>';
+      html += '<div class="featured-grid">' + featCards.join('') + '</div>';
+      html += '</div>';
+    }
 
     return html;
   }
@@ -1327,6 +1455,124 @@ function makeSpark(data, opts) {
     panel.scrollIntoView({behavior:'smooth', block:'nearest'});
   };
 
+  /* ── finviz 스타일 트리맵 (대표지수 클릭 시) ── */
+  // 제곱화 트리맵(squarified): items[{value}] → 각 항목에 {x,y,w,h} 부여 (Bruls et al.)
+  function squarify(items, x, y, w, h) {
+    var nodes = items.filter(function(d){ return d.value > 0; })
+                     .sort(function(a, b){ return b.value - a.value; });
+    var total = nodes.reduce(function(s, d){ return s + d.value; }, 0);
+    if (!total || w <= 0 || h <= 0) return [];
+    nodes.forEach(function(d){ d._area = d.value / total * (w * h); });
+    var out = [], rect = { x: x, y: y, w: w, h: h }, row = [], i = 0;
+    function side() { return Math.min(rect.w, rect.h); }
+    function worst(r, len) {
+      var s = r.reduce(function(a, n){ return a + n._area; }, 0);
+      var mx = Math.max.apply(null, r.map(function(n){ return n._area; }));
+      var mn = Math.min.apply(null, r.map(function(n){ return n._area; }));
+      return Math.max(len * len * mx / (s * s), s * s / (len * len * mn));
+    }
+    function place(r) {
+      var s = r.reduce(function(a, n){ return a + n._area; }, 0);
+      if (rect.w >= rect.h) {
+        var colW = s / rect.h, cy = rect.y;
+        r.forEach(function(n){ var rh = n._area / colW; out.push({ x: rect.x, y: cy, w: colW, h: rh, d: n }); cy += rh; });
+        rect.x += colW; rect.w -= colW;
+      } else {
+        var rowH = s / rect.w, cx = rect.x;
+        r.forEach(function(n){ var rw = n._area / rowH; out.push({ x: cx, y: rect.y, w: rw, h: rowH, d: n }); cx += rw; });
+        rect.y += rowH; rect.h -= rowH;
+      }
+    }
+    while (i < nodes.length) {
+      var c = nodes[i], len = side();
+      if (row.length === 0 || worst(row, len) >= worst(row.concat([c]), len)) { row.push(c); i++; }
+      else { place(row); row = []; }
+    }
+    if (row.length) place(row);
+    return out;
+  }
+
+  function renderTreemap(r) {
+    var stocks = (r.stocks || []).filter(function(s){ return s.mktcap > 0 && s.chgPct != null; });
+    if (stocks.length < 2) return '<div class="tm-empty">구성종목 데이터가 부족합니다.</div>';
+
+    // 섹터별 그룹 (시총 합으로 묶음)
+    var bySec = {};
+    stocks.forEach(function(s){
+      var k = s.sector || '기타';
+      (bySec[k] = bySec[k] || []).push(s);
+    });
+    var sectors = Object.keys(bySec).map(function(k){
+      return { name: k, value: bySec[k].reduce(function(a, s){ return a + s.mktcap; }, 0), stocks: bySec[k] };
+    });
+
+    var W = 1000, H = 600;            // 가상 좌표계 (퍼센트로 환산)
+    var APPROX_PX = 960;              // 폰트 크기 추정용 캔버스 폭(데스크톱 근사)
+    var pct = function(v, tot){ return (v / tot * 100).toFixed(3) + '%'; };
+    var secRects = squarify(sectors, 0, 0, W, H);
+    var LBL = 16;                     // 섹터 라벨 높이(가상)
+
+    var html = '';
+    secRects.forEach(function(sr){
+      var sec = sr.d;
+      // 섹터 블록 배경 + 라벨
+      html += '<div class="tm-sector" style="left:' + pct(sr.x, W) + ';top:' + pct(sr.y, H) +
+        ';width:' + pct(sr.w, W) + ';height:' + pct(sr.h, H) + '">';
+      if (sr.h > LBL * 1.6) html += '<div class="tm-sector-lbl">' + escHtml(sec.name) + '</div>';
+      html += '</div>';
+
+      // 섹터 내부 종목 타일 (라벨 높이만큼 위 여백)
+      var pad = 2, top = (sr.h > LBL * 1.6) ? LBL : 0;
+      var ix = sr.x + pad, iy = sr.y + top + pad, iw = sr.w - pad * 2, ih = sr.h - top - pad * 2;
+      if (iw <= 0 || ih <= 0) return;
+      var tiles = squarify(sec.stocks.map(function(s){ return { value: s.mktcap, s: s }; }), ix, iy, iw, ih);
+      tiles.forEach(function(t){
+        var s = t.d.s;
+        var wpx = t.w / W * APPROX_PX, hpx = t.h / H * (APPROX_PX * H / W);
+        var fs = Math.floor(Math.min(wpx / 4.2, hpx / 2.4));
+        var label = '';
+        if (fs >= 7) {
+          // 깔끔한 영문 심볼(예: NVDA)은 티커, 코드형(005930.KS·9984.T)이면 종목명 표시
+          var nm = (/^[A-Z]{1,6}$/.test(s.ticker || '')) ? s.ticker : (s.name || s.ticker || '');
+          var tf = Math.max(8, Math.min(20, fs));
+          label = '<span class="tm-tkr" style="font-size:' + tf + 'px">' + escHtml(nm) + '</span>';
+          if (hpx > 30) label += '<span class="tm-pct" style="font-size:' + Math.max(8, Math.min(14, tf - 2)) + 'px">' + fmtPct(s.chgPct) + '</span>';
+        }
+        var tip = (s.name || s.ticker) + (s.ticker ? ' (' + s.ticker + ')' : '') + ' · ' + fmtPct(s.chgPct) +
+          ' · 시총 ' + fmtMktcapUsd(s.mktcap);
+        html += '<div class="tm-tile ' + heatClass(s.chgPct) + '" title="' + escHtml(tip) + '" style="left:' +
+          pct(t.x, W) + ';top:' + pct(t.y, H) + ';width:' + pct(t.w, W) + ';height:' + pct(t.h, H) + '">' +
+          label + '</div>';
+      });
+    });
+    return html;
+  }
+
+  window.showTreemap = function(rkey) {
+    var panel = document.getElementById('treemapPanel');
+    if (!panel) return;
+    var r = getRegion(rkey);
+    if (!r) return;
+    if (panel.dataset.open === rkey && panel.style.display !== 'none') {
+      panel.style.display = 'none'; panel.dataset.open = ''; return;
+    }
+    var main = r.indices && r.indices[0];
+    var head = '<div class="tm-head">' +
+      '<span class="tm-title">🗺 ' + (r.flag || '') + ' ' + escHtml(r.name) +
+        (main ? ' · ' + escHtml(main.name) : '') + ' 구성종목 히트맵</span>' +
+      '<span class="tm-sub">' + (r.as_of ? r.as_of + ' 기준' : '') + '</span>' +
+      '<span class="tm-close" onclick="showTreemap(\'' + rkey + '\')">✕ 닫기</span>' +
+    '</div>' +
+    '<div class="tm-legend">하락' +
+      '<i class="heat-big-neg"></i><i class="heat-neg"></i><i class="heat-neg-light"></i>' +
+      '<i class="heat-neu"></i>' +
+      '<i class="heat-pos-light"></i><i class="heat-pos"></i><i class="heat-big-pos"></i>상승' +
+      '&nbsp;&nbsp;· 타일 크기 = 시가총액</div>';
+    panel.innerHTML = head + '<div class="tm-canvas">' + renderTreemap(r) + '</div>';
+    panel.style.display = 'block'; panel.dataset.open = rkey;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
   /* ── 지수 카드 바 (Google Finance 스타일) ── */
   function chipClass(v) {
     if (v == null) return 'chip-neu';
@@ -1422,11 +1668,12 @@ function makeSpark(data, opts) {
   }
 
   /* ── 특징주 카드 ── */
-  function renderFeatCard(feat, regionLabel) {
+  function renderFeatCard(feat, regionLabel, dirTag) {
     var cc = colorClass(feat.chgPct);
     var dir = (feat.chgPct || 0) >= 0 ? 'dir-pos' : 'dir-neg';
     var badgeCls = feat.chgPct >= 0 ? 'badge-pos' : 'badge-neg';
     var tags = [];
+    if (dirTag) tags.push('<span class="fc-tag fc-dirtag ' + (feat.chgPct >= 0 ? 'dt-pos' : 'dt-neg') + '">' + escHtml(dirTag) + '</span>');
     if (regionLabel) tags.push('<span class="fc-tag">' + escHtml(regionLabel) + '</span>');
     if (feat.sector) tags.push('<span class="fc-tag">' + escHtml(feat.sector) + '</span>');
     var html = '<div class="feat-card ' + dir + '">' +
