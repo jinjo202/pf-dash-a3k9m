@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-27T22:48:19
+// 갱신: 2026-06-27T23:19:55
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -367,16 +367,16 @@ window.HOLDING_NEWS = {
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
   {
-   "title": "다우존스, 나스닥, S&P 500 전망: 마이크론 실적·PCE 데이터가 랠리 시험대에 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wcC1jVlNJeDN1VExIQXJIOTV0Qm9WdFJrd1dyR3RBbGJjOU1Sd19qSnhCN0xTVzMwQWFWenRoMDZUS3pDbTRSdkNKeVp6WmF2UEM2Y19oNmpiR2dodmU5VWVvWnFIM0ZTREQ3QmJaTmw?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-06-22"
-  },
-  {
    "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
    "source": "YTN",
    "date": "2026-06-07"
+  },
+  {
+   "title": "다우존스, 나스닥, S&P 500 전망: 마이크론 실적·PCE 데이터가 랠리 시험대에 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wcC1jVlNJeDN1VExIQXJIOTV0Qm9WdFJrd1dyR3RBbGJjOU1Sd19qSnhCN0xTVzMwQWFWenRoMDZUS3pDbTRSdkNKeVp6WmF2UEM2Y19oNmpiR2dodmU5VWVvWnFIM0ZTREQ3QmJaTmw?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2026-06-22"
   },
   {
    "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - MBC 뉴스",
