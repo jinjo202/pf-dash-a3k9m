@@ -1,7 +1,7 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-06-26",
+  "as_of": "2026-06-27",
   "update_log": [
     {
       "date": "2026-06-12",
@@ -472,7 +472,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-26T23:53:24Z",
+  "generated": "2026-06-27T00:27:38Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -6252,7 +6252,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-06-26",
+    "as_of": "2026-06-27",
     "month": "2026.06",
     "unit": "조원",
     "ytd_total": {
@@ -7036,7 +7036,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -7723,7 +7723,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -8616,7 +8616,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "2026.06 KOSPI 누적(조원): 외국인 -36.9·기관 -0.7·개인 +37.0(19일). 최근 26.06.26: 외국인 -4.29·기관 -4.12·개인 +8.19. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -8636,7 +8636,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": null
     },
     "eps_rev_us": {
@@ -8650,7 +8650,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.0%. 그래프=90일 경로.",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": {
         "dates": [
           "90일전",
@@ -8679,7 +8679,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": null
     },
     "eps_rev_kr": {
@@ -8693,7 +8693,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +2.1%. 그래프=90일 경로.",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": {
         "dates": [
           "90일전",
@@ -8722,7 +8722,7 @@ window.MACRO = {
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 19.5 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-27",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
@@ -17507,7 +17507,7 @@ window.MACRO = {
     ]
   },
   "earnings": {
-    "as_of": "2026-06-26",
+    "as_of": "2026-06-27",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -17533,10 +17533,10 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (14일 경과)",
+          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (15일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-06-12",
-          "days_old": 14,
+          "days_old": 15,
           "stale": true,
           "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
           "years": [
@@ -17614,10 +17614,10 @@ window.MACRO = {
         "n": 29,
         "annual": {
           "unit": "지수(2020=100, 컨센서스)",
-          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (26일 경과)",
+          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (27일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 26,
+          "days_old": 27,
           "stale": true,
           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. ※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
           "years": [
@@ -17695,10 +17695,10 @@ window.MACRO = {
         "n": 6,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (26일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (27일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 26,
+          "days_old": 27,
           "stale": true,
           "note": null,
           "years": [
@@ -17776,10 +17776,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (26일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (27일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 26,
+          "days_old": 27,
           "stale": true,
           "note": null,
           "years": [
@@ -17857,10 +17857,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (26일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (27일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 26,
+          "days_old": 27,
           "stale": true,
           "note": null,
           "years": [
@@ -17960,7 +17960,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2242372173824,
               "fwdpe": 21.7,
-              "pbr": 96.14,
+              "pbr": 66.14,
               "rets": {
                 "w1": -6.4,
                 "m1": 2.5,
@@ -18074,7 +18074,7 @@ window.MACRO = {
               "name": "Oracle Corporation",
               "mktcap": 427836375040,
               "fwdpe": 13.6,
-              "pbr": 11.39,
+              "pbr": 12.73,
               "rets": {
                 "w1": -19.4,
                 "m1": -22.2,
