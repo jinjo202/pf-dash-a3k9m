@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-23a";</script>
+<script>window.CODE_VERSION = "2026-06-27a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -630,7 +630,8 @@ function renderAI(M) {
     stat('CAPEX / 美 GDP', (ai.capex_gdp_pct != null ? ai.capex_gdp_pct + '%' : '–'), (ai.capex_gdp_pct_e != null ? ny + 'E ' + ai.capex_gdp_pct_e + '% · ' : '') + '닷컴/통신버블 ~1%') +
     stat('R&D / 美 GDP', (lastRnd != null ? lastRnd + '%' : '–'), '사상 최고권 · 완만 상승') +
     '</div>';
-  html += '<div class="ai-verdict warn">📊 버블 점검: 빅테크 CAPEX/GDP ~' + ai.capex_gdp_pct + '%로 과거 통신·닷컴 버블 정점(~1%)에 근접/상회. 다만 적자·부채가 아닌 <b>현금흐름·이익으로 자금조달</b>되는 투자라 성격이 다름. 핵심 점검 포인트는 <b>투자 회수(AI 매출)</b> — 아래 AI 랩 매출 추이가 그 가늠자.</div>';
+  html += '<div class="ai-verdict warn">📊 버블 점검: 빅테크 CAPEX/GDP ~' + (ai.capex_gdp_pct != null ? ai.capex_gdp_pct : '–') + '%로 과거 통신·닷컴 버블 정점(~1%)에 근접/상회. 다만 적자·부채가 아닌 <b>현금흐름·이익으로 자금조달</b>되는 투자라 성격이 다름. 핵심 점검 포인트는 <b>투자 회수(AI 매출)</b> — 아래 AI 랩 매출 추이가 그 가늠자.</div>';
+  if (ai.fcf_note) html += '<div class="ai-verdict neg" style="margin-top:6px">💸 <b>FCF 우려</b>: ' + ai.fcf_note + '</div>';
   html += '<div class="section-label">버블 점검 시계열 — GDP 대비 투자 비중 (%)</div>' +
     '<div class="fin-grid">' +
     '<div class="fin-box"><div class="fin-t">빅4 CAPEX / 美 GDP (%, 2026~점선)</div><div class="fin-c"><canvas id="aiCapexGdp"></canvas></div></div>' +

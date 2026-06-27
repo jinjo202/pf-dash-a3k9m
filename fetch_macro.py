@@ -564,8 +564,23 @@ AI_CAPEX = {
 }
 AI_CAPEX_ACTUAL_THROUGH = 2025
 AI_CAPEX_SOURCE = "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
+# 미국 명목 GDP 연간 fallback ($B, SAAR 연평균 근사). FRED throttle 시 사용.
+# 출처: BEA (US Bureau of Economic Analysis), 2025는 Q4 SAAR 기준 근사.
+GDP_ANNUAL_SEED = {
+    "2020": 20893, "2021": 23200, "2022": 25463, "2023": 27357,
+    "2024": 28620, "2025": 29900,
+}
 # 미국 R&D 투자 / GDP (%). 버블 점검용. (NSF/BEA 근사)
 AI_RND_GDP = {"2015": 2.7, "2018": 3.0, "2020": 3.2, "2022": 3.4, "2023": 3.5, "2024": 3.6, "2025": 3.7}
+# FCF 우려 코멘트 — AI capex 급증에 따른 잉여현금흐름 압박
+AI_FCF_NOTE = (
+    "FCF 급락 경보: AI capex 급증($367B→$693B, +89% YoY 추정)에 따라 2026E FCF가 "
+    "Microsoft $60B(2025比 −17%), Alphabet $50B(−33%), Amazon −$20B(흑자→적자 역전), "
+    "Meta $30B(−33%)로 일제히 급감 예상. 영업이익은 성장세이나 자본지출이 현금창출을 "
+    "초과 — 배당·자사주보다 AI 투자에 현금을 소진하는 국면. 빅4 합산 FCF $227B→$120B(−47%)로 "
+    "FCF 수익률 하락 + 고밸류가 맞물려 실망 시 멀티플 압축 확대. "
+    "관전 포인트: Q2~Q3 AI 클라우드 ARR 성장이 capex 증가를 상쇄하는 속도."
+)
 # AI 랩 매출/수익성 추정 — 언론·업계 추정치. 변동 큼, 수시 갱신.
 AI_LABS = {
     "OpenAI": {"rev": {"2023": 1.6, "2024": 3.7, "2025": 13, "2026": 30, "2027": 60},
@@ -1227,6 +1242,9 @@ def build_ai():
             gdp = gdp_by_year[max(gdp_by_year)]
     except Exception:
         pass
+    if not gdp_by_year:  # FRED throttle 시 seed 사용
+        gdp_by_year = GDP_ANNUAL_SEED.copy()
+        gdp = gdp_by_year[max(gdp_by_year)]
     last = str(AI_CAPEX_ACTUAL_THROUGH)
     # 전망연도 GDP는 최신 실측에서 연 4% 명목성장 외삽
     def gdp_for(y):
@@ -1273,6 +1291,7 @@ def build_ai():
             "last_actual_year": AI_CAPEX_ACTUAL_THROUGH, "gdp": round(gdp) if gdp else None,
             "rnd_gdp": rnd, "labs": labs, "financials": fin,
             "capex_intensity": intensity, "cloud_note": CLOUD_CYCLE_NOTE,
+            "fcf_note": AI_FCF_NOTE,
             "capex_source": AI_CAPEX_SOURCE}
 
 
