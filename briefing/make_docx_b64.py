@@ -88,7 +88,7 @@ def set_word_wrap(par):
 
 def add_para(doc, text, *, size_pt, bold=False, underline=False,
              align=None, before=0, after=0,
-             left=None, hanging=None, word_wrap=False):
+             left=None, hanging=None):
     p = doc.add_paragraph()
     pf = p.paragraph_format
     pf.line_spacing_rule = WD_LINE_SPACING.MULTIPLE
@@ -101,8 +101,7 @@ def add_para(doc, text, *, size_pt, bold=False, underline=False,
         pf.left_indent = Twips(left)
     if hanging is not None:
         pf.first_line_indent = Twips(-hanging)
-    if word_wrap:
-        set_word_wrap(p)
+    set_word_wrap(p)  # 모든 문단에 적용: 어절 단위 줄바꿈(CJK 글자 중간 분리 방지)
     r = p.add_run(text)
     r.font.size = Pt(size_pt)
     r.font.bold = bold
@@ -139,10 +138,10 @@ def build_docx_bytes(brief):
                  before=12, after=12, left=450, hanging=450)
         for pt in (sec.get("points") or []):
             add_para(doc, "- " + pt.get("text", ""), size_pt=15,
-                     before=6, after=6, left=600, hanging=300, word_wrap=True)
+                     before=6, after=6, left=600, hanging=300)
             for s in (pt.get("subs") or []):
                 add_para(doc, "· " + s, size_pt=15,
-                         before=3, after=3, left=750, hanging=300, word_wrap=True)
+                         before=3, after=3, left=750, hanging=300)
     buf = io.BytesIO()
     doc.save(buf)
     return buf.getvalue()
