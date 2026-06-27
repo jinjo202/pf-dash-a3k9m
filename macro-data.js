@@ -472,7 +472,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-27T00:27:38Z",
+  "generated": "2026-06-27T02:12:24Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -17960,7 +17960,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2242372173824,
               "fwdpe": 21.7,
-              "pbr": 66.14,
+              "pbr": 96.14,
               "rets": {
                 "w1": -6.4,
                 "m1": 2.5,
@@ -18074,7 +18074,7 @@ window.MACRO = {
               "name": "Oracle Corporation",
               "mktcap": 427836375040,
               "fwdpe": 13.6,
-              "pbr": 12.73,
+              "pbr": 11.39,
               "rets": {
                 "w1": -19.4,
                 "m1": -22.2,
