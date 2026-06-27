@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-27b";</script>
+<script>window.CODE_VERSION = "2026-06-27c";</script>
 <script>
   (function () {
     try {
@@ -1706,8 +1706,8 @@ function makeSpark(data, opts) {
         '<div class="fc-spark">' + makeSpark(feat.spark, {w:280, h:46, cls:'sparkline', area:true}) + '</div>' +
       '</div>';
 
-    // 뉴스: 최신순 정렬 + 오래된(7일 초과) 뉴스 제외 — 등락과 무관한 옛 기사 노출 방지
-    var FRESH_MS = 7 * 24 * 3600 * 1000;
+    // 뉴스: 최신순 정렬 + 오래된(3일 초과) 뉴스 제외 — 등락과 무관한 옛 기사 노출 방지
+    var FRESH_MS = 3 * 24 * 3600 * 1000;
     var now = Date.now();
     var sorted = sortNewsDesc(feat.news);
     var fresh = sorted.filter(function(n){ var ms = newsTimeMs(n); return ms > 0 && (now - ms) <= FRESH_MS; });
@@ -1732,7 +1732,7 @@ function makeSpark(data, opts) {
       // 신선한 뉴스가 없으면 옛 기사를 띄우지 않고 가장 최근 기사 시점만 안내
       var newestMs = sorted.length ? newsTimeMs(sorted[0]) : 0;
       var ago = newestMs ? relTime(sorted[0].time) : '';
-      html += '<div class="no-news">최근 7일 내 관련 뉴스가 없습니다.' +
+      html += '<div class="no-news">최근 3일 내 관련 뉴스가 없습니다.' +
         (ago ? ' <span style="opacity:.8">(가장 최근: ' + ago + ')</span>' : '') + '</div>';
     }
     html += '</div></div>';
