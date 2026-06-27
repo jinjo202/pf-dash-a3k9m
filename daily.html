@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-27a";</script>
+<script>window.CODE_VERSION = "2026-06-27b";</script>
 <script>
   (function () {
     try {
@@ -524,6 +524,9 @@
   .news-item a.ntitle { text-decoration:none; color:var(--text); }
   .news-item a.ntitle:hover { color:var(--accent); }
   .news-item .nmeta { font-size:10.5px; color:var(--muted); margin-top:4px; }
+  .news-item .ntime.fresh { color:var(--pos); font-weight:700; }
+  .news-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--pos);
+    margin-right:5px; vertical-align:middle; }
   .no-news { font-size:12px; color:var(--muted); font-style:italic; padding:8px 18px 16px; }
 
   /* ── 개요 섹션 (Google Finance 스타일) ── */
@@ -705,6 +708,17 @@ function relTime(isoStr) {
     if (diff < 86400) return Math.floor(diff/3600) + '시간 전';
     return Math.floor(diff/86400) + '일 전';
   } catch(e) { return ''; }
+}
+// 뉴스 시각(ms). 파싱 불가/없으면 0.
+function newsTimeMs(n) {
+  var t = n && n.time;
+  if (!t) return 0;
+  var ms = Date.parse(t);
+  return isNaN(ms) ? 0 : ms;
+}
+// 최신순 정렬 (시각 없는 항목은 뒤로)
+function sortNewsDesc(arr) {
+  return (arr || []).slice().sort(function(a, b){ return newsTimeMs(b) - newsTimeMs(a); });
 }
 
 /* ── Sparkline SVG (Google Finance 스타일 area chart 지원) ── */
@@ -1692,21 +1706,34 @@ function makeSpark(data, opts) {
         '<div class="fc-spark">' + makeSpark(feat.spark, {w:280, h:46, cls:'sparkline', area:true}) + '</div>' +
       '</div>';
 
+    // 뉴스: 최신순 정렬 + 오래된(7일 초과) 뉴스 제외 — 등락과 무관한 옛 기사 노출 방지
+    var FRESH_MS = 7 * 24 * 3600 * 1000;
+    var now = Date.now();
+    var sorted = sortNewsDesc(feat.news);
+    var fresh = sorted.filter(function(n){ var ms = newsTimeMs(n); return ms > 0 && (now - ms) <= FRESH_MS; });
     html += '<div class="news-wrap">';
-    if (feat.news && feat.news.length) {
+    if (fresh.length) {
       html += '<div class="news-head">📰 관련 뉴스</div><div class="news-list">';
-      feat.news.slice(0, 3).forEach(function(n) {
+      fresh.slice(0, 3).forEach(function(n) {
+        var ms = newsTimeMs(n);
         var t = relTime(n.time);
+        var isNew = ms > 0 && (now - ms) < 24 * 3600 * 1000;   // 24시간 내 = 신선
         html += '<div class="news-item">';
         var title = escHtml(transNews(n.title));
         if (n.link) html += '<a class="ntitle" href="' + n.link + '" target="_blank" rel="noopener">' + title + '</a>';
         else html += '<span class="ntitle">' + title + '</span>';
-        html += '<div class="nmeta">' + escHtml(n.publisher || '') + (t ? ' · ' + t : '') + '</div>';
+        html += '<div class="nmeta">' + (isNew ? '<span class="news-dot" aria-hidden="true"></span>' : '') +
+          escHtml(n.publisher || '') +
+          (t ? ' · <span class="ntime' + (isNew ? ' fresh' : '') + '">' + t + '</span>' : '') + '</div>';
         html += '</div>';
       });
       html += '</div>';
     } else {
-      html += '<div class="no-news">최신 뉴스를 불러오지 못했습니다.</div>';
+      // 신선한 뉴스가 없으면 옛 기사를 띄우지 않고 가장 최근 기사 시점만 안내
+      var newestMs = sorted.length ? newsTimeMs(sorted[0]) : 0;
+      var ago = newestMs ? relTime(sorted[0].time) : '';
+      html += '<div class="no-news">최근 7일 내 관련 뉴스가 없습니다.' +
+        (ago ? ' <span style="opacity:.8">(가장 최근: ' + ago + ')</span>' : '') + '</div>';
     }
     html += '</div></div>';
     return html;
