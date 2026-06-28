@@ -273,7 +273,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             env.pop(k, None)
 
         cmd = [
-            claude, "--bare", "-p",       # --bare: CLAUDE.md/hooks/settings(apiKeyHelper 포함) 무시 → 구독 OAuth만
+            # 주의: 과거엔 --bare로 settings(apiKeyHelper) 무시했으나, claude CLI v2.1.x에서
+            # --bare가 구독 OAuth 인증까지 무력화('Not logged in')시키는 문제가 있어 제거.
+            # apiKeyHelper/유료경로 방어는 BILLING_ENV_STRIP + 아래 apiKeySource 런타임 가드로 대체.
+            claude, "-p",
             "--append-system-prompt", system,
             "--model", model,
             "--allowedTools", "",
