@@ -16,7 +16,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-25",
       "decimals": 2,
       "valuation": {
-        "pe": 20.89,
+        "pe": 20.03,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",

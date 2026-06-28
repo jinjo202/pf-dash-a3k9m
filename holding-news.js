@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-27T23:51:11
+// 갱신: 2026-06-28T00:23:45
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "(주간증시전망)방향 잃은 코스피…변동성 장세 지속 - 뉴스토마토",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5OclNNQmhFY1B1cmdCS1dyOXcxT0g5RGRuVkEtYW1JbjlDMjExLWs1NWZXNEZJV3NYZWxkMEw4ZTdqUTRkZ3J6cmlLcFZhRTRiOENDdzhaYXh6OGhTcWMzbQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBkTU41SHFLRC0xSVJuT1ptMy1RU1d2VEprTVVBRk9iZE9ncXFaWERzQ2lqd3lwUjdfRUxlekUyOTNEckpGdFpLUEVMbmY4aUZ1clUycjdDdkpsMmp1YmFV?oc=5",
    "source": "뉴스토마토",
+   "date": "2026-06-27"
+  },
+  {
+   "title": "[증시전망] 7월 코스피 향방은...삼전·닉스 이익 전망이 관건 - 디지털투데이",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1GWkE1b1ZkeFhkRm9vazhyLVNjakV4U2JhaXBGZ2Z6MG1BQWRfblctLTJxWURINVVGWENOZGR3dmFuejFSMHl1TGEzcm8wYWlkOHlJeE1JMGo2VDFSVFFzb1MtTklqN2pGcnFBamNMQmtMRkE?oc=5",
+   "source": "디지털투데이",
    "date": "2026-06-27"
   },
   {
@@ -13,12 +19,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNakN3RGZCZmk0MXhCNE53Tnl3UXBLWWk5QzFFZmpUMGhQbDRQLTMwMURKclhPU0NRQ0g3alVBQ3ViSi1XQmJQOEFOWnZoSkdGNU1xQ1dvalBHaU9UYzBQUzVzQzVLN2RjNFRRcnlJS3VPWXVfMFRNYVNYak5wTERkbEUyanMzenlwam5JaExGUDd1bVFDZU1kVkh4QTZCWHFSelVXanVZcHJpeXpERWdtNHZ4Tl80R2NPaThuaDdubXRoRHZaRFp3RmdCY2xucFRqaUlibUk4a041dHp1QjJPWDB1TVBsT3JqZGNwYUtR0gHwAUFVX3lxTE5jQlFnMzZDZDNPUzBNYlcwdlZoaDByZ3d0WG4weUZWMWRVdXBjeGdoemttbTlhV3Zuck5IbDBjYzZoeDhnWmlmNWpScDUyNW03U1FiYnNSaDhKWE5Ic3dXTk9VUWc1QV9KcEt3NEFFbFZWRWF0V1E1UTJDNV83RW5TdDNyYU51SlNnTXZMa0VvX3dkbUJYRVE3UTUxYjkxVXBIa0dwMm51TzJTS3I5Z29oMS1uZ0d6ZkNGLXo2QlBndnpQZGdvNkptcUtYVWNkV2tPN0ItaGYwRzFUQUducjlPNndMd0JEdTc2eTlra2xIMQ?oc=5",
    "source": "데일리안",
    "date": "2026-06-27"
-  },
-  {
-   "title": "\"1만 간다\" vs \"6500도 열려 있다\"… 5대 리서치센터장의 코스피 전망 - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxORS0zSUlEZFk0WGExYW0wNGtBZVhUYXFlMkNJelZXS3FsSmljZEpHeE4tV01xMXhmNjZ6cWU5TzJMdGE4Z0l6U0pyNjJTWDZ2Ty1Wb1lkbzhjX2NvY1BqMnVTSS1WNHVPc1VhZTNrbkZoRVhNMjFrYzFhRi1IOEljcg?oc=5",
-   "source": "조선일보",
-   "date": "2026-06-22"
   },
   {
    "title": "\"조정 오면 더 담아라\"…코스피 '1만5000' 파격 전망 [분석+] - 한국경제",
@@ -139,22 +139,22 @@ window.HOLDING_NEWS = {
    "date": "2026-06-22"
   },
   {
-   "title": "지금이 저점매수 기회일까?…“앞으로 주가 오를 일만 남았다”는 K방산주 - 서울경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5IMVpYSk1rSk9raE1OVTlkMURsbEV2b3oxbFkwZG9xWUJTVkNoUUFhaHpCMXhFSGRnVkx3ZjBRUU16c090MENMVEhON2ZpVGVtWVHSAVNBVV95cUxQOGdtdjliQ3NxTXFTeHROVFBqMzY0Y0wxV0ZPNTRIQ2Vic2VBZjU3TWhPLWUzNWtrTEtRUFphUlpxeWRmTU5ra0tVWHFXUjZKb2M4bw?oc=5",
-   "source": "서울경제",
-   "date": "2026-06-10"
-  },
-  {
    "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
    "source": "뉴스1",
    "date": "2026-06-05"
   },
   {
-   "title": "“전쟁 끝나도 30년은 오른다” ‘K방산 ETF 아버지’ 계좌 깠다 - 중앙일보",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA5WVFIR0JNMlppdHVPS1ZMaGotTHpyS2w3TDlpbnJHbVlmZnY0elp1RWtoVTlWNU1xTFNHUHFrZmIzRWVqWlNRNjNoVG0xRkJWZzlMOVVR?oc=5",
-   "source": "중앙일보",
-   "date": "2026-04-08"
+   "title": "지금이 저점매수 기회일까?…“앞으로 주가 오를 일만 남았다”는 K방산주 - 서울경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5IMVpYSk1rSk9raE1OVTlkMURsbEV2b3oxbFkwZG9xWUJTVkNoUUFhaHpCMXhFSGRnVkx3ZjBRUU16c090MENMVEhON2ZpVGVtWVHSAVNBVV95cUxQOGdtdjliQ3NxTXFTeHROVFBqMzY0Y0wxV0ZPNTRIQ2Vic2VBZjU3TWhPLWUzNWtrTEtRUFphUlpxeWRmTU5ra0tVWHFXUjZKb2M4bw?oc=5",
+   "source": "서울경제",
+   "date": "2026-06-10"
+  },
+  {
+   "title": "“반도체에 밀려 잊혔지만, 곧 큰거 온다”…‘실적 탄탄’ K방산 저점매수 기대감 - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFByU3A2OE55QjgyWlRfOUdaTEhmbUY0TW5nRE1qSXg4cDU1STFPdFpfZ0tEUXlPdXpoenF6dXJFQTd1SVQtR1ZlcmJHdVg3MTBJcUE?oc=5",
+   "source": "매일경제 마켓",
+   "date": "2026-06-09"
   }
  ],
  "KoAct 글로벌AI&로봇액티브 ETF": [
@@ -243,22 +243,22 @@ window.HOLDING_NEWS = {
    "date": "2026-06-09"
   },
   {
-   "title": "자동차주 갈아탈 때? … \"현대차 말고 기아 사라\" 증권가 변심 - 뉴데일리",
-   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE51S2xlSjB4RUpDSWJmVGEwOC12QkNsWWZLOTJVNEszYXpWRGNDeWpCMGF2UWgxSEZldkNzU2pKZmMtMllhb09Edk50SUNtNVVJTU1TSVRXVTVpU2ZIMG52TjJ5aDQwQXZ0cGYxMXA0VU9xaGFVTE9tMjJaWdIBgAFBVV95cUxOb2Q5WnJjZG5aVjJyX0lIeE85bk1Vb1JtSUN3VUpaNjhTMW9VaXFoT0RVRUJnQkplSXg3eHRrLUktVUpPYkVrMjl0X2d1QXU3RmI3Mm5jdXpSanBjSWxJRnhuTUxWZjRPYXlOVmlvVHExN3AxVlUwUXlWVTVYeGduUQ?oc=5",
-   "source": "뉴데일리",
-   "date": "2026-05-07"
-  },
-  {
    "title": "현대차·기아·현대모비스 동반 강세…자동차주 훈풍에 투자심리 개선 - CBC뉴스",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE05a2VkZDVubTZPTTBjM1lIdVg2V1dmQUkzczNxcDNBZGRlbjRtSlpoVUFmbDBUN2RCdktDb01Sbk5XMVljSFFTRHk3ZlFFUmpXcE5nVU9JUWl3bGNnS3lyUE92dE5TSW9F?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-15"
   },
   {
-   "title": "[특징주] 기아, 장 초반 급등해 52주 신고가…현대차도 상승 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5oREIxcG1kRUFsdU5FY0NncWhyRFhoTG9CR2llVVpuakg2c1o1Q01yeENvUTJ0REc5ZmpfUjZzcEdGQlJLbXdNQmdMMWRDZVgyWmtlREkta1pKNjDSAWBBVV95cUxQeWZQel94VnhrVGVnV2hwUWg5aVc5Zjl3UENiaWsxQUZIbmJKM2REelhLdEd3eGR1T0xFVzFlSEk1Sk5ORldvcWNsZFhoeTdKSnN0V1RhZS1XZ04yOVh0VDg?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-02-25"
+   "title": "자동차주 랠리의 새 공식…완성차보다 로봇 플랫폼이 먼저다 - 더파워",
+   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1tc05vTUl4QWF0VlQwS0xpZ1Jrd2djU2wwSkM4Qzl3SVB6SEZWWkFmVVJuNlJSOU9vc05lS2lfVUV2ckNNTmNfS3FmSFQ5ZXlKWTFva2x6QkhoTUV1NnNZZms3YWFfZlEyVndRMGhLMHB5OUFrVUE2Wjh2YzRFZw?oc=5",
+   "source": "더파워",
+   "date": "2026-06-16"
+  },
+  {
+   "title": "자동차주 갈아탈 때? … \"현대차 말고 기아 사라\" 증권가 변심 - 뉴데일리",
+   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE51S2xlSjB4RUpDSWJmVGEwOC12QkNsWWZLOTJVNEszYXpWRGNDeWpCMGF2UWgxSEZldkNzU2pKZmMtMllhb09Edk50SUNtNVVJTU1TSVRXVTVpU2ZIMG52TjJ5aDQwQXZ0cGYxMXA0VU9xaGFVTE9tMjJaWdIBgAFBVV95cUxOb2Q5WnJjZG5aVjJyX0lIeE85bk1Vb1JtSUN3VUpaNjhTMW9VaXFoT0RVRUJnQkplSXg3eHRrLUktVUpPYkVrMjl0X2d1QXU3RmI3Mm5jdXpSanBjSWxJRnhuTUxWZjRPYXlOVmlvVHExN3AxVlUwUXlWVTVYeGduUQ?oc=5",
+   "source": "뉴데일리",
+   "date": "2026-05-07"
   }
  ],
  "State Street Tech ETF (XLK)": [
