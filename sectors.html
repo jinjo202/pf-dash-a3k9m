@@ -445,6 +445,7 @@ function mdToHtml(src){
 
 /* ============================ 청구/API (fm.html과 동일 키 공유) ============================ */
 function curRegion(){ return localStorage.getItem('sec_region')==='US' ? 'US' : 'KR'; }
+function isLocalHost(){ var h=location.hostname; return h==='localhost' || h==='127.0.0.1' || h==='0.0.0.0' || h==='[::1]' || h===''; }
 
 async function streamChat(msgs, model, sysPrompt, onText){
   var key = (localStorage.getItem('fm_chat_key')||'').trim();
@@ -491,9 +492,12 @@ function updateModeUI(){
     } else if (backendHealth && backendHealth.blocked){
       status='<span style="color:var(--neg);font-weight:700">🛑 과금 안전장치로 차단됨</span>';
       note='strict 가드: 유료 청구 가능 환경변수가 감지되어 거부합니다. 해제 후 serve.py 재실행하세요.';
+    } else if (!isLocalHost()){
+      status='<span style="color:var(--neg);font-weight:700">🛑 정적 사이트 — 구독 차감 불가</span>';
+      note='지금은 GitHub Pages 등 정적 호스팅(localhost 아님)이라 구독 백엔드(/fm-chat)가 없어 405가 납니다. → 위에서 「Anthropic API 키」 모드로 바꾸세요. 구독 차감을 쓰려면 로컬에서 python serve.py 실행 후 http://localhost:8000/sectors.html 로 접속하세요.';
     } else {
       status='<span style="color:var(--warn-fg)">⚠ 로컬 백엔드 없음</span>';
-      note='구독 차감은 `python serve.py` 로컬 실행 시에만 가능합니다. 정적 호스팅이면 API 키 모드를 사용하세요.';
+      note='localhost지만 serve.py가 응답하지 않습니다. `python serve.py` 로 실행했는지 확인하거나 API 키 모드를 사용하세요.';
     }
   } else {
     var k=(localStorage.getItem('fm_chat_key')||'').trim();
@@ -510,6 +514,8 @@ async function initSettings(){
   var subOk = !!(backendHealth && backendHealth.claude);
   $('chatMode').value = savedMode || (subOk ? 'sub' : 'api');
   if (!subOk && !savedMode) $('chatMode').value='api';
+  // 정적 호스팅(비-localhost)에서는 구독 백엔드가 없으므로 stale 'sub'를 무시하고 API 키 모드로 강제
+  if (!isLocalHost() && !subOk) $('chatMode').value='api';
   updateModeUI();
   $('chatMode').addEventListener('change', function(){ try{localStorage.setItem('fm_chat_mode',this.value);}catch(e){} updateModeUI(); });
   $('saveKey').addEventListener('click', function(){ var v=$('apiKey').value.trim(); try{localStorage.setItem('fm_chat_key',v); localStorage.setItem('fm_chat_model',$('modelSel').value);}catch(e){} updateModeUI(); });
@@ -591,6 +597,10 @@ async function runStream(userMsg){
   if (rBusy) return;
   var mode = $('chatMode').value;
   var model = $('modelSel').value;
+  if (mode==='sub' && !isLocalHost()){
+    alert('구독 차감(Claude 요금제) 모드는 로컬 serve.py 백엔드에서만 동작합니다.\n\n지금은 정적 사이트(GitHub Pages)라 백엔드가 없어 405가 납니다.\n→ 상단 청구 모드를 「Anthropic API 키」로 바꾸세요.\n(구독 차감을 쓰려면 python serve.py 실행 후 http://localhost:8000/sectors.html 로 접속)');
+    $('chatMode').value='api'; updateModeUI(); return;
+  }
   if (mode==='api'){
     var key=(localStorage.getItem('fm_chat_key')||'').trim();
     if(!key){ alert('먼저 상단 설정에서 Anthropic API 키를 저장하세요. (또는 청구 모드를 Claude 요금제로 — 로컬 serve.py 필요)'); return; }
