@@ -143,7 +143,10 @@
   .rhead { display:flex; align-items:flex-start; gap:12px; padding:18px 22px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--panel); border-radius:16px 16px 0 0; z-index:2; }
   .rhead .nm { font-size:17px; font-weight:800; letter-spacing:-.01em; }
   .rhead .mt { font-size:12px; color:var(--muted); margin-top:3px; }
-  .rclose { margin-left:auto; flex:0 0 auto; border:1px solid var(--border); background:var(--panel); color:var(--muted); width:30px; height:30px; border-radius:8px; cursor:pointer; font-size:15px; }
+  .rpdf { margin-left:auto; flex:0 0 auto; border:1px solid var(--border); background:var(--panel); color:var(--text-soft); height:30px; padding:0 12px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:700; }
+  .rpdf:hover { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rpdf:disabled { opacity:.45; cursor:not-allowed; }
+  .rclose { flex:0 0 auto; border:1px solid var(--border); background:var(--panel); color:var(--muted); width:30px; height:30px; border-radius:8px; cursor:pointer; font-size:15px; }
   .rclose:hover { color:var(--neg); border-color:var(--neg); }
   .rbody { padding:18px 24px; overflow-y:auto; flex:1; }
   .rfoot { border-top:1px solid var(--border); padding:12px 18px; display:flex; gap:8px; background:var(--panel-soft); border-radius:0 0 16px 16px; }
@@ -244,6 +247,7 @@
           <div class="nm" id="rTitle"></div>
           <div class="mt" id="rSub"></div>
         </div>
+        <button class="rpdf" id="rPdf" title="이 리서치를 PDF로 저장">📄 PDF 저장</button>
         <button class="rclose" id="rClose" aria-label="닫기">✕</button>
       </div>
       <div class="rbody"><div class="md" id="rContent"></div></div>
@@ -593,6 +597,59 @@ function openModal(title, sub){
 }
 function closeModal(){ $('rModal').classList.add('hidden'); document.body.style.overflow=''; }
 
+/* 리서치 내용을 깔끔한 문서로 만들어 브라우저 인쇄(→ PDF로 저장) */
+function savePdf(){
+  if (rBusy){ alert('리서치 생성이 끝난 뒤에 저장하세요.'); return; }
+  var contentHtml = $('rContent').innerHTML;
+  if (!contentHtml || !contentHtml.replace(/<[^>]*>/g,'').trim()){ alert('저장할 내용이 없습니다. 먼저 리서치를 생성하세요.'); return; }
+  var title = $('rTitle').textContent || '섹터·종목 리서치';
+  var sub = ($('rSub').textContent || '').replace(/· AI[^·]*생성중…/,'').trim();
+  var now = new Date();
+  var dateStr = now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2)+' '+('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2);
+  var css = ''
+    + '@page{margin:16mm 14mm;}'
+    + '*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
+    + 'body{margin:0;color:#111827;background:#fff;font-family:"Pretendard Variable",Pretendard,"Malgun Gothic","Noto Sans KR",-apple-system,sans-serif;font-size:11.5pt;line-height:1.6;}'
+    + '.doc{max-width:760px;margin:0 auto;}'
+    + '.dh{border-bottom:2px solid #2563eb;padding-bottom:10px;margin-bottom:18px;}'
+    + '.dh h1{font-size:18pt;margin:0 0 4px;font-weight:800;letter-spacing:-.01em;color:#0f172a;}'
+    + '.dh .meta{font-size:9.5pt;color:#64748b;}'
+    + '.md h1,.md h2,.md h3{font-weight:800;line-height:1.3;margin:16px 0 7px;color:#0f172a;page-break-after:avoid;}'
+    + '.md h1{font-size:15pt;}.md h2{font-size:13pt;border-bottom:1px solid #e2e8f0;padding-bottom:4px;}.md h3{font-size:11.5pt;color:#334155;}'
+    + '.md p{margin:7px 0;}.md ul,.md ol{margin:7px 0;padding-left:20px;}.md li{margin:2px 0;}'
+    + '.md strong{font-weight:800;}.md code{font-family:Consolas,monospace;font-size:9.5pt;background:#f1f5f9;padding:1px 4px;border-radius:4px;}'
+    + '.md hr{border:none;border-top:1px solid #e2e8f0;margin:14px 0;}'
+    + '.md table{border-collapse:collapse;width:100%;margin:11px 0;font-size:9.5pt;page-break-inside:avoid;}'
+    + '.md th,.md td{border:1px solid #cbd5e1;padding:5px 8px;text-align:left;}.md th{background:#f1f5f9;font-weight:800;}'
+    + '.md blockquote{border-left:3px solid #2563eb;margin:9px 0;padding:3px 12px;color:#334155;background:#eff6ff;}'
+    + '.usR{font-size:10.5pt;color:#1e3a8a;background:#eff6ff;border:1px solid #dbeafe;border-radius:8px;padding:8px 12px;margin:14px 0 4px;font-weight:700;page-break-inside:avoid;}'
+    + '.foot{margin-top:22px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:8.5pt;color:#94a3b8;line-height:1.5;}';
+  var docHtml = '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">'
+    + '<title>'+esc(title)+'</title>'
+    + '<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet">'
+    + '<style>'+css+'</style></head><body><div class="doc">'
+    + '<div class="dh"><h1>'+esc(title)+'</h1><div class="meta">'+esc(sub)+(sub?' · ':'')+'생성 '+dateStr+' · pf-dash 섹터·종목 분석</div></div>'
+    + '<div class="md">'+contentHtml+'</div>'
+    + '<div class="foot">⚠️ 본 자료는 Anthropic Claude AI가 생성한 참고용 리서치입니다. 재무 수치·밸류에이션·목표가는 모델 추정치이며, 투자판단 전 FnGuide·증권사 리포트 등 1차 출처로 반드시 교차검증하십시오. 투자판단의 책임은 이용자에게 있습니다.</div>'
+    + '</div></body></html>';
+  var ifr = document.createElement('iframe');
+  ifr.setAttribute('aria-hidden','true');
+  ifr.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
+  document.body.appendChild(ifr);
+  var d = ifr.contentWindow.document;
+  d.open(); d.write(docHtml); d.close();
+  var printed = false;
+  function doPrint(){
+    if (printed) return; printed = true;
+    try { ifr.contentWindow.focus(); ifr.contentWindow.print(); }
+    catch(e){ alert('인쇄 창을 열지 못했습니다: '+e.message); }
+    setTimeout(function(){ try{ document.body.removeChild(ifr); }catch(_){} }, 60000);
+  }
+  // 폰트·렌더 안정화 후 인쇄 (onload + 폴백 타이머)
+  ifr.onload = function(){ setTimeout(doPrint, 350); };
+  setTimeout(doPrint, 900);
+}
+
 async function runStream(userMsg){
   if (rBusy) return;
   var mode = $('chatMode').value;
@@ -613,14 +670,14 @@ async function runStream(userMsg){
   }
   var answer=document.createElement('div'); answer.className='md stream-cursor'; contentEl.appendChild(answer);
   var acc=''; function onDelta(dt){ acc+=dt; answer.innerHTML=mdToHtml(acc); contentEl.scrollIntoView; $('rContent').parentElement.scrollTop=$('rContent').parentElement.scrollHeight; }
-  rBusy=true; $('rSend').disabled=true;
+  rBusy=true; $('rSend').disabled=true; $('rPdf').disabled=true;
   try{
     if (mode==='api') await streamChat(rHistory, model, rSystem, onDelta);
     else await streamChatSub(rHistory, model, rSystem, onDelta);
     if(!acc.trim()) answer.innerHTML='<span style="opacity:.6">(빈 응답)</span>';
     rHistory.push({role:'assistant', content:acc});
   } catch(err){ answer.innerHTML='<span style="color:var(--neg)">⚠ '+esc(err.message)+'</span>'; rHistory.pop(); }
-  finally{ rBusy=false; $('rSend').disabled=false; answer.classList.remove('stream-cursor'); }
+  finally{ rBusy=false; $('rSend').disabled=false; $('rPdf').disabled=false; answer.classList.remove('stream-cursor'); }
 }
 
 function startSector(theme){ var rg=curRegion(); rSystem=personaSector(rg); openModal('🔬 '+theme.name+' 섹터 딥리서치', (rg==='US'?'미국':'한국')+' · '+DATA[rg].market+' · AI 애널리스트 생성중…'); runStream(sectorPrompt(theme, rg)); }
@@ -628,6 +685,7 @@ function startStock(stock){ var rg=curRegion(); rSystem=personaStock(rg); openMo
 function startCompare(group, theme){ var rg=curRegion(); rSystem=personaSector(rg); openModal('⚖️ '+(group.cmp||group.name+' 비교'), theme.name+' · '+(rg==='US'?'미국':'한국')+' · AI 비교분석 생성중…'); runStream(comparePrompt(group, theme, rg)); }
 
 $('rClose').addEventListener('click', closeModal);
+$('rPdf').addEventListener('click', savePdf);
 $('rBackdrop').addEventListener('click', closeModal);
 document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !$('rModal').classList.contains('hidden')) closeModal(); });
 $('rSend').addEventListener('click', function(){ var v=$('rFollow').value.trim(); if(!v||rBusy) return; $('rFollow').value=''; runStream(v); });
