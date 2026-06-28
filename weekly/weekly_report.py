@@ -158,6 +158,30 @@ def euro_stoxx_levels(as_of_d):
         return (None, None, None, None)
 
 
+def _twii_market():
+    """대만 가권지수(^TWII) 시장변동 — benchmarks 미수록이라 yfinance 직접.
+    실패(cron 환경 등) 시 빈 dict 반환 → 호출부에서 대만 행 생략."""
+    try:
+        import yfinance as yf
+        h = yf.Ticker("^TWII").history(start="2025-12-15", auto_adjust=False)[["Close"]].dropna()
+        if h.empty:
+            return {}
+        cur = float(h.iloc[-1]["Close"])
+        def le(d):
+            s = h[h.index.date <= d]
+            return float(s.iloc[-1]["Close"]) if len(s) else None
+        ye = le(date(2025, 12, 31))
+        last = h.index[-1].date()
+        mend = le(date(last.year, last.month, 1) - timedelta(days=1))
+        prev = float(h.iloc[-2]["Close"]) if len(h) >= 2 else None
+        pct = lambda a, b: round((a / b - 1) * 100, 4) if (a and b) else None
+        return {"name": "대만가권", "current": round(cur, 2),
+                "ytd": pct(cur, ye), "mtd": pct(cur, mend), "daily": pct(cur, prev)}
+    except Exception as e:
+        sys.stderr.write("twii fail: %s\n" % e)
+        return {}
+
+
 # ════════════════════════ 포트폴리오 손익/비중 ════════════════════════
 SECTOR_KO = {"IT": "IT", "Financials": "금융", "Healthcare": "헬스케어",
              "Industrials": "산업재", "Cons Disc": "경기소비", "Communication": "커뮤니케이션",
@@ -930,12 +954,18 @@ def write_weekly_data(meeting, target, bench, macro, kr, pdata, daily, sentiment
     by_t = {x.get("ticker"): x for x in (bench.get("indices") or [])}
     market = []
     for ko, tk in [("KOSPI", "^KS11"), ("KOSDAQ", "^KQ11"), ("S&P500", "^GSPC"),
-                   ("나스닥", "^IXIC"), ("니케이225", "^N225"), ("상해종합", "000001.SS"),
+                   ("나스닥", "^IXIC"), ("필라델피아반도체", "^SOX"),
+                   ("니케이225", "^N225"), ("상해종합", "000001.SS"),
                    ("MSCI ACWI", "ACWI"), ("MSCI EM", "EEM")]:
         x = by_t.get(tk) or {}
         market.append({"name": ko, "current": x.get("current"),
                        "ytd": x.get("ytd_pct"), "mtd": x.get("mtd_pct"),
                        "daily": x.get("daily_pct")})
+    # 대만 가권(benchmarks 미수록) → yfinance 직접, 니케이225 뒤에 삽입
+    tw = _twii_market()
+    if tw.get("current") is not None:
+        pos = next((i for i, m in enumerate(market) if m["name"] == "니케이225"), len(market) - 1)
+        market.insert(pos + 1, tw)
     pnl = build_pnl(pdata)
     country, sec = build_weights(pdata)
     enrich = load_enrich() or {}
