@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>섹터 및 종목 분석 · AI 딥리서치</title>
+<script>window.CODE_VERSION = "2026-06-28a";</script>
+<!-- 자동 캐시 무력화 (fm.html / macro.html 동일 패턴) -->
+<script>
+  (function () {
+    try {
+      var u = new URL(window.location.href);
+      if (u.searchParams.get('cb')) return;
+      var docMs = new Date(document.lastModified).getTime();
+      fetch(window.location.pathname + '?probe=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
+        .then(function (r) {
+          var srv = r.headers.get('Last-Modified'); if (!srv) return;
+          var srvMs = new Date(srv).getTime();
+          if (isFinite(srvMs) && isFinite(docMs) && srvMs > docMs + 2000) {
+            u.searchParams.set('cb', Date.now()); window.location.replace(u.toString());
+          }
+        }).catch(function () {});
+    } catch (e) {}
+  })();
+</script>
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('pf_theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet" />
+<style>
+  :root {
+    --bg:#f6f7f9; --panel:#ffffff; --panel-soft:#fafbfc; --border:#e6e8eb;
+    --row-alt:#fafbfc; --row-hover:#eff6ff; --text:#0f172a; --text-soft:#334155;
+    --muted:#64748b; --muted-soft:#cbd5e1; --accent:#2563eb; --accent-hover:#1d4ed8;
+    --accent-soft:#eff6ff; --pos:#15803d; --neg:#b91c1c; --neu:#64748b;
+    --pos-soft:#dcfce7; --neg-soft:#fee2e2; --neu-soft:#f1f5f9;
+    --warn-bg:#fef3c7; --warn-fg:#92400e; --warn-bd:#fde68a;
+    --shadow-sm:0 1px 2px 0 rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px -2px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --bg:#0b1020; --panel:#141a2e; --panel-soft:#1a2138; --border:#2a324a;
+    --row-alt:#1a2138; --row-hover:#1e2942; --text:#e2e8f0; --text-soft:#cbd5e1;
+    --muted:#94a3b8; --muted-soft:#475569; --accent:#60a5fa; --accent-hover:#3b82f6;
+    --accent-soft:#1e3a8a55; --pos:#22c55e; --neg:#f87171; --neu:#94a3b8;
+    --pos-soft:#14331f; --neg-soft:#3a1414; --neu-soft:#1a2138;
+    --warn-bg:#422006; --warn-fg:#fde68a; --warn-bd:#854d0e;
+    --shadow-sm:0 1px 2px 0 rgba(0,0,0,.5);
+    --shadow-md:0 4px 12px -2px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { transition: background-color 200ms, color 200ms; }
+  html, body {
+    margin:0; padding:0; background:var(--bg); color:var(--text);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .hidden { display:none !important; }
+  header {
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:20;
+  }
+  header h1 { font-size:18px; margin:0; font-weight:800; letter-spacing:-.02em; }
+  header .sub { font-size:12px; color:var(--muted); margin-top:2px; }
+  .header-actions { display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .nav-link { font-size:12px; font-weight:600; color:var(--muted); text-decoration:none; padding:7px 10px; border-radius:6px; }
+  .nav-link:hover { background:var(--accent-soft); color:var(--accent); }
+  .theme-toggle {
+    display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+    background:var(--panel); color:var(--text); border:1px solid var(--border);
+    border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;
+    box-shadow:var(--shadow-sm); transition:all .15s; user-select:none;
+  }
+  .theme-toggle:hover { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  main { max-width:1180px; margin:0 auto; padding:20px 24px 80px; }
+  .panel {
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    box-shadow:var(--shadow-sm); padding:18px 20px; margin-bottom:20px;
+  }
+  .panel h2 { font-size:15px; margin:0 0 4px; font-weight:700; letter-spacing:-.01em; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .panel .hint { font-size:12px; color:var(--muted); margin:0 0 14px; }
+  .note { font-size:11px; color:var(--muted); margin:8px 0 0; line-height:1.6; }
+
+  /* region toggle */
+  .region-tabs { display:inline-flex; gap:4px; background:var(--panel-soft); border:1px solid var(--border); border-radius:10px; padding:4px; }
+  .region-tab { padding:8px 18px; border:none; background:transparent; color:var(--muted); font-size:14px; font-weight:700; border-radius:7px; cursor:pointer; transition:all .15s; }
+  .region-tab.on { background:var(--accent); color:#fff; box-shadow:var(--shadow-sm); }
+
+  /* billing / api settings */
+  .chat-settings { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:12px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel-soft); }
+  .chat-settings input[type=password] { flex:1; min-width:180px; padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; }
+  .chat-settings select, .chat-settings button { padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; cursor:pointer; }
+  .chat-settings .ok { color:var(--pos); font-weight:700; }
+
+  /* theme accordion */
+  .themes-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+  .theme-card { border:1px solid var(--border); border-radius:12px; background:var(--panel); box-shadow:var(--shadow-sm); overflow:hidden; }
+  .theme-head { display:flex; align-items:center; gap:14px; padding:16px 18px; cursor:pointer; user-select:none; transition:background .15s; }
+  .theme-head:hover { background:var(--row-hover); }
+  .theme-ic { font-size:24px; flex:0 0 auto; width:42px; height:42px; display:flex; align-items:center; justify-content:center; background:var(--accent-soft); border-radius:10px; }
+  .theme-meta { flex:1; min-width:0; }
+  .theme-name { font-size:15.5px; font-weight:800; letter-spacing:-.01em; }
+  .theme-tag { font-size:12px; color:var(--muted); margin-top:2px; }
+  .theme-hot { font-size:10.5px; font-weight:800; letter-spacing:.04em; padding:2px 7px; border-radius:999px; background:var(--neg-soft); color:var(--neg); flex:0 0 auto; }
+  .theme-chev { color:var(--muted); flex:0 0 auto; transition:transform .2s; font-size:13px; }
+  .theme-card.open .theme-chev { transform:rotate(90deg); }
+  .theme-body { display:none; padding:0 18px 18px; border-top:1px solid var(--border); }
+  .theme-card.open .theme-body { display:block; }
+
+  .deep-btn { margin-top:14px; display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border:none; border-radius:9px; background:var(--accent); color:#fff; font-weight:700; font-size:13px; cursor:pointer; box-shadow:var(--shadow-sm); transition:background .15s; }
+  .deep-btn:hover { background:var(--accent-hover); }
+  .deep-btn.sub { background:transparent; color:var(--accent); border:1px solid var(--accent); padding:6px 12px; font-size:12px; }
+  .deep-btn.sub:hover { background:var(--accent-soft); }
+
+  .subtheme { margin-top:16px; }
+  .subtheme-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+  .subtheme-name { font-size:13px; font-weight:800; color:var(--text-soft); }
+  .stock-chips { display:flex; gap:8px; flex-wrap:wrap; }
+  .stock-chip { display:inline-flex; align-items:center; gap:6px; padding:7px 12px; border:1px solid var(--border); border-radius:999px; background:var(--panel-soft); color:var(--text); font-size:12.5px; font-weight:600; cursor:pointer; transition:all .15s; }
+  .stock-chip:hover { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+  .stock-chip .tk { font-size:11px; color:var(--muted); font-family:ui-monospace,monospace; }
+  .stock-chip:hover .tk { color:var(--accent); }
+
+  /* modal */
+  .rmodal { position:fixed; inset:0; z-index:60; display:flex; align-items:flex-start; justify-content:center; padding:32px 16px; overflow-y:auto; }
+  .rmodal.hidden { display:none; }
+  .rbackdrop { position:fixed; inset:0; background:rgba(8,12,24,.55); backdrop-filter:blur(2px); }
+  .rbox { position:relative; background:var(--panel); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow-md); max-width:880px; width:100%; max-height:calc(100vh - 64px); display:flex; flex-direction:column; }
+  .rhead { display:flex; align-items:flex-start; gap:12px; padding:18px 22px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--panel); border-radius:16px 16px 0 0; z-index:2; }
+  .rhead .nm { font-size:17px; font-weight:800; letter-spacing:-.01em; }
+  .rhead .mt { font-size:12px; color:var(--muted); margin-top:3px; }
+  .rclose { margin-left:auto; flex:0 0 auto; border:1px solid var(--border); background:var(--panel); color:var(--muted); width:30px; height:30px; border-radius:8px; cursor:pointer; font-size:15px; }
+  .rclose:hover { color:var(--neg); border-color:var(--neg); }
+  .rbody { padding:18px 24px; overflow-y:auto; flex:1; }
+  .rfoot { border-top:1px solid var(--border); padding:12px 18px; display:flex; gap:8px; background:var(--panel-soft); border-radius:0 0 16px 16px; }
+  .rfoot textarea { flex:1; resize:none; border:1px solid var(--border); border-radius:9px; padding:10px 12px; font-size:13px; font-family:inherit; background:var(--panel); color:var(--text); max-height:110px; }
+  .rfoot button { flex:0 0 auto; padding:0 18px; border:none; border-radius:9px; background:var(--accent); color:#fff; font-weight:700; cursor:pointer; font-size:13px; }
+  .rfoot button:disabled { opacity:.5; cursor:not-allowed; }
+
+  /* rendered markdown */
+  .md { font-size:14px; line-height:1.7; color:var(--text); }
+  .md h1, .md h2, .md h3 { font-weight:800; letter-spacing:-.01em; line-height:1.3; margin:18px 0 8px; }
+  .md h1 { font-size:19px; } .md h2 { font-size:16.5px; border-bottom:1px solid var(--border); padding-bottom:5px; } .md h3 { font-size:14.5px; color:var(--text-soft); }
+  .md p { margin:8px 0; }
+  .md ul, .md ol { margin:8px 0; padding-left:22px; }
+  .md li { margin:3px 0; }
+  .md strong { font-weight:800; }
+  .md code { font-family:ui-monospace,SFMono-Regular,monospace; font-size:12.5px; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
+  .md hr { border:none; border-top:1px solid var(--border); margin:16px 0; }
+  .md table { border-collapse:collapse; width:100%; margin:12px 0; font-size:12.5px; }
+  .md th, .md td { border:1px solid var(--border); padding:6px 9px; text-align:left; }
+  .md th { background:var(--panel-soft); font-weight:800; }
+  .md tr:nth-child(even) td { background:var(--row-alt); }
+  .md blockquote { border-left:3px solid var(--accent); margin:10px 0; padding:4px 14px; color:var(--text-soft); background:var(--accent-soft); border-radius:0 8px 8px 0; }
+  .stream-cursor::after { content:"▍"; color:var(--accent); animation:bl 1s steps(2) infinite; }
+  @keyframes bl { 50% { opacity:0; } }
+  .usR { font-size:13px; color:var(--text-soft); background:var(--accent-soft); border:1px solid var(--border); border-radius:10px; padding:9px 13px; margin:14px 0 4px; font-weight:600; }
+
+  @media (max-width: 720px) {
+    main { padding:16px 14px 60px; }
+    .theme-tag { display:none; }
+    .rbox { max-height:calc(100vh - 32px); }
+    .rbody { padding:14px 16px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>🔬 섹터 및 종목 분석</h1>
+    <div class="sub">앤트로픽 AI 애널리스트 기반 — 한국/미국 핫테마 딥리서치 · 종목 파이낸셜 모델</div>
+  </div>
+  <div class="header-actions">
+    <a class="nav-link" href="portfolio.html">← 포트폴리오</a>
+    <a class="nav-link" href="fm.html">🏦 펀드매니저</a>
+    <a class="nav-link" href="daily.html">📊 데일리</a>
+    <a class="nav-link" href="macro.html">🧭 매크로</a>
+    <button type="button" id="themeToggle" class="theme-toggle" title="다크/라이트 전환">
+      <span id="themeIcon">🌙</span><span id="themeLabel">다크</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- 청구/API 설정 -->
+  <div class="panel">
+    <h2>⚙️ AI 애널리스트 설정 <span class="theme-hot" style="background:var(--accent-soft);color:var(--accent)">LIVE</span></h2>
+    <p class="hint">테마·종목을 클릭하면 Anthropic Claude가 그 자리에서 딥 리서치/파이낸셜 모델을 생성합니다. 펀드매니저 탭과 동일한 키·모드를 공유합니다.</p>
+    <div class="chat-settings">
+      <span>청구</span>
+      <select id="chatMode" title="구독 차감(로컬 Claude Code) 또는 Anthropic API 키">
+        <option value="sub">Claude 요금제(구독 차감)</option>
+        <option value="api">Anthropic API 키</option>
+      </select>
+      <span id="apiKeyWrap" style="display:inline-flex;gap:8px;align-items:center">
+        <input type="password" id="apiKey" placeholder="sk-ant-... (브라우저 localStorage에만 저장)" autocomplete="off" />
+        <button type="button" id="saveKey">저장</button>
+      </span>
+      <select id="modelSel">
+        <option value="claude-opus-4-8">Opus 4.8 (최고 추론)</option>
+        <option value="claude-sonnet-4-6">Sonnet 4.6 (균형)</option>
+        <option value="claude-haiku-4-5-20251001">Haiku 4.5 (저비용)</option>
+      </select>
+      <span id="keyStatus"></span>
+    </div>
+    <p class="note" id="chatModeNote"></p>
+    <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시 구독에서 차감. GitHub Pages 등 정적 호스팅에선 불가. · <b>API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량 청구). 키는 이 브라우저 localStorage에만 저장 — 공용 PC에선 사용 후 비우세요.</p>
+  </div>
+
+  <!-- 지역 토글 -->
+  <div class="panel" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <div class="region-tabs" id="regionTabs">
+      <button class="region-tab on" data-r="KR">🇰🇷 한국</button>
+      <button class="region-tab" data-r="US">🇺🇸 미국</button>
+    </div>
+    <div class="hint" id="regionHint" style="margin:0"></div>
+  </div>
+
+  <!-- 테마 그리드 -->
+  <div class="themes-grid" id="themesGrid"></div>
+
+  <p class="note" style="text-align:center;max-width:760px;margin:22px auto 0">⚠️ AI가 생성하는 리서치·재무모델은 학습지식과 추론에 기반한 <b>참고용 추정</b>입니다. 실제 수치·컨센서스는 FnGuide·yfinance·증권사 리포트 등 1차 출처로 반드시 교차검증하세요. 투자판단의 책임은 이용자에게 있습니다.</p>
+
+  <!-- 딥리서치 모달 -->
+  <div id="rModal" class="rmodal hidden">
+    <div class="rbackdrop" id="rBackdrop"></div>
+    <div class="rbox">
+      <div class="rhead">
+        <div>
+          <div class="nm" id="rTitle"></div>
+          <div class="mt" id="rSub"></div>
+        </div>
+        <button class="rclose" id="rClose" aria-label="닫기">✕</button>
+      </div>
+      <div class="rbody"><div class="md" id="rContent"></div></div>
+      <div class="rfoot">
+        <textarea id="rFollow" rows="1" placeholder="후속 질문 — 예: 밸류에이션 가정을 보수적으로 바꾸면? 경쟁사 대비 리스크는?"></textarea>
+        <button type="button" id="rSend">질문</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ============================ 데이터: 테마 → 세부테마 → 종목 ============================ */
+var DATA = {
+  KR: {
+    market: 'KOSPI / KOSDAQ',
+    currency: 'KRW (원)',
+    hint: '코스피·코스닥 핵심 테마 · 통화 KRW · 회계기준 K-IFRS(연결)',
+    themes: [
+      { id:'kr-semi', ic:'🔌', name:'반도체', hot:true, tag:'HBM 슈퍼사이클 — 메모리·장비·소재 밸류체인',
+        groups:[
+          { name:'메모리 (HBM·DRAM·NAND)', cmp:'메모리 3사 비교', stocks:[
+            {n:'삼성전자', t:'005930.KS'}, {n:'SK하이닉스', t:'000660.KS'}, {n:'마이크론', t:'MU (비교)'} ]},
+          { name:'반도체 장비 (전공정·HBM 본더)', cmp:'장비주 비교', stocks:[
+            {n:'한미반도체', t:'042700.KS'}, {n:'주성엔지니어링', t:'036930.KQ'}, {n:'원익IPS', t:'240810.KQ'}, {n:'HPSP', t:'403870.KQ'} ]},
+          { name:'소재·부품 (소부장)', stocks:[
+            {n:'동진쎄미켐', t:'005290.KQ'}, {n:'솔브레인', t:'357780.KQ'}, {n:'리노공업', t:'058470.KQ'} ]},
+          { name:'후공정·패키징 (OSAT)', stocks:[
+            {n:'하나마이크론', t:'067310.KQ'}, {n:'SFA반도체', t:'036540.KQ'} ]},
+        ]},
+      { id:'kr-battery', ic:'🔋', name:'2차전지 / 배터리', hot:true, tag:'캐즘 이후 — 셀·양극재 밸류체인 재평가',
+        groups:[
+          { name:'셀 메이커', cmp:'배터리 셀 3사 비교', stocks:[
+            {n:'LG에너지솔루션', t:'373220.KS'}, {n:'삼성SDI', t:'006400.KS'}, {n:'SK이노베이션', t:'096770.KS'} ]},
+          { name:'양극재', cmp:'양극재 3사 비교', stocks:[
+            {n:'에코프로비엠', t:'247540.KQ'}, {n:'포스코퓨처엠', t:'003670.KS'}, {n:'엘앤에프', t:'066970.KQ'} ]},
+          { name:'소재·장비', stocks:[
+            {n:'천보', t:'278280.KQ'}, {n:'SK아이이테크놀로지', t:'361610.KS'} ]},
+        ]},
+      { id:'kr-defense', ic:'🛡️', name:'방산', hot:true, tag:'K-방산 수출 — 폴란드·중동 수주 모멘텀',
+        groups:[
+          { name:'종합 방산', cmp:'방산 빅3 비교', stocks:[
+            {n:'한화에어로스페이스', t:'012450.KS'}, {n:'한국항공우주(KAI)', t:'047810.KS'}, {n:'LIG넥스원', t:'079550.KS'} ]},
+          { name:'지상·기동', stocks:[
+            {n:'현대로템', t:'064350.KS'} ]},
+        ]},
+      { id:'kr-ship', ic:'🚢', name:'조선', hot:true, tag:'슈퍼사이클 — LNG선·친환경 선가 상승',
+        groups:[
+          { name:'대형 조선 빅3', cmp:'조선 빅3 비교', stocks:[
+            {n:'HD한국조선해양', t:'009540.KS'}, {n:'삼성중공업', t:'010140.KS'}, {n:'한화오션', t:'042660.KS'} ]},
+          { name:'기자재·엔진', stocks:[
+            {n:'HD현대중공업', t:'329180.KS'}, {n:'STX엔진', t:'077970.KS'} ]},
+        ]},
+      { id:'kr-power', ic:'⚡', name:'원전 / 전력기기', hot:true, tag:'AI 전력수요 — 변압기·원전 수출',
+        groups:[
+          { name:'전력기기 (변압기)', cmp:'전력기기 비교', stocks:[
+            {n:'HD현대일렉트릭', t:'267260.KS'}, {n:'LS ELECTRIC', t:'010120.KS'}, {n:'효성중공업', t:'298040.KS'} ]},
+          { name:'원전', stocks:[
+            {n:'두산에너빌리티', t:'034020.KS'}, {n:'한전기술', t:'052690.KS'} ]},
+        ]},
+      { id:'kr-bio', ic:'🧬', name:'바이오 / 제약', tag:'CDMO·바이오시밀러·비만 파이프라인',
+        groups:[
+          { name:'바이오시밀러·CDMO', cmp:'바이오 빅2 비교', stocks:[
+            {n:'삼성바이오로직스', t:'207940.KS'}, {n:'셀트리온', t:'068270.KS'} ]},
+          { name:'신약·비만', stocks:[
+            {n:'유한양행', t:'000100.KS'}, {n:'한미약품', t:'128940.KS'} ]},
+        ]},
+      { id:'kr-robot', ic:'🤖', name:'로봇 / 자동화', tag:'휴머노이드·협동로봇 테마',
+        groups:[
+          { name:'로봇', cmp:'로봇주 비교', stocks:[
+            {n:'두산로보틱스', t:'454910.KS'}, {n:'레인보우로보틱스', t:'277810.KQ'} ]},
+        ]},
+      { id:'kr-internet', ic:'🌐', name:'AI / 인터넷 플랫폼', tag:'국내 AI·커머스·광고 플랫폼',
+        groups:[
+          { name:'플랫폼', cmp:'네카오 비교', stocks:[
+            {n:'네이버', t:'035420.KS'}, {n:'카카오', t:'035720.KS'} ]},
+        ]},
+    ]
+  },
+  US: {
+    market: 'NASDAQ / NYSE',
+    currency: 'USD ($)',
+    hint: '미국 메가캡·성장 테마 · 통화 USD · 회계기준 US GAAP',
+    themes: [
+      { id:'us-aisemi', ic:'🧠', name:'AI 반도체 / 인프라', hot:true, tag:'GPU·커스텀 실리콘·HBM·장비 — AI 캐펙스 사이클',
+        groups:[
+          { name:'GPU·AI 가속기', cmp:'엔비디아 vs AMD', stocks:[
+            {n:'엔비디아', t:'NVDA'}, {n:'AMD', t:'AMD'} ]},
+          { name:'커스텀 실리콘·네트워킹', cmp:'AVGO vs MRVL', stocks:[
+            {n:'브로드컴', t:'AVGO'}, {n:'마벨', t:'MRVL'} ]},
+          { name:'파운드리·메모리', cmp:'파운드리/메모리 비교', stocks:[
+            {n:'TSMC', t:'TSM'}, {n:'마이크론', t:'MU'} ]},
+          { name:'반도체 장비', cmp:'장비 빅3 비교', stocks:[
+            {n:'ASML', t:'ASML'}, {n:'어플라이드머티어리얼즈', t:'AMAT'}, {n:'램리서치', t:'LRCX'}, {n:'KLA', t:'KLAC'} ]},
+        ]},
+      { id:'us-bigtech', ic:'💻', name:'빅테크 / 하이퍼스케일러', hot:true, tag:'클라우드·AI 자본지출 주도 — Mag7',
+        groups:[
+          { name:'클라우드 + AI', cmp:'하이퍼스케일러 비교', stocks:[
+            {n:'마이크로소프트', t:'MSFT'}, {n:'알파벳(구글)', t:'GOOGL'}, {n:'아마존', t:'AMZN'}, {n:'메타', t:'META'} ]},
+          { name:'디바이스', stocks:[
+            {n:'애플', t:'AAPL'} ]},
+        ]},
+      { id:'us-power', ic:'⚡', name:'AI 전력 / 원전', hot:true, tag:'데이터센터 전력수요 — 원전·전력장비·냉각',
+        groups:[
+          { name:'원전·발전 유틸리티', cmp:'원전주 비교', stocks:[
+            {n:'컨스텔레이션에너지', t:'CEG'}, {n:'비스트라', t:'VST'} ]},
+          { name:'전력장비·냉각', cmp:'전력장비 비교', stocks:[
+            {n:'GE버노바', t:'GEV'}, {n:'이튼', t:'ETN'}, {n:'버티브', t:'VRT'} ]},
+        ]},
+      { id:'us-obesity', ic:'💊', name:'비만 / GLP-1', hot:true, tag:'비만치료제 듀오폴리 — TAM 확장',
+        groups:[
+          { name:'GLP-1 듀오폴리', cmp:'릴리 vs 노보', stocks:[
+            {n:'일라이릴리', t:'LLY'}, {n:'노보노디스크', t:'NVO'} ]},
+        ]},
+      { id:'us-cyber', ic:'🔐', name:'사이버보안', tag:'플랫폼 통합·AI 보안 수요',
+        groups:[
+          { name:'보안 플랫폼', cmp:'보안 3사 비교', stocks:[
+            {n:'크라우드스트라이크', t:'CRWD'}, {n:'팔로알토네트웍스', t:'PANW'}, {n:'지스케일러', t:'ZS'} ]},
+        ]},
+      { id:'us-software', ic:'📊', name:'AI 소프트웨어 / 데이터', tag:'AI 에이전트·데이터 플랫폼 수익화',
+        groups:[
+          { name:'AI·데이터 플랫폼', cmp:'소프트웨어 비교', stocks:[
+            {n:'팔란티어', t:'PLTR'}, {n:'서비스나우', t:'NOW'}, {n:'스노우플레이크', t:'SNOW'} ]},
+        ]},
+      { id:'us-ev', ic:'🚗', name:'전기차 / 자율주행', tag:'로보택시·FSD·자율주행 옵셔널리티',
+        groups:[
+          { name:'EV·자율주행', stocks:[
+            {n:'테슬라', t:'TSLA'} ]},
+        ]},
+      { id:'us-quantum', ic:'⚛️', name:'양자컴퓨팅', tag:'초기 단계·고변동 테마(투기적)',
+        groups:[
+          { name:'양자 (고위험)', cmp:'양자주 비교', stocks:[
+            {n:'아이온큐', t:'IONQ'}, {n:'리게티', t:'RGTI'} ]},
+        ]},
+    ]
+  }
+};
+
+/* ============================ 헬퍼 ============================ */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+/* 테마 토글 */
+(function(){
+  function apply(t){ document.documentElement.setAttribute('data-theme', t);
+    $('themeIcon').textContent = t==='dark'?'☀️':'🌙'; $('themeLabel').textContent = t==='dark'?'라이트':'다크'; }
+  apply(document.documentElement.getAttribute('data-theme')||'light');
+  $('themeToggle').addEventListener('click', function(){
+    var cur = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    try { localStorage.setItem('pf_theme', cur); } catch(e){}
+    apply(cur);
+  });
+})();
+
+/* ============================ 경량 마크다운 렌더러 ============================ */
+function mdToHtml(src){
+  src = String(src||'');
+  var lines = src.replace(/\r\n/g,'\n').split('\n');
+  var out=[], i=0;
+  function inline(s){
+    s = esc(s);
+    s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    s = s.replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>');
+    s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
+    s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+    return s;
+  }
+  function isTableSep(l){ return /^\s*\|?[\s:|-]+\|[\s:|-]+\s*$/.test(l) && l.indexOf('-')>=0; }
+  function splitRow(l){ l=l.trim().replace(/^\|/,'').replace(/\|$/,''); return l.split('|').map(function(c){return c.trim();}); }
+  while(i<lines.length){
+    var ln = lines[i];
+    if(/^\s*$/.test(ln)){ i++; continue; }
+    // table
+    if(ln.indexOf('|')>=0 && i+1<lines.length && isTableSep(lines[i+1])){
+      var hdr=splitRow(ln); i+=2; var rows=[];
+      while(i<lines.length && lines[i].indexOf('|')>=0 && !/^\s*$/.test(lines[i])){ rows.push(splitRow(lines[i])); i++; }
+      var t='<table><thead><tr>'+hdr.map(function(c){return '<th>'+inline(c)+'</th>';}).join('')+'</tr></thead><tbody>';
+      t+=rows.map(function(r){ return '<tr>'+r.map(function(c){return '<td>'+inline(c)+'</td>';}).join('')+'</tr>'; }).join('');
+      t+='</tbody></table>'; out.push(t); continue;
+    }
+    // headers
+    var h=ln.match(/^(#{1,3})\s+(.*)$/);
+    if(h){ var lv=h[1].length; out.push('<h'+lv+'>'+inline(h[2])+'</h'+lv+'>'); i++; continue; }
+    // hr
+    if(/^\s*(---|\*\*\*|___)\s*$/.test(ln)){ out.push('<hr>'); i++; continue; }
+    // blockquote
+    if(/^\s*>\s?/.test(ln)){ var bq=[]; while(i<lines.length && /^\s*>\s?/.test(lines[i])){ bq.push(lines[i].replace(/^\s*>\s?/,'')); i++; } out.push('<blockquote>'+inline(bq.join(' '))+'</blockquote>'); continue; }
+    // unordered list
+    if(/^\s*[-*+]\s+/.test(ln)){ var ul=[]; while(i<lines.length && /^\s*[-*+]\s+/.test(lines[i])){ ul.push('<li>'+inline(lines[i].replace(/^\s*[-*+]\s+/,''))+'</li>'); i++; } out.push('<ul>'+ul.join('')+'</ul>'); continue; }
+    // ordered list
+    if(/^\s*\d+[.)]\s+/.test(ln)){ var ol=[]; while(i<lines.length && /^\s*\d+[.)]\s+/.test(lines[i])){ ol.push('<li>'+inline(lines[i].replace(/^\s*\d+[.)]\s+/,''))+'</li>'); i++; } out.push('<ol>'+ol.join('')+'</ol>'); continue; }
+    // paragraph
+    var p=[ln]; i++;
+    while(i<lines.length && !/^\s*$/.test(lines[i]) && !/^(#{1,3}\s|>\s?|\s*[-*+]\s|\s*\d+[.)]\s)/.test(lines[i]) && !(lines[i].indexOf('|')>=0 && i+1<lines.length && isTableSep(lines[i+1]))){ p.push(lines[i]); i++; }
+    out.push('<p>'+inline(p.join(' '))+'</p>');
+  }
+  return out.join('\n');
+}
+
+/* ============================ 청구/API (fm.html과 동일 키 공유) ============================ */
+function curRegion(){ return localStorage.getItem('sec_region')==='US' ? 'US' : 'KR'; }
+
+async function streamChat(msgs, model, sysPrompt, onText){
+  var key = (localStorage.getItem('fm_chat_key')||'').trim();
+  var resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{ 'content-type':'application/json', 'x-api-key': key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
+    body: JSON.stringify({ model:model, max_tokens:4096, system:sysPrompt, messages:msgs, stream:true })
+  });
+  if (!resp.ok){ var t=''; try{ t=await resp.text(); }catch(e){} throw new Error('API '+resp.status+': '+t.slice(0,300)); }
+  var reader = resp.body.getReader(), dec = new TextDecoder(), buf='';
+  while(true){
+    var r = await reader.read(); if (r.done) break;
+    buf += dec.decode(r.value, {stream:true});
+    var idx;
+    while((idx = buf.indexOf('\n')) >= 0){
+      var line = buf.slice(0,idx); buf = buf.slice(idx+1); line=line.trim();
+      if (line.indexOf('data:')!==0) continue;
+      var data = line.slice(5).trim();
+      if (!data || data==='[DONE]') continue;
+      try { var ev = JSON.parse(data); if (ev.type==='content_block_delta' && ev.delta && ev.delta.text) onText(ev.delta.text); } catch(e){}
+    }
+  }
+}
+async function streamChatSub(messages, model, sysPrompt, onText){
+  var resp = await fetch('/fm-chat', {
+    method:'POST', headers:{'content-type':'application/json'},
+    body: JSON.stringify({ system: sysPrompt, context: '', messages: messages, model: model })
+  });
+  if (!resp.ok){ throw new Error('로컬 백엔드 오류 '+resp.status+' — python serve.py 로 실행 중인지 확인'); }
+  var reader = resp.body.getReader(), dec = new TextDecoder();
+  while(true){ var r = await reader.read(); if (r.done) break; onText(dec.decode(r.value, {stream:true})); }
+}
+async function probeBackend(){ try { var r = await fetch('/fm-chat/health', {cache:'no-store'}); if (!r.ok) return null; return await r.json(); } catch(e){ return null; } }
+
+var backendHealth = null;
+function updateModeUI(){
+  var mode = $('chatMode').value;
+  $('apiKeyWrap').style.display = (mode==='api') ? 'inline-flex' : 'none';
+  var note='', status='';
+  if (mode==='sub'){
+    if (backendHealth && backendHealth.claude && !backendHealth.blocked){
+      status='<span class="ok">✓ Claude 요금제 연결됨 — 구독 차감</span>';
+      note='로컬 Claude Code(구독 인증)로 호출 → 토큰은 API가 아니라 구독에서 차감됩니다.';
+    } else if (backendHealth && backendHealth.blocked){
+      status='<span style="color:var(--neg);font-weight:700">🛑 과금 안전장치로 차단됨</span>';
+      note='strict 가드: 유료 청구 가능 환경변수가 감지되어 거부합니다. 해제 후 serve.py 재실행하세요.';
+    } else {
+      status='<span style="color:var(--warn-fg)">⚠ 로컬 백엔드 없음</span>';
+      note='구독 차감은 `python serve.py` 로컬 실행 시에만 가능합니다. 정적 호스팅이면 API 키 모드를 사용하세요.';
+    }
+  } else {
+    var k=(localStorage.getItem('fm_chat_key')||'').trim();
+    status = k ? '<span class="ok">✓ 키 저장됨</span>' : '<span style="color:var(--muted)">키 미입력</span>';
+    note='Anthropic API로 직접 호출(API 사용량으로 청구).';
+  }
+  $('keyStatus').innerHTML=status; $('chatModeNote').textContent=note;
+}
+async function initSettings(){
+  var k = localStorage.getItem('fm_chat_key')||''; $('apiKey').value=k;
+  var m = localStorage.getItem('fm_chat_model'); if(m) $('modelSel').value=m;
+  backendHealth = await probeBackend();
+  var savedMode = localStorage.getItem('fm_chat_mode');
+  var subOk = !!(backendHealth && backendHealth.claude);
+  $('chatMode').value = savedMode || (subOk ? 'sub' : 'api');
+  if (!subOk && !savedMode) $('chatMode').value='api';
+  updateModeUI();
+  $('chatMode').addEventListener('change', function(){ try{localStorage.setItem('fm_chat_mode',this.value);}catch(e){} updateModeUI(); });
+  $('saveKey').addEventListener('click', function(){ var v=$('apiKey').value.trim(); try{localStorage.setItem('fm_chat_key',v); localStorage.setItem('fm_chat_model',$('modelSel').value);}catch(e){} updateModeUI(); });
+  $('modelSel').addEventListener('change', function(){ try{localStorage.setItem('fm_chat_model',this.value);}catch(e){} });
+}
+
+/* ============================ 프롬프트 ============================ */
+function asOfStr(){ return '2026년 6월'; }
+function personaSector(region){
+  var rg = region==='US' ? '미국(US)' : '한국(KR)';
+  return [
+    '당신은 글로벌 운용사의 시니어 섹터 애널리스트입니다. 담당 시장은 '+rg+'입니다.',
+    '기관 포트폴리오 매니저(고객)를 위해 의사결정 지향적인 딥 리서치를 작성합니다. 막연한 양비론을 피하고, 결론을 먼저 제시한 뒤 근거를 답니다.',
+    '현재 시점은 '+asOfStr()+'입니다. 수치는 이 시점 기준 합리적 추정으로 제시하되, 확신이 낮거나 학습지식 이후로 바뀌었을 수 있는 부분은 명시하세요.',
+    '출력은 한국어. 마크다운(##, ###, 표, 불릿)을 적극 활용해 가독성 높게. 통화는 '+(region==='US'?'USD':'KRW')+' 기준.',
+    '과도한 면책·반복은 금지. 표는 핵심만 간결하게.'
+  ].join('\n');
+}
+function sectorPrompt(theme, region){
+  return '다음 섹터에 대해 딥 리서치 리포트를 작성하라: **'+theme.name+'** ('+(region==='US'?'미국':'한국')+' 시장).\n\n'+
+    '다음 구조를 따르라:\n'+
+    '## 1. 한 줄 결론 (Top-down 뷰: 비중확대/중립/축소)\n'+
+    '## 2. 산업 개요 & 시장 규모 (TAM, 성장률, 핵심 드라이버)\n'+
+    '## 3. 밸류체인 구조 (업/다운스트림, 마진이 어디에 쌓이는가)\n'+
+    '## 4. 사이클 위치 & 수급 ('+asOfStr()+' 기준 — 업황 국면, 가격/재고/가동률)\n'+
+    '## 5. 세부 테마별 경쟁 구도 (표로: 세부테마 | 핵심 플레이어 | 포지셔닝)\n'+
+    '## 6. 핵심 투자 포인트 (3~5개, 불릿)\n'+
+    '## 7. 주요 리스크 (3~5개, 불릿)\n'+
+    '## 8. Top Picks (표로: 종목 | 티커 | 투자포인트 | 밸류에이션 코멘트) 와 그 이유\n\n'+
+    '이 섹터의 주요 종목 후보: '+theme.groups.map(function(g){return g.stocks.map(function(s){return s.n;}).join(', ');}).join(' / ')+'.';
+}
+function personaStock(region){
+  var rg = region==='US' ? '미국(US, US GAAP, USD)' : '한국(KR, K-IFRS 연결, KRW)';
+  return [
+    '당신은 '+rg+' 주식을 담당하는 시니어 에쿼티 애널리스트입니다.',
+    '기관 PM을 위해 단일 종목의 딥 파이낸셜 모델과 투자의견을 작성합니다. 결론을 먼저, 근거는 뒤에.',
+    '현재 시점은 '+asOfStr()+'입니다. 재무·추정·목표가는 이 시점 기준 합리적 추정으로 제시하되, 가정은 반드시 명시하고 불확실성은 솔직히 밝히세요.',
+    '출력은 한국어. 마크다운 표·불릿 적극 활용. 재무 수치는 적절한 단위(조/억/B/M)로.',
+    '과도한 면책 금지. 핵심만 밀도 높게.'
+  ].join('\n');
+}
+function stockPrompt(stock, region){
+  return '다음 종목에 대해 딥 파이낸셜 모델 & 리서치를 작성하라: **'+stock.n+'** ('+stock.t+').\n\n'+
+    '다음 구조를 따르라:\n'+
+    '## 1. 투자의견 요약 (Buy/Hold/Sell · 목표주가 · 현재가 대비 업사이드 · 한 줄 논리)\n'+
+    '## 2. 사업 개요 & 매출 구성 (세그먼트별 비중, 수익 모델)\n'+
+    '## 3. 재무 모델 (표: 항목 | 최근 3개년 실적 + 향후 2개년 추정 — 매출, 영업이익, 순이익, 영업이익률, EPS)\n'+
+    '## 4. 밸류에이션\n'+
+    '- 멀티플: PER / PBR / EV/EBITDA (현재 및 과거밴드 대비)\n'+
+    '- 간이 DCF: WACC·영구성장률 가정 명시, 시나리오(보수/기본/낙관)\n'+
+    '## 5. 컨센서스 대비 우리 뷰 (어디서 시장과 다른가)\n'+
+    '## 6. 핵심 리스크 (3~5개)\n'+
+    '## 7. 촉매 (Catalyst) & 모니터링 지표\n';
+}
+function comparePrompt(group, theme, region){
+  var names = group.stocks.map(function(s){return s.n+'('+s.t+')';}).join(', ');
+  return '다음 종목들을 비교 분석하라 (세부테마: '+group.name+', 섹터: '+theme.name+', '+(region==='US'?'미국':'한국')+').\n\n'+
+    '대상: '+names+'.\n\n'+
+    '다음 구조를 따르라:\n'+
+    '## 1. 한 줄 결론 (셋 중/둘 중 톱픽과 이유)\n'+
+    '## 2. 비교 표 (행: 시가총액, 매출성장률, 영업이익률, ROE, PER, PBR/EV-EBITDA, 순현금/부채 / 열: 각 종목). '+asOfStr()+' 기준 추정.\n'+
+    '## 3. 사업 포지셔닝 차이 (각 사의 강점·약점·해자)\n'+
+    '## 4. 밸류에이션 매력도 순위 (근거 포함)\n'+
+    '## 5. 페어 트레이드 / 포트폴리오 시사점 (무엇을 오버웨이트, 무엇을 언더웨이트)\n'+
+    '## 6. 종목별 핵심 리스크\n';
+}
+
+/* ============================ 모달 + 스트리밍 ============================ */
+var rBusy=false, rHistory=[], rSystem='';
+function openModal(title, sub){
+  $('rTitle').textContent=title; $('rSub').textContent=sub||'';
+  $('rContent').innerHTML=''; $('rFollow').value='';
+  rHistory=[];
+  $('rModal').classList.remove('hidden'); document.body.style.overflow='hidden';
+}
+function closeModal(){ $('rModal').classList.add('hidden'); document.body.style.overflow=''; }
+
+async function runStream(userMsg){
+  if (rBusy) return;
+  var mode = $('chatMode').value;
+  var model = $('modelSel').value;
+  if (mode==='api'){
+    var key=(localStorage.getItem('fm_chat_key')||'').trim();
+    if(!key){ alert('먼저 상단 설정에서 Anthropic API 키를 저장하세요. (또는 청구 모드를 Claude 요금제로 — 로컬 serve.py 필요)'); return; }
+  }
+  rHistory.push({role:'user', content:userMsg});
+  // 후속질문이면 사용자 메시지를 화면에 표시
+  var contentEl=$('rContent');
+  if (rHistory.length>1){
+    var u=document.createElement('div'); u.className='usR'; u.textContent='Q. '+userMsg; contentEl.appendChild(u);
+  }
+  var answer=document.createElement('div'); answer.className='md stream-cursor'; contentEl.appendChild(answer);
+  var acc=''; function onDelta(dt){ acc+=dt; answer.innerHTML=mdToHtml(acc); contentEl.scrollIntoView; $('rContent').parentElement.scrollTop=$('rContent').parentElement.scrollHeight; }
+  rBusy=true; $('rSend').disabled=true;
+  try{
+    if (mode==='api') await streamChat(rHistory, model, rSystem, onDelta);
+    else await streamChatSub(rHistory, model, rSystem, onDelta);
+    if(!acc.trim()) answer.innerHTML='<span style="opacity:.6">(빈 응답)</span>';
+    rHistory.push({role:'assistant', content:acc});
+  } catch(err){ answer.innerHTML='<span style="color:var(--neg)">⚠ '+esc(err.message)+'</span>'; rHistory.pop(); }
+  finally{ rBusy=false; $('rSend').disabled=false; answer.classList.remove('stream-cursor'); }
+}
+
+function startSector(theme){ var rg=curRegion(); rSystem=personaSector(rg); openModal('🔬 '+theme.name+' 섹터 딥리서치', (rg==='US'?'미국':'한국')+' · '+DATA[rg].market+' · AI 애널리스트 생성중…'); runStream(sectorPrompt(theme, rg)); }
+function startStock(stock){ var rg=curRegion(); rSystem=personaStock(rg); openModal('📈 '+stock.n+' 파이낸셜 모델', stock.t+' · '+(rg==='US'?'미국':'한국')+' · AI 애널리스트 생성중…'); runStream(stockPrompt(stock, rg)); }
+function startCompare(group, theme){ var rg=curRegion(); rSystem=personaSector(rg); openModal('⚖️ '+(group.cmp||group.name+' 비교'), theme.name+' · '+(rg==='US'?'미국':'한국')+' · AI 비교분석 생성중…'); runStream(comparePrompt(group, theme, rg)); }
+
+$('rClose').addEventListener('click', closeModal);
+$('rBackdrop').addEventListener('click', closeModal);
+document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !$('rModal').classList.contains('hidden')) closeModal(); });
+$('rSend').addEventListener('click', function(){ var v=$('rFollow').value.trim(); if(!v||rBusy) return; $('rFollow').value=''; runStream(v); });
+$('rFollow').addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); $('rSend').click(); } });
+
+/* ============================ 렌더 ============================ */
+function renderThemes(){
+  var rg = curRegion();
+  var d = DATA[rg];
+  $('regionHint').textContent = d.hint;
+  var grid = $('themesGrid');
+  grid.innerHTML = d.themes.map(function(th, ti){
+    var groups = th.groups.map(function(g, gi){
+      var chips = g.stocks.map(function(s, si){
+        return '<button class="stock-chip" data-act="stock" data-t="'+ti+'" data-g="'+gi+'" data-s="'+si+'">'+esc(s.n)+' <span class="tk">'+esc(s.t)+'</span></button>';
+      }).join('');
+      var cmpBtn = (g.cmp && g.stocks.length>1) ? '<button class="deep-btn sub" data-act="cmp" data-t="'+ti+'" data-g="'+gi+'">⚖️ '+esc(g.cmp)+'</button>' : '';
+      return '<div class="subtheme"><div class="subtheme-head"><span class="subtheme-name">'+esc(g.name)+'</span>'+cmpBtn+'</div><div class="stock-chips">'+chips+'</div></div>';
+    }).join('');
+    return '<div class="theme-card" data-ti="'+ti+'">'+
+      '<div class="theme-head" data-act="toggle" data-t="'+ti+'">'+
+        '<div class="theme-ic">'+th.ic+'</div>'+
+        '<div class="theme-meta"><div class="theme-name">'+esc(th.name)+'</div><div class="theme-tag">'+esc(th.tag)+'</div></div>'+
+        (th.hot?'<span class="theme-hot">🔥 HOT</span>':'')+
+        '<span class="theme-chev">▶</span>'+
+      '</div>'+
+      '<div class="theme-body">'+
+        '<button class="deep-btn" data-act="sector" data-t="'+ti+'">🔬 '+esc(th.name)+' 섹터 딥리서치 생성</button>'+
+        groups+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+$('themesGrid').addEventListener('click', function(e){
+  var el = e.target.closest('[data-act]'); if(!el) return;
+  var act = el.getAttribute('data-act');
+  var rg = curRegion(); var themes = DATA[rg].themes;
+  var ti = +el.getAttribute('data-t');
+  if (act==='toggle'){ el.closest('.theme-card').classList.toggle('open'); return; }
+  if (act==='sector'){ startSector(themes[ti]); return; }
+  if (act==='cmp'){ var gi=+el.getAttribute('data-g'); startCompare(themes[ti].groups[gi], themes[ti]); return; }
+  if (act==='stock'){ var gi2=+el.getAttribute('data-g'), si=+el.getAttribute('data-s'); startStock(themes[ti].groups[gi2].stocks[si]); return; }
+});
+
+$('regionTabs').addEventListener('click', function(e){
+  var b=e.target.closest('.region-tab'); if(!b) return;
+  var r=b.getAttribute('data-r');
+  try{ localStorage.setItem('sec_region', r); }catch(_){}
+  Array.prototype.forEach.call(this.querySelectorAll('.region-tab'), function(x){ x.classList.toggle('on', x===b); });
+  renderThemes();
+});
+
+/* ============================ init ============================ */
+(function init(){
+  // 지역 복원
+  var r = curRegion();
+  Array.prototype.forEach.call($('regionTabs').querySelectorAll('.region-tab'), function(x){ x.classList.toggle('on', x.getAttribute('data-r')===r); });
+  renderThemes();
+  initSettings();
+})();
+</script>
+</body>
+</html>
