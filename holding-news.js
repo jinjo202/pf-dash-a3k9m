@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-28T22:48:14
+// 갱신: 2026-06-28T23:22:05
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-28"
   },
   {
-   "title": "\"조정 오면 더 담아라\"…코스피 '1만5000' 파격 전망 [분석+] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE56VGg2akNjaUdIcEpza2ZpeU1JWnlYSjNDbmZZQVRBc2JJYzM4Z0JlZHFfM0dLWVhDSExmR0RiSXhxVlJ5ZmMySy1mRFF0Y0d0THpmMVhwRk4yZ9IBVEFVX3lxTFBWTlJyRkMwSmIzSER2TnMtX3ZuazBVaElZU3dCV0wzaGgwUkY2Nng4Ym45Z3otRTlXMEZ3a0FvMnRtN3dDQUQtZ1NFWXN6Y1hGRmJLTw?oc=5",
-   "source": "한국경제",
-   "date": "2026-06-25"
+   "title": "하반기 코스피 상단 1만2000까지 열려…변수는 금리·반도체 업황ㆍ원화 안정 [하반기 증시 전망] - 이투데이",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9qbjdERE4zYi16M2VOOWpkSGE4V191dGxKWEpfMXpsNllCbGNuNl9YZkdtaW14NVk5bUxoWkgwYy1Ec0tIb2JYOHJmLTRISWptTG5CRg?oc=5",
+   "source": "이투데이",
+   "date": "2026-06-28"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -61,6 +61,12 @@ window.HOLDING_NEWS = {
    "date": "2026-06-09"
   },
   {
+   "title": "KODEX AI전력핵심설비, 전망보다 먼저 봐야 할 전 - 브런치",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1IeDJaNWFhLUxjVDFlLTY1R2pkb1BfNTJVQTYyVy1jTm9uaklMOWxnT0tvMXBVTmFhTVRrbzE5Xy0tbHBmSXU0SlR6TW5hanRYaVZ3?oc=5",
+   "source": "브런치",
+   "date": "2026-06-26"
+  },
+  {
    "title": "AI 전력·미 전력 수요 급증…K전력기기 3사 증권가 전망은 - 매일경제",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9uWWRmS3pXSFRlOGhXU1lkRWdPS0JpY3FJVkoxTGFnRUxWXzJ2a3hhZ3lBQndHUmdGSGZuRmJnYVpleGtwd2pDVGVvY25uSGtJNFE?oc=5",
    "source": "매일경제",
@@ -71,12 +77,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9yYmczYnpuQTd4TmxKSFJNcVJOT0hwRHZjQk4ycklMdWZSMk5lQmtzMXk2RGNIcU1nUVRlbFBlVU9OQUY4cUFXcnpwQWJsa0xVeUUybkxkb0dlcmFRZzlISzZkWTk0MkZnS3VRb25oSkdLMTjSAXdBVV95cUxOZkVPM3JMZWtvcnZrX05ET0xtR3Y5aXZrdWJCQXFHbGRncUo4N0cyNHZwWHkxUGN2TjhYWGdYQktfd1dPMVZLbi1HVmhQU29tcGpPWF91aWFfek1aWGVSVXNReWx0UWdjaTNpblhiRkQ4RTJ5SG5Pcw?oc=5",
    "source": "핀포인트뉴스",
    "date": "2026-06-22"
-  },
-  {
-   "title": "‘삼전닉스’ 부럽지 않은 효성중공업…이젠 ‘포스트 슈퍼사이클’ 준비할 때 [권상집의 논전(論戰)] - 시사저널",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBLMS1fY25taTVtMFBVUGZBM3hLX3hTVDZESE5JaEhVYmpUdXQwU1BLLTVEcUNNZUc3VG9XT05kOW84VUp3X3NfSTdaek16R0gxQU9ORTl4Q1kwX253eFFQaUFfYjlhYlB0ZkpZQ3pHONIBc0FVX3lxTE1nZ2RxNGgtSllaOWViSGpOUXVnazdhcjBSekpBOVQtM0NoSF9QclNTZzVSSVlPT2toRkZHcXhvcS1QOHVqU19MQjFLR0ZPZGdHajNPandNend5aUM2WTZmZUVpRi1VeC1SbHVBbzhTdXdmbWM?oc=5",
-   "source": "시사저널",
-   "date": "2026-05-17"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -282,7 +282,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "[속보]다우 강세·나스닥 약세…빅테크 약세에 미국 뉴욕증시 혼조 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5ndExzLW1heXdZNGVuN1ZIb3M5VnVQdnZiOEpSRjNqN1l0b2Z0WkJZN0QwUEs3Z0QyTHZUcjUwcm8xSHdzdlNiSjRzb3pXcnhtc0lscENJeko1LURtVlFjMlM2bmhpQWVO?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1GMHhxNHZuM29IRi0waEtLaHFtYjgyNGRkUlJid2RvUXZJTkZDcHB2Z3ZpU0xDYmFBZGxqTlBPc3FTaHpvTjJIUXNjNU16Z3NYaEU0SWFZdFNkaXRjY2YteE9ZUQ?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-22"
   }
@@ -382,7 +382,7 @@ window.HOLDING_NEWS = {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
-   "date": "2026-05-12"
+   "date": "2026-05-11"
   },
   {
    "title": "다우존스, 나스닥, S&P 500 전망: 마이크론 실적·PCE 데이터가 랠리 시험대에 - Investing.com 한국어",
@@ -489,9 +489,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-03"
   },
   {
-   "title": "[부자들의 투자노트] 글로벌 자산운용사 AI 관련주에 올인하면 안 돼…가치주 다시 인기 - SBSBiz",
+   "title": "[부자들의 투자노트] 글로벌 자산운용사 AI 관련주에 올인하면 안 돼…가치주 다시 인기 - biz.sbs.co.kr.",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFB4MXpYZmRkQlpEb05BY0dTVE9JNzV0TmtEMlUyTkp3RVJSaGxoLVZLQmt0MWJiV3BMUkgtbHU3RklDYkoybGFkaEk0VE5MRlV2LTQw0gFYQVVfeXFMTUlneFNaVkxja1VYUFBJTWpseC1XRDlJTDNCZTlHQlFnRU5lSm5YLTJNeEJRSDRQd2Zud25tUi16ODNuZnJxekplazhPLXY2bFlKNWFnY0gzVw?oc=5",
-   "source": "SBSBiz",
+   "source": "biz.sbs.co.kr.",
    "date": "2026-06-22"
   }
  ],
@@ -535,16 +535,16 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
-   "source": "조세일보",
-   "date": "2026-01-23"
-  },
-  {
    "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE00TFZNWmR2UFI2bmpzd1hMRDBVSmhkUVJuRVB0bnRkM0tVcExnZmJwRWNsekRqUldVMDhSZjEzU1Zsaks2VkoyV2pYWUhXVGhFcXJlaHdkOEJZZVQxTmppQw?oc=5",
    "source": "Investing.com 한국어",
    "date": "2024-04-05"
+  },
+  {
+   "title": "KB증권, 브랜드 광고 캠페인 송출…한국투자증권, 美 배당주 투자 서비스 개편 [증권오늘] - sisaon.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1XaVZ1NW9mNWZBVVBTbjhnTTYzZEJBZDRlX093eGUyUHhvZmo1eTRicGkxNzVwa3hvZXpBNzdKcHBlcldSeFNWd3Y1TnlFd0VjUFp4V29NZl9HUVFlVE5IbW0wanRyNzdXQWRv?oc=5",
+   "source": "sisaon.co.kr",
+   "date": "2025-09-18"
   }
  ]
 };
