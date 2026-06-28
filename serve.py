@@ -279,7 +279,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             claude, "-p",
             "--append-system-prompt", system,
             "--model", model,
-            "--allowedTools", "",
+            "--allowedTools", "WebSearch,WebFetch",  # 최신 주가·컨센서스·뉴스 조회용 웹 검색 허용(읽기 전용 도구만)
             "--output-format", "stream-json",
             "--verbose", "--include-partial-messages",
         ]

@@ -456,7 +456,8 @@ async function streamChat(msgs, model, sysPrompt, onText){
   var resp = await fetch('https://api.anthropic.com/v1/messages', {
     method:'POST',
     headers:{ 'content-type':'application/json', 'x-api-key': key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
-    body: JSON.stringify({ model:model, max_tokens:4096, system:sysPrompt, messages:msgs, stream:true })
+    body: JSON.stringify({ model:model, max_tokens:4096, system:sysPrompt, messages:msgs, stream:true,
+      tools:[{ type:'web_search_20250305', name:'web_search', max_uses:5 }] })  // 최신 주가·컨센서스 조회(웹 검색 1k건당 약 $10 별도 과금)
   });
   if (!resp.ok){ var t=''; try{ t=await resp.text(); }catch(e){} throw new Error('API '+resp.status+': '+t.slice(0,300)); }
   var reader = resp.body.getReader(), dec = new TextDecoder(), buf='';
@@ -533,7 +534,7 @@ function personaSector(region){
   return [
     '당신은 글로벌 운용사의 시니어 섹터 애널리스트입니다. 담당 시장은 '+rg+'입니다.',
     '기관 포트폴리오 매니저(고객)를 위해 의사결정 지향적인 딥 리서치를 작성합니다. 막연한 양비론을 피하고, 결론을 먼저 제시한 뒤 근거를 답니다.',
-    '현재 시점은 '+asOfStr()+'입니다. 수치는 이 시점 기준 합리적 추정으로 제시하되, 확신이 낮거나 학습지식 이후로 바뀌었을 수 있는 부분은 명시하세요.',
+    '현재 시점은 '+asOfStr()+'입니다. 웹 검색 도구(web_search)를 사용할 수 있으면 최신 주가·밸류에이션·컨센서스·업황 뉴스를 반드시 검색해 반영하고, 핵심 수치에는 출처(매체·날짜)를 표기하세요. 검색이 불가한 환경이면 추정치임을 명시하세요.',
     '출력은 한국어. 마크다운(##, ###, 표, 불릿)을 적극 활용해 가독성 높게. 통화는 '+(region==='US'?'USD':'KRW')+' 기준.',
     '과도한 면책·반복은 금지. 표는 핵심만 간결하게.'
   ].join('\n');
@@ -556,7 +557,7 @@ function personaStock(region){
   return [
     '당신은 '+rg+' 주식을 담당하는 시니어 에쿼티 애널리스트입니다.',
     '기관 PM을 위해 단일 종목의 딥 파이낸셜 모델과 투자의견을 작성합니다. 결론을 먼저, 근거는 뒤에.',
-    '현재 시점은 '+asOfStr()+'입니다. 재무·추정·목표가는 이 시점 기준 합리적 추정으로 제시하되, 가정은 반드시 명시하고 불확실성은 솔직히 밝히세요.',
+    '현재 시점은 '+asOfStr()+'입니다. 웹 검색 도구(web_search)를 사용할 수 있으면 최신 주가·시가총액·컨센서스 EPS/목표주가·실적을 반드시 검색해 반영하고, 핵심 수치에는 출처(매체·날짜)를 표기하세요. 검색이 불가한 환경이면 추정치임을 명시하고 가정을 밝히세요.',
     '출력은 한국어. 마크다운 표·불릿 적극 활용. 재무 수치는 적절한 단위(조/억/B/M)로.',
     '과도한 면책 금지. 핵심만 밀도 높게.'
   ].join('\n');
