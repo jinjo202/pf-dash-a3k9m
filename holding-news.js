@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-28T10:12:16
+// 갱신: 2026-06-28T10:44:18
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,16 +9,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-28"
   },
   {
+   "title": "(주간증시전망)방향 잃은 코스피…변동성 장세 지속 - 뉴스토마토",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE00akV1LU1tMFpzZFBHc2FSYnczaHhPbkltRHNjSThtbXZPamhDRWdqM3doZExfUlhHWUd0RjVnNmpYV2pWSDhXTkZNQi1fZ21weU5xbWliNmhTQVJGUWUzVw?oc=5",
+   "source": "뉴스토마토",
+   "date": "2026-06-27"
+  },
+  {
    "title": "[주간 증시 전망] 과열 식힌 코스피…반도체 실적 기대 속 美 고용 '촉각' - 뉴스웍스",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBnRW1GYUgwaFVTcEJmaFVWM3k5enR2b29xVHVxM0JKSWN4SEx0UGR3VnU2MVcweEdmVTg3ckZSRnBKVU90aG1sN25UbW95SDNjeFlkbXc4V1lXbHJ1Vk9jbElodHUxMTEyb082aWxWVdIBc0FVX3lxTFBudW9IVkdiOHNFZ1JUc0hhZ2c2NTFKOWI1dHdUMFFLTjhDWFhwU1dJQXRmMklwb3V1XzlTalRiLThSSmZQN21OUFl0UDV0eGgxaGRidmNMejhkVnB1MVVxUG9teUpoZmotemUzbHZORjlLcVU?oc=5",
    "source": "뉴스웍스",
    "date": "2026-06-28"
-  },
-  {
-   "title": "(주간증시전망)방향 잃은 코스피…변동성 장세 지속 - 뉴스토마토",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5OclNNQmhFY1B1cmdCS1dyOXcxT0g5RGRuVkEtYW1JbjlDMjExLWs1NWZXNEZJV3NYZWxkMEw4ZTdqUTRkZ3J6cmlLcFZhRTRiOENDdzhaYXh6OGhTcWMzbQ?oc=5",
-   "source": "뉴스토마토",
-   "date": "2026-06-27"
   },
   {
    "title": "[주간증시전망] ‘검은 한 주’ 보낸 코스피…악재 털고 반도체 실적 장세 복귀하나 - 브릿지경제",
