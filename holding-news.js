@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-28T07:48:59
+// 갱신: 2026-06-28T10:12:16
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "[주간증시전망] \"이번주 코스피 8400~9500선\"…반도체 랠리 재개 여부에 촉각 - ebn.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE53dHRKSUJ2ZnRyeFFXWmEyZ1pMQ1ZGU0ZJTy03YWl6bi1aWEhEaHEtdkRlRURydmtHMzB1b0lBd0Frd2xnMkdzMGl1aXoyTUZUcDNLSnB4TzBYam5MZml5YzhZekhiamdK?oc=5",
    "source": "ebn.co.kr",
+   "date": "2026-06-28"
+  },
+  {
+   "title": "[주간 증시 전망] 과열 식힌 코스피…반도체 실적 기대 속 美 고용 '촉각' - 뉴스웍스",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBnRW1GYUgwaFVTcEJmaFVWM3k5enR2b29xVHVxM0JKSWN4SEx0UGR3VnU2MVcweEdmVTg3ckZSRnBKVU90aG1sN25UbW95SDNjeFlkbXc4V1lXbHJ1Vk9jbElodHUxMTEyb082aWxWVdIBc0FVX3lxTFBudW9IVkdiOHNFZ1JUc0hhZ2c2NTFKOWI1dHdUMFFLTjhDWFhwU1dJQXRmMklwb3V1XzlTalRiLThSSmZQN21OUFl0UDV0eGgxaGRidmNMejhkVnB1MVVxUG9teUpoZmotemUzbHZORjlLcVU?oc=5",
+   "source": "뉴스웍스",
    "date": "2026-06-28"
   },
   {
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1QX2VVOFlmZFhXSVdiU1NETlpKaWZUdjdlQU03OEdvY0xVMEFnZVJPYzU4clJZcUR4ZXpBUFdKXzNOam1FS24wX0lHS251THB0b2d2dEszTGUyUQ?oc=5",
    "source": "브릿지경제",
    "date": "2026-06-28"
-  },
-  {
-   "title": "코스피 변동성 경고등…반도체 실적이 분수령 [주간증시전망] - 파이낸셜뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5ZOVZ2VjdzcVgyWW5obXdtOTJlNnFvaURFaGdZV2ZHZmFDZmpZQ0Z2NGZnTlFyT0x5UG0zbl82NXpHczh3a1dDNTJ0bFBiZ3RpbzZMdVNkNEVvZw?oc=5",
-   "source": "파이낸셜뉴스",
-   "date": "2026-06-28"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -35,16 +35,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-27"
   },
   {
-   "title": "코스피는 세계 1위, 코스닥은 꼴찌···극단으로 갈린 증시 - jabon.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBaSTFOZERfYkhZSnZZMEhFYVRKODNWT0E3blpEOVJCUmhEX1NRaU1UeWtXWWQ1SnQ4ZExxdUFjc0cya0tFQnBXaWRIb01tcDY1RndLUzQyallOY1ZtN2JWeXB2WjQxT3c?oc=5",
-   "source": "jabon.co.kr",
-   "date": "2026-06-22"
-  },
-  {
    "title": "\"하반기엔 훈풍 분다\"… 코스닥ETF 봇물 - 매일경제 마켓",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5tZlZ4b1pfUnlaa2IwSzN4S25SNl9jTTltMGVjZVJfY2dSbUFHQTVOcENKenRuZFpzYlBNWU53U1htX1BoQll1U1RHd2pFVXMwVVE?oc=5",
    "source": "매일경제 마켓",
    "date": "2026-06-03"
+  },
+  {
+   "title": "코스피는 세계 1위, 코스닥은 꼴찌···극단으로 갈린 증시 - jabon.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBaSTFOZERfYkhZSnZZMEhFYVRKODNWT0E3blpEOVJCUmhEX1NRaU1UeWtXWWQ1SnQ4ZExxdUFjc0cya0tFQnBXaWRIb01tcDY1RndLUzQyallOY1ZtN2JWeXB2WjQxT3c?oc=5",
+   "source": "jabon.co.kr",
+   "date": "2026-06-22"
   },
   {
    "title": "코스피 28% 뛸 때 코스닥은 10% 하락, 반도체 쏠림에 밀린 코스닥…하반기 반등 변수는 - 조선일보",
@@ -61,22 +61,22 @@ window.HOLDING_NEWS = {
    "date": "2026-06-09"
   },
   {
-   "title": "KODEX AI전력핵심설비, 전망보다 먼저 봐야 할 전 - 브런치",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1IeDJaNWFhLUxjVDFlLTY1R2pkb1BfNTJVQTYyVy1jTm9uaklMOWxnT0tvMXBVTmFhTVRrbzE5Xy0tbHBmSXU0SlR6TW5hanRYaVZ3?oc=5",
-   "source": "브런치",
-   "date": "2026-06-26"
-  },
-  {
-   "title": "AI 전력 수요 폭증 기대에도 조정…키스트론 썬테크 주가 파죽지세 - 핀포인트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9yYmczYnpuQTd4TmxKSFJNcVJOT0hwRHZjQk4ycklMdWZSMk5lQmtzMXk2RGNIcU1nUVRlbFBlVU9OQUY4cUFXcnpwQWJsa0xVeUUybkxkb0dlcmFRZzlISzZkWTk0MkZnS3VRb25oSkdLMTjSAXdBVV95cUxOZkVPM3JMZWtvcnZrX05ET0xtR3Y5aXZrdWJCQXFHbGRncUo4N0cyNHZwWHkxUGN2TjhYWGdYQktfd1dPMVZLbi1HVmhQU29tcGpPWF91aWFfek1aWGVSVXNReWx0UWdjaTNpblhiRkQ4RTJ5SG5Pcw?oc=5",
-   "source": "핀포인트뉴스",
-   "date": "2026-06-22"
+   "title": "HANARO 전력설비투자 투자분석 2026. 06. 23 - 주달",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFA5a2pzWHFNQXBvcUFDdk1fbFAxVXZDVEx6TVN4ckhCZGxPT3dnZEpCRllFS2tzRFh1ek4zWV9XTHhMTXpsS29lNWZwYXl2cDIxMFp0dDZfV205d2pROVhVZUNwS01WajFHanh2OEVTd3BNckk?oc=5",
+   "source": "주달",
+   "date": "2026-06-23"
   },
   {
    "title": "AI 전력·미 전력 수요 급증…K전력기기 3사 증권가 전망은 - 매일경제",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9uWWRmS3pXSFRlOGhXU1lkRWdPS0JpY3FJVkoxTGFnRUxWXzJ2a3hhZ3lBQndHUmdGSGZuRmJnYVpleGtwd2pDVGVvY25uSGtJNFE?oc=5",
    "source": "매일경제",
    "date": "2026-04-29"
+  },
+  {
+   "title": "AI 전력 수요 폭증 기대에도 조정…키스트론 썬테크 주가 파죽지세 - 핀포인트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9yYmczYnpuQTd4TmxKSFJNcVJOT0hwRHZjQk4ycklMdWZSMk5lQmtzMXk2RGNIcU1nUVRlbFBlVU9OQUY4cUFXcnpwQWJsa0xVeUUybkxkb0dlcmFRZzlISzZkWTk0MkZnS3VRb25oSkdLMTjSAXdBVV95cUxOZkVPM3JMZWtvcnZrX05ET0xtR3Y5aXZrdWJCQXFHbGRncUo4N0cyNHZwWHkxUGN2TjhYWGdYQktfd1dPMVZLbi1HVmhQU29tcGpPWF91aWFfek1aWGVSVXNReWx0UWdjaTNpblhiRkQ4RTJ5SG5Pcw?oc=5",
+   "source": "핀포인트뉴스",
+   "date": "2026-06-22"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -177,10 +177,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-03"
   },
   {
-   "title": "반도체 다음은 ‘피지컬 AI’…로봇, 증시 새 주도주로 부상 - 재외동포신문",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE40bmF6ZnA2TlVfUmVCeHlzMy1zQUlPLUtIU1hYLTdYT21WeXp3X2xoT3RFdVVNRlgyMXNZd1RURHUxb3ZPTE16NUI4VGNUQnRZRm1Wa05Sa3dXRkJaYzhxTTFsZThKcWMzT2JMZA?oc=5",
-   "source": "재외동포신문",
-   "date": "2026-05-13"
+   "title": "“로봇, 주도주로 볼 수 없어…반도체·배터리와 보조 맞추는 AI 짝꿍” - 서울경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBwTmtoOHRNaURyeURuNElHRjliMC1mVkZjbWF4U2h0T3VFUVhWeTVJbnB6a2lMS3MwY29pZzdwT1REV3B5eE9DM09WTGtxS1NIU1HSAVNBVV95cUxQZjJhNERIcTZCTW5TYlAtWWlnT1dzWW14SENtWDBYeXRxMHF5UmNmVHhYYWk0SUhoMU5lV2xnZnlZc0Q5ZklmLUZJUGx3TnlybVVqMA?oc=5",
+   "source": "서울경제",
+   "date": "2026-06-14"
   }
  ],
  "삼성 ESG 착한 책임투자": [
@@ -229,10 +229,10 @@ window.HOLDING_NEWS = {
    "date": "2022-04-12"
   },
   {
-   "title": "10년간 코스피보다 수익률 높았던 '알짜' 펀드는 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE00UTdDYVJibncwVlNObkYxN3g0UDMybVhjLUZYSW0wbUw4cTRSQ0JQS29hMzhmRXFJYnM0RVNBcjJfVVdBOUNfWXNlQmNia2gxQXpnNVRXU1NoZGZKeDBqRm5jQ01zTEtKY0h5dnREZmcxdzJWNnVJZnZzVdIBjwFBVV95cUxOalpmWmdIZzhnSGZHZ0ZXbVpfY1pZdk5hNkdpazBoYkd4bXlyWFNRYjdlV2NuZkpFM3QwUWozaXJMcVdRUnRFZDlHZGtwS2dxTnFoNG5kZnpJa1FGZ0pLVllTc09uX2NtNFZqZ1RwZW05LVBwSjR2eU5NVmktNW5VRGl1ZjZsaHZDOU43UjVkTQ?oc=5",
-   "source": "Chosunbiz",
-   "date": "2020-02-13"
+   "title": "마이다스에셋, 액티브ETF 출시 '카운트다운' - 딜사이트",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE56MWppUEhXdFBmZ2hSVmtxZE9laTdVTkExQ1pkd1d6c1ZMdVVyenBGTmNabjR4SGxTd210UVMyVy1sT21KWjZKYk9HWVNfbEU?oc=5",
+   "source": "딜사이트",
+   "date": "2021-06-22"
   }
  ],
  "KODEX 자동차": [
@@ -256,7 +256,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "현대차·기아·현대모비스 동반 강세…자동차주 훈풍에 투자심리 개선 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE05a2VkZDVubTZPTTBjM1lIdVg2V1dmQUkzczNxcDNBZGRlbjRtSlpoVUFmbDBUN2RCdktDb01Sbk5XMVljSFFTRHk3ZlFFUmpXcE5nVU9JUWl3bGNnS3lyUE92dE5TSW9F?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE41ckx3d2R2ZXlSV3UwX2FGTVhoaGZ1NTVLcWJjSFQzQ3ktV2Z4QTFuUk1kUUNUMExrSERZR1BGQnU0QW0yTEFmNGVNS3FOWmpKUlkwUmFVRmlsRWQ3c2IzaHFsQQ?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-15"
   }
@@ -282,18 +282,12 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "[속보]다우 강세·나스닥 약세…빅테크 약세에 미국 뉴욕증시 혼조 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5ndExzLW1heXdZNGVuN1ZIb3M5VnVQdnZiOEpSRjNqN1l0b2Z0WkJZN0QwUEs3Z0QyTHZUcjUwcm8xSHdzdlNiSjRzb3pXcnhtc0lscENJeko1LURtVlFjMlM2bmhpQWVO?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1GMHhxNHZuM29IRi0waEtLaHFtYjgyNGRkUlJid2RvUXZJTkZDcHB2Z3ZpU0xDYmFBZGxqTlBPc3FTaHpvTjJIUXNjNU16Z3NYaEU0SWFZdFNkaXRjY2YteE9ZUQ?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-22"
   }
  ],
  "SPDR Communication ETF (XLC)": [
-  {
-   "title": "美 주정부, 애플에 소비자보호소송 제기…\"아동 성착취물 안막아\" - newsis.com",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1kZHNpSXRlaUxJLTk5dlpqeS1mUHk4RmRPWWRWZGtCR3l4U2k5SEQ1SzFqd0Y4Y2JXWHliM2lrdFZOTDQ1aGZqWXRqVzBCNTU5NDE5ZU1obEs0OXpXN2poYdIBeEFVX3lxTE1OYVN0cE9ocThDOTF4a2JZNTVXMGV6NG9remd2YjhwaU9fMkFYSExFU0lhZzFDZ0YtRXZzcnIySEJJamJWSWRyeWVTdlh2ZVFxSThXVEVyRXdPOS1HdE53Z1A0NDI2aHBtdFRsSk1DWlV2U0YtejJySA?oc=5",
-   "source": "newsis.com",
-   "date": "2026-02-20"
-  },
   {
    "title": "USA 투데이, 구글 반독점 소송 공개 발언 해명,USA TODAY Co. Inc.,TDAY - wowglobal.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5FcGpFdEJRZGNVbTQtd2g0SEdNLWh1ZkZNdzdkbVdFVlZJaURvVVZ5YzNQam03eW9fZUdqUjNRNmQ3a2hGd3hJcnFxVXFFQ0ZhRVV4TUNnaXhHSC1ydUhDcG1PbGw0bkJG?oc=5",
@@ -311,6 +305,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNR1pENVhlNkhzQmVENG9vZU9lcXFYa29iZ3NFakRCcGk1bGRXQlNJZ2pVV1ltVm0yZ3c5Y0c0b1pHVkUtcE5BSnBvbWtDUGlRRXNUOVRoWTRtSndmV0ZHTy1ISHI0NUJkcjBMb3Z2WGc0OVZ1LWxra1JxZEtQNG1OQlFnckFvWGlJ0gGcAUFVX3lxTE1JV1d5dk15cmo5WWlKU3plV2lMVE5IWEtCWi1HSmQ5S1BMQUZ5SUlOa0pBTG5fb3EyOUhPZWctbHNON2I5STZHZ0VkSmtKWU5XRnY0M0NyYUpUS1BTNjg0OGptN1BEb1lsQWxiSkgwZnMycUZhbjMwdG94RXF4bEk1dzUwWGVvNm1CeXMwVXhPamIwYmZPSEREUDhHNg?oc=5",
    "source": "Chosunbiz",
    "date": "2024-08-28"
+  },
+  {
+   "title": "메타(Meta)의 번역 및 음성 생성 인공지능 ‘Seamless’가 의미하는 바는? – AI 오픈소스 생태계 & 온디바이스 AI - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQMVBKb1ZuZThxX2V0X3l2eFB5ZjlaeDFONDRfOEhUbXJjQlVheDU1ZnJqcGkyUHE0TG10SUp1ZTJlMzBkeER0SVZmQ2JYUzc2Rmo5NGtOVnRqVnVXbWRSZFVTVUFOSERwcDNINEc4YkIteG9wWlFya0dsVHoxdm05OG5nQjdnTWc?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2023-12-06"
   }
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
@@ -353,10 +353,10 @@ window.HOLDING_NEWS = {
    "date": "2026-01-31"
   },
   {
-   "title": "\"금·IT 이어 '000 시대'\" 현실로…주가 240% 폭등 '잭팟' - 마켓인",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5EWFFHNUdBcjFZUHBVZGpoMXAwWHQ1QU45aVhJU1M1dE0yb1F5UF9PUFNTMnhlTzdLMUxrTUE2VU1LR0Rta0NPa0ZQVGM4LW5SdWZnNmcxdUNuWlhGMlNuTmZDZHZuTzd1eTZwczdGR0tGazQ?oc=5",
-   "source": "마켓인",
-   "date": "2025-11-04"
+   "title": "첨단소재 전문 기업 한국카본, 미국 생산거점 만든다 - thecommoditiesnews.com",
+   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFA1MlFVNWlYRU84N01ld3lWdk9yYWZ1QmNmRS1rODZXSWdwN0tpZWxCRmx6UGhtTVN5Nm9hRlBOSUJQWWRuSU1nRko5ZWxXZHJIZGFQTDAxdzVWQ1gwVFFLMnlaQ1NONDlOVHFzdjY2dURzcVk5SUtv?oc=5",
+   "source": "thecommoditiesnews.c",
+   "date": "2026-04-13"
   },
   {
    "title": "샌디스크도 꺾였다, 메모리 조정?…내일 3대 이벤트 주목 [김현석의 월스트리트나우] - 한국경제",
@@ -431,16 +431,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-07"
   },
   {
-   "title": "다우존스, 나스닥, S&P 500 전망: 마이크론 실적·PCE 데이터가 랠리 시험대에 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wcC1jVlNJeDN1VExIQXJIOTV0Qm9WdFJrd1dyR3RBbGJjOU1Sd19qSnhCN0xTVzMwQWFWenRoMDZUS3pDbTRSdkNKeVp6WmF2UEM2Y19oNmpiR2dodmU5VWVvWnFIM0ZTREQ3QmJaTmw?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-06-22"
-  },
-  {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
    "date": "2026-05-11"
+  },
+  {
+   "title": "다우존스, 나스닥, S&P 500 전망: 마이크론 실적·PCE 데이터가 랠리 시험대에 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wcC1jVlNJeDN1VExIQXJIOTV0Qm9WdFJrd1dyR3RBbGJjOU1Sd19qSnhCN0xTVzMwQWFWenRoMDZUS3pDbTRSdkNKeVp6WmF2UEM2Y19oNmpiR2dodmU5VWVvWnFIM0ZTREQ3QmJaTmw?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2026-06-22"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
@@ -471,6 +471,12 @@ window.HOLDING_NEWS = {
  ],
  "Dimensional International Value (DFIV)": [
   {
+   "title": "‘성장가치주’에 투자… 유안타증권, ‘유안타 코리아 랩’ 잔고 2400억 돌파 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNbjBJRU5wMGtRMWtZakVlamluT1pqZHlsSVMyd0FCMFBWQ09NVnhha2tTTkdmNWhvaExPVVdpSjNBUGsxaXMzSkthWk1Zbl9zc3E0OGp0T2Y0ZW5TOV9YdkUxTkd3WE8ydGZEaUFjdTJhMXlEdFA0WG5JZEZBVndxYW41NURrcDUz0gGcAUFVX3lxTE1sSEJuQ1FIMndyT1pMVXFfakFDS1ZaT2tXOUVNNGZvanB1a2VtWVJLOU9YZ0JURXRxMVZYaUxRV1JfYldhV2F1X01FRGY4M01fTHFQYWl1SE1uUHE3VkFOV0hmUE1rczdVcFdpUzYxLVdNX09BaG5YWDZIOTRkY1FOckxzeTZIQWF1dDVpUGFFTW9wbjU2N3J6bUNtcw?oc=5",
+   "source": "Chosunbiz",
+   "date": "2026-06-25"
+  },
+  {
    "title": "'220조 큰손' 노르웨이 스토어브랜드 \"삼성화재·KCC·현대모비스, 숨겨진 가치주\" - 더구루",
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9qYVBIeXFqM1JUOVBRZnVSaFNkSERuaW9PY2xQY2t1dng4blh6aWJ0ZTFSS2l4VWM3cXhqTzZXSjZNc0Q1eGRCNVM1Tk1BZG1TTlZEUTBmcG44S1ZRTGJPZHYyQQ?oc=5",
    "source": "더구루",
@@ -487,12 +493,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1SSkVxS19nVko3eXNYalVvRVBRc29GU2w0VkRYUmFzbVZJbXBnZ09UVld6ME5DVXZQR3RsZzRocWRtMWZ2NzRFOTdwZHVHblFKczlRWWZtTDFfeFRnSmpLendCbw?oc=5",
    "source": "프라임경제",
    "date": "2026-03-03"
-  },
-  {
-   "title": "\"방어형 가치주로 머니 무브...자산주·배당주 투자 유효\" [내일 전략] - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9xUWpULWkzVFZSS2h6UTJSckZqbzIybW96cjFWVElNLVM2SV9fWE5QR3BoTUlEV2V0d1FwZVZUaGt1ZjRDU0RjMjdwUWVnWkZneFBsRzdRYXBaTmkzclFXTFowRTNQV1Q3SGpLS0pzUDdUTkdCWlJ2V0xIM25Yd28?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
-   "date": "2026-02-11"
   }
  ],
  "Xtrackers DAX ETF (XDAX)": [
@@ -503,10 +503,10 @@ window.HOLDING_NEWS = {
    "date": "2026-03-02"
   },
   {
-   "title": "유럽증시, 기업실적 호조 등 영향 일제히 상승⋯독일 0.76%-영국 0.58% 상승마감 - 이코노뉴스",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFByaE5Ib2x5YWVlVnZYZmhCT0t6Zms3TEtvb1hsSl9LNUotTVoyVDExMFo2YW11WnhERjZud3RhUVFHTkVQNHVoeTlfcjJTSUZUemt1NTd1RWlwbktEcXE4ZThSNGxRaUFrbDZWT2dudw?oc=5",
-   "source": "이코노뉴스",
-   "date": "2026-05-14"
+   "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
+   "source": "글로벌이코노믹",
+   "date": "2026-02-09"
   },
   {
    "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - Chosunbiz",
@@ -535,10 +535,10 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "[고침] 경제([2026 증시전망]① 정책·유동성 업고 붉은말…) - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBOempnM2Z2WmEySUNPOGVGajhmSmYzbkc5VThoakpzdGRCVkRwcXlKRDNDckM5UjFoeno0QURnUTdHdWNHMW1YNDY4dzhvWG5Q?oc=5",
-   "source": "매일경제 마켓",
-   "date": "2025-12-31"
+   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
+   "source": "조세일보",
+   "date": "2026-01-23"
   },
   {
    "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - Investing.com 한국어",
