@@ -1,7 +1,7 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-06-27",
+  "as_of": "2026-06-28",
   "update_log": [
     {
       "date": "2026-06-12",
@@ -472,7 +472,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-28T00:22:16Z",
+  "generated": "2026-06-28T02:20:02Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -6252,7 +6252,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-06-27",
+    "as_of": "2026-06-28",
     "month": "2026.06",
     "unit": "조원",
     "ytd_total": {
@@ -7036,7 +7036,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-06-27",
+      "as_of": "2026-06-28",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -7723,7 +7723,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-06-27",
+      "as_of": "2026-06-28",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -8616,7 +8616,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "2026.06 KOSPI 누적(조원): 외국인 -36.9·기관 -0.7·개인 +37.0(19일). 최근 26.06.26: 외국인 -4.29·기관 -4.12·개인 +8.19. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-06-27",
+      "as_of": "2026-06-28",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -8722,7 +8722,7 @@ window.MACRO = {
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 19.5 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-06-27",
+      "as_of": "2026-06-28",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
