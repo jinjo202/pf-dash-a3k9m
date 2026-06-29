@@ -472,7 +472,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-06-29T12:34:24Z",
+  "generated": "2026-06-29T13:06:26Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -828,7 +828,7 @@ window.MACRO = {
       "pe": 19.5,
       "fair_pe": 19.0,
       "components": {
-        "val": -8,
+        "val": -9,
         "earn": 40,
         "fx": 0,
         "mon": -10,
@@ -852,17 +852,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 24,
-        "fx": -42,
+        "fx": -40,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 14,
-        "m3": 39,
-        "m12": 53
+        "m1": 15,
+        "m3": 40,
+        "m12": 54
       },
-      "fx_val": 1543.2,
-      "fx_chg": -2.1,
+      "fx_val": 1542.83,
+      "fx_chg": -2.0,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -8729,7 +8729,7 @@ window.MACRO = {
       "score": 0.36,
       "signal": "호재",
       "signal_cls": "pos",
-      "desc": "Fwd PER 19.47 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
+      "desc": "Fwd PER 19.49 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
       "as_of": "2026-06-29",
       "history": null,
       "source": {
@@ -14107,7 +14107,7 @@ window.MACRO = {
     "us10y": {
       "name": "미국 10Y 금리",
       "pillar": "valuation",
-      "current": 4.37,
+      "current": 4.39,
       "unit": "%",
       "z": 1.62,
       "pct": 100.0,
@@ -14115,7 +14115,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "할인율. 급등 시 밸류 부담",
-      "as_of": "2026-06-26",
+      "as_of": "2026-06-29",
       "history": {
         "dates": [
           "2025-06-01",
@@ -14159,7 +14159,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1543.5,
+      "current": 1543.2,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
@@ -14923,7 +14923,7 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": -6.6,
+      "current": -6.4,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
@@ -17968,7 +17968,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2242372173824,
               "fwdpe": 21.5,
-              "pbr": 66.14,
+              "pbr": 96.14,
               "rets": {
                 "w1": -6.4,
                 "m1": 2.5,
@@ -18082,7 +18082,7 @@ window.MACRO = {
               "name": "Oracle Corporation",
               "mktcap": 427836375040,
               "fwdpe": 13.6,
-              "pbr": 12.73,
+              "pbr": 11.39,
               "rets": {
                 "w1": -19.4,
                 "m1": -22.2,
@@ -20434,9 +20434,9 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) -6.6%(중립)",
-    "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.5배(악재)·KOSPI 12M Fwd PER 6.3배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.37%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1543.5원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 127.0조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.6조원(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) -6.4%(중립)",
+    "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.5배(악재)·KOSPI 12M Fwd PER 6.3배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.39%(중립)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1543.2원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 127.0조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.6조원(강한 악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 18.3(중립)·S&P500 12M 모멘텀 18.5%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.2%(유지)",
     "overall": "종합 레짐 점수 +16. 매크로 +4, 밸류 -4, 수급 +10, 센티 +17, 기업이익 +47."
