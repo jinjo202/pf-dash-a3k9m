@@ -171,6 +171,9 @@
   .md blockquote { border-left:3px solid var(--accent); margin:10px 0; padding:4px 14px; color:var(--text-soft); background:var(--accent-soft); border-radius:0 8px 8px 0; }
   .stream-cursor::after { content:"▍"; color:var(--accent); animation:bl 1s steps(2) infinite; }
   @keyframes bl { 50% { opacity:0; } }
+  .gen-wait { display:inline-block; font-size:13.5px; font-weight:700; color:var(--accent); background:var(--accent-soft); border:1px solid var(--border); border-radius:10px; padding:12px 16px; }
+  .gen-wait .gen-t { font-variant-numeric:tabular-nums; opacity:.85; }
+  .gen-sub { font-size:11.5px; font-weight:500; color:var(--muted); margin-top:5px; }
   .usR { font-size:13px; color:var(--text-soft); background:var(--accent-soft); border:1px solid var(--border); border-radius:10px; padding:9px 13px; margin:14px 0 4px; font-weight:600; }
 
   @media (max-width: 720px) {
@@ -534,7 +537,8 @@ function personaSector(region){
   return [
     '당신은 글로벌 운용사의 시니어 섹터 애널리스트입니다. 담당 시장은 '+rg+'입니다.',
     '기관 포트폴리오 매니저(고객)를 위해 의사결정 지향적인 딥 리서치를 작성합니다. 막연한 양비론을 피하고, 결론을 먼저 제시한 뒤 근거를 답니다.',
-    '현재 시점은 '+asOfStr()+'입니다. 웹 검색 도구(web_search)를 사용할 수 있으면 최신 주가·밸류에이션·컨센서스·업황 뉴스를 반드시 검색해 반영하고, 핵심 수치에는 출처(매체·날짜)를 표기하세요. 검색이 불가한 환경이면 추정치임을 명시하세요.',
+    '현재 시점은 '+asOfStr()+'입니다. 웹 검색 도구(web_search)를 사용할 수 있으면 최신 주가·밸류에이션·컨센서스·업황 뉴스를 반영하고, 핵심 수치에는 출처(매체·날짜)를 표기하세요. 검색이 불가한 환경이면 추정치임을 명시하세요.',
+    '단, 웹 검색은 핵심 수치(주가·목표주가·최근 수주/실적) 확인용으로 효율적으로(총 6회 이내) 사용하고 같은 검색을 반복하지 마세요. 검색에 과도하게 시간을 쓰지 말고 빠르게 리포트를 완성하세요.',
     '출력은 한국어. 마크다운(##, ###, 표, 불릿)을 적극 활용해 가독성 높게. 통화는 '+(region==='US'?'USD':'KRW')+' 기준.',
     '과도한 면책·반복은 금지. 표는 핵심만 간결하게.'
   ].join('\n');
@@ -557,7 +561,8 @@ function personaStock(region){
   return [
     '당신은 '+rg+' 주식을 담당하는 시니어 에쿼티 애널리스트입니다.',
     '기관 PM을 위해 단일 종목의 딥 파이낸셜 모델과 투자의견을 작성합니다. 결론을 먼저, 근거는 뒤에.',
-    '현재 시점은 '+asOfStr()+'입니다. 웹 검색 도구(web_search)를 사용할 수 있으면 최신 주가·시가총액·컨센서스 EPS/목표주가·실적을 반드시 검색해 반영하고, 핵심 수치에는 출처(매체·날짜)를 표기하세요. 검색이 불가한 환경이면 추정치임을 명시하고 가정을 밝히세요.',
+    '현재 시점은 '+asOfStr()+'입니다. 웹 검색 도구(web_search)를 사용할 수 있으면 최신 주가·시가총액·컨센서스 EPS/목표주가·실적을 반영하고, 핵심 수치에는 출처(매체·날짜)를 표기하세요. 검색이 불가한 환경이면 추정치임을 명시하고 가정을 밝히세요.',
+    '단, 웹 검색은 핵심 수치 확인용으로 효율적으로(총 5회 이내) 사용하고 같은 검색을 반복하지 마세요. 빠르게 모델을 완성하세요.',
     '출력은 한국어. 마크다운 표·불릿 적극 활용. 재무 수치는 적절한 단위(조/억/B/M)로.',
     '과도한 면책 금지. 핵심만 밀도 높게.'
   ].join('\n');
@@ -669,16 +674,24 @@ async function runStream(userMsg){
   if (rHistory.length>1){
     var u=document.createElement('div'); u.className='usR'; u.textContent='Q. '+userMsg; contentEl.appendChild(u);
   }
-  var answer=document.createElement('div'); answer.className='md stream-cursor'; contentEl.appendChild(answer);
-  var acc=''; function onDelta(dt){ acc+=dt; answer.innerHTML=mdToHtml(acc); contentEl.scrollIntoView; $('rContent').parentElement.scrollTop=$('rContent').parentElement.scrollHeight; }
+  var answer=document.createElement('div'); answer.className='md'; contentEl.appendChild(answer);
+  // 첫 토큰 전까지 진행 표시(웹 검색 단계엔 텍스트가 한동안 안 나와 멈춘 듯 보임 → 경과시간 하트비트)
+  var started=Date.now(), firstToken=false;
+  answer.innerHTML='<div class="gen-wait">🔍 자료·웹 검색 수집 중… <span class="gen-t">0초</span>'
+    +'<div class="gen-sub">딥 리서치는 웹 검색을 포함해 보통 30초~2분 걸립니다. 잠시만요…</div></div>';
+  var hb=setInterval(function(){ if(firstToken) return; var s=Math.round((Date.now()-started)/1000);
+    var el=answer.querySelector('.gen-t'); if(el) el.textContent=s+'초'; }, 1000);
+  var acc=''; function onDelta(dt){
+    if(!firstToken){ firstToken=true; clearInterval(hb); answer.innerHTML=''; answer.classList.add('stream-cursor'); }
+    acc+=dt; answer.innerHTML=mdToHtml(acc); $('rContent').parentElement.scrollTop=$('rContent').parentElement.scrollHeight; }
   rBusy=true; $('rSend').disabled=true; $('rPdf').disabled=true;
   try{
     if (mode==='api') await streamChat(rHistory, model, rSystem, onDelta);
     else await streamChatSub(rHistory, model, rSystem, onDelta);
-    if(!acc.trim()) answer.innerHTML='<span style="opacity:.6">(빈 응답)</span>';
-    rHistory.push({role:'assistant', content:acc});
+    if(!acc.trim()) answer.innerHTML='<span style="opacity:.6">(빈 응답 — 다시 시도하거나 모델을 바꿔보세요)</span>';
+    else rHistory.push({role:'assistant', content:acc});
   } catch(err){ answer.innerHTML='<span style="color:var(--neg)">⚠ '+esc(err.message)+'</span>'; rHistory.pop(); }
-  finally{ rBusy=false; $('rSend').disabled=false; $('rPdf').disabled=false; answer.classList.remove('stream-cursor'); }
+  finally{ clearInterval(hb); rBusy=false; $('rSend').disabled=false; $('rPdf').disabled=false; answer.classList.remove('stream-cursor'); }
 }
 
 function startSector(theme){ var rg=curRegion(); rSystem=personaSector(rg); openModal('🔬 '+theme.name+' 섹터 딥리서치', (rg==='US'?'미국':'한국')+' · '+DATA[rg].market+' · AI 애널리스트 생성중…'); runStream(sectorPrompt(theme, rg)); }
