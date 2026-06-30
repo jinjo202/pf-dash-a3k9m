@@ -3845,7 +3845,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-29",
       "decimals": 2,
       "valuation": {
-        "pe": 15.53,
+        "pe": 15.54,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -5477,12 +5477,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1545.25,
+      "current": 1541.73,
       "baseline": 1437.91,
       "mtd_baseline": 1495.29,
-      "ytd_pct": 7.465,
-      "mtd_pct": 3.3412,
-      "daily_pct": 0.652,
+      "ytd_pct": 7.2202,
+      "mtd_pct": 3.1057,
+      "daily_pct": 0.4227,
       "as_of": "2026-06-30",
       "decimals": 2,
       "valuation": {
@@ -6016,7 +6016,7 @@ window.BENCHMARKS = {
           1542.76,
           1546.48,
           1535.24,
-          1545.25
+          1541.73
         ]
       }
     },
