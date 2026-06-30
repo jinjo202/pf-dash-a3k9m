@@ -4,9 +4,13 @@
 
 판단 순서:
   1. daily-data.js 의 korea region as_of 가 인자 as_of 와 다르면 → "한국 휴장"
-  2. yfinance 로 005930.KS(전자), 000810.KS(화재), 032830.KS(생명) 의 as_of 일자
-     종가/전일종가 비교. 데이터 없으면 → "한국 휴장".
-  3. 가져왔으면 "전자 +X.X%, 화재 +Y.Y%, 생명 +Z.Z%" (하락은 △).
+     (휴장 판정은 오직 이 권위 있는 신호로만 한다.)
+  2. 한국이 거래된 날: yfinance 로 005930.KS(전자), 000810.KS(화재),
+     032830.KS(생명) 의 as_of 일자 종가/전일종가 비교.
+     가져왔으면 "전자 +X.X%, 화재 +Y.Y%, 생명 +Z.Z%" (하락은 △).
+  3. 한국이 거래된 날인데 시세를 못 가져오면(네트워크·throttle 등) → **빈 출력**.
+     절대 "한국 휴장"으로 단정하지 않는다(괄호 미주입). 과거 이 fetch 실패를
+     휴장으로 오판해 정상 거래일에 "(한국 휴장)"이 메일에 붙은 버그가 있었음.
 
 사용법:
   python get_samsung_trio.py <as_of YYYY-MM-DD> [daily-data.js 경로]
@@ -96,15 +100,16 @@ def main():
     as_of = sys.argv[1]
     daily_path = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_DAILY
 
+    # 휴장 판정은 daily-data.js 의 korea as_of 라는 권위 있는 신호로만.
     if korea_closed_per_daily(daily_path, as_of):
         sys.stdout.buffer.write("한국 휴장".encode("utf-8"))
         return
 
+    # 한국이 거래된 날: 삼성 3종 등락률을 시도하되, 못 가져오면 빈 출력.
+    # 시세 fetch 실패를 휴장으로 단정하지 않는다(정상 거래일 오표기 방지).
     trio = fetch_trio_yf(as_of)
     if trio is None:
-        # 미래/휴장/네트워크 실패 등 — 보수적으로 한국 휴장 처리.
-        sys.stdout.buffer.write("한국 휴장".encode("utf-8"))
-        return
+        return  # 빈 출력 → 호출자가 (...) 주입을 건너뜀
     sys.stdout.buffer.write(trio.encode("utf-8"))
 
 
