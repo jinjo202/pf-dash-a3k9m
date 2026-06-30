@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-29T23:52:45
+// 갱신: 2026-06-30T00:24:09
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,6 +7,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1DNlN6NjVmNnV4bzgyZ3pRbnBObTFDbEtJNk9TODRNdmhZZzhaa0M1Mkk0LXVWa25MeDY1NU4zWkR2ZGpiOTZCYlp1Zw?oc=5",
    "source": "v.daum.net",
    "date": "2026-06-29"
+  },
+  {
+   "title": "[AI MY 증시전망] 반도체 반등 vs 리밸런싱…코스피·코스닥 '수급 줄다리기' - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBkTzRnSjZmUzRwOF9pWlp0Q0FNYjZXMzJQNXVQeHF4eS1nZWZTV3F0UEoyZ3Q2Z20tQWZzUC0xa2FWOGx5QzhyX1pMbWtHQ045UF9wVGNCeWVUMUtr?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-06-30"
   },
   {
    "title": "6월 한달 내내 출렁인 코스피…실적 시즌 7월에는 다를까 - 연합뉴스",
@@ -18,12 +24,6 @@ window.HOLDING_NEWS = {
    "title": "\"조정 오면 더 담아라\"…코스피 '1만5000' 파격 전망 [분석+] - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE56VGg2akNjaUdIcEpza2ZpeU1JWnlYSjNDbmZZQVRBc2JJYzM4Z0JlZHFfM0dLWVhDSExmR0RiSXhxVlJ5ZmMySy1mRFF0Y0d0THpmMVhwRk4yZ9IBVEFVX3lxTFBWTlJyRkMwSmIzSER2TnMtX3ZuazBVaElZU3dCV0wzaGgwUkY2Nng4Ym45Z3otRTlXMEZ3a0FvMnRtN3dDQUQtZ1NFWXN6Y1hGRmJLTw?oc=5",
    "source": "한국경제",
-   "date": "2026-06-25"
-  },
-  {
-   "title": "JP모건, 코스피 12개월 목표치 12,500으로 상향…\"韓주식 비중 극대화\" - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5DdDA1RjZ0ODcybHd0T1lLQlU4UGhoN1lZdk5LZVotR09SZ3FhbmpOZmlVN2UzZ0pDT2RJXy1hVTZMSkN5QVQ1eDh3RzJ0QkphSjE0eXMtM2Q1RDFPallwaWZRdF9CcG5TbDlLaEJzNm0?oc=5",
-   "source": "연합인포맥스",
    "date": "2026-06-25"
   }
  ],
@@ -42,7 +42,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "코스닥 부진 장기화…'코스피 1만1000P' 분기점? - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1QVkN5VzNZRWlMTUM1M1dpQ0tZVDkzUDVQOGZZVUpjSkZuckcyV2tVNUN4blhVQmFvWWQyajdMSk9Pc3ZlQnBHV2tTYU1FWGthb2lZ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5IRDgyU0ozaW9keHB1a1NnQXhDYVdERk5nSDlzS3FzM1FCWktlM19BWEI0ZGNHOVFJQUVrMHVmdFI5ckhWbncxOUVzNi1HbXVpRWU5R0h2dXd0RFkwYUdZLTZVVWgtY1M1dXpFZlcwd3NJRUd1OFJveg?oc=5",
    "source": "네이트",
    "date": "2026-06-27"
   },

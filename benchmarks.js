@@ -563,7 +563,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-29",
       "decimals": 2,
       "valuation": {
-        "pe": 9.38,
+        "pe": 9.4,
         "pb": 1.28,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1110,7 +1110,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-26",
       "decimals": 0,
       "valuation": {
-        "pe": 6.35,
+        "pe": 6.36,
         "pb": 2.24,
         "roe": null,
         "src": "EWY (top derived)",

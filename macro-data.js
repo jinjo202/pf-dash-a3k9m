@@ -472,17 +472,8 @@ window.MACRO = {
       "as_of": "2026-06-26"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-06-29",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "127.0조원 → 126.6조원 (2026-06-26 발표)",
-      "as_of": "2026-06-26"
-    }
-  ],
-  "generated": "2026-06-29T23:51:16Z",
+  "updates_today": [],
+  "generated": "2026-06-30T00:22:40Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -857,22 +848,22 @@ window.MACRO = {
     },
     "KR": {
       "name": "한국",
-      "pe": 6.3,
+      "pe": 6.4,
       "fair_pe": 11.0,
       "components": {
         "val": 100,
         "earn": 25,
-        "fx": -30,
+        "fx": -46,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 18,
-        "m3": 42,
-        "m12": 55
+        "m1": 13,
+        "m3": 39,
+        "m12": 53
       },
-      "fx_val": 1535.24,
-      "fx_chg": -1.5,
+      "fx_val": 1543.18,
+      "fx_chg": -2.3,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -884,7 +875,7 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 0,
-        "fx": -20,
+        "fx": -22,
         "mon": 30,
         "cycle": -26
       },
@@ -894,7 +885,7 @@ window.MACRO = {
         "m12": -6
       },
       "fx_val": 1.14,
-      "fx_chg": -1.0,
+      "fx_chg": -1.1,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -915,7 +906,7 @@ window.MACRO = {
         "m3": 2,
         "m12": 4
       },
-      "fx_val": 161.91,
+      "fx_val": 161.94,
       "fx_chg": -1.5,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -7733,7 +7724,7 @@ window.MACRO = {
     "kospi_fwd_pe": {
       "name": "KOSPI 12M Fwd PER",
       "pillar": "valuation",
-      "current": 6.3,
+      "current": 6.4,
       "unit": "배",
       "z": null,
       "pct": null,
@@ -8654,7 +8645,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-29",
+      "as_of": "2026-06-30",
       "history": null
     },
     "eps_rev_us": {
@@ -8668,7 +8659,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.1%. 그래프=90일 경로.",
-      "as_of": "2026-06-29",
+      "as_of": "2026-06-30",
       "history": {
         "dates": [
           "90일전",
@@ -8679,7 +8670,7 @@ window.MACRO = {
         ],
         "values": [
           100.0,
-          100.41,
+          100.49,
           102.78,
           102.97,
           103.06
@@ -8697,7 +8688,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-06-29",
+      "as_of": "2026-06-30",
       "history": null
     },
     "eps_rev_kr": {
@@ -8711,7 +8702,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +2.1%. 그래프=90일 경로.",
-      "as_of": "2026-06-29",
+      "as_of": "2026-06-30",
       "history": {
         "dates": [
           "90일전",
@@ -17525,7 +17516,7 @@ window.MACRO = {
     ]
   },
   "earnings": {
-    "as_of": "2026-06-29",
+    "as_of": "2026-06-30",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -17543,7 +17534,7 @@ window.MACRO = {
         "growth_ny": 13.4,
         "trend": [
           100.0,
-          100.41,
+          100.49,
           102.78,
           102.97,
           103.06
@@ -17551,10 +17542,10 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (17일 경과)",
+          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (18일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-06-12",
-          "days_old": 17,
+          "days_old": 18,
           "stale": true,
           "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
           "years": [
@@ -17632,10 +17623,10 @@ window.MACRO = {
         "n": 29,
         "annual": {
           "unit": "지수(2020=100, 컨센서스)",
-          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (29일 경과)",
+          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (30일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 29,
+          "days_old": 30,
           "stale": true,
           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. ※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
           "years": [
@@ -17713,10 +17704,10 @@ window.MACRO = {
         "n": 6,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (29일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (30일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 29,
+          "days_old": 30,
           "stale": true,
           "note": null,
           "years": [
@@ -17794,10 +17785,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (29일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (30일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 29,
+          "days_old": 30,
           "stale": true,
           "note": null,
           "years": [
@@ -17875,10 +17866,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (29일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (30일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 29,
+          "days_old": 30,
           "stale": true,
           "note": null,
           "years": [
@@ -18604,18 +18595,18 @@ window.MACRO = {
           "err": 0.238,
           "err_label": "상향 우위",
           "err_cls": "pos",
-          "rev7": 0.0,
-          "rev30": 0.3,
-          "rev90": 1.5,
+          "rev7": -0.0,
+          "rev30": 0.2,
+          "rev90": 1.2,
           "momentum": "유지",
           "growth_cy": 8.3,
           "growth_ny": 14.7,
           "trend": [
             100.0,
-            100.37,
+            100.56,
             101.08,
             101.19,
-            101.53
+            101.24
           ],
           "n": 5,
           "issue": "리쇼어링·전력인프라·방산 수요. 자본재 수주 견조.",
@@ -18648,7 +18639,7 @@ window.MACRO = {
                 "m3": 32.1,
                 "ytd": 21.5
               },
-              "rev30": 0.20928321492947877,
+              "rev30": -0.0420683332605698,
               "note": "항공엔진 수주"
             },
             {
@@ -18693,7 +18684,7 @@ window.MACRO = {
                 "m3": 3.2,
                 "ytd": 19.2
               },
-              "rev30": -0.015869101766086136,
+              "rev30": -0.02513859491888315,
               "note": "자동화·항공"
             }
           ]
@@ -20445,7 +20436,7 @@ window.MACRO = {
   },
   "commentary": {
     "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) -6.2%(중립)",
-    "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.8배(악재)·KOSPI 12M Fwd PER 6.3배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.37%(중립)",
+    "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.8배(악재)·KOSPI 12M Fwd PER 6.4배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.37%(중립)",
     "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1535.2원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 126.6조원(강한 호재)·한국 투자자별 수급(외국인, 월) -44.6조원(강한 악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 17.6(중립)·S&P500 12M 모멘텀 19.9%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.495(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.4%(유지)",
