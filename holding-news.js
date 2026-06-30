@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-30T00:24:09
+// 갱신: 2026-06-30T02:19:03
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -35,6 +35,12 @@ window.HOLDING_NEWS = {
    "date": "2026-06-29"
   },
   {
+   "title": "[박정식의 국내 주식시황] 삼성전자, SK하이닉스 부진 속 긍정적 선순환 기조 지속 될 모습 - 뉴스퀘스트",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE53OG10VW85Q2dKQjhuWXpjQmNwVm55c2FubTVNQXJKU3FpZmo5ZThLNXJHeDBlTEF4S0RvbU5DcDNoTXAtMmhrOThKUGJ2QlF3LWhCSzRmZnlnVnUwYXVMMVVTdnljRnFOTVpNOS1rRmVXdDTSAXNBVV95cUxOdzhtdFVvOUNnSkI4bll6Y0JjcFZueXNhbm01TUFySlNxaWZqOWU4SzVyR3gwZUxBeEtEb21OQ3AzaE1wLTJoazk4SlBidkJRdy1oQks0ZmZ5Z1Z1MGF1TDFVU3Z5Y0ZxTk1aTTkta0ZlV3Q0?oc=5",
+   "source": "뉴스퀘스트",
+   "date": "2026-06-29"
+  },
+  {
    "title": "바이오주 쏠림 코스닥 랠리 소외…국민성장펀드가 구원투수? - 이데일리",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNc1dicEVjVEdOTy1PSkJsWFFKUEEzMVFBM21XU1VVQmFnRnE3YmJ4SU9oR0NDWk9GS1ZsakhRRGl4a3RkeFRHdmpxRkk3YVlnWENmTWFNWHd1Umd3TktMYnNFTWRLVENQcUR0bHRLbU1YdDhYNFFTNjVqWnQwbzYzSw?oc=5",
    "source": "이데일리",
@@ -42,15 +48,9 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "코스닥 부진 장기화…'코스피 1만1000P' 분기점? - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5IRDgyU0ozaW9keHB1a1NnQXhDYVdERk5nSDlzS3FzM1FCWktlM19BWEI0ZGNHOVFJQUVrMHVmdFI5ckhWbncxOUVzNi1HbXVpRWU5R0h2dXd0RFkwYUdZLTZVVWgtY1M1dXpFZlcwd3NJRUd1OFJveg?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1QVkN5VzNZRWlMTUM1M1dpQ0tZVDkzUDVQOGZZVUpjSkZuckcyV2tVNUN4blhVQmFvWWQyajdMSk9Pc3ZlQnBHV2tTYU1FWGthb2lZ?oc=5",
    "source": "네이트",
    "date": "2026-06-27"
-  },
-  {
-   "title": "[코스닥 활성화-上] 지지부진 코스닥, 하반기부터 달라질까 - 시사저널e",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9jOV9aaGZOTzJqenEwVVFPTXJkc3I0QjlidnE2eVpoeGZVZWl0SG96V3VRaFNiLXpUS3VtaXFCX1pQODBEUjZ6Y0U3Nl8zT1NURmJ0LWV2NFM1clVONEV6ejJkMTNuODcwR2NaTjQ5SW9NZ9IBdkFVX3lxTE11THFnZ29fNjR3YWZ1c1NiLVlaQW5UbnlKejJRay13dFhPU3BVMGtuVUlyMnMwUTJQY2xMMkR1dE4zTHEzNm9iV0VRUXdSZzNyQ0Q0ZFlPMng2d2NyaTk1bXY3SWZ4U1phdU9ZVERLcGp1c0hoVlE?oc=5",
-   "source": "시사저널e",
-   "date": "2026-05-12"
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
@@ -61,25 +61,31 @@ window.HOLDING_NEWS = {
    "date": "2026-06-29"
   },
   {
-   "title": "효성중공업·HD현대일렉트릭·삼성SDI·엘앤에프 주가 동반 강세…전력설비·배터리株 투자심리 살아났다 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1pZGlpWlV6cW9BRlMxalB4ckNTNVUwaDBkTkp1am91TE1yZDBBbE1IRlpLeUIxaVNFUko0UnJlOWdYM0N0UFA3R3VSSEZIeGdFQW5CVmRQSzJIM0cydk5QSWdUZ09kNmVE?oc=5",
+   "title": "아이에이 주가 불기둥…전력반도체 테마 AI 전력 수요 기대에 급등 - 핀포인트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1EQ1pBZXdGVUk5ZkZuTmJoUkxLQ2s2Q3VLR1lHSVBUZlhaNDZRSkZFZmxoUDJCSHhycWpXd0IwN3lDNlM1YlV0X3k5QzlyY0NiUGUzWWNXajk1UmZCakdHemxXdFlUX2poRVkxTGZ6UnVzLW_SAXdBVV95cUxQeHBhZEpuMm9QVFhDcU1hMDFQdmlOaFYyRXdHc3dSRWpvcUo3OWlhQldqRU9LeGw5TlJPdEpvdnFXRnBVb0FhZTdaSVUyclBzNzdvVm1QMmFqR3JHcE5yT1I3YlpWWXljd19ZSGh4UlNlVUQ3NTNndw?oc=5",
+   "source": "핀포인트뉴스",
+   "date": "2026-06-30"
+  },
+  {
+   "title": "효성중공업, 증권가 목표가 530만원 제시…미국 전력시장 성장 기대감 부각 - CBC뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9yQ2t6X1p1RDRZTU1KM0VTNjRrZ2lDcmh1QTIxbzNhaHlaei1fYjF6cGtQdTZqUlh5NldhdDVKRF95c2pmYXBZaXhxWVVfaVd4a1cxOVpsMEQ4RHZQa2M2VXpZUFg4RUI1?oc=5",
    "source": "CBC뉴스",
-   "date": "2026-06-29"
+   "date": "2026-06-30"
   },
   {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
    "source": "매일신문",
    "date": "2026-06-09"
-  },
-  {
-   "title": "AI 전력·미 전력 수요 급증…K전력기기 3사 증권가 전망은 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9uWWRmS3pXSFRlOGhXU1lkRWdPS0JpY3FJVkoxTGFnRUxWXzJ2a3hhZ3lBQndHUmdGSGZuRmJnYVpleGtwd2pDVGVvY25uSGtJNFE?oc=5",
-   "source": "매일경제",
-   "date": "2026-04-29"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
+  {
+   "title": "제약·바이오 주식 투자심리 회복…정책자금 기대감 확산 - 메디파나뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBiTVpRN0J5cWd2aVFua2RURWNhYzA5MDlIRG1CQjBoZGRNTzd5Q2RtNExicUVpVGpmU2VobUp0dmtxc2RaeENVYWJPQkNyMXR0T0x2RElYX05pQmpxRDZWNTVDemVidWhsQ19r?oc=5",
+   "source": "메디파나뉴스",
+   "date": "2026-06-29"
+  },
   {
    "title": "[주식] 30주년 앞둔 코스닥...올릭스·오름테라퓨틱 등 20%대 강세 - 히트뉴스",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9DdDQtVVUwOWpoZl9UTUxsSFAtZ3hmZHpxeGZNMWdWUTVWdmtObHNzRjJ6dURvaEptVlFtMXlqRTRfTmFSY2wtQl9CNnp6SHVFb3FNSGJobjJpZjlfT3h1c0NEbXhRM3lUZGxN?oc=5",
@@ -87,21 +93,15 @@ window.HOLDING_NEWS = {
    "date": "2026-06-29"
   },
   {
+   "title": "제약바이오 동전주 상장 유지 시험대…하반기 ‘코스닥 개편·약가 인하’ 변수 - 더바이오",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE93TWhqOWhXYi0xTXFQRlVGZkhIS0FsNjVLTWtSQkU0LTlucFVRY19Qd0VMTXF3MXByUkRJVWpQYm9EdTlPbFotVnFKc1hqMXduWWxaQkNCZ1lwMjNWYzhKalRwSEpORGYyUVh1cdIBcEFVX3lxTE5SbkpYS2dzY0d0SHpHdjZkYXgwY3p3UjNWRHg5d1d0RXdFc0pMd3dGVjZUbVZGS1lvczd6c1NTMHdkV2xla0xKeVlpWEZnX2czWHRoRC05NmtOVk1ELTVlSWR0ZE9uc2h5aVdvV083OWQ?oc=5",
+   "source": "더바이오",
+   "date": "2026-06-29"
+  },
+  {
    "title": "'5000억 풀린다' 난리 났다…개미들 갈아탄 '이 주식' 불기둥 - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE51MlUwTkQ1VTg1VzR6SDZudUotbVM5Q3dUTzkyeEdmMjQ3a3UtZUVpSkt1OWgtVVhlX0N6V25VUDNmTnM4YnE5eGViNndKVGdHZkdtNWNoNkNjZ9IBVEFVX3lxTE42NUtqaThCck1memVzV1VqWXFneEhWQzNzNklEeldzdDd1ZEpXLTQ0b2JwZVlCazg0aFd1RDBkN3dRVjZiMmxmY1diUWFuYUs5T0ZvMw?oc=5",
    "source": "한국경제",
-   "date": "2026-06-29"
-  },
-  {
-   "title": "제약·바이오 급등, 코스닥 900선 회복... 국민성장펀드 효과? - tokenpost.kr",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9kQmdDY3dYcEQtcUU2by1ySFdWaEdtanJBQXF2Sl9rUFFKM0NubDhCUTgtNk1hUjN0QVFBd3JDclNGaExxUnVBcWZpNTBPNEhWZlhyRFdR0gFbQVVfeXFMTmhmQ1MtSlZhZVZUNjcwOU9YZU9kWm1JRGd3SDU5aXB5bmJFTnpvVmNfclUtZUxUbDQ4MmtndjQwaHFwclpVYXp1aXBJSHVOV0tsN1I5TUFUanBSZw?oc=5",
-   "source": "tokenpost.kr",
-   "date": "2026-06-29"
-  },
-  {
-   "title": "제약·바이오株 급등…국민성장펀드 날개 달고 다시 비상할까(종합) - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFA4ajdlWWRLaENPaVV0aklEckNCeTRoLUlLZVI1M0RKR0JRVGpLMmdSSXJseEVFSHBxZWVleWlTc3FmeTdSd3FtT0tJd2Q5T21zUkE?oc=5",
-   "source": "매일경제 마켓",
    "date": "2026-06-29"
   }
  ],
@@ -256,7 +256,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "현대차·기아·현대모비스 동반 강세…자동차주 훈풍에 투자심리 개선 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE41ckx3d2R2ZXlSV3UwX2FGTVhoaGZ1NTVLcWJjSFQzQ3ktV2Z4QTFuUk1kUUNUMExrSERZR1BGQnU0QW0yTEFmNGVNS3FOWmpKUlkwUmFVRmlsRWQ3c2IzaHFsQQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE05a2VkZDVubTZPTTBjM1lIdVg2V1dmQUkzczNxcDNBZGRlbjRtSlpoVUFmbDBUN2RCdktDb01Sbk5XMVljSFFTRHk3ZlFFUmpXcE5nVU9JUWl3bGNnS3lyUE92dE5TSW9F?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-15"
   }
@@ -347,22 +347,22 @@ window.HOLDING_NEWS = {
    "date": "2026-05-14"
   },
   {
-   "title": "뉴욕증시, 30% 넘게 폭락한 은값 충격파…하락 마감 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ieGJDV3QydXV4blg2OTd1ZmFKQnpjXy1jbGRydlFIakd0Sk85VnVOdUJoNkQxRldjeGhTTTUxTHppRVdFS2RzSV8teFFOQkR2dWtYUjdnNk1UNnPSAWBBVV95cUxQSU1PWTdkYTRnYktfRnJNTEV1dUpVbER0bVR5dWZCXzVnOEJJUzhxRGRfVF9mNUZWQVRxQnNSdVJUdGgzSkFQbW1hRG9IWnBvdXFiS1Q5SXFybnd4LVM0NGw?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-01-31"
-  },
-  {
-   "title": "첨단소재 전문 기업 한국카본, 미국 생산거점 만든다 - thecommoditiesnews.com",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFA1MlFVNWlYRU84N01ld3lWdk9yYWZ1QmNmRS1rODZXSWdwN0tpZWxCRmx6UGhtTVN5Nm9hRlBOSUJQWWRuSU1nRko5ZWxXZHJIZGFQTDAxdzVWQ1gwVFFLMnlaQ1NONDlOVHFzdjY2dURzcVk5SUtv?oc=5",
-   "source": "thecommoditiesnews.c",
-   "date": "2026-04-13"
-  },
-  {
    "title": "샌디스크도 꺾였다, 메모리 조정?…내일 3대 이벤트 주목 [김현석의 월스트리트나우] - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE13T3lUM1p1RGM2RDdaRm15amU2OG5wYnItdmNJT3FkMXNrOVN6WVhJOWRlZXY5STB0UE1jd0tpMkotaElKcWRoaExUUVBiZy10V0ZmS2FMbW94d9IBVEFVX3lxTE84YjhXSlBRTW14QkpXTUhKNzBhRk5LU1J4bXFIbHp1OWlha3RBem5LcUt2cTNSZ1c3aHRzcDFBZG52bU1XQ1c5QTY1bzd4UUlWOEIxUA?oc=5",
    "source": "한국경제",
    "date": "2026-01-09"
+  },
+  {
+   "title": "\"금·IT 이어 '000 시대'\" 현실로…주가 240% 폭등 '잭팟' - 마켓인",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5EWFFHNUdBcjFZUHBVZGpoMXAwWHQ1QU45aVhJU1M1dE0yb1F5UF9PUFNTMnhlTzdLMUxrTUE2VU1LR0Rta0NPa0ZQVGM4LW5SdWZnNmcxdUNuWlhGMlNuTmZDZHZuTzd1eTZwczdGR0tGazQ?oc=5",
+   "source": "마켓인",
+   "date": "2025-11-04"
+  },
+  {
+   "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
+   "source": "아시아투데이",
+   "date": "2026-02-09"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -373,16 +373,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-07"
   },
   {
-   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
-   "source": "뉴닉",
-   "date": "2026-05-12"
-  },
-  {
    "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - MBC 뉴스",
    "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1KWDFpTGEwWlM4bzk4dGxFS2hXZkwyUldZamtIQ0E2NmlIZXpueWMycUdqZ2o2NHhPMzJwY2M5am9aX3ZWalBnUVdrYUhUZFN0ZWdZZUwxbko1d1h1em5NXzRJbkxKam40NnJEZGwtMnlVUThr0gF0QVVfeXFMUEl4by00OGZWdnVnY2l5aVQxT2tVNzBIeEVBX0xqY0NYTURrTHhLaHlTLXppLVBQUkJQS2lRYXlvbkxXeFRPX1YyeDZQQWNxX1NrdWZHaktZRURZc2lEdFNEX2J2Y0wySHRHY3pqWXZyV2d5U3Q?oc=5",
    "source": "MBC 뉴스",
    "date": "2026-06-07"
+  },
+  {
+   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
+   "source": "뉴닉",
+   "date": "2026-05-11"
   },
   {
    "title": "다우존스, 나스닥, S&P 500 주간 전망: 투자자들, SpaceX 사상 최대 IPO 앞두고 긴장 - Investing.com 한국어",
@@ -428,7 +428,7 @@ window.HOLDING_NEWS = {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
-   "date": "2026-05-12"
+   "date": "2026-05-11"
   },
   {
    "title": "다우존스, 나스닥, S&P 500 주간 전망: 투자자들, SpaceX 사상 최대 IPO 앞두고 긴장 - Investing.com 한국어",
