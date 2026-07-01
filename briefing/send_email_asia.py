@@ -120,10 +120,10 @@ def build_html(brief):
     md = md_from(brief.get("as_of"))
     paragraphs = [p.strip() for p in (brief.get("paragraphs") or []) if p and p.strip()]
 
-    BODY = ('font-family:굴림,sans-serif;font-size:12pt;line-height:145%;'
+    BODY = ('font-family:굴림,sans-serif;font-size:12pt;line-height:160%;'
             'margin-left:0px;margin-bottom:10.66px')
     INNER_BLACK = 'background:transparent;font-family:바탕체,serif;color:black'
-    INNER_BLUE = ('background:transparent;font-size:11pt;line-height:145%;'
+    INNER_BLUE = ('background:transparent;font-size:11pt;line-height:160%;'
                   'font-family:바탕체,serif;color:blue')
     TITLE_FONT = "'맑은  고딕',sans-serif"
 
@@ -152,6 +152,11 @@ def build_html(brief):
 
     n = len(paragraphs)
     for i, t in enumerate(paragraphs):
+        # 지수("* ") 라인이 일반 문단 뒤에 오면 그 앞에 빈 줄을 넣어 블록 분리.
+        if i > 0 and t.startswith("* "):
+            prev = paragraphs[i - 1]
+            if not (prev.startswith("* ") or prev.startswith("※ ")):
+                parts.append(styled_blank())
         if t.startswith("* "):
             parts.append(blue_p("※ " + t[2:]))
         elif t.startswith("※ "):
