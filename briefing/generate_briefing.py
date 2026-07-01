@@ -106,11 +106,39 @@ def slim_benchmarks(bench, tickers):
     want = set(tickers)
     out = []
     for x in (bench.get("indices") or []):
-        if x.get("ticker") in want:
+        # KR 10Y 등 ticker 가 "MANUAL" 인 항목은 name 으로도 매칭.
+        if x.get("ticker") in want or x.get("name") in want:
             out.append({k: x.get(k) for k in
-                        ("name", "ticker", "current", "daily_pct", "ytd_pct", "decimals")
+                        ("name", "ticker", "current", "daily_pct", "ytd_pct",
+                         "prev_close", "decimals")
                         if x.get(k) is not None})
     return out
+
+
+KR_EXPORTS = os.path.join(REPO, "weekly", "kr_exports.json")
+
+
+def load_latest_export(as_of, max_age_days=3):
+    """관세청 수출 통계 최신 release 를 반환하되, 발표 as_of 가 기준일에서
+    max_age_days 이내(=갓 발표)인 경우에만. 그 외엔 None → 수출 문단 생략.
+    (매일 브리핑에 오래된 수출 수치가 반복 노출되는 것을 막는다.)"""
+    try:
+        with open(KR_EXPORTS, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        releases = data.get("releases") or []
+        if not releases:
+            return None
+        rel = releases[0]
+        rao = rel.get("as_of")
+        if not rao:
+            return None
+        d0 = datetime.strptime(as_of, "%Y-%m-%d").date()
+        d1 = datetime.strptime(rao, "%Y-%m-%d").date()
+        if abs((d0 - d1).days) <= max_age_days:
+            return rel
+    except Exception:
+        return None
+    return None
 
 
 # ----------------------------------------------------------------------------
@@ -118,8 +146,8 @@ def slim_benchmarks(bench, tickers):
 # ----------------------------------------------------------------------------
 RULES_ASIA = """당신은 매일 아시아 증시(한국·일본·중국·홍콩) 마감 후 한국어 시황 브리핑을 작성하는 증권사 애널리스트입니다.
 
-[지수 매핑] korea→코스피(KOSPI)·코스닥(KOSDAQ), japan→닛케이225, china→상해종합(SSE)·선전성분(SZSE)·항셍(HSI, 홍콩).
-benchmarks 의 KRW=X 는 원/달러 환율.
+[지수 매핑] 국가 대표지수: 한국=코스피(KOSPI, 코스닥은 보조), 일본=닛케이225, 중국=상해종합(SSE). 항셍(HSI, 홍콩)·선전성분은 본문 보조 서술에만.
+benchmarks: KRW=X=원/달러 환율, "KR 10Y"=한국 국고채 10년 금리(payload 에 있을 때만).
 
 [휴장 판정 — 매우 중요, 절대 추정 금지]
 각 시장(korea·japan·china)의 휴장 여부는 오직 그 region 의 as_of 로만 판정한다.
@@ -127,20 +155,23 @@ benchmarks 의 KRW=X 는 원/달러 환율.
 - region 의 as_of 가 작성 기준일보다 **이전 날짜일 때만** 그 시장이 해당일 휴장(또는 데이터 미반영)이며, 이때는 "전 거래일(해당 as_of) 종가 기준"으로 서술한다.
 - 데이터에 없는 휴장·공휴일·반차 등을 추측하거나 지어내지 말 것. 특히 한국 증시가 거래된 날(korea.as_of == 기준일)에 "한국 휴장"이라고 쓰는 것은 명백한 오류다.
 
-[paragraphs 작성 — 7~10문단, 차분한 존댓말 서술체]
-- 첫 문단은 정확히 "금일 아시아 증시 시황 보고 드립니다.".
-- 그 다음 아시아 증시 총평 2~3문장(전일 미국 영향, 한·일·중·홍콩 지수 방향과 강도, 주도 업종).
-- 지수 통계 라인은 반드시 "* " 로 시작하고 닛케이·코스피·상해종합·항셍을 기본(데이터에 있는 지수만), 각 전일대비%와 (연초대비 ytdPct) 병기. 예: "* 전일대비(괄호는 연초대비): 닛케이 +2.50%(+35.9), 코스피 +0.15%(+108.9), 상해종합 +0.22%(+2.9), 항셍 △1.56%(0.0)".
-- 일본/한국/중국·홍콩 각 한 문단씩(movers·sectors 근거). 종목 등락률 병기 라인은 반드시 "※ " 로 시작.
-- 환율 한 문단(KRW=X 있을 때만), 마무리 한 문단(관전포인트).
-- "안녕하십니까"/"감사합니다." 는 쓰지 않는다(미국장 브리핑과 다름).
+[paragraphs 작성 — 아래 순서·형식을 정확히 따른다. 짧고 간결한 존댓말 문장, 어절 단위로 끊어 쓴다]
+1. 첫 문단은 정확히 "금일 아시아 증시 시황 보고 드립니다.".
+2. 총평(1~2문장): 한국·일본·중국의 방향과 각 한 줄 이유를 묶어 혼조/동반 여부까지. 예: "3분기 첫 거래일 한국은 연기금 매도 우려 속에 하락, 일본·중국은 기술주 강세에 상승하며 혼조세를 보였습니다.".
+3. 지수 통계 라인 — 반드시 "* " 로 시작(렌더러가 자동 처리). 국가 대표지수 3개를 한 줄로 묶는다: "* {M.D}(연초대비): 한국 △X.X%({+/△}ytd), 일본 +X.X%({+/△}ytd), 중국 +X.X%({+/△}ytd)". 한국=코스피, 일본=닛케이225, 중국=상해종합. {M.D}=기준일 월.일(예 7.1). 앞 %는 chgPct, 괄호는 ytdPct(소수1자리). 하락 △, 상승 +.
+4. 한국 문단: 코스피와 코스닥을 각각 등락률+주도 이유(sectors·movers 근거)로 서술. 두 지수 방향이 엇갈리면 대비해서. (예: 코스피는 외인·연기금 매도로 하락, 코스닥은 소부장·전력기기 강세로 상승.)
+5. 수출 문단 — payload 에 [kr_exports] 가 있을 때만 작성(없으면 이 문단 자체를 생략). 관세청 통계를 서술: 총수출액(export_usd_bn)·전년대비(export_yoy), 반도체 수출액(semi_usd_bn)·전년대비(semi_yoy), note 의 맥락(역대 최대 등). 데이터에 있는 값만, 단위·증감률을 지어내지 말 것.
+6. 반도체·주도주 문단: 삼성전자·SK하이닉스 등 대형주 등락을 문장 안에 괄호로 병기(예 "삼성전자(△5.8%)")하고, 매수세 분산·쏠림 완화 등 흐름을 movers·sectors 로 서술.
+7. 일본·중국 문단(1~2문장): 주도 업종·연속 상승 여부 등 간결히.
+8. 환율·금리 문단: 원/달러를 "전일대비 등락(원)"과 레벨로 서술(예 "+5원 상승(1,554원)", KRW=X 의 current 와 전일대비). "KR 10Y" 데이터가 payload 에 있으면 국고채 10년 금리도 레벨과 함께 한 문장(bp 변동은 prev_close 대비 (current-prev_close)*100 으로 계산, prev_close 없으면 레벨만). 없으면 금리는 생략.
 
 [필수 규칙]
-- 모든 수치는 데이터에 있는 실제 값만. 등락률·연초대비·종목 등락·환율을 절대 지어내지 말 것.
+- 종목 등락률은 문장 안에 괄호로 병기(예 "삼성전자(△5.8%)"). 별도 "※ " 나열 라인은 만들지 않는다(위 3번 "* " 지수 라인만 예외).
+- 모든 수치는 데이터에 있는 실제 값만. 등락률·연초대비·수출·환율·금리를 절대 지어내지 말 것.
 - 하락은 △, 상승은 +.
 - movers 의 영문 detail/reason 은 한국어로 자연스럽게 풀어 해석(영어 그대로 붙여넣지 말 것).
 - 데이터로 검증 불가한 인용·일정·통계(총재 발언, "외국인 N일 연속 순매도", "시총 N조 돌파" 등)는 절대 지어내지 말 것.
-- 과장·단정·투자권유 금지.
+- 과장·단정·투자권유 금지. "안녕하십니까"/"감사합니다." 는 쓰지 않는다.
 - 각 문단은 어절(공백) 단위로 자연스럽게 끊어 쓸 것. 단어 중간에서 줄이 나뉘지 않도록 한 문장이 지나치게 길어지지 않게 작성.
 
 [title] "{N월 N일} 아시아 증시 시황" (as_of 기준)."""
@@ -291,12 +322,15 @@ def regions_by_key(daily):
 
 def build_request(region, daily, bench, override_as_of=None):
     rk = regions_by_key(daily)
+    exports_payload = None
     if region == "asia":
         korea = rk.get("korea") or {}
         as_of = override_as_of or korea.get("as_of") or daily.get("as_of")
         regions_payload = [slim_region(rk[k]) for k in ("korea", "japan", "china")
                            if k in rk]
-        bench_payload = slim_benchmarks(bench, ["KRW=X"])
+        bench_payload = slim_benchmarks(bench, ["KRW=X", "KR 10Y"])
+        if as_of:
+            exports_payload = load_latest_export(as_of)
         rules = RULES_ASIA
     else:
         us = rk.get("us") or {}
@@ -311,14 +345,20 @@ def build_request(region, daily, bench, override_as_of=None):
 
     system_prompt = "\n\n".join([rules, RULES_REPORT, OUTPUT_SPEC])
     d = datetime.strptime(as_of, "%Y-%m-%d")
+    exports_block = ""
+    if exports_payload:
+        exports_block = ("[kr_exports 관세청 수출통계 (갓 발표)]\n%s\n\n"
+                         % json.dumps(exports_payload, ensure_ascii=False))
     user_payload = (
         "작성 기준일(as_of): %s (= %d월 %d일)\n\n"
         "[daily-data.js regions]\n%s\n\n"
         "[benchmarks.js indices]\n%s\n\n"
+        "%s"
         "위 데이터만 근거로 규칙에 따라 JSON 을 출력하라."
         % (as_of, d.month, d.day,
            json.dumps(regions_payload, ensure_ascii=False),
-           json.dumps(bench_payload, ensure_ascii=False))
+           json.dumps(bench_payload, ensure_ascii=False),
+           exports_block)
     )
     return as_of, system_prompt, user_payload
 
