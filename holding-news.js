@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-06-30T23:34:03
+// 갱신: 2026-07-01T00:07:02
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,6 +7,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9oZXdYQVB4MUVmZS01amp3YnlkNml3c3F3ZXlwSXplbFViVzBPcW9CMFZRVHpzeTRlMEI3Um9pTGpsV2NlYm1zU1FUMHM3UHFjVXB6UQ?oc=5",
    "source": "v.daum.net",
    "date": "2026-06-29"
+  },
+  {
+   "title": "[증시 포인트] 상승 출발 전망...7월 코스피 이익 모멘텀 기대 - 오피니언뉴스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5pZVVBbTA2M2tueWtVWGVPSWJmUVdCZGpZX1plTWl4MmQwVVJjZ1o5eXQyQnBiUzdTTy1UU0VCc0tpUmVMLTFmZjhtbHdPaHNybXdIbTh4VmxqMVpiald6NzFnYTh0Mkw3V2liUE1UTGw?oc=5",
+   "source": "오피니언뉴스",
+   "date": "2026-06-30"
   },
   {
    "title": "6월 한달 내내 출렁인 코스피…실적 시즌 7월에는 다를까 - 연합뉴스",
@@ -18,12 +24,6 @@ window.HOLDING_NEWS = {
    "title": "증권가 \"하반기 만스피 간다\"…주도주는 단연 반도체 - 뉴시스",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5UTHlCdVFaNGx3SXNXSGp5SUFYcHg0akx2cklELXB6bFhoTUo4a1UybGpzeEhSVmFXQWtEQkpSS3BOTzBBb0pjN0prd1BMWG95T0NtbFo2aHFOTW1vUHAtZ9IBeEFVX3lxTE1CSEZ3RmpSS2o4cXVkYUhzYWZabzgyOTkzRHJ5NGRxdzVMOUswYVF4QnRDNFJvWkp5ZllSM0VyeC1teFg5UW5LYmFUWjRYTG14dGNMekxNaU5MMkh5NnNuM3hhT2dQQ04tcFhoOFJIa2s0Z1h6MTFzQQ?oc=5",
    "source": "뉴시스",
-   "date": "2026-06-30"
-  },
-  {
-   "title": "[AI MY 증시전망] 반도체 반등 vs 리밸런싱…코스피·코스닥 '수급 줄다리기' - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBkTzRnSjZmUzRwOF9pWlp0Q0FNYjZXMzJQNXVQeHF4eS1nZWZTV3F0UEoyZ3Q2Z20tQWZzUC0xa2FWOGx5QzhyX1pMbWtHQ045UF9wVGNCeWVUMUtr?oc=5",
-   "source": "뉴스핌",
    "date": "2026-06-30"
   }
  ],
@@ -437,10 +437,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-08"
   },
   {
-   "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53TEFmRmwwWmUxZUJlZlBka0N4b0dXclJzSVhlcUdhb1dENzFXTUlldzdIYThtMEJJZ21zZkRXWUlzTDY2YzQ3SFdPSjBnOFpmUVN1bGhDV2ZzTHV5WkxUWVRxYkhZdkVEU0c3bG93eVg?oc=5",
-   "source": "연합인포맥스",
-   "date": "2025-12-12"
+   "title": "미·이란 재협상 기대에 기술주 강세…S&P500·나스닥 또 최고치(종합) - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBhZ1M4ZmJVRWx6SVVPV0NXaTl2cW1NTUgtVndaTTlXcDUzOW5Tc2RSbXFxX2xudEY0WXl3cWVLZHZ6TG1XZ21BNEliaEJMMXltU1J3T2Q2M05MZlnSAWBBVV95cUxQX0Z6MHZVQlNXOW5GTURVaDhfZEpDVXRiQnlHbU94WF9mNEk1eF9qYzZ2NUhRM0NheTh4TmFTY3dPUFpkd195Szc4SDE3Z0Q2b1R2TnBESUxLX1djZXdkTDc?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-04-25"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
