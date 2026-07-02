@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-27d";</script>
+<script>window.CODE_VERSION = "2026-06-27e";</script>
 <script>
   (function () {
     try {
@@ -639,8 +639,12 @@
   .bfc-kn { display:flex; gap:9px; }
   .bfc-kn .dot { width:8px; height:8px; border-radius:50%; margin-top:5px; flex-shrink:0; background:var(--muted); }
   .bfc-kn .dot.up { background:var(--pos); } .bfc-kn .dot.down { background:var(--neg); }
-  .bfc-kn .kt { font-size:12.5px; font-weight:700; line-height:1.45; color:var(--text); }
+  .bfc-kn .kt { display:block; font-size:12.5px; font-weight:700; line-height:1.45; color:var(--text); text-decoration:none; }
+  .bfc-kn a.kt:hover { color:var(--accent); }
   .bfc-kn .kd { font-size:11.5px; line-height:1.55; color:var(--muted); margin-top:3px; }
+  .bfc-kn .ksrc { font-size:10.5px; font-weight:600; color:var(--accent); margin-top:4px; }
+  .bfc-kn .ksrc a { color:var(--accent); text-decoration:none; }
+  .bfc-kn .ksrc a:hover { text-decoration:underline; }
   .bfc-watch { display:flex; flex-direction:column; }
   .bfc-wp { display:flex; gap:11px; padding:11px 0; border-top:1px solid var(--border); }
   .bfc-wp:first-child { border-top:none; padding-top:2px; }
@@ -1082,16 +1086,58 @@ function makeSpark(data, opts) {
     });
     return chips;
   }
-  // 핵심 뉴스: report.sections → {head, detail, dir}
-  function bfKeyNews(sel) {
+  // 출처 매칭용 풀: 개요 commentary의 이벤트·무버(제목·사유 + 출처·링크)
+  function bfSourcePool() {
+    var pool = [];
+    (D.regions || []).forEach(function(r) {
+      var c = r.commentary;
+      if (!c || typeof c !== 'object' || Array.isArray(c)) return;
+      (c.events || []).forEach(function(e) {
+        if (e.title) pool.push({ text: e.title + ' ' + (e.desc || ''), source: e.source, link: e.link });
+      });
+      (c.movers || []).forEach(function(m) {
+        if (m.name || m.reason) pool.push({ text: (m.name || '') + ' ' + (m.reason || '') + ' ' + (m.detail || ''), source: m.source, link: m.link });
+      });
+    });
+    return pool;
+  }
+  // 텍스트에서 매칭 키워드 추출(고유명사·티커 위주, 일반어 제외)
+  var BF_STOP = /^(하락|상승|급락|급등|강세|약세|마감|지수|증시|시장|기록|대비|전일|섹터|종목|혼조|보합|상승세|하락세|주요|영향|우려|기대|전망|예상|발표|보도|가운데|이날|당일|미국|한국|일본|중국|유럽)$/;
+  function bfKwords(t) {
+    var set = {};
+    (String(t || '').match(/[A-Z]{2,}/g) || []).forEach(function(w) { set[w] = 1; });
+    (String(t || '').match(/[가-힣]{2,}/g) || []).forEach(function(w) { if (!BF_STOP.test(w)) set[w] = 1; });
+    return Object.keys(set);
+  }
+  function bfMatchSource(text, pool) {
+    var kws = bfKwords(text);
+    if (kws.length < 1 || !pool.length) return null;
+    var best = null, bestScore = 0;
+    pool.forEach(function(p) {
+      var sc = 0;
+      kws.forEach(function(k) { if (p.text.indexOf(k) >= 0) sc++; });
+      if (sc > bestScore) { bestScore = sc; best = p; }
+    });
+    if (best && bestScore >= 2) return { source: best.source || '', link: best.link || null };
+    return null;   // 고신뢰(키워드 2개+) 매칭만 — 오귀속 방지
+  }
+  // 핵심 뉴스: report.sections → {head, detail, dir, source, link}
+  function bfKeyNews(sel, pool) {
     var rep = sel.report || {};
+    pool = pool || [];
     return (rep.sections || []).slice(0, 6).map(function(s) {
       var det = [];
       (s.points || []).forEach(function(p) {
         if (p.text) det.push(p.text);
         (p.subs || []).forEach(function(u) { det.push(u); });
       });
-      return { head: s.head || '', detail: det.slice(0, 2).join(' · '), dir: dirOfText(s.head + ' ' + det.join(' ')) };
+      var head = s.head || '';
+      var src = bfMatchSource(head + ' ' + det.join(' '), pool);
+      return {
+        head: head, detail: det.slice(0, 2).join(' · '),
+        dir: dirOfText(head + ' ' + det.join(' ')),
+        source: src ? src.source : '', link: src ? src.link : null
+      };
     }).filter(function(n) { return n.head; });
   }
   // 관전 포인트: 수치·종목이 담긴 구체 팩트 bullet 상위 4개
@@ -1151,14 +1197,23 @@ function makeSpark(data, opts) {
     }
 
     // 두 컬럼: 핵심 뉴스 · 관전 포인트
-    var news = bfKeyNews(sel), watch = bfWatchPoints(sel);
+    var news = bfKeyNews(sel, bfSourcePool()), watch = bfWatchPoints(sel);
     if (news.length || watch.length) {
       html += '<div class="bfc-two">';
       html += '<div><div class="bfc-seclbl">📰 핵심 뉴스</div><div class="bfc-knews">';
       news.slice(0, 5).forEach(function(n) {
+        var kt = n.link
+          ? '<a class="kt" href="' + n.link + '" target="_blank" rel="noopener">' + escHtml(n.head) + '</a>'
+          : '<div class="kt">' + escHtml(n.head) + '</div>';
+        var src = n.source
+          ? (n.link
+              ? '<div class="ksrc"><a href="' + n.link + '" target="_blank" rel="noopener">' + escHtml(n.source) + ' ↗</a></div>'
+              : '<div class="ksrc">' + escHtml(n.source) + '</div>')
+          : '';
         html += '<div class="bfc-kn"><span class="dot ' + n.dir + '"></span><div>' +
-          '<div class="kt">' + escHtml(n.head) + '</div>' +
+          kt +
           (n.detail ? '<div class="kd">' + escHtml(n.detail) + '</div>' : '') +
+          src +
         '</div></div>';
       });
       html += '</div></div>';
