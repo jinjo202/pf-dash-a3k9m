@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-02T10:44:55
+// 갱신: 2026-07-02T11:16:06
 // 총 87개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -42,23 +42,23 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-02"
   },
   {
+   "title": "299만원 찍더니 234만원까지 밀린 하이닉스…그래도 “400만원 간다”는 증권가 - 서울경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9USTRQczlSMmhKUWJzOVVLbTlVTnNaQWhWd091QkwzTXROdlQ3ZzZZTXRCTFcyYmF6aFFXa05SQ2xFZXJ1VU4zYnZFamtVWjRVcWfSAVNBVV95cUxNczlQWlY0VFlZd3RMaGRLcGZaU3dlMXMyc0pKcXltWmN3VEZickV5NVZCLTdmRFBzWGc4TmgwT1RWenpRZzhoYjRwUUVjdWJzUWtUbw?oc=5",
+   "source": "서울경제",
+   "date": "2026-07-02"
+  },
+  {
    "title": "SK하이닉스 미국 ADR 상장 임박…SK스퀘어 재평가 기대 - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1xdjBvUkNmbF9OMDNMNFFQdlBiMlJRRUE2TmlpYV83VTZvTFBlejZrV0JRei1adVAzcUNCeE42dVNsQThjRkk2XzRmbWduSEsyOTdCSmlpR2dkeVHSAWBBVV95cUxNSFBmY2o5ZkxhVk45VTNFZ2FkUjRIVTdBZnJOY3NfWktuMFRRTHl6elVENVRITl9ibzhieTJQdVRGX2dtR0x5S2NTQ0NJWEdrVnp0Q3VGTlV0N3dYZ3FLWDQ?oc=5",
    "source": "연합뉴스",
-   "date": "2026-07-01"
-  },
-  {
-   "title": "“천문학적인 돈 몰려온다”…SK하닉 美 상장 초읽기에 대박 기대감, ‘이 기업’ - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5aeXZXRFVZTk5kRks4Z0J5UGU1VXV5dVFERHoyd1lfY3ZON2ZKOVlYWHdoY1ZndW1Yd2xUa0F4TUh1b0RaZlhWRGwwUWVaNDZUVUdwTQ?oc=5",
-   "source": "매일경제",
    "date": "2026-07-01"
   }
  ],
  "LG에너지솔루션": [
   {
-   "title": "[코스피 현미경 분석] LG화학, 첨단소재 부문 턴어라운드로 주가 다시 뛸까 - 데일리인베스트",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBOMTBaVUprUkxnTTZRQXN4cmJMMC05aHlfU2FiZDkxR2tLdTV0cFh6X1VXdFN0MjBPR1VMd2VrUS16dmxmVm84SEF4bFppZmN4NVptV180WDVDVUNrRUk0OGk5VVFId19Gc2JB0gFvQVVfeXFMT2x4SWxvTmhQUXgycW9IV2NUbTVEWjFucGpNT3VLa0NmRVI5c1hJTDMyXzVneHlsYjh1VWVpZGRBUGJtQmtxb1FEV1RhOHEtR0JLTmNXM1ZKSV94aTlGenVKbmtIVzAwR3M3QVZqajYw?oc=5",
-   "source": "데일리인베스트",
+   "title": "LG에너지솔루션 주가, 7월 2일 354,000원 1.72% 상승 마감 - TopStarNews",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5UbF80dHE1UTJrcTItTW9qdDdjZlB5YUI1T2FDNmFfTW11b0VyWVVUem9yMWo5bTRuQ2M4REV6bkQweXRLMFlMcC1HclF5ejQ0TmhyNDF2endXSVNTcmJuRVNwenprY2NDeGJuQU9LTmtQQQ?oc=5",
+   "source": "TopStarNews",
    "date": "2026-07-02"
   },
   {
@@ -82,12 +82,6 @@ window.CONSTITUENT_NEWS = {
  ],
  "삼성바이오로직스": [
   {
-   "title": "“돌아온 건 급여 삭감뿐”…삼성바이오로직스 강경 노조에 내부 불만 확산 - 쿠키뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1STmVPbURXNnNOdFZCYTdUM1NQSWpleGNKZXFMbVZVa2EzZkNQaVpmQ3djcmdkWXpTd1ZsVkNYRXRyRWd3TzVWcTNESVEtZ2FZNy1Zdld4cHFNUWV3MFpYLWFLMA?oc=5",
-   "source": "쿠키뉴스",
-   "date": "2026-07-01"
-  },
-  {
    "title": "[0702시황레이더] 삼성바이오로직스, 중장기 CMO 펀더멘탈 견고 분석 등 - 인포스탁데일리",
    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE51TDRoQ2xpVXhDQTZSbE1YQnEzWEJfRExPZUVrakhwTER1eFRKX2lWb25ZRFR6RkR6dWdOaVU1TExpaWFzRUw3QjRULWRYc0I4SEJzQzRhQ05va0kwZWthOHlQTHd0X3BWb2lQc3cxVDd1d25RTlE?oc=5",
    "source": "인포스탁데일리",
@@ -98,6 +92,12 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBZQzg3YWlUWVNIbDV0STZkbDNYbXcyc2k4NVczNG9fbXhETGVhbGpwMG9HbXZEbHl6LUhqdUFDVm15NXp5WDZFZ3RxSmdSTk9scEg5RDlpQWFoVTR4?oc=5",
    "source": "아시아뉴스통신",
    "date": "2026-07-02"
+  },
+  {
+   "title": "신한투자 \"삼성바이오, 노사 협상 따라 변동성 높아…목표가↓\" - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1xUmc4Q3ZGQUdrSk5IdWFzN0tKM0ZVbWt1cWYwcHRTWDNGdTJiaUlPVnE1QlZkajc1WndRN3N1cURVSGNKQnREbmotWWtZcXFIMy0wMVdfUHdGRUV1bDZhOdIBYEFVX3lxTE1xUmc4Q3ZGQUdrSk5IdWFzN0tKM0ZVbWt1cWYwcHRTWDNGdTJiaUlPVnE1QlZkajc1WndRN3N1cURVSGNKQnREbmotWWtZcXFIMy0wMVdfUHdGRUV1bDZhOQ?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-06-30"
   },
   {
    "title": "실적 역대급인데…삼성바이오 주가 발목 잡는 '2가지 변수‘ - ebn.co.kr",
@@ -134,9 +134,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "HLB": [
   {
-   "title": "진양곤 사내이사, HLB제넥스 주식 2만7000주 ↑…지분율 2.33% - 데이터투자",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9iVHR4eWNyajhvOXhNbnR4djZlVzd6UWFES0o3WXFCNm5VNmRacVRWZ0tyR0pHbkpVNVp4ZHpzT3NUc0VhUXlNN1MwQ3VURkF2cWh0UkU0WjhoZUYtdXdrMjYzV3FnMDNhZ2pza215cThGajA?oc=5",
-   "source": "데이터투자",
+   "title": "[주가] 7월 2일 주요 제약·바이오·기기 5% 변동 현황 - 프롬바이오·비엘팜텍 상한가 - 메디파나뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1oN1N4SHhEdXNNOEN6MTU0MXluLXpYS2Y2djZUOGJkM3F2UFpQR3JBOVdvZ21hMEIzODBXUURtTURFUXFjT01tanc1SElLbTlnOWdEMFUwTHkxcVYxUERrYXFSaVpmeWd5bm1B?oc=5",
+   "source": "메디파나뉴스",
    "date": "2026-07-02"
   },
   {
@@ -146,9 +146,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-09"
   },
   {
-   "title": "진양곤 사내이사, HLB제넥스 주식 매수로 지분율 증가 - 디지털투데이",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9ka19RWlNvWmxkV0FFbEh4bEt4MUhRaGNCRHlWZTZoWXl0eUotTHB2RVgyWmhZbTc1N3REVWdtMU80aFZBY1pfVlVldTdCRFZzY0h2aERFYXB2ZnBpUEhXLUFQRHRRYVlEMldIS2tmc3Z3d1k?oc=5",
-   "source": "디지털투데이",
+   "title": "진양곤 사내이사, HLB제넥스 주식 2만7000주 ↑…지분율 2.33% - 데이터투자",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9iVHR4eWNyajhvOXhNbnR4djZlVzd6UWFES0o3WXFCNm5VNmRacVRWZ0tyR0pHbkpVNVp4ZHpzT3NUc0VhUXlNN1MwQ3VURkF2cWh0UkU0WjhoZUYtdXdrMjYzV3FnMDNhZ2pza215cThGajA?oc=5",
+   "source": "데이터투자",
    "date": "2026-07-02"
   },
   {
@@ -218,9 +218,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-02"
   },
   {
-   "title": "‘전자닉스’ 조정에도 매수로 대응…에코프로도 또 샀다 [주식 초고수는 지금] - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE02bzBKQmhxajVGRXh1ZVB1SVNvVHlCU2FQZTZiZzRLcU8yMlo1b19Od1gzN01YamNnNVVZTU45d3R0TU1pMzQ2SjdJM1dGLTdjUWc?oc=5",
-   "source": "매일경제",
+   "title": "에코프로에이치엔, 반도체·배터리, 환경기술 강점…고성장 전망에 주가 재평가 - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFByUlVrdk1hRklZa1otMTRHeWtHbmhwRnV6YmliNFlydm5HSElJWlhWSHpIdDNhM21oNElRWWZrZ2VSN0JRbUpna1RhTzIxNlcwUkQzd3l5VGIyZ9IBVEFVX3lxTE0yc1ZJMUdEcFBETlRPalBWVnl3YzVLaklrZlhUQXk2a2R6LWtTVTB1TTBkbWdNMWt5UFhrZlR6dEp0dV9yblhDVGlBVklTWHZscDAybQ?oc=5",
+   "source": "한국경제",
    "date": "2026-07-01"
   },
   {
@@ -264,16 +264,16 @@ window.CONSTITUENT_NEWS = {
  ],
  "HD현대일렉트릭": [
   {
-   "title": "HD현대일렉트릭, 최대주주 HD현대 주식 교환으로 지분율 37.08% 축소 - 데이터투자",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9TQUdDOTF5RktiekhHMTlEN0UtYkx6TTdTVFFQc2FINGxpWWpfUVYwMFpTVFBXcDY3S0RaOGtrS2JFdFl2M1BrYTBXTHBjYWRqZ0xoMTM2TmdVN1ZwLVVTNjc4QTNWcGlIZWhOSm5CUklxUjg?oc=5",
-   "source": "데이터투자",
-   "date": "2026-07-01"
-  },
-  {
    "title": "HD현대일렉트릭, 데이터센터 전력 인프라 장기 공급계약 체결 - 디지털투데이",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9NTzl5NnZLcTlqeXhTV09jbGJRY0V5VDZ2OWtvSDVjd1Y3RUVDMVMtZmxoMU12SlRXVnZ5eHp3S29uaHJjTWViT2VvalV6SUlpR1Q5Nl90QjM5OE5mdEJZWGJXN012Y1FHQVI4di1XV1JKZE0?oc=5",
    "source": "디지털투데이",
    "date": "2026-07-02"
+  },
+  {
+   "title": "HD현대일렉트릭, 최대주주 HD현대 주식 교환으로 지분율 37.08% 축소 - 데이터투자",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9TQUdDOTF5RktiekhHMTlEN0UtYkx6TTdTVFFQc2FINGxpWWpfUVYwMFpTVFBXcDY3S0RaOGtrS2JFdFl2M1BrYTBXTHBjYWRqZ0xoMTM2TmdVN1ZwLVVTNjc4QTNWcGlIZWhOSm5CUklxUjg?oc=5",
+   "source": "데이터투자",
+   "date": "2026-07-01"
   },
   {
    "title": "결국 한국산 쓴다…글로벌 빅테크가 먼저 찜한 1.12조 원 규모 '이것' - 위키트리",
@@ -380,10 +380,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-22"
   },
   {
-   "title": "[주식도락] 가라앉는 '원전주' 두산에너빌 주가…반등 가능할까 - 뉴스드림",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE4wZmI0NkR4UGJwbFZUVGVxVUpFVTFiUm01Q1JwMjVud1Rvb1U2d3JVRHdHVDJBYXI2ZjBDX3B1RTdUdnFBVkRJRUtBeURLSlRPYzVBS2JPQ2FGemdMZ044UTFDTU41NGlLODE40gFuQVVfeXFMT3dQU1hqUE9BbHZiME4tWDMxcWw2OEk2YWFCZ19EWGJ0VnQ1SFBHWG0wcW1xV2tWZllIUi1vNTAxS0wtcWdTNW1HblR4bGkybThaNHZJUmh1RGNKWkRhMGp2N19ESHJELTdWU3FvQlE?oc=5",
-   "source": "뉴스드림",
-   "date": "2026-06-25"
+   "title": "박지원의 밥캣 방패, 美 특허전쟁에 흔들리나 …두산에너빌리티도 긴장(2부) - 세종의소리",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9DaXNyRnBWQUNHLUFWQW90ekdRREV4aTdEUVpsdW5xbVgxeUlnR1hnVXJNby1oV2E0Q1RuaFdUUUxHOUFHcE1rdFQwSms3UmxKM1U5VlFObngtS1MyN00weVc0azUxVmc?oc=5",
+   "source": "세종의소리",
+   "date": "2026-06-29"
   },
   {
    "title": "두산, 엔비디아향 매출 증가에 목표주가 222만원으로 상향[줍줍리포트] - 서울경제",
@@ -447,7 +447,7 @@ window.CONSTITUENT_NEWS = {
  "한온시스템": [
   {
    "title": "[종목 포커스] 한온시스템, 유럽 전기차로 실적 개선 본격화…주가 상승 전환? - 데일리인베스트",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5hQkE2bEhGV3ZUNjcwM1AwWjJ3NWtId1JhN0tpQkk1T245bmh4cXE2eHZvcVUxRjR5R2ZfNmtHUlFwWlU5MTV4S2laSkVhZXF3MksxU1RZTG9mMzBtczZ5dS1JVmhRZE9MOGFZ0gFvQVVfeXFMTUdJbEZPanREcmIyUEgtTEt5ZW9JeDRwRmJRc2hlcUo4cmNqNFpfSWtGQjFTYk5PLWpFcno4MjAzcDFmeHJZTk9qYk9QVUxrUU96eGdMamNuWkhaVUNqRnpKbkw2bjdwRGR6U2t5R1VR?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHSTNzNkdDdlBKYlFrNk9DOXdPakxvamhUNkVBSnRfaVdKUkdLa1hHWmhfVnJVbU1yTUtKVDlHTFVTa3hSU21xaThDYmwwcFhPTVhxVGlUcDRMcWJSY0VWTkpMcUx2ekQzNEhBMdIBb0FVX3lxTE1HSWxGT2p0RHJiMlBILUxLeWVvSXg0cEZiUXNoZXFKOHJjajRaX0lrRkIxU2JOTy1qRXJ6ODIwM3AxZnhyWU5PamJPUFVMa1FPenhnTGpjblpIWlVDakZ6Sm5MNm43cERkelNreUdVUQ?oc=5",
    "source": "데일리인베스트",
    "date": "2026-06-30"
   },
@@ -464,10 +464,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-30"
   },
   {
-   "title": "[모닝 리포트] \"한온시스템, 손익은 개선·재무는 부담…목표가 4200원\" - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8xT1dJWEdfc2xKcHZXdS1VNGlTRkJVNXV2bUJyS2wxTWhPU2hPNi04eEUtRVRWbE02NDR3TERYZERtaDhPbVdxNWwxMVVxSzcwak5SSUkxcWk3cUdk?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-06-05"
+   "title": "한온시스템 주가, 웃음꽃 활짝... 왜? - 금강일보",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9IQXB3X0FLbW4xTEs1QTJWdGw1MVM4bnpmR3hTY1BPeldDQkNFOGJUdFk0TklLQzdqNGtVZHF3bEljYUd5OUN0U1daX0RXNXR6NFdXRkhCY0M2MGJKNkhiTTBta3BBQkxjc3c?oc=5",
+   "source": "금강일보",
+   "date": "2026-06-15"
   }
  ],
  "한국타이어앤테크놀로지": [
@@ -490,10 +490,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-09"
   },
   {
-   "title": "AI주식상승확률분석 : 한국타이어앤테크놀로지(161390)주가 전망과 상승확률 분석 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1vanMyeG9aMFlsOGVsallQUVVjc2tiZkxXWkNVNE00ZndFS2hHV2djT3B3d2Z1bTVSZTkxUV9wMzl1ODR0MllaX3Z0ZE8tWnFwWFk4Z0NNTGtUdVI0WElQVg?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-01-26"
+   "title": "한국타이어앤테크놀로지, 증권사 목표가 상향에 강세…4.89% - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5KRFpIUWt5X1FuMjd4N0JWRXE2WXo2djl0d3lIUENnbkVJdE1LcDRBMFZMRVMzS1ZaNTlFSEJwM0JLWU85ZzMzOUN1ci15NlUxTHc?oc=5",
+   "source": "매일경제 마켓",
+   "date": "2026-04-21"
   }
  ],
  "셀트리온": [
@@ -620,10 +620,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-29"
   },
   {
-   "title": "[속보] 우리기술 주가 상한가 마감…1만7000원선 회복, 코스피·코스닥 동반 강세 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9Wa21lVkRaRVludHZwMUxqSmtYOXNQLUpmMFBNVEN1WVpDMG9fOEQ1VzRHMHlTSDQ0NkUycm83RWtSYU9FcGlzQ1lxVDgzUEw3OUlmR2dGWG55Mk90a1gzUEtfUQ?oc=5",
-   "source": "CBC뉴스",
-   "date": "2026-06-12"
+   "title": "1년만에 1400% 상승한 우리기술 주가 전망, 전력 및 SMR 수혜주 - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQNlBiT0JPUVZKUlpkd2JiQkJKSjZQdDJ5NXZhdE1KR3ZaNUJncDR1dEdwQVZOMWtHSzlnaGFPX0JkVWhXUUFxbTNNOU96dTZiaWR1NUcxcnA2a2NEczhIOVp2OTVWVDZEQndpdTc1R3ZteHhNQm55QkJmdHRlem52aG5HMA?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2026-04-15"
   }
  ],
  "한화에어로스페이스": [
@@ -738,12 +738,6 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-02"
   },
   {
-   "title": "한투證 \"한화시스템, 성장 동력 확대…목표가 120%↑\" - 뉴스1",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBzMG8zY2JpNFZwbk5HODUtank3SmlKbm1UT2ZxWmpFLUlWZUdVNDBybTY3R0ozYjdmRjVNelZBUzgyODg4SExsa2JLTENKZ2VtLXE4LU5iN2xmRVJNelYw?oc=5",
-   "source": "뉴스1",
-   "date": "2026-06-01"
-  },
-  {
    "title": "한화시스템 투자분석 2026. 06. 28 - 주달",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5YcDROcGplRlNZYVloV2RESmtYdk93anVkWUNXcmxzeHQyQmVDVTRpaHhmenptSWZqeFJqZjY5djhwZkZBeTUtekloRXgzQ3N5QTM5MFBjUk9XMVdOYm8zRTlHeXVWNmhuVXFQcUVFY1pNRnM?oc=5",
    "source": "주달",
@@ -754,6 +748,12 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE11MERlblJKOFdiYkVuNHZZam9xaE5aMVBseFJqM0hRNnhmdWNobkN6Sk1fV19RSHRkZVlsTm0xYVk1UTNoSWhLRXpZbkM3RDJLV2xqSTFyOHVjbm4zSXBrSnhUVWdCZkhjWXJj0gFvQVVfeXFMTWUzT2ZYYlRmTndnWmRNU1hTTXVRcTJ6a1FyTWtjRlhockQ5MjhZUG1NUnhHOVZ3N2pvWmtxa2ViaEg2aF92Q2ZuMEwwUDVTRUJCX0tPTXBlamJSSEZULWRvSHp4b1JPdU1vVEo0aEhB?oc=5",
    "source": "데일리인베스트",
    "date": "2026-06-16"
+  },
+  {
+   "title": "한화시스템 주가, 7월 1일 장중 76,800원 5.21% 상승 - TopStarNews",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBXa2xKeXVSbzI2c01NaGlGMVdkUFRNZzhjdURnQnBaUTFMdkowQ2tUbVVkcVdqQUlwb3EyN1lNQ0p5WFdBcmthSTRzemFkNXQ1bjF0LXJQOGg3UTdvYjFidjJ4d3JQUVU2Z1hLVEpiRzhFQQ?oc=5",
+   "source": "TopStarNews",
+   "date": "2026-07-01"
   }
  ],
  "Apple Inc": [
@@ -828,9 +828,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-28"
   },
   {
-   "title": "엔비디아(NVDA.N) TSMC 보수 설비 증설 영향...단기 성장 부정적 - 알파경제",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBUb1MzX3Jod1hsV2UxQ09tRThEYUJyNkNUVVgtOTZ3TmR0NDAyZGEwMndSZk0wX1U1eTRTOS13RTdKZU1xVTJWTTlsWkdNYmlxQk1yU2RmNEJIaHo4djhMd01kMXpIS28xNjMwNmJn?oc=5",
-   "source": "알파경제",
+   "title": "\"AI·반도체 시장 거품\" 빅쇼트 버리, 테슬라·엔비디아 주가 하락 베팅 - 더구루",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1ERFNfUVJEWU5KS1N3ZjM4V2MwOU14OEwxQ3ZyMmU0X1praEVnOXdhNm9rRjJIUUhzMFFuS0NsbVN5RU51UGhTckhrWkhDQVZFZEpzQjAtWXZCNGdvQ290X0dubw?oc=5",
+   "source": "더구루",
    "date": "2026-07-01"
   }
  ],
@@ -854,10 +854,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-29"
   },
   {
-   "title": "아마존, 264억 달러 ‘역대급 프라임데이’로 월가 전망치 압도···월요일 주가 3%↑ - Benzinga",
-   "url": "https://news.google.com/rss/articles/CBMixAJBVV95cUxQNWhfOTIwdW1hTWZnRVRCcFR6WTY1eUJTQmlyZVNUSVJVYzJqODVJcU1adE5VYjA5ZzZYc3VnT3hRQkxoLWNpSGkza3pVV1QyaUhYOXZqNWJMRlE5R1JINnluakVQTWw0MmwyXzZ0YmxKVWJ1UlVYY2tlN3hNODRNRWdYdU11MXpURkZmNmdmdUxqNEt6Z01TVHB0cEo2WV8xRnhJQ0VOQ1VwWEtKN0xYY1BncTN3TFM4Uk5EemRGWmFwR1Y3NEJmZHlDUXNvVVNIbW9HcVBGLVRiT3VJV0dobnoxMmNxOVU3LUVlOTdJVnBkLU5RbUpZM3A0SjhnZkxOOWVvN0hCN2NvRGtsLXhYaWFXZ3FNN2U4TTBNWEFabFZlOENpUFlYREdxQ2JmbEU0UnZaLVhCbW9yYzhhRXFFd095eU0?oc=5",
-   "source": "Benzinga",
-   "date": "2026-06-30"
+   "title": "아마존 소형운송 서비스 전면 확대…경쟁 물류업계 주가 급락 - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE4wZi1Ib0h4N0NLaEdlbmRsY1pfZ2tzMWRPRnRVdS1OWmxzUkhuS21idGdUamZtTHJ3ZUV0b2QxSHJiRXlNOVVFdi1Ma09ya3lMOVB1OXhTU3pfcUxMU1RuakVvMzVqN3NpZlMxWmt5MDDSAXRBVV95cUxNQ0NHN04weXdvMklMY0VXQkhYcjMtUTFOUlhFY0Q0Tk5vSUlUQUh6TFpNWnVlTE5KcDVqM1JiaDhWWlRzT1pSRkphb0ZRNzgxOFZqT2dlQ3pFalN5UnNWS1JlQ1F0bWJDbUxCN1ZpOFBJbWVDbg?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-06-11"
   }
  ],
  "Meta Platforms": [
@@ -1071,7 +1071,7 @@ window.CONSTITUENT_NEWS = {
  "Take-Two Interactive Software Inc": [
   {
    "title": "GTA VI 열풍 이후의 테이크투 인터랙티브(TTWO) 주가, 여전히 그 가격이 타당할까 - simplywall.st",
-   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPa1NTOVVHQXVINFBmRnFkeW95b1dvUTFRUGVINU5YdDFVSDgxanJoMUNtSkV4OVBlek5xRXh6NlItbktEcGJtZlRjSkV2YlVXak9XMUJqX0ZKeGtOMFo1eE9iUnBCcTNyajJ2dEFxd1JHX2NwV0Y1RS1adXlJeGVHbm54M1NJcnVuZDBLSXE5cUFlVl9fak5hSG03VWNYWmpoXzJMRTVVONIBrAFBVV95cUxNdUlQeHJvOTFsVE1vWk9VemdGd1M5Z1VRUzFUUXNWNjhvTUdTR2JEeUFVZlFIMEw4UkVjVHRzR2tobVJDWmtNbzdRNjVOTjNoLTJlaS1fbF9rSjJmcUlsdU14ZnFVU1BLaXVaZGV3Z01OcGJyUVkyVUFCZEd0d3dpQ3lXazVIZWx2SHJxZTNZU3UzTU9IeXNKajFMNUYxV1FuSEJaVEV5alZ0M2Q1?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNdUlQeHJvOTFsVE1vWk9VemdGd1M5Z1VRUzFUUXNWNjhvTUdTR2JEeUFVZlFIMEw4UkVjVHRzR2tobVJDWmtNbzdRNjVOTjNoLTJlaS1fbF9rSjJmcUlsdU14ZnFVU1BLaXVaZGV3Z01OcGJyUVkyVUFCZEd0d3dpQ3lXazVIZWx2SHJxZTNZU3UzTU9IeXNKajFMNUYxV1FuSEJaVEV5alZ0M2Q10gGsAUFVX3lxTE11SVB4cm85MWxUTW9aT1V6Z0Z3UzlnVVFTMVRRc1Y2OG9NR1NHYkR5QVVmUUgwTDhSRWNUdHNHa2htUkNaa01vN1E2NU5OM2gtMmVpLV9sX2tKMmZxSWx1TXhmcVVTUEtpdVpkZXdnTU5wYnJRWTJVQUJkR3R3d2lDeVdrNUhlbHZIcnFlM1lTdTNNT0h5c0pqMUw1RjFXUW5IQlpURXlqVnQzZDU?oc=5",
    "source": "simplywall.st",
    "date": "2026-06-26"
   },
@@ -1114,10 +1114,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-17"
   },
   {
-   "title": "라이브 네이션 엔터테인먼트 주가, 176.14달러로 사상 최고치 경신 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBGREdXcGlXZUxSMXpVM2VLdjJ5NzlPVFRPYy1taDVrQzlySy1LcWRPMUVodjVDWEVWcVZyWkRhakh6SXpYVGZRNmFMbG9lOGh3c1FvNlRPc3VvZ1RKWkVja0NhNmk1RXVUekhneGh6OEg?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-06-25"
+   "title": "[미국 주식 돋보기] \"전세계 공연 붐 분다\"… 라이브네이션 한달새 11% 쑥 - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFAyS1pQVWxFSW1QUFNFbmZFUnZyLXZmaGVnajJNY1RDVFpFWTEtM2UtNGlhWmVrX19yeF9pRnlpSF9xaEdENnhDVnlrNm5ldGVTeVE?oc=5",
+   "source": "매일경제",
+   "date": "2025-12-28"
   }
  ],
  "Amazon.com Inc": [
@@ -1218,10 +1218,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-05-28"
   },
   {
-   "title": "GE Aerospace, 기관 투자자 관심 속 상승세 지속 : 해외증시 - 재경일보",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBpb2VsYjBZdnhoUkZPejEyTGRLR2JFblZmc2ViTXRMazJ3aWRLSnpqYTBwdG5lX0MyRUl1RUszRG1OUmNuU2Exd09n?oc=5",
-   "source": "재경일보",
-   "date": "2026-06-30"
+   "title": "GE Aerospace Is Up 12% in a Week and at a Record High. Has the Stock Run Past Wall Street? - TIKR.co",
+   "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPbHYwSmdaSE85dTNuUTJTRU5xNk85aEQzaWxxMkJXdUxTOFVDUUI1Q2pmNURuZ3l3aUdVVjdKT1hZYWV5X195LXJOVHo5OUtyWFloR0FGTFdVX0Ftd3hnM3NrTno5dTduVkwtYkk5SzlUNVlVbUk2TWt3a1JUZkJrcEh5RTNJemtVYTR4cHktUlNDajUtZmhDN29aMkRwS29qRmsxSUF6NU9nWlRRRTk1dlRGZFVSMkk?oc=5",
+   "source": "TIKR.com",
+   "date": "2026-06-25"
   }
  ],
  "GE Vernova Inc": [
@@ -1422,16 +1422,16 @@ window.CONSTITUENT_NEWS = {
  ],
  "Williams-Sonoma": [
   {
-   "title": "Williams-Sonoma Inc(WSM) 실적 예측: 미래 EPS 및 수익 성장 추정치 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1BRS02Nl9VaHJsMXpKVDdRMV83a3hPU1dnd1J6ZUhJa3ZyTzdLcF93bjBTbjdMQTZDaXVIaEJFT2lfWmxNWXpoUW9tMVBfM3MycmpEclNjMTdsWEhrR3VSUU1DNGkyZWhEN3JuVnplSjVuZw?oc=5",
-   "source": "TradingKey",
-   "date": "2026-06-23"
-  },
-  {
    "title": "윌리엄스-소노마 주식, 오늘 급등하는 이유? - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5qMGlTMXVxRmtFdmcyaWotSkEzb2NtblJMVWQzRTM4SWJHOTZOME4wUDV4YW9pVll6VEozVFpsQktjelF4enVEM0NLbWdqMl9zV0M4TUFDdXllaDlkSXFnRVphLXRHMGFVNWZqYkJrU1c4ZmtmS3Ew?oc=5",
    "source": "Investing.com 한국어",
    "date": "2026-06-13"
+  },
+  {
+   "title": "Williams-Sonoma Inc(WSM) 실적 예측: 미래 EPS 및 수익 성장 추정치 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1BRS02Nl9VaHJsMXpKVDdRMV83a3hPU1dnd1J6ZUhJa3ZyTzdLcF93bjBTbjdMQTZDaXVIaEJFT2lfWmxNWXpoUW9tMVBfM3MycmpEclNjMTdsWEhrR3VSUU1DNGkyZWhEN3JuVnplSjVuZw?oc=5",
+   "source": "TradingKey",
+   "date": "2026-06-23"
   },
   {
    "title": "윌리엄 소노마 주식, 222.43달러로 사상 최고치 기록 - Investing.com 한국어",
@@ -1466,10 +1466,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-03-11"
   },
   {
-   "title": "키뱅크, 케이시 제너럴 스토어즈 목표주가 실적 호조에 970달러로 상향 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBEX0hMZ094cVNMdGUyakFWWWlhVVlfZWNVcDdYbWs2TnRXM2Zldy1aY0d0S0tVNkxEYVhfa0pJRmIybG9jVXVXWmVUclctVFVTY2JGbFVpMFloX0paWE51Q1kyNUZWVi0wcUwxTk50Tm5QUnQ3?oc=5",
+   "title": "카스(CASY) 법무 최고 책임자 린지, 160만 달러 규모 주식 매각 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5yOG0xbmxmX2ZJZURidDN3LUt3aWRRT2lSMm1EMDJUSmtIaU1pdDNBcWk1OWwwMVR3MlY0NHdpMEpTNExfZ2FubUlsWVdiRmNGNUo1aGR6T1RJXzZWRDdGSnZDMGZ2UW5DOC1heGY1TDVhbWEtOUlIY0cyZw?oc=5",
    "source": "Investing.com 한국어",
-   "date": "2026-06-11"
+   "date": "2026-06-30"
   }
  ],
  "Reliance Inc": [
@@ -1702,12 +1702,6 @@ window.CONSTITUENT_NEWS = {
  ],
  "Deutsche Telekom": [
   {
-   "title": "지속 가능한 투자로 주목할 친환경 기술 주식 톱 5 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9Vd3VURGNqR1EtQjdKUEdMTkgxYldfY0dra2VjZUJBWDBGOXZ1SDNoVEg5UFF6VFJIa3JuNDVVeFZLTDdlQktVVDM5dXg5dDExeThUYmswMGVZcVRGbHY4d2FPbGdJV2RNN1RjNHQ0dXpKUVpNeHRV?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2025-11-07"
-  },
-  {
    "title": "바티칸 은행, 가톨릭 가치 기반 주식지수 출시 - ESG비즈니스리뷰",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5zOGRaaTVSbmx5ME9mM3o3TW5iM2ZzbXU1eUdHMUcxYTM0dGhISzdWa1pGR2hWWTBjUFgtMEJBSjllT0VFSDFwc2pCVTVJQk80LU5Pd1pOQ21jbEZzRnlIQURHNXdWODBuQ0ZJUUxGRG5zMFk?oc=5",
    "source": "ESG비즈니스리뷰",
@@ -1720,6 +1714,12 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-03-05"
   },
   {
+   "title": "지속 가능한 투자로 주목할 친환경 기술 주식 톱 5 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9Vd3VURGNqR1EtQjdKUEdMTkgxYldfY0dra2VjZUJBWDBGOXZ1SDNoVEg5UFF6VFJIa3JuNDVVeFZLTDdlQktVVDM5dXg5dDExeThUYmswMGVZcVRGbHY4d2FPbGdJV2RNN1RjNHQ0dXpKUVpNeHRV?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2025-11-07"
+  },
+  {
    "title": "T-Mobile US Inc (TMUS) 주식 움직였습니다 상승 3.00%에 4월23일: 어떤 신호인가요? - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOb2dZQlZlOXRCMnZIYmRrazJtT2V2aG5xblNSU2pnWTBRb0ppcmRFTjF4ZnZHLXQ3OERvYS1LV1FtM29aeGZRMjI1eXIzZFVPMlNHaDYxeFVnamswNURmUFI2YlVJZWVBcXZvZ3lQZ0dTSHpBUlpWTW1nUW5iM0RYaDBqMjJuRVdfSU0tWk9Daw?oc=5",
    "source": "TradingKey",
@@ -1728,28 +1728,28 @@ window.CONSTITUENT_NEWS = {
  ],
  "Mercedes-Benz Group": [
   {
+   "title": "제프리스, 메르세데스 투자의견 ’매수’로 상향…마진 전망 긍정적 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBLaXQ0dWx3Yk9HNWUyNWNlaFk2OUVYTjAyQlhXRXlmVUd3dXFfajFIUDVNOVpNZEczNXJtQlIyZmxKNUtxcWFCOWpfdXZKWU9JOG1HY2RtYmJpdjF2LXQ2cmxCWjZaNXMzTE1RTUp1N0U?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2026-06-29"
+  },
+  {
    "title": "Mercedes-Benz, 2026년 1분기 호실적 발표에도 주가 하락 - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1wX3Q3R0djeF84MDVDUnFVbkVTc0FIcFU3NGFEaDZHY18ycEo5VnVOd3V6bEJ6U24zWW0zUXhUZXhldjY5NnlqSHdxWXdpaHljRnhwdVNSYldKSlhfVHo2WHZxUVhOckR3RENWdkYxWQ?oc=5",
    "source": "Investing.com 한국어",
    "date": "2026-04-29"
   },
   {
-   "title": "벤츠가 당긴 ‘K-배터리’ 방아쇠…2차전지, 바닥 찍고 다시 달릴까 - 뉴스투데이",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBWYThEZmlEQktSaFZqLXVfNlV5UURiR3ZaVmQxRmtuYUpLdkdMcXRReW4wODRYenBDaTRWNDFCTEdjYkh1WEFKS0ktTzNHQXYtdGlXY1BrZF8zQTJkTXc?oc=5",
-   "source": "뉴스투데이",
+   "title": "삼성SDI LG에너지솔루션 주가 장중 나란히 9%대 올라, 벤츠와 배터리 협력 - 비즈니스포스트",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1adEpfam9hdEE1NGg1TW9vRF9iTUlXWE11T3ZqNEhKbHFMUzl0a1RqUGNycC12TFJ6YUdVYUE4YlNTdXIybi1tc1BzUldpSmcxLVg1MTA5cUY2R21hSGtrdy0zZVZtbzg2eUJiX0FNMzE4MXM?oc=5",
+   "source": "비즈니스포스트",
    "date": "2026-04-21"
   },
   {
-   "title": "어느새 신고가 삼성SDI…\"유럽 전기차 가뭄 끝나간다\" - 이코노미스트",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE82RU5iNXpocEJSUk1tQkZYRElIcV93WHdNWnBkNW9Ob2t0eFdQcmxIV2FQOHJFeVVhSGhSblY1TjduQXFHU3lwX29Sb0ROTkM4NzFsMlk5ckRRVFJycnJaTExB?oc=5",
-   "source": "이코노미스트",
-   "date": "2026-04-22"
-  },
-  {
-   "title": "Mercedes-Benz Stock Outlook: Where Will the Stock Trade in 2026? - TIKR.com",
-   "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPdndmRWRrMkNUTG00Q0xkbXdSSlBNcnVlNXZNbl9USkRJR3hTZHpfMHZrOEZRTXU4RkxDRTJtWnR4bnpzckx0anItWkhVTjF2dFdQTFJoT09aYnhncEJBQ21Vd04ybXhtX3RRSFpjVnVFSnppTmZlR0huQkdEOVJnNGVBZTVxREkxQ0tQTVlVSzZpcFF1NHc?oc=5",
-   "source": "TIKR.com",
-   "date": "2025-11-12"
+   "title": "중국 지분 15% 넘는 메르세데스 벤츠, 미국 판매 금지 위기 - 임팩트온",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5TZEJDeUp5cGI5dGw0SUJKNVFRYnY2UUdGblY4bnJrSHpUSDNKY09VR2FSV25TUHhKOENmRzh3ZHJTV01kazdwckdBNVBJd3Y0WlhVWENyeVBJV0UxYmhmY1YxVEEwbnE40gFsQVVfeXFMT285eUVkUDhobGNnOUwwelVpX0JhVDhyUVV6YUI4eFY1eU9haXowRnVBMHc0dWxqSFRZdXRhNVJCOVI5dTQwQ2ZYXzY2Z1JIdXIzaEpDbTR4aDRJWVVfaDh1Y0dSdVc5aWtZb3BB?oc=5",
+   "source": "임팩트온",
+   "date": "2026-06-04"
   }
  ],
  "ASML Holding NV": [
@@ -1872,12 +1872,6 @@ window.CONSTITUENT_NEWS = {
  ],
  "Eni SpA": [
   {
-   "title": "2025년 유망 유럽 에너지 주식 TOP 5: 가치와 수익률의 결합 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9MNkxmN2ZIRHNlX0k4X1k0bTE0UGFyTTNZNkU5STBhQkNEc1VRUHR0dzFDWFRTNnA2RmVhNjZFdVhMX2ZiZ2taOUVsWElrY3hKVldFRFRUcHBKZEVDMXl2WEFJY0FveGg2UkFYd2VjTFRLY0tSazlB?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2025-10-17"
-  },
-  {
    "title": "Down Over 40% From Its All-Time Highs, Here’s the Recovery Eni Stock Could Realize Today - TIKR.com",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5TQkppZUlXTF9keUdoNWt3dzQzUUpaRE04c0pieGlMTWR2RmFpOGktc21rTG1IY2I5T2NUcE0tS2pkd2hDXzIxdEtGUHJGS1gwdHFfWU9sRDY4cVFhcWRnSjBjSzdpOFQwMVE?oc=5",
    "source": "TIKR.com",
@@ -1944,16 +1938,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-30"
   },
   {
+   "title": "도요타(TSE:7203) 주가 데이터가 체인링크로 온체인에 올라온 이유 - simplywall.st",
+   "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNUzFhZlA5MGRrbXlBMFBJMF8yVjI1d2xMTW1rV2VuOTRaYTJId05OaHFKY3VSVm9iOWx3NjNvaE5yQXdQOGdhcG5DRlJwb2lGeTZVaXhRcVQ3eGxoT0FKV2dNSzNpYnUtM2ZPNDhJXzdjT0RGMzNjUlNHSV9kdWhvQVJEYzhYZDBhbmE3MXlILUFUbTc1eHdoNDI5QmpSYW51bms40gGjAUFVX3lxTE1TMWFmUDkwZGtteUEwUEkwXzJWMjV3bExNbWtXZW45NFphMkh3Tk5ocUpjdVJWb2I5bHc2M29oTnJBd1A4Z2FwbkNGUnBvaUZ5NlVpeFFxVDd4bGhPQUpXZ01LM2lidS0zZk80OElfN2NPREYzM2NSU0dJX2R1aG9BUkRjOFhkMGFuYTcxeUgtQVRtNzV4d2g0MjlCalJhbnVuazg?oc=5",
+   "source": "simplywall.st",
+   "date": "2026-06-29"
+  },
+  {
    "title": "[서학!스타] 조비 에비에이션·도요타, 에어택시 양산 동맹 본격화…합작사 설립으로 상용화 속도 - CBC뉴스",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFA0eVBmMThUUFBGSG1RS3laTlV1TkRWaV9XbXl2M19CS1VVdjU5dS02LURwYkpLdlNVSFNWQjdjbXY1enBwTmlTU3dyOGUzWnR2Y1dOWTFaenBaUE5LUDJRZV8tdGptWDk3?oc=5",
    "source": "CBC뉴스",
    "date": "2026-06-30"
-  },
-  {
-   "title": "Toyota Motor Corp (TM) 주식 움직였습니다 상승 3.35%에 6월15일: 전체 분석 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQcjlneG11ZVRZdVJMNjh3cmplWElhcm5nM3hDbTBmQ0ozd0tER2cyNm9YYnZUWllpQUdaTGJkRzlTTDVrOUNJLWN6OVhBMk9abkxld05FYkpSZDZFSlFxVnF6VWVZOU5aLTBHUWlISEJwZ0RRUDdXaEtIVmtNWExmNjVSV0YzUEx2WUFhVQ?oc=5",
-   "source": "TradingKey",
-   "date": "2026-06-15"
   }
  ],
  "Banco Santander SA": [
@@ -2134,16 +2128,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-01-09"
   },
   {
-   "title": "Samsung Electronics Co Ltd 오늘의 주가 | 005930 실시간 티커 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE96LWZrd05hQ2FHU2VfQno3SnM5aGVRRFVfb0lSZGFRWnRGLTQ1MUp6R2U0c2ZxT3h6cGJsYjhnY0o0ek1KOXpER1ZkUW9CR3BxdUtLdUNDNHlHa0tiNHA3cDdvSHZUZWRvSlZ2cA?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2017-01-09"
-  },
-  {
    "title": "[서치 e종목] 원익QnC, 쿼츠·세정 등 주력 사업 실적 개선세 뚜렷…주가 동력? - 데일리인베스트",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE42Vm5kVEdTbUJPVlJjbnRhdTZzMHQwam5NT2NiekdMQ0F4bUgzM196aGotcl83OWcyNVVqX1hOS2kyRGFkS25ScnRqbnd2aEhEV2F2UkhRaElyYTh2QThGUnhENFJuYlhxUUk40gFvQVVfeXFMTmJQY3JoT0hyNHBHcVNtZEUwOUwzYmFIcUR6MGs0OWpjRUI2UGdid0RwT0gzVTZUdHhRSXpnYUg2OVIzeF9FRW1BM2Z5RUpTMHR1RF9NeFpJVEZyN3RlMWdSa2ZDTDlBaXVGNmNzZ0xj?oc=5",
    "source": "데일리인베스트",
    "date": "2025-11-14"
+  },
+  {
+   "title": "“더 늦기 전에 올라타자”…개미들 일주일간 삼성전자 3조 폭풍 순매수 - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE94TG1VbE92dl9xbFFIbTRKWUpFYnJFeEphcUZPY2NSS0hvRF92eG01czBTNzdGbnFxSmZMbnFTSk5EOXJaeG9NRVY5WkN2TFpFUEE?oc=5",
+   "source": "매일경제",
+   "date": "2026-01-11"
   }
  ],
  "SK Hynix Inc": [
@@ -2154,8 +2148,8 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-01"
   },
   {
-   "title": "SK하이닉스 미국 ADR 상장 임박…SK스퀘어 재평가 기대 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1xdjBvUkNmbF9OMDNMNFFQdlBiMlJRRUE2TmlpYV83VTZvTFBlejZrV0JRei1adVAzcUNCeE42dVNsQThjRkk2XzRmbWduSEsyOTdCSmlpR2dkeVHSAWBBVV95cUxNSFBmY2o5ZkxhVk45VTNFZ2FkUjRIVTdBZnJOY3NfWktuMFRRTHl6elVENVRITl9ibzhieTJQdVRGX2dtR0x5S2NTQ0NJWEdrVnp0Q3VGTlV0N3dYZ3FLWDQ?oc=5",
+   "title": "IBK투자증권, SK하이닉스 목표가 180만원→400만원 상향 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5Hajdla1BYQk5XTTI2YkhZclB5MndtTGljdUFzTUlnNGl0ZjlpRmxlVFZsMlRfZ1kxajBoOXZnWjA1MVVQZDRmUEpPbFJCenRnMHE1aWtEZHdsVFHSAWBBVV95cUxNaURVVTZZOFJBYncxUG90UG9kTFcwSklZcHd4SHZqLWctc3ZKUUt4NDNsSjVUSWdMTEloUEkzQnI3dHFqcDhwQ09rTnlYOGRxd24zOEtuWWFQNDhpYUwyWlg?oc=5",
    "source": "연합뉴스",
    "date": "2026-07-01"
   },
