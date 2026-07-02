@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-02T10:12:50
+// 갱신: 2026-07-02T10:43:47
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -55,9 +55,9 @@ window.HOLDING_NEWS = {
  ],
  "KODEX AI전력핵심설비 ETF": [
   {
-   "title": "제룡전기(033100)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략 - 씽크풀 AI",
+   "title": "제룡전기(033100)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략 - ThinkPool",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5rVXoxRDBKaFczV3RoSlhYQjhKVm5zbmcyZDc0elJpbUJaU19EdHJTLS02emx6Y05QMzNMTXhPSW8tZmdHaTVJU2pKdGc3NVhQa25KNzNGQ1R3N3Jp?oc=5",
-   "source": "씽크풀 AI",
+   "source": "ThinkPool",
    "date": "2026-07-01"
   },
   {
@@ -185,16 +185,16 @@ window.HOLDING_NEWS = {
  ],
  "삼성 ESG 착한 책임투자": [
   {
-   "title": "[2026 ESG Awards] ‘국내 최초 SRI 펀드’ 신한자산운용, “ESG 투자 저변 확대” - 한스경제",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE03QjZES2NCZjFoUDlyNnpFNVBkNlp6cWhyQllrX21aSGxGOF85MmRpUmhRUkFOejJIdUpPbjlKaURjMEE4YUVha2VUQVk0ZG5Qa054X2xmNEtFMWZxeWRLanlOTXNibFQ2MTlJ0gFvQVVfeXFMTXNoQ0RBcVhpWE5ISUdSYzB4aXg4RmFvYWZBT1pTUGJFSEV5QlRGQ1lkWjloZFJKZklaWmNEZmF2VGRNcnR4QWVWa3hoTmZkV3BBak9uQURlWWJvYzJUOElpUUhPUDh1Sy1pMTl3RWw0?oc=5",
-   "source": "한스경제",
-   "date": "2026-06-22"
-  },
-  {
    "title": "한국 딜로이트 그룹, 사모펀드의 책임투자와 국내 사모펀드 ESG 추진 전략 제시 - Deloitte",
    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFByQ2xaTmtua0oyWEtrZG9ERFNyQW5oYjIwamMxTG9WWlB2WldSUU9NVWstRldkemhpRklta2NlOGh6NzdvWkFpWlRhRUs2QkpzVDJKZ0NRd1pZUlhvQjNDRWpOZG40bEJvTE8zT3NWZzFOSW9QanptLWRRNUNFdW8?oc=5",
    "source": "Deloitte",
    "date": "2026-03-26"
+  },
+  {
+   "title": "[2026 ESG Awards] ‘국내 최초 SRI 펀드’ 신한자산운용, “ESG 투자 저변 확대” - 한스경제",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE03QjZES2NCZjFoUDlyNnpFNVBkNlp6cWhyQllrX21aSGxGOF85MmRpUmhRUkFOejJIdUpPbjlKaURjMEE4YUVha2VUQVk0ZG5Qa054X2xmNEtFMWZxeWRLanlOTXNibFQ2MTlJ0gFvQVVfeXFMTXNoQ0RBcVhpWE5ISUdSYzB4aXg4RmFvYWZBT1pTUGJFSEV5QlRGQ1lkWjloZFJKZklaWmNEZmF2VGRNcnR4QWVWa3hoTmZkV3BBak9uQURlWWJvYzJUOElpUUhPUDh1Sy1pMTl3RWw0?oc=5",
+   "source": "한스경제",
+   "date": "2026-06-22"
   },
   {
    "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
@@ -341,10 +341,16 @@ window.HOLDING_NEWS = {
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9mT0ctREk4djBUMFB0dTA4YXI5TndwZlhGeVZ0ZHphU09WNWxBalh1a0NZXzlIRlNYTW90M1pqejBLQml3ZUg3SmkxYTg3Nnc2N0E?oc=5",
+   "title": "원자재 불장 찾아왔지만…품목별 시세 등락 심해 '사이클' 잘 올라타야 - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1tU0xOV1RveTQ4SUstQ1BaeHpSWDdiaTFtWXZpTF9nUkhtWHdQcG5TV0VXWnRvLWkyaS1ETXNMdUFKVzllSWEycVVHci05MzFESHc?oc=5",
    "source": "매일경제 마켓",
-   "date": "2026-05-14"
+   "date": "2026-03-15"
+  },
+  {
+   "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
+   "source": "아시아투데이",
+   "date": "2026-02-09"
   },
   {
    "title": "과열 신호가 깜빡인다?…증시 조정에 대비하는 법 [빈난새의 빈틈없이월가] - 한국경제",
@@ -357,12 +363,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5EWFFHNUdBcjFZUHBVZGpoMXAwWHQ1QU45aVhJU1M1dE0yb1F5UF9PUFNTMnhlTzdLMUxrTUE2VU1LR0Rta0NPa0ZQVGM4LW5SdWZnNmcxdUNuWlhGMlNuTmZDZHZuTzd1eTZwczdGR0tGazQ?oc=5",
    "source": "마켓인",
    "date": "2025-11-04"
-  },
-  {
-   "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
-   "source": "아시아투데이",
-   "date": "2026-02-09"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -483,16 +483,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-15"
   },
   {
-   "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - 글로벌이코노믹",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZVJXYXF5Qmg5SGNFQjhjZ3pZdkhSQzlYWHk0LTQ5akxrWFpYZGlZTGpZNkVWWm5Qd0JiMXMzajdVYXpRdHBOZ0F4dlM0eF9QMFhuaTFOQ1laSjljZV8zeDhxMlE4ZXRCLXJmTkZZRjZBUjlkcmxHdUl6aXFia1E5Zm5CcU9EeHRP?oc=5",
-   "source": "글로벌이코노믹",
-   "date": "2026-05-21"
-  },
-  {
    "title": "\"글로벌은 가치주인데…\" 한국 증시 '대형주 쏠림' 심화 - 프라임경제",
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1SSkVxS19nVko3eXNYalVvRVBRc29GU2w0VkRYUmFzbVZJbXBnZ09UVld6ME5DVXZQR3RsZzRocWRtMWZ2NzRFOTdwZHVHblFKczlRWWZtTDFfeFRnSmpLendCbw?oc=5",
    "source": "프라임경제",
    "date": "2026-03-03"
+  },
+  {
+   "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - 글로벌이코노믹",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZVJXYXF5Qmg5SGNFQjhjZ3pZdkhSQzlYWHk0LTQ5akxrWFpYZGlZTGpZNkVWWm5Qd0JiMXMzajdVYXpRdHBOZ0F4dlM0eF9QMFhuaTFOQ1laSjljZV8zeDhxMlE4ZXRCLXJmTkZZRjZBUjlkcmxHdUl6aXFia1E5Zm5CcU9EeHRP?oc=5",
+   "source": "글로벌이코노믹",
+   "date": "2026-05-21"
   }
  ],
  "Xtrackers DAX ETF (XDAX)": [
