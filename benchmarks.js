@@ -1,7 +1,7 @@
 // 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
-  "as_of": "2026-07-01",
+  "as_of": "2026-07-02",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -563,7 +563,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-01",
       "decimals": 2,
       "valuation": {
-        "pe": 9.32,
+        "pe": 9.28,
         "pb": 1.26,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1110,7 +1110,7 @@ window.BENCHMARKS = {
       "as_of": "2026-06-30",
       "decimals": 0,
       "valuation": {
-        "pe": 6.21,
+        "pe": 6.18,
         "pb": 2.1,
         "roe": null,
         "src": "EWY (top derived)",
@@ -4385,9 +4385,9 @@ window.BENCHMARKS = {
       "category": "아시아",
       "current": 70062.3203,
       "baseline": 50339.4805,
-      "mtd_baseline": 70062.3203,
+      "mtd_baseline": null,
       "ytd_pct": 39.1797,
-      "mtd_pct": 0.0,
+      "mtd_pct": null,
       "daily_pct": 0.8554,
       "as_of": "2026-06-30",
       "decimals": 0,
@@ -5477,13 +5477,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1548.61,
+      "current": 1553.1801,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 7.6987,
-      "mtd_pct": 0.4463,
-      "daily_pct": 0.4463,
-      "as_of": "2026-07-01",
+      "ytd_pct": 8.0165,
+      "mtd_pct": 0.7427,
+      "daily_pct": 0.2951,
+      "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5495,7 +5495,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-01",
           "2025-07-02",
           "2025-07-03",
           "2025-07-04",
@@ -5754,10 +5753,10 @@ window.BENCHMARKS = {
           "2026-06-26",
           "2026-06-29",
           "2026-06-30",
-          "2026-07-01"
+          "2026-07-01",
+          "2026-07-02"
         ],
         "values": [
-          1348.5,
           1355.59,
           1354.75,
           1357.1,
@@ -6016,7 +6015,8 @@ window.BENCHMARKS = {
           1546.48,
           1535.24,
           1541.73,
-          1548.61
+          1548.61,
+          1553.1801
         ]
       }
     },
