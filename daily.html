@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-27c";</script>
+<script>window.CODE_VERSION = "2026-06-27d";</script>
 <script>
   (function () {
     try {
@@ -612,6 +612,42 @@
   .tm-tile .tm-pct { font-weight:600; opacity:.92; }
   .tm-empty { color:var(--muted); font-size:12px; font-style:italic; padding:30px 0; text-align:center; }
 
+  /* ── 브리핑 카드 (장전/장마감후 시황) ── */
+  .bfc-hero { margin:6px 0 4px; }
+  .bfc-kicker { display:inline-block; font-size:11px; font-weight:800; color:var(--accent);
+    background:var(--accent-soft); padding:3px 11px; border-radius:20px; margin-bottom:11px; }
+  .bfc-h1 { font-size:25px; font-weight:800; line-height:1.22; letter-spacing:-.02em; margin:0 0 12px; color:var(--text); }
+  .bfc-h1 .l2 { color:var(--accent); display:block; }
+  .bfc-intro { font-size:13.5px; line-height:1.8; color:var(--text-soft); margin:0 0 18px; }
+  .bfc-snap { display:grid; grid-template-columns:1.15fr 2fr; gap:12px; margin-bottom:22px; }
+  .bfc-hi { border-radius:13px; padding:14px 16px; display:flex; flex-direction:column; justify-content:center; }
+  .bfc-hi.up { background:var(--pos-soft); border:1px solid #bbe7c8; }
+  .bfc-hi.down { background:var(--neg-soft); border:1px solid #f3c9c9; }
+  .bfc-hi .lbl { align-self:flex-start; font-size:11px; font-weight:800; background:var(--panel);
+    padding:2px 8px; border-radius:7px; margin-bottom:8px; }
+  .bfc-hi.up .lbl { color:var(--pos); } .bfc-hi.down .lbl { color:var(--neg); }
+  .bfc-hi .big { font-size:29px; font-weight:800; letter-spacing:-.02em; line-height:1; }
+  .bfc-hi .nm { font-size:12.5px; font-weight:700; margin-top:6px; }
+  .bfc-hi.up .big, .bfc-hi.up .nm { color:var(--pos); } .bfc-hi.down .big, .bfc-hi.down .nm { color:var(--neg); }
+  .bfc-mcards { display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:10px; }
+  .bfc-mc { background:var(--panel-soft); border:1px solid var(--border); border-radius:11px; padding:11px 12px; }
+  .bfc-mc .mn { font-size:11px; font-weight:700; color:var(--text-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bfc-mc .mv { font-size:18px; font-weight:800; letter-spacing:-.02em; margin-top:5px; }
+  .bfc-two { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  .bfc-seclbl { font-size:14px; font-weight:800; margin:0 0 12px; padding-left:9px; border-left:3px solid var(--accent); }
+  .bfc-knews { display:flex; flex-direction:column; gap:13px; }
+  .bfc-kn { display:flex; gap:9px; }
+  .bfc-kn .dot { width:8px; height:8px; border-radius:50%; margin-top:5px; flex-shrink:0; background:var(--muted); }
+  .bfc-kn .dot.up { background:var(--pos); } .bfc-kn .dot.down { background:var(--neg); }
+  .bfc-kn .kt { font-size:12.5px; font-weight:700; line-height:1.45; color:var(--text); }
+  .bfc-kn .kd { font-size:11.5px; line-height:1.55; color:var(--muted); margin-top:3px; }
+  .bfc-watch { display:flex; flex-direction:column; }
+  .bfc-wp { display:flex; gap:11px; padding:11px 0; border-top:1px solid var(--border); }
+  .bfc-wp:first-child { border-top:none; padding-top:2px; }
+  .bfc-wp .num { font-size:13px; font-weight:800; color:var(--accent); min-width:20px; }
+  .bfc-wp .wt { font-size:12.5px; font-weight:600; line-height:1.5; color:var(--text-soft); }
+  @media (max-width:720px){ .bfc-snap, .bfc-two { grid-template-columns:1fr; } }
+
   /* ── Sparkline SVG ── */
   .sparkline { display:block; width:100%; height:40px; }
   .sparkline-sm { display:block; width:80px; height:26px; flex-shrink:0; }
@@ -920,7 +956,8 @@ function makeSpark(data, opts) {
     us: {
       key: 'us',
       boxId: 'briefingBoxUs',
-      badge: '🗞 미국장 브리핑',
+      badge: '🌅 장전 브리핑',
+      phaseIcon: '🌅', phaseLabel: '장전 · 미국장 마감',
       defaultTitle: '글로벌 증시 동향',
       foot: '※ 미국장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)',
       selectFn: 'selectBriefingUs',
@@ -934,7 +971,8 @@ function makeSpark(data, opts) {
     asia: {
       key: 'asia',
       boxId: 'briefingBoxAsia',
-      badge: '🌏 아시아장 브리핑',
+      badge: '🌆 장마감후 브리핑',
+      phaseIcon: '🌆', phaseLabel: '장마감후 · 아시아 마감',
       defaultTitle: '아시아 증시 시황',
       foot: '※ 아시아장 마감 데이터·뉴스 기반 자동 작성 (투자 판단의 근거가 아님)',
       selectFn: 'selectBriefingAsia',
@@ -965,6 +1003,179 @@ function makeSpark(data, opts) {
     return list[0].generated_utc || list[0].as_of || '';
   }
 
+  /* ── 브리핑 → 카드 본문 파싱 헬퍼 ── */
+  // 인트로: '_' 로 시작하는 첫 내러티브 문단
+  function bfNarrative(sel) {
+    var paras = sel.paragraphs || [];
+    for (var i = 0; i < paras.length; i++) {
+      var t = String(paras[i] || '').trim();
+      if (t.charAt(0) === '_') return t.replace(/^_\s*/, '');
+    }
+    // 폴백: 인사말·통계·주석 아닌 첫 문단
+    for (var j = 0; j < paras.length; j++) {
+      var s = String(paras[j] || '').trim();
+      if (!s || /^[*※]/.test(s) || /^(안녕|감사|금일)/.test(s)) continue;
+      return s.replace(/^_\s*/, '');
+    }
+    return '';
+  }
+  // 등락 방향 (텍스트 기반)
+  function dirOfText(t) {
+    t = t || '';
+    var neg = /(하락|급락|약세|매도|부진|내림|우려|둔화|경고)/.test(t);
+    var pos = /(상승|급등|강세|매수|호조|반등|개선|기대)/.test(t);
+    if (neg && !pos) return 'down';
+    if (pos && !neg) return 'up';
+    return 'neu';
+  }
+  // 특정 지수명 뒤의 등락률(%)을 추출 (부호문자 △▽▼/±, 또는 하락/상승 단어로 방향 판정)
+  function pctAfter(text, key) {
+    var i = text.indexOf(key);
+    if (i < 0) return null;
+    var win = text.slice(i + key.length, i + key.length + 30);
+    var m = win.match(/([△▽▼▲+\-]?)\s*([0-9]+(?:\.[0-9]+)?)\s*%/);
+    if (!m) return null;
+    var val = parseFloat(m[2]);
+    var ctx = win.slice(0, m.index + m[0].length + 6);
+    var neg = /[△▽▼\-]/.test(m[1]) || /(하락|급락|약세|부진|내림)/.test(ctx);
+    var pos = /[▲+]/.test(m[1]) || /(상승|급등|강세|호조)/.test(ctx);
+    if (!neg && !pos) return null;   // 방향 불명이면 버림(오탐 방지)
+    return val * (neg ? -1 : 1);
+  }
+  // report·통계문단에서 주요 지수 등락 칩 추출
+  var BF_IDX = [
+    { keys: ['필라델피아 반도체', '필라델피아반도체', 'SOX'], label: '필라델피아 반도체' },
+    { keys: ['나스닥'], label: '나스닥' },
+    { keys: ['S&P500', 'S&P 500', 'S&P'], label: 'S&P 500' },
+    { keys: ['다우'], label: '다우' },
+    { keys: ['코스피'], label: '코스피' },
+    { keys: ['코스닥'], label: '코스닥' },
+    { keys: ['닛케이'], label: '닛케이' },
+    { keys: ['상해종합', '상해'], label: '상해종합' },
+    { keys: ['항셍'], label: '항셍' },
+    { keys: ['Euro Stoxx50', 'Euro Stoxx', '유로스톡스'], label: 'Euro Stoxx' },
+    { keys: ['DAX'], label: 'DAX' }
+  ];
+  function bfIdxChips(sel) {
+    var texts = [];
+    var rep = sel.report || {};
+    (rep.sections || []).forEach(function(s) {
+      (s.points || []).forEach(function(p) {
+        if (p.text) texts.push(p.text);
+        (p.subs || []).forEach(function(u) { texts.push(u); });
+      });
+    });
+    (sel.paragraphs || []).forEach(function(p) {
+      var t = String(p || '');
+      if (t.charAt(0) === '*') texts.push(t.replace(/^\*\s*/, ''));
+    });
+    var chips = [], seen = {};
+    BF_IDX.forEach(function(idx) {
+      if (seen[idx.label]) return;
+      for (var i = 0; i < texts.length; i++) {
+        for (var k = 0; k < idx.keys.length; k++) {
+          var v = pctAfter(texts[i], idx.keys[k]);
+          if (v != null) { chips.push({ name: idx.label, pct: v }); seen[idx.label] = 1; break; }
+        }
+        if (seen[idx.label]) break;
+      }
+    });
+    return chips;
+  }
+  // 핵심 뉴스: report.sections → {head, detail, dir}
+  function bfKeyNews(sel) {
+    var rep = sel.report || {};
+    return (rep.sections || []).slice(0, 6).map(function(s) {
+      var det = [];
+      (s.points || []).forEach(function(p) {
+        if (p.text) det.push(p.text);
+        (p.subs || []).forEach(function(u) { det.push(u); });
+      });
+      return { head: s.head || '', detail: det.slice(0, 2).join(' · '), dir: dirOfText(s.head + ' ' + det.join(' ')) };
+    }).filter(function(n) { return n.head; });
+  }
+  // 관전 포인트: 수치·종목이 담긴 구체 팩트 bullet 상위 4개
+  function bfWatchPoints(sel) {
+    var rep = sel.report || {}, items = [], seen = {};
+    (rep.sections || []).forEach(function(s) {
+      (s.points || []).forEach(function(p) {
+        [p.text].concat(p.subs || []).forEach(function(t) {
+          if (!t) return;
+          t = String(t).trim();
+          if (!/([0-9]+(?:\.[0-9]+)?\s*%|[A-Z]{2,}|급등|급락|강세|약세)/.test(t)) return;
+          var key = t.slice(0, 12);
+          if (seen[key]) return; seen[key] = 1;
+          items.push(t);
+        });
+      });
+    });
+    return items.slice(0, 4);
+  }
+
+  // 브리핑 카드 본문 (hero + snapshot + 핵심뉴스 + 관전포인트)
+  function renderBriefingBody(sel, feed) {
+    var html = '';
+    var head = (sel.report && (sel.report.headline || (sel.report.sections && sel.report.sections[0] && sel.report.sections[0].head))) || sel.title || '';
+    // 헤드라인 콤마 기준 2줄 분리(둘째줄 강조)
+    var h1;
+    var ci = head.indexOf(',');
+    if (ci > 4 && ci < head.length - 3) {
+      h1 = escHtml(head.slice(0, ci + 1)) + '<span class="l2">' + escHtml(head.slice(ci + 1).trim()) + '</span>';
+    } else { h1 = escHtml(head); }
+
+    html += '<div class="bfc-hero">';
+    html += '<span class="bfc-kicker">' + (feed.phaseIcon || '') + ' ' + escHtml(feed.phaseLabel || '') +
+      (sel.as_of ? ' · ' + sel.as_of : '') + '</span>';
+    html += '<h1 class="bfc-h1">' + h1 + '</h1>';
+    var intro = bfNarrative(sel);
+    if (intro) html += '<p class="bfc-intro">' + escHtml(intro) + '</p>';
+    html += '</div>';
+
+    // 스냅샷: 하이라이트(최대 절대등락) + 지수 카드
+    var chips = bfIdxChips(sel);
+    if (chips.length >= 2) {
+      var hi = chips.slice().sort(function(a, b){ return Math.abs(b.pct) - Math.abs(a.pct); })[0];
+      var rest = chips.filter(function(c){ return c.name !== hi.name; }).slice(0, 4);
+      html += '<div class="bfc-snap">';
+      html += '<div class="bfc-hi ' + (hi.pct < 0 ? 'down' : 'up') + '">' +
+        '<span class="lbl">오늘의 키 드라이버</span>' +
+        '<span class="big">' + fmtPct(hi.pct) + '</span>' +
+        '<span class="nm">' + escHtml(hi.name) + '</span>' +
+      '</div>';
+      html += '<div class="bfc-mcards">';
+      rest.forEach(function(c) {
+        html += '<div class="bfc-mc"><div class="mn">' + escHtml(c.name) + '</div>' +
+          '<div class="mv ' + colorClass(c.pct) + '">' + fmtPct(c.pct) + '</div></div>';
+      });
+      html += '</div></div>';
+    }
+
+    // 두 컬럼: 핵심 뉴스 · 관전 포인트
+    var news = bfKeyNews(sel), watch = bfWatchPoints(sel);
+    if (news.length || watch.length) {
+      html += '<div class="bfc-two">';
+      html += '<div><div class="bfc-seclbl">📰 핵심 뉴스</div><div class="bfc-knews">';
+      news.slice(0, 5).forEach(function(n) {
+        html += '<div class="bfc-kn"><span class="dot ' + n.dir + '"></span><div>' +
+          '<div class="kt">' + escHtml(n.head) + '</div>' +
+          (n.detail ? '<div class="kd">' + escHtml(n.detail) + '</div>' : '') +
+        '</div></div>';
+      });
+      html += '</div></div>';
+      html += '<div><div class="bfc-seclbl">📊 오늘의 관전 포인트</div><div class="bfc-watch">';
+      if (watch.length) {
+        watch.forEach(function(w, i) {
+          html += '<div class="bfc-wp"><span class="num">' + ('0' + (i + 1)).slice(-2) + '</span>' +
+            '<span class="wt">' + escHtml(w) + '</span></div>';
+        });
+      } else {
+        html += '<div class="bfc-wp"><span class="wt" style="color:var(--muted)">세부 지표 데이터가 없습니다.</span></div>';
+      }
+      html += '</div></div></div>';
+    }
+    return html;
+  }
+
   function renderBriefingFeed(feed) {
     var list = getBriefings(feed);
     if (!list.length) return '';
@@ -988,8 +1199,7 @@ function makeSpark(data, opts) {
 
     var html = '<div class="briefing-box" id="' + feed.boxId + '">';
     html += '<div class="bf-head">' +
-      '<span class="bf-badge">' + feed.badge + '</span>' +
-      '<span class="bf-title">' + escHtml(sel.title || feed.defaultTitle) + '</span>';
+      '<span class="bf-badge">' + feed.badge + '</span>';
     // 날짜별 시황: 캘린더 picker + 이전/다음 화살표 (1건뿐이어도 picker 노출, 화살표만 disabled)
     html += '<div class="bf-date-nav">';
     html += '<button type="button" class="bf-date-arrow" title="이전 브리핑"' +
@@ -1014,20 +1224,8 @@ function makeSpark(data, opts) {
       '✉️ 이메일 보내기</button>';
     html += '</div>';
 
-    (sel.paragraphs || []).forEach(function(p) {
-      var t = (p == null ? '' : String(p)).trim();
-      if (!t) return;
-      if (t.charAt(0) === '*') {
-        html += '<div class="bf-stat">' + escHtml(t.replace(/^\*\s*/, '')) + '</div>';
-      } else if (t.charAt(0) === '※') {
-        html += '<div class="bf-note">' + escHtml(t) + '</div>';
-      } else if (t === '안녕하십니까' || t === '감사합니다.' || t === '감사합니다' ||
-                 t === '금일 아시아 증시 시황 보고 드립니다.') {
-        html += '<p class="bf-greet">' + escHtml(t) + '</p>';
-      } else {
-        html += '<p class="bf-p">' + escHtml(t) + '</p>';
-      }
-    });
+    // 카드형 본문 (hero + 지수 스냅샷 + 핵심뉴스 + 관전포인트)
+    html += renderBriefingBody(sel, feed);
     var total = list.length;
     html += '<div class="commentary-foot">' + feed.foot +
       (total > 1 ? ' · 총 ' + total + '건 아카이브' : '') + '</div>';
@@ -1250,15 +1448,9 @@ function makeSpark(data, opts) {
     return name + '(' + ticker + ')';
   }
 
-  function renderOverview() {
-    var html = '';
-
-    // (시황 브리핑은 좌측 메뉴 '일간 시황'으로 이동 — 개요에서는 생략)
-    // 글로벌 시황 코멘트
-    html += renderOverviewCommentary();
-
-    // 개요 카드 (5개 지역)
-    html += '<div class="overview-grid">';
+  // 지역 지수 카드 그리드 (개요·장중 공용)
+  function renderRegionCards() {
+    var html = '<div class="overview-grid">';
     (D.regions || []).forEach(function(r) {
       var main = r.indices && r.indices[0];
       var chgPct = main ? main.chgPct : null;
@@ -1277,6 +1469,32 @@ function makeSpark(data, opts) {
         '</div>';
     });
     html += '</div>';
+    return html;
+  }
+
+  // 장중(실시간) 뷰 — 지수 스냅샷 + 트리맵 + 주요종목 등락
+  function renderIntraday() {
+    var html = '';
+    html += '<div class="bfc-hero" style="margin-bottom:14px">';
+    html += '<span class="bfc-kicker">📊 장중 · 실시간 스냅샷' + (D.as_of ? ' · ' + D.as_of : '') + '</span>';
+    html += '<h1 class="bfc-h1" style="font-size:22px">지금 시장,<span class="l2">지수·특징주 실시간</span></h1>';
+    html += '<p class="bfc-intro">각 국가 대표지수 등락과 주요 종목 흐름입니다. 대표지수(🗺)를 누르면 구성종목 히트맵이 열립니다.</p>';
+    html += '</div>';
+    html += renderRegionCards();
+    html += '<div id="treemapPanel" class="treemap-panel" style="display:none"></div>';
+    html += renderOverviewMovers();
+    return html;
+  }
+
+  function renderOverview() {
+    var html = '';
+
+    // (시황 브리핑은 좌측 메뉴 '일간 시황'으로 이동 — 개요에서는 생략)
+    // 글로벌 시황 코멘트
+    html += renderOverviewCommentary();
+
+    // 개요 카드 (5개 지역)
+    html += renderRegionCards();
 
     // 대표지수 클릭 시 펼쳐지는 finviz 스타일 트리맵 패널
     html += '<div id="treemapPanel" class="treemap-panel" style="display:none"></div>';
@@ -2025,8 +2243,9 @@ function makeSpark(data, opts) {
 
   function renderView(view) {
     if (view === 'overview') return renderOverview();
-    if (view === 'global')   return renderBriefingOnly('us');
-    if (view === 'asia')     return renderBriefingOnly('asia');
+    if (view === 'global')   return renderBriefingOnly('us');    // 장전
+    if (view === 'intraday') return renderIntraday();            // 장중
+    if (view === 'asia')     return renderBriefingOnly('asia');  // 장마감후
     if (view === 'weekly')   return renderWeekly();
     if (view.indexOf('region:') === 0) return renderRegion(view.slice(7));
     return '<div class="loading">알 수 없는 뷰입니다.</div>';
@@ -2067,11 +2286,14 @@ function makeSpark(data, opts) {
   sbHtml += '<div class="sb-section">' +
             '<div class="sb-label">일간 시황</div>' +
             '<div class="sb-item" data-view="global" onclick="switchView(\'global\')">' +
-            '<span class="sb-icon">🗞</span><span>글로벌</span>' +
+            '<span class="sb-icon">🌅</span><span>장전</span>' +
             (hasGlobal ? '' : '<span style="margin-left:auto;font-size:10px;color:var(--muted)">N/A</span>') +
             '</div>' +
+            '<div class="sb-item" data-view="intraday" onclick="switchView(\'intraday\')">' +
+            '<span class="sb-icon">📊</span><span>장중</span>' +
+            '</div>' +
             '<div class="sb-item" data-view="asia" onclick="switchView(\'asia\')">' +
-            '<span class="sb-icon">🌏</span><span>아시아</span>' +
+            '<span class="sb-icon">🌆</span><span>장마감후</span>' +
             (hasAsia ? '' : '<span style="margin-left:auto;font-size:10px;color:var(--muted)">N/A</span>') +
             '</div>' +
             '</div>';
