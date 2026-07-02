@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-02a";</script>
+<script>window.CODE_VERSION = "2026-07-02b";</script>
 <script>
   (function () {
     try {
@@ -2137,12 +2137,25 @@ function makeSpark(data, opts) {
   }
 
   /* ── 주간회의자료 렌더 ── */
+  // 주간회의 탭에 함께 게시할 일일 브리핑(아침 일일금융시장동향 + 아시아시황)
+  function renderWeeklyBriefings() {
+    var out = '';
+    if (getBriefings(BRIEFING_FEEDS.us).length)   out += renderBriefingFeed(BRIEFING_FEEDS.us);
+    if (getBriefings(BRIEFING_FEEDS.asia).length) out += renderBriefingFeed(BRIEFING_FEEDS.asia);
+    if (!out) return '';
+    return '<div class="section-label" style="margin-top:24px">🗞 일일 시황 브리핑</div>' +
+      '<div class="panel-hint" style="margin-bottom:14px">주간 회의용으로 <b>아침 일일금융시장동향</b>(미국장 마감)과 ' +
+      '<b>아시아시황</b>(아시아장 마감)을 함께 게시합니다. 각 카드에서 날짜 이동·Word 저장·이메일 발송이 가능합니다.</div>' +
+      out;
+  }
+
   function renderWeekly() {
     var W = window.WEEKLY;
     if (!W) {
       return '<div class="panel"><div class="panel-title">📋 주간회의자료</div>' +
              '<div class="panel-hint">weekly-data.js가 아직 생성되지 않았습니다. ' +
-             '<code>python weekly/weekly_report.py</code> 를 한 번 실행해 주세요.</div></div>';
+             '<code>python weekly/weekly_report.py</code> 를 한 번 실행해 주세요.</div></div>' +
+             renderWeeklyBriefings();
     }
     var html = '<div class="panel">';
     html += '<div class="panel-title">📋 ' + escHtml(W.title || '주간회의자료') + '</div>';
@@ -2294,6 +2307,8 @@ function makeSpark(data, opts) {
     html += '<div class="wk-note">※ 자동 생성된 주간회의자료 요약. 전체 자료는 OneDrive ' +
             escHtml(W.xlsx_folder) + ' 폴더의 ' + escHtml(W.xlsx_name) + ' 참조.</div>';
     html += '</div>';
+    // 주간 회의용 일일 브리핑(아침 일일금융시장동향 + 아시아시황) 함께 게시
+    html += renderWeeklyBriefings();
     return html;
   }
 
