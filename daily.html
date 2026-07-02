@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-06-27e";</script>
+<script>window.CODE_VERSION = "2026-07-02a";</script>
 <script>
   (function () {
     try {
@@ -1142,6 +1142,11 @@ function makeSpark(data, opts) {
   }
   // 관전 포인트: 수치·종목이 담긴 구체 팩트 bullet 상위 4개
   function bfWatchPoints(sel) {
+    // 진짜 전망: 브리핑이 생성한 outlook(앞을 내다보는 관전 포인트) 우선 사용.
+    if (sel.outlook && sel.outlook.length) {
+      return sel.outlook.filter(function(t){ return t && String(t).trim(); }).slice(0, 4);
+    }
+    // 폴백(구 브리핑 데이터): report 에서 핵심 라인 추출.
     var rep = sel.report || {}, items = [], seen = {};
     (rep.sections || []).forEach(function(s) {
       (s.points || []).forEach(function(p) {
