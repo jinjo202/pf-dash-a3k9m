@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-06-27a";</script>
+<script>window.CODE_VERSION = "2026-07-03a";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -46,6 +46,7 @@
     document.write('<script src="country-model.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="benchmarks.js?v=' + v + '" onerror="window.BENCHMARKS=window.BENCHMARKS||null"></scr' + 'ipt>');
     document.write('<script src="fm-data.js?v=' + v + '" onerror="window.FM_DATA=window.FM_DATA||null"></scr' + 'ipt>');
+    document.write('<script src="fm-cio.js?v=' + v + '" onerror="window.FM_CIO=window.FM_CIO||null"></scr' + 'ipt>');
     document.write('<script src="fm-financials.js?v=' + v + '" onerror="window.FM_FINANCIALS=window.FM_FINANCIALS||null"></scr' + 'ipt>');
   })();
 </script>
@@ -275,6 +276,22 @@
   .fac-date { font-size:11px; color:var(--muted); font-weight:600; margin-left:auto; }
   .fac-d { font-size:12px; color:var(--text-soft); margin-top:5px; line-height:1.5; }
   .fac-i { font-size:12.5px; color:var(--text); margin-top:5px; line-height:1.55; }
+
+  /* CIO 데일리 (자동 생성 — 사고 흐름) */
+  .cio-daily { border:1px solid var(--border); border-radius:10px; padding:13px 15px; margin-bottom:14px; background:var(--panel-soft); }
+  .cio-daily .dhl { font-size:15px; font-weight:800; line-height:1.45; }
+  .cio-daily .dmeta { font-size:11px; color:var(--muted); font-weight:600; margin-top:3px; }
+  .cio-daily .dpulse { font-size:13px; color:var(--text-soft); line-height:1.6; margin-top:8px; }
+  .cio-daily .dchg { font-size:12.5px; line-height:1.55; margin-top:7px; padding:7px 10px; border-radius:7px; background:var(--accent-soft); }
+  .chain-item { padding:8px 0; border-bottom:1px dashed var(--border); font-size:12.5px; line-height:1.55; }
+  .chain-item:last-child { border-bottom:none; }
+  .chain-item .ci-h { display:flex; align-items:baseline; gap:7px; flex-wrap:wrap; }
+  .chain-item .ci-h b { font-size:13px; }
+  .chain-item .ci-date { font-size:11px; color:var(--muted); font-weight:600; }
+  .chain-item .ci-read { color:var(--text-soft); margin-top:3px; }
+  .chain-item .ci-act { color:var(--text); margin-top:2px; }
+  .nat-badge { font-size:10.5px; font-weight:800; padding:1px 7px; border-radius:99px; border:1px solid var(--border); color:var(--muted); }
+  .cio-daily .dconc { font-size:13px; line-height:1.6; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -317,6 +334,7 @@
       </h2>
       <p class="hint" id="cioHint"></p>
       <div id="cioVol"></div>
+      <div id="cioDaily"></div>
       <div id="cioSections"></div>
       <div id="cioFactors"></div>
       <div id="cioAiOut" class="hidden"></div>
@@ -976,17 +994,74 @@ function renderCIO(){
     return '<div class="cio-sec '+s.cls+'"><div class="sh">'+s.sh+'</div><div class="sd">'+s.html+'</div></div>';
   }).join('');
 
+  // CIO 데일리(자동 생성)가 있으면 정량 산출부에 라벨을 붙여 구분
+  if (window.FM_CIO && FM_CIO.entries && FM_CIO.entries.length){
+    $('cioSections').innerHTML = '<div class="cio-sec-label">📐 정량 자동산출 (라이브 데이터 기반)</div>' + $('cioSections').innerHTML;
+  }
+
   var btn=$('cioAiBtn'); if(btn) btn.onclick=runCioAi;
+  renderCioDaily();
   renderRecentFactors();
 }
 
-// 최근 정성 요인 (큐레이션 시드) 렌더
+// CIO 데일리 — briefing/generate_cio.py 가 하루 2회 자동 생성(fm-cio.js)
+function renderCioDaily(){
+  var box=$('cioDaily'); if(!box) return;
+  var e=(window.FM_CIO&&FM_CIO.entries&&FM_CIO.entries[0])||null;
+  if(!e){ box.innerHTML=''; return; }
+  var dcls={pos:'b-pos',neg:'b-neg',watch:'b-neu'};
+  var natKo={technical:'기술적·수급',fundamental:'펀더멘털',mixed:'혼재'};
+  var slotKo=e.slot==='us_close'?'미국장 마감 반영':'아시아장 마감 반영';
+
+  var chainHtml=(e.chain||[]).map(function(c){
+    return '<div class="chain-item">'+
+      '<div class="ci-h"><span class="badge '+(dcls[c.verdict]||'b-neu')+'">'+esc(c.verdict==='pos'?'긍정':c.verdict==='neg'?'부정':'주시')+'</span>'+
+      '<span class="nat-badge">'+esc(natKo[c.nature]||c.nature||'')+'</span>'+
+      '<b>'+esc(c.issue||'')+'</b><span class="ci-date">'+esc(c.date||'')+'</span></div>'+
+      (c.read?'<div class="ci-read">'+esc(c.read)+'</div>':'')+
+      (c.action?'<div class="ci-act">→ '+esc(c.action)+'</div>':'')+
+    '</div>';
+  }).join('');
+
+  var p=e.positioning||{}, ew=p.equity_weight||{};
+  var ewCls=ew.stance==='확대'?'b-pos':(ew.stance==='축소'?'b-neg':'b-neu');
+  var trades=(p.trades||[]).map(function(t){
+    var tc=(t.action==='매수'||t.action==='확대')?'b-pos':((t.action==='매도'||t.action==='축소'||t.action==='헤지')?'b-neg':'b-neu');
+    return '<li><span class="badge '+tc+'">'+esc(t.action||'')+'</span> <b>'+esc(t.name||'')+'</b> '+(t.ticker?'<span class="ci-date">'+esc(t.ticker)+'</span> ':'')+'— '+esc(t.reason||'')+'</li>';
+  }).join('');
+  var posHtml='<div class="cio-sec neu" style="margin-top:12px"><div class="sh">포지셔닝 결론</div><div class="sd">'+
+    '<b>매크로</b> '+esc(p.macro_view||'')+'<br>'+
+    '<b>주식 비중</b> <span class="badge '+ewCls+'">'+esc(ew.stance||'')+'</span> '+esc(ew.text||'')+'<br>'+
+    '<b>국가</b> '+esc(p.country||'')+'<br>'+
+    '<b>섹터</b> '+esc(p.sector||'')+
+    (trades?'<ul style="margin:7px 0 0;padding-left:16px;line-height:1.6">'+trades+'</ul>':'')+
+  '</div></div>';
+
+  box.innerHTML='<div class="cio-daily">'+
+    '<div class="cio-sec-label" style="margin:0 0 8px">🧠 CIO 데일리 — 사고 흐름과 결론 <span style="font-weight:600;text-transform:none;letter-spacing:0">· 자동 생성</span></div>'+
+    '<div class="dhl">'+esc(e.headline||'')+'</div>'+
+    '<div class="dmeta">'+esc(e.as_of||'')+' · '+esc(slotKo)+'</div>'+
+    (e.market_pulse?'<div class="dpulse">'+esc(e.market_pulse)+'</div>':'')+
+    (e.changes?'<div class="dchg">🔄 <b>전일 대비</b> '+esc(e.changes)+'</div>':'')+
+    (chainHtml?'<div class="cio-sec-label" style="margin:12px 0 2px">이슈 체인 — 무엇이 무엇을 움직였나</div><div class="cio-chain">'+chainHtml+'</div>':'')+
+    posHtml+
+    (e.conclusion?'<div class="dconc"><b>종합 결론.</b> '+esc(e.conclusion)+'</div>':'')+
+  '</div>';
+}
+
+// 최근 정성 요인 — CIO 데일리(자동)가 있으면 그 factors 우선, 없으면 fm-data 시드
 function renderRecentFactors(){
-  var rf=(window.FM_DATA&&FM_DATA.recent_factors)||null;
   var box=$('cioFactors'); if(!box) return;
+  var cio=(window.FM_CIO&&FM_CIO.entries&&FM_CIO.entries[0])||null;
+  var rf, srcLabel;
+  if (cio && cio.factors && cio.factors.length){
+    rf={as_of:cio.as_of, items:cio.factors}; srcLabel='자동 갱신 (CIO 데일리)';
+  } else {
+    rf=(window.FM_DATA&&FM_DATA.recent_factors)||null; srcLabel='큐레이션';
+  }
   if (!rf || !rf.items || !rf.items.length){ box.innerHTML=''; return; }
   var dcls={pos:'b-pos',neg:'b-neg',watch:'b-neu'};
-  var head='<div class="cio-sec-label">🧩 최근 정성 요인 <span style="font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0">· '+esc(rf.as_of||'')+' 큐레이션</span></div>';
+  var head='<div class="cio-sec-label">🧩 최근 정성 요인 <span style="font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0">· '+esc(rf.as_of||'')+' '+esc(srcLabel)+'</span></div>';
   var html=rf.items.map(function(it){
     var aff=(it.affected&&it.affected.length)?(' '+it.affected.map(function(t){return '<span class="badge b-neu" style="font-weight:600">'+esc(t)+'</span>';}).join(' ')):'';
     return '<div class="fac-item '+(it.dir||'watch')+'">'+
@@ -1186,7 +1261,8 @@ function buildContext(){
     시드_지역뷰: (window.FM_DATA&&FM_DATA.regions)||null,
     시드_종목: (window.FM_DATA&&FM_DATA.stocks)||null,
     시드_테마: (window.FM_DATA&&FM_DATA.themes)||null,
-    시드_최근정성요인: (window.FM_DATA&&FM_DATA.recent_factors)||null
+    시드_최근정성요인: (window.FM_DATA&&FM_DATA.recent_factors)||null,
+    CIO데일리_최신: (window.FM_CIO&&FM_CIO.entries&&FM_CIO.entries[0])||null
   };
   return ctx;
 }

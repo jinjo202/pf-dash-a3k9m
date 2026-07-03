@@ -1,0 +1,76 @@
+name: FM CIO Daily
+
+on:
+  schedule:
+    # 하루 2회: 미국장 마감 반영(아침) + 아시아장 마감 반영(오후). KST=UTC+9.
+    # 각 슬롯 백업 1회 + --skip-if-current 멱등성 가드(무료 cron 지연 대비).
+    - cron: '20 23 * * 1-5'  # 08:20 KST (화~토) us_close 주력
+    - cron: '50 23 * * 1-5'  # 08:50 KST 백업
+    - cron: '20 7 * * 1-5'   # 16:20 KST (월~금) asia_close 주력
+    - cron: '50 7 * * 1-5'   # 16:50 KST 백업
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fm-cio
+  cancel-in-progress: false
+
+jobs:
+  cio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install anthropic
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Refresh market data (not committed)
+        run: |
+          python fetch_daily.py || true
+          python fetch_benchmarks.py || true
+
+      - name: Generate CIO daily (Claude Code, 구독 차감)
+        id: gen
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+        run: python briefing/generate_cio.py --skip-if-current
+
+      - name: Commit & push fm-cio.js
+        if: steps.gen.outputs.status == 'generated'
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -- daily-data.js benchmarks.js 2>/dev/null || true
+          git add fm-cio.js
+          if git diff --staged --quiet; then
+            echo "변경 없음."; exit 0
+          fi
+          git commit -m "fm-cio: ${{ steps.gen.outputs.as_of }} CIO 데일리 자동 갱신"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase origin/main && git push; then
+              echo "push 성공 (attempt $attempt)"; exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 5))
+          done
+          echo "::error::3회 시도 후 push 실패"; exit 1
