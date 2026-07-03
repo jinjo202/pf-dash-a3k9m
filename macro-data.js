@@ -472,17 +472,8 @@ window.MACRO = {
       "as_of": "2026-07-01"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-07-02",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "121.6조원 → 120.1조원 (2026-07-01 발표)",
-      "as_of": "2026-07-01"
-    }
-  ],
-  "generated": "2026-07-02T23:52:05Z",
+  "updates_today": [],
+  "generated": "2026-07-03T00:24:28Z",
   "regime": {
     "score": 18,
     "label": "비중확대 우위",
@@ -860,17 +851,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 25,
-        "fx": -58,
+        "fx": -62,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 9,
-        "m3": 36,
+        "m1": 7,
+        "m3": 35,
         "m12": 52
       },
-      "fx_val": 1551.81,
-      "fx_chg": -2.9,
+      "fx_val": 1545.58,
+      "fx_chg": -3.1,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -913,7 +904,7 @@ window.MACRO = {
         "m3": 1,
         "m12": 3
       },
-      "fx_val": 161.35,
+      "fx_val": 161.48,
       "fx_chg": -1.7,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -8602,7 +8593,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-02",
+      "as_of": "2026-07-03",
       "history": null
     },
     "eps_rev_us": {
@@ -8616,7 +8607,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.1%. 그래프=90일 경로.",
-      "as_of": "2026-07-02",
+      "as_of": "2026-07-03",
       "history": {
         "dates": [
           "90일전",
@@ -8645,7 +8636,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-02",
+      "as_of": "2026-07-03",
       "history": null
     },
     "eps_rev_kr": {
@@ -8659,7 +8650,7 @@ window.MACRO = {
       "signal": "둔화",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 둔화). 7일 +0.0%·90일 +2.1%. 그래프=90일 경로.",
-      "as_of": "2026-07-02",
+      "as_of": "2026-07-03",
       "history": {
         "dates": [
           "90일전",
@@ -17477,7 +17468,7 @@ window.MACRO = {
     ]
   },
   "earnings": {
-    "as_of": "2026-07-02",
+    "as_of": "2026-07-03",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -17503,10 +17494,10 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (20일 경과)",
+          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (21일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-06-12",
-          "days_old": 20,
+          "days_old": 21,
           "stale": true,
           "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
           "years": [
@@ -17584,10 +17575,10 @@ window.MACRO = {
         "n": 29,
         "annual": {
           "unit": "지수(2020=100, 컨센서스)",
-          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (32일 경과)",
+          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (33일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 32,
+          "days_old": 33,
           "stale": true,
           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. ※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
           "years": [
@@ -17665,10 +17656,10 @@ window.MACRO = {
         "n": 6,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (32일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (33일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 32,
+          "days_old": 33,
           "stale": true,
           "note": null,
           "years": [
@@ -17746,10 +17737,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (32일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (33일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 32,
+          "days_old": 33,
           "stale": true,
           "note": null,
           "years": [
@@ -17827,10 +17818,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (32일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (33일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 32,
+          "days_old": 33,
           "stale": true,
           "note": null,
           "years": [

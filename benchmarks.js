@@ -16,7 +16,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
-        "pe": 21.68,
+        "pe": 21.67,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -563,7 +563,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
-        "pe": 8.51,
+        "pe": 8.5,
         "pb": 1.25,
         "roe": null,
         "src": "EEM (top derived)",
@@ -6571,12 +6571,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 68.46,
+      "current": 68.47,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 19.2268,
-      "mtd_pct": -1.4964,
-      "daily_pct": -0.175,
+      "ytd_pct": 19.2442,
+      "mtd_pct": -1.482,
+      "daily_pct": -0.1604,
       "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
@@ -7110,7 +7110,7 @@ window.BENCHMARKS = {
           70.75,
           69.5,
           68.58,
-          68.46
+          68.47
         ]
       }
     },
