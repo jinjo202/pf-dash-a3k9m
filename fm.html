@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-03e";</script>
+<script>window.CODE_VERSION = "2026-07-04a";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -48,6 +48,7 @@
     document.write('<script src="fm-data.js?v=' + v + '" onerror="window.FM_DATA=window.FM_DATA||null"></scr' + 'ipt>');
     document.write('<script src="fm-cio.js?v=' + v + '" onerror="window.FM_CIO=window.FM_CIO||null"></scr' + 'ipt>');
     document.write('<script src="fm-financials.js?v=' + v + '" onerror="window.FM_FINANCIALS=window.FM_FINANCIALS||null"></scr' + 'ipt>');
+    document.write('<script src="fm-etf.js?v=' + v + '" onerror="window.FM_ETF=window.FM_ETF||null"></scr' + 'ipt>');
   })();
 </script>
 <style>
@@ -231,6 +232,13 @@
   .fin-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .fin-warn { font-size:12px; color:var(--warn-fg); background:var(--warn-bg); border:1px solid var(--warn-bd); border-radius:8px; padding:8px 11px; margin-top:8px; }
   .fin-note { font-size:11.5px; color:var(--muted); margin-top:10px; line-height:1.5; }
+  .etf-fact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; }
+  @media (max-width:520px){ .etf-fact-grid { grid-template-columns:1fr; } }
+  .etf-fact-item { border:1px solid var(--border); border-radius:9px; padding:9px 12px; background:var(--panel-soft); }
+  .etf-fact-item .fl { font-size:10.5px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.03em; }
+  .etf-fact-item .fv { font-size:15px; font-weight:800; margin-top:2px; }
+  .etf-fact-full { grid-column:1/-1; }
+  .etf-stale-warn { font-size:11.5px; color:var(--warn-fg); background:var(--warn-bg); border:1px solid var(--warn-bd); border-radius:8px; padding:7px 10px; margin-top:10px; }
   .est-range { font-size:11px; color:var(--muted); }
 
   .memo-list { margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
@@ -447,6 +455,12 @@
   <div id="finModal" class="fin-modal hidden">
     <div class="fin-backdrop" id="finBackdrop"></div>
     <div class="fin-box" id="finBox"></div>
+  </div>
+
+  <!-- ETF factsheet 모달 -->
+  <div id="etfModal" class="fin-modal hidden">
+    <div class="fin-backdrop" id="etfBackdrop"></div>
+    <div class="fin-box" id="etfBox" style="max-width:640px"></div>
   </div>
 </main>
 
@@ -768,7 +782,9 @@ function renderCountry(){
 function etfChips(etfs){
   if (!etfs||!etfs.length) return '';
   return '<div class="etf-chips">' + etfs.map(function(e){
-    return '<span class="etf-chip"><b class="ticker">'+esc(e.ticker)+'</b><span>'+esc(e.name)+'</span>'+
+    var hasFact = hasEtfFact(e.ticker);
+    return '<span class="etf-chip'+(hasFact?' clk':'')+'"'+(hasFact?' data-etf="'+esc(e.ticker)+'" title="클릭: ETF factsheet(AUM·보수·벤치마크 등)"':'')+'>'+
+      '<b class="ticker">'+esc(e.ticker)+(hasFact?' 📄':'')+'</b><span>'+esc(e.name)+'</span>'+
       (e.note?'<span style="margin-top:2px">'+esc(e.note)+'</span>':'')+'</span>';
   }).join('') + '</div>';
 }
@@ -833,8 +849,11 @@ function renderLongTerm(){
       var lab = p.name || p.ticker;
       var typ = p.type==='etf'?'ETF':'종목';
       var fin = (p.type!=='etf' && hasFinancials(p.ticker));
-      return '<span class="etf-chip'+(fin?' clk fin-link':'')+'"'+(fin?' data-fin="'+esc(p.ticker)+'" title="클릭: 재무"':'')+'>'+
-        '<b class="ticker">'+esc(p.ticker)+(fin?' 📊':'')+'</b><span>'+esc(lab)+' · '+typ+'</span></span>';
+      var fact = (p.type==='etf' && hasEtfFact(p.ticker));
+      var attr = fin ? ' data-fin="'+esc(p.ticker)+'" title="클릭: 재무"' : (fact ? ' data-etf="'+esc(p.ticker)+'" title="클릭: ETF factsheet"' : '');
+      var icon = fin ? ' 📊' : (fact ? ' 📄' : '');
+      return '<span class="etf-chip'+((fin||fact)?' clk':'')+'"'+attr+'>'+
+        '<b class="ticker">'+esc(p.ticker)+icon+'</b><span>'+esc(lab)+' · '+typ+'</span></span>';
     }).join('');
     tc += '<div class="card"><div class="ct"><span class="nm">'+esc(t.name)+'</span>'+
       '<span class="badge b-neu">'+esc(t.stage)+'</span></div>'+
@@ -1136,7 +1155,11 @@ function renderCioDaily(){
   var ewCls=ew.stance==='확대'?'b-pos':(ew.stance==='축소'?'b-neg':'b-neu');
   var trades=(p.trades||[]).map(function(t){
     var tc=(t.action==='매수'||t.action==='확대')?'b-pos':((t.action==='매도'||t.action==='축소'||t.action==='헤지')?'b-neg':'b-neu');
-    return '<li><span class="badge '+tc+'">'+esc(t.action||'')+'</span> <b>'+esc(t.name||'')+'</b> '+(t.ticker?'<span class="ci-date">'+esc(t.ticker)+'</span> ':'')+'— '+esc(t.reason||'')+'</li>';
+    var fact = t.ticker && hasEtfFact(t.ticker);
+    var tkHtml = t.ticker ? (fact
+      ? '<span class="ci-date clk" data-etf="'+esc(t.ticker)+'" title="클릭: ETF factsheet" style="cursor:pointer;text-decoration:underline dashed">'+esc(t.ticker)+' 📄</span> '
+      : '<span class="ci-date">'+esc(t.ticker)+'</span> ') : '';
+    return '<li><span class="badge '+tc+'">'+esc(t.action||'')+'</span> <b>'+esc(t.name||'')+'</b> '+tkHtml+'— '+esc(t.reason||'')+'</li>';
   }).join('');
   var techCharts=techMiniCharts();
   var techHtml=(e.technicals_read||techCharts)?('<div class="cio-sec neu" style="margin-top:12px"><div class="sh">기술적·수급·유동성 판독</div>'+
@@ -1344,13 +1367,62 @@ function openFinancials(ticker){
 }
 function closeFinancials(){ $('finModal').classList.add('hidden'); document.body.style.overflow = ''; }
 
-// 이벤트 위임: data-fin 클릭 → 모달
+/* ============================ ETF factsheet 모달 ============================ */
+function etfDB(){ return (window.FM_ETF && FM_ETF.data) || {}; }
+function hasEtfFact(ticker){ return !!etfDB()[ticker]; }
+
+function fmtAum(v, cur){
+  if (v==null) return '<span class="muted">—</span>';
+  if (cur==='KRW') return (v/1e12).toFixed(1)+'조원';
+  return v>=1e12 ? '$'+(v/1e12).toFixed(2)+'T' : '$'+(v/1e9).toFixed(2)+'B';
+}
+function fmtVol(v){ if (v==null) return '<span class="muted">—</span>'; return Math.round(v).toLocaleString('en-US')+' 주/일(평균)'; }
+function fmtShares(v){ if (v==null) return '<span class="muted">—</span>'; return Math.round(v).toLocaleString('en-US')+' 주'; }
+function fmtPrice(v, cur){ if (v==null) return '<span class="muted">—</span>'; return (cur==='KRW'?'₩':'$')+Number(v).toLocaleString('en-US',{maximumFractionDigits:2}); }
+
+function openEtfFactsheet(ticker){
+  var d = etfDB()[ticker];
+  if (!d) return;
+  var box = $('etfBox');
+  var items = [
+    {l:'현재가', v: fmtPrice(d.price, d.currency)},
+    {l:'전체 AUM (순자산총액)', v: fmtAum(d.aum, d.currency)},
+    {l:'평균 거래량', v: fmtVol(d.volume_avg)},
+    {l:'총보수 (연)', v: d.expense_ratio_pct!=null ? d.expense_ratio_pct.toFixed(2)+'%' : '<span class="muted">—</span>'},
+    {l:'발행주식수', v: fmtShares(d.shares_outstanding)},
+    {l:'상장(설정)일', v: d.inception_date || '<span class="muted">—</span>'},
+    {l:'운용사', v: d.issuer ? esc(d.issuer) : '<span class="muted">—</span>'},
+    {l:'분배 수익률', v: d.yield_pct!=null ? d.yield_pct.toFixed(2)+'%' : '<span class="muted">—</span>'}
+  ];
+  var grid = items.map(function(it){
+    return '<div class="etf-fact-item"><div class="fl">'+esc(it.l)+'</div><div class="fv">'+it.v+'</div></div>';
+  }).join('') + '<div class="etf-fact-item etf-fact-full"><div class="fl">추종 벤치마크</div><div class="fv" style="font-size:13px">'+
+    (d.benchmark ? esc(d.benchmark) : '<span class="muted">—</span>') + '</div></div>';
+  box.innerHTML =
+    '<div class="fin-head"><div>'+
+      '<div class="nm">'+esc(d.name)+' <span class="ticker" style="font-size:13px;color:var(--muted)">'+esc(d.ticker)+'</span></div>'+
+      '<div class="mt">ETF Factsheet · '+esc(d.market==='KR'?'국내상장':'해외상장')+' · 데이터 '+esc((window.FM_ETF&&FM_ETF.as_of)||'')+' · 출처 '+esc(d.source||'')+'</div>'+
+    '</div><button class="fin-close" id="etfCloseBtn" aria-label="닫기">✕</button></div>'+
+    '<div class="etf-fact-grid">'+grid+'</div>'+
+    (d.category ? '<div class="fin-note">카테고리: '+esc(d.category)+'</div>' : '')+
+    (d.stale ? '<div class="etf-stale-warn">⚠ 최신 수집 실패 — 이전 데이터 표시 중(참고용).</div>' : '')+
+    '<div class="fin-note">AUM·거래량·보수 등은 '+esc((window.FM_ETF&&FM_ETF.as_of)||'')+' 기준 수동 갱신 데이터입니다(<code>python fetch_etf_factsheet.py</code>). 매매 전 운용사 공식 factsheet로 재확인하세요.</div>';
+  $('etfModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  $('etfCloseBtn').addEventListener('click', closeEtfFactsheet);
+}
+function closeEtfFactsheet(){ $('etfModal').classList.add('hidden'); document.body.style.overflow = ''; }
+
+// 이벤트 위임: data-fin / data-etf 클릭 → 모달
 document.addEventListener('click', function(e){
   var el = e.target.closest && e.target.closest('[data-fin]');
   if (el){ openFinancials(el.getAttribute('data-fin')); return; }
+  var el2 = e.target.closest && e.target.closest('[data-etf]');
+  if (el2){ openEtfFactsheet(el2.getAttribute('data-etf')); return; }
 });
 document.getElementById('finBackdrop').addEventListener('click', closeFinancials);
-document.addEventListener('keydown', function(e){ if (e.key==='Escape') closeFinancials(); });
+document.getElementById('etfBackdrop').addEventListener('click', closeEtfFactsheet);
+document.addEventListener('keydown', function(e){ if (e.key==='Escape'){ closeFinancials(); closeEtfFactsheet(); } });
 
 /* ============================ 채팅 ============================ */
 var chatHistory = [];   // {role, content}
