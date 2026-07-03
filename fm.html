@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-03c";</script>
+<script>window.CODE_VERSION = "2026-07-03d";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -292,6 +292,15 @@
   .chain-item .ci-act { color:var(--text); margin-top:2px; }
   .nat-badge { font-size:10.5px; font-weight:800; padding:1px 7px; border-radius:99px; border:1px solid var(--border); color:var(--muted); }
   .cio-daily .dconc { font-size:13px; line-height:1.6; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+  .tech-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px; }
+  @media (max-width:900px){ .tech-grid { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .tech-grid { grid-template-columns:1fr; } }
+  .tech-card { border:1px solid var(--border); border-radius:9px; padding:9px 11px 8px; background:var(--panel); }
+  .tech-card .tc-h { display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px; margin-bottom:4px; }
+  .tech-card .tc-px { font-size:11.5px; color:var(--text-soft); font-variant-numeric:tabular-nums; }
+  .tech-card .tc-b { display:flex; gap:5px; flex-wrap:wrap; margin-top:6px; }
+  .tech-card .tc-b .badge { font-size:10px; padding:1px 6px; }
+  .tech-card .tc-d { font-size:10px; color:var(--muted); margin-top:5px; }
   .cio-debate { border:1px dashed var(--border); border-radius:9px; padding:9px 12px; background:var(--panel); }
   .deb-round { padding:7px 0; border-bottom:1px dashed var(--border); font-size:12.5px; line-height:1.55; }
   .deb-round:last-of-type { border-bottom:none; }
@@ -1009,6 +1018,72 @@ function renderCIO(){
   renderRecentFactors();
 }
 
+// 기술적 분석 미니차트 — BENCHMARKS history(약 260영업일)로 클라이언트 계산·SVG 렌더
+function techMiniCharts(){
+  if (!(window.BENCHMARKS&&BENCHMARKS.indices)) return '';
+  var WANT=['KOSPI','KOSDAQ','S&P 500','NASDAQ','필라델피아 반도체','VIX'];
+  var W=260, H=84, PAD=3, SHOW=120;
+  function ma(vals,n,i){ if(i+1<n) return null; var s=0; for(var k=i-n+1;k<=i;k++) s+=vals[k]; return s/n; }
+  function path(pts){
+    var d=''; for(var i=0;i<pts.length;i++){ if(pts[i][1]==null) continue; d+=(d?'L':'M')+pts[i][0].toFixed(1)+' '+pts[i][1].toFixed(1); }
+    return d;
+  }
+  var cards=[];
+  WANT.forEach(function(name){
+    var x=null;
+    for(var i=0;i<BENCHMARKS.indices.length;i++){ if(BENCHMARKS.indices[i].name===name){ x=BENCHMARKS.indices[i]; break; } }
+    if(!x||!x.history||!x.history.values) return;
+    var all=x.history.values.filter(function(v){return typeof v==='number';});
+    if(all.length<60) return;
+    var vals=all.slice(-SHOW);
+    var off=all.length-vals.length;
+    var m20=[], m60=[];
+    for(var i2=0;i2<vals.length;i2++){ m20.push(ma(all,20,off+i2)); m60.push(ma(all,60,off+i2)); }
+    var hi60=Math.max.apply(null,all.slice(-60));
+    var cur=vals[vals.length-1];
+    // RSI(14)
+    var g=0,l=0;
+    for(var k=all.length-14;k<all.length;k++){ var d0=all[k]-all[k-1]; if(d0>=0) g+=d0; else l-=d0; }
+    var rsi=l===0?100:Math.round((100-100/(1+g/l))*10)/10;
+    var ma20gap=(cur/ma(all,20,all.length-1)-1)*100;
+    var offHi=(cur/hi60-1)*100;
+    // y 스케일
+    var lo=Infinity, hi=-Infinity;
+    vals.concat(m20,m60).forEach(function(v){ if(v==null)return; if(v<lo)lo=v; if(v>hi)hi=v; });
+    if(hi60>hi) hi=hi60;
+    var span=(hi-lo)||1; lo-=span*.05; hi+=span*.05; span=hi-lo;
+    function X(i3){ return PAD+(W-2*PAD)*i3/(vals.length-1); }
+    function Y(v){ return H-PAD-(H-2*PAD)*(v-lo)/span; }
+    function pts(arr){ var o=[]; for(var i4=0;i4<arr.length;i4++) o.push([X(i4),arr[i4]==null?null:Y(arr[i4])]); return o; }
+    var hiY=Y(hi60).toFixed(1);
+    var dts=x.history.dates||[];
+    var d1=dts.length?String(dts[Math.max(0,dts.length-vals.length)]).slice(5):'';
+    var d2=dts.length?String(dts[dts.length-1]).slice(5):'';
+    var lineCol = name==='VIX'?'var(--warn-fg)':(x.daily_pct>=0?'var(--pos)':'var(--neg)');
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="width:100%;height:64px;display:block">'+
+      '<line x1="'+PAD+'" y1="'+hiY+'" x2="'+(W-PAD)+'" y2="'+hiY+'" stroke="var(--muted-soft)" stroke-dasharray="3 4" stroke-width="1" vector-effect="non-scaling-stroke"/>'+
+      '<path d="'+path(pts(m60))+'" fill="none" stroke="var(--muted-soft)" stroke-width="1.1" vector-effect="non-scaling-stroke"/>'+
+      '<path d="'+path(pts(m20))+'" fill="none" stroke="var(--accent)" stroke-width="1.1" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/>'+
+      '<path d="'+path(pts(vals))+'" fill="none" stroke="'+lineCol+'" stroke-width="1.7" vector-effect="non-scaling-stroke"/>'+
+      '<circle cx="'+X(vals.length-1).toFixed(1)+'" cy="'+Y(cur).toFixed(1)+'" r="2.4" fill="'+lineCol+'"/>'+
+    '</svg>';
+    function bd(txt,cls){ return '<span class="badge '+cls+'" style="font-weight:700">'+txt+'</span>'; }
+    var badges=[
+      bd('MA20 '+(ma20gap>=0?'+':'')+ma20gap.toFixed(1)+'%', ma20gap>=0?'b-pos':'b-neg'),
+      bd('고점比 '+offHi.toFixed(1)+'%', offHi>=-3?'b-pos':(offHi<=-10?'b-neg':'b-neu')),
+      bd('RSI '+rsi.toFixed(0)+(rsi>=70?' 과열':(rsi<=30?' 과매도':'')), rsi>=70?'b-neg':(rsi<=30?'b-pos':'b-neu'))
+    ].join(' ');
+    cards.push('<div class="tech-card">'+
+      '<div class="tc-h"><b>'+esc(name)+'</b><span class="tc-px">'+cur.toLocaleString(undefined,{maximumFractionDigits:(x.decimals!=null?x.decimals:0)})+' <span style="color:'+(x.daily_pct>=0?'var(--pos)':'var(--neg)')+'">'+sgn(x.daily_pct)+'</span></span></div>'+
+      svg+
+      '<div class="tc-b">'+badges+'</div>'+
+      '<div class="tc-d">'+esc(d1)+' ~ '+esc(d2)+' · <span style="color:var(--accent)">┅ MA20</span> <span style="color:var(--muted)">─ MA60 · ┄ 60일 고점</span></div>'+
+    '</div>');
+  });
+  if(!cards.length) return '';
+  return '<div class="tech-grid">'+cards.join('')+'</div>';
+}
+
 // CIO 데일리 — briefing/generate_cio.py 가 하루 2회 자동 생성(fm-cio.js)
 function renderCioDaily(){
   var box=$('cioDaily'); if(!box) return;
@@ -1034,7 +1109,11 @@ function renderCioDaily(){
     var tc=(t.action==='매수'||t.action==='확대')?'b-pos':((t.action==='매도'||t.action==='축소'||t.action==='헤지')?'b-neg':'b-neu');
     return '<li><span class="badge '+tc+'">'+esc(t.action||'')+'</span> <b>'+esc(t.name||'')+'</b> '+(t.ticker?'<span class="ci-date">'+esc(t.ticker)+'</span> ':'')+'— '+esc(t.reason||'')+'</li>';
   }).join('');
-  var techHtml=e.technicals_read?('<div class="cio-sec neu" style="margin-top:12px"><div class="sh">기술적·수급·유동성 판독</div><div class="sd">'+esc(e.technicals_read)+'</div></div>'):'';
+  var techCharts=techMiniCharts();
+  var techHtml=(e.technicals_read||techCharts)?('<div class="cio-sec neu" style="margin-top:12px"><div class="sh">기술적·수급·유동성 판독</div>'+
+    techCharts+
+    (e.technicals_read?'<div class="sd"'+(techCharts?' style="margin-top:8px"':'')+'>'+esc(e.technicals_read)+'</div>':'')+
+  '</div>'):'';
   var posHtml='<div class="cio-sec neu" style="margin-top:12px"><div class="sh">포지셔닝 결론 (ETF 실행 단위)</div><div class="sd">'+
     '<b>매크로</b> '+esc(p.macro_view||'')+'<br>'+
     '<b>주식 비중</b> <span class="badge '+ewCls+'">'+esc(ew.stance||'')+'</span> '+esc(ew.text||'')+'<br>'+
