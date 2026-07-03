@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-06-28a";</script>
+<script>window.CODE_VERSION = "2026-07-03a";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1422,6 +1422,65 @@
         ⚠️ 5/13 이후 거래(예: KoAct 바이오 5/18 매도 76.8억)는 portfolio 매입가에 자동 반영되지 않음 — 필요 시 알려주세요.
       </div>
     </div>
+
+    <!-- 시점 비교 패널 -->
+    <style>
+      #compareSection .cmp-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; margin:6px 0 14px; }
+      #compareSection .cmp-controls label { font-size:12px; font-weight:600; color:var(--text-soft); }
+      #compareSection input[type=date], #compareSection select, #compareSection input[type=number] {
+        font:inherit; font-size:13px; padding:5px 8px; border:1px solid var(--border);
+        border-radius:6px; background:var(--panel); color:var(--text); }
+      #compareSection input[type=number] { width:90px; }
+      #compareSection .cmp-preset, #compareSection #cmpSwap, #compareSection #cmpVtAdd {
+        font:inherit; font-size:12px; font-weight:600; padding:5px 10px; border:1px solid var(--border);
+        border-radius:6px; background:var(--panel-soft); color:var(--text-soft); cursor:pointer; }
+      #compareSection .cmp-preset:hover, #compareSection #cmpSwap:hover, #compareSection #cmpVtAdd:hover {
+        border-color:var(--accent); color:var(--accent); }
+      #compareSection .cmp-whatif-row { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--text-soft); }
+      #compareSection #cmpWhatifEditor { display:none; width:100%; margin-top:4px; padding:10px 12px;
+        background:var(--panel-soft); border:1px dashed var(--warn-bd); border-radius:8px; }
+      #compareSection #cmpWhatifEditor .row1 { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+      #compareSection #cmpVtList { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+      #compareSection .cmp-legend { display:flex; flex-wrap:wrap; gap:8px 20px; font-size:12.5px;
+        padding:9px 12px; background:var(--accent-soft); border-radius:8px; margin-bottom:14px; }
+      #compareSection .cmp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px; }
+      #compareSection .cmp-card { border:1px solid var(--border); border-radius:10px; padding:12px 14px; background:var(--panel); }
+      #compareSection .cmp-card h4 { margin:0 0 8px; font-size:13px; font-weight:700; letter-spacing:-.01em; }
+      #compareSection table.cmp-tbl { width:100%; border-collapse:collapse; font-size:12.5px; }
+      #compareSection table.cmp-tbl th { font-size:11px; color:var(--muted); font-weight:600; text-align:left;
+        padding:2px 6px; border-bottom:1px solid var(--border); }
+      #compareSection table.cmp-tbl td { padding:3px 6px; border-bottom:1px solid var(--row-alt); }
+      #compareSection .cmp-note { margin-top:8px; font-size:11px; color:var(--warn-fg); }
+    </style>
+    <div class="panel" id="compareSection" style="margin-top:16px">
+      <h3>📊 시점 비교 — 포트폴리오 성격 변화 (매매 전후)</h3>
+      <div class="cmp-controls">
+        <label>시점 A <input type="date" id="cmpDateA"></label>
+        <button id="cmpSwap" title="A↔B 교환">⇄</button>
+        <label>시점 B <input type="date" id="cmpDateB"></label>
+        <button class="cmp-preset" data-cmp-preset="ytd">연초→최신</button>
+        <button class="cmp-preset" data-cmp-preset="30d">약 1개월</button>
+        <button class="cmp-preset" data-cmp-preset="90d">약 3개월</button>
+        <span class="cmp-whatif-row">
+          <input type="checkbox" id="cmpWhatif"><label for="cmpWhatif" style="cursor:pointer">가상매매 시뮬레이션 (B에 적용)</label>
+        </span>
+        <div id="cmpWhatifEditor">
+          <div class="row1">
+            <select id="cmpVtName"></select>
+            <select id="cmpVtAction"><option value="매입">매입</option><option value="매도">매도</option></select>
+            <input type="number" id="cmpVtAmount" placeholder="금액(억)" min="0" step="1">
+            <button id="cmpVtAdd">+ 추가</button>
+          </div>
+          <div id="cmpVtList"></div>
+          <div class="cmp-note">기존 보유 종목의 시가를 가감해 비중·성격을 재계산합니다. 신규(미보유) 종목은 룩스루 메타가 없어 미지원.</div>
+        </div>
+      </div>
+      <div id="cmpBody"></div>
+      <div class="footer-note">
+        국가·섹터·팩터·사이즈 비중은 각 시점 <strong>as-of 시가가중</strong>(share-aware historical) · 위험지표는 <strong>[연초~해당일]</strong> 구간 기준.
+        매매 효과만 보려면 <strong>매매 직전일(A) vs 매매 후 날짜(B)</strong>를 고르세요(그 사이 시장변동도 함께 반영됨).
+      </div>
+    </div>
   </div>
 </main>
 
@@ -1656,9 +1715,14 @@ function computeRiskMetrics() {
   const bm = snapSlice(buildBenchmarkSeries());
   const dates = snapSlice(hist.dates);
   if (!pf || !bm || pf.length < 5) return null;
-
   // cashflow 제외한 일별 수익률 (TWR-style) — 거래일을 영업일로 snap
   const cfByDate = buildCashflowByDate(portfolioData.trades, null, dates);
+  return _riskFromSeries(pf, bm, dates, cfByDate);
+}
+
+// 임의의 (pf, bm, dates, cashflow) 시계열에서 위험·수익 메트릭 계산 (시점비교 탭에서도 재사용).
+function _riskFromSeries(pf, bm, dates, cfByDate) {
+  if (!pf || !bm || pf.length < 5) return null;
 
   const N = pf.length;
   const pr = [], br = [], er = [];
@@ -1718,6 +1782,327 @@ function computeRiskMetrics() {
     beta, alphaJ, r2, sharpe, sharpeBm,
     volP, volB, trackErr, ir, mddP, mddB,
   };
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   시점 비교 (Point-in-time comparison) 모듈
+   두 시점(A·B)의 포트폴리오 성격을 나란히 비교 + 델타.
+   - 국가/섹터/팩터/사이즈 비중: 각 시점 as-of 시가가중 (share-aware historical)
+   - 위험지표(변동성/샤프/베타/α/IR/추적오차/MDD): [연초~해당일] 구간
+   - 시점 B에 '가상매매'를 적용해 what-if 시뮬레이션 가능 (위험지표는 가중 소급 근사)
+   기존 전역(snapshotDate/viewHoldings)을 건드리지 않는 순수 계산.
+   ═══════════════════════════════════════════════════════════════════ */
+let cmpVTrades = [];      // 가상매매 목록 [{name, action, amount}]
+let _cmpInited = false;
+
+// 날짜 문자열 → historical 인덱스 (as-of floor). null/최신 → 마지막.
+function histIndexAsOf(dateStr) {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.dates || !hist.dates.length) return 0;
+  const dates = hist.dates;
+  if (!dateStr || dateStr >= hist.to) return dates.length - 1;
+  let idx = dates.indexOf(dateStr);
+  if (idx < 0) {
+    for (let i = dates.length - 1; i >= 0; i--) {
+      if (dates[i] <= dateStr) { idx = i; break; }
+    }
+    if (idx < 0) idx = 0;
+  }
+  return idx;
+}
+
+// 특정 인덱스 시점의 보유배열 (mkt=as-of, w 재계산). 최신이면 allHoldings의 broker mkt 사용.
+function holdingsAtIndex(idx, isLatest) {
+  const hist = portfolioData && portfolioData.historical;
+  const out = (allHoldings || []).map(h => {
+    let mktAt;
+    if (isLatest) {
+      mktAt = h.mkt || 0;
+    } else {
+      const s = hist && hist.holdings_mkt && hist.holdings_mkt[h.name];
+      mktAt = (s && idx < s.length && s[idx] != null) ? s[idx] : (h.mkt || 0);
+    }
+    return { ...h, mkt: mktAt };
+  });
+  const tot = out.reduce((s, x) => s + (x.mkt || 0), 0);
+  if (tot > 0) out.forEach(h => { h.w = (h.mkt || 0) / tot; });
+  return out;
+}
+
+// 가상매매를 보유배열에 적용 (기존 종목의 시가 가감). 신규 종목은 룩스루 메타가 없어 미지원.
+function applyVirtualTrades(holdings, vtrades) {
+  if (!vtrades || !vtrades.length) return holdings;
+  const out = holdings.map(h => ({ ...h }));
+  const byName = {}; out.forEach(h => { byName[h.name] = h; });
+  for (const t of vtrades) {
+    const h = byName[t.name]; if (!h) continue;
+    if (t.action === '매입') h.mkt = (h.mkt || 0) + t.amount;
+    else h.mkt = Math.max(0, (h.mkt || 0) - t.amount);
+  }
+  const tot = out.reduce((s, x) => s + (x.mkt || 0), 0);
+  if (tot > 0) out.forEach(h => { h.w = (h.mkt || 0) / tot; });
+  return out;
+}
+
+// dim 집계 (순수). dim: 'country'|'size'|'factor' → lookthrough[dim], 'sector' → sector_exposure.
+function aggDim(holdings, dim) {
+  const isSector = dim === 'sector';
+  const out = new Map(); let total = 0;
+  for (const h of holdings) {
+    const mkt = h.mkt; if (!mkt || mkt <= 0) continue;
+    const lt = isSector ? h.sector_exposure : (h.lookthrough && h.lookthrough[dim]);
+    if (!lt) continue;
+    total += mkt;
+    for (const k in lt) out.set(k, (out.get(k) || 0) + mkt * lt[k]);
+  }
+  const rows = [...out.entries()].map(([k, v]) => ({ key: k, mkt: v, pct: total > 0 ? v / total * 100 : 0 }));
+  rows.sort((a, b) => b.mkt - a.mkt);
+  return { rows, total };
+}
+
+// 종목별 historical 시리즈의 일별수익률을 주어진 비중으로 가중 → 합성 포트폴리오 지수(base 100).
+// what-if(가상 비중) 위험지표용. "이 비중을 연초부터 들고 있었다면"의 소급 backtest.
+function buildWeightedSeries(holdings, endIdx) {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.holdings_mkt) return null;
+  const N = endIdx + 1;
+  const dates = hist.dates.slice(0, N);
+  const totMkt = holdings.reduce((s, h) => s + (h.mkt || 0), 0);
+  if (totMkt <= 0) return null;
+  // 종목별: (시가변화 − 현금흐름)/전일시가 = 순수 가격수익률(TWR). holdings_mkt엔 매수현금흐름이
+  // 섞여 있어 cashflow를 빼지 않으면 매입일에 가짜 급등이 생겨 변동성이 폭발한다(Brinson과 동일 처리).
+  const parts = holdings
+    .filter(h => (h.mkt || 0) > 0 && hist.holdings_mkt[h.name])
+    .map(h => ({
+      w: (h.mkt || 0) / totMkt,
+      s: hist.holdings_mkt[h.name],
+      cf: buildCashflowByDate(portfolioData.trades, h.isin, dates),
+    }));
+  if (!parts.length) return null;
+  const values = new Array(N); values[0] = 100; let cum = 100;
+  for (let i = 1; i < N; i++) {
+    let r = 0, wsum = 0;
+    for (const p of parts) {
+      const a = (i < p.s.length) ? p.s[i] : null, b = (i - 1 < p.s.length) ? p.s[i - 1] : null;
+      if (a != null && b != null && b > 0.01) {
+        const cf = (p.cf && p.cf[dates[i]]) || 0;
+        r += p.w * ((a - cf) / b - 1); wsum += p.w;
+      }
+    }
+    if (wsum > 0) r = r / wsum;   // 누락(미존재) 종목 비중 renormalize
+    cum *= (1 + r); values[i] = cum;
+  }
+  return values;
+}
+
+// 한 시점의 성격 프로파일 산출.
+//   forceWeighted=true 이면 위험지표를 '해당 비중을 연초부터 보유' 가정의 가중 소급모델로 계산.
+//   what-if 모드에서는 A·B 양쪽 모두 이 모델로 계산해 상호 일관성을 유지한다(그렇지 않으면
+//   A=실제TWR vs B=소급 backtest가 되어 방식 불일치로 비교가 왜곡됨).
+function buildProfile(dateStr, vtrades, forceWeighted) {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist) return null;
+  const isLatest = !dateStr || dateStr >= hist.to;
+  const idx = histIndexAsOf(dateStr);
+  let holdings = holdingsAtIndex(idx, isLatest);
+  const whatif = !!(vtrades && vtrades.length);
+  if (whatif) holdings = applyVirtualTrades(holdings, vtrades);
+  const total = holdings.reduce((s, h) => s + (h.mkt || 0), 0);
+  const nHold = holdings.filter(h => (h.mkt || 0) > 0).length;
+  const dims = {
+    country: aggDim(holdings, 'country').rows,
+    sector:  aggDim(holdings, 'sector').rows,
+    factor:  aggDim(holdings, 'factor').rows,
+    size:    aggDim(holdings, 'size').rows,
+  };
+  const dates = hist.dates.slice(0, idx + 1);
+  const bm = (buildBenchmarkSeries() || []).slice(0, idx + 1);
+  const useWeighted = whatif || forceWeighted;
+  let risk;
+  if (useWeighted) {
+    const pf = buildWeightedSeries(holdings, idx);
+    risk = pf ? _riskFromSeries(pf, bm, dates, {}) : null;
+    if (risk) risk._approx = true;
+  } else {
+    const pf = hist.portfolio_total.slice(0, idx + 1);
+    const cf = buildCashflowByDate(portfolioData.trades, null, dates);
+    risk = _riskFromSeries(pf, bm, dates, cf);
+  }
+  return { date: hist.dates[idx], isLatest, total, nHold, dims, risk, whatif, weighted: useWeighted };
+}
+
+// ── 렌더링 ──────────────────────────────────────────────────────────
+function initCompare() {
+  if (_cmpInited) return;
+  const hist = portfolioData && portfolioData.historical;
+  const aEl = document.getElementById('cmpDateA');
+  const bEl = document.getElementById('cmpDateB');
+  if (!hist || !aEl || !bEl) return;
+  _cmpInited = true;
+  aEl.min = bEl.min = hist.from; aEl.max = bEl.max = hist.to;
+  // 기본: 약 3개월 전 → 최신 (두 시점 모두 위험지표가 채워지도록). 연초 비교는 프리셋 사용.
+  aEl.value = (hist.dates && hist.dates.length) ? hist.dates[Math.max(0, hist.dates.length - 63)] : hist.from;
+  bEl.value = hist.to;           // 기본: 최신
+  const rerun = () => renderCompare();
+  aEl.addEventListener('change', rerun);
+  bEl.addEventListener('change', rerun);
+  // 프리셋
+  document.querySelectorAll('#compareSection [data-cmp-preset]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.getAttribute('data-cmp-preset');
+      const dates = hist.dates;
+      if (p === 'ytd') { aEl.value = hist.from; bEl.value = hist.to; }
+      else if (p === '30d') { aEl.value = dates[Math.max(0, dates.length - 22)]; bEl.value = hist.to; }
+      else if (p === '90d') { aEl.value = dates[Math.max(0, dates.length - 63)]; bEl.value = hist.to; }
+      renderCompare();
+    });
+  });
+  // 스왑
+  const sw = document.getElementById('cmpSwap');
+  if (sw) sw.addEventListener('click', () => { const t = aEl.value; aEl.value = bEl.value; bEl.value = t; renderCompare(); });
+  // 가상매매 토글/에디터
+  const chk = document.getElementById('cmpWhatif');
+  const ed = document.getElementById('cmpWhatifEditor');
+  if (chk && ed) {
+    chk.addEventListener('change', () => { ed.style.display = chk.checked ? 'block' : 'none'; renderCompare(); });
+    const sel = document.getElementById('cmpVtName');
+    if (sel) {
+      const opts = (allHoldings || []).slice().sort((a, b) => (b.mkt || 0) - (a.mkt || 0))
+        .map(h => `<option value="${escAttr(h.name)}">${escHtml(h.name)}</option>`).join('');
+      sel.innerHTML = opts;
+    }
+    const addBtn = document.getElementById('cmpVtAdd');
+    if (addBtn) addBtn.addEventListener('click', () => {
+      const name = document.getElementById('cmpVtName').value;
+      const action = document.getElementById('cmpVtAction').value;
+      const amt = parseFloat(document.getElementById('cmpVtAmount').value);
+      if (!name || !amt || amt <= 0) return;
+      cmpVTrades.push({ name, action, amount: amt });
+      document.getElementById('cmpVtAmount').value = '';
+      renderVtList(); renderCompare();
+    });
+  }
+  renderCompare();
+}
+
+function renderVtList() {
+  const wrap = document.getElementById('cmpVtList');
+  if (!wrap) return;
+  if (!cmpVTrades.length) { wrap.innerHTML = '<span style="color:var(--muted);font-size:12px">추가된 가상매매 없음</span>'; return; }
+  wrap.innerHTML = cmpVTrades.map((t, i) =>
+    `<span class="chip" style="cursor:default">${escHtml(t.name)} · ${t.action} ${fmt(t.amount, 1)}억 <b data-vt-del="${i}" style="cursor:pointer;color:var(--neg);margin-left:4px">✕</b></span>`
+  ).join('');
+  wrap.querySelectorAll('[data-vt-del]').forEach(b => b.addEventListener('click', () => {
+    cmpVTrades.splice(+b.getAttribute('data-vt-del'), 1); renderVtList(); renderCompare();
+  }));
+}
+
+function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])); }
+function escAttr(s) { return escHtml(s).replace(/"/g, '&quot;'); }
+
+// dim 비교 표 HTML
+function cmpDimTable(rowsA, rowsB, nameMap, unit) {
+  const map = new Map();
+  (rowsA || []).forEach(r => map.set(r.key, { a: r.pct, b: 0 }));
+  (rowsB || []).forEach(r => { const e = map.get(r.key) || { a: 0, b: 0 }; e.b = r.pct; map.set(r.key, e); });
+  const arr = [...map.entries()].map(([k, v]) => ({ k, a: v.a || 0, b: v.b || 0, d: (v.b || 0) - (v.a || 0) }));
+  arr.sort((x, y) => Math.max(y.a, y.b) - Math.max(x.a, x.b));
+  const maxv = Math.max(1, ...arr.map(r => Math.max(r.a, r.b)));
+  const dCell = d => {
+    if (Math.abs(d) < 0.05) return '<span style="color:var(--muted)">·</span>';
+    const c = d > 0 ? 'var(--pos)' : 'var(--neg)';
+    return `<span style="color:${c};font-weight:700">${d > 0 ? '▲' : '▼'}${fmt(Math.abs(d), 1)}</span>`;
+  };
+  const rows = arr.map(r => {
+    const label = (nameMap && nameMap[r.k]) ? nameMap[r.k] : r.k;
+    const barA = `<span style="display:inline-block;height:7px;width:${(r.a / maxv * 100).toFixed(1)}%;background:#94a3b8;border-radius:2px;vertical-align:middle"></span>`;
+    const barB = `<span style="display:inline-block;height:7px;width:${(r.b / maxv * 100).toFixed(1)}%;background:var(--accent);border-radius:2px;vertical-align:middle"></span>`;
+    return `<tr>
+      <td style="white-space:nowrap">${escHtml(label)}</td>
+      <td style="text-align:right;color:var(--muted)">${fmt(r.a, 1)}%</td>
+      <td style="width:26%">${barA}</td>
+      <td style="text-align:right;font-weight:600">${fmt(r.b, 1)}%</td>
+      <td style="width:26%">${barB}</td>
+      <td style="text-align:right;white-space:nowrap">${dCell(r.d)}</td>
+    </tr>`;
+  }).join('');
+  return `<table class="cmp-tbl"><thead><tr>
+      <th>${unit}</th><th style="text-align:right">A</th><th></th>
+      <th style="text-align:right">B</th><th></th><th style="text-align:right">Δ</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+// 위험지표 비교 표
+function cmpRiskTable(rA, rB) {
+  if (!rA && !rB) return '<div style="color:var(--muted);padding:8px">위험지표 데이터 부족</div>';
+  const g = (o, k) => (o && o[k] != null && !isNaN(o[k])) ? o[k] : null;
+  const rowsDef = [
+    ['변동성 (연, %)', 'volP', 2, false],
+    ['샤프비율 (PF)', 'sharpe', 2, false],
+    ['β (베타)', 'beta', 3, false],
+    ['α (Jensen, 연 %)', 'alphaJ', 2, true],
+    ['정보비율 (IR)', 'ir', 2, true],
+    ['추적오차 (연, %)', 'trackErr', 2, false],
+    ['포트폴리오 MDD (%)', 'mddP', 2, true],
+    ['YTD 수익 (%)', 'pfYtd', 2, true],
+  ];
+  const fmtV = (v, d, pct) => v == null ? '-' : (pct && v >= 0 ? '+' : '') + fmt(v, d) + '';
+  const body = rowsDef.map(([label, key, d, signed]) => {
+    const a = g(rA, key), b = g(rB, key);
+    const delta = (a != null && b != null) ? b - a : null;
+    let dHtml = '<span style="color:var(--muted)">·</span>';
+    if (delta != null && Math.abs(delta) >= (d >= 3 ? 0.005 : 0.01)) {
+      const good = signed ? delta > 0 : null; // 방향성 있는 지표만 색 (증가=녹색). 변동성 등은 중립.
+      const c = good == null ? 'var(--text-soft)' : (good ? 'var(--pos)' : 'var(--neg)');
+      dHtml = `<span style="color:${c};font-weight:700">${delta > 0 ? '+' : ''}${fmt(delta, d)}</span>`;
+    }
+    return `<tr><td>${label}</td>
+      <td style="text-align:right;color:var(--muted)">${fmtV(a, d, signed)}</td>
+      <td style="text-align:right;font-weight:600">${fmtV(b, d, signed)}</td>
+      <td style="text-align:right">${dHtml}</td></tr>`;
+  }).join('');
+  return `<table class="cmp-tbl"><thead><tr><th>위험·수익</th>
+      <th style="text-align:right">A</th><th style="text-align:right">B</th><th style="text-align:right">Δ</th>
+    </tr></thead><tbody>${body}</tbody></table>`;
+}
+
+function renderCompare() {
+  const body = document.getElementById('cmpBody');
+  if (!body) return;
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist) { body.innerHTML = '<div style="color:var(--muted);padding:8px">데이터 없음</div>'; return; }
+  const aEl = document.getElementById('cmpDateA');
+  const bEl = document.getElementById('cmpDateB');
+  const whatifOn = !!(document.getElementById('cmpWhatif') && document.getElementById('cmpWhatif').checked);
+  const vt = whatifOn ? cmpVTrades : [];
+  // what-if 모드면 A·B 모두 가중 소급모델로(방식 일관성). 평상시엔 실제 TWR.
+  const pA = buildProfile(aEl.value, [], whatifOn);
+  const pB = buildProfile(bEl.value, vt, whatifOn);
+  if (!pA || !pB) { body.innerHTML = '<div style="color:var(--muted);padding:8px">계산 불가</div>'; return; }
+
+  const bLabelTag = pB.whatif
+    ? `<span style="color:var(--warn-fg);background:var(--warn-bg);border:1px solid var(--warn-bd);padding:1px 6px;border-radius:4px;font-size:11px;font-weight:700;margin-left:6px">가상매매 적용</span>`
+    : '';
+  const totD = pB.total - pA.total;
+  const summary = `
+    <div class="cmp-legend">
+      <span><b style="color:var(--muted)">A</b> = ${escHtml(pA.date)} (평가액 ${fmtAmtBig(pA.total)} · ${pA.nHold}종목)</span>
+      <span><b style="color:var(--accent)">B</b> = ${escHtml(pB.date)}${bLabelTag} (평가액 ${fmtAmtBig(pB.total)} · ${pB.nHold}종목)</span>
+      <span>총평가액 Δ <b class="${cls(totD)}">${(totD >= 0 ? '+' : '') + fmtAmtBig(totD)}</b></span>
+    </div>`;
+
+  const grid = `
+    <div class="cmp-grid">
+      <div class="cmp-card"><h4>⚖️ 위험·수익 지표${pA.weighted ? ' <span style="font-weight:600;color:var(--warn-fg)">(가상 비중 소급 모델)</span>' : ''}</h4>${cmpRiskTable(pA.risk, pB.risk)}
+        ${pA.weighted ? '<div class="cmp-note">※ 가상매매 모드에서는 <b>A·B 모두</b> 「해당 비중을 연초부터 보유」 가정의 소급 추정으로 계산해 상호 비교가 일관되게 맞췄습니다. 실제 실현 위험은 무거래(체크 해제) 모드의 값을 보세요.</div>' : ''}
+      </div>
+      <div class="cmp-card"><h4>🌍 국가 비중</h4>${cmpDimTable(pA.dims.country, pB.dims.country, window.COUNTRY_NAMES, '국가')}</div>
+      <div class="cmp-card"><h4>🏭 섹터 비중</h4>${cmpDimTable(pA.dims.sector, pB.dims.sector, window.SECTOR_NAMES || null, '섹터')}</div>
+      <div class="cmp-card"><h4>🎯 팩터 비중</h4>${cmpDimTable(pA.dims.factor, pB.dims.factor, window.FACTOR_NAMES, '팩터')}</div>
+      <div class="cmp-card"><h4>📐 사이즈 비중</h4>${cmpDimTable(pA.dims.size, pB.dims.size, window.SIZE_NAMES, '사이즈')}</div>
+    </div>`;
+
+  body.innerHTML = summary + grid;
 }
 
 // Chart.js 전역 기본값 — 대시보드 팔레트와 통일
@@ -2324,6 +2709,8 @@ function render() {
   renderLookthrough();
   renderRegionChips();
   renderHoldings();
+  // 시점 비교 패널 (최초 1회 초기화 → 이후 컨트롤 이벤트로 갱신)
+  initCompare();
   // 스냅샷 모드일 때 각 패널 헤더에 배지 자동 부착
   attachSnapBadgesToPanels();
   // 패널 접기/펼치기 토글 설정 (1회)
