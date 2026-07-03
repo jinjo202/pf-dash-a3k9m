@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-03a";</script>
+<script>window.CODE_VERSION = "2026-07-03b";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -1207,7 +1207,7 @@ function openFinancials(ticker){
     '<div class="fin-scroll">'+annTbl+'</div>'+
     (estHtml ? '<div class="fin-sec">🔮 컨센서스 추정 (연간)</div><div class="fin-scroll">'+estHtml+'</div>' : '')+
     (qHtml ? '<div class="fin-sec">🗓 분기 (최근 실적 + 당기·차기 컨센서스)</div><div class="fin-scroll">'+qHtml+'</div>' : '')+
-    '<div class="fin-note">실적은 보고된 회계연도 기준. 추정치는 애널리스트 컨센서스 — 미국 종목은 yfinance, 한국 종목은 <b>FnGuide</b> Financial Highlight(연결). 통화 불일치 항목(예: TSM은 재무제표 TWD·컨센서스 USD)은 비교 불가로 비표시. 분기 추정은 데이터 제공 범위상 당기·차기 2개 분기까지 표시됩니다.</div>';
+    '<div class="fin-note">실적은 보고된 회계연도 기준. 추정치는 애널리스트 컨센서스 — 미국 종목은 yfinance, 한국 종목은 <b>네이버금융</b> 기업실적분석(IFRS연결). 통화 불일치 항목(예: TSM은 재무제표 TWD·컨센서스 USD)은 비교 불가로 비표시. 분기 추정은 데이터 제공 범위상 당기·차기 2개 분기까지 표시됩니다.</div>';
   $('finModal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
   $('finCloseBtn').addEventListener('click', closeFinancials);

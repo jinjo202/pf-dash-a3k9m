@@ -196,131 +196,106 @@ def estimates(t, last_fy_year, last_q_end, stmt_currency, last_act_eps, last_act
     return out
 
 
-def _kr_billion(v):
-    """FnGuide 표기는 억원 단위 → 원(raw)으로 변환."""
-    n = num(v)
-    return None if n is None else n * 1e8
+def kr_financials(disp):
+    """한국 종목: 네이버금융 기업실적분석 표(IFRS연결) 파싱.
+    ⚠ 소스 이력: 원래 FnGuide SVD_Main HTML 표 → 2026-06-22 FnGuide 개편으로
+    표가 JS 템플릿 렌더로 바뀌고 gicode 파라미터마저 무시(항상 기본종목 반환)돼
+    자동화 불가 → 네이버 표로 전환. 연간 3년+당해(E), 분기 5개+차분기(E). 억원 단위."""
+    code6 = disp.split()[0]
+    url = "https://finance.naver.com/item/main.naver?code=" + code6
+    r = requests.get(url, headers=UA, timeout=15)
+    r.encoding = r.apparent_encoding
+    tabs = pd.read_html(StringIO(r.text))
+    t = None
+    for x in tabs:
+        if isinstance(x.columns, pd.MultiIndex) and any("연간" in str(c[0]) for c in x.columns):
+            t = x
+            break
+    if t is None:
+        raise ValueError("네이버 기업실적분석 표를 찾지 못함")
 
-
-def _pick_fn_table(tabs, ptype):
-    """FnGuide 표 중 연결 기준 + 해당 기간유형(Annual / Net Quarter) + 추정(E) 컬럼이 가장 많은 표."""
-    best, bestE = None, -1
-    for t in tabs:
-        if not isinstance(t.columns, pd.MultiIndex):
-            continue
-        if "연결" not in str(t.columns[0][0]):
-            continue
-        tops = [str(c[0]) for c in t.columns[1:]]
-        subs = [str(c[1]) for c in t.columns[1:]]
-        if not any(tp == ptype for tp in tops):
-            continue
-        nE = sum(("(E)" in s) for tp, s in zip(tops, subs) if tp == ptype)
-        nCols = sum(1 for tp in tops if tp == ptype)
-        if nCols >= 3 and nE > bestE:
-            best, bestE = t, nE
-    return best
-
-
-def _fn_rows(t, ptype):
-    """선택된 표에서 (실적컬럼, 추정컬럼) 인덱스/라벨과 라벨→행 매핑 반환."""
-    cols = [(str(c[0]), str(c[1])) for c in t.columns]
-    labels = [str(x).replace("\xa0", " ").strip() for x in t.iloc[:, 0].tolist()]
+    labels = [str(x).replace("\xa0", " ").strip() for x in t.iloc[:, 0]]
     rowmap = {}
     for i, lab in enumerate(labels):
         rowmap.setdefault(lab, i)
-    act, est = [], []
-    for ci, (top, sub) in enumerate(cols):
-        if top != ptype:
+
+    # 컬럼 분류: (컬럼idx, 'A'|'Q', 'YYYY-MM', 추정여부)
+    cols = []
+    for ci, c in enumerate(t.columns):
+        top, sub = str(c[0]), str(c[1])
+        m = _re.search(r"(\d{4})\.(\d{2})", sub)
+        if not m:
             continue
-        (est if "(E)" in sub else act).append((ci, sub))
-    return rowmap, act, est
+        grp = "A" if "연간" in top else ("Q" if "분기" in top else None)
+        if grp:
+            cols.append((ci, grp, "%s-%s" % (m.group(1), m.group(2)), "(E)" in sub))
 
+    REV = ["매출액", "영업수익", "이자수익", "보험수익"]
+    EPS = ["EPS(원)", "EPS"]
 
-def fnguide(disp):
-    """한국 종목: FnGuide Financial Highlight(연결)에서 5년 연간 실적 + 2026E/2027E + 분기 수집."""
-    code6 = disp.split()[0]
-    url = ("https://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A%s"
-           "&cID=&MenuYn=Y&ReportGB=&NewMenuID=11&stkGb=701" % code6)
-    r = requests.get(url, headers={"User-Agent": UA["User-Agent"]}, timeout=15)
-    r.encoding = "utf-8"
-    tabs = pd.read_html(StringIO(r.text))
+    def val(names, ci, kind="money"):
+        names = names if isinstance(names, (list, tuple)) else [names]
+        for nm in names:
+            if nm in rowmap:
+                v = num(t.iloc[rowmap[nm], ci])
+                return (v * 1e8 if (v is not None and kind == "money") else v)
+        return None
 
-    def yr(sub):
-        m = _re.search(r"(\d{4})", sub)
-        return int(m.group(1)) if m else None
+    act_a = [c for c in cols if c[1] == "A" and not c[3]]
+    est_a = [c for c in cols if c[1] == "A" and c[3]][:2]
+    act_q = [c for c in cols if c[1] == "Q" and not c[3]]
+    est_qc = [c for c in cols if c[1] == "Q" and c[3]][:2]
 
-    def qlabel(sub):
-        m = _re.search(r"(\d{4})/(\d{2})", sub)
-        return ("%s-%s" % (m.group(1), m.group(2))) if m else sub
-
-    def val(t, rowmap, ci, label, kind="money"):
-        labels = label if isinstance(label, (list, tuple)) else [label]
-        i = None
-        for lb in labels:
-            if lb in rowmap:
-                i = rowmap[lb]; break
-        if i is None:
-            return None
-        v = t.iloc[i, ci]
-        return _kr_billion(v) if kind == "money" else num(v)
-
-    REV = ["매출액", "영업수익", "이자수익"]   # 은행·증권은 매출액 대신 영업수익
-
-    # 연간
-    at = _pick_fn_table(tabs, "Annual")
     annual = None
-    est_annual = None
-    if at is not None:
-        rm, act, est = _fn_rows(at, "Annual")
+    if act_a:
         annual = {
-            "years": [yr(s) for _, s in act],
-            "fy_end_month": 12,
-            "revenue": [val(at, rm, ci, REV) for ci, _ in act],
-            "gross_profit": [val(at, rm, ci, "매출총이익") for ci, _ in act],
-            "operating_income": [val(at, rm, ci, "영업이익") for ci, _ in act],
-            "net_income": [val(at, rm, ci, "당기순이익") for ci, _ in act],
-            "diluted_eps": [val(at, rm, ci, "EPS(원)", "num") for ci, _ in act],
+            "years": [int(ym[:4]) for _, _, ym, _ in act_a],
+            "fy_end_month": int(act_a[-1][2][5:7]),
+            "revenue": [val(REV, ci) for ci, _, _, _ in act_a],
+            "gross_profit": [None for _ in act_a],   # 네이버 표엔 매출총이익 없음
+            "operating_income": [val("영업이익", ci) for ci, _, _, _ in act_a],
+            "net_income": [val("당기순이익", ci) for ci, _, _, _ in act_a],
+            "diluted_eps": [val(EPS, ci, "num") for ci, _, _, _ in act_a],
         }
-        est = est[:2]  # 2026E, 2027E
-        if est:
-            est_annual = {
-                "years": [yr(s) for _, s in est],
-                "eps_avg": [val(at, rm, ci, "EPS(원)", "num") for ci, _ in est],
-                "eps_low": [None for _ in est], "eps_high": [None for _ in est],
-                "eps_growth": [None for _ in est],
-                "rev_avg": [val(at, rm, ci, REV) for ci, _ in est],
-                "n_analysts": [None for _ in est],
-            }
+    est_annual = None
+    if est_a:
+        est_annual = {
+            "years": [int(ym[:4]) for _, _, ym, _ in est_a],
+            "eps_avg": [val(EPS, ci, "num") for ci, _, _, _ in est_a],
+            "eps_low": [None for _ in est_a], "eps_high": [None for _ in est_a],
+            "eps_growth": [None for _ in est_a],
+            "rev_avg": [val(REV, ci) for ci, _, _, _ in est_a],
+            "n_analysts": [None for _ in est_a],
+        }
 
-    # 분기
-    qt = _pick_fn_table(tabs, "Net Quarter")
     quarter = None
-    est_q = None
-    if qt is not None:
-        rm, act, est = _fn_rows(qt, "Net Quarter")
-        ends = [qlabel(s) for _, s in act]
+    if act_q:
+        ends = [ym for _, _, ym, _ in act_q]
         quarter = {
             "ends": ends,
-            "revenue": [val(qt, rm, ci, REV) for ci, _ in act],
-            "operating_income": [val(qt, rm, ci, "영업이익") for ci, _ in act],
-            "net_income": [val(qt, rm, ci, "당기순이익") for ci, _ in act],
-            "diluted_eps": [val(qt, rm, ci, "EPS(원)", "num") for ci, _ in act],
+            "revenue": [val(REV, ci) for ci, _, _, _ in act_q],
+            "operating_income": [val("영업이익", ci) for ci, _, _, _ in act_q],
+            "net_income": [val("당기순이익", ci) for ci, _, _, _ in act_q],
+            "diluted_eps": [val(EPS, ci, "num") for ci, _, _, _ in act_q],
             "last_end": (ends[-1] + "-01") if ends else None,
         }
-        est = est[:2]
-        if est:
-            est_q = {
-                "ends": [qlabel(s) for _, s in est],
-                "eps_avg": [val(qt, rm, ci, "EPS(원)", "num") for ci, _ in est],
-                "eps_low": [None for _ in est], "eps_high": [None for _ in est],
-                "eps_yearago": [None for _ in est],
-                "rev_avg": [val(qt, rm, ci, REV) for ci, _ in est],
-                "n_analysts": [None for _ in est],
-            }
+    est_q = None
+    if est_qc:
+        est_q = {
+            "ends": [ym for _, _, ym, _ in est_qc],
+            "eps_avg": [val(EPS, ci, "num") for ci, _, _, _ in est_qc],
+            "eps_low": [None for _ in est_qc], "eps_high": [None for _ in est_qc],
+            "eps_yearago": [None for _ in est_qc],
+            "rev_avg": [val(REV, ci) for ci, _, _, _ in est_qc],
+            "n_analysts": [None for _ in est_qc],
+        }
+
+    if annual is None and quarter is None:
+        raise ValueError("네이버 실적표 파싱 결과 비어 있음")
 
     return {
         "ticker": disp, "yf": code6, "name": KR_NAMES.get(disp, disp),
-        "currency": "KRW", "source": "FnGuide",
+        "currency": "KRW", "source": "NaverFinance",
         "annual": annual, "quarter_actual": quarter,
         "estimates": {"annual": est_annual, "quarter": est_q,
                       "eps_ok": True, "rev_ok": True, "note": "", "eps_currency": "KRW"},
@@ -354,17 +329,36 @@ def fetch_one(disp, sym):
     }
 
 
+def load_prev():
+    """기존 fm-financials.js의 data — 수집 실패 종목을 통째로 떨어뜨리지 않고 이전 값 유지용."""
+    try:
+        with open("fm-financials.js", encoding="utf-8") as f:
+            m = _re.search(r"window\.FM_FINANCIALS\s*=\s*(\{.*\})\s*;\s*$", f.read(), _re.S)
+        return ((json.loads(m.group(1)) or {}).get("data") or {}) if m else {}
+    except Exception:
+        return {}
+
+
 def main():
     today = dt.date.today().isoformat()
+    prev = load_prev()
     out = {}
+    failed = []
     for disp, sym in STOCKS:
         try:
             is_kr = disp.strip().endswith(" KS")
-            print(f"  · {disp} ({'FnGuide' if is_kr else sym}) ...", flush=True)
-            out[disp] = fnguide(disp) if is_kr else fetch_one(disp, sym)
+            print(f"  · {disp} ({'NaverFinance' if is_kr else sym}) ...", flush=True)
+            out[disp] = kr_financials(disp) if is_kr else fetch_one(disp, sym)
             time.sleep(0.6)
         except Exception as e:
             print(f"    ! {disp} 실패: {e}", flush=True)
+            if disp in prev:
+                out[disp] = prev[disp]
+                out[disp]["stale"] = True
+                print(f"      → 이전 데이터 유지(stale)", flush=True)
+            failed.append(disp)
+    if failed:
+        print(f"\n⚠ 실패 {len(failed)}종목: {', '.join(failed)}", flush=True)
     payload = {"as_of": today, "data": out}
     js = ("// 펀드매니저 탭 종목 재무(손익계산서+컨센서스) — fetch_fm_financials.py 생성. 큐레이션(수동 갱신).\n"
           "window.FM_FINANCIALS = " + json.dumps(payload, ensure_ascii=False, allow_nan=False) + ";\n")
