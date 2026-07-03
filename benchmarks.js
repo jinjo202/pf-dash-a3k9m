@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-03",
-  "generated_utc": "2026-07-03T21:16:43Z",
+  "generated_utc": "2026-07-03T22:20:53Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
-        "pe": 21.65,
+        "pe": 21.64,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -564,7 +564,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
-        "pe": 9.03,
+        "pe": 9.02,
         "pb": 1.25,
         "roe": null,
         "src": "EEM (top derived)",
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 652.77,
+      "current": 648.35,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 10.1201,
-      "mtd_pct": 1.7204,
-      "daily_pct": 0.6817,
-      "as_of": "2026-07-03",
+      "ytd_pct": 9.3745,
+      "mtd_pct": 1.0316,
+      "daily_pct": 1.414,
+      "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
-        "pe": 15.71,
+        "pe": 15.74,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -3855,6 +3855,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-06-18",
           "2025-06-19",
           "2025-06-20",
           "2025-06-23",
@@ -4113,10 +4114,10 @@ window.BENCHMARKS = {
           "2026-06-29",
           "2026-06-30",
           "2026-07-01",
-          "2026-07-02",
-          "2026-07-03"
+          "2026-07-02"
         ],
         "values": [
+          540.33,
           535.86,
           536.53,
           535.03,
@@ -4375,8 +4376,7 @@ window.BENCHMARKS = {
           636.11,
           641.73,
           639.31,
-          648.35,
-          652.77
+          648.35
         ]
       }
     },
@@ -7671,7 +7671,7 @@ window.BENCHMARKS = {
       "mtd_baseline": null,
       "ytd_pct": 43.8462,
       "mtd_pct": null,
-      "daily_pct": 13.3333,
+      "daily_pct": 0.0,
       "as_of": "2026-07-03",
       "decimals": 2,
       "valuation": {
