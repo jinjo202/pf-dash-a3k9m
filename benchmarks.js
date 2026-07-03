@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-03",
-  "generated_utc": "2026-07-03T17:42:01Z",
+  "generated_utc": "2026-07-03T19:42:09Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1529.4399,
+      "current": 1530.2,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 6.3655,
-      "mtd_pct": -0.7972,
-      "daily_pct": -1.4415,
+      "ytd_pct": 6.4183,
+      "mtd_pct": -0.7479,
+      "daily_pct": -1.3926,
       "as_of": "2026-07-03",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1541.73,
           1548.61,
           1551.8101,
-          1529.4399
+          1530.2
         ]
       }
     },
