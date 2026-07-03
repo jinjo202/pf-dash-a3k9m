@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-03",
-  "generated_utc": "2026-07-03T14:02:30Z",
+  "generated_utc": "2026-07-03T14:04:22Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -3837,12 +3837,12 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 651.87,
+      "current": 651.83,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 9.9683,
-      "mtd_pct": 1.5801,
-      "daily_pct": 0.5429,
+      "ytd_pct": 9.9615,
+      "mtd_pct": 1.5739,
+      "daily_pct": 0.5368,
       "as_of": "2026-07-03",
       "decimals": 2,
       "valuation": {
@@ -4376,7 +4376,7 @@ window.BENCHMARKS = {
           641.73,
           639.31,
           648.35,
-          651.87
+          651.83
         ]
       }
     },
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1531.88,
+      "current": 1531.46,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 6.5352,
-      "mtd_pct": -0.6389,
-      "daily_pct": -1.2843,
+      "ytd_pct": 6.506,
+      "mtd_pct": -0.6661,
+      "daily_pct": -1.3114,
       "as_of": "2026-07-03",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1541.73,
           1548.61,
           1551.8101,
-          1531.88
+          1531.46
         ]
       }
     },
@@ -7119,12 +7119,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 15.93,
+      "current": 15.98,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 6.5552,
-      "mtd_pct": -3.1611,
-      "daily_pct": -1.3622,
+      "ytd_pct": 6.8896,
+      "mtd_pct": -2.8572,
+      "daily_pct": -1.0526,
       "as_of": "2026-07-03",
       "decimals": 2,
       "valuation": {
@@ -7658,7 +7658,7 @@ window.BENCHMARKS = {
           16.45,
           16.59,
           16.15,
-          15.93
+          15.98
         ]
       }
     },
