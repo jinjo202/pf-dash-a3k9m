@@ -57,11 +57,12 @@ MANUAL = {
     "cnn_fng": {
         "name": "CNN 공포·탐욕 지수",
         "pillar": "sentiment",
-        "current": 60,
-        "prev": 55,
-        "as_of": "2026-05-29",
+        "current": 32,
+        "prev": 60,
+        "as_of": "2026-07-03",
         "unit": "",
-        "note": "0=극단적 공포, 100=극단적 탐욕. 무료 API 없어 수동 유지.",
+        "note": "0=극단적 공포, 100=극단적 탐욕. production.dataviz.cnn.io/index/fearandgreed/graphdata "
+                "(UA 헤더 필요)에서 score 조회 가능 — 현재는 수동 갱신.",
     },
     "aaii_spread": {
         "name": "AAII 불-베어 스프레드",
