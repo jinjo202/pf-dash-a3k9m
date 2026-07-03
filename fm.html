@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-03b";</script>
+<script>window.CODE_VERSION = "2026-07-03c";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -292,6 +292,11 @@
   .chain-item .ci-act { color:var(--text); margin-top:2px; }
   .nat-badge { font-size:10.5px; font-weight:800; padding:1px 7px; border-radius:99px; border:1px solid var(--border); color:var(--muted); }
   .cio-daily .dconc { font-size:13px; line-height:1.6; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+  .cio-debate { border:1px dashed var(--border); border-radius:9px; padding:9px 12px; background:var(--panel); }
+  .deb-round { padding:7px 0; border-bottom:1px dashed var(--border); font-size:12.5px; line-height:1.55; }
+  .deb-round:last-of-type { border-bottom:none; }
+  .deb-resp { color:var(--text-soft); margin-top:2px; }
+  .deb-changed { margin-top:8px; padding:7px 10px; border-radius:7px; background:var(--accent-soft); font-size:12.5px; line-height:1.55; }
 </style>
 </head>
 <body>
@@ -1029,13 +1034,28 @@ function renderCioDaily(){
     var tc=(t.action==='매수'||t.action==='확대')?'b-pos':((t.action==='매도'||t.action==='축소'||t.action==='헤지')?'b-neg':'b-neu');
     return '<li><span class="badge '+tc+'">'+esc(t.action||'')+'</span> <b>'+esc(t.name||'')+'</b> '+(t.ticker?'<span class="ci-date">'+esc(t.ticker)+'</span> ':'')+'— '+esc(t.reason||'')+'</li>';
   }).join('');
-  var posHtml='<div class="cio-sec neu" style="margin-top:12px"><div class="sh">포지셔닝 결론</div><div class="sd">'+
+  var techHtml=e.technicals_read?('<div class="cio-sec neu" style="margin-top:12px"><div class="sh">기술적·수급·유동성 판독</div><div class="sd">'+esc(e.technicals_read)+'</div></div>'):'';
+  var posHtml='<div class="cio-sec neu" style="margin-top:12px"><div class="sh">포지셔닝 결론 (ETF 실행 단위)</div><div class="sd">'+
     '<b>매크로</b> '+esc(p.macro_view||'')+'<br>'+
     '<b>주식 비중</b> <span class="badge '+ewCls+'">'+esc(ew.stance||'')+'</span> '+esc(ew.text||'')+'<br>'+
     '<b>국가</b> '+esc(p.country||'')+'<br>'+
     '<b>섹터</b> '+esc(p.sector||'')+
     (trades?'<ul style="margin:7px 0 0;padding-left:16px;line-height:1.6">'+trades+'</ul>':'')+
   '</div></div>';
+
+  // 투자위원회 토론 (Devil's Advocate 라운드)
+  var debHtml='';
+  if (e.debate && e.debate.rounds && e.debate.rounds.length){
+    var ocls={'수용':'b-pos','부분수용':'b-neu','기각':'b-neg'};
+    var rounds=e.debate.rounds.map(function(r){
+      return '<div class="deb-round"><span class="badge '+(ocls[r.outcome]||'b-neu')+'">'+esc(r.outcome||'')+'</span> '+
+        '<b>'+esc(r.point||'')+'</b><div class="deb-resp">↳ '+esc(r.response||'')+'</div></div>';
+    }).join('');
+    debHtml='<div class="cio-sec-label" style="margin:12px 0 2px">🗣 투자위원회 — Devil\'s Advocate 라운드</div>'+
+      '<div class="cio-debate">'+rounds+
+      (e.debate.changed?'<div class="deb-changed">⚖ <b>토론 반영</b> '+esc(e.debate.changed)+'</div>':'')+
+      '</div>';
+  }
 
   box.innerHTML='<div class="cio-daily">'+
     '<div class="cio-sec-label" style="margin:0 0 8px">🧠 CIO 데일리 — 사고 흐름과 결론 <span style="font-weight:600;text-transform:none;letter-spacing:0">· 자동 생성</span></div>'+
@@ -1044,7 +1064,9 @@ function renderCioDaily(){
     (e.market_pulse?'<div class="dpulse">'+esc(e.market_pulse)+'</div>':'')+
     (e.changes?'<div class="dchg">🔄 <b>전일 대비</b> '+esc(e.changes)+'</div>':'')+
     (chainHtml?'<div class="cio-sec-label" style="margin:12px 0 2px">이슈 체인 — 무엇이 무엇을 움직였나</div><div class="cio-chain">'+chainHtml+'</div>':'')+
+    techHtml+
     posHtml+
+    debHtml+
     (e.conclusion?'<div class="dconc"><b>종합 결론.</b> '+esc(e.conclusion)+'</div>':'')+
   '</div>';
 }
