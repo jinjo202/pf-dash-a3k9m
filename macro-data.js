@@ -473,9 +473,9 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-03T10:41:38Z",
+  "generated": "2026-07-03T12:54:42Z",
   "regime": {
-    "score": 18,
+    "score": 15,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
@@ -496,7 +496,7 @@ window.MACRO = {
       },
       "sentiment": {
         "name": "센티먼트",
-        "score": 21,
+        "score": 6,
         "n": 6
       },
       "earnings": {
@@ -851,17 +851,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 25,
-        "fx": -42,
+        "fx": -44,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
         "m1": 14,
         "m3": 39,
-        "m12": 54
+        "m12": 53
       },
-      "fx_val": 1530.37,
-      "fx_chg": -2.1,
+      "fx_val": 1531.41,
+      "fx_chg": -2.2,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -882,7 +882,7 @@ window.MACRO = {
         "m3": -12,
         "m12": -9
       },
-      "fx_val": 1.14,
+      "fx_val": 1.15,
       "fx_chg": -2.0,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
@@ -904,7 +904,7 @@ window.MACRO = {
         "m3": 2,
         "m12": 3
       },
-      "fx_val": 161.14,
+      "fx_val": 161.13,
       "fx_chg": -1.5,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -8381,7 +8381,7 @@ window.MACRO = {
       "score": -0.6,
       "signal": "강한 악재",
       "signal_cls": "neg",
-      "desc": "0=극단적 공포, 100=극단적 탐욕. 무료 API 없어 수동 유지.",
+      "desc": "0=극단적 공포, 100=극단적 탐욕. production.dataviz.cnn.io/index/fearandgreed/graphdata (UA 헤더 필요)에서 자동 조회 — 실패 시 이 시드값 유지(fail-safe).",
       "as_of": "2026-07-03",
       "history": null,
       "manual": true,
@@ -14116,7 +14116,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1531.2,
+      "current": 1531.4,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
@@ -14168,11 +14168,11 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 16.0,
+      "current": 15.9,
       "unit": "",
       "z": 0.11,
       "pct": 84.6,
-      "score": 0.2,
+      "score": 0.21,
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "공포 게이지. 낮을수록 안정",
@@ -14880,11 +14880,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 6.6,
+      "current": 6.1,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.16,
+      "score": -0.15,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "급등 시 인플레·비용 압력",
@@ -17928,7 +17928,7 @@ window.MACRO = {
               "ticker": "TSM",
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2251759550464,
-              "fwdpe": 21.6,
+              "fwdpe": 21.4,
               "pbr": 97.54,
               "rets": {
                 "w1": -0.2,
@@ -20395,12 +20395,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 6.6%(중립)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 6.1%(중립)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.8배(악재)·KOSPI 12M Fwd PER 5.9배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.37%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1531.2원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 120.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -8.2조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 16.0(호재)·S&P500 12M 모멘텀 18.0%(강한 호재)·CNN 공포·탐욕 지수 60(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1531.4원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 120.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -8.2조원(중립)",
+    "sentiment": "[혼조/중립] VIX 변동성 15.9(호재)·S&P500 12M 모멘텀 18.0%(강한 호재)·CNN 공포·탐욕 지수 32(강한 악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.541(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(둔화)",
-    "overall": "종합 레짐 점수 +18. 매크로 +1, 밸류 -5, 수급 +17, 센티 +21, 기업이익 +49."
+    "overall": "종합 레짐 점수 +15. 매크로 +1, 밸류 -5, 수급 +17, 센티 +6, 기업이익 +49."
   },
   "outlook": {
     "short": {
