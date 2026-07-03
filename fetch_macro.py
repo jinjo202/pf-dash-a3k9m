@@ -62,7 +62,7 @@ MANUAL = {
         "as_of": "2026-07-03",
         "unit": "",
         "note": "0=극단적 공포, 100=극단적 탐욕. production.dataviz.cnn.io/index/fearandgreed/graphdata "
-                "(UA 헤더 필요)에서 score 조회 가능 — 현재는 수동 갱신.",
+                "(UA 헤더 필요)에서 자동 조회 — 실패 시 이 시드값 유지(fail-safe).",
     },
     "aaii_spread": {
         "name": "AAII 불-베어 스프레드",
@@ -155,6 +155,53 @@ def http_get(url, timeout=22, retries=3):
             last = e
             time.sleep(1.0 * (a + 1))
     raise last
+
+
+def fetch_cnn_fng():
+    """CNN 공포·탐욕 지수 자동 조회.
+
+    production.dataviz.cnn.io graphdata 엔드포인트(브라우저 UA 필요)에서 최신
+    score와 직전 종가를 가져온다. 실패 시 None → 호출부에서 기존 시드값 유지(fail-safe).
+    반환: {"current": int, "prev": int, "as_of": "YYYY-MM-DD"} 또는 None.
+    """
+    import time, json as _json
+    url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+    ua = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/125.0 Safari/537.36")
+    last = None
+    for a in range(3):
+        try:
+            req = urllib.request.Request(url, headers={
+                "User-Agent": ua,
+                "Accept": "application/json, text/plain, */*",
+                "Origin": "https://www.cnn.com",
+                "Referer": "https://www.cnn.com/markets/fear-and-greed",
+            })
+            with urllib.request.urlopen(req, timeout=22) as r:
+                data = _json.loads(r.read().decode("utf-8", errors="replace"))
+            fng = data.get("fear_and_greed") or {}
+            score = fng.get("score")
+            if score is None:
+                raise ValueError("응답에 score 없음")
+            cur = int(round(float(score)))
+            pc = fng.get("previous_close")
+            prev = int(round(float(pc))) if pc is not None else cur
+            as_of = date.today().isoformat()
+            ts = fng.get("timestamp")
+            if ts is not None:
+                try:
+                    if isinstance(ts, (int, float)) or str(ts).isdigit():
+                        as_of = datetime.fromtimestamp(int(ts) / 1000, timezone.utc).date().isoformat()
+                    else:
+                        as_of = str(ts)[:10]
+                except Exception:
+                    pass
+            return {"current": cur, "prev": prev, "as_of": as_of}
+        except Exception as e:
+            last = e
+            time.sleep(1.0 * (a + 1))
+    print(f"  [err] CNN F&G 자동조회 실패(시드값 유지): {last}")
+    return None
 
 
 def fetch_multpl(slug):
@@ -1813,8 +1860,18 @@ def build():
         }
 
     # --- 수동 지표 (센티먼트 MANUAL + 수급 MANUAL_FLOWS, 한국 수급은 자동 패치) ---
+    # CNN 공포·탐욕 지수는 CNN 엔드포인트에서 자동 조회, 실패 시 시드값 유지(fail-safe).
+    sent_manual = dict(MANUAL)
+    fng = fetch_cnn_fng()
+    if fng:
+        seed = MANUAL["cnn_fng"]
+        sent_manual["cnn_fng"] = {**seed, "current": fng["current"],
+                                  "prev": fng["prev"], "as_of": fng["as_of"]}
+        print(f"  [ok] CNN F&G {fng['current']} (직전 {fng['prev']}, {fng['as_of']})")
+    else:
+        print("  [skip] CNN F&G 시드값 유지")
     flows_manual, kr_flows_ts = load_kr_flows()
-    for key, m in {**MANUAL, **flows_manual}.items():
+    for key, m in {**sent_manual, **flows_manual}.items():
         score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
         lbl, cls = signal_label(score)
         pillar_scores[m["pillar"]].append(score)
