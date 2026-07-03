@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-03T22:48:48
+// 갱신: 2026-07-03T23:20:28
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "[주간증시전망] AI 흔들리자 코스피 출렁…차주 삼성전자 실적·FOMC 의사록 주목 - 아주경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9NNmR0NFR2M182Zmc0Q3h4MTNsblJVNEJaUWRQcC11QzBHWms5YU9nRjdBckMxdVJ4dndWSG9qOUhxb1JuQm04d2ZfbGFjZlVjXzQtT1dkbjFmZ9IBWEFVX3lxTE5wdkwtTXo2M0lEbElULVZGbnU1cU9IMDFJLS1wcmpWUzVTNERubVlKOHZycmFDVlg2d1k0ckxDY3R1WU5veUtyQms3cDJfWWRlc1JkRkRQUFA?oc=5",
    "source": "아주경제",
+   "date": "2026-07-03"
+  },
+  {
+   "title": "[주간증시전망] 다음주 코스피 7200~9000 전망...삼전 실적에 방향성 갈린다 - 이투데이",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5YMkJDLWhtR09zeG9lSGswLWRLTVFaVWh5UVFpUTFhZWZORE9lNjRla3NQTGNmYTl2QmpBdU5vN2hfdXZZU25rS3FNbXAwU2plSmJReg?oc=5",
+   "source": "이투데이",
    "date": "2026-07-03"
   },
   {
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9oZXdYQVB4MUVmZS01amp3YnlkNml3c3F3ZXlwSXplbFViVzBPcW9CMFZRVHpzeTRlMEI3Um9pTGpsV2NlYm1zU1FUMHM3UHFjVXB6UQ?oc=5",
    "source": "v.daum.net",
    "date": "2026-06-29"
-  },
-  {
-   "title": "\"1만 간다\" vs \"6500도 열려 있다\"… 5대 리서치센터장의 코스피 전망 - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxORS0zSUlEZFk0WGExYW0wNGtBZVhUYXFlMkNJelZXS3FsSmljZEpHeE4tV01xMXhmNjZ6cWU5TzJMdGE4Z0l6U0pyNjJTWDZ2Ty1Wb1lkbzhjX2NvY1BqMnVTSS1WNHVPc1VhZTNrbkZoRVhNMjFrYzFhRi1IOEljcg?oc=5",
-   "source": "조선일보",
-   "date": "2026-06-22"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -275,30 +275,30 @@ window.HOLDING_NEWS = {
    "date": "2026-06-25"
   },
   {
+   "title": "\"엔비디아(NVDA) 랠리 끝나자 개미들 패닉\"...S&P 500, 빅테크서 소외주 환승 급증 - 코인리더스",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1vZlNlZzgzN01UY2dBMXo3c1ZtRkhHWE5xcWdRXy1SRUxaa2ltOUIxdEZCZzJsZUctal9KNmhQOUtEZ3NwQUcyOXNB?oc=5",
+   "source": "코인리더스",
+   "date": "2026-06-28"
+  },
+  {
    "title": "S&P500·나스닥, 사상 최고치···빅테크 실적 기대감 - 경향신문",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5vaTNHMXBwQnJ1SmVaLTBnbmRvQ0FRUXZqdTdFVjZzaDhGRkx6VUwtVGtSMkFHVDVMMVN3ODhpWDIySDJsc0Y0anVOcFdIZTl0bXp0TTctSUY5QdIBX0FVX3lxTE51SnVhSkVGZVNZbXJmdDByRzFiOEdaSXNKa3czb0tkVlpBRFdzXzBfcWJoY2V5Q25XNmdRX1N0R25DT2kydWs4MmNCa1NITW1zWUR3bXh6OFI4OHpicHQ4?oc=5",
    "source": "경향신문",
    "date": "2026-04-28"
-  },
-  {
-   "title": "\"증시 운명 좌우할 80초\"…내일 새벽 4대 빅테크 실적 발표 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFAzWngtdkthRllCcS1kVGhHVmFwVkwxOXA4bTNpcjBVdkIyLTNDLXBVcGxQNkN3ZDgwenBvdzJkU0cwYzRwMF9EQUpqekprQlZRZ3RGQ2ExTnRQUdIBVEFVX3lxTE5fT1l1OWJ3NDlfcDB3VXBycUl3cl90Mk9Kdk84LTBZMTJIT0NyZkt0QUN0bzlRcko0dGpKZjQ4RjVwZWRFSjkyWWZ1SE81djM2c2NmNA?oc=5",
-   "source": "한국경제",
-   "date": "2026-04-29"
   }
  ],
  "SPDR Communication ETF (XLC)": [
+  {
+   "title": "USA 투데이, 구글 반독점 소송 공개 발언 해명,USA TODAY Co. Inc.,TDAY - wowglobal.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5FcGpFdEJRZGNVbTQtd2g0SEdNLWh1ZkZNdzdkbVdFVlZJaURvVVZ5YzNQam03eW9fZUdqUjNRNmQ3a2hGd3hJcnFxVXFFQ0ZhRVV4TUNnaXhHSC1ydUhDcG1PbGw0bkJG?oc=5",
+   "source": "wowglobal.co.kr",
+   "date": "2026-05-12"
+  },
   {
    "title": "당장 1000만원으로 뭘 살까, 트럼프빨 받을 '상반기 종목' - 중앙일보",
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE93elBwajZtZlRUbGxCY0VpcjIyM3BfQ3F2bC1PRWJEellkZTEwWWh6TE1wMmpFTEtzU3FHaUNWY0JtaVFOT1FtMTNsQ19Vc3Q4M0ppVF9B?oc=5",
    "source": "중앙일보",
    "date": "2025-02-16"
-  },
-  {
-   "title": "알파벳 A (GOOGL) - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5DVFloQ0pYbW84T2xwMkxjT1k3VFpmLXlxbE5wdnEzWlY1TDlaSWVqUlBPb25ZaHRvRVkzTXQzMmgwR256OHI1WjZqNXE5a3BYU3JQcTRaWQ?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2017-01-08"
   },
   {
    "title": "메타(Meta)의 번역 및 음성 생성 인공지능 ‘Seamless’가 의미하는 바는? – AI 오픈소스 생태계 & 온디바이스 AI - 네이버 프리미엄콘텐츠",
@@ -307,10 +307,10 @@ window.HOLDING_NEWS = {
    "date": "2023-12-06"
   },
   {
-   "title": "[스타트업41] 로블록스는 왜 메타버스로 주목받을까? - mobiinside.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBDYU9nQkhZaHoxa1FJNFEzNGZUaU9NdnNyZ0ZWVXFHaXRnMmIyMHpuTm9MQ3dxTkNsbUZMblA2NGItbE5JNExhNHQyRkZUWWtCTW83YTlTWEhBMmVsZmpUV0lMWVhVb05u?oc=5",
-   "source": "mobiinside.co.kr",
-   "date": "2021-07-15"
+   "title": "알파벳 A (GOOGL) - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5DVFloQ0pYbW84T2xwMkxjT1k3VFpmLXlxbE5wdnEzWlY1TDlaSWVqUlBPb25ZaHRvRVkzTXQzMmgwR256OHI1WjZqNXE5a3BYU3JQcTRaWQ?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2017-01-08"
   }
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
@@ -359,10 +359,10 @@ window.HOLDING_NEWS = {
    "date": "2026-02-09"
   },
   {
-   "title": "\"금·IT 이어 '000 시대'\" 현실로…주가 240% 폭등 '잭팟' - 마켓인",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5EWFFHNUdBcjFZUHBVZGpoMXAwWHQ1QU45aVhJU1M1dE0yb1F5UF9PUFNTMnhlTzdLMUxrTUE2VU1LR0Rta0NPa0ZQVGM4LW5SdWZnNmcxdUNuWlhGMlNuTmZDZHZuTzd1eTZwczdGR0tGazQ?oc=5",
-   "source": "마켓인",
-   "date": "2025-11-04"
+   "title": "과열 신호가 깜빡인다?…증시 조정에 대비하는 법 [빈난새의 빈틈없이월가] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBrNFVGX29CVU1DbXpfME5Ob3hlQ3JaZ1J0QllNT0kyOFNtbkpyc0hXNTcyRjlhMlY1dmVxei1oMHlIYjJWLW1Wem5zU3VWV2JTdW5IS2RXNm9xUdIBVEFVX3lxTE9Wd0wxRzF6VTJqSkJKRkhwOFZBNHd0REZlUlVEd0VzVUdqNjN1N29ZMndMU1NTLVRjaFJtaGdNN2NVR2dpSUJXbUl1d3d1LUlaUXNBZA?oc=5",
+   "source": "한국경제",
+   "date": "2026-01-13"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -379,16 +379,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-12"
   },
   {
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - MBC 뉴스",
+   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1KWDFpTGEwWlM4bzk4dGxFS2hXZkwyUldZamtIQ0E2NmlIZXpueWMycUdqZ2o2NHhPMzJwY2M5am9aX3ZWalBnUVdrYUhUZFN0ZWdZZUwxbko1d1h1em5NXzRJbkxKam40NnJEZGwtMnlVUThr0gF0QVVfeXFMUEl4by00OGZWdnVnY2l5aVQxT2tVNzBIeEVBX0xqY0NYTURrTHhLaHlTLXppLVBQUkJQS2lRYXlvbkxXeFRPX1YyeDZQQWNxX1NrdWZHaktZRURZc2lEdFNEX2J2Y0wySHRHY3pqWXZyV2d5U3Q?oc=5",
+   "source": "MBC 뉴스",
+   "date": "2026-06-07"
+  },
+  {
    "title": "미·이란 재협상 기대에 기술주 강세…S&P500·나스닥 또 최고치(종합) - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBhZ1M4ZmJVRWx6SVVPV0NXaTl2cW1NTUgtVndaTTlXcDUzOW5Tc2RSbXFxX2xudEY0WXl3cWVLZHZ6TG1XZ21BNEliaEJMMXltU1J3T2Q2M05MZlnSAWBBVV95cUxQX0Z6MHZVQlNXOW5GTURVaDhfZEpDVXRiQnlHbU94WF9mNEk1eF9qYzZ2NUhRM0NheTh4TmFTY3dPUFpkd195Szc4SDE3Z0Q2b1R2TnBESUxLX1djZXdkTDc?oc=5",
    "source": "연합뉴스",
    "date": "2026-04-25"
-  },
-  {
-   "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53TEFmRmwwWmUxZUJlZlBka0N4b0dXclJzSVhlcUdhb1dENzFXTUlldzdIYThtMEJJZ21zZkRXWUlzTDY2YzQ3SFdPSjBnOFpmUVN1bGhDV2ZzTHV5WkxUWVRxYkhZdkVEU0c3bG93eVg?oc=5",
-   "source": "연합인포맥스",
-   "date": "2025-12-12"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
@@ -431,16 +431,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-12"
   },
   {
-   "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53TEFmRmwwWmUxZUJlZlBka0N4b0dXclJzSVhlcUdhb1dENzFXTUlldzdIYThtMEJJZ21zZkRXWUlzTDY2YzQ3SFdPSjBnOFpmUVN1bGhDV2ZzTHV5WkxUWVRxYkhZdkVEU0c3bG93eVg?oc=5",
-   "source": "연합인포맥스",
-   "date": "2025-12-12"
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - MBC 뉴스",
+   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1KWDFpTGEwWlM4bzk4dGxFS2hXZkwyUldZamtIQ0E2NmlIZXpueWMycUdqZ2o2NHhPMzJwY2M5am9aX3ZWalBnUVdrYUhUZFN0ZWdZZUwxbko1d1h1em5NXzRJbkxKam40NnJEZGwtMnlVUThr0gF0QVVfeXFMUEl4by00OGZWdnVnY2l5aVQxT2tVNzBIeEVBX0xqY0NYTURrTHhLaHlTLXppLVBQUkJQS2lRYXlvbkxXeFRPX1YyeDZQQWNxX1NrdWZHaktZRURZc2lEdFNEX2J2Y0wySHRHY3pqWXZyV2d5U3Q?oc=5",
+   "source": "MBC 뉴스",
+   "date": "2026-06-07"
   },
   {
-   "title": "미·이란 재협상 기대에 기술주 강세…S&P500·나스닥 또 최고치(종합) - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBhZ1M4ZmJVRWx6SVVPV0NXaTl2cW1NTUgtVndaTTlXcDUzOW5Tc2RSbXFxX2xudEY0WXl3cWVLZHZ6TG1XZ21BNEliaEJMMXltU1J3T2Q2M05MZlnSAWBBVV95cUxQX0Z6MHZVQlNXOW5GTURVaDhfZEpDVXRiQnlHbU94WF9mNEk1eF9qYzZ2NUhRM0NheTh4TmFTY3dPUFpkd195Szc4SDE3Z0Q2b1R2TnBESUxLX1djZXdkTDc?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-04-25"
+   "title": "다우존스, 나스닥, S&P 500 주간 전망: 투자자들, SpaceX 사상 최대 IPO 앞두고 긴장 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBPMTl1N0VrVENacC1lc3d3VGJHUDVJRXA5M3B5RFdiZWVsTm95VlFjWVhrNkRtNk9OVW5fVkpxdlI3cjdEVjZRWDg2WGhzWEJwWlBMZlVIb05BVHp1NkZiS1BIVlpKemxtbjVWM09IUWQ?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2026-06-08"
   }
  ],
  "iShares MSCI Emerging (EEM)": [

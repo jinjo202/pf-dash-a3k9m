@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-03",
-  "generated_utc": "2026-07-03T22:20:53Z",
+  "generated_utc": "2026-07-03T22:53:20Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
-        "pe": 21.64,
+        "pe": 21.65,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -564,7 +564,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-02",
       "decimals": 2,
       "valuation": {
-        "pe": 9.02,
+        "pe": 9.03,
         "pb": 1.25,
         "roe": null,
         "src": "EEM (top derived)",
