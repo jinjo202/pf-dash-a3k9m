@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-03d";</script>
+<script>window.CODE_VERSION = "2026-07-03e";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -531,7 +531,32 @@ function boot(data){
   renderActions();
   renderCIO();
   initChat();
+  window.__fmBooted = true;
 }
+
+/* ── 시황 라이브 갱신: benchmarks.js를 5분마다 재로드해 CIO 패널·차트 재렌더 ──
+   (장중엔 benchmarks-intraday 워크플로가 ~30분 주기로 갱신 → 페이지가 알아서 따라감) */
+async function refreshBenchmarks(){
+  try{
+    var r = await fetch('benchmarks.js?nc='+Date.now(), {cache:'no-store'});
+    if (!r.ok) return;
+    var t = await r.text();
+    var m = t.match(/window\.BENCHMARKS\s*=\s*(\{[\s\S]*\});?\s*$/);
+    if (!m) return;
+    var b = JSON.parse(m[1]);
+    if (!b || !b.indices || !b.indices.length) return;
+    var prev = window.BENCHMARKS || {};
+    if (b.generated_utc && b.generated_utc === prev.generated_utc) return;   // 변화 없음
+    window.BENCHMARKS = b;
+    if (window.__fmBooted) renderCIO();
+  } catch(e){}
+}
+setInterval(function(){
+  if (window.__fmBooted && !document.hidden) refreshBenchmarks();
+}, 5*60*1000);
+document.addEventListener('visibilitychange', function(){
+  if (window.__fmBooted && !document.hidden) refreshBenchmarks();
+});
 
 /* ============================ 스냅샷 계산 ============================ */
 var EU_SET = {DE:1,FR:1,IT:1,UK:1,GB:1,CH:1,ES:1,NL:1,SE:1,DK:1,FI:1,NO:1,BE:1,AT:1,IE:1,PT:1,LU:1};
@@ -928,7 +953,11 @@ function renderCIO(){
   var pillars=(window.MACRO&&MACRO.regime&&MACRO.regime.pillars)||{};
   var hasTape = !!(window.BENCHMARKS&&BENCHMARKS.indices&&BENCHMARKS.indices.length);
 
-  $('cioStamp').textContent = '· 기준일 '+(SNAP.asOf||'')+(hasTape?(' · 시황 '+BENCHMARKS.as_of):'');
+  var genT='';
+  if (hasTape && BENCHMARKS.generated_utc){
+    try{ var gd=new Date(BENCHMARKS.generated_utc); genT=' '+('0'+gd.getHours()).slice(-2)+':'+('0'+gd.getMinutes()).slice(-2)+' 갱신'; }catch(e){}
+  }
+  $('cioStamp').textContent = '· 기준일 '+(SNAP.asOf||'')+(hasTape?(' · 시황 '+BENCHMARKS.as_of+genT):'');
   $('cioHint').textContent = '운용규모 '+SNAP.total.toFixed(0)+' '+SNAP.unit+' · '+(PF.holdings||[]).length+'개 포지션 · 매일 데이터 기준 자동 산출. 서술형 심층의견은 우상단 버튼.';
 
   // ── 변동성/조정원인 ──

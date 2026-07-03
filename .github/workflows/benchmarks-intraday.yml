@@ -1,0 +1,58 @@
+name: Benchmarks Intraday
+
+on:
+  schedule:
+    # 장중 ~30분 주기 시세 갱신 (fm.html CIO 차트·시황 테이프의 준실시간화).
+    # KST=UTC+9, 미 동부 EDT=UTC-4 기준. 무료 cron 지연은 감수(베스트 에포트).
+    - cron: '5,35 0-6 * * 1-5'    # 한국장 09:05~15:35 KST
+    - cron: '35 13 * * 1-5'       # 미국장 개장 직후 09:35 ET
+    - cron: '5,35 14-19 * * 1-5'  # 미국장 10:05~15:35 ET
+    - cron: '5 20 * * 1-5'        # 미국장 마감 무렵 16:05 ET
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: benchmarks-intraday
+  cancel-in-progress: true
+
+jobs:
+  intraday:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Refresh benchmarks (intraday — 가격·히스토리만, 밸류·금리 보존)
+        run: python fetch_benchmarks.py --intraday
+
+      - name: Commit & push if changed
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add benchmarks.js
+          if git diff --staged --quiet; then
+            echo "변경 없음."; exit 0
+          fi
+          git commit -m "benchmarks: intraday $(date -u +%H:%M)Z"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase origin/main && git push; then
+              echo "push 성공 (attempt $attempt)"; exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 5))
+          done
+          echo "::error::3회 시도 후 push 실패"; exit 1
