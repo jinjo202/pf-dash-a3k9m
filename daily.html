@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-02b";</script>
+<script>window.CODE_VERSION = "2026-07-02c";</script>
 <script>
   (function () {
     try {
@@ -46,6 +46,7 @@
     document.write('<sc'+'ript src="briefings-archive-asia.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="briefing-data.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="weekly-data.js?v=' + v + '" onerror="window.WEEKLY=null"><\/sc'+'ript>');
+    document.write('<sc'+'ript src="macro-data.js?v=' + v + '" onerror="window.MACRO=null"><\/sc'+'ript>');
   })();
 </script>
 <!-- 워드(.docx) 생성용 라이브러리 (클라이언트 사이드, 브리핑 → 개조식 보고서) -->
@@ -356,6 +357,22 @@
   .cm-mover-reason { font-size:12.5px; line-height:1.6; color:var(--text-soft); }
   .cm-mover-reason a { color:var(--text-soft); text-decoration:none; }
   .cm-mover-reason a:hover { color:var(--accent); text-decoration:underline; }
+  /* 매크로 지표 카드 (오늘의 글로벌 시황) */
+  .mind-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(118px,1fr)); gap:10px; margin:2px 0 14px; }
+  .mind-card { background:var(--panel-soft); border:1px solid var(--border); border-top-width:3px;
+    border-radius:11px; padding:10px 12px; }
+  .mind-card.pos { border-top-color:var(--pos); }
+  .mind-card.neg { border-top-color:var(--neg); }
+  .mind-card.neu { border-top-color:var(--muted); }
+  .mind-name { font-size:11px; font-weight:700; color:var(--text-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mind-val { font-size:19px; font-weight:800; letter-spacing:-.02em; margin-top:4px; color:var(--text); font-variant-numeric:tabular-nums; }
+  .mind-foot { display:flex; align-items:center; gap:5px; margin-top:5px; }
+  .mind-sig { font-size:10px; font-weight:800; }
+  .mind-sig.pos { color:var(--pos); } .mind-sig.neg { color:var(--neg); } .mind-sig.neu { color:var(--muted); }
+  .mind-asof { font-size:9.5px; color:var(--muted); margin-left:auto; font-weight:600; }
+  .mind-chg { font-size:11px; font-weight:700; }
+  .mind-chg.pos { color:var(--pos); } .mind-chg.neg { color:var(--neg); } .mind-chg.neu { color:var(--muted); }
+  .cm-region-idx { font-size:11px; font-weight:700; margin-left:6px; font-variant-numeric:tabular-nums; }
   .cm-region-list { display:flex; flex-direction:column; gap:8px; }
   .cm-region {
     background:var(--panel-soft); border:1px solid var(--border); border-radius:8px;
@@ -839,6 +856,56 @@ function makeSpark(data, opts) {
   }
 
   /* ── 전체 개요 글로벌 시황 ── */
+  // 일간 매크로 줄글에서 지표값·일간변동 파싱 (fetch_daily가 생성한 문장)
+  function parseDailyMacro(t) {
+    t = t || ''; var o = {}, m;
+    if ((m = t.match(/VIX\)?\s*([\d.]+)\s*\(([-+]?[\d.]+)%\)/)))        o.vix   = { v: parseFloat(m[1]), chg: parseFloat(m[2]) };
+    if ((m = t.match(/10년물[^0-9]{0,12}([\d.]+)\s*%/)))                o.us10y = { v: parseFloat(m[1]) };
+    if ((m = t.match(/WTI[^0-9]{0,12}([\d.]+)\s*달러\s*\(([-+]?[\d.]+)%\)/))) o.wti = { v: parseFloat(m[1]), chg: parseFloat(m[2]) };
+    if ((m = t.match(/원\/달러[^0-9]{0,12}([\d,]+)\s*원\s*\(([-+]?[\d.]+)%\)/)))  o.fx  = { v: parseFloat(m[1].replace(/,/g, '')), chg: parseFloat(m[2]) };
+    return o;
+  }
+
+  // 매크로 핵심 지표 카드 — 값은 일간 줄글 우선(달러 레벨·일간변동), 신호/기준일은 macro-data.js
+  function renderMacroIndicators(macroStr) {
+    var M = window.MACRO, I = (M && M.indicators) || {};
+    var P = parseDailyMacro(macroStr);
+    function chg(c) {
+      return (c != null && !isNaN(c))
+        ? ' <span class="mind-chg ' + colorClass(c) + '">' + (c > 0 ? '+' : '') + c.toFixed(1) + '%</span>' : '';
+    }
+    function card(label, valHtml, d) {
+      var cls = (d && d.signal_cls) || 'neu';
+      return '<div class="mind-card ' + cls + '">' +
+        '<div class="mind-name">' + escHtml(label) + '</div>' +
+        '<div class="mind-val">' + valHtml + '</div>' +
+        '<div class="mind-foot">' +
+          (d && d.signal ? '<span class="mind-sig ' + cls + '">' + escHtml(d.signal) + '</span>' : '') +
+          (d && d.as_of ? '<span class="mind-asof">' + d.as_of + '</span>' : '') +
+        '</div></div>';
+    }
+    var out = [];
+    var vix = I.vix || {};
+    if (P.vix || vix.current != null)
+      out.push(card('VIX 변동성', (P.vix ? P.vix.v.toFixed(1) + chg(P.vix.chg) : String(vix.current)), vix));
+    var y = I.us10y || {};
+    if (P.us10y || y.current != null)
+      out.push(card('미국 10Y 금리', (P.us10y ? P.us10y.v.toFixed(2) : y.current) + '%', y));
+    var oil = I.oil_yoy || {};
+    if (P.wti)
+      out.push(card('WTI 유가', '$' + P.wti.v.toFixed(1) + chg(P.wti.chg), oil));
+    else if (oil.current != null)
+      out.push(card('WTI 유가(YoY)', (oil.current > 0 ? '+' : '') + oil.current.toFixed(1) + '%', oil));
+    var fx = I.usdkrw || {};
+    if (P.fx || fx.current != null)
+      out.push(card('USD/KRW', Math.round(P.fx ? P.fx.v : fx.current).toLocaleString('ko-KR') + '원' + (P.fx ? chg(P.fx.chg) : ''), fx));
+    var fng = I.cnn_fng || {};
+    if (fng.current != null)
+      out.push(card('CNN 공포·탐욕', String(fng.current), fng));
+    if (!out.length) return '';
+    return '<div class="mind-grid">' + out.join('') + '</div>';
+  }
+
   function renderOverviewCommentary() {
     var regions = D.regions || [];
     // 매크로 라인 (지역 공통) — 있는 것 중 첫 번째
@@ -847,14 +914,16 @@ function makeSpark(data, opts) {
       var c = regions[i].commentary;
       if (c && !Array.isArray(c) && c.macro) { macro = c.macro; break; }
     }
-    var hasAny = macro || regions.some(function(r){
+    var indCards = renderMacroIndicators(macro);
+    var hasAny = indCards || regions.some(function(r){
       var c = r.commentary; return c && !Array.isArray(c) && c.summary;
     });
     if (!hasAny) return '';
 
     var html = '<div class="commentary-box">';
     html += '<div class="commentary-title">📝 오늘의 글로벌 시황</div>';
-    if (macro) html += '<p class="commentary-line"><b>🌐 매크로</b> · ' + escHtml(macro) + '</p>';
+    // 매크로 지표를 카드로 표시(줄글 대체)
+    html += indCards;
 
     html += '<div class="cm-subtitle">🗺 지역별 한줄 요약</div>';
     html += '<div class="cm-region-list">';
@@ -862,15 +931,18 @@ function makeSpark(data, opts) {
       var c = r.commentary;
       var summary = (c && !Array.isArray(c) && c.summary) ? c.summary : '';
       if (!summary) return;
+      var main = r.indices && r.indices[0];
+      var idxTxt = main ? '<span class="cm-region-idx ' + colorClass(main.chgPct) + '">' +
+        escHtml(main.name) + ' ' + fmtPct(main.chgPct) + '</span>' : '';
       html += '<div class="cm-region" onclick="switchRegion(\'' + r.key + '\')">' +
-        '<div class="cm-region-name">' + r.flag + ' ' + escHtml(r.name) +
+        '<div class="cm-region-name">' + r.flag + ' ' + escHtml(r.name) + idxTxt +
           (r.as_of ? ' <span class="cm-src">' + r.as_of + '</span>' : '') + '</div>' +
         '<div class="cm-region-text">' + escHtml(summary) + '</div>' +
       '</div>';
     });
     html += '</div>';
 
-    html += '<div class="commentary-foot">※ 각 지역 탭에서 매크로·주요 이벤트·특징주 등락 요인을 자세히 확인할 수 있습니다.</div>';
+    html += '<div class="commentary-foot">※ 지표는 macro-data.js 기준(각 카드에 기준일 표기). 각 지역 탭에서 세부 확인 가능.</div>';
     html += '</div>';
     return html;
   }
