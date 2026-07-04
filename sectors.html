@@ -113,6 +113,14 @@
   .chat-settings input[type=password] { flex:1; min-width:180px; padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; }
   .chat-settings select, .chat-settings button { padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; cursor:pointer; }
   .chat-settings .ok { color:var(--pos); font-weight:700; }
+  .local-bar { margin-top:10px; }
+  .local-bar code { font-family:ui-monospace,monospace; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
+  .local-ok { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--pos); font-weight:700; }
+  .local-box { display:flex; align-items:center; gap:8px 12px; flex-wrap:wrap; padding:11px 14px; border:1px solid var(--accent); background:var(--accent-soft); border-radius:10px; font-size:12.5px; line-height:1.6; }
+  .local-box a { color:var(--accent); font-weight:800; text-decoration:none; font-family:ui-monospace,monospace; font-size:13px; }
+  .local-box a:hover { text-decoration:underline; }
+  .lb-copy { padding:5px 11px; border:1px solid var(--accent); border-radius:7px; background:var(--panel); color:var(--accent); cursor:pointer; font-size:11.5px; font-weight:700; }
+  .lb-copy:hover { background:var(--accent); color:#fff; }
 
   /* theme accordion */
   .themes-grid { display:grid; grid-template-columns:1fr; gap:12px; }
@@ -251,6 +259,7 @@
       <span id="keyStatus"></span>
     </div>
     <p class="note" id="chatModeNote"></p>
+    <div id="localLinkBar" class="local-bar"></div>
     <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시 구독에서 차감. GitHub Pages 등 정적 호스팅에선 불가. · <b>API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량 청구). 키는 이 브라우저 localStorage에만 저장 — 공용 PC에선 사용 후 비우세요.</p>
   </div>
 
@@ -713,6 +722,27 @@ async function initSettings(){
   $('chatMode').addEventListener('change', function(){ try{localStorage.setItem('fm_chat_mode',this.value);}catch(e){} updateModeUI(); });
   $('saveKey').addEventListener('click', function(){ var v=$('apiKey').value.trim(); try{localStorage.setItem('fm_chat_key',v); localStorage.setItem('fm_chat_model',$('modelSel').value);}catch(e){} updateModeUI(); });
   $('modelSel').addEventListener('change', function(){ try{localStorage.setItem('fm_chat_model',this.value);}catch(e){} });
+  renderLocalLink();
+}
+
+/* 로컬(구독 차감) 주소 안내 — 배포 사이트에선 링크로, 로컬에선 상태로 */
+function renderLocalLink(){
+  var bar=$('localLinkBar'); if(!bar) return;
+  var localUrl='http://localhost:8000/sectors.html';
+  if(isLocalHost()){
+    bar.innerHTML='<span class="local-ok">✅ 현재 로컬 접속 중 — 구독 차감(Claude 요금제)으로 클릭 즉시 리서치가 생성됩니다.</span>';
+    return;
+  }
+  bar.innerHTML='<div class="local-box"><span>🖥 <b>구독 차감(내 요금제)</b>으로 쓰려면 로컬 주소로 접속하세요. '+
+    '지금은 정적 사이트라 구독 모드가 막혀 클릭이 안 됩니다 (로컬에서 <code>python serve.py</code> 실행 필요):</span>'+
+    '<a href="'+localUrl+'">'+localUrl+'</a>'+
+    '<button type="button" class="lb-copy" id="lbCopy">주소 복사</button></div>';
+  var cp=$('lbCopy');
+  if(cp) cp.addEventListener('click', function(){
+    var self=this;
+    try{ navigator.clipboard.writeText(localUrl).then(function(){ self.textContent='복사됨 ✓'; }, function(){ self.textContent='복사 실패'; }); }
+    catch(e){ self.textContent='복사 실패'; }
+  });
 }
 
 /* ============================ 프롬프트 ============================ */
