@@ -1,0 +1,59 @@
+name: FM ETF Factsheet
+
+on:
+  schedule:
+    # 주 2회(월·목 07:10 KST). AUM·보수·발행주수 등은 저빈도 변경 데이터라
+    # fm-cio처럼 하루 여러 번 돌 필요 없음 — 백업 슬롯도 생략.
+    - cron: '10 22 * * 0,3'  # 07:10 KST 월·목 (UTC 일·수 22:10)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fm-etf
+  cancel-in-progress: false
+
+jobs:
+  etf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch ETF factsheets
+        run: python fetch_etf_factsheet.py
+
+      - name: Commit & push fm-etf.js
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add fm-etf.js
+          if git diff --staged --quiet; then
+            echo "변경 없음."; exit 0
+          fi
+          git commit -m "fm-etf: ETF factsheet 자동 갱신 ($(date -u +%Y-%m-%d))"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase origin/main && git push; then
+              echo "push 성공 (attempt $attempt)"; exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 5))
+          done
+          echo "::error::3회 시도 후 push 실패"; exit 1
