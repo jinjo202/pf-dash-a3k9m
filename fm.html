@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-05a";</script>
+<script>window.CODE_VERSION = "2026-07-05b";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -272,6 +272,13 @@
   .uni-num { font-variant-numeric:tabular-nums; }
   .uni-pos { color:var(--pos); } .uni-neg { color:var(--neg); }
   .uni-held-b { font-size:10.5px; font-weight:800; color:var(--accent); }
+  .uni-note { font-size:11px; color:var(--muted); font-weight:400; line-height:1.4; margin-top:2px; white-space:normal; max-width:420px; }
+  .uni-updated { font-size:12px; color:var(--text-soft); margin-bottom:10px; }
+  .uni-log { border:1px solid var(--border); border-radius:10px; padding:10px 12px; margin-bottom:12px; background:var(--panel-soft); }
+  .uni-log-h { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); margin-bottom:6px; }
+  .uni-log-row { padding:5px 0; border-bottom:1px dashed var(--border); font-size:12.5px; }
+  .uni-log-row:last-child { border-bottom:none; }
+  .uni-log-r { font-size:11.5px; color:var(--text-soft); margin-top:2px; line-height:1.45; }
 
   .memo-list { margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
   .memo-list li { display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.55; }
@@ -422,11 +429,11 @@
         <button type="button" id="cioAiBtn" class="cio-ai-btn" title="로컬 serve.py(구독 차감) 또는 API 키로 서술형 심층 브리핑 생성">🤖 AI 심층의견</button>
       </h2>
       <p class="hint" id="cioHint"></p>
+      <div id="cioAiOut" class="hidden"></div>
       <div id="cioVol"></div>
       <div id="cioDaily"></div>
       <div id="cioSections"></div>
       <div id="cioFactors"></div>
-      <div id="cioAiOut" class="hidden"></div>
     </div>
 
     <!-- 1) 포지션 사이징 -->
@@ -487,8 +494,10 @@
     <div class="panel" id="universePanel">
       <h2>🔭 워칭 유니버스 — 후보 ETF</h2>
       <p class="hint">CIO가 아이디어를 고르는 후보 ETF 전체 목록. <b>실제 보유 포트폴리오와 별개</b>로 워칭·관리합니다(보유는 <a href="portfolio.html">포트폴리오 탭</a>). 행 클릭 시 factsheet(AUM·보수·상위 구성종목·공식 링크). ✓보유 표시는 현재 계정 편입 종목.</p>
+      <div id="uniMeta"></div>
       <div class="uni-controls" id="uniControls"></div>
       <div style="overflow-x:auto"><table id="universeTable" class="uni-table"></table></div>
+      <p class="note" id="uniFoot" style="margin-top:10px"></p>
     </div>
 
     <!-- 채팅 -->
@@ -1034,6 +1043,25 @@ function renderUniverse(){
   var data = (window.FM_ETF && FM_ETF.data) || null;
   if (!data){ wrap.innerHTML = '<tbody><tr><td class="l" style="color:var(--muted)">유니버스 데이터(fm-etf.js)가 없습니다.</td></tr></tbody>'; if($('uniControls')) $('uniControls').innerHTML=''; return; }
   var held = pfHeldMap();
+
+  // 갱신일 + 편입/편출 changelog 배너
+  var meta=$('uniMeta');
+  if (meta){
+    var asOf=FM_ETF.as_of||'', comp=FM_ETF.composition_as_of||asOf;
+    var log=(FM_ETF.changelog||[]).slice(0,6);
+    var logHtml='';
+    if (log.length){
+      logHtml='<div class="uni-log"><div class="uni-log-h">📌 최근 편입·편출</div>'+
+        log.map(function(c){
+          var isAdd=c.action==='add';
+          return '<div class="uni-log-row"><span class="badge '+(isAdd?'b-pos':'b-neg')+'" style="font-weight:700">'+(isAdd?'편입':'편출')+'</span> '+
+            '<b>'+esc(c.name||c.ticker||'')+'</b> <span class="uni-tk">'+esc(c.ticker||'')+'</span> '+
+            '<span style="font-size:11px;color:var(--muted)">'+esc(c.date||'')+'</span>'+
+            (c.reason?'<div class="uni-log-r">'+esc(c.reason)+'</div>':'')+'</div>';
+        }).join('')+'</div>';
+    }
+    meta.innerHTML='<div class="uni-updated">🗓 데이터 갱신 <b>'+esc(asOf)+'</b> · 구성 변경 <b>'+esc(comp)+'</b> · 주 2회(월·목) 자동 갱신</div>'+logHtml;
+  }
   var order = { sec:0, kr:1, reg:2, thm:3, etc:4 };
   var rows = Object.keys(data).map(function(tk){
     var d = data[tk], g = uniGroup(d.ctx), h = held[normTicker(tk)], isHeld = !!(h && h.mkt > 0);
@@ -1058,12 +1086,15 @@ function renderUniverse(){
     var d = r.d;
     return '<tr class="'+(r.isHeld?'uni-held':'')+'" data-etf="'+esc(r.tk)+'">'+
       '<td class="l"><span class="uni-cat">'+esc(r.g.l)+'</span>'+(r.sub?'<br><span class="uni-cat" style="font-weight:600;color:var(--text-soft)">'+esc(r.sub)+'</span>':'')+'</td>'+
-      '<td class="l"><span class="uni-nm">'+esc(d.name||r.tk)+'</span> <span class="uni-tk">'+esc(r.tk)+' 📄</span></td>'+
+      '<td class="l"><span class="uni-nm">'+esc(d.name||r.tk)+'</span> <span class="uni-tk">'+esc(r.tk)+' 📄</span>'+
+        (d.note?'<div class="uni-note">'+esc(d.note)+'</div>':'')+'</td>'+
       '<td>'+unum(d.r_1m)+'</td><td>'+unum(d.r_3m)+'</td><td>'+unum(d.r_ytd)+'</td>'+
       '<td>'+(r.isHeld?'<span class="uni-held-b">✓ '+pct(r.w)+'</span>':'<span style="color:var(--muted)">—</span>')+'</td>'+
     '</tr>';
   }).join('');
   wrap.innerHTML = head + '<tbody>' + body + '</tbody>';
+  var foot=$('uniFoot');
+  if (foot) foot.innerHTML='※ 추천 근거는 각 ETF 아래 작은 글씨(큐레이션 메모). 유니버스 구성은 fm-data 시드에서 큐레이션하며, 수익률·AUM·구성종목은 주 2회(월·목) 자동 갱신됩니다. 편입은 새 아이디어 채택, 편출은 테마 소멸·중복·유동성 등으로 후보에서 제외한 것입니다.';
   [].slice.call($('uniControls').querySelectorAll('.uni-chip')).forEach(function(ch){
     ch.addEventListener('click', function(){ _uniFilter = ch.getAttribute('data-uni'); renderUniverse(); });
   });
@@ -1515,12 +1546,30 @@ function cioAiPrompt(){
     '추가로, <CONTEXT>의 시황_벤치마크 일간/MTD 움직임을 근거로 오늘 시장 변동성의 원인이 기술적(수급·포지셔닝)인지 펀더멘털 훼손인지 판정하고, 그에 따라 오늘 당장 매매가 필요한지 명확히 답하라. 막연한 양비론 없이 결정 지향적으로.';
 }
 var cioBusy = false;   // AI 심층의견 전용 busy — 채팅(chatBusy)과 분리해 서로 막지 않게.
+function gotoChatSettings(){
+  var cp=$('chatPanel'); if(cp) cp.scrollIntoView({behavior:'smooth', block:'start'});
+  var f=$('geminiKey')||$('apiKey'); if(f) setTimeout(function(){ try{f.focus();}catch(e){} }, 400);
+}
 async function runCioAi(){
   // 피드백을 맨 앞에 — 클릭하면 무슨 일이 있어도 최소한 박스가 열리고 상태가 보이게(무반응 방지).
-  var out=$('cioAiOut'); if(out) out.classList.remove('hidden');
+  var out=$('cioAiOut'); if(out){ out.classList.remove('hidden'); out.scrollIntoView({behavior:'smooth', block:'center'}); }
   if (cioBusy){ if(out) out.innerHTML='<div class="bd" style="opacity:.7">이미 생성 중입니다… 잠시만 기다려주세요.</div>'; return; }
   var mode=$('chatMode')?$('chatMode').value:'api';
   var model=$('modelSel')?$('modelSel').value:'claude-opus-4-8';
+  // 키/백엔드가 없어 바로 실패할 상황이면, 에러 대신 무엇을 눌러야 하는지 안내(버튼 무반응처럼 보이던 문제 방지).
+  var geminiKey=(localStorage.getItem('fm_gemini_key')||'').trim();
+  var apiKey=(localStorage.getItem('fm_chat_key')||'').trim();
+  var needSetup = (mode==='gemini' && !geminiKey) || (mode==='api' && !apiKey);
+  if (needSetup){
+    var what = mode==='gemini' ? 'Gemini(무료) API 키' : 'Anthropic API 키';
+    out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견</div><div class="bd">'+
+      '현재 청구 모드는 <b>'+esc(assistantLabel())+'</b>인데 '+esc(what)+'가 없어 생성할 수 없습니다.<br>'+
+      '<button type="button" class="cio-ai-btn" id="cioAiSetup" style="margin:8px 0 0">⚙ 아래 채팅 설정에서 키 입력하기 →</button>'+
+      '<div style="font-size:11.5px;color:var(--muted);margin-top:6px">· 무료로 쓰려면 <b>Gemini</b> 모드 + <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> 키.<br>· 로컬에서 <code>python serve.py</code> 실행 시 구독 차감 모드가 자동 활성화됩니다.</div>'+
+      '</div>';
+    var sb=$('cioAiSetup'); if(sb) sb.onclick=gotoChatSettings;
+    return;
+  }
   if(out) out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견 ('+assistantLabel()+')</div><div class="bd"><span style="opacity:.6">생성 중…</span></div>';
   var bd=out?out.querySelector('.bd'):null;
   var msgs=[{role:'user', content:cioAiPrompt()}];
@@ -1530,8 +1579,6 @@ async function runCioAi(){
     if (mode==='gemini'){
       await streamGemini(msgs, model, onDelta);
     } else if (mode==='api'){
-      var key=(localStorage.getItem('fm_chat_key')||'').trim();
-      if(!key) throw new Error('API 키 미입력 — 아래 채팅 설정에서 키를 저장하거나, 로컬 serve.py(구독 차감)로 실행하세요.');
       await streamChat(msgs, model, onDelta);
     } else {
       await streamChatSub(msgs, model, onDelta);

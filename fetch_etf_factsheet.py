@@ -63,7 +63,7 @@ def etf_universe(fm):
         if not tk or tk in seen:
             return
         seen.add(tk)
-        out.append({"ticker": tk, "name": e.get("name"), "ctx": ctx})
+        out.append({"ticker": tk, "name": e.get("name"), "ctx": ctx, "note": e.get("note")})
 
     for s in (fm.get("sectors") or []):
         for e in (s.get("etfs") or []):
@@ -260,11 +260,11 @@ def kr_etf(disp):
     return row
 
 
-def load_prev():
+def load_prev_payload():
     try:
         with open("fm-etf.js", encoding="utf-8") as f:
             m = re.search(r"window\.FM_ETF\s*=\s*(\{.*\})\s*;\s*$", f.read(), re.S)
-        return ((json.loads(m.group(1)) or {}).get("data") or {}) if m else {}
+        return (json.loads(m.group(1)) or {}) if m else {}
     except Exception:
         return {}
 
@@ -272,7 +272,8 @@ def load_prev():
 def main():
     fm = load_fm_data()
     universe = etf_universe(fm)
-    prev = load_prev()
+    prev_payload = load_prev_payload()
+    prev = prev_payload.get("data") or {}
     today = dt.date.today().isoformat()
     out = {}
     failed = []
@@ -285,19 +286,48 @@ def main():
             if is_kr and e.get("name"):
                 row["name"] = e.get("name")
             row["ctx"] = e.get("ctx")
+            row["note"] = e.get("note")     # 추천 근거(큐레이션 메모)
             out[disp] = row
         except Exception as ex:
             print(f"    ! {disp} 실패: {ex}", flush=True)
             if disp in prev:
                 out[disp] = prev[disp]
                 out[disp]["stale"] = True
+                out[disp]["ctx"] = e.get("ctx")
+                out[disp]["note"] = e.get("note")
                 print("      → 이전 데이터 유지(stale)", flush=True)
             failed.append(disp)
     if failed:
         print(f"\n⚠ 실패 {len(failed)}종목: {', '.join(failed)}", flush=True)
-    payload = {"as_of": today, "data": out}
-    js = ("// 펀드매니저 탭 ETF factsheet(AUM·거래량·보수·벤치마크·발행주수·상장일) — "
-          "fetch_etf_factsheet.py 생성. 큐레이션(수동 갱신).\n"
+
+    # 유니버스 편입/편출 추적 — 직전 fm-etf.js의 종목과 비교. 사유는 편입은 note(큐레이션 근거),
+    # 편출은 직전 이름만(제거 사유는 자동 도출 불가 → 큐레이션 변경으로 표기).
+    changelog = list(prev_payload.get("changelog") or [])
+    new_keys, old_keys = set(out.keys()), set(prev.keys())
+    added, removed = new_keys - old_keys, old_keys - new_keys
+    if prev:   # 최초 생성(비교 대상 없음)일 땐 전체를 편입으로 기록하지 않음
+        events = []
+        for tk in sorted(added):
+            r = out.get(tk) or {}
+            events.append({"date": today, "action": "add", "ticker": tk,
+                           "name": r.get("name") or tk, "ctx": r.get("ctx"),
+                           "reason": r.get("note") or "유니버스 신규 편입(큐레이션)"})
+        for tk in sorted(removed):
+            r = prev.get(tk) or {}
+            events.append({"date": today, "action": "remove", "ticker": tk,
+                           "name": r.get("name") or tk, "ctx": r.get("ctx"),
+                           "reason": "유니버스에서 제외(큐레이션 변경)"})
+        if events:
+            changelog = events + changelog
+            print(f"  편입 {len(added)} · 편출 {len(removed)}", flush=True)
+    changelog = changelog[:20]
+    # 구성 변경일: 이번에 편입·편출이 있었으면 today, 없으면 직전 값 유지.
+    comp_as_of = today if (prev and (added or removed)) else (prev_payload.get("composition_as_of") or today)
+
+    payload = {"as_of": today, "composition_as_of": comp_as_of,
+               "changelog": changelog, "data": out}
+    js = ("// 펀드매니저 탭 ETF factsheet(AUM·거래량·보수·벤치마크·구성종목·수익률) — "
+          "fetch_etf_factsheet.py 생성. 주 2회(월·목) cron 자동 갱신.\n"
           "window.FM_ETF = " + json.dumps(payload, ensure_ascii=False, allow_nan=False) + ";\n")
     with open("fm-etf.js", "w", encoding="utf-8") as f:
         f.write(js)
