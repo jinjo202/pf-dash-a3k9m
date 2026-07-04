@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04e";</script>
+<script>window.CODE_VERSION = "2026-07-04f";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -432,7 +432,7 @@
           <button type="button" id="saveKey">저장</button>
         </span>
         <span id="geminiKeyWrap" style="display:none;gap:8px;align-items:center">
-          <input type="password" id="geminiKey" placeholder="AIza... (Google AI Studio 키, 브라우저 localStorage에만 저장)" autocomplete="off" />
+          <input type="password" id="geminiKey" placeholder="AQ.… 또는 AIza… (Google AI Studio 키, 브라우저 localStorage에만 저장)" autocomplete="off" />
           <button type="button" id="saveGeminiKey">저장</button>
         </span>
         <select id="modelSel">
@@ -455,7 +455,7 @@
         </div>
       </div>
       <p class="note" id="chatModeNote"></p>
-      <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시, 로그인된 Claude Code CLI로 호출 → 토큰이 API가 아니라 <b>구독</b>에서 차감(2026-06-15부터 구독의 별도 'Agent SDK 크레딧' 풀에서 차감). GitHub Pages 등 정적 호스팅에선 불가.<br>· <b>Gemini API 키 (무료 티어)</b>: 웹(정적 호스팅)에서 브라우저가 Google Gemini를 직접 호출. 키는 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>에서 무료 발급(분당·일일 rate limit 있음). 키는 이 브라우저 localStorage에만 저장 — 저장소엔 절대 안 들어감. 공용 PC에선 사용 후 키를 비우세요.<br>· <b>Anthropic API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량으로 청구). 키는 이 브라우저 localStorage에만 저장.</p>
+      <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시, 로그인된 Claude Code CLI로 호출 → 토큰이 API가 아니라 <b>구독</b>에서 차감(2026-06-15부터 구독의 별도 'Agent SDK 크레딧' 풀에서 차감). GitHub Pages 등 정적 호스팅에선 불가.<br>· <b>Gemini API 키 (무료 티어)</b>: 웹(정적 호스팅)에서 브라우저가 Google Gemini를 직접 호출. 키는 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>에서 무료 발급(분당·일일 rate limit 있음). 2026년 신규 키는 <code>AQ.</code>로 시작(구 <code>AIza</code>도 호환). 키는 이 브라우저 localStorage에만 저장 — 저장소엔 절대 안 들어감. 공용 PC에선 사용 후 키를 비우세요.<br>· <b>Anthropic API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량으로 청구). 키는 이 브라우저 localStorage에만 저장.</p>
     </div>
   </div>
 
@@ -1545,20 +1545,27 @@ async function streamChat(msgs, model, onText){
 // 키는 사용자 브라우저 localStorage(fm_gemini_key)에만 — 저장소엔 없음(공개 repo 안전).
 async function streamGemini(msgs, model, onText){
   var key = (localStorage.getItem('fm_gemini_key')||'').trim();
-  if (!key) throw new Error('Gemini 키 미입력 — 아래 채팅 설정에서 Google AI Studio 키를 저장하세요.');
+  if (!key) throw new Error('Gemini 키 미입력 — 아래 채팅 설정에서 Gemini API 키를 저장하세요.');
   var contents = msgs.map(function(m){
     return { role: (m.role==='assistant' ? 'model' : 'user'), parts:[{ text: String(m.content||'') }] };
   });
   var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) +
-            ':streamGenerateContent?alt=sse&key=' + encodeURIComponent(key);
-  var resp = await fetch(url, {
-    method:'POST', headers:{'content-type':'application/json'},
-    body: JSON.stringify({
-      systemInstruction: { parts:[{ text: systemPrompt() }] },
-      contents: contents,
-      generationConfig: { maxOutputTokens: 2048 }
-    })
-  });
+            ':streamGenerateContent?alt=sse';
+  // 인증은 x-goog-api-key 헤더로(공식 권장). 2026 신규 'AQ.' auth 키·구 'AIza' 키 모두 이 방식 지원.
+  var resp;
+  try {
+    resp = await fetch(url, {
+      method:'POST',
+      headers:{ 'content-type':'application/json', 'x-goog-api-key': key },
+      body: JSON.stringify({
+        systemInstruction: { parts:[{ text: systemPrompt() }] },
+        contents: contents,
+        generationConfig: { maxOutputTokens: 2048 }
+      })
+    });
+  } catch(e){
+    throw new Error('네트워크/CORS 오류 — 키의 HTTP 리퍼러/앱 제한이 브라우저 호출을 막았거나 네트워크가 차단됐을 수 있습니다. ('+e.message+')');
+  }
   if (!resp.ok){ var t=''; try{ t=await resp.text(); }catch(e){}
     throw new Error('Gemini '+resp.status+': '+t.slice(0,300)); }
   var reader = resp.body.getReader(), dec = new TextDecoder(), buf='';
