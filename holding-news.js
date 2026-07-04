@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-04T09:34:18
+// 갱신: 2026-07-04T10:07:28
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -15,16 +15,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
-   "title": "[하반기 증시 전망②] 소외된 코스닥, 반전 가능성은…상폐 강화·연기금 유입 기대 - 뉴시안",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE81NnVMVDRNejFiRTc2YmJTRUt5SUlfQlVKV2VNYUhoaEZSMFZiTGtQOGg5NGNFM3Z6cVNxSU0yMGxSemxSY2tXc3J1Y0ROZ09PYWo3N2xodlJRcW9OV3NXeDBaWkxqdDNyTldv0gFuQVVfeXFMTWxPeHQxMTROZVlkb2M2NVJYX2pHa2p3Umswb2Jpd2ZVdFotVkVLQ3E5enR3YVhkWWU0R1JGZ1pWWkt4Z0hwZFJsV3JVYzlreVJWQWs4eDFYSENFN0d0SVlid1ZDT2IxbzBoTXR2Q1E?oc=5",
-   "source": "뉴시안",
-   "date": "2026-07-03"
-  },
-  {
    "title": "\"1만 간다\" vs \"6500도 열려 있다\"… 5대 리서치센터장의 코스피 전망 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxORS0zSUlEZFk0WGExYW0wNGtBZVhUYXFlMkNJelZXS3FsSmljZEpHeE4tV01xMXhmNjZ6cWU5TzJMdGE4Z0l6U0pyNjJTWDZ2Ty1Wb1lkbzhjX2NvY1BqMnVTSS1WNHVPc1VhZTNrbkZoRVhNMjFrYzFhRi1IOEljcg?oc=5",
    "source": "조선일보",
    "date": "2026-06-22"
+  },
+  {
+   "title": "[하반기 증시 전망②] 소외된 코스닥, 반전 가능성은…상폐 강화·연기금 유입 기대 - 뉴시안",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE81NnVMVDRNejFiRTc2YmJTRUt5SUlfQlVKV2VNYUhoaEZSMFZiTGtQOGg5NGNFM3Z6cVNxSU0yMGxSemxSY2tXc3J1Y0ROZ09PYWo3N2xodlJRcW9OV3NXeDBaWkxqdDNyTldv0gFuQVVfeXFMTWxPeHQxMTROZVlkb2M2NVJYX2pHa2p3Umswb2Jpd2ZVdFotVkVLQ3E5enR3YVhkWWU0R1JGZ1pWWkt4Z0hwZFJsV3JVYzlreVJWQWs4eDFYSENFN0d0SVlid1ZDT2IxbzBoTXR2Q1E?oc=5",
+   "source": "뉴시안",
+   "date": "2026-07-03"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -165,12 +165,6 @@ window.HOLDING_NEWS = {
    "date": "2026-06-29"
   },
   {
-   "title": "테슬라 AI5 칩, 옵티머스·로보택시 승부수 - 초이스스탁",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE01b2ZmRGt3SEJJQWZOWmJXdm8tQ21wTVJqc0lMNVRkbHdYamNqWGhYRnJTZEFLUUhQdVBUSEJZbGlHU0QyS1lVYWxHWVJ6TDREMWlOcVlVWkRxbXAyNW9FaUxB?oc=5",
-   "source": "초이스스탁",
-   "date": "2026-07-01"
-  },
-  {
    "title": "시장이 한국의 새로운 AI 및 반도체 개발 전략을 기다리는 가운데 삼성전자와 SK하이닉스 주가가 압박을 받고 있다 - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOSjNPQ3FRVWhYcEdRMzQ3R21id1pxeVJEclJKcko3MzRGWk9pbGFySXdPSDVZZHNLbG9vTGtXa3JpdHdkZGVTLUlYd25kREJ2ZUpYX1AzNWt1cDJveS1UZ1ZBT1FMVXlycGR4ZkhfUDdtWFEwYUpHcmlkODNVNFh1eHpNMXlDeFZRdzIwTU1kYmtwVHEtUFpfY1cwZTYwU0Y1eS01YUtmSUVEUVFXcHcwUUxtelNxOVlkd1NVaU1oUGRGdmZfUVJtSEQ4Zk9sb0MxRTdMZFpYcmtYX0FVdUVTOUotSFE0aTRMa2N1em1tcw?oc=5",
    "source": "TradingKey",
@@ -181,6 +175,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9JRi1JZ2YyaG1vdUxDbklkSFB2MUk4aFpqTURSMFA0SVZiejZ2ZXdLdWF1VFZndkJHMDR1RHFPQTJFem5GWDRYT0NaM0dDVGpRLTczMGI4Q2hRRTjSAWBBVV95cUxOdkV4d2VIQ3o3VG5lY0ZVdV9KNk91SXJWM3RTalpFQjNhdEV1a2FtVVhISHVCSUxIekN0TWd0MXk0bWNYU3YwbTg1M3BXVzdJMmh6dmVJSmU0YjdHOTlfcHA?oc=5",
    "source": "연합뉴스",
    "date": "2026-06-03"
+  },
+  {
+   "title": "반도체 다음은 ‘피지컬 AI’…로봇, 증시 새 주도주로 부상 - 재외동포신문",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE40bmF6ZnA2TlVfUmVCeHlzMy1zQUlPLUtIU1hYLTdYT21WeXp3X2xoT3RFdVVNRlgyMXNZd1RURHUxb3ZPTE16NUI4VGNUQnRZRm1Wa05Sa3dXRkJaYzhxTTFsZThKcWMzT2JMZA?oc=5",
+   "source": "재외동포신문",
+   "date": "2026-05-13"
   }
  ],
  "삼성 ESG 착한 책임투자": [
@@ -457,16 +457,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-02"
   },
   {
+   "title": "[기획] 베트남 예금 투자의 덫 '하이 리스크' 대신 '스마트 헷지' 3부 - 인사이드비나",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHYXI2N3RDeHRHZG52UXpERU10cnY4M0lFMFRqcHoxUVVJVTNuWHF2RXNzSEg1UUR6c0ptV19Qbzg5NXYxZ0lfTV92SVU2S0wyWFRWVjhNMTVBMEhDLW1TdlFJc0x4UGlnQ3M2Uw?oc=5",
+   "source": "인사이드비나",
+   "date": "2026-03-10"
+  },
+  {
    "title": "베트남 증시, FTSE 신흥국 승격…알고보면 KRX 덕택? [투자360] - v.daum.net",
    "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFB2UFUzdkU0NXFZelZZUUJpWTdKMWZOaGZqSlZkNldicTJnTGg1VllYdnBFczlaQXRTaWxNeTdSZVB6eTRGNzhEUGd3R1B4aUE?oc=5",
    "source": "v.daum.net",
    "date": "2025-10-12"
-  },
-  {
-   "title": "MSCI 선진국 지수 편입, 이번엔 해낼까? - 소년한국일보",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5PbVhPaEpVbGNKTmVoRlBleWJ5dUI3aFVtRFpZWFRVdk9FTldpNklkaXQyQ01rNnRacnhQempZMVZUaHRMQ1ZYQng1bHpXTktURk5YUHJFVk51WkpjQktJeWVVMUVFSTlHVnRuWdIBcEFVX3lxTFBDajV3Q3ZWZklaVzBJc2FTTDNVTGJFU0YwN1FnckkwanFadVNTa2NSTkpHWDFOVVdIZXZOckZSRk5LZjd1NE9RZDNmM2p5U0lKcFdKU3U2SjNJdzJ0UnprbmdaT3lrTnNpS2pJQ0ZYeXk?oc=5",
-   "source": "소년한국일보",
-   "date": "2026-05-07"
   }
  ],
  "Dimensional International Value (DFIV)": [
