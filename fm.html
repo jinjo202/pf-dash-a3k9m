@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04d";</script>
+<script>window.CODE_VERSION = "2026-07-04e";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -546,13 +546,13 @@ function boot(data){
   $('app').classList.remove('hidden');
   SNAP = computeSnapshot(PF);
   RECS = buildRecs(SNAP);
-  renderSizing();
-  renderCountry();
-  renderSector();
-  renderLongTerm();
-  renderActions();
-  renderCIO();
+  // 각 렌더를 개별 격리 — 하나가 (라이브 데이터 엣지 등으로) 예외나도 나머지 렌더·채팅·버튼 배선이 죽지 않도록.
+  [renderSizing, renderCountry, renderSector, renderLongTerm, renderActions, renderCIO].forEach(function(fn){
+    try { fn(); } catch(e){ console.error('[fm] '+(fn.name||'render')+' 실패:', e); }
+  });
   initChat();
+  // 🤖 AI 심층의견 버튼은 renderCIO 성공 여부와 무관하게 항상 배선(과거엔 renderCIO 끝에서만 붙어 취약).
+  var _aiBtn = $('cioAiBtn'); if (_aiBtn) _aiBtn.onclick = runCioAi;
   window.__fmBooted = true;
 }
 
