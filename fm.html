@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04a";</script>
+<script>window.CODE_VERSION = "2026-07-04d";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -422,18 +422,26 @@
       <p class="hint">현재 포트폴리오·매크로·국가모델·시드 분석이 컨텍스트로 자동 주입됩니다. 정성 판단(레짐 전환 타이밍, 집중 리스크, 테마 실행 방식 등)을 함께 검토하세요.</p>
       <div class="chat-settings">
         <span>청구</span>
-        <select id="chatMode" title="구독 차감(로컬 Claude Code) 또는 Anthropic API 키">
+        <select id="chatMode" title="구독 차감(로컬 Claude Code) / Anthropic API 키 / Gemini API 키(무료 티어)">
           <option value="sub">Claude 요금제(구독 차감)</option>
+          <option value="gemini">Gemini API 키 (무료 티어)</option>
           <option value="api">Anthropic API 키</option>
         </select>
         <span id="apiKeyWrap" style="display:inline-flex;gap:8px;align-items:center">
           <input type="password" id="apiKey" placeholder="sk-ant-... (브라우저 localStorage에만 저장)" autocomplete="off" />
           <button type="button" id="saveKey">저장</button>
         </span>
+        <span id="geminiKeyWrap" style="display:none;gap:8px;align-items:center">
+          <input type="password" id="geminiKey" placeholder="AIza... (Google AI Studio 키, 브라우저 localStorage에만 저장)" autocomplete="off" />
+          <button type="button" id="saveGeminiKey">저장</button>
+        </span>
         <select id="modelSel">
-          <option value="claude-opus-4-8">Opus 4.8 (최고 추론)</option>
-          <option value="claude-sonnet-4-6">Sonnet 4.6 (균형)</option>
-          <option value="claude-haiku-4-5-20251001">Haiku 4.5 (저비용)</option>
+          <option value="claude-opus-4-8" class="m-claude">Opus 4.8 (최고 추론)</option>
+          <option value="claude-sonnet-4-6" class="m-claude">Sonnet 4.6 (균형)</option>
+          <option value="claude-haiku-4-5-20251001" class="m-claude">Haiku 4.5 (저비용)</option>
+          <option value="gemini-3.5-flash" class="m-gemini" hidden>Gemini 3.5 Flash (빠름·무료 넉넉)</option>
+          <option value="gemini-3.1-pro-preview" class="m-gemini" hidden>Gemini 3.1 Pro (최고 추론·프리뷰)</option>
+          <option value="gemini-2.5-pro" class="m-gemini" hidden>Gemini 2.5 Pro (안정 폴백)</option>
         </select>
         <button type="button" id="clearChat">대화 초기화</button>
         <span id="keyStatus"></span>
@@ -447,7 +455,7 @@
         </div>
       </div>
       <p class="note" id="chatModeNote"></p>
-      <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시, 로그인된 Claude Code CLI로 호출 → 토큰이 API가 아니라 <b>구독</b>에서 차감(2026-06-15부터 구독의 별도 'Agent SDK 크레딧' 풀에서 차감). GitHub Pages 등 정적 호스팅에선 불가.<br>· <b>API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량으로 청구). 키는 이 브라우저 localStorage에만 저장 — 공용 PC에서는 사용 후 키를 비우세요.</p>
+      <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시, 로그인된 Claude Code CLI로 호출 → 토큰이 API가 아니라 <b>구독</b>에서 차감(2026-06-15부터 구독의 별도 'Agent SDK 크레딧' 풀에서 차감). GitHub Pages 등 정적 호스팅에선 불가.<br>· <b>Gemini API 키 (무료 티어)</b>: 웹(정적 호스팅)에서 브라우저가 Google Gemini를 직접 호출. 키는 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>에서 무료 발급(분당·일일 rate limit 있음). 키는 이 브라우저 localStorage에만 저장 — 저장소엔 절대 안 들어감. 공용 PC에선 사용 후 키를 비우세요.<br>· <b>Anthropic API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량으로 청구). 키는 이 브라우저 localStorage에만 저장.</p>
     </div>
   </div>
 
@@ -1235,15 +1243,17 @@ function cioAiPrompt(){
 async function runCioAi(){
   if (chatBusy) return;
   var out=$('cioAiOut'); out.classList.remove('hidden');
-  out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견 (Claude)</div><div class="bd"><span style="opacity:.6">생성 중…</span></div>';
-  var bd=out.querySelector('.bd');
   var mode=$('chatMode')?$('chatMode').value:'api';
   var model=$('modelSel')?$('modelSel').value:'claude-opus-4-8';
+  out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견 ('+assistantLabel()+')</div><div class="bd"><span style="opacity:.6">생성 중…</span></div>';
+  var bd=out.querySelector('.bd');
   var msgs=[{role:'user', content:cioAiPrompt()}];
   var acc=''; function onDelta(dt){ acc+=dt; bd.innerHTML=fmtAssistant(acc); }
   chatBusy=true; var btn=$('cioAiBtn'); if(btn) btn.disabled=true;
   try{
-    if (mode==='api'){
+    if (mode==='gemini'){
+      await streamGemini(msgs, model, onDelta);
+    } else if (mode==='api'){
       var key=(localStorage.getItem('fm_chat_key')||'').trim();
       if(!key) throw new Error('API 키 미입력 — 아래 채팅 설정에서 키를 저장하거나, 로컬 serve.py(구독 차감)로 실행하세요.');
       await streamChat(msgs, model, onDelta);
@@ -1493,7 +1503,7 @@ function fmtAssistant(t){
 function addMsg(role, text){
   var d = document.createElement('div');
   d.className = 'msg ' + role;
-  d.innerHTML = '<div class="role">'+(role==='user'?'나':'CIO (Claude)')+'</div>'+
+  d.innerHTML = '<div class="role">'+(role==='user'?'나':'CIO ('+assistantLabel()+')')+'</div>'+
     '<div class="bd">'+(role==='assistant'?fmtAssistant(text):esc(text))+'</div>';
   $('chatMsgs').appendChild(d);
   $('chatMsgs').scrollTop = $('chatMsgs').scrollHeight;
@@ -1531,6 +1541,65 @@ async function streamChat(msgs, model, onText){
   }
 }
 
+// Gemini(무료 티어): 브라우저가 Google AI Studio API를 직접 호출(SSE 스트리밍).
+// 키는 사용자 브라우저 localStorage(fm_gemini_key)에만 — 저장소엔 없음(공개 repo 안전).
+async function streamGemini(msgs, model, onText){
+  var key = (localStorage.getItem('fm_gemini_key')||'').trim();
+  if (!key) throw new Error('Gemini 키 미입력 — 아래 채팅 설정에서 Google AI Studio 키를 저장하세요.');
+  var contents = msgs.map(function(m){
+    return { role: (m.role==='assistant' ? 'model' : 'user'), parts:[{ text: String(m.content||'') }] };
+  });
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) +
+            ':streamGenerateContent?alt=sse&key=' + encodeURIComponent(key);
+  var resp = await fetch(url, {
+    method:'POST', headers:{'content-type':'application/json'},
+    body: JSON.stringify({
+      systemInstruction: { parts:[{ text: systemPrompt() }] },
+      contents: contents,
+      generationConfig: { maxOutputTokens: 2048 }
+    })
+  });
+  if (!resp.ok){ var t=''; try{ t=await resp.text(); }catch(e){}
+    throw new Error('Gemini '+resp.status+': '+t.slice(0,300)); }
+  var reader = resp.body.getReader(), dec = new TextDecoder(), buf='';
+  while(true){
+    var r = await reader.read(); if (r.done) break;
+    buf += dec.decode(r.value, {stream:true});
+    var idx;
+    while((idx = buf.indexOf('\n')) >= 0){
+      var line = buf.slice(0,idx); buf = buf.slice(idx+1);
+      line = line.trim();
+      if (line.indexOf('data:')!==0) continue;
+      var data = line.slice(5).trim();
+      if (!data || data==='[DONE]') continue;
+      try {
+        var ev = JSON.parse(data);
+        var parts = ev && ev.candidates && ev.candidates[0] && ev.candidates[0].content && ev.candidates[0].content.parts;
+        if (parts) parts.forEach(function(p){ if (p && p.text) onText(p.text); });
+      } catch(e){}
+    }
+  }
+}
+
+// 현재 청구 모드에 따른 어시스턴트 표시명
+function assistantLabel(){
+  var mode = ($('chatMode') && $('chatMode').value) || 'sub';
+  return mode==='gemini' ? 'Gemini' : 'Claude';
+}
+
+// 모드에 맞춰 모델 옵션(Claude/Gemini) 표시 전환
+function syncModelOptions(mode){
+  var sel = $('modelSel'); if (!sel) return;
+  var isGem = (mode==='gemini');
+  Array.prototype.forEach.call(sel.options, function(o){
+    var g = o.classList.contains('m-gemini');
+    o.hidden = isGem ? !g : g;
+  });
+  if (sel.selectedOptions[0] && sel.selectedOptions[0].hidden){
+    for (var i=0;i<sel.options.length;i++){ if(!sel.options[i].hidden){ sel.selectedIndex=i; break; } }
+  }
+}
+
 // 구독 차감: 로컬 serve.py(/fm-chat) → Claude Code CLI(구독 인증)로 스트리밍
 async function streamChatSub(messages, model, onText){
   var resp = await fetch('/fm-chat', {
@@ -1554,6 +1623,9 @@ async function sendChat(){
   if (mode==='api'){
     var key = (localStorage.getItem('fm_chat_key')||'').trim();
     if (!key){ alert('먼저 Anthropic API 키를 입력하고 저장하세요. (또는 청구 모드를 Claude 요금제로 변경)'); $('apiKey').focus(); return; }
+  } else if (mode==='gemini'){
+    var gkey = (localStorage.getItem('fm_gemini_key')||'').trim();
+    if (!gkey){ alert('먼저 Gemini(Google AI Studio) 키를 입력하고 저장하세요.'); $('geminiKey').focus(); return; }
   }
   var text = $('chatInput').value.trim();
   if (!text) return;
@@ -1566,7 +1638,8 @@ async function sendChat(){
   var acc = '';
   function onDelta(delta){ acc += delta; bd.innerHTML = fmtAssistant(acc); $('chatMsgs').scrollTop = $('chatMsgs').scrollHeight; }
   try {
-    if (mode==='api') await streamChat(chatHistory, $('modelSel').value, onDelta);
+    if (mode==='gemini') await streamGemini(chatHistory, $('modelSel').value, onDelta);
+    else if (mode==='api') await streamChat(chatHistory, $('modelSel').value, onDelta);
     else await streamChatSub(chatHistory, $('modelSel').value, onDelta);
     if (!acc.trim()) bd.innerHTML = '<span style="opacity:.6">(빈 응답)</span>';
     chatHistory.push({ role:'assistant', content: acc });
@@ -1583,7 +1656,15 @@ var backendHealth = null;
 function updateModeUI(){
   var mode = $('chatMode').value;
   $('apiKeyWrap').style.display = (mode==='api') ? 'inline-flex' : 'none';
+  $('geminiKeyWrap').style.display = (mode==='gemini') ? 'inline-flex' : 'none';
+  syncModelOptions(mode);
   var note = '', status = '';
+  if (mode==='gemini'){
+    var gk = (localStorage.getItem('fm_gemini_key')||'').trim();
+    status = gk ? '<span class="ok">✓ Gemini 키 저장됨</span>' : '<span style="color:var(--muted)">Gemini 키 미입력</span>';
+    note = 'Google Gemini를 브라우저에서 직접 호출(무료 티어, 분당·일일 rate limit). 키는 이 브라우저 localStorage에만 저장 — 공개 저장소엔 포함되지 않습니다.';
+    $('keyStatus').innerHTML = status; $('chatModeNote').textContent = note; return;
+  }
   if (mode==='sub'){
     if (backendHealth && backendHealth.claude){
       var risky = (backendHealth.risky_env||[]);
@@ -1617,15 +1698,19 @@ async function initChat(){
   // 키 로드
   var k = localStorage.getItem('fm_chat_key') || '';
   $('apiKey').value = k;
+  $('geminiKey').value = localStorage.getItem('fm_gemini_key') || '';
   var m = localStorage.getItem('fm_chat_model'); if (m) $('modelSel').value = m;
 
-  // 백엔드 헬스체크 → 모드 자동 선택
+  // 백엔드 헬스체크 → 모드 자동 선택.
+  //   로컬(serve.py + Claude Code 있음) → 'sub'(구독 차감) 디폴트
+  //   GitHub Pages 등 웹(백엔드 없음)      → 'gemini'(무료 API) 디폴트
+  // 사용자가 수동 선택한 값(savedMode)은 존중하되, 백엔드 없는 곳에서 'sub'는 작동 불가라 gemini로 폴백.
   backendHealth = await probeBackend();
   var savedMode = localStorage.getItem('fm_chat_mode');
   var subOk = !!(backendHealth && backendHealth.claude);
-  $('chatMode').value = savedMode || (subOk ? 'sub' : 'api');
-  // 구독 불가인데 저장값이 sub면 api로 폴백(단, 사용자가 명시 선택은 존중하되 경고는 표시)
-  if (!subOk && !savedMode) $('chatMode').value = 'api';
+  var mode = savedMode || (subOk ? 'sub' : 'gemini');
+  if (mode === 'sub' && !subOk) mode = 'gemini';   // 웹/백엔드없음: 깨진 sub 대신 gemini
+  $('chatMode').value = mode;
   updateModeUI();
 
   $('chatMode').addEventListener('change', function(){
@@ -1635,6 +1720,11 @@ async function initChat(){
   $('saveKey').addEventListener('click', function(){
     var v = $('apiKey').value.trim();
     try { localStorage.setItem('fm_chat_key', v); localStorage.setItem('fm_chat_model', $('modelSel').value); } catch(e){}
+    updateModeUI();
+  });
+  $('saveGeminiKey').addEventListener('click', function(){
+    var v = $('geminiKey').value.trim();
+    try { localStorage.setItem('fm_gemini_key', v); localStorage.setItem('fm_chat_model', $('modelSel').value); } catch(e){}
     updateModeUI();
   });
   $('modelSel').addEventListener('change', function(){ try{ localStorage.setItem('fm_chat_model', this.value); }catch(e){} });
