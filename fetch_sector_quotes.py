@@ -68,7 +68,26 @@ def fetch_one(t: str):
     return mc, fpe, cur
 
 
+def _kst_today():
+    from datetime import datetime, timezone, timedelta
+    return datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
+
+
+def already_today():
+    """sector-quotes.js의 as_of가 오늘(KST)이면 True (cron 하루 8회 중복수집 방지)."""
+    if not OUT.exists():
+        return False
+    try:
+        m = re.search(r'"as_of":\s*"(\d{4}-\d{2}-\d{2})', OUT.read_text(encoding="utf-8"))
+        return bool(m) and m.group(1) == _kst_today()
+    except Exception:
+        return False
+
+
 def main():
+    if "--force" not in sys.argv and already_today():
+        print("skip: sector-quotes 이미 오늘자 — 재수집 생략 (--force 로 강제)")
+        return
     html = SRC.read_text(encoding="utf-8")
     tickers = extract_tickers(html)
     print(f"티커 {len(tickers)}개 수집 시작…")
