@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-04T22:48:23
+// 갱신: 2026-07-04T23:23:07
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "[주간증시전망] 8000선 사수한 코스피, 삼성전자 실적이 반등 ‘신호탄’ 될까 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNX2tmTGJMNjBjbmRrY0RYd0pQZDlhVUJNM0JPRGg1Wjc4NFRqeTEwZTZ0QmdnQ2xwZGdOZ2V6aVhEUFRtQVZPZzY3RDlIbzNhSVBQQ2RjbFJzSm9DRnpXa2c5WUNuVmJkUWRwenlzdmotZnJrclMzY1lFRW9GYkZQUGlpR1lPb3Zs0gGcAUFVX3lxTE1oajAyVHR2N0RGWEVqSkppaXh4UHZSeGE2LXU0Yl9FX1gtRFJGUU9HSUtlQWVuM3pyTlhQNS1HTHlMZGcya3hiMkxnc3pzeHByWVpRXzhOVDdNcGFsS1dvSEo3b1B5NnZQQndDbzNMbXgxaDJ2THpRYUFPcm1tc19BX2ROSWlhSzdPN0hVRUc4R1F2bnQ5RkFPVHYwUg?oc=5",
    "source": "Chosunbiz",
+   "date": "2026-07-04"
+  },
+  {
+   "title": "[증시전망] 코스피 8000선 회복했지만 ...삼성전자 실적에 쏠린 눈 - 디지털투데이",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5Ham1FZVM4cGlOMmFCYUJVMzlETnFlS2VUNkQyYzBsd2xZYUtJNUVXaTNpUEVCdEFSUnpJN0xlR1lXUmVDc0RQTWtjNU1tdXdQbXhHclgtYnpBRlpveTNuXzNUWUJ6N0JtaDRTVWMwX1hpbGs?oc=5",
+   "source": "디지털투데이",
    "date": "2026-07-04"
   },
   {
@@ -16,15 +22,9 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "'삼성전자 실적에 달렸다'…코스피 7200~9000 [주간 증시 전망] - 데일리안",
-   "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPdHc0YjBSQWZjU2R2Vy1sZzlUeWJYVTAxbnV6WnpYR1Z5UFJub3lhd3JaRnZrdHM0VnhFMjJjdTZ2aW1PWXkyS2IwSFh5R3oyVWg4NmVNbFJXUEk1cnJmNWs4ajNNMUJBN09tVWlSd1V4TFlvdXBsdFQxNzhBR1pOdmx3ZUR1WnVWc0dlSFBwSjFrRjd2TFpLaHhRLTdYeFR3cF9vc0VTNlZESWVHUFc2WlNHbU00TzNDWmpDbTBiNkNwRjhNXzQtOG1IMGFOWmVjcmMwNnJIbWctNnd1Q3Atd0xtdk5XLW81ZkRFd3FkVmxBYzFjOUpRM3l2VdIB-wFBVV95cUxPdHc0YjBSQWZjU2R2Vy1sZzlUeWJYVTAxbnV6WnpYR1Z5UFJub3lhd3JaRnZrdHM0VnhFMjJjdTZ2aW1PWXkyS2IwSFh5R3oyVWg4NmVNbFJXUEk1cnJmNWs4ajNNMUJBN09tVWlSd1V4TFlvdXBsdFQxNzhBR1pOdmx3ZUR1WnVWc0dlSFBwSjFrRjd2TFpLaHhRLTdYeFR3cF9vc0VTNlZESWVHUFc2WlNHbU00TzNDWmpDbTBiNkNwRjhNXzQtOG1IMGFOWmVjcmMwNnJIbWctNnd1Q3Atd0xtdk5XLW81ZkRFd3FkVmxBYzFjOUpRM3l2VQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPV3BzQi12TnlMOHR1VTBndkFFV29xRjhZaUtiMEdaX2ZDRm5IMzAxRXhpeTZEODZwWWRCeW45SWliOW5xNlhodVNZSzBjMFdIN1JFOUI1eGlPNjRpUmdhTjg4eUZIR1pRM2g4QmQwWFIxa243SUd2UHVNWlNNczl2bS1KTlhhV25nYTdnZmJ0VllBUlI0SFoyenJPMnVidnRTblVtV2thTWE2aG9OWmJ3YVdwbThLSnppM2RCbXU4UmtNM1BxcjdjS2VwUUJWQzhVeVhEYjVzTEx3UExqblRpelltN0IwSkMyWjNpYUIwTVBNVHlEVjluYdIB-wFBVV95cUxPdHc0YjBSQWZjU2R2Vy1sZzlUeWJYVTAxbnV6WnpYR1Z5UFJub3lhd3JaRnZrdHM0VnhFMjJjdTZ2aW1PWXkyS2IwSFh5R3oyVWg4NmVNbFJXUEk1cnJmNWs4ajNNMUJBN09tVWlSd1V4TFlvdXBsdFQxNzhBR1pOdmx3ZUR1WnVWc0dlSFBwSjFrRjd2TFpLaHhRLTdYeFR3cF9vc0VTNlZESWVHUFc2WlNHbU00TzNDWmpDbTBiNkNwRjhNXzQtOG1IMGFOWmVjcmMwNnJIbWctNnd1Q3Atd0xtdk5XLW81ZkRFd3FkVmxBYzFjOUpRM3l2VQ?oc=5",
    "source": "데일리안",
    "date": "2026-07-04"
-  },
-  {
-   "title": "[주간증시전망] 다음주 코스피 7200~9000 전망...삼전 실적에 방향성 갈린다 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5xSl92d3hLZzlzRExzeHBleWZVN0VwVnBYYlZmY2d2UGVYZDhidVhmZ0VrcGRHSWRwNHFHa0hKTjcwY01nMzNmV3Fpdw?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-03"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -166,7 +166,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "테슬라 AI5 칩, 옵티머스·로보택시 승부수 - 초이스스탁",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE01b2ZmRGt3SEJJQWZOWmJXdm8tQ21wTVJqc0lMNVRkbHdYamNqWGhYRnJTZEFLUUhQdVBUSEJZbGlHU0QyS1lVYWxHWVJ6TDREMWlOcVlVWkRxbXAyNW9FaUxB?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9RVnQyelNsekZ4cl91b0VZb0Y2dVJlc1VsR3dhV04yRE1GSGhBaHltQm1ibVlnVW1WUXl1UWlsZzJIMFptUnZPWFJRUEpYQW1Zb0E2WkJzbGk5ZWw4Z2dGU2xfd3pxdUU?oc=5",
    "source": "초이스스탁",
    "date": "2026-07-01"
   },
@@ -281,10 +281,10 @@ window.HOLDING_NEWS = {
    "date": "2026-04-28"
   },
   {
-   "title": "\"엔비디아(NVDA) 랠리 끝나자 개미들 패닉\"...S&P 500, 빅테크서 소외주 환승 급증 - 코인리더스",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1vZlNlZzgzN01UY2dBMXo3c1ZtRkhHWE5xcWdRXy1SRUxaa2ltOUIxdEZCZzJsZUctal9KNmhQOUtEZ3NwQUcyOXNB?oc=5",
-   "source": "코인리더스",
-   "date": "2026-06-28"
+   "title": "\"증시 운명 좌우할 80초\"…내일 새벽 4대 빅테크 실적 발표 - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFAzWngtdkthRllCcS1kVGhHVmFwVkwxOXA4bTNpcjBVdkIyLTNDLXBVcGxQNkN3ZDgwenBvdzJkU0cwYzRwMF9EQUpqekprQlZRZ3RGQ2ExTnRQUdIBVEFVX3lxTE5fT1l1OWJ3NDlfcDB3VXBycUl3cl90Mk9Kdk84LTBZMTJIT0NyZkt0QUN0bzlRcko0dGpKZjQ4RjVwZWRFSjkyWWZ1SE81djM2c2NmNA?oc=5",
+   "source": "한국경제",
+   "date": "2026-04-29"
   }
  ],
  "SPDR Communication ETF (XLC)": [
@@ -295,22 +295,22 @@ window.HOLDING_NEWS = {
    "date": "2026-07-02"
   },
   {
+   "title": "美 주정부, 애플에 소비자보호소송 제기…\"아동 성착취물 안막아\" - 뉴시스",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1kZHNpSXRlaUxJLTk5dlpqeS1mUHk4RmRPWWRWZGtCR3l4U2k5SEQ1SzFqd0Y4Y2JXWHliM2lrdFZOTDQ1aGZqWXRqVzBCNTU5NDE5ZU1obEs0OXpXN2poYdIBeEFVX3lxTE1OYVN0cE9ocThDOTF4a2JZNTVXMGV6NG9remd2YjhwaU9fMkFYSExFU0lhZzFDZ0YtRXZzcnIySEJJamJWSWRyeWVTdlh2ZVFxSThXVEVyRXdPOS1HdE53Z1A0NDI2aHBtdFRsSk1DWlV2U0YtejJySA?oc=5",
+   "source": "뉴시스",
+   "date": "2026-02-20"
+  },
+  {
+   "title": "한때 답답했고 애태웠지만...이젠 뜨거워진 커뮤니케이션 주식 - 조선일보",
+   "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOZHJ4UDRlV25lTEFPbTNaNVRvMHNoN19EVFhFc0NJLW1QZ1MtUVItUHFORHBQZVVaVzFuNExWM3JYVEFDWHVfSnpFMGNMaHNwVm9rWjJfcml6SFViS2VjXzQ4MFk4eXdwcG03Z09FNmRIdGFtZXNZeG50eTJpWU12UElfR0t5QQ?oc=5",
+   "source": "조선일보",
+   "date": "2024-07-25"
+  },
+  {
    "title": "당장 1000만원으로 뭘 살까, 트럼프빨 받을 '상반기 종목' - 중앙일보",
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE93elBwajZtZlRUbGxCY0VpcjIyM3BfQ3F2bC1PRWJEellkZTEwWWh6TE1wMmpFTEtzU3FHaUNWY0JtaVFOT1FtMTNsQ19Vc3Q4M0ppVF9B?oc=5",
    "source": "중앙일보",
    "date": "2025-02-16"
-  },
-  {
-   "title": "메타(Meta)의 번역 및 음성 생성 인공지능 ‘Seamless’가 의미하는 바는? – AI 오픈소스 생태계 & 온디바이스 AI - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQMVBKb1ZuZThxX2V0X3l2eFB5ZjlaeDFONDRfOEhUbXJjQlVheDU1ZnJqcGkyUHE0TG10SUp1ZTJlMzBkeER0SVZmQ2JYUzc2Rmo5NGtOVnRqVnVXbWRSZFVTVUFOSERwcDNINEc4YkIteG9wWlFya0dsVHoxdm05OG5nQjdnTWc?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
-   "date": "2023-12-06"
-  },
-  {
-   "title": "알파벳 A (GOOGL) - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5DVFloQ0pYbW84T2xwMkxjT1k3VFpmLXlxbE5wdnEzWlY1TDlaSWVqUlBPb25ZaHRvRVkzTXQzMmgwR256OHI1WjZqNXE5a3BYU3JQcTRaWQ?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2017-01-08"
   }
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
@@ -379,16 +379,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-11"
   },
   {
-   "title": "뉴욕증시, 독립기념일 대체휴일로 휴장… 월가 하반기 S&P500 최고 8100선 전망 - gukjenews.com",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9SQmRnek14XzdQNUxUT2dEYzhqN2dMaVM5bGxfMkNjb3VRcGtGUGprcjAwa3ZRVC1aMllzLTlVRUJadXNSNVBzZkRkaW5URWhIWTdzWC1BMkZGMWplZTlJQ2FPNkF1OV95SG9xN0tR?oc=5",
-   "source": "gukjenews.com",
-   "date": "2026-07-03"
-  },
-  {
    "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - MBC 뉴스",
    "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1KWDFpTGEwWlM4bzk4dGxFS2hXZkwyUldZamtIQ0E2NmlIZXpueWMycUdqZ2o2NHhPMzJwY2M5am9aX3ZWalBnUVdrYUhUZFN0ZWdZZUwxbko1d1h1em5NXzRJbkxKam40NnJEZGwtMnlVUThr0gF0QVVfeXFMUEl4by00OGZWdnVnY2l5aVQxT2tVNzBIeEVBX0xqY0NYTURrTHhLaHlTLXppLVBQUkJQS2lRYXlvbkxXeFRPX1YyeDZQQWNxX1NrdWZHaktZRURZc2lEdFNEX2J2Y0wySHRHY3pqWXZyV2d5U3Q?oc=5",
    "source": "MBC 뉴스",
    "date": "2026-06-07"
+  },
+  {
+   "title": "뉴욕증시, 독립기념일 대체휴일로 휴장… 월가 하반기 S&P500 최고 8100선 전망 - gukjenews.com",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9SQmRnek14XzdQNUxUT2dEYzhqN2dMaVM5bGxfMkNjb3VRcGtGUGprcjAwa3ZRVC1aMllzLTlVRUJadXNSNVBzZkRkaW5URWhIWTdzWC1BMkZGMWplZTlJQ2FPNkF1OV95SG9xN0tR?oc=5",
+   "source": "gukjenews.com",
+   "date": "2026-07-03"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
@@ -431,16 +431,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-11"
   },
   {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - MBC 뉴스",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1KWDFpTGEwWlM4bzk4dGxFS2hXZkwyUldZamtIQ0E2NmlIZXpueWMycUdqZ2o2NHhPMzJwY2M5am9aX3ZWalBnUVdrYUhUZFN0ZWdZZUwxbko1d1h1em5NXzRJbkxKam40NnJEZGwtMnlVUThr0gF0QVVfeXFMUEl4by00OGZWdnVnY2l5aVQxT2tVNzBIeEVBX0xqY0NYTURrTHhLaHlTLXppLVBQUkJQS2lRYXlvbkxXeFRPX1YyeDZQQWNxX1NrdWZHaktZRURZc2lEdFNEX2J2Y0wySHRHY3pqWXZyV2d5U3Q?oc=5",
-   "source": "MBC 뉴스",
-   "date": "2026-06-07"
+   "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53TEFmRmwwWmUxZUJlZlBka0N4b0dXclJzSVhlcUdhb1dENzFXTUlldzdIYThtMEJJZ21zZkRXWUlzTDY2YzQ3SFdPSjBnOFpmUVN1bGhDV2ZzTHV5WkxUWVRxYkhZdkVEU0c3bG93eVg?oc=5",
+   "source": "연합인포맥스",
+   "date": "2025-12-12"
   },
   {
-   "title": "뉴욕증시, 독립기념일 대체휴일로 휴장… 월가 하반기 S&P500 최고 8100선 전망 - gukjenews.com",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9SQmRnek14XzdQNUxUT2dEYzhqN2dMaVM5bGxfMkNjb3VRcGtGUGprcjAwa3ZRVC1aMllzLTlVRUJadXNSNVBzZkRkaW5URWhIWTdzWC1BMkZGMWplZTlJQ2FPNkF1OV95SG9xN0tR?oc=5",
-   "source": "gukjenews.com",
-   "date": "2026-07-03"
+   "title": "미·이란 재협상 기대에 기술주 강세…S&P500·나스닥 또 최고치(종합) - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBhZ1M4ZmJVRWx6SVVPV0NXaTl2cW1NTUgtVndaTTlXcDUzOW5Tc2RSbXFxX2xudEY0WXl3cWVLZHZ6TG1XZ21BNEliaEJMMXltU1J3T2Q2M05MZlnSAWBBVV95cUxQX0Z6MHZVQlNXOW5GTURVaDhfZEpDVXRiQnlHbU94WF9mNEk1eF9qYzZ2NUhRM0NheTh4TmFTY3dPUFpkd195Szc4SDE3Z0Q2b1R2TnBESUxLX1djZXdkTDc?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-04-25"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
@@ -457,16 +457,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-02"
   },
   {
-   "title": "[기획] 베트남 예금 투자의 덫 '하이 리스크' 대신 '스마트 헷지' 3부 - 인사이드비나",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHYXI2N3RDeHRHZG52UXpERU10cnY4M0lFMFRqcHoxUVVJVTNuWHF2RXNzSEg1UUR6c0ptV19Qbzg5NXYxZ0lfTV92SVU2S0wyWFRWVjhNMTVBMEhDLW1TdlFJc0x4UGlnQ3M2Uw?oc=5",
-   "source": "인사이드비나",
-   "date": "2026-03-10"
-  },
-  {
    "title": "베트남 증시, FTSE 신흥국 승격…알고보면 KRX 덕택? [투자360] - v.daum.net",
    "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFB2UFUzdkU0NXFZelZZUUJpWTdKMWZOaGZqSlZkNldicTJnTGg1VllYdnBFczlaQXRTaWxNeTdSZVB6eTRGNzhEUGd3R1B4aUE?oc=5",
    "source": "v.daum.net",
    "date": "2025-10-12"
+  },
+  {
+   "title": "MSCI 선진국 지수 편입, 이번엔 해낼까? - 소년한국일보",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5PbVhPaEpVbGNKTmVoRlBleWJ5dUI3aFVtRFpZWFRVdk9FTldpNklkaXQyQ01rNnRacnhQempZMVZUaHRMQ1ZYQng1bHpXTktURk5YUHJFVk51WkpjQktJeWVVMUVFSTlHVnRuWdIBcEFVX3lxTFBDajV3Q3ZWZklaVzBJc2FTTDNVTGJFU0YwN1FnckkwanFadVNTa2NSTkpHWDFOVVdIZXZOckZSRk5LZjd1NE9RZDNmM2p5U0lKcFdKU3U2SjNJdzJ0UnprbmdaT3lrTnNpS2pJQ0ZYeXk?oc=5",
+   "source": "소년한국일보",
+   "date": "2026-05-07"
   }
  ],
  "Dimensional International Value (DFIV)": [
