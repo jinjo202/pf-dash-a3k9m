@@ -113,6 +113,13 @@
   .chat-settings input[type=password] { flex:1; min-width:180px; padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; }
   .chat-settings select, .chat-settings button { padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; cursor:pointer; }
   .chat-settings .ok { color:var(--pos); font-weight:700; }
+  .gem-note { margin-top:10px; font-size:11.5px; color:var(--muted); border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); padding:0 12px; }
+  .gem-note summary { cursor:pointer; padding:9px 0; font-weight:700; color:var(--text-soft); user-select:none; }
+  .gem-note summary:hover { color:var(--accent); }
+  .gem-note ul { margin:2px 0 12px; padding-left:18px; line-height:1.7; }
+  .gem-note li { margin:4px 0; }
+  .gem-note b { color:var(--text-soft); }
+  .gem-note code { font-family:ui-monospace,monospace; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
   .local-bar { margin-top:10px; }
   .local-bar code { font-family:ui-monospace,monospace; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
   .local-ok { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--pos); font-weight:700; }
@@ -269,6 +276,15 @@
     <p class="note" id="chatModeNote"></p>
     <div id="localLinkBar" class="local-bar"></div>
     <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시 구독에서 차감(웹에선 불가). · <b>Gemini(무료 티어)</b>: 웹에서 브라우저가 Google Gemini를 직접 호출 — 키는 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>에서 무료 발급(분당·일일 한도). 2026 신규 키는 <code>AQ.</code>로 시작(구 <code>AIza</code>도 호환). · <b>Anthropic API 키</b>: 직접 호출(사용량 청구). 모든 키는 이 브라우저 localStorage에만 저장 — 공용 PC에선 사용 후 비우세요.</p>
+    <details class="gem-note"><summary>ℹ️ Gemini 모델 버전 차이 (무료 티어 데이터 정책 포함)</summary>
+      <ul>
+        <li><b>Gemini 3.5 Flash</b> — 가장 빠르고 <b>무료 한도가 가장 넉넉</b>. 섹터·종목 리서치 대부분에 충분. 복잡한 다단계 밸류에이션은 다소 얕을 수 있음.</li>
+        <li><b>Gemini 3.1 Pro (프리뷰)</b> — <b>최고 추론</b>. DCF·시나리오·컨센서스 비교 등 깊은 분석에 유리하나, 무료 한도(RPM·일일)가 더 빡빡하고 응답이 느림.</li>
+        <li><b>Gemini 2.5 Pro</b> — 안정 버전. 3.x 프리뷰가 불안정할 때 폴백용.</li>
+        <li>⚠️ <b>무료 티어 공통 — 데이터 학습</b>: Google 정책상 <b>무료 API</b>로 보낸 프롬프트·응답은 서비스 개선(모델 학습·인적 검토)에 <b>사용될 수 있습니다</b>. 결제(유료 티어)를 설정하면 학습에 사용되지 않습니다(Anthropic API·구독 차감도 학습 미사용). → <b>비공개 포지션·민감정보는 무료 Gemini에 입력하지 마세요.</b> 이 탭은 공개 종목 분석이라 대체로 무방합니다.</li>
+        <li>· 무료 한도 초과 시 <code>429</code> 오류가 납니다 — 잠시 후 재시도하거나 Flash로 낮추세요.</li>
+      </ul>
+    </details>
   </div>
 
   <!-- 지역 토글 -->
