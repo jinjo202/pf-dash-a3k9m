@@ -1,7 +1,7 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-07-03",
+  "as_of": "2026-07-04",
   "update_log": [
     {
       "date": "2026-06-18",
@@ -473,7 +473,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-04T00:23:27Z",
+  "generated": "2026-07-04T01:46:15Z",
   "regime": {
     "score": 15,
     "label": "비중확대 우위",
@@ -501,7 +501,7 @@ window.MACRO = {
       },
       "earnings": {
         "name": "기업이익",
-        "score": 46,
+        "score": 47,
         "n": 1
       }
     }
@@ -828,14 +828,14 @@ window.MACRO = {
       "fair_pe": 19.0,
       "components": {
         "val": -13,
-        "earn": 37,
+        "earn": 39,
         "fx": 0,
         "mon": -10,
         "cycle": 34
       },
       "horizon": {
-        "m1": 16,
-        "m3": 14,
+        "m1": 17,
+        "m3": 15,
         "m12": 11
       },
       "fx_val": null,
@@ -872,15 +872,15 @@ window.MACRO = {
       "fair_pe": 14.0,
       "components": {
         "val": -12,
-        "earn": 7,
+        "earn": 4,
         "fx": -42,
         "mon": 30,
         "cycle": -26
       },
       "horizon": {
-        "m1": -13,
-        "m3": -10,
-        "m12": -7
+        "m1": -14,
+        "m3": -11,
+        "m12": -8
       },
       "fx_val": 1.14,
       "fx_chg": -2.1,
@@ -6251,7 +6251,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-07-03",
+    "as_of": "2026-07-04",
     "month": "2026.07",
     "unit": "조원",
     "ytd_total": {
@@ -6997,7 +6997,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-07-03",
+      "as_of": "2026-07-04",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -7684,7 +7684,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-07-03",
+      "as_of": "2026-07-04",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -8581,7 +8581,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "2026.07 KOSPI 누적(조원): 외국인 -8.2·기관 +2.3·개인 +5.7(3일). 최근 26.07.03: 외국인 -2.17·기관 +4.41·개인 -2.29. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-07-03",
+      "as_of": "2026-07-04",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -8593,11 +8593,11 @@ window.MACRO = {
     "err_us": {
       "name": "미국 ERR(이익수정비율)",
       "pillar": "earnings",
-      "current": 0.462,
+      "current": 0.486,
       "unit": "",
       "z": null,
       "pct": null,
-      "score": 0.54,
+      "score": 0.56,
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
@@ -8626,7 +8626,7 @@ window.MACRO = {
         ],
         "values": [
           100.0,
-          100.55,
+          100.66,
           102.84,
           103.09,
           103.12
@@ -8687,7 +8687,7 @@ window.MACRO = {
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 19.75 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-07-03",
+      "as_of": "2026-07-04",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
@@ -17481,7 +17481,7 @@ window.MACRO = {
     "countries": {
       "US": {
         "name": "미국",
-        "err": 0.462,
+        "err": 0.486,
         "err_label": "강한 상향",
         "err_cls": "pos",
         "rev7": 0.0,
@@ -17494,7 +17494,7 @@ window.MACRO = {
         "growth_ny": 13.4,
         "trend": [
           100.0,
-          100.55,
+          100.66,
           102.84,
           103.09,
           103.12
@@ -17643,23 +17643,23 @@ window.MACRO = {
       },
       "EU": {
         "name": "유럽",
-        "err": 0.091,
+        "err": 0.07,
         "err_label": "중립",
         "err_cls": "neu",
         "rev7": -0.0,
-        "rev30": -0.1,
+        "rev30": -0.2,
         "rev90": 0.1,
         "momentum": "유지",
         "rev30_ny": -0.2,
-        "rev90_ny": -0.9,
+        "rev90_ny": -0.8,
         "growth_cy": 7.3,
-        "growth_ny": 14.3,
+        "growth_ny": 14.4,
         "trend": [
           100.0,
           100.97,
           101.65,
           99.97,
-          100.12
+          100.09
         ],
         "n": 6,
         "annual": {
@@ -17889,21 +17889,21 @@ window.MACRO = {
       "US": [
         {
           "name": "반도체·AI HW",
-          "err": 0.737,
+          "err": 0.754,
           "err_label": "강한 상향",
           "err_cls": "pos",
-          "rev7": 0.3,
-          "rev30": 1.2,
-          "rev90": 8.9,
+          "rev7": 0.4,
+          "rev30": 1.5,
+          "rev90": 9.2,
           "momentum": "유지",
           "growth_cy": 73.8,
           "growth_ny": 54.6,
           "trend": [
             100.0,
-            100.91,
+            101.11,
             106.78,
-            107.16,
-            108.87
+            108.75,
+            109.25
           ],
           "n": 6,
           "issue": "AI 인프라 capex 지속 상향, HBM·가속기 공급부족. 하이퍼스케일러 capex 가이던스 추가 상향이 EPS 견인.",
@@ -17936,7 +17936,7 @@ window.MACRO = {
                 "m3": 27.4,
                 "ytd": 43.6
               },
-              "rev30": 1.3650195716656155,
+              "rev30": 1.935769060752257,
               "note": "AI칩 위탁생산 독점적"
             },
             {
@@ -17981,7 +17981,7 @@ window.MACRO = {
                 "m3": 146.3,
                 "ytd": 141.8
               },
-              "rev30": 0.25795310141087935,
+              "rev30": 0.24026127395486707,
               "note": "AI GPU 추격·MI 시리즈"
             }
           ]
@@ -18171,7 +18171,7 @@ window.MACRO = {
         },
         {
           "name": "금융",
-          "err": 0.37,
+          "err": 0.684,
           "err_label": "강한 상향",
           "err_cls": "pos",
           "rev7": 0.5,
@@ -18270,9 +18270,9 @@ window.MACRO = {
         },
         {
           "name": "헬스케어",
-          "err": -0.032,
-          "err_label": "중립",
-          "err_cls": "neu",
+          "err": -0.222,
+          "err_label": "하향 우위",
+          "err_cls": "neg",
           "rev7": 0.0,
           "rev30": 0.1,
           "rev90": 0.2,
@@ -18468,11 +18468,11 @@ window.MACRO = {
         },
         {
           "name": "에너지",
-          "err": 0.529,
+          "err": 0.49,
           "err_label": "강한 상향",
           "err_cls": "pos",
-          "rev7": -1.5,
-          "rev30": -1.7,
+          "rev7": -1.6,
+          "rev30": -1.8,
           "rev90": 35.9,
           "momentum": "둔화",
           "growth_cy": 59.1,
@@ -18545,25 +18545,25 @@ window.MACRO = {
                 "m3": -9.3,
                 "ytd": 18.9
               },
-              "rev30": -1.2018612930078776,
+              "rev30": -1.4818991940279025,
               "note": "유전서비스"
             }
           ]
         },
         {
           "name": "산업재",
-          "err": 0.304,
-          "err_label": "강한 상향",
+          "err": 0.2,
+          "err_label": "상향 우위",
           "err_cls": "pos",
-          "rev7": -0.1,
-          "rev30": 0.2,
+          "rev7": -0.0,
+          "rev30": 0.1,
           "rev90": 1.2,
           "momentum": "유지",
           "growth_cy": 8.3,
           "growth_ny": 14.7,
           "trend": [
             100.0,
-            100.56,
+            100.89,
             101.08,
             101.19,
             101.16
@@ -18584,7 +18584,7 @@ window.MACRO = {
                 "m3": 32.2,
                 "ytd": 68.9
               },
-              "rev30": 0.5818491043522167,
+              "rev30": 0.4010371439404192,
               "note": "인프라·전력장비"
             },
             {
@@ -20399,8 +20399,8 @@ window.MACRO = {
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.8배(악재)·KOSPI 12M Fwd PER 5.9배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.37%(중립)",
     "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1530.2원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 120.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -8.2조원(중립)",
     "sentiment": "[혼조/중립] VIX 변동성 15.8(호재)·S&P500 12M 모멘텀 18.0%(강한 호재)·CNN 공포·탐욕 지수 32(강한 악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
-    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.462(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(둔화)",
-    "overall": "종합 레짐 점수 +15. 매크로 +1, 밸류 -5, 수급 +17, 센티 +6, 기업이익 +46."
+    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.486(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.289(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(둔화)",
+    "overall": "종합 레짐 점수 +15. 매크로 +1, 밸류 -5, 수급 +17, 센티 +6, 기업이익 +47."
   },
   "outlook": {
     "short": {
@@ -20409,7 +20409,7 @@ window.MACRO = {
       "text": "센티먼트·모멘텀 기반. VIX·추세가 핵심 변수. 단기 비대칭 리스크 점검."
     },
     "mid": {
-      "bias": "완만한 상승",
+      "bias": "상승",
       "cls": "pos",
       "text": "매크로·유동성·기업이익 수정 + 과거 유사국면 이후 3개월 중간값 N/A."
     },

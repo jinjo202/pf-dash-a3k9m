@@ -3,10 +3,10 @@
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.123,
+   "score": 1.116,
    "factors": {
     "value": 1.86,
-    "momentum": 1.88,
+    "momentum": 1.85,
     "earnings": 0.66,
     "macro": 0.23,
     "currency": 0.12
@@ -14,50 +14,64 @@
   },
   "이머징": {
    "pref": "중립",
-   "score": -0.166,
+   "score": -0.153,
    "factors": {
     "value": 0.24,
-    "momentum": -0.39,
-    "earnings": -1.92,
+    "momentum": -0.36,
+    "earnings": -1.89,
     "macro": 0.98,
     "currency": 0.6
    }
   },
-  "유럽": {
-   "pref": "중립",
-   "score": -0.226,
-   "factors": {
-    "value": -0.75,
-    "momentum": -0.85,
-    "earnings": -0.05,
-    "macro": 0.98,
-    "currency": -0.12
-   }
-  },
   "미국": {
    "pref": "중립",
-   "score": -0.227,
+   "score": -0.225,
    "factors": {
     "value": -0.78,
-    "momentum": -0.75,
-    "earnings": 0.73,
+    "momentum": -0.78,
+    "earnings": 0.77,
     "macro": -0.53,
     "currency": 1.19
    }
   },
+  "유럽": {
+   "pref": "축소",
+   "score": -0.255,
+   "factors": {
+    "value": -0.75,
+    "momentum": -0.9,
+    "earnings": -0.14,
+    "macro": 0.98,
+    "currency": -0.12
+   }
+  },
   "일본": {
    "pref": "축소",
-   "score": -0.506,
+   "score": -0.485,
    "factors": {
     "value": -0.56,
-    "momentum": 0.11,
-    "earnings": 0.59,
+    "momentum": 0.19,
+    "earnings": 0.6,
     "macro": -1.66,
     "currency": -1.79
    }
   }
  },
  "changes": [
+  {
+   "date": "2026-07-04",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "유럽",
+     "from_pref": "중립",
+     "to_pref": "축소",
+     "flipped": true,
+     "d_score": -0.03,
+     "driver": "이익수정 z-0.1→-0.1"
+    }
+   ]
+  },
   {
    "date": "2026-07-04",
    "trigger": "이벤트(팩터 변화)",
@@ -189,20 +203,6 @@
      "flipped": true,
      "d_score": 0.04,
      "driver": "이익수정 z-0.5→-0.2"
-    }
-   ]
-  },
-  {
-   "date": "2026-06-15",
-   "trigger": "이벤트(팩터 변화)",
-   "items": [
-    {
-     "country": "미국",
-     "from_pref": "중립",
-     "to_pref": "축소",
-     "flipped": true,
-     "d_score": -0.03,
-     "driver": "밸류 z-1.0→-1.1"
     }
    ]
   }
