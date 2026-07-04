@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04g";</script>
+<script>window.CODE_VERSION = "2026-07-04h";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -1140,6 +1140,22 @@ function techMiniCharts(){
   return '<div class="tech-grid">'+cards.join('')+'</div>';
 }
 
+// 티커 정규화: 해외는 거래소 접미사(US/IM/GY/LX 등) 제거, 한국(KS)은 유지.
+// CIO 트레이드(유니버스: "XLK"/"091160 KS")와 실제 보유(PF: "XLK US"/"069500 KS")를 대조하기 위함.
+function normTicker(t){
+  t=String(t||'').trim();
+  if (/\sKS$/.test(t)) return t;                 // 한국 상장 — 그대로
+  return t.replace(/\s+[A-Z]{2,3}$/, '');        // "XLK US"→"XLK", "CSMIB IM"→"CSMIB"
+}
+// 복호화된 실제 보유 → {정규화티커: {name, mkt, w}}
+function pfHeldMap(){
+  var m={}; var tot=(SNAP&&SNAP.total)||0;
+  ((PF&&PF.holdings)||[]).forEach(function(h){
+    m[normTicker(h.ticker)] = { name:h.name, mkt:h.mkt||0, w: tot? (h.mkt||0)/tot : 0, ticker:h.ticker };
+  });
+  return m;
+}
+
 // CIO 데일리 — briefing/generate_cio.py 가 하루 2회 자동 생성(fm-cio.js)
 function renderCioDaily(){
   var box=$('cioDaily'); if(!box) return;
@@ -1161,25 +1177,50 @@ function renderCioDaily(){
 
   var p=e.positioning||{}, ew=p.equity_weight||{};
   var ewCls=ew.stance==='확대'?'b-pos':(ew.stance==='축소'?'b-neg':'b-neu');
-  var trades=(p.trades||[]).map(function(t){
-    var tc=(t.action==='매수'||t.action==='확대')?'b-pos':((t.action==='매도'||t.action==='축소'||t.action==='헤지')?'b-neg':'b-neu');
+  // 실제 보유와 대조해 방향성(lean)→구체 액션 라벨 결정. 파이프라인은 보유를 모르므로 여기서 확정.
+  var held=pfHeldMap();
+  var tradeList=(p.trades||[]).map(function(t){
+    // lean 없으면 legacy action에서 유추
+    var lean=t.lean;
+    if(!lean){ var a=t.action||''; lean=/축소|매도|헤지|회피|약세/.test(a)?'bearish':'bullish'; }
+    var h=t.ticker?held[normTicker(t.ticker)]:null;
+    var isHeld=!!(h && h.mkt>0);
+    var label, cls;
+    if(isHeld){
+      if(lean==='bearish'){ label='축소·점검'; cls='b-neg'; }
+      else { label='유지·확대'; cls='b-pos'; }
+    } else {
+      if(lean==='bearish'){ label='회피 (미보유)'; cls='b-neu'; }
+      else { label='신규 편입 검토'; cls='b-pos'; }
+    }
+    var heldBadge = isHeld
+      ? '<span class="badge b-neu" title="현재 보유 비중" style="font-weight:700">✓ 보유 '+pct(h.w)+'</span>'
+      : '<span class="badge b-neu" title="현 포트폴리오 미보유" style="font-weight:700;opacity:.7">미보유</span>';
     var fact = t.ticker && hasEtfFact(t.ticker);
     var tkHtml = t.ticker ? (fact
       ? '<span class="ci-date clk" data-etf="'+esc(t.ticker)+'" title="클릭: ETF factsheet" style="cursor:pointer;text-decoration:underline dashed">'+esc(t.ticker)+' 📄</span> '
       : '<span class="ci-date">'+esc(t.ticker)+'</span> ') : '';
-    return '<li><span class="badge '+tc+'">'+esc(t.action||'')+'</span> <b>'+esc(t.name||'')+'</b> '+tkHtml+'— '+esc(t.reason||'')+'</li>';
-  }).join('');
+    return {isHeld:isHeld, html:'<li><span class="badge '+cls+'">'+label+'</span> '+heldBadge+' <b>'+esc(t.name||'')+'</b> '+tkHtml+'— '+esc(t.reason||'')+'</li>'};
+  });
+  // 보유 종목(조정) 먼저, 신규/회피 후보 뒤로 정렬
+  tradeList.sort(function(a,b){ return (b.isHeld?1:0)-(a.isHeld?1:0); });
+  var trades=tradeList.map(function(x){return x.html;}).join('');
   var techCharts=techMiniCharts();
   var techHtml=(e.technicals_read||techCharts)?('<div class="cio-sec neu" style="margin-top:12px"><div class="sh">기술적·수급·유동성 판독</div>'+
     techCharts+
     (e.technicals_read?'<div class="sd"'+(techCharts?' style="margin-top:8px"':'')+'>'+esc(e.technicals_read)+'</div>':'')+
   '</div>'):'';
-  var posHtml='<div class="cio-sec neu" style="margin-top:12px"><div class="sh">포지셔닝 결론 (ETF 실행 단위)</div><div class="sd">'+
+  var heldCnt=tradeList.filter(function(x){return x.isHeld;}).length;
+  var tradeLegend = (p.trades&&p.trades.length)
+    ? '<div style="font-size:11px;color:var(--muted);margin:8px 0 2px">실제 보유(복호화)와 대조 — <span class="badge b-pos" style="font-weight:700">유지·확대</span>/<span class="badge b-neg" style="font-weight:700">축소·점검</span>은 보유 '+heldCnt+'종목, <span class="badge b-neu" style="font-weight:700;opacity:.7">미보유</span>는 신규 편입 후보(아직 우리 포지션 아님)</div>'
+    : '';
+  var posHtml='<div class="cio-sec neu" style="margin-top:12px"><div class="sh">포지셔닝 결론 (보유 대조 · ETF 실행 단위)</div><div class="sd">'+
     '<b>매크로</b> '+esc(p.macro_view||'')+'<br>'+
     '<b>주식 비중</b> <span class="badge '+ewCls+'">'+esc(ew.stance||'')+'</span> '+esc(ew.text||'')+'<br>'+
     '<b>국가</b> '+esc(p.country||'')+'<br>'+
     '<b>섹터</b> '+esc(p.sector||'')+
-    (trades?'<ul style="margin:7px 0 0;padding-left:16px;line-height:1.6">'+trades+'</ul>':'')+
+    tradeLegend+
+    (trades?'<ul style="margin:4px 0 0;padding-left:16px;line-height:1.6">'+trades+'</ul>':'')+
   '</div></div>';
 
   // 투자위원회 토론 (Devil's Advocate 라운드)
