@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04j";</script>
+<script>window.CODE_VERSION = "2026-07-04k";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -316,6 +316,7 @@
   .deb-changed { margin-top:8px; padding:7px 10px; border-radius:7px; background:var(--accent-soft); font-size:12.5px; line-height:1.55; }
   .cio-watch { display:flex; flex-direction:column; gap:8px; }
   .wl-item { border:1px solid var(--border); border-left:3px solid var(--neg); border-radius:9px; padding:9px 12px; background:var(--panel-soft); }
+  .wl-item.wl-unheld { border-left-color:var(--muted-soft); opacity:.9; }
   .wl-h { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:13px; margin-bottom:4px; }
   .wl-row { font-size:12.5px; line-height:1.55; color:var(--text-soft); margin-top:3px; }
   .wl-k { display:inline-block; min-width:66px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); }
@@ -1317,11 +1318,20 @@ function renderCioDaily(){
   // 부진 ETF 점검 (watchlist) — 보유 대조 후 렌더
   var watchHtml='';
   if (e.watchlist && e.watchlist.length){
-    var vmap={hold:{l:'기다림',c:'b-neu'},trim:{l:'일부 축소',c:'b-neg'},sell:{l:'청산',c:'b-neg'}};
+    // verdict(hold/trim/sell)는 파이프라인이 보유를 모른 채 낸 것 → 실제 보유 대조해 재라벨.
+    // 축소·청산은 보유 전제이므로 미보유엔 부적절 → 진입 관점(회피/관망)으로 치환.
+    var vmapHeld={hold:{l:'기다림',c:'b-neu'},trim:{l:'일부 축소',c:'b-neg'},sell:{l:'청산',c:'b-neg'}};
     var wItems=e.watchlist.map(function(w){
       var h=w.ticker?held[normTicker(w.ticker)]:null;
       var isHeld=!!(h && h.mkt>0);
-      var v=vmap[w.verdict]||{l:w.verdict||'',c:'b-neu'};
+      var v;
+      if(isHeld){
+        v=vmapHeld[w.verdict]||{l:w.verdict||'',c:'b-neu'};
+      } else {
+        v=(w.verdict==='trim'||w.verdict==='sell')
+          ? {l:'신규 회피',c:'b-neu'}       // 부진 + 미보유 → 진입 회피(축소·청산 아님)
+          : {l:'관망 (미보유)',c:'b-neu'};
+      }
       var r3=(w.r_3m!=null)?w.r_3m:(h&&window.FM_ETF&&FM_ETF.data[w.ticker]?FM_ETF.data[w.ticker].r_3m:null);
       var perf=(r3!=null)?('<span class="badge '+(r3<0?'b-neg':'b-neu')+'" style="font-weight:700">3M '+(r3>=0?'+':'')+r3+'%</span>'):'';
       var heldBadge=isHeld
@@ -1331,18 +1341,26 @@ function renderCioDaily(){
       var tk=w.ticker?(fact
         ? '<span class="ci-date clk" data-etf="'+esc(w.ticker)+'" title="클릭: ETF factsheet" style="cursor:pointer;text-decoration:underline dashed">'+esc(w.ticker)+' 📄</span>'
         : '<span class="ci-date">'+esc(w.ticker)+'</span>'):'';
+      // 미보유는 매도가 아니라 진입 판단이므로 행 라벨을 관점에 맞게 바꾼다.
+      var kThesis=isHeld?'기다릴 근거':'진입 고려 근거';
+      var kWait=isHeld?'언제까지':'진입 시점';
+      var kTrig=isHeld?'매도 트리거':'관찰 포인트';
       var trig=(w.sell_triggers&&w.sell_triggers.length)
-        ? '<div class="wl-trig"><b>매도 트리거</b><ul>'+w.sell_triggers.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul></div>' : '';
-      return {isHeld:isHeld, html:'<div class="wl-item">'+
+        ? '<div class="wl-trig"><b>'+kTrig+'</b><ul>'+w.sell_triggers.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul></div>' : '';
+      return {isHeld:isHeld, html:'<div class="wl-item'+(isHeld?'':' wl-unheld')+'">'+
         '<div class="wl-h"><span class="badge '+v.c+'">'+esc(v.l)+'</span> '+perf+' '+heldBadge+' <b>'+esc(w.name||'')+'</b> '+tk+'</div>'+
         (w.why_lagging?'<div class="wl-row"><span class="wl-k">부진 원인</span> '+esc(w.why_lagging)+'</div>':'')+
-        (w.hold_thesis?'<div class="wl-row"><span class="wl-k">기다릴 근거</span> '+esc(w.hold_thesis)+'</div>':'')+
-        (w.wait_until?'<div class="wl-row"><span class="wl-k">언제까지</span> '+esc(w.wait_until)+'</div>':'')+
+        (w.hold_thesis?'<div class="wl-row"><span class="wl-k">'+kThesis+'</span> '+esc(w.hold_thesis)+'</div>':'')+
+        (w.wait_until?'<div class="wl-row"><span class="wl-k">'+kWait+'</span> '+esc(w.wait_until)+'</div>':'')+
         trig+
       '</div>'};
     });
     wItems.sort(function(a,b){ return (b.isHeld?1:0)-(a.isHeld?1:0); });
+    var wHeldN=wItems.filter(function(x){return x.isHeld;}).length;
     watchHtml='<div class="cio-sec-label" style="margin:12px 0 2px">🔎 부진 ETF 점검 — 왜 부진한지·기다릴지·팔 트리거</div>'+
+      '<div style="font-size:11px;color:var(--muted);margin:0 0 6px">후보 유니버스 전체에서 최근 3M 부진 ETF를 스캔 — '+
+      '<span class="badge b-neu" style="font-weight:700">✓ 보유</span> '+wHeldN+'종목은 기다림/축소/청산 판단, '+
+      '<span class="badge b-neu" style="font-weight:700;opacity:.7">미보유</span>는 아직 우리 포지션이 아니므로 매도가 아닌 신규 진입 회피·관망 관점.</div>'+
       '<div class="cio-watch">'+wItems.map(function(x){return x.html;}).join('')+'</div>';
   }
 
@@ -1405,16 +1423,18 @@ function cioAiPrompt(){
     '1) 전반적 매크로 뷰 2) 주식 비중(확대/축소/유지) 3) 국가 배분 4) 섹터 배분 5) 우리 포트폴리오에서 구체적으로 무엇을 팔고 무엇을 살지(티커·대략 비중%). '+
     '추가로, <CONTEXT>의 시황_벤치마크 일간/MTD 움직임을 근거로 오늘 시장 변동성의 원인이 기술적(수급·포지셔닝)인지 펀더멘털 훼손인지 판정하고, 그에 따라 오늘 당장 매매가 필요한지 명확히 답하라. 막연한 양비론 없이 결정 지향적으로.';
 }
+var cioBusy = false;   // AI 심층의견 전용 busy — 채팅(chatBusy)과 분리해 서로 막지 않게.
 async function runCioAi(){
-  if (chatBusy) return;
-  var out=$('cioAiOut'); out.classList.remove('hidden');
+  // 피드백을 맨 앞에 — 클릭하면 무슨 일이 있어도 최소한 박스가 열리고 상태가 보이게(무반응 방지).
+  var out=$('cioAiOut'); if(out) out.classList.remove('hidden');
+  if (cioBusy){ if(out) out.innerHTML='<div class="bd" style="opacity:.7">이미 생성 중입니다… 잠시만 기다려주세요.</div>'; return; }
   var mode=$('chatMode')?$('chatMode').value:'api';
   var model=$('modelSel')?$('modelSel').value:'claude-opus-4-8';
-  out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견 ('+assistantLabel()+')</div><div class="bd"><span style="opacity:.6">생성 중…</span></div>';
-  var bd=out.querySelector('.bd');
+  if(out) out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견 ('+assistantLabel()+')</div><div class="bd"><span style="opacity:.6">생성 중…</span></div>';
+  var bd=out?out.querySelector('.bd'):null;
   var msgs=[{role:'user', content:cioAiPrompt()}];
-  var acc=''; function onDelta(dt){ acc+=dt; bd.innerHTML=fmtAssistant(acc); }
-  chatBusy=true; var btn=$('cioAiBtn'); if(btn) btn.disabled=true;
+  var acc=''; function onDelta(dt){ acc+=dt; if(bd) bd.innerHTML=fmtAssistant(acc); }
+  cioBusy=true; var btn=$('cioAiBtn'); if(btn) btn.disabled=true;
   try{
     if (mode==='gemini'){
       await streamGemini(msgs, model, onDelta);
@@ -1425,9 +1445,9 @@ async function runCioAi(){
     } else {
       await streamChatSub(msgs, model, onDelta);
     }
-    if(!acc.trim()) bd.innerHTML='<span style="opacity:.6">(빈 응답)</span>';
-  } catch(err){ bd.innerHTML='<span style="color:var(--neg)">⚠ '+esc(err.message)+'</span>'; }
-  finally{ chatBusy=false; if(btn) btn.disabled=false; }
+    if(bd && !acc.trim()) bd.innerHTML='<span style="opacity:.6">(빈 응답 — 모델이 내용을 반환하지 않았습니다. 다시 시도해 보세요.)</span>';
+  } catch(err){ if(bd) bd.innerHTML='<span style="color:var(--neg)">⚠ '+esc(err.message)+'</span>'; }
+  finally{ cioBusy=false; if(btn) btn.disabled=false; }
 }
 
 /* ============================ 재무 모달 (손익계산서 + 컨센서스) ============================ */
