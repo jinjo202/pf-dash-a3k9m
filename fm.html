@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04f";</script>
+<script>window.CODE_VERSION = "2026-07-04g";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -1544,7 +1544,9 @@ async function streamChat(msgs, model, onText){
 // Gemini(무료 티어): 브라우저가 Google AI Studio API를 직접 호출(SSE 스트리밍).
 // 키는 사용자 브라우저 localStorage(fm_gemini_key)에만 — 저장소엔 없음(공개 repo 안전).
 async function streamGemini(msgs, model, onText){
-  var key = (localStorage.getItem('fm_gemini_key')||'').trim();
+  // HTTP 헤더 값은 Latin-1만 허용 → 복붙 시 섞인 BOM·제로폭·비ASCII 문자를 제거(API 키는 ASCII만).
+  var raw = (localStorage.getItem('fm_gemini_key')||'').trim();
+  var key = raw.replace(/[^\x21-\x7E]/g, '');
   if (!key) throw new Error('Gemini 키 미입력 — 아래 채팅 설정에서 Gemini API 키를 저장하세요.');
   var contents = msgs.map(function(m){
     return { role: (m.role==='assistant' ? 'model' : 'user'), parts:[{ text: String(m.content||'') }] };
@@ -1564,7 +1566,9 @@ async function streamGemini(msgs, model, onText){
       })
     });
   } catch(e){
-    throw new Error('네트워크/CORS 오류 — 키의 HTTP 리퍼러/앱 제한이 브라우저 호출을 막았거나 네트워크가 차단됐을 수 있습니다. ('+e.message+')');
+    if (/ISO-8859-1|code point|headers/i.test(e.message||''))
+      throw new Error('키에 유효하지 않은 문자가 있습니다 — 키를 지우고 다시 정확히 복사해 붙여넣은 뒤 저장하세요. ('+e.message+')');
+    throw new Error('네트워크 오류 — 네트워크 차단 또는 키의 HTTP 리퍼러/앱 제한일 수 있습니다. ('+e.message+')');
   }
   if (!resp.ok){ var t=''; try{ t=await resp.text(); }catch(e){}
     throw new Error('Gemini '+resp.status+': '+t.slice(0,300)); }
@@ -1730,7 +1734,9 @@ async function initChat(){
     updateModeUI();
   });
   $('saveGeminiKey').addEventListener('click', function(){
-    var v = $('geminiKey').value.trim();
+    // 저장 시점에도 비ASCII(BOM·제로폭 등) 제거 — 헤더 전송 시 오류 예방
+    var v = $('geminiKey').value.replace(/[^\x21-\x7E]/g, '');
+    $('geminiKey').value = v;   // 정제된 값 반영
     try { localStorage.setItem('fm_gemini_key', v); localStorage.setItem('fm_chat_model', $('modelSel').value); } catch(e){}
     updateModeUI();
   });
