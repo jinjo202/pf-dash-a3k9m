@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-07-03a";</script>
+<script>window.CODE_VERSION = "2026-07-03b";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -390,6 +390,37 @@
     margin-top: 12px;
   }
   .hidden { display: none !important; }
+
+  /* ── 대시보드 좌측 목차(TOC) 사이드바 ── */
+  #dashboard:not(.hidden) { display: flex; align-items: flex-start; gap: 22px; }
+  .pf-toc {
+    position: sticky; top: 16px; flex: 0 0 178px; width: 178px; align-self: flex-start;
+    max-height: calc(100vh - 32px); overflow-y: auto;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 10px; box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; gap: 3px; z-index: 20;
+  }
+  .pf-toc-title { font-size: 10.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; padding: 2px 8px 8px; }
+  .pf-toc-link {
+    display: block; padding: 8px 10px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    color: var(--text-soft); text-decoration: none; cursor: pointer; white-space: nowrap;
+    border-left: 3px solid transparent; transition: background .12s, color .12s;
+  }
+  .pf-toc-link:hover { background: var(--panel-soft); color: var(--text); }
+  .pf-toc-link.active { background: var(--accent-soft); color: var(--accent); border-left-color: var(--accent); }
+  .pf-body { flex: 1 1 auto; min-width: 0; }
+  .pf-anchor { scroll-margin-top: 16px; }
+  #compareSection { scroll-margin-top: 16px; }
+  @media (max-width: 900px) {
+    #dashboard:not(.hidden) { flex-direction: column; gap: 12px; }
+    .pf-toc {
+      position: sticky; top: 0; flex-direction: row; width: auto; flex: 0 0 auto;
+      max-height: none; overflow-x: auto; overflow-y: hidden; gap: 6px; padding: 8px 10px;
+    }
+    .pf-toc-title { display: none; }
+    .pf-toc-link { border-left: none; border-bottom: 2px solid transparent; padding: 6px 10px; }
+    .pf-toc-link.active { border-left: none; border-bottom-color: var(--accent); }
+  }
 
   /* ===== 지수 1년 차트 모달 ===== */
   .chart-modal {
@@ -1136,6 +1167,16 @@
   </div>
 
   <div id="dashboard" class="hidden">
+    <nav id="pfToc" class="pf-toc">
+      <div class="pf-toc-title">📂 목차</div>
+      <a class="pf-toc-link" data-target="pf-summary" href="#pf-summary">📈 성과 요약</a>
+      <a class="pf-toc-link" data-target="pf-attrib" href="#pf-attrib">🎯 기여도 분해</a>
+      <a class="pf-toc-link" data-target="pf-alloc" href="#pf-alloc">🧩 자산 배분</a>
+      <a class="pf-toc-link" data-target="pf-exposure" href="#pf-exposure">🔍 노출 분석</a>
+      <a class="pf-toc-link" data-target="pf-holdings" href="#pf-holdings">📋 보유·매매</a>
+      <a class="pf-toc-link" data-target="compareSection" href="#compareSection">📊 시점 비교</a>
+    </nav>
+    <div class="pf-body">
     <!-- 전체 펼치기/접기 + PDF 출력 -->
     <div class="collapse-allbar">
       <button id="expandAll" type="button">▼ 전체 펼치기</button>
@@ -1143,6 +1184,7 @@
       <button id="pdfExport" type="button" style="margin-left:auto;color:var(--accent);border-color:var(--accent)">📄 PDF 정리본 출력</button>
     </div>
 
+    <div class="pf-anchor" id="pf-summary"></div>
     <div id="benchmarks" class="benchmarks"></div>
 
     <!-- 스냅샷 컨트롤 -->
@@ -1212,6 +1254,7 @@
       </div>
     </div>
 
+    <div class="pf-anchor" id="pf-attrib"></div>
     <!-- 통합 알파 기여 요약 -->
     <div class="panel" style="margin-bottom:16px">
       <h3>성과 기여도 요약 (vs <span id="attribBmLabel">벤치마크</span>)</h3>
@@ -1284,6 +1327,7 @@
     </div>
 
 
+    <div class="pf-anchor" id="pf-alloc"></div>
     <div class="grid">
       <div class="panel">
         <h3>지역별 자산 배분</h3>
@@ -1339,6 +1383,7 @@
       </div>
     </div>
 
+    <div class="pf-anchor" id="pf-exposure"></div>
     <h2 style="margin:24px 0 12px;font-size:16px;letter-spacing:-.02em">
       ETF 룩스루 분석
       <span style="color:var(--muted);font-weight:400;font-size:12px;margin-left:8px">
@@ -1391,6 +1436,7 @@
       </div>
     </div>
 
+    <div class="pf-anchor" id="pf-holdings"></div>
     <div class="panel" style="margin-top:16px">
       <h3>보유 종목 상세</h3>
       <div class="toolbar" id="regionChips"></div>
@@ -1481,6 +1527,7 @@
         매매 효과만 보려면 <strong>매매 직전일(A) vs 매매 후 날짜(B)</strong>를 고르세요(그 사이 시장변동도 함께 반영됨).
       </div>
     </div>
+    </div><!-- /.pf-body -->
   </div>
 </main>
 
@@ -5745,6 +5792,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+</script>
+<script>
+/* 대시보드 좌측 목차(TOC): 클릭 시 해당 섹션으로 스크롤 + 스크롤스파이 활성표시 */
+(function initPfToc(){
+  function ready(fn){ if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+  ready(function(){
+    var toc = document.getElementById('pfToc');
+    if (!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('.pf-toc-link'));
+    var byId = {}, targets = [];
+    links.forEach(function(a){
+      var id = a.getAttribute('data-target');
+      var el = document.getElementById(id);
+      if (el) { byId[id] = a; targets.push(el); }
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        var t = document.getElementById(a.getAttribute('data-target'));
+        if (t) { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); setActive(a); }
+      });
+    });
+    function setActive(a){ links.forEach(function(x){ x.classList.toggle('active', x === a); }); }
+    var THRESH = 140, ticking = false;
+    function spy(){
+      ticking = false;
+      var cur = null;
+      for (var i = 0; i < targets.length; i++) { if (targets[i].getBoundingClientRect().top <= THRESH) cur = targets[i]; }
+      if (!cur) cur = targets[0];
+      if (cur && byId[cur.id]) setActive(byId[cur.id]);
+    }
+    window.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
+    spy();
+  });
+})();
 </script>
 </body>
 </html>
