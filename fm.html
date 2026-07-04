@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04k";</script>
+<script>window.CODE_VERSION = "2026-07-05a";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -240,6 +240,38 @@
   .etf-fact-full { grid-column:1/-1; }
   .etf-stale-warn { font-size:11.5px; color:var(--warn-fg); background:var(--warn-bg); border:1px solid var(--warn-bd); border-radius:8px; padding:7px 10px; margin-top:10px; }
   .est-range { font-size:11px; color:var(--muted); }
+  .etf-ret-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px; }
+  .etf-ret-item { border:1px solid var(--border); border-radius:9px; padding:8px 12px; background:var(--panel-soft); text-align:center; }
+  .etf-ret-item .fl { font-size:10.5px; color:var(--muted); font-weight:700; }
+  .etf-ret-item .fv { font-size:15px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums; }
+  .etf-hold-list { display:flex; flex-direction:column; gap:5px; }
+  .etf-hold-row { display:grid; grid-template-columns:1fr auto 92px; align-items:center; gap:10px; font-size:12.5px; }
+  .etf-hold-row .ehn { font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .etf-hold-row .eht { font-size:10.5px; color:var(--muted); font-weight:600; }
+  .etf-hold-row .ehw { font-weight:800; font-variant-numeric:tabular-nums; text-align:right; }
+  .etf-hold-row .ehbar { height:7px; border-radius:4px; background:var(--panel-soft); border:1px solid var(--border); overflow:hidden; }
+  .etf-hold-row .ehbar i { display:block; height:100%; background:var(--accent); }
+  .etf-link { display:inline-block; margin-top:12px; padding:8px 13px; border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); color:var(--accent); font-size:13px; font-weight:700; text-decoration:none; }
+  .etf-link:hover { border-color:var(--accent); background:var(--accent-soft); }
+
+  /* 워칭 유니버스 테이블 */
+  .uni-controls { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .uni-chip { font-size:12px; font-weight:600; padding:5px 11px; border:1px solid var(--border); border-radius:99px; background:var(--panel-soft); color:var(--text-soft); cursor:pointer; }
+  .uni-chip.active { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  .uni-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .uni-table th, .uni-table td { padding:7px 10px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
+  .uni-table th { font-size:11px; color:var(--muted); font-weight:700; text-transform:none; position:sticky; top:0; background:var(--panel); }
+  .uni-table td.l, .uni-table th.l { text-align:left; }
+  .uni-table tbody tr { cursor:pointer; }
+  .uni-table tbody tr:hover { background:var(--row-hover); }
+  .uni-table tr.uni-held { background:var(--accent-soft); }
+  .uni-table tr.uni-held:hover { filter:brightness(0.98); }
+  .uni-cat { font-size:10.5px; color:var(--muted); font-weight:700; }
+  .uni-nm { font-weight:600; }
+  .uni-tk { font-size:11px; color:var(--muted); font-weight:600; }
+  .uni-num { font-variant-numeric:tabular-nums; }
+  .uni-pos { color:var(--pos); } .uni-neg { color:var(--neg); }
+  .uni-held-b { font-size:10.5px; font-weight:800; color:var(--accent); }
 
   .memo-list { margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
   .memo-list li { display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.55; }
@@ -451,6 +483,14 @@
       <div class="actions" id="actionList"></div>
     </div>
 
+    <!-- 워칭 유니버스 (후보 ETF 전체) -->
+    <div class="panel" id="universePanel">
+      <h2>🔭 워칭 유니버스 — 후보 ETF</h2>
+      <p class="hint">CIO가 아이디어를 고르는 후보 ETF 전체 목록. <b>실제 보유 포트폴리오와 별개</b>로 워칭·관리합니다(보유는 <a href="portfolio.html">포트폴리오 탭</a>). 행 클릭 시 factsheet(AUM·보수·상위 구성종목·공식 링크). ✓보유 표시는 현재 계정 편입 종목.</p>
+      <div class="uni-controls" id="uniControls"></div>
+      <div style="overflow-x:auto"><table id="universeTable" class="uni-table"></table></div>
+    </div>
+
     <!-- 채팅 -->
     <div class="panel" id="chatPanel">
       <h2>💬 정성요인 토론 — 나와 같이 고민하기</h2>
@@ -505,6 +545,7 @@
         <a class="fm-nav-link" data-target="sectorPanel" href="#sectorPanel">③ 섹터 배분</a>
         <a class="fm-nav-link" data-target="ltPanel" href="#ltPanel">④ 종목·테마</a>
         <a class="fm-nav-link" data-target="actionPanel" href="#actionPanel">✅ 액션 리스트</a>
+        <a class="fm-nav-link" data-target="universePanel" href="#universePanel">🔭 워칭 유니버스</a>
         <a class="fm-nav-link" data-target="chatPanel" href="#chatPanel">💬 정성 토론</a>
       </div>
     </nav>
@@ -598,7 +639,7 @@ function boot(data){
   SNAP = computeSnapshot(PF);
   RECS = buildRecs(SNAP);
   // 각 렌더를 개별 격리 — 하나가 (라이브 데이터 엣지 등으로) 예외나도 나머지 렌더·채팅·버튼 배선이 죽지 않도록.
-  [renderSizing, renderCountry, renderSector, renderLongTerm, renderActions, renderCIO].forEach(function(fn){
+  [renderSizing, renderCountry, renderSector, renderLongTerm, renderActions, renderUniverse, renderCIO].forEach(function(fn){
     try { fn(); } catch(e){ console.error('[fm] '+(fn.name||'render')+' 실패:', e); }
   });
   initChat();
@@ -976,6 +1017,56 @@ function renderActions(){
       '<span class="body"><span class="h">'+esc(a.h)+'</span><span class="d">'+esc(a.d)+'</span></span></label>';
   });
   $('actionList').innerHTML = html || '<div class="note">도출된 조정 액션이 없습니다(현 비중이 목표에 근접).</div>';
+}
+
+/* ============================ 렌더: 워칭 유니버스 ============================ */
+var _uniFilter = 'all';
+function uniGroup(ctx){
+  ctx = ctx || '';
+  if (ctx.indexOf('한국섹터') === 0) return { k:'kr',  l:'한국 섹터' };
+  if (ctx.indexOf('섹터')     === 0) return { k:'sec', l:'글로벌 섹터' };
+  if (ctx.indexOf('지역')     === 0) return { k:'reg', l:'지역/국가' };
+  if (ctx.indexOf('테마')     === 0) return { k:'thm', l:'테마' };
+  return { k:'etc', l:'기타' };
+}
+function renderUniverse(){
+  var wrap = $('universeTable'); if (!wrap) return;
+  var data = (window.FM_ETF && FM_ETF.data) || null;
+  if (!data){ wrap.innerHTML = '<tbody><tr><td class="l" style="color:var(--muted)">유니버스 데이터(fm-etf.js)가 없습니다.</td></tr></tbody>'; if($('uniControls')) $('uniControls').innerHTML=''; return; }
+  var held = pfHeldMap();
+  var order = { sec:0, kr:1, reg:2, thm:3, etc:4 };
+  var rows = Object.keys(data).map(function(tk){
+    var d = data[tk], g = uniGroup(d.ctx), h = held[normTicker(tk)], isHeld = !!(h && h.mkt > 0);
+    return { tk:tk, d:d, g:g, isHeld:isHeld, w:isHeld?h.w:0, sub:(d.ctx||'').split(':')[1]||'' };
+  });
+  var heldCnt = rows.filter(function(r){ return r.isHeld; }).length;
+  var filtered = rows.filter(function(r){ return _uniFilter==='all' || r.g.k===_uniFilter; });
+  filtered.sort(function(a,b){
+    if (order[a.g.k]!==order[b.g.k]) return order[a.g.k]-order[b.g.k];
+    if (a.isHeld!==b.isHeld) return a.isHeld?-1:1;
+    var az=a.d.r_3m==null?-999:a.d.r_3m, bz=b.d.r_3m==null?-999:b.d.r_3m;
+    return bz-az;   // 3M 높은 순
+  });
+  var cats = [['all','전체'],['sec','글로벌 섹터'],['kr','한국 섹터'],['reg','지역/국가'],['thm','테마']];
+  $('uniControls').innerHTML = cats.map(function(c){
+    return '<span class="uni-chip'+(_uniFilter===c[0]?' active':'')+'" data-uni="'+c[0]+'">'+c[1]+'</span>';
+  }).join('') + '<span style="margin-left:auto;font-size:11px;color:var(--muted);align-self:center">총 '+rows.length+'종 · ✓보유 '+heldCnt+'종</span>';
+
+  function unum(v){ if (v==null) return '<span class="uni-num" style="color:var(--muted)">—</span>'; return '<span class="uni-num '+(v<0?'uni-neg':'uni-pos')+'">'+(v>=0?'+':'')+v+'%</span>'; }
+  var head = '<thead><tr><th class="l">분류</th><th class="l">ETF</th><th>1M</th><th>3M</th><th>YTD</th><th>보유</th></tr></thead>';
+  var body = filtered.map(function(r){
+    var d = r.d;
+    return '<tr class="'+(r.isHeld?'uni-held':'')+'" data-etf="'+esc(r.tk)+'">'+
+      '<td class="l"><span class="uni-cat">'+esc(r.g.l)+'</span>'+(r.sub?'<br><span class="uni-cat" style="font-weight:600;color:var(--text-soft)">'+esc(r.sub)+'</span>':'')+'</td>'+
+      '<td class="l"><span class="uni-nm">'+esc(d.name||r.tk)+'</span> <span class="uni-tk">'+esc(r.tk)+' 📄</span></td>'+
+      '<td>'+unum(d.r_1m)+'</td><td>'+unum(d.r_3m)+'</td><td>'+unum(d.r_ytd)+'</td>'+
+      '<td>'+(r.isHeld?'<span class="uni-held-b">✓ '+pct(r.w)+'</span>':'<span style="color:var(--muted)">—</span>')+'</td>'+
+    '</tr>';
+  }).join('');
+  wrap.innerHTML = head + '<tbody>' + body + '</tbody>';
+  [].slice.call($('uniControls').querySelectorAll('.uni-chip')).forEach(function(ch){
+    ch.addEventListener('click', function(){ _uniFilter = ch.getAttribute('data-uni'); renderUniverse(); });
+  });
 }
 
 /* ============================ 시장 데이터 / 오늘의 CIO 의견 ============================ */
@@ -1593,15 +1684,41 @@ function openEtfFactsheet(ticker){
     return '<div class="etf-fact-item"><div class="fl">'+esc(it.l)+'</div><div class="fv">'+it.v+'</div></div>';
   }).join('') + '<div class="etf-fact-item etf-fact-full"><div class="fl">추종 벤치마크</div><div class="fv" style="font-size:13px">'+
     (d.benchmark ? esc(d.benchmark) : '<span class="muted">—</span>') + '</div></div>';
+
+  // 수익률(1M/3M/YTD)
+  function rcell(l,v){ var c=(v==null)?'':(v<0?'var(--neg)':'var(--pos)'); return '<div class="etf-ret-item"><div class="fl">'+l+'</div><div class="fv" style="color:'+c+'">'+(v==null?'—':((v>=0?'+':'')+v+'%'))+'</div></div>'; }
+  var retHtml = (d.r_1m!=null||d.r_3m!=null||d.r_ytd!=null)
+    ? '<div class="etf-ret-grid">'+rcell('1개월',d.r_1m)+rcell('3개월',d.r_3m)+rcell('YTD',d.r_ytd)+'</div>' : '';
+
+  // 상위 구성종목 + 비중
+  var th=(d.top_holdings||[]);
+  var holdHtml='';
+  if (th.length){
+    holdHtml='<div class="fin-sec">🧬 상위 구성종목 (비중)</div><div class="etf-hold-list">'+
+      th.map(function(h){
+        var w=(h.weight_pct!=null)?h.weight_pct:0;
+        return '<div class="etf-hold-row"><span class="ehn">'+esc(h.name||h.ticker||'')+
+          (h.ticker&&h.name?' <span class="eht">'+esc(h.ticker)+'</span>':'')+'</span>'+
+          '<span class="ehw">'+(h.weight_pct!=null?h.weight_pct.toFixed(2)+'%':'—')+'</span>'+
+          '<span class="ehbar"><i style="width:'+Math.min(100,w).toFixed(1)+'%"></i></span></div>';
+      }).join('')+'</div>';
+  }
+
+  var linkHtml = d.info_url
+    ? '<a href="'+esc(d.info_url)+'" target="_blank" rel="noopener" class="etf-link">📄 공식 상세·구성종목 페이지 열기 →</a>' : '';
+
   box.innerHTML =
     '<div class="fin-head"><div>'+
       '<div class="nm">'+esc(d.name)+' <span class="ticker" style="font-size:13px;color:var(--muted)">'+esc(d.ticker)+'</span></div>'+
       '<div class="mt">ETF Factsheet · '+esc(d.market==='KR'?'국내상장':'해외상장')+' · 데이터 '+esc((window.FM_ETF&&FM_ETF.as_of)||'')+' · 출처 '+esc(d.source||'')+'</div>'+
     '</div><button class="fin-close" id="etfCloseBtn" aria-label="닫기">✕</button></div>'+
     '<div class="etf-fact-grid">'+grid+'</div>'+
+    retHtml+
+    holdHtml+
+    linkHtml+
     (d.category ? '<div class="fin-note">카테고리: '+esc(d.category)+'</div>' : '')+
     (d.stale ? '<div class="etf-stale-warn">⚠ 최신 수집 실패 — 이전 데이터 표시 중(참고용).</div>' : '')+
-    '<div class="fin-note">AUM·거래량·보수 등은 '+esc((window.FM_ETF&&FM_ETF.as_of)||'')+' 기준 수동 갱신 데이터입니다(<code>python fetch_etf_factsheet.py</code>). 매매 전 운용사 공식 factsheet로 재확인하세요.</div>';
+    '<div class="fin-note">AUM·거래량·보수·구성종목은 '+esc((window.FM_ETF&&FM_ETF.as_of)||'')+' 기준 갱신 데이터입니다. 매매 전 위 공식 페이지로 재확인하세요.</div>';
   $('etfModal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
   $('etfCloseBtn').addEventListener('click', closeEtfFactsheet);

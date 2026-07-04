@@ -87,6 +87,50 @@ def _num(v):
         return None
 
 
+_NAVER_M = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) "
+                          "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+            "Referer": "https://m.stock.naver.com/"}
+
+
+def us_top_holdings(sym, n=5):
+    """미국 ETF 상위 구성종목+비중 — yfinance funds_data. 실패 시 빈 리스트."""
+    try:
+        th = yf.Ticker(sym).funds_data.top_holdings
+        if th is None or th.empty:
+            return []
+        out = []
+        for symbol, r in th.head(n).iterrows():
+            wp = r.get("Holding Percent")
+            out.append({"ticker": str(symbol), "name": r.get("Name"),
+                        "weight_pct": round(float(wp) * 100, 2) if wp is not None else None})
+        return out
+    except Exception:
+        return []
+
+
+def kr_top_holdings(code6, n=5):
+    """한국 ETF 상위 구성종목+비중 — 네이버 모바일 API(etfTop10MajorConstituentAssets). 실패 시 빈 리스트."""
+    try:
+        r = requests.get("https://m.stock.naver.com/api/stock/%s/etfAnalysis" % code6,
+                         headers=_NAVER_M, timeout=12)
+        top = (r.json() or {}).get("etfTop10MajorConstituentAssets") or []
+        out = []
+        for x in top[:n]:
+            w = str(x.get("etfWeight") or "").replace("%", "").strip()
+            out.append({"ticker": x.get("itemCode"), "name": x.get("itemName"),
+                        "weight_pct": float(w) if w else None})
+        return out
+    except Exception:
+        return []
+
+
+def info_url(disp, is_kr, code6):
+    """공식 상세·구성종목 페이지 URL(factsheet 대체 링크)."""
+    if is_kr:
+        return "https://finance.naver.com/item/coinfo.naver?code=" + code6
+    return "https://finance.yahoo.com/quote/%s/holdings" % disp
+
+
 def compute_returns(yf_symbol):
     """yfinance 가격 히스토리로 1M/3M/YTD/1Y 수익률(%) 계산 — US·KR 공통(.KS 심볼).
     부진(언더퍼폼) 판별 데이터로 파이프라인에 주입된다. 실패 시 빈 dict."""
@@ -147,6 +191,8 @@ def us_etf(disp):
         "source": "yfinance",
     }
     row.update(compute_returns(disp))
+    row["top_holdings"] = us_top_holdings(disp)
+    row["info_url"] = info_url(disp, False, disp)
     return row
 
 
@@ -209,6 +255,8 @@ def kr_etf(disp):
         "source": "NaverFinance",
     }
     row.update(compute_returns(code6 + ".KS"))   # 수익률은 yfinance(.KS)로
+    row["top_holdings"] = kr_top_holdings(code6)
+    row["info_url"] = info_url(disp, True, code6)
     return row
 
 
