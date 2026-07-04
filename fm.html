@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04i";</script>
+<script>window.CODE_VERSION = "2026-07-04j";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -322,6 +322,32 @@
   .wl-trig { margin-top:5px; font-size:12px; }
   .wl-trig b { font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--neg); }
   .wl-trig ul { margin:2px 0 0; padding-left:18px; line-height:1.5; }
+
+  /* 좌측 하단 섹션 네비게이터(목차) */
+  .panel { scroll-margin-top:72px; }
+  .fm-nav {
+    position:fixed; left:16px; bottom:16px; z-index:40; width:172px;
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    box-shadow:var(--shadow-md); padding:8px; display:flex; flex-direction:column; gap:3px;
+  }
+  .fm-nav-toggle {
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    background:transparent; border:none; cursor:pointer; font-size:11px; font-weight:800;
+    color:var(--muted); text-transform:uppercase; letter-spacing:.04em; padding:3px 8px 6px;
+  }
+  .fm-nav-toggle .fmn-caret { font-size:10px; }
+  .fm-nav-list { display:flex; flex-direction:column; gap:3px; }
+  .fm-nav.collapsed { width:auto; }
+  .fm-nav.collapsed .fm-nav-list { display:none; }
+  .fm-nav.collapsed .fm-nav-toggle { padding:4px 6px; }
+  .fm-nav-link {
+    display:block; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:600;
+    color:var(--text-soft); text-decoration:none; cursor:pointer; white-space:nowrap;
+    border-left:3px solid transparent; transition:background .12s, color .12s;
+  }
+  .fm-nav-link:hover { background:var(--panel-soft); color:var(--text); }
+  .fm-nav-link.active { background:var(--accent-soft); color:var(--accent); border-left-color:var(--accent); }
+  @media (max-width:1080px){ .fm-nav { left:10px; bottom:10px; width:160px; } }
 </style>
 </head>
 <body>
@@ -465,6 +491,22 @@
       <p class="note" id="chatModeNote"></p>
       <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시, 로그인된 Claude Code CLI로 호출 → 토큰이 API가 아니라 <b>구독</b>에서 차감(2026-06-15부터 구독의 별도 'Agent SDK 크레딧' 풀에서 차감). GitHub Pages 등 정적 호스팅에선 불가.<br>· <b>Gemini API 키 (무료 티어)</b>: 웹(정적 호스팅)에서 브라우저가 Google Gemini를 직접 호출. 키는 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>에서 무료 발급(분당·일일 rate limit 있음). 2026년 신규 키는 <code>AQ.</code>로 시작(구 <code>AIza</code>도 호환). 키는 이 브라우저 localStorage에만 저장 — 저장소엔 절대 안 들어감. 공용 PC에선 사용 후 키를 비우세요.<br>· <b>Anthropic API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량으로 청구). 키는 이 브라우저 localStorage에만 저장.</p>
     </div>
+
+    <!-- 좌측 하단 섹션 네비게이터(목차) — 클릭 시 해당 섹션으로 스크롤 -->
+    <nav id="fmNav" class="fm-nav" aria-label="섹션 목차">
+      <button type="button" class="fm-nav-toggle" id="fmNavToggle" title="목차 접기/펼치기">
+        <span>📑 목차</span><span class="fmn-caret">▾</span>
+      </button>
+      <div class="fm-nav-list" id="fmNavList">
+        <a class="fm-nav-link" data-target="cioPanel" href="#cioPanel">🧭 오늘의 CIO</a>
+        <a class="fm-nav-link" data-target="sizingPanel" href="#sizingPanel">① 포지션 사이징</a>
+        <a class="fm-nav-link" data-target="countryPanel" href="#countryPanel">② 국가·지역 배분</a>
+        <a class="fm-nav-link" data-target="sectorPanel" href="#sectorPanel">③ 섹터 배분</a>
+        <a class="fm-nav-link" data-target="ltPanel" href="#ltPanel">④ 종목·테마</a>
+        <a class="fm-nav-link" data-target="actionPanel" href="#actionPanel">✅ 액션 리스트</a>
+        <a class="fm-nav-link" data-target="chatPanel" href="#chatPanel">💬 정성 토론</a>
+      </div>
+    </nav>
   </div>
 
   <!-- 재무 모달 -->
@@ -561,7 +603,48 @@ function boot(data){
   initChat();
   // 🤖 AI 심층의견 버튼은 renderCIO 성공 여부와 무관하게 항상 배선(과거엔 renderCIO 끝에서만 붙어 취약).
   var _aiBtn = $('cioAiBtn'); if (_aiBtn) _aiBtn.onclick = runCioAi;
+  try { initFmNav(); } catch(e){ console.error('[fm] initFmNav 실패:', e); }
   window.__fmBooted = true;
+}
+
+/* ── 좌측 하단 섹션 네비게이터: 클릭 시 스크롤 이동 + 스크롤스파이 활성표시 + 접기/펼치기 ── */
+function initFmNav(){
+  var nav = $('fmNav'); if (!nav || nav.__wired) return;
+  nav.__wired = true;
+  var links = [].slice.call(nav.querySelectorAll('.fm-nav-link'));
+  var toggle = $('fmNavToggle');
+  var caret = toggle ? toggle.querySelector('.fmn-caret') : null;
+
+  function setCollapsed(c){
+    nav.classList.toggle('collapsed', c);
+    if (caret) caret.textContent = c ? '▸' : '▾';
+    try { localStorage.setItem('fm_nav_collapsed', c ? '1' : '0'); } catch(e){}
+  }
+  var saved = null; try { saved = localStorage.getItem('fm_nav_collapsed'); } catch(e){}
+  var narrow = window.matchMedia && window.matchMedia('(max-width:1080px)').matches;
+  setCollapsed(saved != null ? saved === '1' : !!narrow);
+  if (toggle) toggle.addEventListener('click', function(){ setCollapsed(!nav.classList.contains('collapsed')); });
+
+  function setActive(a){ links.forEach(function(l){ l.classList.toggle('active', l === a); }); }
+  links.forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var t = $(a.getAttribute('data-target'));
+      if (t){ t.scrollIntoView({ behavior:'smooth', block:'start' }); setActive(a); }
+    });
+  });
+
+  // 스크롤스파이(IntersectionObserver) — 화면 상단 근처에 들어온 섹션을 활성화
+  var byId = {}; links.forEach(function(a){ byId[a.getAttribute('data-target')] = a; });
+  var visible = {};
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ visible[en.target.id] = en.isIntersecting ? en.intersectionRatio : 0; });
+    var bestId = null, best = -1;
+    links.forEach(function(a){ var id = a.getAttribute('data-target'); var v = visible[id] || 0; if (v > best){ best = v; bestId = id; } });
+    if (bestId && byId[bestId] && best > 0) setActive(byId[bestId]);
+  }, { rootMargin: '-70px 0px -55% 0px', threshold: [0, 0.15, 0.4, 0.75, 1] });
+  links.forEach(function(a){ var t = $(a.getAttribute('data-target')); if (t) obs.observe(t); });
+  if (links[0]) setActive(links[0]);
 }
 
 /* ── 시황 라이브 갱신: benchmarks.js를 5분마다 재로드해 CIO 패널·차트 재렌더 ──
