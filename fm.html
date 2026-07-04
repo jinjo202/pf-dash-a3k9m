@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-05c";</script>
+<script>window.CODE_VERSION = "2026-07-05d";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -1543,6 +1543,8 @@ function renderRecentFactors(){
 function cioAiPrompt(){
   return '오늘자 종합 CIO 브리핑을 작성하라. 다음 5개 항목을 순서대로, 각 항목은 결론을 먼저 제시한 뒤 근거: '+
     '1) 전반적 매크로 뷰 2) 주식 비중(확대/축소/유지) 3) 국가 배분 4) 섹터 배분 5) 우리 포트폴리오에서 구체적으로 무엇을 팔고 무엇을 살지(티커·대략 비중%). '+
+    '⚠️ 5)에서 매도·축소·청산·전량매도는 반드시 <CONTEXT>의 "보유종목_전체_매도가능" 목록에 있는 종목 중에서만 하라. '+
+    '그 목록에 없는 종목(시드_종목·매크로_국가선호 등에 언급된 아이디어 포함)은 우리가 보유하고 있지 않으므로, 절대 "매도/축소/청산"이라 쓰지 말고 오직 "신규 매수" 후보로만 제시하라. 팔 것과 살 것을 명확히 구분할 것. '+
     '추가로, <CONTEXT>의 시황_벤치마크 일간/MTD 움직임을 근거로 오늘 시장 변동성의 원인이 기술적(수급·포지셔닝)인지 펀더멘털 훼손인지 판정하고, 그에 따라 오늘 당장 매매가 필요한지 명확히 답하라. 막연한 양비론 없이 결정 지향적으로.';
 }
 var cioBusy = false;   // AI 심층의견 전용 busy — 채팅(chatBusy)과 분리해 서로 막지 않게.
@@ -1816,10 +1818,15 @@ function buildContext(){
   };
   var holdings = (PF.holdings||[]).slice().sort(function(a,b){return b.mkt-a.mkt;}).slice(0,15)
     .map(function(x){ return x.region+' '+x.name+' '+pct((x.mkt||0)/tot); });
+  // 실제 보유 종목 전체(매도·축소가 가능한 유일한 대상). 미보유 아이디어와 혼동 방지용.
+  var heldAll = (PF.holdings||[]).filter(function(x){ return (x.mkt||0)>0; })
+    .sort(function(a,b){ return b.mkt-a.mkt; })
+    .map(function(x){ return (x.ticker? x.ticker+' ':'')+x.name+' '+pct((x.mkt||0)/tot); });
 
   var ctx = {
     스냅샷: snapTxt,
     상위보유: holdings,
+    보유종목_전체_매도가능: heldAll,
     시황_벤치마크: marketTape(),
     권고: recTxt,
     매크로레짐: (window.MACRO&&MACRO.regime)||null,
