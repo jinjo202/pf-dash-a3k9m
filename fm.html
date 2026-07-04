@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-05b";</script>
+<script>window.CODE_VERSION = "2026-07-05c";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -1559,13 +1559,21 @@ async function runCioAi(){
   // 키/백엔드가 없어 바로 실패할 상황이면, 에러 대신 무엇을 눌러야 하는지 안내(버튼 무반응처럼 보이던 문제 방지).
   var geminiKey=(localStorage.getItem('fm_gemini_key')||'').trim();
   var apiKey=(localStorage.getItem('fm_chat_key')||'').trim();
-  var needSetup = (mode==='gemini' && !geminiKey) || (mode==='api' && !apiKey);
+  var subNoBackend = (mode==='sub' && !(backendHealth && backendHealth.claude));
+  var needSetup = subNoBackend || (mode==='gemini' && !geminiKey) || (mode==='api' && !apiKey);
   if (needSetup){
-    var what = mode==='gemini' ? 'Gemini(무료) API 키' : 'Anthropic API 키';
-    out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견</div><div class="bd">'+
-      '현재 청구 모드는 <b>'+esc(assistantLabel())+'</b>인데 '+esc(what)+'가 없어 생성할 수 없습니다.<br>'+
-      '<button type="button" class="cio-ai-btn" id="cioAiSetup" style="margin:8px 0 0">⚙ 아래 채팅 설정에서 키 입력하기 →</button>'+
-      '<div style="font-size:11.5px;color:var(--muted);margin-top:6px">· 무료로 쓰려면 <b>Gemini</b> 모드 + <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> 키.<br>· 로컬에서 <code>python serve.py</code> 실행 시 구독 차감 모드가 자동 활성화됩니다.</div>'+
+    var msg;
+    if (subNoBackend){
+      msg = '현재 <b>Claude 요금제(구독 차감)</b> 모드인데 <b>로컬 백엔드가 없습니다</b>. 구독 차감은 내 PC에서 '+
+        '<code>python serve.py</code> 를 실행할 때만 작동합니다 — 브라우저만으로는 구독에 접근할 수 없습니다.<br>'+
+        '정적 사이트(GitHub Pages)에서 바로 쓰려면 무료 <b>Gemini</b> 키 또는 <b>API</b> 키 모드로 전환하세요.';
+    } else {
+      var what = mode==='gemini' ? 'Gemini(무료) API 키' : 'Anthropic API 키';
+      msg = '현재 청구 모드는 <b>'+esc(assistantLabel())+'</b>인데 '+esc(what)+'가 없어 생성할 수 없습니다.<br>'+
+        '무료로 쓰려면 <b>Gemini</b> 모드 + <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> 키를 입력하세요.';
+    }
+    out.innerHTML='<div class="cio-ai-head">🤖 AI 심층의견</div><div class="bd">'+msg+
+      '<br><button type="button" class="cio-ai-btn" id="cioAiSetup" style="margin:8px 0 0">⚙ 아래 채팅 설정 열기 →</button>'+
       '</div>';
     var sb=$('cioAiSetup'); if(sb) sb.onclick=gotoChatSettings;
     return;
@@ -2061,15 +2069,14 @@ async function initChat(){
   $('geminiKey').value = localStorage.getItem('fm_gemini_key') || '';
   var m = localStorage.getItem('fm_chat_model'); if (m) $('modelSel').value = m;
 
-  // 백엔드 헬스체크 → 모드 자동 선택.
-  //   로컬(serve.py + Claude Code 있음) → 'sub'(구독 차감) 디폴트
-  //   GitHub Pages 등 웹(백엔드 없음)      → 'gemini'(무료 API) 디폴트
-  // 사용자가 수동 선택한 값(savedMode)은 존중하되, 백엔드 없는 곳에서 'sub'는 작동 불가라 gemini로 폴백.
+  // 기본 모드 = 'sub'(Claude 요금제/구독 차감). 이 계정은 구독 이용자이므로 구독 모드를 기본 노출.
+  //   · 로컬에서 python serve.py 실행 중이면 자동 연결되어 구독 차감으로 작동.
+  //   · 백엔드가 없으면(정적 사이트 등) 모드는 'sub'로 두되, UI·생성 버튼이 'serve.py 실행 필요
+  //     또는 무료 Gemini/API 키 전환'을 명확히 안내(예전처럼 조용히 gemini로 바꾸지 않음).
+  // 사용자가 수동 선택한 값(savedMode)은 그대로 존중.
   backendHealth = await probeBackend();
   var savedMode = localStorage.getItem('fm_chat_mode');
-  var subOk = !!(backendHealth && backendHealth.claude);
-  var mode = savedMode || (subOk ? 'sub' : 'gemini');
-  if (mode === 'sub' && !subOk) mode = 'gemini';   // 웹/백엔드없음: 깨진 sub 대신 gemini
+  var mode = savedMode || 'sub';
   $('chatMode').value = mode;
   updateModeUI();
 
