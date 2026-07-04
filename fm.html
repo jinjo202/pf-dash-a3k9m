@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-04h";</script>
+<script>window.CODE_VERSION = "2026-07-04i";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -314,6 +314,14 @@
   .deb-round:last-of-type { border-bottom:none; }
   .deb-resp { color:var(--text-soft); margin-top:2px; }
   .deb-changed { margin-top:8px; padding:7px 10px; border-radius:7px; background:var(--accent-soft); font-size:12.5px; line-height:1.55; }
+  .cio-watch { display:flex; flex-direction:column; gap:8px; }
+  .wl-item { border:1px solid var(--border); border-left:3px solid var(--neg); border-radius:9px; padding:9px 12px; background:var(--panel-soft); }
+  .wl-h { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:13px; margin-bottom:4px; }
+  .wl-row { font-size:12.5px; line-height:1.55; color:var(--text-soft); margin-top:3px; }
+  .wl-k { display:inline-block; min-width:66px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); }
+  .wl-trig { margin-top:5px; font-size:12px; }
+  .wl-trig b { font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--neg); }
+  .wl-trig ul { margin:2px 0 0; padding-left:18px; line-height:1.5; }
 </style>
 </head>
 <body>
@@ -1223,6 +1231,38 @@ function renderCioDaily(){
     (trades?'<ul style="margin:4px 0 0;padding-left:16px;line-height:1.6">'+trades+'</ul>':'')+
   '</div></div>';
 
+  // 부진 ETF 점검 (watchlist) — 보유 대조 후 렌더
+  var watchHtml='';
+  if (e.watchlist && e.watchlist.length){
+    var vmap={hold:{l:'기다림',c:'b-neu'},trim:{l:'일부 축소',c:'b-neg'},sell:{l:'청산',c:'b-neg'}};
+    var wItems=e.watchlist.map(function(w){
+      var h=w.ticker?held[normTicker(w.ticker)]:null;
+      var isHeld=!!(h && h.mkt>0);
+      var v=vmap[w.verdict]||{l:w.verdict||'',c:'b-neu'};
+      var r3=(w.r_3m!=null)?w.r_3m:(h&&window.FM_ETF&&FM_ETF.data[w.ticker]?FM_ETF.data[w.ticker].r_3m:null);
+      var perf=(r3!=null)?('<span class="badge '+(r3<0?'b-neg':'b-neu')+'" style="font-weight:700">3M '+(r3>=0?'+':'')+r3+'%</span>'):'';
+      var heldBadge=isHeld
+        ? '<span class="badge b-neu" style="font-weight:700">✓ 보유 '+pct(h.w)+'</span>'
+        : '<span class="badge b-neu" style="font-weight:700;opacity:.7">미보유</span>';
+      var fact=w.ticker&&hasEtfFact(w.ticker);
+      var tk=w.ticker?(fact
+        ? '<span class="ci-date clk" data-etf="'+esc(w.ticker)+'" title="클릭: ETF factsheet" style="cursor:pointer;text-decoration:underline dashed">'+esc(w.ticker)+' 📄</span>'
+        : '<span class="ci-date">'+esc(w.ticker)+'</span>'):'';
+      var trig=(w.sell_triggers&&w.sell_triggers.length)
+        ? '<div class="wl-trig"><b>매도 트리거</b><ul>'+w.sell_triggers.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul></div>' : '';
+      return {isHeld:isHeld, html:'<div class="wl-item">'+
+        '<div class="wl-h"><span class="badge '+v.c+'">'+esc(v.l)+'</span> '+perf+' '+heldBadge+' <b>'+esc(w.name||'')+'</b> '+tk+'</div>'+
+        (w.why_lagging?'<div class="wl-row"><span class="wl-k">부진 원인</span> '+esc(w.why_lagging)+'</div>':'')+
+        (w.hold_thesis?'<div class="wl-row"><span class="wl-k">기다릴 근거</span> '+esc(w.hold_thesis)+'</div>':'')+
+        (w.wait_until?'<div class="wl-row"><span class="wl-k">언제까지</span> '+esc(w.wait_until)+'</div>':'')+
+        trig+
+      '</div>'};
+    });
+    wItems.sort(function(a,b){ return (b.isHeld?1:0)-(a.isHeld?1:0); });
+    watchHtml='<div class="cio-sec-label" style="margin:12px 0 2px">🔎 부진 ETF 점검 — 왜 부진한지·기다릴지·팔 트리거</div>'+
+      '<div class="cio-watch">'+wItems.map(function(x){return x.html;}).join('')+'</div>';
+  }
+
   // 투자위원회 토론 (Devil's Advocate 라운드)
   var debHtml='';
   if (e.debate && e.debate.rounds && e.debate.rounds.length){
@@ -1246,6 +1286,7 @@ function renderCioDaily(){
     (chainHtml?'<div class="cio-sec-label" style="margin:12px 0 2px">이슈 체인 — 무엇이 무엇을 움직였나</div><div class="cio-chain">'+chainHtml+'</div>':'')+
     techHtml+
     posHtml+
+    watchHtml+
     debHtml+
     (e.conclusion?'<div class="dconc"><b>종합 결론.</b> '+esc(e.conclusion)+'</div>':'')+
   '</div>';

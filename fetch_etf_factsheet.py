@@ -87,6 +87,34 @@ def _num(v):
         return None
 
 
+def compute_returns(yf_symbol):
+    """yfinance 가격 히스토리로 1M/3M/YTD/1Y 수익률(%) 계산 — US·KR 공통(.KS 심볼).
+    부진(언더퍼폼) 판별 데이터로 파이프라인에 주입된다. 실패 시 빈 dict."""
+    try:
+        h = yf.Ticker(yf_symbol).history(period="1y", auto_adjust=True)
+    except Exception:
+        return {}
+    if h is None or h.empty:
+        return {}
+    c = h["Close"].dropna()
+    if len(c) < 20:
+        return {}
+    cur = float(c.iloc[-1])
+
+    def back(n):
+        return round((cur / float(c.iloc[-n]) - 1) * 100, 1) if len(c) >= n else None
+
+    ytd = None
+    try:
+        this_year = c.index.year == dt.date.today().year
+        ys = c[this_year]
+        if len(ys) > 1:
+            ytd = round((cur / float(ys.iloc[0]) - 1) * 100, 1)
+    except Exception:
+        ytd = None
+    return {"r_1m": back(21), "r_3m": back(63), "r_ytd": ytd, "r_1y": back(252)}
+
+
 def us_etf(disp):
     t = yf.Ticker(disp)
     info = {}
@@ -103,7 +131,7 @@ def us_etf(disp):
             incep_iso = dt.datetime.fromtimestamp(incep, dt.timezone.utc).date().isoformat()
         except Exception:
             incep_iso = None
-    return {
+    row = {
         "ticker": disp, "name": info.get("longName") or info.get("shortName") or disp,
         "market": "US", "currency": info.get("currency") or "USD",
         "price": info.get("regularMarketPrice") or info.get("navPrice"),
@@ -118,6 +146,8 @@ def us_etf(disp):
         "yield_pct": (info.get("yield") * 100) if info.get("yield") is not None else None,
         "source": "yfinance",
     }
+    row.update(compute_returns(disp))
+    return row
 
 
 _KR_PATTERNS = {
@@ -170,7 +200,7 @@ def kr_etf(disp):
     price = find("price")
     price = _num(price.replace(",", "")) if price else None
 
-    return {
+    row = {
         "ticker": disp, "name": disp, "market": "KR", "currency": "KRW",
         "price": price, "aum": aum, "volume_avg": volume,
         "expense_ratio_pct": fee, "benchmark": bench,
@@ -178,6 +208,8 @@ def kr_etf(disp):
         "issuer": find("manager"), "category": None, "yield_pct": None,
         "source": "NaverFinance",
     }
+    row.update(compute_returns(code6 + ".KS"))   # 수익률은 yfinance(.KS)로
+    return row
 
 
 def load_prev():
