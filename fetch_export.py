@@ -35,12 +35,16 @@ OUT = HERE / "export-history.js"
 API_URL = os.environ.get("TRADE_API_URL", "https://apis.data.go.kr/1220000/nitemtrade/getNitemtradeList")
 KEY = os.environ.get("TRADE_API_KEY")
 
-# 품목 → HS부호(들). 여러 개면 합산. (음식료는 가공식품 대표 HS 바스켓)
+# 품목 → HS부호(들). 여러 개면 합산. 바스켓(석유화학·철강 등)은 MOTIE 집계와 정확히
+# 일치시키기 어려워 대표 HS만 — 정밀화는 관세청조회코드표 참고해 확장.
 CATEGORY_HS = {
-    "semi":     ["8542"],               # 집적회로(메모리+시스템)
-    "auto":     ["8703"],               # 승용차
-    "cosmetic": ["3304"],               # 화장품(기초·색조)
-    "food":     ["1902", "2106", "2005"],  # 면류·기타조제식품·조제채소 (K-food 대표 바스켓)
+    "semi":      ["8542"],              # 집적회로(메모리+시스템)
+    "semi_mem":  ["854232"],            # 반도체 세부: 메모리(DRAM+NAND)
+    "semi_sys":  ["854231"],            # 반도체 세부: 시스템반도체(프로세서/컨트롤러)
+    "computer":  ["8471"],              # 컴퓨터(SSD 포함 자동자료처리기계)
+    "auto":      ["8703"],              # 승용차
+    "cosmetic":  ["3304"],              # 화장품(기초·색조)
+    "food":      ["1902", "2106", "2005"],  # 면류·기타조제식품·조제채소 (K-food 대표 바스켓)
 }
 # 총수출은 별도 total HS 합계 대신 산업부 집계를 쓰는 게 정확 → 여기선 품목만. total은 큐레이션 유지.
 

@@ -356,7 +356,14 @@
     <div class="sect-t">📮 관세청 발표 사이클 (이번 달)</div>
     <div class="rel-timeline" id="kxTimeline"></div>
 
-    <div class="sect-t">📊 품목별 수출 YoY (최신월)</div>
+    <div class="toolbar" style="margin-bottom:6px">
+      <div class="sect-t" style="margin:0">📊 수출 증감률 (YoY · 5월 vs 6월)</div>
+      <div class="kx-tabs" id="kxDim">
+        <button class="kx-tab on" data-d="item">품목별</button>
+        <button class="kx-tab" data-d="region">국가·지역별</button>
+      </div>
+    </div>
+    <div class="legend" style="margin:0 0 4px"><span><i style="background:#1e3a8a"></i>5월</span><span><i style="background:#93c5fd"></i>6월</span><span style="color:var(--muted)">막대 호버 시 정확값·관련주</span></div>
     <div class="chartbox" id="kxCompareChart"></div>
 
     <div class="sect-t">🗂️ 품목별 상세 · 관련주 <span style="font-weight:400;color:var(--muted);font-size:10.5px">(행/탭 클릭 → 시계열)</span></div>
@@ -704,13 +711,49 @@ function renderKX(){
   renderKXSemi();
 }
 
-/* 품목별 YoY 비교 (수평 막대, 0기준) */
+/* 수출 증감률 비교 (품목/지역 토글, 5월 vs 6월 그룹막대) */
+var kxDim = "item";
 function renderKXCompare(){
-  var cats = KX.categories||[];
-  var labels = cats.map(function(c){ return c.name.split("(")[0]; });
-  var vals = cats.map(function(c){ return kxPct(c.yoy); });
-  $('kxCompareChart').innerHTML = '<div class="ct">품목별 수출 YoY ('+esc(KX.headline_month||"")+')</div>'+
-    '<div class="cs">전년동월 대비 %, 업종주 선행지표</div>'+hbarChartSVG(labels, vals);
+  var arr = kxDim==="region" ? (KX.regions||[]) : (KX.items||[]);
+  var labels = arr.map(function(x){ return x.name; });
+  var may = arr.map(function(x){ return x.may; });
+  var jun = arr.map(function(x){ return x.jun; });
+  var groups = arr.map(function(x){ return x.group; });
+  $('kxCompareChart').innerHTML =
+    '<div class="ct">'+(kxDim==="region"?"국가·지역별":"품목별")+' 수출 YoY (5월·6월)</div>'+
+    '<div class="cs">전년동월 대비 % · 출처 신한투자증권/무역협회·산업부(일부 근사)</div>'+
+    groupedBarSVG(labels, may, jun, groups, arr);
+}
+function groupedBarSVG(labels, a, b, groups, meta){
+  var n=labels.length, gw=34, padL=26, padR=8, padT=12, padB=50, H=214;
+  var W=padL+n*gw+padR, iw=W-padL-padR, ih=H-padT-padB;
+  var allv=a.concat(b).filter(function(v){ return v!=null; });
+  var mx=Math.max.apply(null, allv.concat([0]))*1.08 || 1;
+  var mn=Math.min.apply(null, allv.concat([0]))*1.15;
+  function yOf(v){ return padT + ih*(1-(v-mn)/(mx-mn)); }
+  var y0=yOf(0), bw=gw*0.30, body="";
+  // 0선
+  body+='<line x1="'+padL+'" y1="'+y0.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y0.toFixed(1)+'" stroke="var(--border)"/>';
+  // 그룹 구분선 + 그룹명
+  var spans=[], start=0, i;
+  for(i=1;i<=n;i++){ if(i===n || groups[i]!==groups[start]){ spans.push({g:groups[start],s:start,e:i-1}); start=i; } }
+  spans.forEach(function(sp){
+    if(sp.s>0){ var xd=padL+gw*sp.s; body+='<line x1="'+xd+'" y1="'+padT+'" x2="'+xd+'" y2="'+(H-padB)+'" stroke="var(--border)" stroke-dasharray="2 3"/>'; }
+    var xc=padL+gw*((sp.s+sp.e)/2)+gw/2;
+    body+='<text x="'+xc.toFixed(1)+'" y="'+(H-6)+'" font-size="9" fill="var(--text-soft)" text-anchor="middle" font-weight="800" pointer-events="none">'+esc(sp.g)+'</text>';
+  });
+  // 막대
+  for(i=0;i<n;i++){
+    var cx=padL+gw*i+gw/2;
+    [[cx-bw-1,a[i],"#1e3a8a","5월"],[cx+1,b[i],"#93c5fd","6월"]].forEach(function(d){
+      var x=d[0], v=d[1]; if(v==null) return;
+      var yv=yOf(v), top=Math.min(y0,yv), h=Math.abs(yv-y0);
+      var tip=esc(labels[i])+" "+d[3]+": "+(v>0?"+":"")+v+"%"+(meta&&meta[i]&&meta[i].stocks?" · "+esc(meta[i].stocks):"");
+      body+='<rect x="'+x.toFixed(1)+'" y="'+top.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,1).toFixed(1)+'" rx="1" fill="'+d[2]+'" data-tip="'+tip+'"/>';
+    });
+    body+='<text x="'+cx.toFixed(1)+'" y="'+(H-padB+11)+'" font-size="7.5" fill="var(--muted)" text-anchor="end" transform="rotate(-55 '+cx.toFixed(1)+' '+(H-padB+11)+')" pointer-events="none">'+esc(labels[i])+'</text>';
+  }
+  return '<div style="overflow-x:auto"><svg viewBox="0 0 '+W+' '+H+'" style="min-width:'+Math.max(W,340)+'px;width:100%" preserveAspectRatio="xMinYMid meet">'+body+'</svg></div>';
 }
 function hbarChartSVG(labels, vals){
   var n=labels.length, rowH=27, padT=6, padB=6, padL=62, padR=44, W=340;
@@ -894,6 +937,12 @@ $('filters').addEventListener('click', function(e){
   var f=b.dataset.f; STATE.filters[f]=!STATE.filters[f]; b.classList.toggle('on');
   renderMonth(); renderUpcoming();
 });
+(function(){ var dm=$('kxDim'); if(!dm) return; dm.addEventListener('click', function(e){
+  var b=e.target.closest('.kx-tab'); if(!b) return;
+  kxDim=b.dataset.d;
+  dm.querySelectorAll('.kx-tab').forEach(function(t){ t.classList.toggle('on', t===b); });
+  renderKXCompare();
+}); })();
 (function(){ var mr=$('memRange'); if(!mr) return; mr.addEventListener('click', function(e){
   var b=e.target.closest('.kx-tab'); if(!b) return;
   memRange=+b.dataset.r;

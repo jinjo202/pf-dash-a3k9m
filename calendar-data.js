@@ -365,6 +365,40 @@ window.CALENDAR = {
       { key:"food",     name:"음식료(농수산식품)", val:"$1.17B",   yoy:"+16.8%",  mom:null,      badge:null,       stocks:"삼양식품·농심·CJ제일제당·오리온", note:"라면·김 등 K-푸드. 라면 5월 +21% YoY(단 -13.5% MoM)." }
     ],
 
+    // 품목별 수출 YoY (5월 vs 6월). 출처: 신한투자증권/무역협회·산업부. 라벨수치 외 일부는 차트판독 근사 → 관세청 API 연결 시 정확값 대체.
+    items: [
+      { name:"컴퓨터(SSD)", may:291, jun:309, group:"주력", stocks:"삼성전자·SK하이닉스" },
+      { name:"반도체",      may:169, jun:200, group:"주력", stocks:"삼성전자·SK하이닉스" },
+      { name:"석유제품",    may:52,  jun:27,  group:"주력", stocks:"S-Oil·GS·SK이노베이션" },
+      { name:"선박",        may:13,  jun:40,  group:"주력", stocks:"HD현대중공업·삼성중공업·한화오션" },
+      { name:"무선통신기기", may:14,  jun:50,  group:"주력", stocks:"삼성전자" },
+      { name:"석유화학",    may:13,  jun:21,  group:"주력", stocks:"LG화학·롯데케미칼·금호석유" },
+      { name:"디스플레이",  may:8,   jun:28,  group:"주력", stocks:"LG디스플레이·삼성SDI" },
+      { name:"섬유",        may:5,   jun:9,   group:"주력", stocks:"효성티앤씨·태광산업" },
+      { name:"자동차",      may:2,   jun:6,   group:"주력", stocks:"현대차·기아" },
+      { name:"일반기계",    may:6,   jun:11,  group:"주력", stocks:"두산에너빌리티·현대건설기계" },
+      { name:"차부품",      may:5,   jun:9,   group:"주력", stocks:"현대모비스·HL만도" },
+      { name:"철강",        may:4,   jun:9,   group:"주력", stocks:"POSCO홀딩스·현대제철" },
+      { name:"가전",        may:6,   jun:14,  group:"주력", stocks:"LG전자·삼성전자" },
+      { name:"2차전지",     may:30,  jun:11,  group:"유망", stocks:"LG에너지솔루션·삼성SDI·에코프로비엠" },
+      { name:"화장품",      may:25,  jun:43,  group:"유망", stocks:"아모레퍼시픽·코스맥스·한국콜마·실리콘투" },
+      { name:"바이오헬스",  may:9,   jun:14,  group:"유망", stocks:"삼성바이오로직스·셀트리온" },
+      { name:"농수산식품",  may:10,  jun:17,  group:"유망", stocks:"삼양식품·농심·CJ제일제당" }
+    ],
+
+    // 국가·지역별 수출 YoY (5월 vs 6월). 출처 동일(차트판독 근사).
+    regions: [
+      { name:"미국",   may:59,  jun:78, group:"선진국" },
+      { name:"일본",   may:13,  jun:17, group:"선진국" },
+      { name:"EU",     may:3,   jun:32, group:"선진국" },
+      { name:"중국",   may:81,  jun:93, group:"신흥국" },
+      { name:"ASEAN",  may:58,  jun:87, group:"신흥국" },
+      { name:"중남미", may:43,  jun:36, group:"신흥국" },
+      { name:"인도",   may:21,  jun:37, group:"신흥국" },
+      { name:"중동",   may:-5,  jun:-3, group:"신흥국" },
+      { name:"CIS",    may:-18, jun:-1, group:"신흥국" }
+    ],
+
     // 품목별 월별 시계열(YoY %). null=미확보. 산업부·언론 확인분.
     series: {
       months:       ["26.01","26.02","26.03","26.04","26.05","26.06"],
@@ -377,14 +411,16 @@ window.CALENDAR = {
       food_yoy:     [ null,  null,  null,  null,  null,  16.8 ]
     },
 
-    // 반도체 세부: 메모리(DRAM·NAND·HBM)·시스템. 단가(가격) 데이터는 TrendForce 등 유료라 수기.
+    // 반도체 세부: 시장이 보는 주요 구분(메모리 vs 시스템 + DRAM/NAND/HBM/SSD). 단가는 아래 Meritz 차트.
     semiDetail: {
-      note: "반도체 수출 급증(+199.5%)은 메모리 고정거래가 급등·HBM/AI가 주도. 아래 DRAM·NAND 고정거래가 장기 차트(Meritz·DRAMeXchange)에서 단가 사이클을 직접 트래킹. 최신월은 급등 후 보합.",
+      note: "시장이 보는 반도체 세부: ①메모리(DRAM+NAND, HS 854232) vs ②시스템반도체(HS 854231), ③메모리 내 DRAM·NAND·HBM 가격, ④컴퓨터(SSD)는 별도 품목. 수출 급증(+199.5%)은 메모리 가격 급등·HBM/AI 주도. 단가는 아래 Meritz·DRAMeXchange 장기차트.",
       subitems: [
-        { name:"DDR5 16Gb 고정가", tag:"강세·보합", status:"strong",  note:"2026 급등(YoY 수백%대). 공급부족+AI 수요. 최신월 MoM 보합(숨고르기) — 아래 차트." },
-        { name:"NAND 128Gb 고정가", tag:"강세·보합", status:"strong",  note:"낸드 사이클 반등. 서버·SSD·PC 수요. 최신월 보합." },
-        { name:"서버 DDR5 RDIMM",   tag:"급등",     status:"strong",  note:"AI 서버향 프리미엄 극대화($142→$422). 삼성·SK 실적 레버리지." },
-        { name:"시스템반도체·파운드리", tag:"중립",  status:"neutral", note:"메모리 대비 상대 부진. TSMC 월매출 트래커 교차확인." }
+        { name:"메모리(DRAM+NAND)", tag:"급등·주도", status:"strong",  note:"반도체 수출의 핵심 동력. HS 854232. 가격 급등이 물량과 함께 견인 — DRAM/NAND 가격은 하단 차트." },
+        { name:"DRAM(서버/PC/모바일)", tag:"강세", status:"strong",  note:"DDR5 고정가 급등(YoY 수백%). 서버·AI 프리미엄. 최신월 보합." },
+        { name:"HBM", tag:"공급부족", status:"strong",  note:"AI 가속기 수요로 공급부족 지속. 삼성전자·SK하이닉스 실적 레버리지의 핵심." },
+        { name:"NAND", tag:"반등", status:"strong",  note:"낸드 사이클 반등. 서버 SSD·PC 수요. 128Gb 고정가 급등 후 보합." },
+        { name:"시스템반도체·파운드리", tag:"상대부진", status:"neutral", note:"HS 854231. 메모리 대비 상대 약세. TSMC 월매출 트래커 교차확인." },
+        { name:"컴퓨터(SSD)", tag:"초강세", status:"strong",  note:"별도 품목. 6월 +309% YoY(품목별 차트 최상단). AI 데이터센터 스토리지 수요." }
       ]
     },
 
