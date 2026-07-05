@@ -36,3 +36,4 @@ _*.py
 *.bak
 _ref/
 .gstack/
+briefing/_draft-asia.js

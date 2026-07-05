@@ -2,7 +2,9 @@ name: Asia Market Briefing
 
 on:
   schedule:
-    # 아시아장 마감(15:30 KST = 06:30 UTC) 직후. 무료 cron 지연 대비 백업 2회.
+    # 초안(장중 잠정, 마감 전): 14:30 KST = 05:30 UTC. 이메일 [초안], 아카이브 미기록.
+    - cron: '30 5 * * 1-5'   # 14:30 KST (초안)
+    # 확정본: 아시아장 마감(15:30 KST = 06:30 UTC) 직후. 무료 cron 지연 대비 백업 2회.
     # 멱등성 가드(--skip-if-exists)로 중복 생성·발송 방지.
     - cron: '50 6 * * 1-5'   # 15:50 KST (주력)
     - cron: '20 7 * * 1-5'   # 16:20 KST (백업1)
@@ -52,8 +54,26 @@ jobs:
           python fetch_daily.py || true
           python fetch_benchmarks.py || true
 
+      # ── 초안(14:30 KST): 장중 잠정치 기반, 이메일만(아카이브·커밋 없음) ──
+      - name: Generate DRAFT briefing (장중 잠정)
+        id: gendraft
+        if: github.event.schedule == '30 5 * * 1-5'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+        run: python briefing/generate_briefing.py asia --draft
+
+      - name: Send DRAFT email (SMTP)
+        if: steps.gendraft.outputs.status == 'draft'
+        env:
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python briefing/send_email_asia.py briefing/_draft-asia.js ${{ steps.gendraft.outputs.as_of }}
+
+      # ── 확정본(마감 후): 아카이브 기록 + 커밋 + 발송 ──
       - name: Generate briefing (Claude Code, 구독 차감)
         id: gen
+        if: github.event.schedule != '30 5 * * 1-5'
         env:
           # 구독(Max) 차감 — claude -p CLI 경유. API 키 없이 작동.
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

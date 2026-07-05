@@ -139,15 +139,22 @@ def build_html(brief):
         return ('<p style="' + BODY + '">'
                 '<span style="' + INNER_BLUE + '">' + esc(text) + '</span></p>')
 
+    is_draft = bool(brief.get("draft"))
     parts = []
     parts.append('<div style="max-width:640px;font-family:굴림,sans-serif">')
 
     parts.append(
         '<p>'
         '<span style="font-weight:bold;font-family:' + TITLE_FONT + ';font-size:13.3333px">Title</span>'
-        '<span style="font-family:' + TITLE_FONT + ';font-size:13.3333px">  : 아시아 시황(' + md + ')</span>'
+        '<span style="font-family:' + TITLE_FONT + ';font-size:13.3333px">  : 아시아 시황('
+        + md + (is_draft and ', 초안' or '') + ')</span>'
         '</p>'
     )
+    if is_draft:
+        parts.append(
+            '<p style="' + BODY + '"><span style="background:transparent;'
+            'font-family:바탕체,serif;color:#b45309">※ 본 메일은 장중 잠정치 기반 '
+            '<b>초안</b>입니다. 마감 후 확정 수치로 최종본을 다시 보내드립니다.</span></p>')
     parts.append('<p><br></p>')
 
     n = len(paragraphs)
@@ -200,6 +207,8 @@ def build_plain(brief):
 def build_message(brief, sender, test=False):
     md = md_from(brief.get("as_of"))
     subject = "아시아 시황(%s)" % md
+    if brief.get("draft"):
+        subject = "[초안] " + subject
     if test:
         subject = "[테스트] " + subject
 
