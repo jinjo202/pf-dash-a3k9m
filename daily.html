@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-02c";</script>
+<script>window.CODE_VERSION = "2026-07-05a";</script>
 <script>
   (function () {
     try {
@@ -372,6 +372,33 @@
   .mind-asof { font-size:9.5px; color:var(--muted); margin-left:auto; font-weight:600; }
   .mind-chg { font-size:11px; font-weight:700; }
   .mind-chg.pos { color:var(--pos); } .mind-chg.neg { color:var(--neg); } .mind-chg.neu { color:var(--muted); }
+  .mind-card.clickable { cursor:pointer; transition:border-color .12s, box-shadow .12s, transform .12s; }
+  .mind-card.clickable:hover { border-color:var(--accent); box-shadow:var(--shadow-sm); transform:translateY(-1px); }
+  .mind-card.sel { box-shadow:0 0 0 2px var(--accent) inset; }
+  .mind-more { font-size:9px; opacity:.5; }
+  /* 지표 과거 추이 막대그래프 패널 */
+  .mind-chart-panel { margin:-6px 0 16px; background:var(--panel); border:1px solid var(--border);
+    border-radius:12px; padding:12px 14px 10px; box-shadow:var(--shadow-sm); }
+  .mc-head { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+  .mc-title { font-size:13.5px; font-weight:800; color:var(--text); }
+  .mc-cur { font-size:12px; font-weight:700; color:var(--accent); }
+  .mc-asof { font-size:10.5px; color:var(--muted); font-weight:600; }
+  .mc-close { margin-left:auto; font-size:11px; font-weight:700; color:var(--muted); cursor:pointer;
+    padding:3px 9px; border-radius:7px; border:1px solid var(--border); }
+  .mc-close:hover { background:var(--neu-soft); color:var(--text); }
+  .mc-plot { position:relative; width:100%; }
+  .mc-chart { display:block; width:100%; height:150px; }
+  .mc-bar { fill:var(--accent); opacity:.55; transition:opacity .1s; }
+  .mc-bar.last { opacity:.95; }
+  .mc-bar.up { fill:var(--pos); opacity:.65; }
+  .mc-bar.down { fill:var(--neg); opacity:.65; }
+  .mc-bar.hl { opacity:1; }
+  .mc-zero { stroke:var(--muted); stroke-width:1; stroke-dasharray:3 3; opacity:.5; }
+  .mc-tip { position:absolute; pointer-events:none; z-index:5; background:var(--text); color:var(--panel);
+    font-size:10.5px; font-weight:700; padding:3px 7px; border-radius:6px; white-space:nowrap; transform:translateX(-50%); }
+  .mc-axis { display:flex; justify-content:space-between; font-size:9.5px; color:var(--muted); font-weight:600; margin-top:2px; }
+  .mc-note { font-size:10px; color:var(--muted); margin-top:8px; }
+  .mc-empty { font-size:12px; color:var(--muted); font-style:italic; padding:22px 0; text-align:center; }
   .cm-region-idx { font-size:11px; font-weight:700; margin-left:6px; font-variant-numeric:tabular-nums; }
   .cm-region-list { display:flex; flex-direction:column; gap:8px; }
   .cm-region {
@@ -876,10 +903,11 @@ function makeSpark(data, opts) {
       return (c != null && !isNaN(c))
         ? ' <span class="mind-chg ' + colorClass(c) + '">' + (c > 0 ? '+' : '') + c.toFixed(1) + '%</span>' : '';
     }
-    function card(label, valHtml, d) {
+    function card(key, label, valHtml, d) {
       var cls = (d && d.signal_cls) || 'neu';
-      return '<div class="mind-card ' + cls + '">' +
-        '<div class="mind-name">' + escHtml(label) + '</div>' +
+      return '<div class="mind-card clickable ' + cls + '" onclick="showMindChart(\'' + key + '\')" ' +
+        'title="클릭 시 과거 추이 막대그래프">' +
+        '<div class="mind-name">' + escHtml(label) + ' <span class="mind-more">📊</span></div>' +
         '<div class="mind-val">' + valHtml + '</div>' +
         '<div class="mind-foot">' +
           (d && d.signal ? '<span class="mind-sig ' + cls + '">' + escHtml(d.signal) + '</span>' : '') +
@@ -889,24 +917,105 @@ function makeSpark(data, opts) {
     var out = [];
     var vix = I.vix || {};
     if (P.vix || vix.current != null)
-      out.push(card('VIX 변동성', (P.vix ? P.vix.v.toFixed(1) + chg(P.vix.chg) : String(vix.current)), vix));
+      out.push(card('vix', 'VIX 변동성', (P.vix ? P.vix.v.toFixed(1) + chg(P.vix.chg) : String(vix.current)), vix));
     var y = I.us10y || {};
     if (P.us10y || y.current != null)
-      out.push(card('미국 10Y 금리', (P.us10y ? P.us10y.v.toFixed(2) : y.current) + '%', y));
+      out.push(card('us10y', '미국 10Y 금리', (P.us10y ? P.us10y.v.toFixed(2) : y.current) + '%', y));
     var oil = I.oil_yoy || {};
     if (P.wti)
-      out.push(card('WTI 유가', '$' + P.wti.v.toFixed(1) + chg(P.wti.chg), oil));
+      out.push(card('oil_yoy', 'WTI 유가', '$' + P.wti.v.toFixed(1) + chg(P.wti.chg), oil));
     else if (oil.current != null)
-      out.push(card('WTI 유가(YoY)', (oil.current > 0 ? '+' : '') + oil.current.toFixed(1) + '%', oil));
+      out.push(card('oil_yoy', 'WTI 유가(YoY)', (oil.current > 0 ? '+' : '') + oil.current.toFixed(1) + '%', oil));
     var fx = I.usdkrw || {};
     if (P.fx || fx.current != null)
-      out.push(card('USD/KRW', Math.round(P.fx ? P.fx.v : fx.current).toLocaleString('ko-KR') + '원' + (P.fx ? chg(P.fx.chg) : ''), fx));
+      out.push(card('usdkrw', 'USD/KRW', Math.round(P.fx ? P.fx.v : fx.current).toLocaleString('ko-KR') + '원' + (P.fx ? chg(P.fx.chg) : ''), fx));
+    var vk = I.vkospi || {};
+    if (vk.current != null)
+      out.push(card('vkospi', 'VKOSPI', String(vk.current), vk));
     var fng = I.cnn_fng || {};
     if (fng.current != null)
-      out.push(card('CNN 공포·탐욕', String(fng.current), fng));
+      out.push(card('cnn_fng', 'CNN 공포·탐욕', String(fng.current), fng));
     if (!out.length) return '';
-    return '<div class="mind-grid">' + out.join('') + '</div>';
+    return '<div class="mind-grid">' + out.join('') + '</div>' +
+      '<div id="mindChartPanel" class="mind-chart-panel" style="display:none"></div>';
   }
+
+  // 지표 과거 추이 막대그래프 (SVG) — macro-data.js indicators[key].history 사용
+  function mindHistFmt(key, v) {
+    if (key === 'usdkrw') return Math.round(v).toLocaleString('ko-KR') + '원';
+    if (key === 'us10y')  return v.toFixed(2) + '%';
+    if (key === 'oil_yoy') return (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+    return (Math.round(v * 100) / 100).toString();
+  }
+  function renderMindChart(key, d) {
+    var name = (d && d.name) || key;
+    var head = '<div class="mc-head"><span class="mc-title">' + escHtml(name) + '</span>' +
+      (d && d.current != null ? '<span class="mc-cur">현재 ' + mindHistFmt(key, d.current) + '</span>' : '') +
+      (d && d.as_of ? '<span class="mc-asof">' + d.as_of + '</span>' : '') +
+      '<span class="mc-close" onclick="showMindChart(\'' + key + '\')">✕ 닫기</span></div>';
+    var h = d && d.history;
+    var vals0 = h && (h.values || h.vals), dates0 = h && h.dates;
+    if (!vals0 || !vals0.length || !dates0 || !dates0.length) {
+      return head + '<div class="mc-empty">과거 시계열이 없습니다. ' +
+        (d && d.manual ? '(수동 지표 — 현재값만 저장)' : '') + '</div>';
+    }
+    // 최대 24개 막대로 다운샘플(양끝 유지)
+    var MAX = 24, n = vals0.length, idxs = [];
+    if (n <= MAX) { for (var a = 0; a < n; a++) idxs.push(a); }
+    else { var step = (n - 1) / (MAX - 1); for (var b = 0; b < MAX; b++) idxs.push(Math.round(b * step)); }
+    var vals = idxs.map(function(i){ return vals0[i]; });
+    var dates = idxs.map(function(i){ return dates0[i]; });
+    var mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
+    var hasNeg = mn < 0;
+    var domMin, domMax;
+    if (hasNeg) { domMax = Math.max(0, mx); domMin = Math.min(0, mn); var pad = (domMax - domMin) * 0.08 || 1; domMax += pad; domMin -= pad; }
+    else { var rng = (mx - mn) || Math.abs(mx) || 1; domMin = mn - rng * 0.18; domMax = mx + rng * 0.06; }
+    var W = 600, H = 150, PL = 6, PR = 6, PT = 10, PB = 20;
+    var iw = W - PL - PR, ih = H - PT - PB;
+    var yOf = function(v){ return PT + (1 - (v - domMin) / (domMax - domMin)) * ih; };
+    var base = hasNeg ? yOf(0) : (PT + ih);
+    var slot = iw / vals.length, bw = Math.max(3, slot * 0.66);
+    var bars = vals.map(function(v, i) {
+      var x = PL + i * slot + (slot - bw) / 2;
+      var y = yOf(v), top = Math.min(y, base), hgt = Math.max(1, Math.abs(base - y));
+      var cls = hasNeg ? (v >= 0 ? 'up' : 'down') : (i === vals.length - 1 ? 'last' : '');
+      return '<rect class="mc-bar ' + cls + '" x="' + x.toFixed(1) + '" y="' + top.toFixed(1) +
+        '" width="' + bw.toFixed(1) + '" height="' + hgt.toFixed(1) + '" rx="1.5" ' +
+        'data-d="' + dates[i] + '" data-v="' + mindHistFmt(key, v) + '"></rect>';
+    }).join('');
+    var zeroLine = hasNeg ? '<line class="mc-zero" x1="' + PL + '" y1="' + base.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + base.toFixed(1) + '"></line>' : '';
+    var svg = '<svg class="mc-chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' +
+      zeroLine + bars + '</svg>';
+    var axis = '<div class="mc-axis"><span>' + dates[0] + '</span><span>' + dates[dates.length - 1] + '</span></div>';
+    return head + '<div class="mc-plot">' + svg + '<div class="mc-tip" style="display:none"></div></div>' + axis +
+      '<div class="mc-note">막대에 커서를 올리면 날짜·수치가 표시됩니다 · ' + vals0.length + '개 시점 중 ' + vals.length + '개 표시</div>';
+  }
+  window.showMindChart = function(key) {
+    var panel = document.getElementById('mindChartPanel');
+    if (!panel) return;
+    var d = (window.MACRO && window.MACRO.indicators && window.MACRO.indicators[key]) || {};
+    if (panel.dataset.open === key && panel.style.display !== 'none') {
+      panel.style.display = 'none'; panel.dataset.open = '';
+      document.querySelectorAll('.mind-card.sel').forEach(function(e){ e.classList.remove('sel'); });
+      return;
+    }
+    panel.innerHTML = renderMindChart(key, d);
+    panel.style.display = 'block'; panel.dataset.open = key;
+    // 활성 카드 표시
+    document.querySelectorAll('.mind-card.sel').forEach(function(e){ e.classList.remove('sel'); });
+    var cards = document.querySelectorAll('.mind-card');
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].getAttribute('onclick') && cards[i].getAttribute('onclick').indexOf("'" + key + "'") >= 0) { cards[i].classList.add('sel'); break; }
+    }
+    // 호버 툴팁 바인딩
+    var tip = panel.querySelector('.mc-tip'), plot = panel.querySelector('.mc-plot');
+    panel.querySelectorAll('rect.mc-bar').forEach(function(bar) {
+      bar.addEventListener('mouseenter', function(){ if (tip) { tip.textContent = bar.dataset.d + ' · ' + bar.dataset.v; tip.style.display = 'block'; } bar.classList.add('hl'); });
+      bar.addEventListener('mousemove', function(e){ if (!tip || !plot) return; var r = plot.getBoundingClientRect(); var x = e.clientX - r.left, y = e.clientY - r.top; tip.style.left = Math.min(Math.max(x, 4), r.width - 4) + 'px'; tip.style.top = Math.max(y - 30, 0) + 'px'; });
+      bar.addEventListener('mouseleave', function(){ if (tip) tip.style.display = 'none'; bar.classList.remove('hl'); });
+    });
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
 
   function renderOverviewCommentary() {
     var regions = D.regions || [];
