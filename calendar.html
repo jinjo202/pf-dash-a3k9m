@@ -814,29 +814,54 @@ var SECTORS = [
     { k:"display", n:"디스플레이", s:"LG디스플레이·삼성SDI", i:"OLED 중심" },
     { k:"appliance", n:"가전제품", s:"LG전자·삼성전자", i:"TV·냉장고·세탁기" }
   ]},
-  { key:"mat", name:"🔋 소재·2차전지", headline:false, items:[
-    { k:"battery", n:"2차전지", s:"LG에너지솔루션·삼성SDI·에코프로비엠", i:"전기차·ESS 수요. 캐즘 이후 회복 여부" },
-    { k:"petrochem", n:"석유화학", s:"LG화학·롯데케미칼·금호석유", i:"기초유분·합성수지. 중국 공급과잉 부담" },
-    { k:"steel", n:"철강판", s:"POSCO홀딩스·현대제철", i:"열연·냉연" }
+  { key:"batt", name:"🔋 2차전지·밸류체인", headline:false, items:[
+    { k:"battery", n:"2차전지(완제품)", s:"LG에너지솔루션·삼성SDI", i:"전기차·ESS. 캐즘 이후 수요 회복이 관건 — 완제품 수출이 셀메이커 실적 선행" },
+    { k:"batt_cathode", n:"양극재", s:"에코프로비엠·포스코퓨처엠·엘앤에프", i:"배터리 원가 40%+. 양극재 수출=소재주 실적 직결(HS 2841 근사)" },
+    { k:"batt_anode", n:"음극재", s:"포스코퓨처엠·대주전자재료", i:"인조흑연. 중국 의존 탈피 테마" },
+    { k:"batt_sep", n:"분리막", s:"SK아이이테크놀로지·더블유씨피", i:"안전성 핵심 소재" },
+    { k:"batt_elec", n:"전해액", s:"엔켐·동화일렉트로라이트", i:"전해액 수출 모멘텀" }
+  ]},
+  { key:"health", name:"💊 헬스케어·밸류체인", headline:false, items:[
+    { k:"hc_med", n:"완제의약품", s:"삼성바이오로직스·셀트리온", i:"바이오시밀러·CDMO. 완제 수출이 제약주 방향타" },
+    { k:"hc_impl", n:"임플란트·스텐트", s:"오스템임플란트·덴티움", i:"치과 임플란트 수출=오스템·덴티움 실적 직결" },
+    { k:"hc_diag", n:"진단시약", s:"에스디바이오센서·씨젠", i:"체외진단. 엔데믹 이후 정상화" },
+    { k:"hc_vac", n:"백신", s:"SK바이오사이언스·GC녹십자", i:"백신 수출 모멘텀" }
+  ]},
+  { key:"mat", name:"🏗️ 소재(석유화학·철강)", headline:false, items:[
+    { k:"petrochem", n:"석유화학", s:"LG화학·롯데케미칼·금호석유", i:"기초유분·합성수지. 중국 공급과잉이 마진 압박 — 수출단가 반등이 턴어라운드 신호" },
+    { k:"steel", n:"철강판", s:"POSCO홀딩스·현대제철", i:"열연·냉연. 중국 감산·단가 회복 여부" }
   ]},
   { key:"transport", name:"🚢 운송(선박)", headline:false, items:[
-    { k:"ship", n:"선박", s:"HD현대중공업·삼성중공업·한화오션", i:"LNG선·친환경선. 수주 잔고 견조" }
+    { k:"ship", n:"선박", s:"HD현대중공업·삼성중공업·한화오션", i:"LNG선·친환경선. 수주잔고 견조 — 인도(수출) 증가가 실적 인식" }
+  ]},
+  { key:"region", name:"🌏 국가·지역별 수출", headline:false, items:[
+    { k:"rgn:미국", n:"미국", s:"", i:"최대 시장. 대미 수출=관세·IRA 정책 민감" },
+    { k:"rgn:중국", n:"중국", s:"", i:"반도체·석유화학 비중. 대중 회복이 수출 반등 열쇠" },
+    { k:"rgn:ASEAN", n:"ASEAN", s:"", i:"삼성 베트남 생산기지 등 중간재 수출" },
+    { k:"rgn:베트남", n:"베트남", s:"", i:"삼성전자 스마트폰·반도체 후공정 허브" },
+    { k:"rgn:대만", n:"대만", s:"", i:"반도체 소재·장비 교역" },
+    { k:"rgn:EU", n:"EU(주요)", s:"", i:"2차전지·자동차. 독일·네덜란드·프랑스 합산 근사" },
+    { k:"rgn:일본", n:"일본", s:"", i:"소재·부품 교역" },
+    { k:"rgn:인도", n:"인도", s:"", i:"신흥 성장시장. 자동차·철강" }
   ]}
 ];
+var JUNE_DRAM_WARN = ["dram_incl","dram_excl","semi_mem","mcp"];  // 6월 단가 MoM 하락 이슈 대상
 function lastNonNull(a){ if(!a) return null; for(var i=a.length-1;i>=0;i--) if(a[i]!=null) return a[i]; return null; }
 function fmtPct(v){ return v==null?null:((v>0?"+":"")+v+"%"); }
 function findItemMeta(k){ for(var i=0;i<SECTORS.length;i++){ var it=SECTORS[i].items.filter(function(x){return x.k===k;})[0]; if(it) return it; } return {n:k}; }
 
+function catOf(k){ var H=window.EXPORT_HISTORY; if(!H) return null;
+  return k.indexOf("rgn:")===0 ? (H.regions&&H.regions[k.slice(4)]) : (H.cat&&H.cat[k]); }
 function renderSectors(){
   var H=window.EXPORT_HISTORY, host=$('kxSectors'); if(!host) return;
   host.innerHTML = SECTORS.map(function(sec){
     var items=sec.items.map(function(it){
-      var c=H&&H.cat&&H.cat[it.k];
+      var c=catOf(it.k);
       var v=c?lastNonNull(c.val):null, yy=c?lastNonNull(c.val_yoy):null;
       var badge = v!=null ? ('$'+v+'B'+(yy!=null?(' <span class="'+(yy<0?"neg":"pos")+'">'+(yy>0?"+":"")+yy+'%</span>'):'')) : '<span style="color:var(--muted-soft)">대기</span>';
       return '<button class="subitem" data-k="'+esc(it.k)+'"><span class="si-n">'+esc(it.n)+'</span><span class="si-v">'+badge+'</span></button>';
     }).join("");
-    var top=sec.items[0], tc=H&&H.cat&&H.cat[top.k], ty=tc?lastNonNull(tc.val_yoy):null;
+    var tc=catOf(sec.items[0].k), ty=tc?lastNonNull(tc.val_yoy):null;
     return '<div class="sector'+(sec.headline?" open":"")+'" data-sec="'+esc(sec.key)+'">'+
       '<div class="sector-hd"><span>'+esc(sec.name)+'</span>'+
         '<span class="sec-sum">'+(ty!=null?((ty>0?"+":"")+ty+'% YoY'):"")+'</span>'+
@@ -849,14 +874,19 @@ function renderSectors(){
   host.querySelectorAll('.subitem').forEach(function(b){
     b.addEventListener('click', function(e){ e.stopPropagation(); openSubItem(this.dataset.k); });
   });
-  if($('kxSectorNote')) $('kxSectorNote').textContent = H&&H.cat ? ("출처: "+(H.source||"")+" · 최신 "+(H.latest_month||"")+". 세부항목 클릭 시 금액·단가·YoY·MoM 차트와 분석. 상단 6섹터는 펼침, 나머지는 클릭해 펼치기.") : "관세청 데이터 수집 대기 — 반영 시 섹터별 실수치가 채워집니다.";
+  if($('kxSectorNote')) $('kxSectorNote').textContent = H&&H.cat ? ("출처: "+(H.source||"")+" · 최신 "+(H.latest_month||"")+". 세부항목 클릭 → 금액·단가·YoY·MoM 차트 + 핵심분석 + 주가 영향. 상단 6섹터 펼침, 나머지·국가지역은 클릭해 펼치기.") : "관세청 데이터 수집 대기 — 반영 시 섹터별 실수치가 채워집니다.";
 }
 function openSubItem(k){
-  var H=window.EXPORT_HISTORY, c=H&&H.cat&&H.cat[k], meta=findItemMeta(k);
+  var H=window.EXPORT_HISTORY, c=catOf(k), meta=findItemMeta(k), isRgn=k.indexOf("rgn:")===0;
   var m=el("div","modal wide t-export"), body="";
-  if(!c){ body='<p class="note">이 품목의 관세청 데이터가 아직 없습니다(수집 대기 또는 HS 미매핑).</p>'+(meta.s?'<p class="note">관련주: '+esc(meta.s)+'</p>':''); }
+  if(!c){ body='<p class="note">이 항목의 관세청 데이터가 아직 없습니다(수집 대기 또는 HS 미매핑).</p>'+(meta.s?'<p class="note">관련주: '+esc(meta.s)+'</p>':''); }
   else {
     var v=lastNonNull(c.val), vy=lastNonNull(c.val_yoy), vm=lastNonNull(c.val_mom), p=lastNonNull(c.price), py=lastNonNull(c.price_yoy), pm=lastNonNull(c.price_mom);
+    // 6월 DRAM 단가 하락 이슈 플래그(상세 HS는 5월까지 → 6월 잠정 안내)
+    if(JUNE_DRAM_WARN.indexOf(k)>=0){
+      body += '<div class="hl-box" style="margin:0 0 12px"><div class="hlt">⚠️ 6월 잠정: DRAM 수출단가 MoM 하락 관측</div>'+
+        '<div class="hlb">최근 반도체주 조정의 트리거. 관세청 <b>상세 HS는 5월까지</b> 확정(6월은 익월 반영)이라 아래 차트엔 미표시 — 6월 단가 꺾임은 산업부 잠정·DRAMeXchange로 선확인 필요.</div></div>';
+    }
     body += kvGrid([["수출금액", v!=null?("$"+v+"B"):null],["금액 YoY", fmtPct(vy)],["금액 MoM", fmtPct(vm)],
                     ["수출단가", p!=null?("$"+Math.round(p).toLocaleString()+"/kg"):null],["단가 YoY", fmtPct(py)],["단가 MoM", fmtPct(pm)]]);
     var an=[];
@@ -864,16 +894,16 @@ function openSubItem(k){
       if(vy!=null){ t+=" ("+(vy>0?"+":"")+vy+"% YoY"; if(vm!=null) t+=", "+(vm>0?"+":"")+vm+"% MoM"; t+=")"; }
       an.push(t); }
     if(p!=null&&py!=null) an.push("수출단가 $"+Math.round(p).toLocaleString()+"/kg ("+(py>0?"+":"")+py+"% YoY → "+(py>0?"단가 상승":"단가 하락")+")");
-    body += '<div class="sect-t">핵심 분석</div><div class="interp">'+esc(an.join(" · ")+". "+(meta.i||""))+'</div>';
-    if(meta.s) body += '<p class="note">관련주: '+esc(meta.s)+'</p>';
+    if(an.length) body += '<div class="sect-t">핵심 분석</div><div class="interp">'+esc(an.join(" · "))+'</div>';
+    if(meta.i) body += '<div class="sect-t">📊 주가 영향</div><div class="interp" style="border-color:var(--held-fg);background:var(--held-soft)">'+esc(meta.i)+(meta.s?(" 관련주: "+meta.s):"")+'</div>';
     var fv=kxFilterSeries(c.months,c.val), fp=kxFilterSeries(c.months,c.price);
     body += '<div class="kx-grid">'+
-      (fv.vals.length?lineChartMany("수출금액", "US$10억 · "+(H.latest_month||""), fv.labels, fv.vals, "#7c3aed", function(x){return "$"+x+"B";}):"")+
+      (fv.vals.length?lineChartMany(isRgn?"수출금액(대"+meta.n+")":"수출금액", "US$10억 · "+(H.latest_month||""), fv.labels, fv.vals, "#7c3aed", function(x){return "$"+x+"B";}):"")+
       (fp.vals.length?lineChartMany("수출단가", "$/kg (ASP 추세 대용)", fp.labels, fp.vals, "#b45309", function(x){return "$"+Math.round(x).toLocaleString();}):"")+
       '</div>';
-    body += '<p class="note">출처: 관세청 품목별 수출입실적 · 상세 HS는 최신월 1~2개월 지연 · 매일 cron 자동 갱신.</p>';
+    body += '<p class="note">출처: 관세청'+(isRgn?" 품목별국가별(총수출)":" 품목별 수출입실적")+' · 상세는 최신월 1~2개월 지연 · 매일 cron 자동 갱신.'+(isRgn?" 지역은 주요국 합산 근사.":"")+'</p>';
   }
-  m.innerHTML='<div class="mhd"><div><h3>🏭 '+esc(meta.n)+'</h3><div class="mdate">섹터별 수출 세부 · 관세청 실데이터</div></div><button class="mclose" title="닫기">✕</button></div><div class="mbd">'+body+'</div>';
+  m.innerHTML='<div class="mhd"><div><h3>'+(isRgn?"🌏":"🏭")+' '+esc(meta.n)+'</h3><div class="mdate">'+(isRgn?"국가·지역별 총수출":"섹터별 수출 세부")+' · 관세청 실데이터</div></div><button class="mclose" title="닫기">✕</button></div><div class="mbd">'+body+'</div>';
   m.querySelector('.mclose').addEventListener('click', closeModal);
   openOverlay(m);
 }
