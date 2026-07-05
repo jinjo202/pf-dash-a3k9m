@@ -889,7 +889,8 @@ function openSubItem(k){
       var ml=MEM.latest[memXref];
       var mtag = ml.mom==null?"":(ml.mom<0?" neg":(ml.mom>0?" pos":""));
       body += '<div class="hl-box" style="margin:0 0 12px"><div class="hlt">💾 메모리 계약가 교차확인 ('+esc(MEM.labels[memXref])+', '+esc(ml.month)+')</div>'+
-        '<div class="hlb">$'+ml.val+' · MoM <span class="'+mtag+'">'+(ml.mom>0?"+":"")+ml.mom+'%</span> · YoY <span class="'+(ml.yoy<0?"neg":"pos")+'">'+(ml.yoy>0?"+":"")+ml.yoy+'%</span> — 관세청 수출단가(위 KV)보다 최신월. 출처: '+esc(MEM.source||"Meritz")+'. 하단 메모리 트래커에서 장기추세 확인.</div></div>';
+        '<div class="hlb">$'+ml.val+' · MoM <span class="'+mtag+'">'+(ml.mom>0?"+":"")+ml.mom+'%</span> · YoY <span class="'+(ml.yoy<0?"neg":"pos")+'">'+(ml.yoy>0?"+":"")+ml.yoy+'%</span> — 관세청 수출단가(위 KV)보다 최신월. 출처: '+esc(MEM.source||"Meritz")+'. 하단 메모리 트래커에서 장기추세 확인.'+
+        '<br><span style="opacity:.85">※ 이 계약가(단일 스펙 기준)와 관세청 수출단가(전 SKU 블렌디드 평균)는 믹스효과로 방향이 다를 수 있음 — 7/1 반도체주 급락은 수출단가(블렌디드) MoM 하락 보도가 계기(📌 이벤트 탭 참조).</span></div></div>';
     }
     body += kvGrid([["수출금액", v!=null?("$"+v+"B"):null],["금액 YoY", fmtPct(vy)],["금액 MoM", fmtPct(vm)],
                     ["수출단가", p!=null?("$"+Math.round(p).toLocaleString()+"/kg"):null],["단가 YoY", fmtPct(py)],["단가 MoM", fmtPct(pm)]]);
