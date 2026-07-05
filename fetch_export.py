@@ -24,6 +24,7 @@ import os
 import re
 import sys
 import urllib.parse
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -86,6 +87,9 @@ def fetch_hs(hs, strt, end):
         we = min(add_months(ws, 11), end)
         try:
             out.update(_fetch_window(hs, f"{ws:06d}", f"{we:06d}"))
+        except urllib.error.HTTPError as e:
+            hint = {401: "인증키 미인식/미활성", 403: "이 서비스 활용신청 미승인(권한없음)"}.get(e.code, "")
+            print(f"  {hs} {ws}-{we} 실패 HTTP {e.code} {hint}")
         except Exception as e:
             print(f"  {hs} {ws}-{we} 실패: {str(e)[:70]}")
         ws = add_months(we, 1)
