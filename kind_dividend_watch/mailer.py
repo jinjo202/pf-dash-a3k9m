@@ -50,6 +50,37 @@ def build_etf_subject(etf_name: str, report_nm: str) -> str:
     return f"[ETF분배] {etf_name} - {report_nm}"
 
 
+def build_overseas_subject(e: dict) -> str:
+    return f"[해외ETF분배] {e['name']} - 1주당 {e['amount']}"
+
+
+def build_overseas_body(e: dict) -> str:
+    th = ("text-align:left;padding:12px 16px;background:#f8f9fa;color:#495057;"
+          "font-weight:600;font-size:13px;border-bottom:1px solid #e9ecef;width:120px")
+    td = "padding:12px 16px;color:#212529;font-size:14px;border-bottom:1px solid #e9ecef"
+    pay_note = " (예상)" if e.get("pay_estimated") else ""
+    return f"""\
+<div style="font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden">
+  <div style="background:linear-gradient(135deg,#00695c,#00897b);color:#fff;padding:24px 32px">
+    <h1 style="margin:0;font-size:20px;font-weight:600">💵 해외 ETF 분배금 확정</h1>
+    <div style="display:inline-block;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:20px;font-size:12px;margin-top:8px">보유 해외 ETF 분배 알림</div>
+  </div>
+  <div style="padding:32px">
+    <p style="color:#495057;font-size:15px">보유 해외 ETF의 분배가 확정(배당락)되었습니다.</p>
+    <table style="width:100%;border-collapse:collapse;margin:16px 0">
+      <tr><th style="{th}">종목</th><td style="{td}"><strong>{e['name']}</strong> ({e['sym']})</td></tr>
+      <tr><th style="{th}">1주당 분배금</th><td style="{td};font-weight:700;color:#00695c">{e['amount']}</td></tr>
+      <tr><th style="{th}">배당락일(ex)</th><td style="{td}">{e['ex_date']}</td></tr>
+      <tr><th style="{th}">지급 예정일</th><td style="{td};font-weight:600">{e['pay_date']}{pay_note}</td></tr>
+    </table>
+    <p style="color:#868e96;font-size:12px;margin-top:8px">※ 지급일 '예상'은 배당락 + 통상 지급주기 추정치입니다(발행사별 상이).</p>
+  </div>
+  <div style="padding:16px 32px;background:#f8f9fa;font-size:12px;color:#868e96;text-align:center">
+    이 메일은 배당·분배 공시 모니터링 시스템에서 자동 발송되었습니다.
+  </div>
+</div>"""
+
+
 def build_reminder_subject(r: dict, stage: str) -> str:
     when = "내일" if stage == "d1" else "오늘"
     tag = "D-1" if stage == "d1" else "기준일"

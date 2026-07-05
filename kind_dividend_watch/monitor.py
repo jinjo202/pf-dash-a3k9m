@@ -257,8 +257,37 @@ def run_cycle(
             })
             sent_count += 1
 
+    # ── 보유 해외 ETF 분배(ex-date 트리거) — 1일 1회 ──
+    today_kst = _now().strftime("%Y-%m-%d")
+    if dry_run or state.get("overseas_date") != today_kst:
+        try:
+            import overseas_etf
+            ov = overseas_etf.recent_distributions(days_back=7)
+        except Exception as e:
+            print(f"⚠️ 해외ETF 조회 오류(계속): {e}")
+            ov = []
+        ov_new = [e for e in ov if e["id"] not in already]
+        print(f"📋 해외 ETF 분배 {len(ov)}건 (신규 {len(ov_new)}건)")
+        for e in ov_new:
+            subject = mailer.build_overseas_subject(e)
+            if dry_run:
+                print(f"   🧪 [DRY-RUN] 해외ETF 발송 생략: {subject} | 지급 {e['pay_date']}{'(예상)' if e['pay_estimated'] else ''}")
+                continue
+            if mailer.send_email(smtp_user, smtp_pass, sender, recipients,
+                                 subject, mailer.build_overseas_body(e)):
+                state["sent"].append({
+                    "rcept_no": e["id"], "corp_name": e["name"], "report_nm": "해외ETF분배",
+                    "rcept_dt": e["ex_date"], "kind": "overseas",
+                    "sent_at": _now().isoformat(timespec="seconds"),
+                })
+                sent_count += 1
+        if not dry_run:
+            state["overseas_date"] = today_kst
+
     if sent_count and not dry_run:
         _save_state(state)
+    elif not dry_run and state.get("overseas_date") == today_kst:
+        _save_state(state)   # 해외 체크 마커만 바뀐 경우도 저장
 
     # ── 기준일 T-1·당일 리마인드 (오전) ──
     rem_sent = check_reminders(
