@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-05T07:48:11
+// 갱신: 2026-07-05T09:57:59
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -211,9 +211,9 @@ window.HOLDING_NEWS = {
  ],
  "마이다스 책임투자": [
   {
-   "title": "[투자의 품격]마이다스에셋, '황금' 수익률 비결은 '꾸준함' - 비즈워치",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5CVFBCOXJNNWw0VlBzWkVzd2tGRnprUHl6MmZqTkduWlAwaHgwbmp2LV92ZGtwZkJmLVpNTGFHaDRrVkl2WExiNS10M19UMDg4U3lFVGNNd0ZhTERBNVZmVVN2dDVQOGxtMEE?oc=5",
-   "source": "비즈워치",
+   "title": "[투자의 품격]마이다스에셋, '황금' 수익률 비결은 '꾸준함' - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE13MGg2SmFoUUMwN3FIZHo5SDF4ZU9rVjlDd3owN09kclh3R09lazVSM1JqN3dTN0hCMlhWYlp6OF9yR0E0cGc?oc=5",
+   "source": "v.daum.net",
    "date": "2026-06-11"
   },
   {
@@ -281,10 +281,10 @@ window.HOLDING_NEWS = {
    "date": "2026-04-28"
   },
   {
-   "title": "\"엔비디아(NVDA) 랠리 끝나자 개미들 패닉\"...S&P 500, 빅테크서 소외주 환승 급증 - 코인리더스",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1vZlNlZzgzN01UY2dBMXo3c1ZtRkhHWE5xcWdRXy1SRUxaa2ltOUIxdEZCZzJsZUctal9KNmhQOUtEZ3NwQUcyOXNB?oc=5",
-   "source": "코인리더스",
-   "date": "2026-06-28"
+   "title": "[미국증시] 애플 가격 인상에 나스닥 나흘 하락, 마이크론 16% 급등 - 자본시장뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9FU3NCMHZHamkyR04za0FHQ3FyZ0hDQjBMTk56Z19nVmhablh2cUx0UjhIWEU1UG9FWVJWUHZpdEhOcmhHRG0zY1VMMDg1ZEYwVVhQUk56UFVhMjZYQ1pTZTJva2N3bTA?oc=5",
+   "source": "자본시장뉴스",
+   "date": "2026-06-25"
   }
  ],
  "SPDR Communication ETF (XLC)": [
@@ -367,6 +367,12 @@ window.HOLDING_NEWS = {
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
   {
+   "title": "뉴욕증시, 독립기념일 대체휴일로 휴장… 월가 하반기 S&P500 최고 8100선 전망 - gukjenews.com",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9SQmRnek14XzdQNUxUT2dEYzhqN2dMaVM5bGxfMkNjb3VRcGtGUGprcjAwa3ZRVC1aMllzLTlVRUJadXNSNVBzZkRkaW5URWhIWTdzWC1BMkZGMWplZTlJQ2FPNkF1OV95SG9xN0tR?oc=5",
+   "source": "gukjenews.com",
+   "date": "2026-07-05"
+  },
+  {
    "title": "나스닥 100 선물, 어제 하락 이후 강하게 반등. 월가 투자은행들, 미국 증시 상승세 여전히 지속될 것으로 전망. - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOdUNxTXhrd0loVkJRUDg1NEJWRTNVNUpucnlfRlQyWjVRRDRUbEk1Ykd4NDh3N25VZGN3Mm1nTmgtdFJDeGtidU81Y1hUZk0tdlUwenNoeEtPRlFEdEVNLUJrcDhDamVOU0d3Q3VzcTUtQlZMNHprdkgxTlNJcl9tak5kQThaMlpQX0MtNTNZb1JnRVdlVWphVVNrbDNsLURoM3p5dHdWNjVGQmpBZk41TFdiOWZJcEs3aG1temtrZ2VGbnFoVnRWQ05ka3RlamV4?oc=5",
    "source": "TradingKey",
@@ -383,12 +389,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
    "date": "2026-05-11"
-  },
-  {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - MBC 뉴스",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1KWDFpTGEwWlM4bzk4dGxFS2hXZkwyUldZamtIQ0E2NmlIZXpueWMycUdqZ2o2NHhPMzJwY2M5am9aX3ZWalBnUVdrYUhUZFN0ZWdZZUwxbko1d1h1em5NXzRJbkxKam40NnJEZGwtMnlVUThr0gF0QVVfeXFMUEl4by00OGZWdnVnY2l5aVQxT2tVNzBIeEVBX0xqY0NYTURrTHhLaHlTLXppLVBQUkJQS2lRYXlvbkxXeFRPX1YyeDZQQWNxX1NrdWZHaktZRURZc2lEdFNEX2J2Y0wySHRHY3pqWXZyV2d5U3Q?oc=5",
-   "source": "MBC 뉴스",
-   "date": "2026-06-07"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
@@ -419,6 +419,12 @@ window.HOLDING_NEWS = {
  ],
  "KODEX S&P500(H)": [
   {
+   "title": "뉴욕증시, 독립기념일 대체휴일로 휴장… 월가 하반기 S&P500 최고 8100선 전망 - gukjenews.com",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9SQmRnek14XzdQNUxUT2dEYzhqN2dMaVM5bGxfMkNjb3VRcGtGUGprcjAwa3ZRVC1aMllzLTlVRUJadXNSNVBzZkRkaW5URWhIWTdzWC1BMkZGMWplZTlJQ2FPNkF1OV95SG9xN0tR?oc=5",
+   "source": "gukjenews.com",
+   "date": "2026-07-05"
+  },
+  {
    "title": "샌디스크 858% 폭등하며 1위 기록. 2026년 상반기 S&P 500 상승률 상위 10개 종목 공개, 월가가 하반기 깊은 조정을 경고하는 이유. - Tradin",
    "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQaE5MeXZadEtpdVZrbVFkb3Jsb1htODU3dmdxRDlzNVNheks2U1pJV1BEVjBQLS1uRjhFMVBzWHFzOUtra2NjUjZ4MVJWcFhDQUlyRUV3WnJNUkJScUxScmk1UWk4TGdYTDJhYlJSNWNGMFc5R0FxVXFPbUN4cXZ6aVRJRG96ZHU4XzdoZWxkZUxtNTN2WnpoNGFFS0pyVUhlMVdRQWZDWTRtc3BnZzcxdUJIOFh1QnZ4aElYVTQydVdPUWpkcklLNQ?oc=5",
    "source": "TradingKey",
@@ -435,12 +441,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
    "date": "2026-05-11"
-  },
-  {
-   "title": "미·이란 재협상 기대에 기술주 강세…S&P500·나스닥 또 최고치(종합) - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBhZ1M4ZmJVRWx6SVVPV0NXaTl2cW1NTUgtVndaTTlXcDUzOW5Tc2RSbXFxX2xudEY0WXl3cWVLZHZ6TG1XZ21BNEliaEJMMXltU1J3T2Q2M05MZlnSAWBBVV95cUxQX0Z6MHZVQlNXOW5GTURVaDhfZEpDVXRiQnlHbU94WF9mNEk1eF9qYzZ2NUhRM0NheTh4TmFTY3dPUFpkd195Szc4SDE3Z0Q2b1R2TnBESUxLX1djZXdkTDc?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-04-25"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
@@ -515,10 +515,10 @@ window.HOLDING_NEWS = {
    "date": "2026-02-24"
   },
   {
-   "title": "[유가 100달러] 유럽증시, 낙폭 줄여 약보합 마감(종합) - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9JcjJNc0JVeThFbVhrXzBhYkRRWUdqWjBsNHptQnNMYnBQOUh5dlNXV24ycWd4TXZndmtHTEpQcElLdmFEVnBldlAyOVUyY2hjSGxGRG92VldMOVXSAWBBVV95cUxObnBHRWUyNXZnWWRWRzBJeWd2a0gwMGhqNnNEWHRBNnFybDFPVjZudDFxNVhpQ0ZkbDhMd2JxdHltQmhEVDdlTVhuSm1OeDkxa3ZRcDUtWlNtekVUVi16Wmc?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-03-10"
+   "title": "\"저평가 유럽증시, 美보다 매력적\"…매주 100억달러 몰려 - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5wT08xcTQzZGRfZk5CamVNNl9FVDBGWTRudUVFZ1p3eUtrNDg2YnEyck9RYzVvRHlycl95aDhzM05RV2lqcGJyM2dUdmdiYTdwVzVzZGMyajlkQdIBVEFVX3lxTE1pTnZkN3hDMGprLUJFTDZxaXhJSXB1M010ZkU2VUFLMEJBTlVVUnJwYmluQnFIX1Bqb21DeklONHMwV2xZY05OT1BCWm50MUxFc2VwOQ?oc=5",
+   "source": "한국경제",
+   "date": "2026-02-23"
   }
  ],
  "Fidelity European Dividend": [
