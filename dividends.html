@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>배당주 스크리닝 · 미국/유럽/한국 인컴 포트폴리오</title>
+<script>window.CODE_VERSION = "2026-07-05a";</script>
+<!-- 자동 캐시 무력화 (sectors/fm/macro 동일 패턴) -->
+<script>
+  (function () {
+    try {
+      var u = new URL(window.location.href);
+      if (u.searchParams.get('cb')) return;
+      var docMs = new Date(document.lastModified).getTime();
+      fetch(window.location.pathname + '?probe=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
+        .then(function (r) {
+          var srv = r.headers.get('Last-Modified'); if (!srv) return;
+          var srvMs = new Date(srv).getTime();
+          if (isFinite(srvMs) && isFinite(docMs) && srvMs > docMs + 2000) {
+            u.searchParams.set('cb', Date.now()); window.location.replace(u.toString());
+          }
+        }).catch(function () {});
+    } catch (e) {}
+  })();
+</script>
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('pf_theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet" />
+<!-- 유니버스(정성) + 계량지표(자동 갱신본) — 분단위 캐시버스팅 -->
+<script>
+  (function () {
+    var v = Math.floor(Date.now() / 60000);
+    document.write('<script src="dividends-data.js?v=' + v + '" onerror="window.DIVIDENDS_UNIVERSE=window.DIVIDENDS_UNIVERSE||null"></scr' + 'ipt>');
+    document.write('<script src="dividends-quotes.js?v=' + v + '" onerror="window.DIVIDENDS_QUOTES=window.DIVIDENDS_QUOTES||null"></scr' + 'ipt>');
+  })();
+</script>
+<style>
+  :root {
+    --bg:#f6f7f9; --panel:#ffffff; --panel-soft:#fafbfc; --border:#e6e8eb;
+    --row-alt:#fafbfc; --row-hover:#eff6ff; --text:#0f172a; --text-soft:#334155;
+    --muted:#64748b; --muted-soft:#cbd5e1; --accent:#2563eb; --accent-hover:#1d4ed8;
+    --accent-soft:#eff6ff; --pos:#15803d; --neg:#b91c1c; --neu:#64748b;
+    --pos-soft:#dcfce7; --neg-soft:#fee2e2; --neu-soft:#f1f5f9;
+    --warn-bg:#fef3c7; --warn-fg:#92400e; --warn-bd:#fde68a;
+    --gold:#b45309; --gold-soft:#fef3c7;
+    --held-fg:#7c3aed; --held-soft:#f3e8ff; --held-bd:#e9d5ff;
+    --shadow-sm:0 1px 2px 0 rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px -2px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --bg:#0b1020; --panel:#141a2e; --panel-soft:#1a2138; --border:#2a324a;
+    --row-alt:#1a2138; --row-hover:#1e2942; --text:#e2e8f0; --text-soft:#cbd5e1;
+    --muted:#94a3b8; --muted-soft:#475569; --accent:#60a5fa; --accent-hover:#3b82f6;
+    --accent-soft:#1e3a8a55; --pos:#22c55e; --neg:#f87171; --neu:#94a3b8;
+    --pos-soft:#14331f; --neg-soft:#3a1414; --neu-soft:#1a2138;
+    --warn-bg:#422006; --warn-fg:#fde68a; --warn-bd:#854d0e;
+    --gold:#fbbf24; --gold-soft:#422006;
+    --held-fg:#c4b5fd; --held-soft:#2e1065; --held-bd:#5b21b6;
+    --shadow-sm:0 1px 2px 0 rgba(0,0,0,.5);
+    --shadow-md:0 4px 12px -2px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { transition: background-color 200ms, color 200ms; }
+  html, body {
+    margin:0; padding:0; background:var(--bg); color:var(--text);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .hidden { display:none !important; }
+  header {
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:20;
+  }
+  header h1 { font-size:18px; margin:0; font-weight:800; letter-spacing:-.02em; }
+  header .sub { font-size:12px; color:var(--muted); margin-top:2px; }
+  .header-actions { display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .nav-link { font-size:12px; font-weight:600; color:var(--muted); text-decoration:none; padding:7px 10px; border-radius:6px; }
+  .nav-link:hover { background:var(--accent-soft); color:var(--accent); }
+  .theme-toggle {
+    display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+    background:var(--panel); color:var(--text); border:1px solid var(--border);
+    border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;
+    box-shadow:var(--shadow-sm); transition:all .15s; user-select:none;
+  }
+  .theme-toggle:hover { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  main { max-width:1180px; margin:0 auto; padding:20px 24px 80px; }
+  .panel {
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    box-shadow:var(--shadow-sm); padding:18px 20px; margin-bottom:20px;
+  }
+  .panel h2 { font-size:15px; margin:0 0 4px; font-weight:700; letter-spacing:-.01em; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .panel .hint { font-size:12px; color:var(--muted); margin:0 0 14px; }
+  .note { font-size:11px; color:var(--muted); margin:8px 0 0; line-height:1.6; }
+  .pill { font-size:10.5px; font-weight:800; letter-spacing:.03em; padding:2px 8px; border-radius:999px; }
+  .pill.live { background:var(--accent-soft); color:var(--accent); }
+
+  /* region toggle */
+  .region-tabs { display:inline-flex; gap:4px; background:var(--panel-soft); border:1px solid var(--border); border-radius:10px; padding:4px; flex-wrap:wrap; }
+  .region-tab { padding:8px 16px; border:none; background:transparent; color:var(--muted); font-size:13.5px; font-weight:700; border-radius:7px; cursor:pointer; transition:all .15s; }
+  .region-tab.on { background:var(--accent); color:#fff; box-shadow:var(--shadow-sm); }
+
+  /* billing / api settings */
+  .chat-settings { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:12px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel-soft); }
+  .chat-settings input[type=password] { flex:1; min-width:180px; padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; }
+  .chat-settings select, .chat-settings button { padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; cursor:pointer; }
+  .chat-settings .ok { color:var(--pos); font-weight:700; }
+  .gem-note { margin-top:10px; font-size:11.5px; color:var(--muted); border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); padding:0 12px; }
+  .gem-note summary { cursor:pointer; padding:9px 0; font-weight:700; color:var(--text-soft); user-select:none; }
+  .gem-note summary:hover { color:var(--accent); }
+  .gem-note ul { margin:2px 0 12px; padding-left:18px; line-height:1.7; }
+  .gem-note li { margin:4px 0; }
+  .gem-note b { color:var(--text-soft); }
+  .gem-note code { font-family:ui-monospace,monospace; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
+  .local-bar { margin-top:10px; }
+  .local-bar code { font-family:ui-monospace,monospace; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
+  .local-ok { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--pos); font-weight:700; }
+  .local-box { display:flex; align-items:center; gap:8px 12px; flex-wrap:wrap; padding:11px 14px; border:1px solid var(--accent); background:var(--accent-soft); border-radius:10px; font-size:12.5px; line-height:1.6; }
+  .local-box a { color:var(--accent); font-weight:800; text-decoration:none; font-family:ui-monospace,monospace; font-size:13px; }
+  .local-box a:hover { text-decoration:underline; }
+  .lb-copy { padding:5px 11px; border:1px solid var(--accent); border-radius:7px; background:var(--panel); color:var(--accent); cursor:pointer; font-size:11.5px; font-weight:700; }
+  .lb-copy:hover { background:var(--accent); color:#fff; }
+
+  /* criteria explainer */
+  .crit { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-top:4px; }
+  .crit-card { border:1px solid var(--border); border-radius:10px; background:var(--panel-soft); padding:12px 14px; }
+  .crit-card .k { font-size:12.5px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:7px; }
+  .crit-card .v { font-size:11.5px; color:var(--muted); margin-top:5px; line-height:1.6; }
+
+  /* toolbar */
+  .toolbar { display:flex; align-items:center; gap:10px 14px; flex-wrap:wrap; }
+  .toolbar .grp { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--muted); font-weight:600; }
+  .toolbar select { padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--panel); color:var(--text); font-size:12px; cursor:pointer; font-weight:600; }
+  .switch { display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none; font-size:12.5px; font-weight:700; color:var(--text-soft); }
+  .switch input { display:none; }
+  .switch .track { width:38px; height:22px; border-radius:999px; background:var(--muted-soft); position:relative; transition:background .15s; flex:0 0 auto; }
+  .switch .track::after { content:""; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#fff; transition:transform .15s; box-shadow:0 1px 2px rgba(0,0,0,.3); }
+  .switch input:checked + .track { background:var(--accent); }
+  .switch input:checked + .track::after { transform:translateX(16px); }
+
+  /* summary cards */
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:16px 0 0; }
+  .card { border:1px solid var(--border); border-radius:11px; background:var(--panel-soft); padding:13px 15px; }
+  .card .lbl { font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.02em; }
+  .card .big { font-size:22px; font-weight:800; letter-spacing:-.02em; margin-top:3px; font-variant-numeric:tabular-nums; }
+  .card .big small { font-size:12px; font-weight:700; color:var(--muted); }
+
+  /* table */
+  .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:12px; }
+  table.dt { border-collapse:collapse; width:100%; min-width:1180px; font-size:12.5px; font-variant-numeric:tabular-nums; background:var(--panel); }
+  table.dt th, table.dt td { padding:9px 12px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
+  table.dt thead th { font-size:11px; font-weight:800; color:var(--muted); letter-spacing:.02em; position:sticky; top:0; background:var(--panel); cursor:pointer; user-select:none; z-index:1; }
+  table.dt thead th:hover { color:var(--accent); }
+  table.dt thead th .ar { font-size:9px; opacity:.5; }
+  table.dt thead th.sorted .ar { opacity:1; color:var(--accent); }
+  table.dt th:first-child, table.dt td:first-child { text-align:left; position:sticky; left:0; background:var(--panel); z-index:1; }
+  table.dt thead th:first-child { z-index:2; }
+  table.dt tbody tr.main { cursor:pointer; }
+  table.dt tbody tr.main:hover td { background:var(--row-hover); }
+  table.dt tbody tr.main:hover td:first-child { background:var(--row-hover); }
+  .nm-cell { display:flex; align-items:center; gap:9px; }
+  .chev { color:var(--muted); font-size:11px; transition:transform .18s; flex:0 0 auto; }
+  tr.main.open .chev { transform:rotate(90deg); color:var(--accent); }
+  .nm-main { font-weight:700; }
+  .nm-sub { font-size:10.5px; color:var(--muted); font-family:ui-monospace,monospace; font-weight:500; margin-top:1px; }
+  .badge { font-size:9.5px; font-weight:800; letter-spacing:.02em; padding:2px 7px; border-radius:999px; background:var(--neu-soft); color:var(--text-soft); white-space:nowrap; }
+  .badge.king, .badge.aristo { background:var(--gold-soft); color:var(--gold); }
+  .badge.reit, .badge.mlp, .badge.bdc { background:var(--accent-soft); color:var(--accent); }
+  .badge.held { background:var(--held-soft); color:var(--held-fg); border:1px solid var(--held-bd); }
+  tr.main.is-held td:first-child { box-shadow:inset 3px 0 0 var(--held-fg); }
+  .ex-p { color:var(--accent); font-weight:700; } .ex-n { color:var(--muted); }
+  .yld-big { font-weight:800; font-size:13.5px; }
+  .yld-hi { color:var(--pos); }
+  .flag5 { display:inline-block; margin-left:5px; font-size:9.5px; font-weight:800; color:var(--pos); }
+  .flag5.no { color:var(--muted-soft); }
+  .rp { color:var(--pos); } .rn { color:var(--neg); } .r0 { color:var(--muted); }
+  .payv .b { font-weight:700; }
+  .pay-hi { color:var(--warn-fg); }
+  .muted { color:var(--muted); }
+
+  /* detail row */
+  tr.detail > td { padding:0 !important; background:var(--panel-soft); }
+  tr.detail.hidden { display:none; }
+  /* 상세 패널은 테이블이 가로로 넓어도 항상 보이는 폭(뷰포트)에 고정 — 가로 스크롤 불필요
+     (내부 콘텐츠가 그래도 넘치면 패널 자체 스크롤바로 흡수 — 테이블 전체를 밀 필요 없음) */
+  .detail-in { position:sticky; left:0; width:var(--detail-w,100%); box-sizing:border-box;
+    padding:16px 20px 20px; border-bottom:1px solid var(--border); overflow-x:auto;
+    white-space:normal; }  /* table.dt td 의 nowrap 상속 해제 → 문단 정상 줄바꿈 */
+  .d-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:18px 24px; }
+  .d-grid > .d-block { min-width:0; }  /* 그리드 아이템 min-width:auto → 축소 허용(오버플로 방지) */
+  .d-quant { min-width:0; }
+  .d-block h4 { margin:0 0 6px; font-size:12.5px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px; }
+  .d-block p { margin:0 0 10px; font-size:12.5px; line-height:1.65; color:var(--text-soft); }
+  .d-quant { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 14px; }
+  .d-quant .q { min-width:0; border-bottom:1px dashed var(--border); padding:5px 0; display:flex; justify-content:space-between; align-items:baseline; gap:8px; font-size:12px; }
+  .d-quant .q .qk { color:var(--muted); font-weight:600; }
+  .d-quant .q .qv { font-weight:800; font-variant-numeric:tabular-nums; }
+  .d-src { font-size:11.5px; color:var(--muted); background:var(--neu-soft); border-radius:8px; padding:8px 11px; line-height:1.6; }
+  .d-actions { margin-top:14px; display:flex; gap:9px; flex-wrap:wrap; }
+  .deep-btn { display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border:none; border-radius:9px; background:var(--accent); color:#fff; font-weight:700; font-size:12.5px; cursor:pointer; box-shadow:var(--shadow-sm); transition:background .15s; }
+  .deep-btn:hover { background:var(--accent-hover); }
+  .deep-btn.sub { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+  .deep-btn.sub:hover { background:var(--accent-soft); }
+  .ext-link { display:inline-flex; align-items:center; gap:6px; padding:8px 13px; border:1px solid var(--border); border-radius:9px; background:var(--panel); color:var(--text-soft); font-size:12px; font-weight:600; text-decoration:none; }
+  .ext-link:hover { border-color:var(--accent); color:var(--accent); }
+
+  /* 배당 이력·일정 */
+  .d-div { margin-top:16px; border-top:1px dashed var(--border); padding-top:14px; }
+  .d-div h4 { margin:0 0 10px; font-size:12.5px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px; }
+  .divsched { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .dchip { border:1px solid var(--border); border-radius:9px; background:var(--panel); padding:7px 11px; min-width:96px; }
+  .dchip .dk { font-size:10px; color:var(--muted); font-weight:700; letter-spacing:.02em; }
+  .dchip .dv { font-size:13px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums; }
+  .dchip.hi { border-color:var(--accent); background:var(--accent-soft); }
+  .dchip.hi .dv { color:var(--accent); }
+  .dchip .dvsub { font-size:10px; color:var(--muted); font-weight:600; }
+  .cs-sub { font-weight:600; color:var(--muted); font-size:11px; }
+  .candle-svg { width:100%; max-width:660px; height:auto; display:block; margin-top:6px; background:var(--panel); border:1px solid var(--border); border-radius:8px; }
+  .cs-up.cs-body { fill:var(--pos); stroke:none; } .cs-down.cs-body { fill:var(--neg); stroke:none; }
+  .cs-up.cs-wick { stroke:var(--pos); stroke-width:1; } .cs-down.cs-wick { stroke:var(--neg); stroke-width:1; }
+  .cs-last { stroke:var(--accent); stroke-width:1; stroke-dasharray:3 3; opacity:.55; }
+  .cs-axis { fill:var(--muted); font-size:11px; font-family:inherit; }
+  .cs-xc { text-anchor:middle; }
+  .cs-up-t { fill:var(--pos); font-weight:800; } .cs-down-t { fill:var(--neg); font-weight:800; }
+  .retmx { width:100%; max-width:460px; border-collapse:collapse; font-size:11.5px; font-variant-numeric:tabular-nums; }
+  .retmx th, .retmx td { padding:5px 10px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
+  .retmx th { font-size:10px; color:var(--muted); font-weight:800; }
+  .retmx td:first-child, .retmx th:first-child { text-align:left; color:var(--muted); font-weight:800; }
+  .retmx tbody tr:hover td { background:var(--row-hover); }
+  .divhist { margin-top:4px; }
+  .dh-cap { font-size:10.5px; color:var(--muted); margin:0 0 7px; }
+  .hbar-row { display:grid; grid-template-columns:44px 1fr auto auto; align-items:center; gap:9px; padding:3px 0; font-size:11.5px; font-variant-numeric:tabular-nums; }
+  .hbar-row .hy { color:var(--muted); font-weight:700; }
+  .hbar-track { height:14px; background:var(--neu-soft); border-radius:5px; overflow:hidden; }
+  .hbar-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-hover)); border-radius:5px; min-width:2px; }
+  .hbar-row .hdps { font-weight:800; }
+  .hbar-row .hyld { color:var(--pos); font-weight:700; min-width:48px; text-align:right; }
+  .hbar-row .hyld.na { color:var(--muted-soft); }
+
+  @media (max-width:720px){ .d-grid { grid-template-columns:1fr; } .d-quant { grid-template-columns:1fr; } }
+
+  /* modal */
+  .rmodal { position:fixed; inset:0; z-index:60; display:flex; align-items:flex-start; justify-content:center; padding:32px 16px; overflow-y:auto; }
+  .rmodal.hidden { display:none; }
+  .rbackdrop { position:fixed; inset:0; background:rgba(8,12,24,.55); backdrop-filter:blur(2px); }
+  .rbox { position:relative; background:var(--panel); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow-md); max-width:880px; width:100%; max-height:calc(100vh - 64px); display:flex; flex-direction:column; }
+  .rhead { display:flex; align-items:flex-start; gap:12px; padding:18px 22px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--panel); border-radius:16px 16px 0 0; z-index:2; }
+  .rhead .nm { font-size:17px; font-weight:800; letter-spacing:-.01em; }
+  .rhead .mt { font-size:12px; color:var(--muted); margin-top:3px; }
+  .rpdf { margin-left:auto; flex:0 0 auto; border:1px solid var(--border); background:var(--panel); color:var(--text-soft); height:30px; padding:0 12px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:700; }
+  .rpdf:hover { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rpdf:disabled { opacity:.45; cursor:not-allowed; }
+  .rclose { flex:0 0 auto; border:1px solid var(--border); background:var(--panel); color:var(--muted); width:30px; height:30px; border-radius:8px; cursor:pointer; font-size:15px; }
+  .rclose:hover { color:var(--neg); border-color:var(--neg); }
+  .rbody { padding:18px 24px; overflow-y:auto; flex:1; }
+  .rfoot { border-top:1px solid var(--border); padding:12px 18px; display:flex; gap:8px; background:var(--panel-soft); border-radius:0 0 16px 16px; }
+  .rfoot textarea { flex:1; resize:none; border:1px solid var(--border); border-radius:9px; padding:10px 12px; font-size:13px; font-family:inherit; background:var(--panel); color:var(--text); max-height:110px; }
+  .rfoot button { flex:0 0 auto; padding:0 18px; border:none; border-radius:9px; background:var(--accent); color:#fff; font-weight:700; cursor:pointer; font-size:13px; }
+  .rfoot button:disabled { opacity:.5; cursor:not-allowed; }
+
+  /* rendered markdown */
+  .md { font-size:14px; line-height:1.7; color:var(--text); }
+  .md h1, .md h2, .md h3 { font-weight:800; letter-spacing:-.01em; line-height:1.3; margin:18px 0 8px; }
+  .md h1 { font-size:19px; } .md h2 { font-size:16.5px; border-bottom:1px solid var(--border); padding-bottom:5px; } .md h3 { font-size:14.5px; color:var(--text-soft); }
+  .md p { margin:8px 0; }
+  .md ul, .md ol { margin:8px 0; padding-left:22px; }
+  .md li { margin:3px 0; }
+  .md strong { font-weight:800; }
+  .md code { font-family:ui-monospace,SFMono-Regular,monospace; font-size:12.5px; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
+  .md hr { border:none; border-top:1px solid var(--border); margin:16px 0; }
+  .md table { border-collapse:collapse; width:100%; margin:12px 0; font-size:12.5px; }
+  .md th, .md td { border:1px solid var(--border); padding:6px 9px; text-align:left; }
+  .md th { background:var(--panel-soft); font-weight:800; }
+  .md tr:nth-child(even) td { background:var(--row-alt); }
+  .md blockquote { border-left:3px solid var(--accent); margin:10px 0; padding:4px 14px; color:var(--text-soft); background:var(--accent-soft); border-radius:0 8px 8px 0; }
+  .stream-cursor::after { content:"▍"; color:var(--accent); animation:bl 1s steps(2) infinite; }
+  @keyframes bl { 50% { opacity:0; } }
+  .gen-wait { display:inline-block; font-size:13.5px; font-weight:700; color:var(--accent); background:var(--accent-soft); border:1px solid var(--border); border-radius:10px; padding:12px 16px; }
+  .gen-wait .gen-t { font-variant-numeric:tabular-nums; opacity:.85; }
+  .gen-sub { font-size:11.5px; font-weight:500; color:var(--muted); margin-top:5px; }
+  .usR { font-size:13px; color:var(--text-soft); background:var(--accent-soft); border:1px solid var(--border); border-radius:10px; padding:9px 13px; margin:14px 0 4px; font-weight:600; }
+
+  @media (max-width: 720px) {
+    main { padding:16px 14px 60px; }
+    .rbox { max-height:calc(100vh - 32px); }
+    .rbody { padding:14px 16px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>💰 배당주 스크리닝</h1>
+    <div class="sub">시가배당률 5%+ · 안정적 배당성장 — 미국/유럽/한국 인컴 포트폴리오 후보 모니터링</div>
+  </div>
+  <div class="header-actions">
+    <a class="nav-link" href="portfolio.html">← 포트폴리오</a>
+    <a class="nav-link" href="fm.html">🏦 펀드매니저</a>
+    <a class="nav-link" href="sectors.html">🔬 섹터·종목</a>
+    <a class="nav-link" href="daily.html">📊 데일리</a>
+    <a class="nav-link" href="macro.html">🧭 매크로</a>
+    <button type="button" id="themeToggle" class="theme-toggle" title="다크/라이트 전환">
+      <span id="themeIcon">🌙</span><span id="themeLabel">다크</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- 스크리닝 기준 -->
+  <div class="panel">
+    <h2>🎯 스크리닝 기준</h2>
+    <p class="hint">"시가배당률 5% 이상 + 꾸준한 성장 + 안정적 배당"을 축으로, 고배당과 배당성장(안정성)을 함께 본다. 배당왕/귀족(장기 증액)·대표 인컴주(리츠·미드스트림·BDC)·한국 밸류업 금융/통신을 큐레이션.</p>
+    <div class="crit">
+      <div class="crit-card"><div class="k">💵 시가배당률 (Yield)</div><div class="v">연배당금 ÷ 현재주가. <b>5% 이상</b>을 1차 기준으로. 품질 앵커(코카콜라·셰브론 등)는 5% 미만이라도 안정성 근거로 포함하고 배지로 구분.</div></div>
+      <div class="crit-card"><div class="k">📈 배당 성장</div><div class="v">연속 증배 연수(배당왕 50년+/귀족 25년+)와 최근 5년 배당 CAGR. 삭감 이력이 있으면 명시.</div></div>
+      <div class="crit-card"><div class="k">🛡️ 배당 안정성</div><div class="v">배당성향(payout)으로 지속가능성 점검. 리츠·MLP·BDC는 구조상 높은 성향이 정상(별도 해석).</div></div>
+      <div class="crit-card"><div class="k">💲 밸류에이션</div><div class="v">PER·PBR로 저평가 여부. 저PBR 금융(밸류업)·저PER 경기주는 배당+리레이팅 이중 매력.</div></div>
+    </div>
+    <p class="note">· 데이터: 정성(추천사유·성장이력·출처)은 큐레이션, <b>시세 지표(배당률·주가·성향·PER·PBR·시총·1년수익률)는 yfinance 자동 갱신</b>(<code>python fetch_dividends.py</code>). 자동 갱신 전엔 큐레이션 추정치로 표시.</p>
+  </div>
+
+  <!-- AI 애널리스트 설정 -->
+  <div class="panel">
+    <h2>⚙️ AI 배당 애널리스트 <span class="pill live">LIVE</span></h2>
+    <p class="hint">각 종목의 <b>AI 딥리서치</b> 버튼을 누르면 배당 안전성·성장 여력·밸류에이션·리스크를 그 자리에서 생성합니다. 펀드매니저·섹터 탭과 동일 키·모드를 공유합니다.</p>
+    <div class="chat-settings">
+      <span>청구</span>
+      <select id="chatMode" title="구독 차감(로컬 Claude Code) / Gemini API 키(무료) / Anthropic API 키">
+        <option value="sub">Claude 요금제(구독 차감)</option>
+        <option value="gemini">Gemini API 키 (무료 티어)</option>
+        <option value="api">Anthropic API 키</option>
+      </select>
+      <span id="apiKeyWrap" style="display:inline-flex;gap:8px;align-items:center">
+        <input type="password" id="apiKey" placeholder="sk-ant-... (브라우저 localStorage에만 저장)" autocomplete="off" />
+        <button type="button" id="saveKey">저장</button>
+      </span>
+      <span id="geminiKeyWrap" style="display:none;gap:8px;align-items:center">
+        <input type="password" id="geminiKey" placeholder="AQ.… 또는 AIza… (Google AI Studio 무료 키)" autocomplete="off" />
+        <button type="button" id="saveGeminiKey">저장</button>
+      </span>
+      <select id="modelSel">
+        <option value="claude-opus-4-8" class="m-claude">Opus 4.8 (최고 추론)</option>
+        <option value="claude-sonnet-4-6" class="m-claude">Sonnet 4.6 (균형)</option>
+        <option value="claude-haiku-4-5-20251001" class="m-claude">Haiku 4.5 (저비용)</option>
+        <option value="gemini-3.5-flash" class="m-gemini" hidden>Gemini 3.5 Flash (빠름·무료)</option>
+        <option value="gemini-3.1-pro-preview" class="m-gemini" hidden>Gemini 3.1 Pro (최고 추론)</option>
+        <option value="gemini-2.5-pro" class="m-gemini" hidden>Gemini 2.5 Pro (안정 폴백)</option>
+      </select>
+      <span id="keyStatus"></span>
+    </div>
+    <p class="note" id="chatModeNote"></p>
+    <div id="localLinkBar" class="local-bar"></div>
+  </div>
+
+  <!-- 지역 토글 + 툴바 -->
+  <div class="panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div class="region-tabs" id="regionTabs">
+        <button class="region-tab on" data-r="ALL">⭐ 전체</button>
+        <button class="region-tab" data-r="US">🇺🇸 미국</button>
+        <button class="region-tab" data-r="EU">🇪🇺 유럽</button>
+        <button class="region-tab" data-r="KR">🇰🇷 한국</button>
+      </div>
+      <div class="hint" id="updatedStamp" style="margin:0"></div>
+    </div>
+    <div class="cards" id="cards"></div>
+    <div class="toolbar" style="margin-top:16px">
+      <label class="switch"><input type="checkbox" id="only5"><span class="track"></span><span>시가배당률 5%+ 만</span></label>
+      <label class="switch"><input type="checkbox" id="onlyHeld"><span class="track"></span><span>보유 종목만</span></label>
+      <span class="grp">카테고리
+        <select id="catSel"><option value="">전체</option></select>
+      </span>
+      <span class="grp">정렬
+        <select id="sortSel">
+          <option value="yld">배당수익률 ↓</option>
+          <option value="cagr5">배당성장(CAGR) ↓</option>
+          <option value="streak">연속증배 연수 ↓</option>
+          <option value="payout">배당성향 ↑</option>
+          <option value="per">PER ↑</option>
+          <option value="rytd">YTD 수익률 ↓</option>
+          <option value="rytdEx">YTD 초과(벤치대비) ↓</option>
+          <option value="r3m">3M 수익률 ↓</option>
+          <option value="ret1y">1년수익률 ↓</option>
+          <option value="mcap">시가총액 ↓</option>
+        </select>
+      </span>
+    </div>
+  </div>
+
+  <!-- 스크리닝 테이블 -->
+  <div class="tbl-wrap">
+    <table class="dt" id="dtable">
+      <thead><tr id="thead"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <p class="note" style="text-align:center;max-width:820px;margin:22px auto 0">⚠️ 배당수익률·성향·PER 등 시세 지표는 yfinance 자동 수집값으로 <b>지연·오차</b>가 있을 수 있고, 연속증배 연수·배당 CAGR·추천사유는 <b>큐레이션 추정</b>입니다. AI 딥리서치는 참고용이며, 실제 배당락일·컨센서스·재무는 증권사 리포트·FnGuide·기업 IR 등 1차 출처로 반드시 교차검증하세요. 투자판단의 책임은 이용자에게 있습니다.</p>
+</main>
+
+<!-- 딥리서치 모달 -->
+<div id="rModal" class="rmodal hidden">
+  <div class="rbackdrop" id="rBackdrop"></div>
+  <div class="rbox">
+    <div class="rhead">
+      <div>
+        <div class="nm" id="rTitle"></div>
+        <div class="mt" id="rSub"></div>
+      </div>
+      <button class="rpdf" id="rPdf" title="이 리서치를 PDF로 저장">📄 PDF 저장</button>
+      <button class="rclose" id="rClose" aria-label="닫기">✕</button>
+    </div>
+    <div class="rbody"><div class="md" id="rContent"></div></div>
+    <div class="rfoot">
+      <textarea id="rFollow" rows="1" placeholder="후속 질문 — 예: 향후 3년 배당 삭감 리스크는? 커버리지(FCF/배당) 추이는? 경쟁사 대비 배당 매력은?"></textarea>
+      <button type="button" id="rSend">질문</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================ 헬퍼 ============================ */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+/* 테마 토글 */
+(function(){
+  function apply(t){ document.documentElement.setAttribute('data-theme', t);
+    $('themeIcon').textContent = t==='dark'?'☀️':'🌙'; $('themeLabel').textContent = t==='dark'?'라이트':'다크'; }
+  apply(document.documentElement.getAttribute('data-theme')||'light');
+  $('themeToggle').addEventListener('click', function(){
+    var cur = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    try { localStorage.setItem('pf_theme', cur); } catch(e){}
+    apply(cur);
+  });
+})();
+
+/* ============================ 경량 마크다운 렌더러 ============================ */
+function mdToHtml(src){
+  src = String(src||'');
+  var lines = src.replace(/\r\n/g,'\n').split('\n');
+  var out=[], i=0;
+  function inline(s){
+    s = esc(s);
+    s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    s = s.replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>');
+    s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
+    s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+    return s;
+  }
+  function isTableSep(l){ return /^\s*\|?[\s:|-]+\|[\s:|-]+\s*$/.test(l) && l.indexOf('-')>=0; }
+  function splitRow(l){ l=l.trim().replace(/^\|/,'').replace(/\|$/,''); return l.split('|').map(function(c){return c.trim();}); }
+  while(i<lines.length){
+    var ln = lines[i];
+    if(/^\s*$/.test(ln)){ i++; continue; }
+    if(ln.indexOf('|')>=0 && i+1<lines.length && isTableSep(lines[i+1])){
+      var hdr=splitRow(ln); i+=2; var rows=[];
+      while(i<lines.length && lines[i].indexOf('|')>=0 && !/^\s*$/.test(lines[i])){ rows.push(splitRow(lines[i])); i++; }
+      var t='<table><thead><tr>'+hdr.map(function(c){return '<th>'+inline(c)+'</th>';}).join('')+'</tr></thead><tbody>';
+      t+=rows.map(function(r){ return '<tr>'+r.map(function(c){return '<td>'+inline(c)+'</td>';}).join('')+'</tr>'; }).join('');
+      t+='</tbody></table>'; out.push(t); continue;
+    }
+    var h=ln.match(/^(#{1,3})\s+(.*)$/);
+    if(h){ var lv=h[1].length; out.push('<h'+lv+'>'+inline(h[2])+'</h'+lv+'>'); i++; continue; }
+    if(/^\s*(---|\*\*\*|___)\s*$/.test(ln)){ out.push('<hr>'); i++; continue; }
+    if(/^\s*>\s?/.test(ln)){ var bq=[]; while(i<lines.length && /^\s*>\s?/.test(lines[i])){ bq.push(lines[i].replace(/^\s*>\s?/,'')); i++; } out.push('<blockquote>'+inline(bq.join(' '))+'</blockquote>'); continue; }
+    if(/^\s*[-*+]\s+/.test(ln)){ var ul=[]; while(i<lines.length && /^\s*[-*+]\s+/.test(lines[i])){ ul.push('<li>'+inline(lines[i].replace(/^\s*[-*+]\s+/,''))+'</li>'); i++; } out.push('<ul>'+ul.join('')+'</ul>'); continue; }
+    if(/^\s*\d+[.)]\s+/.test(ln)){ var ol=[]; while(i<lines.length && /^\s*\d+[.)]\s+/.test(lines[i])){ ol.push('<li>'+inline(lines[i].replace(/^\s*\d+[.)]\s+/,''))+'</li>'); i++; } out.push('<ol>'+ol.join('')+'</ol>'); continue; }
+    var p=[ln]; i++;
+    while(i<lines.length && !/^\s*$/.test(lines[i]) && !/^(#{1,3}\s|>\s?|\s*[-*+]\s|\s*\d+[.)]\s)/.test(lines[i]) && !(lines[i].indexOf('|')>=0 && i+1<lines.length && isTableSep(lines[i+1]))){ p.push(lines[i]); i++; }
+    out.push('<p>'+inline(p.join(' '))+'</p>');
+  }
+  return out.join('\n');
+}
+
+/* ============================ 청구/API (fm.html과 동일 키 공유) ============================ */
+function isLocalHost(){ var h=location.hostname; return h==='localhost' || h==='127.0.0.1' || h==='0.0.0.0' || h==='[::1]' || h===''; }
+
+async function streamChat(msgs, model, sysPrompt, onText){
+  var key = (localStorage.getItem('fm_chat_key')||'').trim();
+  var resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{ 'content-type':'application/json', 'x-api-key': key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
+    body: JSON.stringify({ model:model, max_tokens:4096, system:sysPrompt, messages:msgs, stream:true,
+      tools:[{ type:'web_search_20250305', name:'web_search', max_uses:5 }] })
+  });
+  if (!resp.ok){ var t=''; try{ t=await resp.text(); }catch(e){} throw new Error('API '+resp.status+': '+t.slice(0,300)); }
+  var reader = resp.body.getReader(), dec = new TextDecoder(), buf='';
+  while(true){
+    var r = await reader.read(); if (r.done) break;
+    buf += dec.decode(r.value, {stream:true});
+    var idx;
+    while((idx = buf.indexOf('\n')) >= 0){
+      var line = buf.slice(0,idx); buf = buf.slice(idx+1); line=line.trim();
+      if (line.indexOf('data:')!==0) continue;
+      var data = line.slice(5).trim();
+      if (!data || data==='[DONE]') continue;
+      try { var ev = JSON.parse(data); if (ev.type==='content_block_delta' && ev.delta && ev.delta.text) onText(ev.delta.text); } catch(e){}
+    }
+  }
+}
+async function streamChatSub(messages, model, sysPrompt, onText){
+  var resp = await fetch('/fm-chat', {
+    method:'POST', headers:{'content-type':'application/json'},
+    body: JSON.stringify({ system: sysPrompt, context: '', messages: messages, model: model })
+  });
+  if (!resp.ok){
+    var hint = (resp.status===501||resp.status===404||resp.status===405||resp.status===0)
+      ? '이 주소('+location.host+')엔 serve.py 백엔드가 없습니다. → http://localhost:8000/dividends.html 로 접속하거나 API 키 모드로 바꾸세요.'
+      : 'python serve.py 가 이 포트에서 실행 중인지 확인하세요.';
+    throw new Error('로컬 백엔드 오류 '+resp.status+' — '+hint);
+  }
+  var reader = resp.body.getReader(), dec = new TextDecoder();
+  while(true){ var r = await reader.read(); if (r.done) break; onText(dec.decode(r.value, {stream:true})); }
+}
+async function streamGemini(msgs, model, sysPrompt, onText){
+  var raw = (localStorage.getItem('fm_gemini_key')||'').trim();
+  var key = raw.replace(/[^\x21-\x7E]/g, '');
+  if (!key) throw new Error('Gemini 키 미입력 — 상단 설정에서 Gemini API 키를 저장하세요.');
+  var contents = msgs.map(function(m){ return { role:(m.role==='assistant'?'model':'user'), parts:[{ text:String(m.content||'') }] }; });
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':streamGenerateContent?alt=sse';
+  async function attempt(useTools){
+    var body = { systemInstruction:{ parts:[{ text: sysPrompt }] }, contents: contents, generationConfig:{ maxOutputTokens: 4096 } };
+    if (useTools) body.tools=[{ google_search:{} }];
+    var resp;
+    try {
+      resp = await fetch(url, { method:'POST', headers:{ 'content-type':'application/json', 'x-goog-api-key': key }, body: JSON.stringify(body) });
+    } catch(e){
+      if (/ISO-8859-1|code point|headers/i.test(e.message||''))
+        throw new Error('키에 유효하지 않은 문자가 있습니다 — 키를 지우고 다시 정확히 붙여넣어 저장하세요. ('+e.message+')');
+      throw new Error('네트워크 오류 — 네트워크 차단 또는 키의 리퍼러/앱 제한일 수 있습니다. ('+e.message+')');
+    }
+    if (!resp.ok){ var t=''; try{ t=await resp.text(); }catch(e){} var err=new Error('Gemini '+resp.status+': '+t.slice(0,300)); err.status=resp.status; err.body=t; throw err; }
+    var reader = resp.body.getReader(), dec = new TextDecoder(), buf='';
+    while(true){
+      var r = await reader.read(); if (r.done) break;
+      buf += dec.decode(r.value, {stream:true});
+      var idx;
+      while((idx = buf.indexOf('\n')) >= 0){
+        var line = buf.slice(0,idx); buf = buf.slice(idx+1); line=line.trim();
+        if (line.indexOf('data:')!==0) continue;
+        var data = line.slice(5).trim();
+        if (!data || data==='[DONE]') continue;
+        try { var ev = JSON.parse(data);
+          var parts = ev && ev.candidates && ev.candidates[0] && ev.candidates[0].content && ev.candidates[0].content.parts;
+          if (parts) parts.forEach(function(p){ if(p && p.text) onText(p.text); });
+        } catch(e){}
+      }
+    }
+  }
+  try { await attempt(true); }
+  catch(e){
+    if (e && e.status===400 && /tool|google_search|function|search/i.test(e.body||'')) { await attempt(false); }
+    else throw e;
+  }
+}
+function syncModelOptions(mode){
+  var sel = $('modelSel'); if(!sel) return;
+  var isGem = (mode==='gemini');
+  Array.prototype.forEach.call(sel.options, function(o){
+    var g = o.classList.contains('m-gemini');
+    o.hidden = isGem ? !g : g;
+  });
+  if (sel.selectedOptions[0] && sel.selectedOptions[0].hidden){
+    for (var i=0;i<sel.options.length;i++){ if(!sel.options[i].hidden){ sel.selectedIndex=i; break; } }
+  }
+}
+async function probeBackend(){ try { var r = await fetch('/fm-chat/health', {cache:'no-store'}); if (!r.ok) return null; return await r.json(); } catch(e){ return null; } }
+
+var backendHealth = null;
+function updateModeUI(){
+  var mode = $('chatMode').value;
+  $('apiKeyWrap').style.display = (mode==='api') ? 'inline-flex' : 'none';
+  $('geminiKeyWrap').style.display = (mode==='gemini') ? 'inline-flex' : 'none';
+  syncModelOptions(mode);
+  var note='', status='';
+  if (mode==='gemini'){
+    var gk=(localStorage.getItem('fm_gemini_key')||'').trim();
+    status = gk ? '<span class="ok">✓ Gemini 키 저장됨</span>' : '<span style="color:var(--muted)">Gemini 키 미입력</span>';
+    note='Google Gemini를 브라우저에서 직접 호출(무료 티어·Google Search 그라운딩, 분당·일일 한도). 키는 이 브라우저 localStorage에만 저장 — 공개 저장소엔 포함되지 않습니다. 무료 티어는 데이터가 학습에 쓰일 수 있으니 민감정보는 입력하지 마세요(이 탭은 공개종목이라 대체로 무방).';
+    $('keyStatus').innerHTML=status; $('chatModeNote').textContent=note; return;
+  }
+  if (mode==='sub'){
+    if (backendHealth && backendHealth.claude && !backendHealth.blocked){
+      status='<span class="ok">✓ Claude 요금제 연결됨 — 구독 차감</span>';
+      note='로컬 Claude Code(구독 인증)로 호출 → 토큰은 API가 아니라 구독에서 차감됩니다.';
+    } else if (backendHealth && backendHealth.blocked){
+      status='<span style="color:var(--neg);font-weight:700">🛑 과금 안전장치로 차단됨</span>';
+      note='strict 가드: 유료 청구 가능 환경변수가 감지되어 거부합니다. 해제 후 serve.py 재실행하세요.';
+    } else if (!isLocalHost()){
+      status='<span style="color:var(--neg);font-weight:700">🛑 정적 사이트 — 구독 차감 불가</span>';
+      note='지금은 정적 호스팅(localhost 아님)이라 구독 백엔드(/fm-chat)가 없습니다. → 위에서 무료 「Gemini API 키」 모드로 바꾸세요. 구독 차감을 쓰려면 로컬에서 python serve.py 실행 후 http://localhost:8000/dividends.html 로 접속하세요.';
+    } else {
+      status='<span style="color:var(--warn-fg)">⚠ 로컬 백엔드 없음</span>';
+      note='localhost지만 serve.py가 응답하지 않습니다. `python serve.py` 로 실행했는지 확인하거나 무료 Gemini 키 모드를 사용하세요.';
+    }
+  } else {
+    var k=(localStorage.getItem('fm_chat_key')||'').trim();
+    status = k ? '<span class="ok">✓ 키 저장됨</span>' : '<span style="color:var(--muted)">키 미입력</span>';
+    note='Anthropic API로 직접 호출(API 사용량으로 청구).';
+  }
+  $('keyStatus').innerHTML=status; $('chatModeNote').textContent=note;
+}
+async function initSettings(){
+  var k = localStorage.getItem('fm_chat_key')||''; $('apiKey').value=k;
+  $('geminiKey').value = localStorage.getItem('fm_gemini_key')||'';
+  var m = localStorage.getItem('fm_chat_model'); if(m) $('modelSel').value=m;
+  backendHealth = await probeBackend();
+  var savedMode = localStorage.getItem('fm_chat_mode');
+  var subOk = !!(backendHealth && backendHealth.claude);
+  var mode = savedMode || (subOk ? 'sub' : 'gemini');
+  if (mode==='sub' && !subOk) mode='gemini';
+  $('chatMode').value = mode;
+  updateModeUI();
+  $('chatMode').addEventListener('change', function(){ try{localStorage.setItem('fm_chat_mode',this.value);}catch(e){} updateModeUI(); });
+  $('saveKey').addEventListener('click', function(){ var v=$('apiKey').value.trim(); try{localStorage.setItem('fm_chat_key',v); localStorage.setItem('fm_chat_model',$('modelSel').value);}catch(e){} updateModeUI(); });
+  $('saveGeminiKey').addEventListener('click', function(){ var v=$('geminiKey').value.replace(/[^\x21-\x7E]/g,''); $('geminiKey').value=v; try{localStorage.setItem('fm_gemini_key',v); localStorage.setItem('fm_chat_model',$('modelSel').value);}catch(e){} updateModeUI(); });
+  $('modelSel').addEventListener('change', function(){ try{localStorage.setItem('fm_chat_model',this.value);}catch(e){} });
+  renderLocalLink();
+}
+function renderLocalLink(){
+  var bar=$('localLinkBar'); if(!bar) return;
+  var localUrl='http://localhost:8000/dividends.html';
+  var backendOk = !!(backendHealth && backendHealth.claude);
+  if(backendOk){
+    bar.innerHTML='<span class="local-ok">✅ 로컬 serve.py 연결됨 — 구독 차감(Claude 요금제)으로 클릭 즉시 리서치가 생성됩니다.</span>';
+    return;
+  }
+  var whereMsg = isLocalHost()
+    ? '지금 접속한 <code>'+esc(location.host)+'</code> 에는 serve.py 백엔드가 없습니다(구독 차감 시 501). 무료 <b>Gemini</b> 키를 저장하면 여기서도 바로 됩니다.'
+    : '웹에선 무료 <b>Gemini</b>가 기본입니다(위에서 키 저장). <b>구독 차감(Claude)</b>으로 쓰려면 아래 로컬 주소로 접속하세요.';
+  bar.innerHTML='<div class="local-box"><span>🖥 '+whereMsg+' 구독 차감은 로컬에서 <code>python serve.py</code> 실행 후:</span>'+
+    '<a href="'+localUrl+'">'+localUrl+'</a>'+
+    '<button type="button" class="lb-copy" id="lbCopy">주소 복사</button></div>';
+  var cp=$('lbCopy');
+  if(cp) cp.addEventListener('click', function(){
+    var self=this;
+    try{ navigator.clipboard.writeText(localUrl).then(function(){ self.textContent='복사됨 ✓'; }, function(){ self.textContent='복사 실패'; }); }
+    catch(e){ self.textContent='복사 실패'; }
+  });
+}
+
+/* ============================ 프롬프트 (배당 특화) ============================ */
+function asOfStr(){ return '2026년 7월'; }
+function regionKo(rg){ return rg==='US'?'미국':(rg==='EU'?'유럽':'한국'); }
+function personaDiv(rg){
+  return [
+    '당신은 글로벌 운용사의 시니어 배당·인컴 전략 애널리스트입니다. 담당 시장은 '+regionKo(rg)+'입니다.',
+    '기관 포트폴리오 매니저(고객)를 위해 "이 종목을 배당(인컴) 포트폴리오에 편입할 가치가 있는가"를 판정하는 의사결정 지향 리서치를 작성합니다. 결론(편입 적합도)을 먼저 제시한 뒤 근거를 답니다.',
+    '반드시 다루세요: (1) 배당 매력 — 현재 시가배당률·배당 성장 이력/여력, (2) 배당 안전성 — 배당성향·FCF/이익 대비 배당 커버리지·부채, 삭감 리스크, (3) 밸류에이션(PER·PBR·동종 대비), (4) 핵심 리스크 3가지, (5) 결론 — 편입 적합도(적극/보통/관망)와 그 이유. 필요하면 표를 사용.',
+    '현재 시점은 '+asOfStr()+'입니다. 웹 검색(web_search/google_search)이 가능하면 최신 주가·배당수익률·최근 배당 발표(증액/삭감/특별배당)·컨센서스를 반영하고 핵심 수치엔 출처(매체·날짜)를 표기하세요. 검색이 불가하면 추정치임을 명시하세요.',
+    '출력은 한국어. 마크다운(##, ###, 표, 불릿)을 적극 활용. 통화는 해당 시장 기준. 과도한 면책·반복 금지, 표는 핵심만.'
+  ].join('\n');
+}
+function stockDivPrompt(it, q, rg){
+  var lines = [];
+  lines.push(it.n+'('+it.nEn+', '+it.t+' · '+it.ex+')의 배당(인컴) 종목 딥리서치를 작성하세요.');
+  lines.push('참고 스냅샷(자동수집·큐레이션, 최신치로 교차검증 요망):');
+  lines.push('- 섹터/카테고리: '+it.sec+' / '+it.cat);
+  if (q && q.yld!=null) lines.push('- 현재 시가배당률(추정): '+q.yld+'%'); else if (it.yldC!=null) lines.push('- 시가배당률(큐레이션): '+it.yldC+'%');
+  if (q && q.payout!=null) lines.push('- 배당성향(추정): '+q.payout+'%');
+  if (q && q.per!=null) lines.push('- PER: '+q.per);
+  if (q && q.pbr!=null) lines.push('- PBR: '+q.pbr);
+  if (it.streak!=null) lines.push('- 연속 증배(큐레이션): 약 '+it.streak+'년');
+  if (it.cagr5!=null) lines.push('- 최근 5년 배당 CAGR(큐레이션): 약 '+it.cagr5+'%');
+  lines.push('- 배당주기: '+it.freq);
+  lines.push('- 우리의 큐레이션 추천사유: '+it.thesis);
+  lines.push('위 스냅샷을 최신 데이터로 검증·갱신하면서, 페르소나에 정의된 5개 항목으로 판정하세요.');
+  return lines.join('\n');
+}
+
+/* ============================ 모달 + 스트리밍 ============================ */
+var rBusy=false, rHistory=[], rSystem='';
+function openModal(title, sub){
+  $('rTitle').textContent=title; $('rSub').textContent=sub||'';
+  $('rContent').innerHTML=''; $('rFollow').value='';
+  rHistory=[];
+  $('rModal').classList.remove('hidden'); document.body.style.overflow='hidden';
+}
+function closeModal(){ $('rModal').classList.add('hidden'); document.body.style.overflow=''; }
+function savePdf(){
+  if (rBusy){ alert('리서치 생성이 끝난 뒤에 저장하세요.'); return; }
+  var contentHtml = $('rContent').innerHTML;
+  if (!contentHtml || !contentHtml.replace(/<[^>]*>/g,'').trim()){ alert('저장할 내용이 없습니다. 먼저 리서치를 생성하세요.'); return; }
+  var title = $('rTitle').textContent || '배당주 리서치';
+  var sub = ($('rSub').textContent || '').replace(/· AI[^·]*생성중…/,'').trim();
+  var now = new Date();
+  var dateStr = now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2)+' '+('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2);
+  var css = ''
+    + '@page{margin:16mm 14mm;}'
+    + '*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
+    + 'body{margin:0;color:#111827;background:#fff;font-family:"Pretendard Variable",Pretendard,"Malgun Gothic","Noto Sans KR",-apple-system,sans-serif;font-size:11.5pt;line-height:1.6;}'
+    + '.doc{max-width:760px;margin:0 auto;}'
+    + '.dh{border-bottom:2px solid #2563eb;padding-bottom:10px;margin-bottom:18px;}'
+    + '.dh h1{font-size:18pt;margin:0 0 4px;font-weight:800;letter-spacing:-.01em;color:#0f172a;}'
+    + '.dh .meta{font-size:9.5pt;color:#64748b;}'
+    + '.md h1,.md h2,.md h3{font-weight:800;line-height:1.3;margin:16px 0 7px;color:#0f172a;page-break-after:avoid;}'
+    + '.md h1{font-size:15pt;}.md h2{font-size:13pt;border-bottom:1px solid #e2e8f0;padding-bottom:4px;}.md h3{font-size:11.5pt;color:#334155;}'
+    + '.md p{margin:7px 0;}.md ul,.md ol{margin:7px 0;padding-left:20px;}.md li{margin:2px 0;}'
+    + '.md strong{font-weight:800;}.md code{font-family:Consolas,monospace;font-size:9.5pt;background:#f1f5f9;padding:1px 4px;border-radius:4px;}'
+    + '.md hr{border:none;border-top:1px solid #e2e8f0;margin:14px 0;}'
+    + '.md table{border-collapse:collapse;width:100%;margin:11px 0;font-size:9.5pt;page-break-inside:avoid;}'
+    + '.md th,.md td{border:1px solid #cbd5e1;padding:5px 8px;text-align:left;}.md th{background:#f1f5f9;font-weight:800;}'
+    + '.md blockquote{border-left:3px solid #2563eb;margin:9px 0;padding:3px 12px;color:#334155;background:#eff6ff;}'
+    + '.usR{font-size:10.5pt;color:#1e3a8a;background:#eff6ff;border:1px solid #dbeafe;border-radius:8px;padding:8px 12px;margin:14px 0 4px;font-weight:700;page-break-inside:avoid;}'
+    + '.foot{margin-top:22px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:8.5pt;color:#94a3b8;line-height:1.5;}';
+  var docHtml = '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">'
+    + '<title>'+esc(title)+'</title>'
+    + '<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet">'
+    + '<style>'+css+'</style></head><body><div class="doc">'
+    + '<div class="dh"><h1>'+esc(title)+'</h1><div class="meta">'+esc(sub)+(sub?' · ':'')+'생성 '+dateStr+' · pf-dash 배당주 스크리닝</div></div>'
+    + '<div class="md">'+contentHtml+'</div>'
+    + '<div class="foot">⚠️ 본 자료는 Anthropic Claude/Google Gemini AI가 생성한 참고용 배당 리서치입니다. 배당수익률·배당락일·재무 수치는 모델 추정치이며, 투자판단 전 증권사 리포트·FnGuide·기업 IR 등 1차 출처로 반드시 교차검증하십시오. 투자판단의 책임은 이용자에게 있습니다.</div>'
+    + '</div></body></html>';
+  var ifr = document.createElement('iframe');
+  ifr.setAttribute('aria-hidden','true');
+  ifr.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
+  document.body.appendChild(ifr);
+  var d = ifr.contentWindow.document;
+  d.open(); d.write(docHtml); d.close();
+  var printed = false;
+  function doPrint(){
+    if (printed) return; printed = true;
+    try { ifr.contentWindow.focus(); ifr.contentWindow.print(); }
+    catch(e){ alert('인쇄 창을 열지 못했습니다: '+e.message); }
+    setTimeout(function(){ try{ document.body.removeChild(ifr); }catch(_){} }, 60000);
+  }
+  ifr.onload = function(){ setTimeout(doPrint, 350); };
+  setTimeout(doPrint, 900);
+}
+async function runStream(userMsg){
+  if (rBusy) return;
+  var mode = $('chatMode').value;
+  var model = $('modelSel').value;
+  if (mode==='sub' && !isLocalHost()){
+    alert('구독 차감(Claude 요금제)은 로컬 serve.py 백엔드에서만 됩니다.\n웹에선 무료 Gemini로 전환합니다 — 상단에서 Gemini 키를 저장하세요.\n(구독을 쓰려면 python serve.py 실행 후 http://localhost:8000/dividends.html 로 접속)');
+    $('chatMode').value='gemini'; updateModeUI(); return;
+  }
+  if (mode==='gemini'){
+    var gkey=(localStorage.getItem('fm_gemini_key')||'').trim();
+    if(!gkey){ alert('먼저 상단 설정에서 Gemini API 키를 저장하세요.\nGoogle AI Studio에서 무료 발급: https://aistudio.google.com/apikey'); $('geminiKey').focus(); return; }
+  }
+  if (mode==='api'){
+    var key=(localStorage.getItem('fm_chat_key')||'').trim();
+    if(!key){ alert('먼저 상단 설정에서 Anthropic API 키를 저장하세요. (또는 무료 Gemini/구독 모드로 변경)'); return; }
+  }
+  rHistory.push({role:'user', content:userMsg});
+  var contentEl=$('rContent');
+  if (rHistory.length>1){
+    var u=document.createElement('div'); u.className='usR'; u.textContent='Q. '+userMsg; contentEl.appendChild(u);
+  }
+  var answer=document.createElement('div'); answer.className='md'; contentEl.appendChild(answer);
+  var started=Date.now(), firstToken=false;
+  answer.innerHTML='<div class="gen-wait">🔍 배당·재무 자료 수집 중… <span class="gen-t">0초</span>'
+    +'<div class="gen-sub">딥 리서치는 웹 검색을 포함해 보통 30초~2분 걸립니다. 잠시만요…</div></div>';
+  var hb=setInterval(function(){ if(firstToken) return; var s=Math.round((Date.now()-started)/1000);
+    var el=answer.querySelector('.gen-t'); if(el) el.textContent=s+'초'; }, 1000);
+  var acc=''; function onDelta(dt){
+    if(!firstToken){ firstToken=true; clearInterval(hb); answer.innerHTML=''; answer.classList.add('stream-cursor'); }
+    acc+=dt; answer.innerHTML=mdToHtml(acc); $('rContent').parentElement.scrollTop=$('rContent').parentElement.scrollHeight; }
+  rBusy=true; $('rSend').disabled=true; $('rPdf').disabled=true;
+  try{
+    if (mode==='api') await streamChat(rHistory, model, rSystem, onDelta);
+    else if (mode==='gemini') await streamGemini(rHistory, model, rSystem, onDelta);
+    else await streamChatSub(rHistory, model, rSystem, onDelta);
+    if(!acc.trim()) answer.innerHTML='<span style="opacity:.6">(빈 응답 — 다시 시도하거나 모델을 바꿔보세요)</span>';
+    else rHistory.push({role:'assistant', content:acc});
+  } catch(err){ answer.innerHTML='<span style="color:var(--neg)">⚠ '+esc(err.message)+'</span>'; rHistory.pop(); }
+  finally{ clearInterval(hb); rBusy=false; $('rSend').disabled=false; $('rPdf').disabled=false; answer.classList.remove('stream-cursor'); }
+}
+function startStockDiv(it, q, rg){
+  rSystem=personaDiv(rg);
+  openModal('💰 '+it.n+' 배당 딥리서치', it.t+' · '+it.ex+' · '+regionKo(rg)+' · AI 배당 애널리스트 생성중…');
+  runStream(stockDivPrompt(it, q, rg));
+}
+$('rClose').addEventListener('click', closeModal);
+$('rPdf').addEventListener('click', savePdf);
+$('rBackdrop').addEventListener('click', closeModal);
+document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !$('rModal').classList.contains('hidden')) closeModal(); });
+$('rSend').addEventListener('click', function(){ var v=$('rFollow').value.trim(); if(!v||rBusy) return; $('rFollow').value=''; runStream(v); });
+$('rFollow').addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); $('rSend').click(); } });
+
+/* ============================ 데이터 구성 ============================ */
+var UNI = window.DIVIDENDS_UNIVERSE || null;
+var QUOTES = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.data) || {};
+var QUOTE_ASOF = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.as_of) || null;
+var BENCH = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.bench) || {};
+// 지역별 벤치마크 매핑
+var BENCH_KEY = { KR:'KOSPI', US:'SP500', EU:'STOXX600' };
+var BENCH_LABEL = { KOSPI:'KOSPI', SP500:'S&P500', STOXX600:'STOXX600' };
+function benchOf(rg){ return BENCH[BENCH_KEY[rg]] || null; }
+// 초과수익(종목 - 벤치마크), 소수1
+function excess(stockRet, rg, period){
+  var b=benchOf(rg); if(!b || stockRet==null) return null;
+  var bv=b[period]; if(bv==null) return null;
+  return Math.round((stockRet - bv)*10)/10;
+}
+
+// 전 지역 종목을 평탄화 + 라이브 병합
+function buildRows(){
+  var rows=[];
+  if(!UNI || !UNI.regions) return rows;
+  ['US','EU','KR'].forEach(function(rg){
+    var reg=UNI.regions[rg]; if(!reg||!reg.items) return;
+    reg.items.forEach(function(it){
+      var q = QUOTES[it.yf] || null;
+      var yld = (q && q.yld!=null) ? q.yld : (it.yldC!=null?it.yldC:null);
+      var meets5 = (yld!=null) ? (yld>=5) : !!it.meets5;
+      rows.push({
+        rg:rg, it:it, q:q,
+        yld:yld, yldLive:!!(q && q.yld!=null),
+        meets5:meets5,
+        payout:(q&&q.payout!=null)?q.payout:null,
+        per:(q&&q.per!=null)?q.per:null,
+        pbr:(q&&q.pbr!=null)?q.pbr:null,
+        mcap:(q&&q.mcap!=null)?q.mcap:null,
+        ret1y:(q&&q.ret1y!=null)?q.ret1y:null,
+        r1m:(q&&q.r1m!=null)?q.r1m:null,
+        r3m:(q&&q.r3m!=null)?q.r3m:null,
+        rytd:(q&&q.rytd!=null)?q.rytd:null,
+        rytdEx: excess((q&&q.rytd!=null)?q.rytd:null, rg, 'rytd'),
+        held:!!it.held,
+        price:(q&&q.price!=null)?q.price:null,
+        ccy:(q&&q.ccy)?q.ccy:reg.ccy,
+        streak:(it.streak!=null)?it.streak:null,
+        cagr5:(it.cagr5!=null)?it.cagr5:null,
+        dpsAnnual:(q&&q.drate!=null)?q.drate:((q&&q.dps_ttm!=null)?q.dps_ttm:null),
+        freqLive:(q&&q.freq)?q.freq:null,
+        freqN:(q&&q.freq_n!=null)?q.freq_n:null,
+        hist:(q&&q.hist)?q.hist:null,
+        lastDiv:(q&&q.last_div)?q.last_div:null,
+        nextEx:(q&&q.next_exdiv)?q.next_exdiv:null,
+        nextPay:(q&&q.next_paydiv)?q.next_paydiv:null
+      });
+    });
+  });
+  return rows;
+}
+var ALL_ROWS = buildRows();
+
+/* ── 포맷 헬퍼 ── */
+function fmtYld(v){ return v==null?'—':v.toFixed(1)+'%'; }
+function fmtPct(v,d){ if(v==null) return '—'; d=(d==null?1:d); return v.toFixed(d)+'%'; }
+function fmtRet(v){ if(v==null) return '<span class="r0">—</span>'; var c=v>0?'rp':(v<0?'rn':'r0'); return '<span class="'+c+'">'+(v>0?'+':'')+v.toFixed(1)+'%</span>'; }
+function fmtNum(v,d){ if(v==null) return '—'; return Number(v).toFixed(d==null?1:d); }
+function fmtMcap(v, ccy){
+  if(v==null) return '—';
+  if(ccy==='KRW'){ // 조 단위
+    var jo=v/1e12; if(jo>=1) return jo.toFixed(1)+'조'; return (v/1e8).toFixed(0)+'억';
+  }
+  var sym = ccy==='USD'?'$':(ccy==='EUR'?'€':(ccy==='GBP'||ccy==='GBp'?'£':(ccy==='CHF'?'CHF ':'')));
+  var n=v; // GBp(pence) 시총은 yfinance가 GBP로 주는 편 — 그대로 사용
+  if(n>=1e12) return sym+(n/1e12).toFixed(2)+'T';
+  if(n>=1e9)  return sym+(n/1e9).toFixed(1)+'B';
+  if(n>=1e6)  return sym+(n/1e6).toFixed(0)+'M';
+  return sym+n.toFixed(0);
+}
+function fmtStreak(v){ if(v==null) return '<span class="muted">—</span>'; if(v===0) return '<span class="muted" title="과거 삭감·재설정 이력">재설정</span>'; return v+'년'; }
+function fmtMoney(v, ccy){
+  if(v==null) return '—';
+  if(ccy==='KRW') return Math.round(v).toLocaleString()+'원';
+  if(ccy==='USD') return '$'+(Math.abs(v)>=100?v.toFixed(0):v.toFixed(2));
+  if(ccy==='GBp'||ccy==='GBX') return (Math.abs(v)>=100?v.toFixed(1):v.toFixed(2))+'p';
+  if(ccy==='EUR') return '€'+(Math.abs(v)>=100?v.toFixed(0):v.toFixed(2));
+  if(ccy==='CHF') return 'CHF '+v.toFixed(2);
+  if(ccy==='GBP') return '£'+v.toFixed(2);
+  return v.toFixed(2)+(ccy?(' '+ccy):'');
+}
+// 배당주기: 라이브 추론 우선, 단 이력이 희박(1회)해 실제보다 낮게 잡히면 큐레이션 사용
+function freqDisplay(r){
+  var live=r.freqLive, cur=r.it.freq;
+  if(!live) return cur||'—';
+  if(r.freqN===1 && cur && /월|반기|분기/.test(cur)) return cur; // 예: 맥쿼리(yfinance 1건→'연' 오판) → 큐레이션 '반기'
+  return live;
+}
+function todayISO(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function badgeClass(cat){
+  var c=String(cat||'');
+  if(/배당왕/.test(c)) return 'king';
+  if(/귀족/.test(c)) return 'aristo';
+  if(/리츠/.test(c)) return 'reit';
+  if(/MLP|미드스트림/.test(c)) return 'mlp';
+  if(/BDC/.test(c)) return 'bdc';
+  return '';
+}
+function payClass(v, cat){
+  if(v==null) return '';
+  // 리츠·MLP·BDC·인프라는 구조상 고성향이 정상 → 경고 완화
+  if(/리츠|MLP|미드스트림|BDC|인프라/.test(cat||'')) return '';
+  return v>90 ? 'pay-hi' : '';
+}
+
+/* ── 외부 링크(참고) ── */
+function extLinks(row){
+  var it=row.it, links=[];
+  if(row.rg==='KR'){
+    var code=it.t; // 6자리
+    links.push('<a class="ext-link" target="_blank" rel="noopener" href="https://finance.naver.com/item/main.naver?code='+code+'">네이버 금융 ↗</a>');
+    links.push('<a class="ext-link" target="_blank" rel="noopener" href="https://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?gicode=A'+code+'">FnGuide ↗</a>');
+  } else {
+    var sym=it.t;
+    links.push('<a class="ext-link" target="_blank" rel="noopener" href="https://finance.yahoo.com/quote/'+encodeURIComponent(it.yf)+'">Yahoo Finance ↗</a>');
+    links.push('<a class="ext-link" target="_blank" rel="noopener" href="https://www.google.com/search?q='+encodeURIComponent(it.nEn+' dividend')+'">배당 검색 ↗</a>');
+  }
+  return links.join('');
+}
+
+/* ============================ 상태 + 렌더 ============================ */
+var STATE = { region:'ALL', only5:false, onlyHeld:false, cat:'', sort:'yld' };
+try { var sr=localStorage.getItem('div_region'); if(sr) STATE.region=sr; } catch(e){}
+
+var COLS = [
+  { k:'nm',    label:'종목',        sortable:false },
+  { k:'yld',   label:'시가배당률',   sortable:true },
+  { k:'dps',   label:'주당배당(연)', sortable:false },
+  { k:'freq',  label:'주기',        sortable:false },
+  { k:'streak',label:'연속증배',     sortable:true },
+  { k:'cagr5', label:'5Y 배당CAGR',  sortable:true },
+  { k:'payout',label:'배당성향',     sortable:true },
+  { k:'per',   label:'PER',         sortable:true },
+  { k:'pbr',   label:'PBR',         sortable:true },
+  { k:'r1m',   label:'1M',          sortable:true },
+  { k:'r3m',   label:'3M',          sortable:true },
+  { k:'rytd',  label:'YTD',         sortable:true },
+  { k:'rytdEx',label:'YTD초과',      sortable:true },
+  { k:'ret1y', label:'1년',         sortable:true },
+  { k:'mcap',  label:'시가총액',     sortable:true }
+];
+
+function currentRows(){
+  var rows = ALL_ROWS.slice();
+  if(STATE.region!=='ALL') rows = rows.filter(function(r){ return r.rg===STATE.region; });
+  if(STATE.only5) rows = rows.filter(function(r){ return r.meets5; });
+  if(STATE.onlyHeld) rows = rows.filter(function(r){ return r.held; });
+  if(STATE.cat) rows = rows.filter(function(r){ return r.it.cat===STATE.cat; });
+  var s=STATE.sort;
+  var asc = (s==='payout'||s==='per'); // 낮을수록 좋은 지표는 오름차순
+  rows.sort(function(a,b){
+    var va=a[s], vb=b[s];
+    var na=(va==null), nb=(vb==null);
+    if(na&&nb) return 0; if(na) return 1; if(nb) return -1; // null은 항상 뒤로
+    return asc ? (va-vb) : (vb-va);
+  });
+  return rows;
+}
+
+function renderHead(){
+  var th=$('thead'); th.innerHTML='';
+  COLS.forEach(function(c){
+    var el=document.createElement('th');
+    el.textContent=c.label;
+    if(c.sortable){
+      if(STATE.sort===c.k){ el.classList.add('sorted'); el.innerHTML=c.label+' <span class="ar">▾</span>'; }
+      el.addEventListener('click', function(){ STATE.sort=c.k; $('sortSel').value=c.k; render(); });
+    }
+    if(c.k==='nm') el.style.textAlign='left';
+    th.appendChild(el);
+  });
+}
+
+function renderCards(rows){
+  var n=rows.length;
+  var n5=rows.filter(function(r){return r.meets5;}).length;
+  var ys=rows.filter(function(r){return r.yld!=null;}).map(function(r){return r.yld;});
+  var avg=ys.length? (ys.reduce(function(a,b){return a+b;},0)/ys.length):null;
+  var nHeld=rows.filter(function(r){return r.held;}).length;
+  var cards=[
+    { lbl:'유니버스', big:n+'<small> 종목</small>' },
+    { lbl:'시가배당률 5%+', big:n5+'<small> / '+n+'</small>' },
+    { lbl:'평균 시가배당률', big:(avg==null?'—':avg.toFixed(1)+'<small>%</small>') },
+    { lbl:'보유 종목', big:nHeld+'<small> 종목</small>' }
+  ];
+  $('cards').innerHTML = cards.map(function(c){
+    return '<div class="card"><div class="lbl">'+c.lbl+'</div><div class="big">'+c.big+'</div></div>';
+  }).join('');
+}
+
+function flagIcon(rg){ return rg==='US'?'🇺🇸':(rg==='EU'?'🇪🇺':'🇰🇷'); }
+
+function rowHtml(r, idx){
+  var it=r.it;
+  var bc=badgeClass(it.cat);
+  var yldCls = (r.yld!=null && r.yld>=5) ? 'yld-hi' : '';
+  var flag = r.meets5 ? '<span class="flag5" title="시가배당률 5% 이상">5%+</span>' : '<span class="flag5 no" title="시가배당률 5% 미만(품질 앵커)">&lt;5%</span>';
+  var liveDot = r.yldLive ? '' : ' <span class="muted" title="자동수집 전 — 큐레이션 추정치" style="font-size:9px">≈</span>';
+  var heldBadge = r.held ? '<span class="badge held" title="보유 종목">보유</span>' : '';
+  var nm = '<div class="nm-cell">'
+    + '<span class="chev">▶</span>'
+    + '<div><div class="nm-main">'+flag_(rg_of(r))+' '+esc(it.n)+' '+heldBadge+'<span class="badge '+bc+'">'+esc(it.cat)+'</span></div>'
+    + '<div class="nm-sub">'+esc(it.t)+' · '+esc(it.sec)+'</div></div></div>';
+  return '<tr class="main'+(r.held?' is-held':'')+'" data-idx="'+idx+'">'
+    + '<td>'+nm+'</td>'
+    + '<td><span class="yld-big '+yldCls+'">'+fmtYld(r.yld)+'</span>'+liveDot+flag+'</td>'
+    + '<td>'+esc(fmtMoney(r.dpsAnnual, r.ccy))+'</td>'
+    + '<td class="muted">'+esc(freqDisplay(r))+'</td>'
+    + '<td>'+fmtStreak(r.streak)+'</td>'
+    + '<td>'+fmtPct(r.cagr5,1)+'</td>'
+    + '<td class="payv"><span class="b '+payClass(r.payout,it.cat)+'">'+fmtPct(r.payout,0)+'</span></td>'
+    + '<td>'+fmtNum(r.per,1)+'</td>'
+    + '<td>'+fmtNum(r.pbr,2)+'</td>'
+    + '<td>'+fmtRet(r.r1m)+'</td>'
+    + '<td>'+fmtRet(r.r3m)+'</td>'
+    + '<td>'+fmtRet(r.rytd)+'</td>'
+    + '<td>'+fmtExcess(r.rytdEx)+'</td>'
+    + '<td>'+fmtRet(r.ret1y)+'</td>'
+    + '<td class="mcv">'+fmtMcap(r.mcap, r.ccy)+'</td>'
+    + '</tr>'
+    + detailHtml(r, idx);
+}
+// 초과수익(벤치 대비) 포맷 — +는 파랑(아웃퍼폼), −는 회색계열
+function fmtExcess(v){
+  if(v==null) return '<span class="r0">—</span>';
+  var c = v>0?'ex-p':(v<0?'ex-n':'r0');
+  return '<span class="'+c+'" title="벤치마크 대비 초과수익">'+(v>0?'+':'')+v.toFixed(1)+'%p</span>';
+}
+function rg_of(r){ return r.rg; }
+function flag_(rg){ return rg==='US'?'🇺🇸':(rg==='EU'?'🇪🇺':'🇰🇷'); }
+
+function divScheduleHtml(r){
+  var q=r.q||{};
+  var today=todayISO();
+  // 최근 배당(1회)
+  var last = r.lastDiv ? (r.lastDiv.date+' · '+fmtMoney(r.lastDiv.amt, r.ccy)) : '—';
+  // 다음 배당락(예정): 미래면 날짜, 아직 없으면 '미정(발표 전)'
+  var nextEx = (r.nextEx && r.nextEx>=today) ? r.nextEx : '<span class="dvsub">미정(발표 전)</span>';
+  var nextPay = (r.nextPay && r.nextPay>=today) ? r.nextPay : '<span class="dvsub">미정</span>';
+  var chips = [
+    { k:'연 주당배당', v:fmtMoney(r.dpsAnnual, r.ccy), hi:true },
+    { k:'배당주기', v:freqDisplay(r) },
+    { k:'최근 배당(1회)', v:last },
+    { k:'다음 배당락(예정)', v:nextEx },
+    { k:'지급 예정일', v:nextPay }
+  ];
+  var chipH = chips.map(function(c){
+    return '<div class="dchip'+(c.hi?' hi':'')+'"><div class="dk">'+c.k+'</div><div class="dv">'+c.v+'</div></div>';
+  }).join('');
+  // 과거 3년 배당 막대
+  var hist = r.hist || [];
+  var vals = hist.map(function(h){ return h.dps; }).filter(function(x){ return x!=null; });
+  var mx = vals.length ? Math.max.apply(null, vals) : 0;
+  var bars = hist.map(function(h){
+    var w = (mx>0 && h.dps!=null) ? Math.max(2, Math.round(h.dps/mx*100)) : 0;
+    var dps = h.dps!=null ? fmtMoney(h.dps, r.ccy) : '<span class="muted">—</span>';
+    var yld = h.yld!=null ? h.yld.toFixed(1)+'%' : '—';
+    return '<div class="hbar-row"><span class="hy">'+h.yr+'</span>'
+      + '<div class="hbar-track"><div class="hbar-fill" style="width:'+w+'%"></div></div>'
+      + '<span class="hdps">'+dps+'</span>'
+      + '<span class="hyld'+(h.yld==null?' na':'')+'">'+yld+'</span></div>';
+  }).join('');
+  var histBlock = hist.length
+    ? '<div class="divhist"><p class="dh-cap">과거 3년 주당배당 · 그 해 배당수익률(역년, 배당락 기준)</p>'+bars+'</div>'
+    : '<p class="dh-cap">배당 이력 데이터가 부족합니다(yfinance).</p>';
+  return '<div class="d-div"><h4>💵 배당 이력 · 일정</h4>'
+    + '<div class="divsched">'+chipH+'</div>'
+    + histBlock + '</div>';
+}
+// 기간수익률 · 벤치마크 대비
+function returnsMatrixHtml(r){
+  var b=benchOf(r.rg);
+  var bl=BENCH_LABEL[BENCH_KEY[r.rg]]||'벤치마크';
+  var rows=[
+    ['1M', r.r1m,  b?b.r1m:null],
+    ['3M', r.r3m,  b?b.r3m:null],
+    ['YTD',r.rytd, b?b.rytd:null],
+    ['1년',r.ret1y,b?b.r1y:null]
+  ];
+  function cell(v){ if(v==null) return '<span class="r0">—</span>'; var c=v>0?'rp':(v<0?'rn':'r0'); return '<span class="'+c+'">'+(v>0?'+':'')+v.toFixed(1)+'%</span>'; }
+  function exc(sv,bv){ if(sv==null||bv==null) return '<span class="r0">—</span>'; var e=sv-bv; var c=e>0?'ex-p':(e<0?'ex-n':'r0'); return '<span class="'+c+'">'+(e>0?'+':'')+e.toFixed(1)+'%p</span>'; }
+  var body=rows.map(function(x){
+    return '<tr><td>'+x[0]+'</td><td>'+cell(x[1])+'</td><td>'+cell(x[2])+'</td><td>'+exc(x[1],x[2])+'</td></tr>';
+  }).join('');
+  return '<div class="d-div"><h4>📈 기간 수익률 · 벤치마크 대비</h4>'
+    + '<table class="retmx"><thead><tr><th>기간</th><th>'+esc(r.it.n)+'</th><th>'+esc(bl)+'</th><th>초과</th></tr></thead>'
+    + '<tbody>'+body+'</tbody></table>'
+    + '<p class="dh-cap" style="margin-top:7px">초과 = 종목수익률 − '+esc(bl)+'(%p). '+(b?'':'벤치마크 데이터 미수집.')+'</p></div>';
+}
+// 캔들(일봉) 차트 — 외부 라이브러리 없이 인라인 SVG
+function candleChartHtml(r){
+  var oh = r.q && r.q.ohlc;
+  if(!oh || oh.length<2) return '<div class="d-div"><h4>📉 최근 주가 (일봉)</h4><p class="dh-cap">주가 데이터가 부족합니다(yfinance).</p></div>';
+  var W=720,H=210,pL=6,pR=56,pT=12,pB=18;
+  var n=oh.length;
+  var highs=oh.map(function(c){return c[2];}), lows=oh.map(function(c){return c[3];});
+  var mx=Math.max.apply(null,highs), mn=Math.min.apply(null,lows);
+  var pad=(mx-mn)*0.04||1; mx+=pad; mn-=pad;
+  var plotW=W-pL-pR, plotH=H-pT-pB;
+  function X(i){ return pL + (i+0.5)/n*plotW; }
+  function Y(p){ return pT + (mx-p)/(mx-mn)*plotH; }
+  var cw=Math.max(1.5, Math.min(9, plotW/n*0.62));
+  var first=oh[0][4], last=oh[n-1][4], up=last>=first;
+  var parts=[];
+  parts.push('<line x1="'+pL+'" y1="'+Y(last).toFixed(1)+'" x2="'+(W-pR).toFixed(1)+'" y2="'+Y(last).toFixed(1)+'" class="cs-last"/>');
+  oh.forEach(function(c,i){
+    var o=c[1],h=c[2],l=c[3],cl=c[4], x=X(i), cls=cl>=o?'cs-up':'cs-down';
+    parts.push('<line x1="'+x.toFixed(1)+'" y1="'+Y(h).toFixed(1)+'" x2="'+x.toFixed(1)+'" y2="'+Y(l).toFixed(1)+'" class="'+cls+' cs-wick"/>');
+    var yo=Y(o),yc=Y(cl), top=Math.min(yo,yc), bot=Math.max(yo,yc);
+    parts.push('<rect x="'+(x-cw/2).toFixed(1)+'" y="'+top.toFixed(1)+'" width="'+cw.toFixed(1)+'" height="'+Math.max(1,bot-top).toFixed(1)+'" class="'+cls+' cs-body"/>');
+  });
+  function yLab(p,cls){ return '<text x="'+(W-pR+4)+'" y="'+(Y(p)+3).toFixed(1)+'" class="cs-axis '+(cls||'')+'">'+esc(fmtMoney(p,r.ccy))+'</text>'; }
+  parts.push(yLab(mx)); parts.push(yLab(mn)); parts.push(yLab(last, up?'cs-up-t':'cs-down-t'));
+  function xLab(i){ return '<text x="'+X(i).toFixed(1)+'" y="'+(H-5)+'" class="cs-axis cs-xc">'+esc(oh[i][0])+'</text>'; }
+  parts.push(xLab(0)); parts.push(xLab(Math.floor(n/2))); parts.push(xLab(n-1));
+  var chg=(last/first-1)*100, chgS=(chg>0?'+':'')+chg.toFixed(1)+'%';
+  return '<div class="d-div"><h4>📉 최근 주가 <span class="cs-sub">· 일봉 '+n+'일 · 기간 <span class="'+(up?'rp':'rn')+'">'+chgS+'</span></span></h4>'
+    +'<svg class="candle-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(r.it.n)+' 캔들 차트">'+parts.join('')+'</svg></div>';
+}
+function detailHtml(r, idx){
+  var it=r.it, q=r.q;
+  var quant=[
+    ['현재가', r.price!=null ? (fmtMoney(r.price, r.ccy)) : '—'],
+    ['시가배당률(fwd)', fmtYld(r.yld)+(r.yldLive?'':' (추정)')],
+    ['TTM 배당률', (q&&q.yldT!=null)?q.yldT.toFixed(1)+'%':'—'],
+    ['배당성향', fmtPct(r.payout,0)],
+    ['PER', fmtNum(r.per,1)],
+    ['PBR', fmtNum(r.pbr,2)],
+    ['5Y 배당 CAGR', fmtPct(r.cagr5,1)+' (추정)'],
+    ['연속 증배', r.streak==null?'—':((r.streak===0?'재설정 이력':r.streak+'년')+' (추정)')],
+    ['1년 수익률', r.ret1y==null?'—':((r.ret1y>0?'+':'')+r.ret1y.toFixed(1)+'%')],
+    ['시가총액', fmtMcap(r.mcap, r.ccy)]
+  ];
+  var qh = quant.map(function(x){ return '<div class="q"><span class="qk">'+x[0]+'</span><span class="qv">'+x[1]+'</span></div>'; }).join('');
+  return '<tr class="detail hidden" data-detail="'+idx+'"><td colspan="'+COLS.length+'"><div class="detail-in">'
+    + '<div class="d-grid">'
+    +   '<div class="d-block">'
+    +     '<h4>💡 추천 사유</h4><p>'+esc(it.thesis)+'</p>'
+    +     '<h4>⚠️ 핵심 리스크</h4><p>'+esc(it.risks)+'</p>'
+    +     '<div class="d-src"><b>근거·출처:</b> '+esc(it.src)+'</div>'
+    +     '<div class="d-actions">'
+    +       '<button type="button" class="deep-btn" data-deep="'+idx+'">✨ AI 배당 딥리서치</button>'
+    +       extLinks(r)
+    +     '</div>'
+    +   '</div>'
+    +   '<div class="d-block"><h4>📊 계량 지표</h4><div class="d-quant">'+qh+'</div>'
+    +     '<p class="note" style="margin-top:10px">시세·배당이력은 yfinance 자동수집('+ (QUOTE_ASOF||'미수집') +'). 연속증배·CAGR·추천사유는 큐레이션 추정입니다.</p>'
+    +   '</div>'
+    + '</div>'
+    + candleChartHtml(r)
+    + returnsMatrixHtml(r)
+    + divScheduleHtml(r)
+    + '</div></td></tr>';
+}
+
+// 상세 패널 폭 = 테이블 래퍼의 보이는 폭(가로 스크롤바 제외)에 고정
+function setDetailWidth(){
+  var wrap=$('dtable') ? $('dtable').parentElement : null;
+  if(!wrap) return;
+  document.documentElement.style.setProperty('--detail-w', wrap.clientWidth + 'px');
+}
+var _rzT=null;
+window.addEventListener('resize', function(){ clearTimeout(_rzT); _rzT=setTimeout(setDetailWidth, 120); });
+
+function render(){
+  renderHead();
+  var rows=currentRows();
+  renderCards(rows);
+  var tb=$('tbody');
+  if(!rows.length){ tb.innerHTML='<tr><td colspan="'+COLS.length+'" style="text-align:center;padding:30px;color:var(--muted)">조건에 맞는 종목이 없습니다.</td></tr>'; return; }
+  tb.innerHTML = rows.map(function(r,i){ return rowHtml(r,i); }).join('');
+  // 현재 렌더된 rows를 인덱스로 참조
+  window.__ROWS=rows;
+  // 행 클릭 → 상세 토글
+  Array.prototype.forEach.call(tb.querySelectorAll('tr.main'), function(tr){
+    tr.addEventListener('click', function(){
+      var idx=tr.getAttribute('data-idx');
+      var det=tb.querySelector('tr.detail[data-detail="'+idx+'"]');
+      var open=tr.classList.toggle('open');
+      if(det) det.classList.toggle('hidden', !open);
+    });
+  });
+  // 딥리서치 버튼
+  Array.prototype.forEach.call(tb.querySelectorAll('[data-deep]'), function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var idx=+btn.getAttribute('data-deep');
+      var r=window.__ROWS[idx];
+      if(r) startStockDiv(r.it, r.q, r.rg);
+    });
+  });
+  setDetailWidth();
+}
+
+/* ── 카테고리 옵션 채우기 ── */
+function fillCats(){
+  var cats={};
+  ALL_ROWS.forEach(function(r){ cats[r.it.cat]=1; });
+  var sel=$('catSel');
+  Object.keys(cats).sort().forEach(function(c){
+    var o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o);
+  });
+}
+
+/* ── 갱신 스탬프 ── */
+function renderStamp(){
+  var u = UNI ? UNI.updated : '—';
+  var qa = QUOTE_ASOF ? ('시세 '+QUOTE_ASOF) : '시세 미수집(큐레이션 추정치 표시)';
+  $('updatedStamp').innerHTML = '큐레이션 '+esc(u)+' · '+esc(qa);
+}
+
+/* ── 지역 탭 ── */
+Array.prototype.forEach.call($('regionTabs').querySelectorAll('.region-tab'), function(b){
+  if(b.getAttribute('data-r')===STATE.region){
+    Array.prototype.forEach.call($('regionTabs').querySelectorAll('.region-tab'), function(x){x.classList.remove('on');});
+    b.classList.add('on');
+  }
+  b.addEventListener('click', function(){
+    Array.prototype.forEach.call($('regionTabs').querySelectorAll('.region-tab'), function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    STATE.region=b.getAttribute('data-r');
+    try{ localStorage.setItem('div_region', STATE.region); }catch(e){}
+    render();
+  });
+});
+$('only5').addEventListener('change', function(){ STATE.only5=this.checked; render(); });
+$('onlyHeld').addEventListener('change', function(){ STATE.onlyHeld=this.checked; render(); });
+$('catSel').addEventListener('change', function(){ STATE.cat=this.value; render(); });
+$('sortSel').addEventListener('change', function(){ STATE.sort=this.value; render(); });
+
+/* ============================ 부팅 ============================ */
+(function boot(){
+  if(!UNI){
+    $('tbody').innerHTML='<tr><td colspan="'+COLS.length+'" style="text-align:center;padding:30px;color:var(--neg)">유니버스 데이터(dividends-data.js)를 불러오지 못했습니다.</td></tr>';
+    return;
+  }
+  fillCats();
+  renderStamp();
+  $('sortSel').value=STATE.sort;
+  render();
+  initSettings();
+})();
+</script>
+</body>
+</html>
