@@ -136,6 +136,12 @@ def main():
         series[cat + "_yoy"] = yoy
         series[cat + "_val"] = val
 
+    got = sum(1 for k in series if k.endswith("_yoy") and any(v is not None for v in series[k]))
+    if got == 0:
+        # 데이터 0건(키 미활성/거부 등) → 기존 파일·큐레이션 폴백 보존 위해 쓰지 않음
+        print("수집 0건 — export-history.js 미갱신(캘린더는 큐레이션 series 유지).")
+        return
+
     payload = {
         "as_of": now.isoformat(),
         "source": "관세청 무역통계 OpenAPI(getNitemtradeList) · HS부호별",
