@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-05T22:48:40
+// 갱신: 2026-07-05T23:26:19
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-04"
   },
   {
-   "title": "[주간증시전망] AI 흔들리자 코스피 출렁…차주 삼성전자 실적·FOMC 의사록 주목 - 아주경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9NNmR0NFR2M182Zmc0Q3h4MTNsblJVNEJaUWRQcC11QzBHWms5YU9nRjdBckMxdVJ4dndWSG9qOUhxb1JuQm04d2ZfbGFjZlVjXzQtT1dkbjFmZ9IBWEFVX3lxTE5wdkwtTXo2M0lEbElULVZGbnU1cU9IMDFJLS1wcmpWUzVTNERubVlKOHZycmFDVlg2d1k0ckxDY3R1WU5veUtyQms3cDJfWWRlc1JkRkRQUFA?oc=5",
-   "source": "아주경제",
-   "date": "2026-07-03"
+   "title": "[모닝 리포트] \"국내 증시, 반도체 이벤트 영향에 반등 전망\" - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBlTnZaN3puSjBOcDN3WTBrRHlkeWlvSWFzVTBLRTl5aUJ2VzRneWhsN21UdHZobFh4VVpqaTNmVnl5R1FPclVULXZRX2tTOEFmcDZrazZBRUxpODhz?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-07-05"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -73,10 +73,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-01"
   },
   {
-   "title": "전력 인프라주 투자 괜찮나 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE91T2dCazRPSnNtZlNZQnowU19uaUNZUHFaMDRzMGVWbEZ5SDNtTXhScGcxRlhyTTV4SmpudEFOMzllNzU2VVlIaUFLY1huVENtbGNlOA?oc=5",
-   "source": "매일경제",
-   "date": "2026-05-22"
+   "title": "제룡전기(033100)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략 - 씽크풀 AI",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5rVXoxRDBKaFczV3RoSlhYQjhKVm5zbmcyZDc0elJpbUJaU19EdHJTLS02emx6Y05QMzNMTXhPSW8tZmdHaTVJU2pKdGc3NVhQa25KNzNGQ1R3N3Jp?oc=5",
+   "source": "씽크풀 AI",
+   "date": "2026-07-01"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -341,10 +341,10 @@ window.HOLDING_NEWS = {
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9mT0ctREk4djBUMFB0dTA4YXI5TndwZlhGeVZ0ZHphU09WNWxBalh1a0NZXzlIRlNYTW90M1pqejBLQml3ZUg3SmkxYTg3Nnc2N0E?oc=5",
+   "title": "원자재 불장 찾아왔지만…품목별 시세 등락 심해 '사이클' 잘 올라타야 - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1tU0xOV1RveTQ4SUstQ1BaeHpSWDdiaTFtWXZpTF9nUkhtWHdQcG5TV0VXWnRvLWkyaS1ETXNMdUFKVzllSWEycVVHci05MzFESHc?oc=5",
    "source": "매일경제 마켓",
-   "date": "2026-05-14"
+   "date": "2026-03-15"
   },
   {
    "title": "[미국 특징주] 월가, 주식시장 불안 불구 하반기 강세 지속 기대 - 네이트",
