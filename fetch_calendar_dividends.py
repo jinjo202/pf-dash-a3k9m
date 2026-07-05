@@ -41,10 +41,18 @@ WIN_FWD = 150
 SUFFIX = {"US": "", "KS": ".KS", "GY": ".DE", "IM": ".MI"}
 SKIP_SUFFIX = {"LX"}  # 룩셈부르크 펀드(FIEDIAE, THEAAIE 등) — 야후 없음
 
+# Bloomberg 티커 → 실제 야후 심볼이 다른 경우 직접 오버라이드.
+# XDAX GY: Xtrackers DAX UCITS ETF 1C(ISIN LU0274211480)의 Xetra 티커가 'XDAX'이지만
+# 야후 심볼은 'DBXD.DE'(XDAX.DE는 상장폐지 취급되어 에러). 1C=적립식(무분배)이 정상이라
+# 분배금 0건이 나오는 게 맞다 — 매핑만 고치면 에러 없이 "무분배" 스킵으로 정리된다.
+TICKER_OVERRIDE = {"XDAX GY": "DBXD.DE"}
+
 
 def to_yahoo(ticker: str):
     """'069500 KS' → '069500.KS', 'XLK US' → 'XLK'. 매핑 불가 시 None."""
     ticker = ticker.strip()
+    if ticker in TICKER_OVERRIDE:
+        return TICKER_OVERRIDE[ticker]
     m = re.match(r"^(\S+)\s+([A-Z]{2})$", ticker)
     if not m:
         return None
@@ -91,25 +99,40 @@ def add_months(d: dt.date, n: int) -> dt.date:
     return dt.date(y, m, day)
 
 
+# 포트폴리오 region(한글) → 캘린더 region 코드
+REGION_CODE = {"한국": "KR", "미국": "US", "유럽": "EU", "글로벌": "GL", "이머징": "EM"}
+
+
 def main():
     holdings = load_holdings()
     lo, hi = TODAY - dt.timedelta(days=WIN_BACK), TODAY + dt.timedelta(days=WIN_FWD)
     events, skipped = [], []
+    overseas_ok, overseas_skip = 0, 0
 
     for h in holdings:
-        name, tkr = h.get("name", ""), h.get("ticker", "")
+        name, tkr, rgn_kr = h.get("name", ""), h.get("ticker", ""), h.get("region", "")
+        region = REGION_CODE.get(rgn_kr, "GL")
+        is_overseas = rgn_kr != "한국"
         ysym = to_yahoo(tkr)
         if not ysym:
             skipped.append(f"{name} ({tkr})")
+            if is_overseas:
+                overseas_skip += 1
             continue
         try:
             s = yf.Ticker(ysym).dividends
         except Exception as e:
             skipped.append(f"{name} ({ysym}) ERR {str(e)[:40]}")
+            if is_overseas:
+                overseas_skip += 1
             continue
         if s is None or len(s) == 0:
             skipped.append(f"{name} ({ysym}) 무분배(accumulating 가능)")
+            if is_overseas:
+                overseas_skip += 1
             continue
+        if is_overseas:
+            overseas_ok += 1
 
         pays = [(i.date(), float(v)) for i, v in s.items()]
         pays.sort()
@@ -121,7 +144,7 @@ def main():
         # 실지급(actual): 창 안의 과거 지급
         for d, amt in pays:
             if lo <= d <= hi:
-                events.append(_ev(name, ysym, d, amt, ccy, freq_lbl, actual=True))
+                events.append(_ev(name, ysym, d, amt, ccy, freq_lbl, region, actual=True))
 
         # 예상(estimate): 마지막 지급 이후 주기로 투영, 창 안까지
         proj, guard = last_date, 0
@@ -132,12 +155,13 @@ def main():
                 break
             if proj <= TODAY:
                 continue
-            events.append(_ev(name, ysym, proj, last_amt, ccy, freq_lbl, actual=False))
+            events.append(_ev(name, ysym, proj, last_amt, ccy, freq_lbl, region, actual=False))
 
     events.sort(key=lambda e: e["date"])
     payload = {
         "as_of": TODAY.isoformat(),
-        "note": "보유 ETF/펀드 분배금(yfinance). 과거=실지급, 미래=주기추정(estimate). ex-date 기준. 룩셈부르크 뮤추얼펀드·사모펀드는 야후 미수록으로 제외.",
+        "note": "보유 ETF/펀드 분배금(yfinance, 한국+해외 전체). 과거=실지급, 미래=주기추정(estimate). ex-date 기준. 룩셈부르크 뮤추얼펀드·사모펀드는 야후 미수록으로 제외.",
+        "overseas_coverage": f"해외(미국·유럽·글로벌·이머징) {overseas_ok}종목 분배 확보 · {overseas_skip}종목 스킵(무분배/미수록)",
         "skipped": skipped,
         "events": events,
     }
@@ -152,11 +176,11 @@ def main():
         print("  skip:", s)
 
 
-def _ev(name, ysym, d, amt, ccy, freq, actual):
+def _ev(name, ysym, d, amt, ccy, freq, region, actual):
     return {
         "date": d.isoformat(),
         "type": "dividend",
-        "region": "KR" if ysym.endswith(".KS") else ("EU" if (ysym.endswith(".DE") or ysym.endswith(".MI")) else "US"),
+        "region": region,
         "ticker": ysym,
         "name": name,
         "kind": "ex",

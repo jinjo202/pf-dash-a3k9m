@@ -593,13 +593,14 @@ function openEvent(e){
     if(e.interp){ body += '<div class="sect-t">해석</div><div class="interp">'+esc(e.interp)+'</div>'; }
     if(e.url) body += '<a class="irlink" href="'+esc(e.url)+'" target="_blank" rel="noopener">🔗 관련 링크</a>';
   } else if(e.type==='dividend'){
+    var rgnLbl = {KR:"🇰🇷 한국",US:"🇺🇸 미국",EU:"🇪🇺 유럽",GL:"🌍 글로벌",EM:"🌏 이머징"}[e.region] || e.region;
     body += kvGrid([
       ["구분", e.kind==='ex'?"권리락(ex-date)":"지급(pay)"],
-      ["주당 분배금", e.amount], ["주기", e.freq], ["티커", e.ticker]
+      ["주당 분배금", e.amount], ["주기", e.freq], ["티커", e.ticker], ["지역", rgnLbl]
     ]);
-    if(e.held) body += '<p class="note"><span class="badge held">보유/유니버스</span></p>';
+    if(e.held) body += '<p class="note"><span class="badge held">보유 종목</span>'+(e.verified===false?' <span class="badge chk">예상(추정)</span>':' <span class="badge" style="background:var(--pos-soft);color:var(--pos)">실지급 확인</span>')+'</p>';
     if(e.note){ body += '<div class="sect-t">메모</div><p>'+esc(e.note)+'</p>'; }
-    body += '<p class="note">분배금 캘린더는 공개 배당주 유니버스(💰 배당주 탭) 기준입니다. 실제 계좌 보유 오버레이는 로컬에서만.</p>';
+    body += '<p class="note">보유 ETF/펀드 분배금(yfinance, 실보유 기준·암호화 게시). 과거=실지급 이력, 미래=직전 분배금·주기로 투영한 예상치.</p>';
   }
   m.innerHTML =
     '<div class="mhd"><div><h3>'+(tm.icon||"")+' '+esc(evTitle(e))+chkBadge(e)+confBadge(e)+autoBadge(e)+'</h3>'+
@@ -638,7 +639,7 @@ function openDay(iso){
       var sub="";
       if(e.type==='macro'||e.type==='export') sub = [e.consensus?("컨센 "+e.consensus):"", e.actual?("실적 "+e.actual):"", e.yoy?("YoY "+e.yoy):""].filter(Boolean).join(" · ");
       else if(e.type==='earnings') sub = [sessionLabel(e.session), e.revEst?("매출E "+e.revEst):"", e.released?"실적발표":""].filter(Boolean).join(" · ");
-      else if(e.type==='dividend') sub = [(e.kind==='ex'?"권리락":"지급"), e.amount, e.freq].filter(Boolean).join(" · ");
+      else if(e.type==='dividend') sub = [(e.kind==='ex'?"권리락":"지급"), e.amount, e.freq, e.region].filter(Boolean).join(" · ");
       else if(e.type==='event') sub = [catLabel(e.category), e.actual?("실제 "+e.actual):"", e.consensus?("예상 "+e.consensus):""].filter(Boolean).join(" · ");
       return '<div class="dayrow '+(tm.cls||"")+'" data-i="'+EVENTS.indexOf(e)+'">'+
         '<div class="drt"><span class="typetag">'+(tm.icon||"")+' '+esc(tm.label||"")+'</span> '+esc(evTitle(e))+' '+badges+'</div>'+
