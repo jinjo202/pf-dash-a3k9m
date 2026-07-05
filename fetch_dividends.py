@@ -301,10 +301,11 @@ def fetch_one(sym: str):
         if chg is not None:
             q["ret1y"] = round(chg * 100, 1)
 
-    # 최근 60거래일 OHLC (캔들차트용) — [MM-DD, O, H, L, C]
+    # 최근 250거래일(~1년) OHLC (캔들차트·이평선·RSI용) — [MM-DD, O, H, L, C]
+    #   MA60/RSI14 는 룩백이 필요해 넉넉히 저장, 프런트에서 기간(1M/3M/6M/1Y) 슬라이스
     try:
         if h5 is not None and len(h5):
-            tail = h5.tail(60)
+            tail = h5.tail(250)
             oh = []
             for idx, row in tail.iterrows():
                 o, hi, lo, cl = _rp(row.get("Open")), _rp(row.get("High")), _rp(row.get("Low")), _rp(row.get("Close"))

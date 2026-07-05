@@ -229,13 +229,28 @@
   .dchip.hi .dv { color:var(--accent); }
   .dchip .dvsub { font-size:10px; color:var(--muted); font-weight:600; }
   .cs-sub { font-weight:600; color:var(--muted); font-size:11px; }
-  .candle-svg { width:100%; max-width:660px; height:auto; display:block; margin-top:6px; background:var(--panel); border:1px solid var(--border); border-radius:8px; }
+  .chart-ctrl { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:8px 0 2px; }
+  .period-tabs { display:inline-flex; gap:3px; background:var(--panel-soft); border:1px solid var(--border); border-radius:8px; padding:3px; }
+  .period-tab { padding:4px 11px; border:none; background:transparent; color:var(--muted); font-size:11.5px; font-weight:700; border-radius:6px; cursor:pointer; }
+  .period-tab.on { background:var(--accent); color:#fff; }
+  .ma-legend { display:inline-flex; gap:11px; flex-wrap:wrap; font-size:10.5px; color:var(--muted); font-weight:600; }
+  .ma-lg { display:inline-flex; align-items:center; gap:4px; }
+  .ma-dot { width:11px; height:3px; border-radius:2px; display:inline-block; }
+  .ma-dot.ma5 { background:var(--muted); } .ma-dot.ma20 { background:var(--accent); } .ma-dot.ma60 { background:var(--gold); } .ma-dot.rsi { background:#a855f7; }
+  .candle-svg { width:100%; max-width:660px; height:auto; display:block; margin-top:4px; background:var(--panel); border:1px solid var(--border); border-radius:8px; }
   .cs-up.cs-body { fill:var(--pos); stroke:none; } .cs-down.cs-body { fill:var(--neg); stroke:none; }
   .cs-up.cs-wick { stroke:var(--pos); stroke-width:1; } .cs-down.cs-wick { stroke:var(--neg); stroke-width:1; }
   .cs-last { stroke:var(--accent); stroke-width:1; stroke-dasharray:3 3; opacity:.55; }
-  .cs-axis { fill:var(--muted); font-size:11px; font-family:inherit; }
+  .cs-axis { fill:var(--muted); font-size:10.5px; font-family:inherit; }
   .cs-xc { text-anchor:middle; }
   .cs-up-t { fill:var(--pos); font-weight:800; } .cs-down-t { fill:var(--neg); font-weight:800; }
+  .ma-l { fill:none; stroke-width:1.3; opacity:.9; }
+  .ma-l.ma5 { stroke:var(--muted); } .ma-l.ma20 { stroke:var(--accent); } .ma-l.ma60 { stroke:var(--gold); }
+  .rsi-box { fill:var(--panel-soft); stroke:var(--border); stroke-width:.7; }
+  .rsi-l { fill:none; stroke:#a855f7; stroke-width:1.3; }
+  .rsi-g { stroke:var(--border); stroke-width:.7; stroke-dasharray:2 2; }
+  .rsi-g70 { stroke:var(--neg); opacity:.45; } .rsi-g30 { stroke:var(--pos); opacity:.45; }
+  .rsi-lab { fill:#a855f7; font-weight:800; }
   .retmx { width:100%; max-width:460px; border-collapse:collapse; font-size:11.5px; font-variant-numeric:tabular-nums; }
   .retmx th, .retmx td { padding:5px 10px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
   .retmx th { font-size:10px; color:var(--muted); font-weight:800; }
@@ -1088,35 +1103,118 @@ function returnsMatrixHtml(r){
     + '<tbody>'+body+'</tbody></table>'
     + '<p class="dh-cap" style="margin-top:7px">초과 = 종목수익률 − '+esc(bl)+'(%p). '+(b?'':'벤치마크 데이터 미수집.')+'</p></div>';
 }
-// 캔들(일봉) 차트 — 외부 라이브러리 없이 인라인 SVG
-function candleChartHtml(r){
-  var oh = r.q && r.q.ohlc;
-  if(!oh || oh.length<2) return '<div class="d-div"><h4>📉 최근 주가 (일봉)</h4><p class="dh-cap">주가 데이터가 부족합니다(yfinance).</p></div>';
-  var W=720,H=210,pL=6,pR=56,pT=12,pB=18;
-  var n=oh.length;
-  var highs=oh.map(function(c){return c[2];}), lows=oh.map(function(c){return c[3];});
-  var mx=Math.max.apply(null,highs), mn=Math.min.apply(null,lows);
-  var pad=(mx-mn)*0.04||1; mx+=pad; mn-=pad;
-  var plotW=W-pL-pR, plotH=H-pT-pB;
-  function X(i){ return pL + (i+0.5)/n*plotW; }
-  function Y(p){ return pT + (mx-p)/(mx-mn)*plotH; }
-  var cw=Math.max(1.5, Math.min(9, plotW/n*0.62));
-  var first=oh[0][4], last=oh[n-1][4], up=last>=first;
-  var parts=[];
-  parts.push('<line x1="'+pL+'" y1="'+Y(last).toFixed(1)+'" x2="'+(W-pR).toFixed(1)+'" y2="'+Y(last).toFixed(1)+'" class="cs-last"/>');
-  oh.forEach(function(c,i){
-    var o=c[1],h=c[2],l=c[3],cl=c[4], x=X(i), cls=cl>=o?'cs-up':'cs-down';
-    parts.push('<line x1="'+x.toFixed(1)+'" y1="'+Y(h).toFixed(1)+'" x2="'+x.toFixed(1)+'" y2="'+Y(l).toFixed(1)+'" class="'+cls+' cs-wick"/>');
-    var yo=Y(o),yc=Y(cl), top=Math.min(yo,yc), bot=Math.max(yo,yc);
-    parts.push('<rect x="'+(x-cw/2).toFixed(1)+'" y="'+top.toFixed(1)+'" width="'+cw.toFixed(1)+'" height="'+Math.max(1,bot-top).toFixed(1)+'" class="'+cls+' cs-body"/>');
+/* ===== 캔들 차트 + 이평선(MA) + RSI — 외부 라이브러리 없이 인라인 SVG ===== */
+var CHART_PERIODS = [ {k:21,l:'1M'}, {k:63,l:'3M'}, {k:126,l:'6M'}, {k:250,l:'1Y'} ];
+var CHART_DEFAULT = 63;   // 기본 3M
+
+function computeSMA(vals, n){
+  var out=new Array(vals.length), sum=0;
+  for(var i=0;i<vals.length;i++){
+    sum+=vals[i]; if(i>=n) sum-=vals[i-n];
+    out[i]=(i>=n-1)? sum/n : null;
+  }
+  return out;
+}
+function computeRSI(vals, period){
+  period=period||14; var out=new Array(vals.length).fill(null);
+  if(vals.length<=period) return out;
+  var gain=0, loss=0, i;
+  for(i=1;i<=period;i++){ var d=vals[i]-vals[i-1]; if(d>=0) gain+=d; else loss-=d; }
+  var ag=gain/period, al=loss/period;
+  out[period]= al===0?100:(100-100/(1+ag/al));
+  for(i=period+1;i<vals.length;i++){
+    var dd=vals[i]-vals[i-1], g=dd>0?dd:0, l=dd<0?-dd:0;
+    ag=(ag*(period-1)+g)/period; al=(al*(period-1)+l)/period;
+    out[i]= al===0?100:(100-100/(1+ag/al));
+  }
+  return out;
+}
+// 차트 스켈레톤(탭 + 빈 캔버스) — 실제 SVG는 펼칠 때 renderChart 로 지연 렌더
+function candleChartHtml(r, idx){
+  var oh=r.q&&r.q.ohlc;
+  if(!oh||oh.length<2) return '<div class="d-div"><h4>📉 최근 주가 (일봉)</h4><p class="dh-cap">주가 데이터가 부족합니다(yfinance).</p></div>';
+  var tabs=CHART_PERIODS.map(function(p){
+    return '<button type="button" class="period-tab'+(p.k===CHART_DEFAULT?' on':'')+'" data-cidx="'+idx+'" data-per="'+p.k+'">'+p.l+'</button>';
+  }).join('');
+  var legend='<span class="ma-lg"><i class="ma-dot ma5"></i>MA5</span>'
+    +'<span class="ma-lg"><i class="ma-dot ma20"></i>MA20</span>'
+    +'<span class="ma-lg"><i class="ma-dot ma60"></i>MA60</span>'
+    +'<span class="ma-lg"><i class="ma-dot rsi"></i>RSI14</span>';
+  return '<div class="d-div chart-block" data-cidx="'+idx+'">'
+    + '<h4>📉 최근 주가 · 이평선 · RSI <span class="cs-sub">· <span class="cs-chg"></span></span></h4>'
+    + '<div class="chart-ctrl"><div class="period-tabs">'+tabs+'</div><div class="ma-legend">'+legend+'</div></div>'
+    + '<div class="chart-canvas"></div></div>';
+}
+// 실제 SVG 생성 + 주입
+function renderChart(idx, per){
+  var block=document.querySelector('.chart-block[data-cidx="'+idx+'"]');
+  if(!block) return;
+  var r=(window.__ROWS||[])[idx]; if(!r) return;
+  var oh=r.q&&r.q.ohlc; if(!oh||oh.length<2) return;
+  per=per||CHART_DEFAULT;
+  // 탭 활성화
+  Array.prototype.forEach.call(block.querySelectorAll('.period-tab'), function(b){
+    b.classList.toggle('on', +b.getAttribute('data-per')===per);
   });
-  function yLab(p,cls){ return '<text x="'+(W-pR+4)+'" y="'+(Y(p)+3).toFixed(1)+'" class="cs-axis '+(cls||'')+'">'+esc(fmtMoney(p,r.ccy))+'</text>'; }
-  parts.push(yLab(mx)); parts.push(yLab(mn)); parts.push(yLab(last, up?'cs-up-t':'cs-down-t'));
-  function xLab(i){ return '<text x="'+X(i).toFixed(1)+'" y="'+(H-5)+'" class="cs-axis cs-xc">'+esc(oh[i][0])+'</text>'; }
-  parts.push(xLab(0)); parts.push(xLab(Math.floor(n/2))); parts.push(xLab(n-1));
-  var chg=(last/first-1)*100, chgS=(chg>0?'+':'')+chg.toFixed(1)+'%';
-  return '<div class="d-div"><h4>📉 최근 주가 <span class="cs-sub">· 일봉 '+n+'일 · 기간 <span class="'+(up?'rp':'rn')+'">'+chgS+'</span></span></h4>'
-    +'<svg class="candle-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(r.it.n)+' 캔들 차트">'+parts.join('')+'</svg></div>';
+  var N=oh.length;
+  var closes=oh.map(function(c){return c[4];});
+  var ma5=computeSMA(closes,5), ma20=computeSMA(closes,20), ma60=computeSMA(closes,60);
+  var rsi=computeRSI(closes,14);
+  var k=Math.min(per,N), s=N-k;                 // 표시 구간 [s, N)
+  var W=720, pL=6, pR=58, cTop=12, cH=170, gap=16, rTop=cTop+cH+gap, rH=48, Htot=rTop+rH+16;
+  var plotW=W-pL-pR;
+  function X(j){ return pL + (j+0.5)/k*plotW; }  // j: 구간 내 인덱스
+  // 가격 스케일(구간 고저 + 보이는 MA 포함)
+  var hi=-Infinity, lo=Infinity, i, m;
+  for(i=s;i<N;i++){
+    if(oh[i][2]>hi)hi=oh[i][2]; if(oh[i][3]<lo)lo=oh[i][3];
+    [ma5[i],ma20[i],ma60[i]].forEach(function(v){ if(v!=null){ if(v>hi)hi=v; if(v<lo)lo=v; } });
+  }
+  var pad=(hi-lo)*0.04||1; hi+=pad; lo-=pad;
+  function Yp(p){ return cTop + (hi-p)/(hi-lo)*cH; }
+  var cw=Math.max(1.2, Math.min(9, plotW/k*0.62));
+  var parts=[];
+  // 현재가 점선
+  var last=closes[N-1];
+  parts.push('<line x1="'+pL+'" y1="'+Yp(last).toFixed(1)+'" x2="'+(W-pR).toFixed(1)+'" y2="'+Yp(last).toFixed(1)+'" class="cs-last"/>');
+  // 캔들
+  for(i=s;i<N;i++){
+    var o=oh[i][1],h=oh[i][2],l=oh[i][3],cl=oh[i][4], x=X(i-s), cls=cl>=o?'cs-up':'cs-down';
+    parts.push('<line x1="'+x.toFixed(1)+'" y1="'+Yp(h).toFixed(1)+'" x2="'+x.toFixed(1)+'" y2="'+Yp(l).toFixed(1)+'" class="'+cls+' cs-wick"/>');
+    var yo=Yp(o),yc=Yp(cl), top=Math.min(yo,yc);
+    parts.push('<rect x="'+(x-cw/2).toFixed(1)+'" y="'+top.toFixed(1)+'" width="'+cw.toFixed(1)+'" height="'+Math.max(1,Math.abs(yc-yo)).toFixed(1)+'" class="'+cls+' cs-body"/>');
+  }
+  // 이평선
+  function maPath(arr, cls){
+    var pts=[];
+    for(var i2=s;i2<N;i2++){ if(arr[i2]!=null) pts.push(X(i2-s).toFixed(1)+','+Yp(arr[i2]).toFixed(1)); }
+    return pts.length<2 ? '' : '<polyline points="'+pts.join(' ')+'" class="ma-l '+cls+'"/>';
+  }
+  parts.push(maPath(ma5,'ma5')); parts.push(maPath(ma20,'ma20')); parts.push(maPath(ma60,'ma60'));
+  // 가격 축 라벨
+  function yLab(p,cls){ return '<text x="'+(W-pR+4)+'" y="'+(Yp(p)+3).toFixed(1)+'" class="cs-axis '+(cls||'')+'">'+esc(fmtMoney(p,r.ccy))+'</text>'; }
+  yLab && parts.push(yLab(hi)); parts.push(yLab(lo)); parts.push(yLab(last,'cs-up-t'));
+  // 날짜 축(구간 시작·중간·끝)
+  function xLab(j,ix){ return '<text x="'+X(j).toFixed(1)+'" y="'+(cTop+cH+12)+'" class="cs-axis cs-xc">'+esc(oh[ix][0])+'</text>'; }
+  parts.push(xLab(0,s)); parts.push(xLab(Math.floor(k/2), s+Math.floor(k/2))); parts.push(xLab(k-1,N-1));
+  // ── RSI 패널 ──
+  function Yr(v){ return rTop + (100-v)/100*rH; }
+  parts.push('<rect x="'+pL+'" y="'+rTop+'" width="'+plotW.toFixed(1)+'" height="'+rH+'" class="rsi-box"/>');
+  [70,50,30].forEach(function(g){
+    parts.push('<line x1="'+pL+'" y1="'+Yr(g).toFixed(1)+'" x2="'+(W-pR).toFixed(1)+'" y2="'+Yr(g).toFixed(1)+'" class="rsi-g'+(g===70?' rsi-g70':(g===30?' rsi-g30':''))+'"/>');
+    parts.push('<text x="'+(W-pR+4)+'" y="'+(Yr(g)+3).toFixed(1)+'" class="cs-axis">'+g+'</text>');
+  });
+  var rpts=[];
+  for(i=s;i<N;i++){ if(rsi[i]!=null) rpts.push(X(i-s).toFixed(1)+','+Yr(rsi[i]).toFixed(1)); }
+  if(rpts.length>1) parts.push('<polyline points="'+rpts.join(' ')+'" class="rsi-l"/>');
+  var rsiNow=rsi[N-1];
+  parts.push('<text x="'+pL+'" y="'+(rTop-3)+'" class="cs-axis rsi-lab">RSI14 '+(rsiNow!=null?rsiNow.toFixed(0):'—')+(rsiNow!=null?(rsiNow>=70?' 과열':(rsiNow<=30?' 침체':'')):'')+'</text>');
+  var svg='<svg class="candle-svg" viewBox="0 0 '+W+' '+Htot+'" role="img" aria-label="'+esc(r.it.n)+' 캔들·이평·RSI">'+parts.join('')+'</svg>';
+  block.querySelector('.chart-canvas').innerHTML=svg;
+  // 헤더 등락(구간)
+  var first=closes[s], chg=(last/first-1)*100;
+  var perLabel=(CHART_PERIODS.filter(function(p){return p.k===per;})[0]||{}).l||'';
+  block.querySelector('.cs-chg').innerHTML=perLabel+' <span class="'+(chg>=0?'rp':'rn')+'">'+(chg>=0?'+':'')+chg.toFixed(1)+'%</span>';
 }
 function detailHtml(r, idx){
   var it=r.it, q=r.q;
@@ -1148,7 +1246,7 @@ function detailHtml(r, idx){
     +     '<p class="note" style="margin-top:10px">시세·배당이력은 yfinance 자동수집('+ (QUOTE_ASOF||'미수집') +'). 연속증배·CAGR·추천사유는 큐레이션 추정입니다.</p>'
     +   '</div>'
     + '</div>'
-    + candleChartHtml(r)
+    + candleChartHtml(r, idx)
     + returnsMatrixHtml(r)
     + divScheduleHtml(r)
     + '</div></td></tr>';
@@ -1172,22 +1270,33 @@ function render(){
   tb.innerHTML = rows.map(function(r,i){ return rowHtml(r,i); }).join('');
   // 현재 렌더된 rows를 인덱스로 참조
   window.__ROWS=rows;
-  // 행 클릭 → 상세 토글
+  // 행 클릭 → 상세 토글 (열 때 차트 지연 렌더)
   Array.prototype.forEach.call(tb.querySelectorAll('tr.main'), function(tr){
     tr.addEventListener('click', function(){
       var idx=tr.getAttribute('data-idx');
       var det=tb.querySelector('tr.detail[data-detail="'+idx+'"]');
       var open=tr.classList.toggle('open');
       if(det) det.classList.toggle('hidden', !open);
+      if(open){
+        var cv=det && det.querySelector('.chart-block .chart-canvas');
+        if(cv && !cv.innerHTML.trim()) renderChart(+idx, CHART_DEFAULT);
+        setDetailWidth();
+      }
     });
   });
-  // 딥리서치 버튼
+  // 딥리서치 버튼 / 기간 탭 (이벤트 위임)
   Array.prototype.forEach.call(tb.querySelectorAll('[data-deep]'), function(btn){
     btn.addEventListener('click', function(e){
       e.stopPropagation();
       var idx=+btn.getAttribute('data-deep');
       var r=window.__ROWS[idx];
       if(r) startStockDiv(r.it, r.q, r.rg);
+    });
+  });
+  Array.prototype.forEach.call(tb.querySelectorAll('.period-tab'), function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      renderChart(+btn.getAttribute('data-cidx'), +btn.getAttribute('data-per'));
     });
   });
   setDetailWidth();
