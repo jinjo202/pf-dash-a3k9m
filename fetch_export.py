@@ -1,31 +1,28 @@
 """
 fetch_export.py — 한국 품목별 수출 시계열 자동 축적 (관세청 무역통계 OpenAPI)
 
-data.go.kr '관세청_수출입 무역통계' 서비스(getNitemtradeList)로 HS부호별 월별
-수출액을 가져와 YoY를 계산하고 export-history.js(window.EXPORT_HISTORY)를 만든다.
-캘린더 '한국 수출 트래커'가 있으면 이 과거 시계열을 우선 사용한다(없으면 큐레이션).
+data.go.kr '관세청_품목별 수출입실적'(getNitemtradeList, XML)로 HS부호별 월별
+수출액(expDlr, USD)·중량(expWgt, kg)을 받아 품목별로 월 합산하고,
+수출금액($10억)·수출단가($/kg)·각 YoY/MoM를 계산해 export-history.js를 만든다.
+반도체는 디램(모듈포함/제외)·낸드·MCP(HBM)·SSD·시스템으로 세분한다.
 
-키 발급(무료): https://www.data.go.kr → '관세청_수출입 무역통계' 활용신청 →
-    일반 인증키(Decoding)를 GitHub Secret  TRADE_API_KEY  에 저장.
-    (엔드포인트 오버라이드가 필요하면 TRADE_API_URL 도 설정)
+키(무료): data.go.kr '관세청_품목별 수출입실적' 활용신청 → 일반 인증키(Decoding)를
+    GitHub Secret TRADE_API_KEY 에. 키 없으면 스킵(캘린더는 큐레이션 폴백).
 
-실행:
-    TRADE_API_KEY=xxxx python fetch_export.py            # 최근 24개월 누적
-    TRADE_API_KEY=xxxx python fetch_export.py --months 36
-키가 없으면 아무것도 하지 않고 종료(캘린더는 큐레이션 series로 폴백).
-
-누적: 기존 export-history.js가 있으면 읽어 최신월만 병합(과거는 보존).
+실행:  TRADE_API_KEY=xxx python fetch_export.py [--months 18]
+주의:  상세 HS는 최신월이 1~2개월 지연(예: 오늘 7월이면 5월까지). 금액=USD.
 """
 import argparse
 import datetime as dt
 import io
 import json
 import os
-import re
 import sys
-import urllib.parse
 import urllib.error
+import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
+from collections import defaultdict
 from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
@@ -35,135 +32,158 @@ OUT = HERE / "export-history.js"
 API_URL = os.environ.get("TRADE_API_URL", "https://apis.data.go.kr/1220000/nitemtrade/getNitemtradeList")
 KEY = os.environ.get("TRADE_API_KEY")
 
-# 품목 → HS부호(들). 여러 개면 합산. 바스켓(석유화학·철강 등)은 MOTIE 집계와 정확히
-# 일치시키기 어려워 대표 HS만 — 정밀화는 관세청조회코드표 참고해 확장.
-CATEGORY_HS = {
-    "semi":      ["8542"],              # 집적회로(메모리+시스템)
-    "semi_mem":  ["854232"],            # 반도체 세부: 메모리(DRAM+NAND)
-    "semi_sys":  ["854231"],            # 반도체 세부: 시스템반도체(프로세서/컨트롤러)
-    "computer":  ["8471"],              # 컴퓨터(SSD 포함 자동자료처리기계)
-    "auto":      ["8703"],              # 승용차
-    "cosmetic":  ["3304"],              # 화장품(기초·색조)
-    "food":      ["1902", "2106", "2005"],  # 면류·기타조제식품·조제채소 (K-food 대표 바스켓)
+# key: (표시명, 그룹, [HS부호들])  — 여러 코드는 합산
+CATS = {
+    # 품목 (주력/유망)
+    "semi":       ("반도체(전체)",       "반도체", ["8542"]),
+    "computer":   ("컴퓨터(SSD포함)",     "IT",     ["8471", "852351"]),  # 한국 컴퓨터 수출은 SSD 주도
+    "appliance":  ("가전제품",           "IT",     ["8418", "8450", "8516", "8508", "8415", "8528"]),
+    "mlcc":       ("전자제품(MLCC)",      "IT",     ["853224"]),
+    "semi_equip": ("반도체 제조장비",      "장비",   ["8486"]),
+    "wireless":   ("무선통신기기",         "IT",     ["8517"]),
+    "display":    ("디스플레이",           "IT",     ["8524"]),
+    "auto":       ("자동차",             "운송",   ["8703"]),
+    "autoparts":  ("자동차부품",           "운송",   ["8708"]),
+    "ship":       ("선박",               "운송",   ["8901", "8904", "8905", "8906"]),
+    "battery":    ("2차전지",            "소재",   ["8507"]),
+    "petrochem":  ("석유화학",            "소재",   ["3901", "3902", "3903", "3904"]),
+    "steel":      ("철강판",             "소재",   ["7208", "7210"]),
+    "cosmetic":   ("화장품",             "소비재", ["3304"]),
+    "botox":      ("보톡스(보툴리눔)",      "소비재", ["300249"]),
+    "food":       ("농수산식품",           "소비재", ["1902", "2106", "2005"]),
+    "ramen":      ("라면",               "소비재", ["190230"]),
+    # 반도체 세부 (금액·단가 모두 의미있음)
+    "semi_mem":   ("반도체:메모리",        "반도체세부", ["854232"]),
+    "semi_sys":   ("반도체:시스템",        "반도체세부", ["854231"]),
+    "dram_excl":  ("디램(모듈제외)",       "반도체세부", ["8542321010"]),
+    "dram_incl":  ("디램(모듈포함)",       "반도체세부", ["8542321010", "8542323000"]),
+    "nand":       ("플래시메모리(낸드)",    "반도체세부", ["8542321030"]),
+    "mcp":        ("MCP(HBM)",          "반도체세부", ["8542323000"]),
+    "ssd":        ("SSD",               "반도체세부", ["852351"]),
 }
-# 총수출은 별도 total HS 합계 대신 산업부 집계를 쓰는 게 정확 → 여기선 품목만. total은 큐레이션 유지.
 
 
-def _http_json(url):
-    req = urllib.request.Request(url, headers={"Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=40) as r:
-        raw = r.read().decode("utf-8", "replace")
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        raise RuntimeError("JSON 파싱 실패(키/서비스 확인): " + raw[:200])
+def add_months(ym, n):
+    idx = (ym // 100) * 12 + (ym % 100 - 1) + n
+    return (idx // 12) * 100 + (idx % 12) + 1
 
 
-def _fetch_window(hs, strt_s, end_s):
-    """단일 요청(1년 이내). getNitemtradeList: {year:'2026.06', expDlr:'44823000'(천달러)}."""
-    q = {
-        "serviceKey": KEY, "strtYymm": strt_s, "endYymm": end_s,
-        "hsSgn": hs, "returnType": "json", "numOfRows": "1000", "pageNo": "1",
-    }
+def _fetch_window(hs, s, e):
+    """단일 요청(≤1년). XML 반환. 월별 (expDlr, expWgt) 합산해서 {ym:(dlr,wgt)}."""
+    q = {"serviceKey": KEY, "strtYymm": f"{s:06d}", "endYymm": f"{e:06d}",
+         "hsSgn": hs, "numOfRows": "900", "pageNo": "1"}
     url = API_URL + "?" + urllib.parse.urlencode(q, safe="")
-    data = _http_json(url)
-    items = (((data.get("response") or {}).get("body") or {}).get("items") or {}).get("item") or []
-    if isinstance(items, dict):
-        items = [items]
-    out = {}
-    for it in items:
-        ym = str(it.get("year", "")).replace(".", "")  # '2026.06' -> '202606'
-        if not re.fullmatch(r"\d{6}", ym):
+    with urllib.request.urlopen(url, timeout=50) as r:
+        xml = r.read().decode("utf-8", "replace")
+    root = ET.fromstring(xml)
+    rc = root.findtext(".//resultCode")
+    if rc not in (None, "00", "0"):
+        raise RuntimeError(f"resultCode={rc}")
+    out = defaultdict(lambda: [0.0, 0.0])
+    for it in root.findall(".//item"):
+        y = (it.findtext("year") or "").strip()
+        if "." not in y:            # '한계'(총계) 등 스킵, 월행만
             continue
+        ym = int(y.replace(".", ""))
         try:
-            exp = float(it.get("expDlr") or 0)  # 천달러
+            out[ym][0] += float(it.findtext("expDlr") or 0)
+            out[ym][1] += float(it.findtext("expWgt") or 0)
         except (TypeError, ValueError):
             continue
-        # 품목 소계 행(누계/전체)이 섞일 수 있어 월별 최대값이 아니라 합산 방지: 마지막 값 사용
-        out[ym] = exp
     return out
 
 
 def fetch_hs(hs, strt, end):
-    """조회기간 1년 제한 → 12개월 창으로 쪼개 순회 병합. strt/end 는 int(YYYYMM)."""
-    out, ws = {}, strt
+    out, ws = defaultdict(lambda: [0.0, 0.0]), strt
     while ws <= end:
         we = min(add_months(ws, 11), end)
         try:
-            out.update(_fetch_window(hs, f"{ws:06d}", f"{we:06d}"))
+            for ym, (d, w) in _fetch_window(hs, ws, we).items():
+                out[ym][0] += d
+                out[ym][1] += w
         except urllib.error.HTTPError as e:
-            hint = {401: "인증키 미인식/미활성", 403: "이 서비스 활용신청 미승인(권한없음)"}.get(e.code, "")
-            print(f"  {hs} {ws}-{we} 실패 HTTP {e.code} {hint}")
+            hint = {401: "키 미인식/미활성", 403: "서비스 미승인"}.get(e.code, "")
+            print(f"  {hs} {ws}-{we} HTTP {e.code} {hint}")
         except Exception as e:
-            print(f"  {hs} {ws}-{we} 실패: {str(e)[:70]}")
+            print(f"  {hs} {ws}-{we} 실패: {str(e)[:60]}")
         ws = add_months(we, 1)
     return out
 
 
-def add_months(ym, n):
-    y, m = ym // 100, ym % 100
-    idx = (y * 12 + (m - 1)) + n
-    return (idx // 12) * 100 + (idx % 12) + 1
+def yoy(series, i):
+    if i < 12 or series[i] is None or series[i - 12] in (None, 0):
+        return None
+    return round((series[i] / series[i - 12] - 1) * 100, 1)
+
+
+def mom(series, i):
+    if i < 1 or series[i] is None or series[i - 1] in (None, 0):
+        return None
+    return round((series[i] / series[i - 1] - 1) * 100, 1)
 
 
 def main():
     if not KEY:
-        print("TRADE_API_KEY 없음 — 관세청 수출 자동수집 스킵(캘린더는 큐레이션 series 사용).")
+        print("TRADE_API_KEY 없음 — 관세청 자동수집 스킵(큐레이션 폴백).")
         return
     ap = argparse.ArgumentParser()
-    ap.add_argument("--months", type=int, default=24)
+    ap.add_argument("--months", type=int, default=18)   # 표시 개월수
+    ap.add_argument("--only", default="")                 # 쉼표구분 key만(테스트용)
     args = ap.parse_args()
 
     now = dt.date.today()
     end = now.year * 100 + now.month
-    # YoY 계산 위해 +12개월 더 과거부터 (fetch_hs가 1년 창으로 쪼개 순회)
-    strt = add_months(end, -(args.months + 12) + 1)
+    strt = add_months(end, -(args.months + 12) + 1)       # YoY용 +12개월
+    nmonths = (end // 100 - strt // 100) * 12 + (end % 100 - strt % 100) + 1
+    axis = [add_months(strt, i) for i in range(nmonths)]
+    months_all = [f"{ym // 100}.{ym % 100:02d}" for ym in axis]
+    disp_from = len(axis) - args.months                    # 표시 시작 인덱스
 
-    # HS별 월별 수출($천) 수집 → 품목별 합산
-    cat_month = {}  # cat -> {ym(int): usd_thousand}
-    for cat, hslist in CATEGORY_HS.items():
-        agg = {}
+    keys = [k for k in CATS if (not args.only or k in args.only.split(","))]
+    cat_out, latest_ym = {}, 0
+    for key in keys:
+        name, group, hslist = CATS[key]
+        agg = defaultdict(lambda: [0.0, 0.0])
         for hs in hslist:
-            m = fetch_hs(hs, strt, end)
-            for ym, v in m.items():
-                agg[int(ym)] = agg.get(int(ym), 0.0) + v
-        cat_month[cat] = agg
+            for ym, (d, w) in fetch_hs(hs, strt, end).items():
+                agg[ym][0] += d
+                agg[ym][1] += w
+        val = [round(agg[ym][0] / 1e9, 3) if agg.get(ym) and agg[ym][0] else None for ym in axis]   # $10억
+        price = [round(agg[ym][0] / agg[ym][1], 1) if agg.get(ym) and agg[ym][1] else None for ym in axis]  # $/kg
+        for i, ym in enumerate(axis):
+            if val[i]:
+                latest_ym = max(latest_ym, ym)
+        cat_out[key] = {
+            "name": name, "group": group,
+            "months": months_all[disp_from:],
+            "val": val[disp_from:],
+            "price": price[disp_from:],
+            "val_yoy": [yoy(val, i) for i in range(disp_from, len(axis))],
+            "val_mom": [mom(val, i) for i in range(disp_from, len(axis))],
+            "price_yoy": [yoy(price, i) for i in range(disp_from, len(axis))],
+            "price_mom": [mom(price, i) for i in range(disp_from, len(axis))],
+        }
+        v = cat_out[key]["val"]
+        got = next((x for x in reversed(v) if x is not None), None)
+        print(f"  {key:11}{name:16} 최신값 {got}")
 
-    # 공통 월축(최근 args.months) + YoY 시계열
-    months_int = [add_months(end, -(args.months - 1) + i) for i in range(args.months)]
-    months = [f"{ym//100}.{ym%100:02d}" for ym in months_int]
-    series = {}
-    for cat, agg in cat_month.items():
-        yoy = []
-        val = []
-        for ym in months_int:
-            cur = agg.get(ym)
-            prev = agg.get(add_months(ym, -12))
-            val.append(round(cur / 1e6, 2) if cur else None)  # 십억달러
-            yoy.append(round((cur / prev - 1) * 100, 1) if (cur and prev) else None)
-        series[cat + "_yoy"] = yoy
-        series[cat + "_val"] = val
-
-    got = sum(1 for k in series if k.endswith("_yoy") and any(v is not None for v in series[k]))
-    if got == 0:
-        # 데이터 0건(키 미활성/거부 등) → 기존 파일·큐레이션 폴백 보존 위해 쓰지 않음
-        print("수집 0건 — export-history.js 미갱신(캘린더는 큐레이션 series 유지).")
+    have = sum(1 for k in cat_out if any(x is not None for x in cat_out[k]["val"]))
+    if have == 0:
+        print("수집 0건 — export-history.js 미갱신(큐레이션 유지).")
         return
 
     payload = {
         "as_of": now.isoformat(),
-        "source": "관세청 무역통계 OpenAPI(getNitemtradeList) · HS부호별",
-        "hs_map": CATEGORY_HS,
-        "months": months,
-        "series": series,
+        "latest_month": f"{latest_ym // 100}.{latest_ym % 100:02d}" if latest_ym else None,
+        "source": "관세청 품목별 수출입실적 OpenAPI · 금액=USD, 단가=$/kg(금액/중량)",
+        "cat": cat_out,
     }
     OUT.write_text(
-        "// 한국 품목별 수출 과거 시계열 — fetch_export.py 생성(관세청 OpenAPI).\n"
-        f"window.EXPORT_HISTORY = {json.dumps(payload, ensure_ascii=False, indent=1)};\n",
+        "// 한국 품목별 수출 과거 시계열 — fetch_export.py 생성(관세청 OpenAPI). 금액·단가 + YoY/MoM.\n"
+        f"window.EXPORT_HISTORY = {json.dumps(payload, ensure_ascii=False, separators=(',', ':'))};\n",
         encoding="utf-8",
     )
-    got = sum(1 for k in series if k.endswith("_yoy") and any(v is not None for v in series[k]))
-    print(f"생성: {OUT.name} · 월 {len(months)}개 · 품목 계열 {got}개 · {months[0]}~{months[-1]}")
+    print(f"생성: {OUT.name} · 품목 {have}개 · 최신 {payload['latest_month']} · 표시 {args.months}개월")
 
 
 if __name__ == "__main__":

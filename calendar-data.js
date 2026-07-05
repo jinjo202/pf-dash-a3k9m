@@ -383,7 +383,11 @@ window.CALENDAR = {
       { name:"2차전지",     may:30,  jun:11,  group:"유망", stocks:"LG에너지솔루션·삼성SDI·에코프로비엠" },
       { name:"화장품",      may:25,  jun:43,  group:"유망", stocks:"아모레퍼시픽·코스맥스·한국콜마·실리콘투" },
       { name:"바이오헬스",  may:9,   jun:14,  group:"유망", stocks:"삼성바이오로직스·셀트리온" },
-      { name:"농수산식품",  may:10,  jun:17,  group:"유망", stocks:"삼양식품·농심·CJ제일제당" }
+      { name:"농수산식품",  may:10,  jun:17,  group:"유망", stocks:"삼양식품·농심·CJ제일제당" },
+      { name:"전자제품(MLCC)", may:14.2, jun:null, group:"관세청", stocks:"삼성전기" },
+      { name:"반도체 제조장비", may:9.1,  jun:null, group:"관세청", stocks:"원익IPS·주성엔지니어링·HPSP" },
+      { name:"보톡스",      may:40.5, jun:null, group:"관세청", stocks:"휴젤·대웅제약·메디톡스" },
+      { name:"라면",        may:18.8, jun:null, group:"관세청", stocks:"삼양식품·농심" }
     ],
 
     // 국가·지역별 수출 YoY (5월 vs 6월). 출처 동일(차트판독 근사).

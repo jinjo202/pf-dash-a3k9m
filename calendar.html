@@ -379,6 +379,17 @@
     <div class="semicards" id="kxSemiCards"></div>
     <p class="note" id="kxSemiNote"></p>
 
+    <div class="toolbar" id="saBar" style="margin:12px 0 8px">
+      <div class="sect-t" style="margin:0">🧬 반도체 세부 자동수집 (관세청 실데이터: 디램·낸드·MCP·SSD)</div>
+      <div style="display:inline-flex;gap:8px;flex-wrap:wrap">
+        <div class="kx-tabs" id="saMetric"><button class="kx-tab on" data-m="val">수출금액</button><button class="kx-tab" data-m="price">수출단가</button></div>
+        <div class="kx-tabs" id="saBasis"><button class="kx-tab on" data-b="yoy">YoY</button><button class="kx-tab" data-b="mom">MoM</button><button class="kx-tab" data-b="raw">값</button></div>
+      </div>
+    </div>
+    <div class="kv" id="saLatest"></div>
+    <div class="kx-grid" id="saCharts"></div>
+    <p class="note" id="saNote"></p>
+
     <div class="toolbar" id="memBar" style="margin:12px 0 8px">
       <div class="sect-t" style="margin:0">💾 메모리 고정거래가 (DRAMeXchange · Meritz)</div>
       <div class="kx-tabs" id="memRange">
@@ -853,26 +864,58 @@ function renderMemory(){
   }).join("");
   $('memNote').textContent = "출처: "+(MEM.source||"")+" · 기준 "+(MEM.as_of_month||"")+". 로컬 엑셀(fetch_memory_prices.py)로 갱신 — 메모리 단가는 반도체 수출·삼성전자·SK하이닉스 실적의 핵심 선행지표.";
 }
-/* 다점 라인차트 (점별 라벨 생략, x라벨 thinning) */
-function lineChartMany(title, sub, labels, vals, color){
-  var W=340,H=150, padL=34, padR=12, padT=12, padB=20;
+/* ── 반도체 세부 자동수집 (관세청 실데이터: 금액·단가 × YoY/MoM/값) ── */
+var saMetric="val", saBasis="yoy";
+var SEMI_SUB=["semi_mem","semi_sys","dram_incl","dram_excl","nand","mcp","ssd"];
+function renderSemiAuto(){
+  var H=window.EXPORT_HISTORY;
+  if(!H||!H.cat){ ["saBar","saLatest","saCharts","saNote"].forEach(function(id){var e=$(id); if(e)e.style.display="none";}); return; }
+  function last(a){ for(var i=a.length-1;i>=0;i--) if(a[i]!=null) return a[i]; return null; }
+  $('saLatest').innerHTML = SEMI_SUB.map(function(k){
+    var c=H.cat[k]; if(!c) return "";
+    var v=last(c.val), p=last(c.price), vy=last(c.val_yoy);
+    return '<div class="k"><div class="lbl">'+esc(c.name)+'</div>'+
+      '<div class="val">$'+(v!=null?v:"-")+'B</div>'+
+      '<div style="font-size:10px;font-weight:700" class="'+(vy!=null&&vy<0?"neg":"pos")+'">YoY '+(vy>0?"+":"")+vy+'%</div>'+
+      '<div style="font-size:10px;color:var(--muted)">단가 $'+(p!=null?Math.round(p).toLocaleString():"-")+'/kg</div></div>';
+  }).join("");
+  var key = saBasis==="raw" ? saMetric : saMetric+"_"+saBasis;
+  var isPct = saBasis!=="raw";
+  var color = saMetric==="val" ? "#7c3aed" : "#b45309";
+  var fmtFn = isPct ? function(v){ return (v>0?"+":"")+v+"%"; }
+    : (saMetric==="val" ? function(v){ return "$"+v+"B"; } : function(v){ return "$"+Math.round(v).toLocaleString(); });
+  $('saCharts').innerHTML = SEMI_SUB.map(function(k){
+    var c=H.cat[k]; if(!c) return "";
+    var f=kxFilterSeries(c.months, c[key]);
+    if(!f.vals.length) return "";
+    var sub=(saMetric==="val"?"수출금액":"수출단가")+" · "+(saBasis==="yoy"?"YoY %":saBasis==="mom"?"MoM %":(saMetric==="val"?"US$10억":"$/kg"));
+    return lineChartMany(c.name, sub, f.labels, f.vals, color, fmtFn);
+  }).join("");
+  $('saNote').textContent = "출처: "+(H.source||"")+" · 최신 "+(H.latest_month||"")+". 디램(모듈포함)=디램칩+MCP · 수출단가=금액/중량($/kg, ASP 추세 대용). 상세 HS는 1~2개월 지연 · 매일 cron 자동 갱신.";
+}
+
+/* 다점 라인차트 (점별 라벨 생략, x라벨 thinning). fmtFn(v)→표시문자열(단위 포함). 음수 허용. */
+function lineChartMany(title, sub, labels, vals, color, fmtFn){
+  fmtFn = fmtFn || function(v){ return "$"+(Math.abs(v)<10?(+v.toFixed(1)):Math.round(v)); };
+  var W=340,H=150, padL=36, padR=12, padT=12, padB=20;
   var iw=W-padL-padR, ih=H-padT-padB;
   var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals);
-  var pad=(mx-mn)*0.12||1; mn=Math.max(0,mn-pad); mx+=pad;
+  var pad=(mx-mn)*0.12||1; mn=mn-pad; mx+=pad;
   function yOf(v){ return padT+ih*(1-(v-mn)/(mx-mn)); }
+  function num(v){ return Math.abs(v)<10?(+v.toFixed(1)):Math.round(v); }
   var n=vals.length, gap=iw/(n-1||1);
   var pts=vals.map(function(v,i){ return (padL+gap*i).toFixed(1)+","+yOf(v).toFixed(1); });
   var lx=padL+gap*(n-1), ly=yOf(vals[n-1]);
-  function fmt(v){ return v<10?(+v.toFixed(1)):Math.round(v); }
+  var zero = (mn<0&&mx>0) ? '<line x1="'+padL+'" y1="'+yOf(0).toFixed(1)+'" x2="'+(W-padR)+'" y2="'+yOf(0).toFixed(1)+'" stroke="var(--border)" stroke-dasharray="2 3"/>' : '';
   var end='<circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="3" fill="'+color+'"/>'+
-    '<text x="'+(lx-3).toFixed(1)+'" y="'+(ly-6).toFixed(1)+'" font-size="9" fill="var(--text-soft)" text-anchor="end" font-weight="800">$'+fmt(vals[n-1])+'</text>';
-  var yl='<text x="'+(padL-4)+'" y="'+(yOf(mx)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+fmt(mx)+'</text>'+
-         '<text x="'+(padL-4)+'" y="'+(yOf(mn)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+fmt(mn)+'</text>';
+    '<text x="'+(lx-3).toFixed(1)+'" y="'+(ly-6).toFixed(1)+'" font-size="9" fill="var(--text-soft)" text-anchor="end" font-weight="800">'+esc(fmtFn(vals[n-1]))+'</text>';
+  var yl='<text x="'+(padL-4)+'" y="'+(yOf(mx)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+num(mx)+'</text>'+
+         '<text x="'+(padL-4)+'" y="'+(yOf(mn)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+num(mn)+'</text>';
   var step=Math.max(1,Math.round(n/6)), xl="";
   for(var i=0;i<n;i+=step){ var x=padL+gap*i; xl+='<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" font-size="7.5" fill="var(--muted)" text-anchor="middle" pointer-events="none">'+esc(labels[i])+'</text>'; }
   var hits=vals.map(function(v,i){ var x=padL+gap*i, y=yOf(v);
-    return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+Math.max(3,Math.min(7,gap/1.6)).toFixed(1)+'" fill="transparent" data-tip="'+esc(labels[i])+': $'+fmt(v)+'"/>'; }).join("");
-  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet"><polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linejoin="round"/>'+end+yl+xl+hits+'</svg>';
+    return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+Math.max(3,Math.min(7,gap/1.6)).toFixed(1)+'" fill="transparent" data-tip="'+esc(labels[i])+': '+esc(fmtFn(v))+'"/>'; }).join("");
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+zero+'<polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linejoin="round"/>'+end+yl+xl+hits+'</svg>';
   return chartBox(title, sub, svg);
 }
 
@@ -943,6 +986,11 @@ $('filters').addEventListener('click', function(e){
   dm.querySelectorAll('.kx-tab').forEach(function(t){ t.classList.toggle('on', t===b); });
   renderKXCompare();
 }); })();
+(function(){
+  var m=$('saMetric'), b=$('saBasis');
+  if(m) m.addEventListener('click', function(e){ var t=e.target.closest('.kx-tab'); if(!t) return; saMetric=t.dataset.m; m.querySelectorAll('.kx-tab').forEach(function(x){x.classList.toggle('on',x===t);}); renderSemiAuto(); });
+  if(b) b.addEventListener('click', function(e){ var t=e.target.closest('.kx-tab'); if(!t) return; saBasis=t.dataset.b; b.querySelectorAll('.kx-tab').forEach(function(x){x.classList.toggle('on',x===t);}); renderSemiAuto(); });
+})();
 (function(){ var mr=$('memRange'); if(!mr) return; mr.addEventListener('click', function(e){
   var b=e.target.closest('.kx-tab'); if(!b) return;
   memRange=+b.dataset.r;
@@ -1052,6 +1100,7 @@ function renderTSMC(){
 renderMonth();
 renderUpcoming();
 renderKX();
+renderSemiAuto();
 renderMemory();
 renderTSMC();
 initHoldings();
