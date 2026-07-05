@@ -322,7 +322,7 @@ window.CALENDAR = {
       title:"📇 SpaceX 나스닥100 편입 관측(시나리오)", source:"관측",
       detail:"SpaceX 상장·지수 편입 시나리오(미확정·가정). 상장 요건·유동시총 충족 시 편입 후보로 거론.",
       interp:"대형 신규 편입은 패시브 자금 유입·기존 구성종목 비중 희석. 확정 아님 — 상장 여부부터 관측 대상." },
-    { date:"2026-09-11", type:"event", region:"US", category:"index", importance:2, released:false, verified:false, confirmed:true,
+    { date:"2026-09-18", type:"event", region:"US", category:"index", importance:2, released:false, verified:false, confirmed:true,
       title:"📇 나스닥100 분기 리밸런싱", source:"Nasdaq",
       url:"https://www.nasdaq.com/market-activity/index/ndx",
       detail:"분기 리뷰 반영(9월 셋째 금요일 발효). 편출입·비중 조정.",
