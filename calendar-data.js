@@ -163,25 +163,26 @@ window.CALENDAR = {
       interp:"BOJ 인상 시 엔캐리 되감기·글로벌 유동성 변수. 반도체 장비주(도쿄일렉트론·어드반테스트) 환율 민감." },
 
     /* ===================== 어닝 (2Q26 시즌) ===================== */
-    { date:"2026-07-08", type:"earnings", region:"KR", importance:3, ticker:"005930.KS", name:"삼성전자 (2Q 잠정)", session:"bmo", held:false, released:true, verified:false,
-      epsEst:null, revEst:"매출 79조(E)", epsAct:null, revAct:"매출 82조 / 영업익 12.5조(잠정)",
-      irUrl:"https://www.samsung.com/global/ir/",
-      summary:"2Q 잠정 영업이익 12.5조(컨센 상회). HBM·서버 DRAM 출하 증가와 메모리 가격 강세가 견인. 다만 6월 DRAM 현물가 MoM 약세 신호 → 3Q 가격 모멘텀 점검 필요. 확정 실적·부문별 세부는 7/28 컨콜에서." },
+    { date:"2026-07-07", type:"earnings", region:"KR", importance:3, ticker:"005930.KS", name:"삼성전자 (2Q26 잠정실적)", session:"bmo", held:false, released:true, verified:false,
+      epsEst:null, revEst:"매출 168.1조 / 영업이익 84.7조(컨센서스, 에프앤가이드)",
+      epsAct:null, revAct:"영업이익 80조 안팎(잠정, 컨센서스 하회)",
+      irUrl:"https://www.samsung.com/sec/ir/financial-information/earnings-release/",
+      summary:"2Q26 잠정실적 영업이익 80조원 안팎으로 컨센서스(84.7조) 하회. DS(반도체) 부문 특별성과급 충당금 10조원 이상 반영이 주 요인 — DB증권 프리뷰 기준 DS 자체 영업이익은 82.5조(영업이익률 65.4%)로 메모리(HBM·서버DRAM 가격 급등) 힘입어 사상 최대 추정. MX/SDC 등 세트 부문은 상대 부진. 부문별 확정치·가이던스는 통상 7월 말 정식 실적발표(컨콜)에서 공개 — 숫자는 잠정치로 확정 전 변동 가능." },
 
-    { date:"2026-07-16", type:"earnings", region:"TW", importance:3, ticker:"TSM", name:"TSMC (2Q26)", session:"bmo", held:false, released:true, verified:false,
-      epsEst:"NT$15.0", revEst:"NT$9,300억", epsAct:"NT$15.8", revAct:"NT$9,650억",
+    { date:"2026-07-16", type:"earnings", region:"TW", importance:3, ticker:"TSM", name:"TSMC (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:"NT$24(추정)", revEst:"NT$1.25~1.27조(가이던스 $39.0~40.2B)", epsAct:null, revAct:null,
       irUrl:"https://investor.tsmc.com/english/quarterly-results",
-      summary:"매출·EPS 컨센 상회, 총이익률 58%대. AI·HPC 수요로 3nm/5nm 풀가동, 2026 매출 가이던스 상향(달러 기준 mid-30% 성장). CoWoS 증설 지속. AI 반도체 밸류체인 전반 긍정적 리드." },
-
-    { date:"2026-07-15", type:"earnings", region:"EU", importance:3, ticker:"ASML", name:"ASML (2Q26)", session:"bmo", held:false, released:true, verified:false,
-      epsEst:"€5.4", revEst:"€8.2B", epsAct:"€5.7", revAct:"€8.5B",
-      irUrl:"https://www.asml.com/en/investors",
-      summary:"매출 €8.5B, 수주(bookings)가 서프라이즈 핵심. High-NA EUV 채택 확대·중국 매출 정상화. 2026 가이던스 유지~상향. 신규 수주 강도가 2027 메모리/파운더리 캡엑스 선행지표." },
-
-    { date:"2026-07-22", type:"earnings", region:"US", importance:3, ticker:"TSLA", name:"테슬라 (2Q26)", session:"amc", held:false, released:false, verified:false,
-      epsEst:"$0.45", revEst:"$24.5B", epsAct:null, revAct:null,
-      irUrl:"https://ir.tesla.com/",
       summary:null },
+
+    { date:"2026-07-15", type:"earnings", region:"EU", importance:3, ticker:"ASML", name:"ASML (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:"€8.4~9.0B(가이던스, 매출총이익률 51~52%)", epsAct:null, revAct:null,
+      irUrl:"https://www.asml.com/en/investors",
+      summary:null },
+
+    { date:"2026-07-22", type:"earnings", region:"US", importance:3, ticker:"TSLA", name:"테슬라 (2Q26)", session:"amc", held:false, released:false, verified:true,
+      epsEst:"$0.42", revEst:"$24.58B", epsAct:null, revAct:null,
+      irUrl:"https://ir.tesla.com/",
+      summary:"2Q26 인도량 48.0만대(+25% YoY, 컨센 40.6만대를 7.4만대 상회) — 실적 서프라이즈 가능성 시사. 컨센서스는 어닝콜 전 갱신치." },
 
     { date:"2026-07-23", type:"earnings", region:"US", importance:3, ticker:"GOOGL", name:"알파벳 (2Q26)", session:"amc", held:false, released:false, verified:false,
       epsEst:"$2.35", revEst:"$96B", epsAct:null, revAct:null,
@@ -189,7 +190,7 @@ window.CALENDAR = {
       summary:null },
 
     { date:"2026-07-24", type:"earnings", region:"KR", importance:3, ticker:"000660.KS", name:"SK하이닉스 (2Q26)", session:"bmo", held:false, released:false, verified:false,
-      epsEst:null, revEst:"매출 22조(E)", epsAct:null, revAct:null,
+      epsEst:null, revEst:"매출 82조 / 영업이익 59~70조(컨센서스, 증권사별 편차 큼)", epsAct:null, revAct:null,
       irUrl:"https://www.skhynix.com/ir/UI-FR-IR01/",
       summary:null },
 
