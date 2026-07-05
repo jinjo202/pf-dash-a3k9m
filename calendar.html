@@ -220,6 +220,11 @@
   .chartbox .ct { font-size:12px; font-weight:800; margin-bottom:2px; display:flex; align-items:center; gap:6px; justify-content:space-between; }
   .chartbox .cs { font-size:10.5px; color:var(--muted); margin-bottom:8px; }
   .chartbox svg { width:100%; height:auto; display:block; }
+  .chartbox svg [data-tip] { cursor:crosshair; }
+  .chartbox svg [data-tip]:hover { opacity:.78; }
+  .chart-tip { position:fixed; z-index:200; background:var(--text); color:var(--bg); font-size:11px; font-weight:700;
+    padding:4px 9px; border-radius:6px; pointer-events:none; box-shadow:var(--shadow-md); white-space:nowrap;
+    font-variant-numeric:tabular-nums; display:none; }
   .kx-tabs { display:inline-flex; gap:3px; background:var(--panel-soft); border:1px solid var(--border); border-radius:8px; padding:3px; }
   .kx-tab { padding:4px 12px; border:none; background:transparent; color:var(--muted); font-size:11.5px; font-weight:700; border-radius:6px; cursor:pointer; }
   .kx-tab.on { background:var(--accent); color:#fff; }
@@ -397,6 +402,20 @@
 function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 function el(tag, cls, html){ var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
+
+/* 차트 호버 툴팁 (data-tip 속성을 가진 SVG 요소에 값 표시) */
+(function(){
+  var tip=document.createElement('div'); tip.className='chart-tip'; document.body.appendChild(tip);
+  function show(t){ tip.textContent=t.getAttribute('data-tip'); tip.style.display='block'; }
+  document.addEventListener('mouseover', function(e){ var t=e.target.closest&&e.target.closest('[data-tip]'); if(t) show(t); });
+  document.addEventListener('mouseout',  function(e){ var t=e.target.closest&&e.target.closest('[data-tip]'); if(t) tip.style.display='none'; });
+  document.addEventListener('mousemove', function(e){ if(tip.style.display!=='none'){
+    var x=e.clientX+14, y=e.clientY+14;
+    if(x+tip.offsetWidth>window.innerWidth) x=e.clientX-tip.offsetWidth-10;
+    if(y+tip.offsetHeight>window.innerHeight) y=e.clientY-tip.offsetHeight-10;
+    tip.style.left=x+'px'; tip.style.top=y+'px';
+  }});
+})();
 
 /* 테마 토글 */
 (function(){
@@ -701,9 +720,11 @@ function hbarChartSVG(labels, vals){
   var rows=labels.map(function(l,i){
     var v=vals[i]; if(v==null) v=0;
     var y=padT+i*rowH, bw=iw*(Math.abs(v)/mx), c=v<0?"#dc2626":"#2563eb";
-    return '<text x="'+(padL-6)+'" y="'+(y+rowH/2+3.5)+'" font-size="10" fill="var(--text-soft)" text-anchor="end" font-weight="700">'+esc(l)+'</text>'+
-      '<rect x="'+padL+'" y="'+(y+5)+'" width="'+Math.max(bw,1).toFixed(1)+'" height="'+(rowH-11)+'" rx="2.5" fill="'+c+'"/>'+
-      '<text x="'+(padL+Math.max(bw,1)+5).toFixed(1)+'" y="'+(y+rowH/2+3.5)+'" font-size="9.5" fill="var(--text-soft)" font-weight="800">'+(v>0?"+":"")+v+'%</text>';
+    var tip=esc(l)+": "+(v>0?"+":"")+v+"%";
+    return '<text x="'+(padL-6)+'" y="'+(y+rowH/2+3.5)+'" font-size="10" fill="var(--text-soft)" text-anchor="end" font-weight="700" pointer-events="none">'+esc(l)+'</text>'+
+      '<rect x="'+padL+'" y="'+(y+5)+'" width="'+Math.max(bw,1).toFixed(1)+'" height="'+(rowH-11)+'" rx="2.5" fill="'+c+'" data-tip="'+tip+'"/>'+
+      '<rect x="'+padL+'" y="'+y+'" width="'+iw.toFixed(1)+'" height="'+rowH+'" fill="transparent" data-tip="'+tip+'"/>'+
+      '<text x="'+(padL+Math.max(bw,1)+5).toFixed(1)+'" y="'+(y+rowH/2+3.5)+'" font-size="9.5" fill="var(--text-soft)" font-weight="800" pointer-events="none">'+(v>0?"+":"")+v+'%</text>';
   }).join("");
   return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+rows+'</svg>';
 }
@@ -805,8 +826,10 @@ function lineChartMany(title, sub, labels, vals, color){
   var yl='<text x="'+(padL-4)+'" y="'+(yOf(mx)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+fmt(mx)+'</text>'+
          '<text x="'+(padL-4)+'" y="'+(yOf(mn)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+fmt(mn)+'</text>';
   var step=Math.max(1,Math.round(n/6)), xl="";
-  for(var i=0;i<n;i+=step){ var x=padL+gap*i; xl+='<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" font-size="7.5" fill="var(--muted)" text-anchor="middle">'+esc(labels[i])+'</text>'; }
-  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet"><polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linejoin="round"/>'+end+yl+xl+'</svg>';
+  for(var i=0;i<n;i+=step){ var x=padL+gap*i; xl+='<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" font-size="7.5" fill="var(--muted)" text-anchor="middle" pointer-events="none">'+esc(labels[i])+'</text>'; }
+  var hits=vals.map(function(v,i){ var x=padL+gap*i, y=yOf(v);
+    return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+Math.max(3,Math.min(7,gap/1.6)).toFixed(1)+'" fill="transparent" data-tip="'+esc(labels[i])+': $'+fmt(v)+'"/>'; }).join("");
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet"><polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linejoin="round"/>'+end+yl+xl+hits+'</svg>';
   return chartBox(title, sub, svg);
 }
 
@@ -825,14 +848,17 @@ function barChart(title, sub, labels, vals, color){
     var top=Math.min(y0,y1), h=Math.abs(y1-y0);
     var c = v<0 ? "#dc2626" : color;
     var lblY = v<0 ? (top+h+11) : (top-4);
-    return '<rect x="'+x.toFixed(1)+'" y="'+top.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,1).toFixed(1)+'" rx="2" fill="'+c+'"/>'+
-      '<text x="'+(x+bw/2).toFixed(1)+'" y="'+lblY.toFixed(1)+'" font-size="8.5" fill="var(--text-soft)" text-anchor="middle" font-weight="700">'+(v>0?"+":"")+v+'</text>';
+    var tip = esc(labels[i])+": "+(v>0?"+":"")+v;
+    return '<rect x="'+x.toFixed(1)+'" y="'+top.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,1).toFixed(1)+'" rx="2" fill="'+c+'" data-tip="'+tip+'"/>'+
+      '<text x="'+(x+bw/2).toFixed(1)+'" y="'+lblY.toFixed(1)+'" font-size="8.5" fill="var(--text-soft)" text-anchor="middle" font-weight="700" pointer-events="none">'+(v>0?"+":"")+v+'</text>';
   }).join("");
   var xlbls=labels.map(function(l,i){ var x=padL+gap*i+gap/2;
-    return '<text x="'+x.toFixed(1)+'" y="'+(H-7)+'" font-size="8.5" fill="var(--muted)" text-anchor="middle">'+esc(l)+'</text>'; }).join("");
+    return '<text x="'+x.toFixed(1)+'" y="'+(H-7)+'" font-size="8.5" fill="var(--muted)" text-anchor="middle" pointer-events="none">'+esc(l)+'</text>'; }).join("");
+  var hits=vals.map(function(v,i){ var x=padL+gap*i;
+    return '<rect x="'+x.toFixed(1)+'" y="'+padT+'" width="'+gap.toFixed(1)+'" height="'+ih+'" fill="transparent" data-tip="'+esc(labels[i])+': '+(v>0?"+":"")+v+'"/>'; }).join("");
   var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+
     '<line x1="'+padL+'" y1="'+yOf(0).toFixed(1)+'" x2="'+(W-padR)+'" y2="'+yOf(0).toFixed(1)+'" stroke="var(--border)" stroke-width="1"/>'+
-    bars+xlbls+'</svg>';
+    bars+xlbls+hits+'</svg>';
   return chartBox(title, sub, svg);
 }
 /* SVG 라인차트 */
@@ -845,10 +871,11 @@ function lineChart(title, sub, labels, vals, color){
   var n=vals.length, gap=iw/(n-1||1);
   var pts=vals.map(function(v,i){ return (padL+gap*i).toFixed(1)+","+yOf(v).toFixed(1); });
   var dots=vals.map(function(v,i){ var x=padL+gap*i, y=yOf(v);
-    return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="2.6" fill="'+color+'"/>'+
-      '<text x="'+x.toFixed(1)+'" y="'+(y-6).toFixed(1)+'" font-size="8.5" fill="var(--text-soft)" text-anchor="middle" font-weight="700">'+v+'</text>'; }).join("");
+    return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="2.6" fill="'+color+'" pointer-events="none"/>'+
+      '<text x="'+x.toFixed(1)+'" y="'+(y-6).toFixed(1)+'" font-size="8.5" fill="var(--text-soft)" text-anchor="middle" font-weight="700" pointer-events="none">'+v+'</text>'+
+      '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="8" fill="transparent" data-tip="'+esc(labels[i])+': '+v+'"/>'; }).join("");
   var xlbls=labels.map(function(l,i){ var x=padL+gap*i;
-    return '<text x="'+x.toFixed(1)+'" y="'+(H-7)+'" font-size="8.5" fill="var(--muted)" text-anchor="middle">'+esc(l)+'</text>'; }).join("");
+    return '<text x="'+x.toFixed(1)+'" y="'+(H-7)+'" font-size="8.5" fill="var(--muted)" text-anchor="middle" pointer-events="none">'+esc(l)+'</text>'; }).join("");
   var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+
     '<polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-linejoin="round"/>'+
     dots+xlbls+'</svg>';
