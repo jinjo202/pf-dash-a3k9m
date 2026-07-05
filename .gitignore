@@ -3,6 +3,8 @@
 
 # 평문 포트폴리오 데이터 (Git에는 암호화본만)
 portfolio-data.plain.js
+calendar-holdings.plain.js
+dividend-watch.plain.js
 .password
 
 # 별개 프로젝트 (배당 공시 스크래퍼)
@@ -11,6 +13,9 @@ fetch_disclosures.ps1
 monitor.log
 pending.json
 state.json
+
+# 별개 프로젝트 (KIND/DART 배당공시 메일러 — P2, 비밀·자격증명 포함)
+kind_dividend_watch/
 
 # 로컬 환경 생성물
 phone_qr.png

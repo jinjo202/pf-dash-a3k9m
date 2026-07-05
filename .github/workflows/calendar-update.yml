@@ -1,0 +1,113 @@
+name: Calendar Update
+
+# 캘린더 탭 자동 갱신 — 원문 공식 소스에서 매크로/어닝을 당기고(이 PC FRED throttle과
+# 무관, GitHub 러너에서 정상), 보유 ETF 분배금을 yfinance로 갱신·암호화한다.
+#   - calendar-auto.js       (공개: BLS 매크로 + 어닝 일정 + 관세청[키 있으면])
+#   - calendar-holdings.js    (암호화: 보유 ETF/펀드 분배금 — 실보유 미노출)
+
+on:
+  schedule:
+    # 미 지표(BLS)·어닝은 매일 아침, 한국 수출 잠정(1/10/20일)도 이때 반영
+    - cron: '20 22 * * *'   # 07:20 KST (다음날)
+    - cron: '50 22 * * *'   # 07:50 KST (백업)
+  workflow_dispatch:
+  repository_dispatch:
+    types: [calendar-trigger]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: calendar-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # 보유 목록은 암호화본만 repo에 있음 → 복호화해 평문(gitignored) 확보
+      - name: Decrypt portfolio (for holdings tickers)
+        env:
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+        run: python encrypt_data.py decrypt
+
+      - name: Fetch held ETF/fund distributions (yfinance)
+        run: python fetch_calendar_dividends.py
+        continue-on-error: true
+
+      # 감시목록 개별주식(비공개)의 DART 배당공시 → calendar-holdings 에 병합(권리락/지급/D-1)
+      - name: Fetch watched-stock dividends from DART (held)
+        env:
+          DART_API_KEY: ${{ secrets.DART_API_KEY }}
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+        run: python fetch_stock_dividends.py
+        continue-on-error: true
+
+      - name: Encrypt holdings distributions
+        env:
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+        run: python encrypt_calendar.py encrypt
+        continue-on-error: true
+
+      # 매크로(BLS, 키 불필요) + 어닝(yfinance) + 관세청(TRADE_API_KEY 있으면)
+      - name: Fetch macro + earnings (official sources)
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+          TRADE_API_KEY: ${{ secrets.TRADE_API_KEY }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          KOSIS_API_KEY: ${{ secrets.KOSIS_API_KEY }}
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: python fetch_calendar.py
+        continue-on-error: true
+
+      - name: Commit and push if changed
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 이 워크플로가 건드리는 파일은 딱 2개. 소스/다른 데이터는 절대 건드리지 않음.
+          # (평문 portfolio-data.plain.js / calendar-holdings.plain.js 는 gitignored)
+          TRACKED="calendar-auto.js calendar-holdings.js"
+
+          TMP="$(mktemp -d)"
+          for f in $TRACKED; do [ -f "$f" ] && cp "$f" "$TMP/$(echo "$f" | tr '/' '_')"; done
+          restore_data() {
+            for f in $TRACKED; do
+              b="$TMP/$(echo "$f" | tr '/' '_')"
+              [ -f "$b" ] && cp "$b" "$f"
+            done
+          }
+
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            restore_data
+            git add $TRACKED
+            if git diff --staged --quiet; then
+              echo "변경 없음. 종료."
+              exit 0
+            fi
+            git commit -m "auto: calendar update $(date -u +%Y-%m-%d)"
+            if git push; then
+              echo "push 성공 (attempt $attempt)"
+              exit 0
+            fi
+            echo "push 실패 — 재시도 ($attempt/5)"
+            sleep $((attempt * 5))
+          done
+          echo "::error::5회 시도 후 push 실패"
+          exit 1
