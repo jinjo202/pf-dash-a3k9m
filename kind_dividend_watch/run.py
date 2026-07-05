@@ -144,7 +144,9 @@ def _kst_now():
 
 
 def _market_gate() -> bool:
-    """MARKET_HOURS_ONLY=1(러너)이면 KST 평일 08~20시만 통과. 아니면 항상 통과."""
+    """MARKET_HOURS_ONLY=1(러너)이면 KST 평일 08~20시만 통과. FORCE_RUN이면 무시(테스트)."""
+    if os.getenv("FORCE_RUN", "") in ("1", "true", "True"):
+        return True
     if os.getenv("MARKET_HOURS_ONLY", "") not in ("1", "true", "True"):
         return True
     now = _kst_now()

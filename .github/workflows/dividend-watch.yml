@@ -9,6 +9,11 @@ on:
   schedule:
     - cron: '13,43 * * * *'    # 매 30분(:13,:43). 스크립트가 KST 평일 08~20시만 통과(MARKET_HOURS_ONLY).
   workflow_dispatch:
+    inputs:
+      force:
+        description: '장시간 게이트 무시(테스트용 강제 실행)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -42,6 +47,7 @@ jobs:
       - name: Run dividend monitor (once)
         env:
           MARKET_HOURS_ONLY: '1'
+          FORCE_RUN: ${{ inputs.force }}
           DART_API_KEY: ${{ secrets.DART_API_KEY }}
           PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
           SMTP_USER: ${{ secrets.GMAIL_SENDER }}
