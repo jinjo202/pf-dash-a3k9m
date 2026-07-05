@@ -161,6 +161,16 @@
   .cell.sun .dnum { color:var(--neg); }
   .cell.sat .dnum { color:var(--accent); }
   .cell.today.sun .dnum, .cell.today.sat .dnum { color:#fff; }
+  .cell.has-div { box-shadow:inset 0 0 0 2px var(--gold); }
+  .dnum { position:relative; }
+  .div-pin { position:absolute; top:-6px; right:-10px; font-size:11px; line-height:1; filter:drop-shadow(0 1px 1px rgba(0,0,0,.25)); }
+
+  /* 분배금 알림 배너 (날짜 모달 최상단) */
+  .div-alert { background:linear-gradient(135deg,var(--gold-soft),var(--panel-soft)); border:1.5px solid var(--gold); border-radius:10px; padding:11px 14px; margin-bottom:14px; }
+  .div-alert-t { font-size:13.5px; font-weight:900; color:var(--gold); display:flex; align-items:center; gap:6px; }
+  .div-alert-list { display:flex; flex-wrap:wrap; gap:7px; margin-top:8px; }
+  .div-alert-chip { font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--gold); color:var(--text); cursor:pointer; transition:all .12s; }
+  .div-alert-chip:hover { background:var(--gold); color:#fff; }
   .evs { display:flex; flex-direction:column; gap:3px; }
   .ev { display:flex; align-items:center; gap:5px; padding:2px 6px; border-radius:5px; font-size:10.5px; font-weight:700; line-height:1.35;
     background:var(--tcs); color:var(--tc); border-left:3px solid var(--tc); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -458,6 +468,8 @@ var TYPE_META = {
   export:   { cls:"t-export",   label:"한국수출", icon:"🚢" },
   event:    { cls:"t-event",    label:"이벤트", icon:"📌" }
 };
+var REGION_FLAG = { KR:"🇰🇷", US:"🇺🇸", EU:"🇪🇺", JP:"🇯🇵", TW:"🇹🇼", GL:"🌐", CN:"🇨🇳" };
+function rgnFlag(e){ return REGION_FLAG[e.region] || ""; }
 
 var STATE = { y: TODAY.getFullYear(), m: TODAY.getMonth(),
   filters: { macro:true, earnings:true, dividend:true, export:true, event:true } };
@@ -508,12 +520,14 @@ function renderMonth(){
     var iso = fmtISO(d);
     var oth = d.getMonth()!==m;
     var dow = d.getDay();
-    var cls = "cell"+(oth?" oth":"")+(iso===TODAY_STR?" today":"")+(dow===0?" sun":"")+(dow===6?" sat":"");
+    var dayEvsAll = BYDATE[iso]||[];
+    var hasDiv = STATE.filters.dividend && dayEvsAll.some(function(e){ return e.type==='dividend'; });
+    var cls = "cell"+(oth?" oth":"")+(iso===TODAY_STR?" today":"")+(dow===0?" sun":"")+(dow===6?" sat":"")+(hasDiv?" has-div":"");
     var cell = el("div", cls);
     cell.dataset.iso = iso;
-    var dnum = el("div","dnum", String(d.getDate()));
+    var dnum = el("div","dnum", String(d.getDate())+(hasDiv?'<span class="div-pin" title="분배금 일정 있음">💰</span>':''));
     cell.appendChild(dnum);
-    var evs = (BYDATE[iso]||[]).filter(function(e){ return STATE.filters[e.type]; });
+    var evs = dayEvsAll.filter(function(e){ return STATE.filters[e.type]; });
     var wrap = el("div","evs");
     var lim = oth?2:3;
     evs.slice(0,lim).forEach(function(e){
@@ -531,9 +545,9 @@ function renderMonth(){
   }
 }
 function evLabel(e){
-  if(e.type==='earnings') return (e.name||e.ticker||"");
-  if(e.type==='dividend') return (e.name||e.ticker)+" "+(e.kind==='ex'?"권리락":"지급");
-  return (e.title||"").replace(/^🇰🇷 |^🇺🇸 |^🇪🇺 |^🇯🇵 /,'');
+  if(e.type==='earnings') return rgnFlag(e)+" "+(e.name||e.ticker||"");
+  if(e.type==='dividend') return "💰 "+(e.name||e.ticker)+" "+(e.kind==='ex'?"권리락":"지급");
+  return (e.title||"").replace(/^🇰🇷 |^🇺🇸 |^🇪🇺 |^🇯🇵 |^🇹🇼 |^🌐 /,'');
 }
 
 /* ============================ 모달 ============================ */
@@ -614,8 +628,8 @@ function openEvent(e){
   openOverlay(m);
 }
 function evTitle(e){
-  if(e.type==='earnings') return (e.name||e.ticker)+" 실적";
-  if(e.type==='dividend') return (e.name||e.ticker)+" 분배금";
+  if(e.type==='earnings') return rgnFlag(e)+" "+(e.name||e.ticker)+" 실적";
+  if(e.type==='dividend') return "💰 "+(e.name||e.ticker)+" 분배금";
   return e.title||"";
 }
 function sessionLabel(s){ return ({pre:"장전",bmo:"장전(BMO)",post:"장후",amc:"장후(AMC)"}[s])||"발표"; }
@@ -631,6 +645,14 @@ function kvGrid(pairs){
 function openDay(iso){
   var evs = (BYDATE[iso]||[]).filter(function(e){ return STATE.filters[e.type]; });
   var m = el("div","modal wide");
+  var divEvs = evs.filter(function(e){ return e.type==='dividend'; });
+  var divAlert = "";
+  if(divEvs.length){
+    divAlert = '<div class="div-alert"><div class="div-alert-t">💰 분배금 일정 확인 — '+divEvs.length+'건</div>'+
+      '<div class="div-alert-list">'+divEvs.map(function(e){
+        return '<span class="div-alert-chip" data-i="'+EVENTS.indexOf(e)+'">'+esc(e.name||e.ticker)+' '+(e.kind==='ex'?"권리락":"지급")+(e.amount?(" · "+esc(e.amount)):"")+'</span>';
+      }).join("")+'</div></div>';
+  }
   var rows="";
   if(!evs.length){ rows = '<p class="note">이 날짜에 표시할 일정이 없습니다(필터 확인).</p>'; }
   else {
@@ -653,10 +675,10 @@ function openDay(iso){
     '<div class="mhd"><div><h3>🗓️ '+esc(fmtKDate(iso))+'</h3>'+
       '<div class="mdate">'+evs.length+'건의 일정</div></div>'+
       '<button class="mclose" title="닫기">✕</button></div>'+
-    '<div class="mbd">'+rows+'</div>';
+    '<div class="mbd">'+divAlert+rows+'</div>';
   m.querySelector('.mclose').addEventListener('click', closeModal);
   openOverlay(m);
-  m.querySelectorAll('.dayrow').forEach(function(r){
+  m.querySelectorAll('.dayrow, .div-alert-chip').forEach(function(r){
     r.addEventListener('click', function(){ openEvent(EVENTS[+this.dataset.i]); });
   });
 }
@@ -879,7 +901,7 @@ function renderSectors(){
   host.querySelectorAll('.subitem').forEach(function(b){
     b.addEventListener('click', function(e){ e.stopPropagation(); openSubItem(this.dataset.k); });
   });
-  if($('kxSectorNote')) $('kxSectorNote').textContent = H&&H.cat ? ("출처: "+(H.source||"")+" · 최신 "+(H.latest_month||"")+". 세부항목 클릭 → 금액·단가·YoY·MoM 차트 + 핵심분석 + 주가 영향. 상단 6섹터 펼침, 나머지·국가지역은 클릭해 펼치기.") : "관세청 데이터 수집 대기 — 반영 시 섹터별 실수치가 채워집니다.";
+  if($('kxSectorNote')) $('kxSectorNote').textContent = H&&H.cat ? ("출처: "+(H.source||"")+" · 상세 확정 최신 "+(H.latest_month||"")+" (관세청 상세는 익월 15일경 확정 — 6월분은 7/15경 자동 반영). 그 전 최신월은 ⚡신속 잠정치(산업부 익월 1일 발표 기반)로 세부항목 모달에 표시. 세부항목 클릭 → 금액·단가·YoY·MoM + 핵심분석 + 주가 영향.") : "관세청 데이터 수집 대기 — 반영 시 섹터별 실수치가 채워집니다.";
 }
 function openSubItem(k){
   var H=window.EXPORT_HISTORY, c=catOf(k), meta=findItemMeta(k), isRgn=k.indexOf("rgn:")===0;
@@ -887,6 +909,18 @@ function openSubItem(k){
   if(!c){ body='<p class="note">이 항목의 관세청 데이터가 아직 없습니다(수집 대기 또는 HS 미매핑).</p>'+(meta.s?'<p class="note">관련주: '+esc(meta.s)+'</p>':''); }
   else {
     var v=lastNonNull(c.val), vy=lastNonNull(c.val_yoy), vm=lastNonNull(c.val_mom), p=lastNonNull(c.price), py=lastNonNull(c.price_yoy), pm=lastNonNull(c.price_mom);
+    // ⚡ 신속 잠정치(산업부 월간잠정·보도): 관세청 상세(latest_month)가 flash 월을 아직 못 따라온 경우만 표시
+    var FL = KX && KX.flash;
+    if(FL && FL.items && FL.items[k] && (!H.latest_month || H.latest_month < FL.month)){
+      var fi = FL.items[k];
+      var fparts = [];
+      if(fi.val!=null) fparts.push("수출 $"+fi.val+"B");
+      if(fi.yoy!=null) fparts.push("YoY <span class='"+(fi.yoy<0?"neg":"pos")+"'>"+(fi.yoy>0?"+":"")+fi.yoy+"%</span>");
+      body += '<div class="hl-box" style="margin:0 0 12px;border-color:var(--accent);background:var(--accent-soft)">'+
+        '<div class="hlt" style="color:var(--accent)">⚡ '+esc(FL.month)+' 신속 잠정치 <span class="badge chk">잠정·미확정</span></div>'+
+        '<div class="hlb">'+(fparts.length?fparts.join(" · ")+"<br>":"")+esc(fi.extra||"")+
+        '<br><span style="opacity:.8">'+esc(FL.note||"")+' 출처: '+esc(FL.source||"")+'</span></div></div>';
+    }
     // 메모리 계약가 교차확인(Meritz, 관세청보다 최신월 반영 — 하드코딩 서사 대신 실데이터 자동 표시)
     var memXref = MEM_XREF[k];
     if(memXref && MEM && MEM.latest && MEM.latest[memXref]){

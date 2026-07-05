@@ -29,7 +29,7 @@
  *     // --- dividend ---
  *     ticker, name, kind:"ex"|"pay", amount, freq, note
  *   }]
- *   krExport: { note, releases:[...], series:{...}, tenday:[...] }
+ *   krExport: { note, headline_month, categories:[...], series:{...}, semiDetail:{...}, highlight }
  * ==========================================================================*/
 window.CALENDAR = {
   as_of: "2026-07-05",
@@ -200,6 +200,81 @@ window.CALENDAR = {
       irUrl:"https://www.skhynix.com/ir/UI-FR-IR01/",
       summary:null },
 
+    { date:"2026-07-08", type:"earnings", region:"KR", importance:2, ticker:"066570.KS", name:"LG전자 (2Q26 잠정실적)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:"매출 22.54조 / 영업이익 1.1조(컨센서스)", epsAct:null, revAct:null,
+      irUrl:"https://www.lge.co.kr/company/investor/presentation",
+      summary:null, note:"삼성전자와 같은 주 잠정실적 발표(통상 관례). YoY 매출 한자릿수 후반·영업이익 60%대 중반 증가 전망(가전·B2B 호조)." },
+
+    { date:"2026-07-23", type:"earnings", region:"KR", importance:3, ticker:"005380.KS", name:"현대차 (2Q26)", session:"bmo", held:false, released:false, verified:true,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.hyundai.com/worldwide/ko/company/ir/ir-schedule",
+      summary:null, note:"2Q 생산차질 일단락, 하반기 실적 턴어라운드 전망(증권가)." },
+
+    { date:"2026-07-23", type:"earnings", region:"KR", importance:2, ticker:"012330.KS", name:"현대모비스 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.mobis.co.kr/kr/ir/irSchedule.do",
+      summary:null, note:"일정 잠정(공식 미확정) — 통상 현대차와 같은 날 발표." },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"000270.KS", name:"기아 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://worldwide.kia.com/kr/company/ir/archive/business-results",
+      summary:null, note:"일정 잠정(공식 미확정) — 통상 현대차 다음날 전후 발표." },
+
+    { date:"2026-07-29", type:"earnings", region:"KR", importance:3, ticker:"207940.KS", name:"삼성바이오로직스 (2Q26)", session:"bmo", held:false, released:false, verified:true,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.samsungbiologics.com/kr/investors/financial-statements",
+      summary:null },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"373220.KS", name:"LG에너지솔루션 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.lgensol.com/kr/earnings-announcement",
+      summary:null, note:"일정 잠정(공식 미확정). 2Q 북미 ESS 수요 견조·출하량 증가 전망, 적자 저점 통과 여부 관건." },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"051910.KS", name:"LG화학 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.lgchem.com/company/ir/ir-report/earnings-release",
+      summary:null, note:"일정 잠정(공식 미확정) — 통상 LG에너지솔루션과 같은 주 발표." },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"006400.KS", name:"삼성SDI (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.samsungsdi.co.kr/support/financial-statements.html",
+      summary:null, note:"일정 잠정(공식 미확정) — 2차전지 업황 회복 여부 관전 포인트." },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"005490.KS", name:"POSCO홀딩스 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.posco-holdings.com/dam/jsp/kr/ir/schedule/index.jsp",
+      summary:null, note:"일정 잠정(공식 미확정) — 철강 업황·2차전지소재 부문 동반 점검." },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"042700.KS", name:"한미반도체 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.hanmisemi.com/kor/investor/financial",
+      summary:null, note:"일정 잠정(공식 미확정). HBM용 TC본더 수주·매출인식 속도가 핵심 — SK하이닉스 실적과 연동 관전." },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"267260.KS", name:"HD현대일렉트릭 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.hyundai-electric.com/kr/ir/irschedule.do",
+      summary:null, note:"일정 잠정(공식 미확정). AI 데이터센터·미국 전력망 투자 수혜주 — 변압기 수주잔고 코멘트 주목(하단 전력기기 수출 섹터 교차확인)." },
+
+    { date:"2026-07-24", type:"earnings", region:"KR", importance:2, ticker:"058470.KQ", name:"리노공업 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.rinoworks.com/ir/ir01.jsp",
+      summary:null, note:"일정 잠정(공식 미확정). 비메모리 테스트소켓 — 팹리스 가동률 연동." },
+
+    { date:"2026-08-12", type:"earnings", region:"KR", importance:2, ticker:"034020.KS", name:"두산에너빌리티 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.doosanenerbility.com/kr/investor/financial/notice",
+      summary:null, note:"일정 잠정(공식 미확정). 원전·SMR 수주 모멘텀 관전." },
+
+    { date:"2026-08-06", type:"earnings", region:"KR", importance:2, ticker:"035420.KS", name:"NAVER (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.navercorp.com/investment/earnings",
+      summary:null, note:"일정 잠정(공식 미확정) — 통상 8월 첫째 주 발표." },
+
+    { date:"2026-08-07", type:"earnings", region:"KR", importance:2, ticker:"035720.KS", name:"카카오 (2Q26)", session:"bmo", held:false, released:false, verified:false,
+      epsEst:null, revEst:null, epsAct:null, revAct:null,
+      irUrl:"https://www.kakaocorp.com/ir/reference/businessReport",
+      summary:null, note:"일정 잠정(공식 미확정) — 통상 네이버 다음날 전후 발표." },
+
     { date:"2026-07-29", type:"earnings", region:"US", importance:3, ticker:"MSFT", name:"마이크로소프트 (FY4Q26)", session:"amc", held:false, released:false, verified:false,
       epsEst:"$3.65", revEst:"$76B", epsAct:null, revAct:null,
       irUrl:"https://www.microsoft.com/en-us/investor",
@@ -292,11 +367,11 @@ window.CALENDAR = {
       detail:"증산 스케줄(자발적 감산 환원) 조정 여부. 회의 시기 변동 가능.",
       interp:"증산 가속 → 유가 하방·인플레 완화. 산유국 재정·지정학 변수와 함께 에너지株·항공·화학 마진에 파급." },
 
-    { date:"2026-07-14", type:"event", region:"KR", category:"corporate", importance:3, released:false, verified:false, confirmed:false,
-      title:"🏢 SK하이닉스 미국 ADR 상장 추진", source:"언론/IR",
+    { date:"2026-07-10", type:"event", region:"KR", category:"corporate", importance:3, released:false, verified:false, confirmed:true,
+      title:"🏢 SK하이닉스 미국 나스닥 ADR 상장", source:"언론(뉴시스·MBC 등)",
       url:"https://www.skhynix.com/ir/UI-FR-IR01/",
-      detail:"미국 ADR/직상장 추진설(시기·구조 미확정). HBM 프리미엄의 글로벌 재평가·투자자 저변 확대 기대.",
-      interp:"성사 시 밸류에이션 리레이팅·유동성 확대. 관측 이벤트 — 공식 공시로 확인 필요(‘미확정’)." },
+      detail:"7/10 나스닥 ADR 상장. 발행규모 최대 45조4,500억원(수요예측으로 확정). 2026-03-24 SEC에 비공개 Form F-1 등록신청. 주관사 BofA·씨티·골드만삭스·JP모간. 조달자금은 용인 반도체클러스터·청주 패키징팹 시설투자에 사용.",
+      interp:"HBM 프리미엄의 미국 자본시장 직접 비교(엔비디아·브로드컴 등)를 통한 밸류에이션 재평가가 핵심 노림수. 대규모 신주 발행이라 단기 수급 부담 vs 중장기 유동성·저변 확대 기대가 공존." },
 
     /* ── TSMC 월매출 공시 (대만 규정: 매월 10일경 전월치) — AI 반도체 수요 선행지표 ── */
     { date:"2026-06-10", type:"event", region:"TW", category:"corporate", importance:3, released:true, verified:true, confirmed:true,
@@ -327,6 +402,26 @@ window.CALENDAR = {
       url:"https://www.nasdaq.com/market-activity/index/ndx",
       detail:"분기 리뷰 반영(9월 셋째 금요일 발효). 편출입·비중 조정.",
       interp:"패시브(QQQ/QQQM 등) 리밸런싱 매매. 편입/비중확대 종목에 수급 이벤트." },
+    { date:"2026-08-12", type:"event", region:"GL", category:"index", importance:2, released:false, verified:false, confirmed:true,
+      title:"📇 MSCI 8월 분기 정기변경 발표", source:"MSCI",
+      url:"https://www.msci.com/indexes/quarterly-index-review",
+      detail:"MSCI 분기 리뷰(2·5·8·11월 사이클) 결과 발표. 효력발생일 9/1.",
+      interp:"신흥국지수(EM)·한국 비중 편출입이 외국인 패시브 자금 수급에 직결. 발표일(8/12)~효력일(9/1) 사이 리밸런싱 매매 유입." },
+    { date:"2026-09-01", type:"event", region:"GL", category:"index", importance:2, released:false, verified:false, confirmed:true,
+      title:"📇 MSCI 8월 정기변경 효력발생", source:"MSCI",
+      url:"https://www.msci.com/indexes/quarterly-index-review",
+      detail:"8/12 발표분 리밸런싱 실제 반영일. 통상 효력일 직전 종가(MOC) 기준 대량 수급.",
+      interp:"패시브 추종자금(EM ETF 등)의 실제 매매 집중일 — 편입/편출 종목·비중조정 종목 변동성 확대." },
+    { date:"2026-11-11", type:"event", region:"GL", category:"index", importance:2, released:false, verified:false, confirmed:true,
+      title:"📇 MSCI 11월 분기 정기변경 발표", source:"MSCI",
+      url:"https://www.msci.com/indexes/quarterly-index-review",
+      detail:"분기 리뷰 결과 발표. 효력발생일 12/1.",
+      interp:"연말 리밸런싱 — 세금손실매도(tax-loss selling) 시즌과 겹쳐 변동성 확대 가능." },
+    { date:"2026-12-01", type:"event", region:"GL", category:"index", importance:2, released:false, verified:false, confirmed:true,
+      title:"📇 MSCI 11월 정기변경 효력발생", source:"MSCI",
+      url:"https://www.msci.com/indexes/quarterly-index-review",
+      detail:"11/11 발표분 리밸런싱 실제 반영일.",
+      interp:"연중 마지막 정기변경 — 연간 자금흐름 마무리 구간의 수급 이벤트." },
     { date:"2026-09-10", type:"event", region:"KR", category:"market", importance:2, released:false, verified:false, confirmed:true,
       title:"⚙️ 한국 선물·옵션 동시만기(쿼드러플)", source:"KRX",
       detail:"9월 동시만기일. 프로그램·차익거래 청산으로 수급 변동성.",
@@ -423,6 +518,28 @@ window.CALENDAR = {
     },
 
     // 반도체 세부: 시장이 보는 주요 구분(메모리 vs 시스템 + DRAM/NAND/HBM/SSD). 단가는 아래 Meritz 차트.
+    /* ⚡ 신속 잠정치 오버레이 — 관세청 상세(HS) 확정은 익월 15일경(6월분→7/15).
+     * 그 전까지 산업부 월간 잠정(익월 1일)·언론 보도 기반 수치를 세부항목 모달에 표시.
+     * 상세 API가 해당 월을 확정하면(export-history.js latest_month 갱신) 오버레이는 자동으로 뒤로 빠짐.
+     * 갱신법: 매월 1일 산업부 보도자료 보고 아래 items 값 교체. */
+    flash: {
+      month: "2026.06", verified: false,
+      source: "산업통상자원부 7/1 월간잠정 + 뉴스1(수출단가)",
+      note: "관세청 상세(HS별 금액·단가) 확정 공표는 7/15경 — 그 전까지 보도자료 기반 잠정치.",
+      items: {
+        semi:      { val: 44.82, yoy: 199.5, extra: "사상 첫 $40B. D램·SSD 수출단가 MoM -4~5%(뉴스1, 블렌디드) → 7/1 반도체주 급락 트리거" },
+        semi_mem:  { extra: "메모리 주도 지속. 단, 단가 MoM -4~5% 보도(D램·SSD) — 7/15 관세청 확정으로 검증 예정" },
+        dram_incl: { extra: "D램 수출단가 MoM -4~5% 하락 보도(뉴스1, 잠정) — 최근 조정 트리거. 7/15 확정치로 검증" },
+        dram_excl: { extra: "D램 수출단가 MoM -4~5% 하락 보도(뉴스1, 잠정) — 7/15 확정치로 검증" },
+        mcp:       { extra: "HBM(MCP)은 공급부족 지속 관측 — 단가 하락 보도는 범용 D램·SSD 중심" },
+        ssd:       { extra: "SSD 수출단가 MoM -4~5% 하락 보도(뉴스1, 잠정) — 7/15 확정치로 검증" },
+        computer:  { yoy: 309, extra: "컴퓨터(SSD) 6월 +309% YoY(산업부)" },
+        auto:      { val: 6.71, yoy: 5.8 },
+        cosmetic:  { val: 1.34, yoy: 42.5, extra: "3~5월 연속 월최대 경신 후 6월도 고성장" },
+        food:      { val: 1.17, yoy: 16.8 }
+      }
+    },
+
     semiDetail: {
       note: "시장이 보는 반도체 세부: ①메모리(DRAM+NAND, HS 854232) vs ②시스템반도체(HS 854231), ③메모리 내 DRAM·NAND·HBM 가격, ④컴퓨터(SSD)는 별도 품목. 수출 급증(+199.5%)은 메모리 가격 급등·HBM/AI 주도. 단가는 아래 Meritz·DRAMeXchange 장기차트.",
       subitems: [
