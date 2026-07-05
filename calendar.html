@@ -845,7 +845,8 @@ var SECTORS = [
     { k:"rgn:인도", n:"인도", s:"", i:"신흥 성장시장. 자동차·철강" }
   ]}
 ];
-var JUNE_DRAM_WARN = ["dram_incl","dram_excl","semi_mem","mcp"];  // 6월 단가 MoM 하락 이슈 대상
+/* 관세청 세부항목 → Meritz 메모리가격 키 매핑(있으면 모달에 최신월 계약가 MoM/YoY 교차표시) */
+var MEM_XREF = { dram_incl:"dram_ddr5_16gb", dram_excl:"dram_ddr5_16gb", semi_mem:"dram_ddr5_16gb", nand:"nand_128g_mlc", mcp:"dram_server_ddr5" };
 function lastNonNull(a){ if(!a) return null; for(var i=a.length-1;i>=0;i--) if(a[i]!=null) return a[i]; return null; }
 function fmtPct(v){ return v==null?null:((v>0?"+":"")+v+"%"); }
 function findItemMeta(k){ for(var i=0;i<SECTORS.length;i++){ var it=SECTORS[i].items.filter(function(x){return x.k===k;})[0]; if(it) return it; } return {n:k}; }
@@ -882,10 +883,13 @@ function openSubItem(k){
   if(!c){ body='<p class="note">이 항목의 관세청 데이터가 아직 없습니다(수집 대기 또는 HS 미매핑).</p>'+(meta.s?'<p class="note">관련주: '+esc(meta.s)+'</p>':''); }
   else {
     var v=lastNonNull(c.val), vy=lastNonNull(c.val_yoy), vm=lastNonNull(c.val_mom), p=lastNonNull(c.price), py=lastNonNull(c.price_yoy), pm=lastNonNull(c.price_mom);
-    // 6월 DRAM 단가 하락 이슈 플래그(상세 HS는 5월까지 → 6월 잠정 안내)
-    if(JUNE_DRAM_WARN.indexOf(k)>=0){
-      body += '<div class="hl-box" style="margin:0 0 12px"><div class="hlt">⚠️ 6월 잠정: DRAM 수출단가 MoM 하락 관측</div>'+
-        '<div class="hlb">최근 반도체주 조정의 트리거. 관세청 <b>상세 HS는 5월까지</b> 확정(6월은 익월 반영)이라 아래 차트엔 미표시 — 6월 단가 꺾임은 산업부 잠정·DRAMeXchange로 선확인 필요.</div></div>';
+    // 메모리 계약가 교차확인(Meritz, 관세청보다 최신월 반영 — 하드코딩 서사 대신 실데이터 자동 표시)
+    var memXref = MEM_XREF[k];
+    if(memXref && MEM && MEM.latest && MEM.latest[memXref]){
+      var ml=MEM.latest[memXref];
+      var mtag = ml.mom==null?"":(ml.mom<0?" neg":(ml.mom>0?" pos":""));
+      body += '<div class="hl-box" style="margin:0 0 12px"><div class="hlt">💾 메모리 계약가 교차확인 ('+esc(MEM.labels[memXref])+', '+esc(ml.month)+')</div>'+
+        '<div class="hlb">$'+ml.val+' · MoM <span class="'+mtag+'">'+(ml.mom>0?"+":"")+ml.mom+'%</span> · YoY <span class="'+(ml.yoy<0?"neg":"pos")+'">'+(ml.yoy>0?"+":"")+ml.yoy+'%</span> — 관세청 수출단가(위 KV)보다 최신월. 출처: '+esc(MEM.source||"Meritz")+'. 하단 메모리 트래커에서 장기추세 확인.</div></div>';
     }
     body += kvGrid([["수출금액", v!=null?("$"+v+"B"):null],["금액 YoY", fmtPct(vy)],["금액 MoM", fmtPct(vm)],
                     ["수출단가", p!=null?("$"+Math.round(p).toLocaleString()+"/kg"):null],["단가 YoY", fmtPct(py)],["단가 MoM", fmtPct(pm)]]);
