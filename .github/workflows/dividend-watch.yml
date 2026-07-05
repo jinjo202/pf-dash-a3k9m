@@ -1,0 +1,79 @@
+name: Dividend Watch
+
+# KIND/DART 배당·분배 공시 모니터링 (PC 상태 무관, 24/7 클라우드).
+# 로컬 Windows 작업 스케줄러 대체. 상태는 dividend-state.js(암호화)로 커밋백.
+#   감시목록/ETF/키워드 = dividend-watch.js(암호화, PORTFOLIO_PASSWORD)
+#   중복방지·리마인드 상태 = dividend-state.js(암호화, 이 워크플로가 커밋)
+
+on:
+  schedule:
+    - cron: '13,43 * * * *'    # 매 30분(:13,:43). 스크립트가 KST 평일 08~20시만 통과(MARKET_HOURS_ONLY).
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dividend-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r kind_dividend_watch/requirements.txt
+
+      - name: Restore state (decrypt)
+        env:
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+        run: python kind_dividend_watch/state_crypto.py decrypt
+
+      - name: Run dividend monitor (once)
+        env:
+          MARKET_HOURS_ONLY: '1'
+          DART_API_KEY: ${{ secrets.DART_API_KEY }}
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+          SMTP_USER: ${{ secrets.GMAIL_SENDER }}
+          SMTP_PASS: ${{ secrets.GMAIL_APP_PASSWORD }}
+          SENDER_EMAIL: ${{ secrets.GMAIL_SENDER }}
+          RECIPIENT_EMAILS: ${{ secrets.RECIPIENT_EMAILS }}
+          LOOKBACK_DAYS: '2'
+        run: python kind_dividend_watch/run.py --once
+
+      - name: Save state (encrypt)
+        env:
+          PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
+        run: python kind_dividend_watch/state_crypto.py encrypt
+
+      - name: Commit state if changed
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          TRACKED="dividend-state.js"
+          TMP="$(mktemp -d)"
+          [ -f "$TRACKED" ] && cp "$TRACKED" "$TMP/state.bak"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            [ -f "$TMP/state.bak" ] && cp "$TMP/state.bak" "$TRACKED"
+            git add "$TRACKED"
+            if git diff --staged --quiet; then
+              echo "상태 변경 없음."; exit 0
+            fi
+            git commit -m "auto: dividend-watch state $(date -u +%Y-%m-%dT%H:%MZ)"
+            if git push; then echo "push 성공 ($attempt)"; exit 0; fi
+            echo "push 실패 재시도 ($attempt/5)"; sleep $((attempt * 5))
+          done
+          echo "::error::state push 5회 실패"; exit 1
