@@ -236,6 +236,21 @@
   table.xt tr.catrow { cursor:pointer; } table.xt tr.catrow:hover td { background:var(--row-hover); }
   table.xt tr.catrow.on td { background:var(--accent-soft); }
   table.xt tr.catrow.on td:first-child { box-shadow:inset 3px 0 0 var(--accent); }
+  /* 섹터 아코디언 */
+  .sector { border:1px solid var(--border); border-radius:10px; margin-bottom:8px; overflow:hidden; background:var(--panel); }
+  .sector-hd { padding:10px 13px; font-size:13.5px; font-weight:800; display:flex; align-items:center; gap:9px; background:var(--panel-soft); cursor:pointer; user-select:none; }
+  .sector-hd:hover { background:var(--row-hover); }
+  .sector-hd .sec-sum { font-size:11.5px; font-weight:700; color:var(--muted); }
+  .sector-hd .sec-caret { margin-left:auto; color:var(--muted); font-size:11px; transition:transform .15s; }
+  .sector.open .sector-hd .sec-caret { transform:rotate(180deg); }
+  .sector-bd { display:none; padding:11px 12px; }
+  .sector.open .sector-bd { display:block; }
+  .subitems { display:flex; flex-wrap:wrap; gap:7px; }
+  .subitem { display:inline-flex; flex-direction:column; align-items:flex-start; gap:2px; border:1px solid var(--border); border-radius:8px; padding:7px 11px; background:var(--panel-soft); cursor:pointer; transition:all .12s; text-align:left; }
+  .subitem:hover { border-color:var(--accent); background:var(--accent-soft); transform:translateY(-1px); box-shadow:var(--shadow-sm); }
+  .subitem .si-n { font-size:12px; font-weight:700; color:var(--text); }
+  .subitem .si-v { font-size:11px; font-variant-numeric:tabular-nums; color:var(--text-soft); }
+  .subitem .si-v .pos { color:var(--pos); font-weight:700; } .subitem .si-v .neg { color:var(--neg); font-weight:700; }
   .semicards { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; }
   .semicard { border:1px solid var(--border); border-radius:9px; padding:10px 12px; background:var(--panel-soft); }
   .semicard .sct { font-size:12.5px; font-weight:700; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
@@ -366,29 +381,9 @@
     <div class="legend" style="margin:0 0 4px"><span><i style="background:#1e3a8a"></i>5월</span><span><i style="background:#93c5fd"></i>6월</span><span style="color:var(--muted)">막대 호버 시 정확값·관련주</span></div>
     <div class="chartbox" id="kxCompareChart"></div>
 
-    <div class="sect-t">🗂️ 품목별 상세 · 관련주 <span style="font-weight:400;color:var(--muted);font-size:10.5px">(행/탭 클릭 → 시계열)</span></div>
-    <div style="overflow-x:auto"><table class="xt" id="kxCatTable"></table></div>
-
-    <div class="toolbar" style="margin:14px 0 10px">
-      <div class="sect-t" style="margin:0">📈 품목 시계열</div>
-      <div class="kx-tabs" id="kxCatTabs"></div>
-    </div>
-    <div class="kx-grid" id="kxCatCharts"></div>
-
-    <div class="sect-t">🔬 반도체 세부 (메모리 DRAM·NAND·HBM · 시스템)</div>
-    <div class="semicards" id="kxSemiCards"></div>
-    <p class="note" id="kxSemiNote"></p>
-
-    <div class="toolbar" id="saBar" style="margin:12px 0 8px">
-      <div class="sect-t" style="margin:0">🧬 반도체 세부 자동수집 (관세청 실데이터: 디램·낸드·MCP·SSD)</div>
-      <div style="display:inline-flex;gap:8px;flex-wrap:wrap">
-        <div class="kx-tabs" id="saMetric"><button class="kx-tab on" data-m="val">수출금액</button><button class="kx-tab" data-m="price">수출단가</button></div>
-        <div class="kx-tabs" id="saBasis"><button class="kx-tab on" data-b="yoy">YoY</button><button class="kx-tab" data-b="mom">MoM</button><button class="kx-tab" data-b="raw">값</button></div>
-      </div>
-    </div>
-    <div class="kv" id="saLatest"></div>
-    <div class="kx-grid" id="saCharts"></div>
-    <p class="note" id="saNote"></p>
+    <div class="sect-t">🏭 섹터별 수출 상세 <span style="font-weight:400;color:var(--muted);font-size:10.5px">(세부항목 클릭 → 금액·단가·YoY·MoM 분석 · 관세청 실데이터)</span></div>
+    <div id="kxSectors"></div>
+    <p class="note" id="kxSectorNote"></p>
 
     <div class="toolbar" id="memBar" style="margin:12px 0 8px">
       <div class="sect-t" style="margin:0">💾 메모리 고정거래가 (DRAMeXchange · Meritz)</div>
@@ -716,10 +711,7 @@ function renderKX(){
   });
 
   renderKXCompare();
-  renderKXCatTable();
-  renderKXCatTabs();
-  renderKXCatChart(kxCat);
-  renderKXSemi();
+  renderSectors();
 }
 
 /* 수출 증감률 비교 (품목/지역 토글, 5월 vs 6월 그룹막대) */
@@ -784,63 +776,112 @@ function hbarChartSVG(labels, vals){
 }
 
 /* 품목별 상세 표 (행 클릭 → 시계열) */
-function renderKXCatTable(){
-  var head='<thead><tr><th>품목</th><th>금액</th><th>YoY</th><th>MoM</th><th>관련주</th></tr></thead>';
-  var rows=(KX.categories||[]).map(function(c){
-    function cl(v){ var p=kxPct(v); return p==null?"":(p<0?"neg":"pos"); }
-    return '<tr class="catrow'+(c.key===kxCat?" on":"")+'" data-k="'+esc(c.key)+'">'+
-      '<td><b>'+esc(c.name)+'</b>'+(c.badge?' <span class="badge" style="background:var(--gold-soft);color:var(--gold)">'+esc(c.badge)+'</span>':'')+'</td>'+
-      '<td>'+esc(c.val||"-")+'</td>'+
-      '<td class="'+cl(c.yoy)+'">'+esc(c.yoy||"-")+'</td>'+
-      '<td class="'+cl(c.mom)+'">'+esc(c.mom||"-")+'</td>'+
-      '<td style="text-align:left;color:var(--muted)">'+esc(c.stocks||"")+'</td></tr>';
+/* ── 섹터별 수출 상세 (관세청 실데이터, 세부항목 클릭→분석) ── */
+var SECTORS = [
+  { key:"semi", name:"🔷 반도체", headline:true, items:[
+    { k:"semi", n:"반도체(전체)", s:"삼성전자·SK하이닉스", i:"한국 수출 최대 품목. AI·메모리가 주도" },
+    { k:"semi_mem", n:"메모리", s:"삼성전자·SK하이닉스", i:"DRAM+NAND. 가격 급등이 수출 견인" },
+    { k:"dram_incl", n:"디램(모듈포함)", s:"삼성전자·SK하이닉스", i:"디램 칩 + MCP(HBM)" },
+    { k:"dram_excl", n:"디램(모듈제외)", s:"삼성전자·SK하이닉스", i:"디램 칩만" },
+    { k:"nand", n:"플래시메모리(낸드)", s:"삼성전자·SK하이닉스", i:"서버 SSD·PC 수요" },
+    { k:"mcp", n:"MCP(HBM)", s:"SK하이닉스·삼성전자", i:"AI 가속기 공급부족 — 실적 프리미엄 핵심" },
+    { k:"ssd", n:"SSD", s:"삼성전자·SK하이닉스", i:"AI 데이터센터 스토리지" },
+    { k:"semi_sys", n:"시스템반도체", s:"삼성전자·DB하이텍", i:"파운드리·팹리스. 메모리 대비 상대 부진" },
+    { k:"semi_equip", n:"반도체 제조장비", s:"원익IPS·주성엔지니어링·HPSP", i:"캐파 증설 사이클" }
+  ]},
+  { key:"power", name:"⚡ 전력기기", headline:true, items:[
+    { k:"tf_xl", n:"변압기(특대형)", s:"HD현대일렉트릭·효성중공업", i:">10,000kVA. AI 데이터센터·미국 전력망 교체 투자의 핵심 수혜" },
+    { k:"tf_ml", n:"변압기(중대형)", s:"LS일렉트릭·제룡전기", i:"650~10,000kVA" },
+    { k:"tf_sm", n:"변압기(소형)", s:"제룡전기·산일전기", i:"≤650kVA" },
+    { k:"cable", n:"전선·케이블", s:"LS전선(LS)·대한전선", i:"고압 전력케이블·해저케이블" }
+  ]},
+  { key:"cosmetic", name:"💄 화장품", headline:true, items:[
+    { k:"cosmetic", n:"화장품", s:"아모레퍼시픽·코스맥스·한국콜마·실리콘투", i:"K-뷰티. 중국 의존 탈피·미국/유럽 확대" },
+    { k:"botox", n:"보톡스(보툴리눔)", s:"휴젤·대웅제약·메디톡스", i:"톡신 수출 — 미국·중남미 확대" }
+  ]},
+  { key:"food", name:"🍜 음식료", headline:true, items:[
+    { k:"food", n:"농수산식품", s:"삼양식품·농심·CJ제일제당", i:"K-푸드 전반" },
+    { k:"ramen", n:"라면", s:"삼양식품·농심", i:"불닭 등 K-라면 — 신시장 확대" }
+  ]},
+  { key:"auto", name:"🚗 자동차", headline:true, items:[
+    { k:"auto", n:"자동차", s:"현대차·기아", i:"완성차. 하이브리드·친환경차 믹스" },
+    { k:"autoparts", n:"자동차부품", s:"현대모비스·HL만도", i:"부품 공급" }
+  ]},
+  { key:"elec", name:"📱 전자·IT (MLCC)", headline:true, items:[
+    { k:"mlcc", n:"전자제품(MLCC)", s:"삼성전기", i:"적층세라믹콘덴서. AI 서버·전장 수요" },
+    { k:"computer", n:"컴퓨터(SSD포함)", s:"삼성전자·SK하이닉스", i:"SSD가 주도" },
+    { k:"wireless", n:"무선통신기기", s:"삼성전자", i:"스마트폰" },
+    { k:"display", n:"디스플레이", s:"LG디스플레이·삼성SDI", i:"OLED 중심" },
+    { k:"appliance", n:"가전제품", s:"LG전자·삼성전자", i:"TV·냉장고·세탁기" }
+  ]},
+  { key:"mat", name:"🔋 소재·2차전지", headline:false, items:[
+    { k:"battery", n:"2차전지", s:"LG에너지솔루션·삼성SDI·에코프로비엠", i:"전기차·ESS 수요. 캐즘 이후 회복 여부" },
+    { k:"petrochem", n:"석유화학", s:"LG화학·롯데케미칼·금호석유", i:"기초유분·합성수지. 중국 공급과잉 부담" },
+    { k:"steel", n:"철강판", s:"POSCO홀딩스·현대제철", i:"열연·냉연" }
+  ]},
+  { key:"transport", name:"🚢 운송(선박)", headline:false, items:[
+    { k:"ship", n:"선박", s:"HD현대중공업·삼성중공업·한화오션", i:"LNG선·친환경선. 수주 잔고 견조" }
+  ]}
+];
+function lastNonNull(a){ if(!a) return null; for(var i=a.length-1;i>=0;i--) if(a[i]!=null) return a[i]; return null; }
+function fmtPct(v){ return v==null?null:((v>0?"+":"")+v+"%"); }
+function findItemMeta(k){ for(var i=0;i<SECTORS.length;i++){ var it=SECTORS[i].items.filter(function(x){return x.k===k;})[0]; if(it) return it; } return {n:k}; }
+
+function renderSectors(){
+  var H=window.EXPORT_HISTORY, host=$('kxSectors'); if(!host) return;
+  host.innerHTML = SECTORS.map(function(sec){
+    var items=sec.items.map(function(it){
+      var c=H&&H.cat&&H.cat[it.k];
+      var v=c?lastNonNull(c.val):null, yy=c?lastNonNull(c.val_yoy):null;
+      var badge = v!=null ? ('$'+v+'B'+(yy!=null?(' <span class="'+(yy<0?"neg":"pos")+'">'+(yy>0?"+":"")+yy+'%</span>'):'')) : '<span style="color:var(--muted-soft)">대기</span>';
+      return '<button class="subitem" data-k="'+esc(it.k)+'"><span class="si-n">'+esc(it.n)+'</span><span class="si-v">'+badge+'</span></button>';
+    }).join("");
+    var top=sec.items[0], tc=H&&H.cat&&H.cat[top.k], ty=tc?lastNonNull(tc.val_yoy):null;
+    return '<div class="sector'+(sec.headline?" open":"")+'" data-sec="'+esc(sec.key)+'">'+
+      '<div class="sector-hd"><span>'+esc(sec.name)+'</span>'+
+        '<span class="sec-sum">'+(ty!=null?((ty>0?"+":"")+ty+'% YoY'):"")+'</span>'+
+        '<span class="sec-caret">▾</span></div>'+
+      '<div class="sector-bd"><div class="subitems">'+items+'</div></div></div>';
   }).join("");
-  $('kxCatTable').innerHTML = head+'<tbody>'+rows+'</tbody>';
-  $('kxCatTable').querySelectorAll('.catrow').forEach(function(r){
-    r.addEventListener('click', function(){ kxCat=this.dataset.k; renderKXCatTable(); renderKXCatTabs(); renderKXCatChart(kxCat); });
+  host.querySelectorAll('.sector-hd').forEach(function(hd){
+    hd.addEventListener('click', function(){ this.parentNode.classList.toggle('open'); });
   });
+  host.querySelectorAll('.subitem').forEach(function(b){
+    b.addEventListener('click', function(e){ e.stopPropagation(); openSubItem(this.dataset.k); });
+  });
+  if($('kxSectorNote')) $('kxSectorNote').textContent = H&&H.cat ? ("출처: "+(H.source||"")+" · 최신 "+(H.latest_month||"")+". 세부항목 클릭 시 금액·단가·YoY·MoM 차트와 분석. 상단 6섹터는 펼침, 나머지는 클릭해 펼치기.") : "관세청 데이터 수집 대기 — 반영 시 섹터별 실수치가 채워집니다.";
 }
-function renderKXCatTabs(){
-  $('kxCatTabs').innerHTML = (KX.categories||[]).map(function(c){
-    return '<button class="kx-tab'+(c.key===kxCat?" on":"")+'" data-k="'+esc(c.key)+'">'+esc(c.name.split("(")[0])+'</button>';
-  }).join("");
-  $('kxCatTabs').querySelectorAll('.kx-tab').forEach(function(b){
-    b.addEventListener('click', function(){ kxCat=this.dataset.k; renderKXCatTable(); renderKXCatTabs(); renderKXCatChart(kxCat); });
-  });
+function openSubItem(k){
+  var H=window.EXPORT_HISTORY, c=H&&H.cat&&H.cat[k], meta=findItemMeta(k);
+  var m=el("div","modal wide t-export"), body="";
+  if(!c){ body='<p class="note">이 품목의 관세청 데이터가 아직 없습니다(수집 대기 또는 HS 미매핑).</p>'+(meta.s?'<p class="note">관련주: '+esc(meta.s)+'</p>':''); }
+  else {
+    var v=lastNonNull(c.val), vy=lastNonNull(c.val_yoy), vm=lastNonNull(c.val_mom), p=lastNonNull(c.price), py=lastNonNull(c.price_yoy), pm=lastNonNull(c.price_mom);
+    body += kvGrid([["수출금액", v!=null?("$"+v+"B"):null],["금액 YoY", fmtPct(vy)],["금액 MoM", fmtPct(vm)],
+                    ["수출단가", p!=null?("$"+Math.round(p).toLocaleString()+"/kg"):null],["단가 YoY", fmtPct(py)],["단가 MoM", fmtPct(pm)]]);
+    var an=[];
+    if(v!=null){ var t="수출 $"+v+"B";
+      if(vy!=null){ t+=" ("+(vy>0?"+":"")+vy+"% YoY"; if(vm!=null) t+=", "+(vm>0?"+":"")+vm+"% MoM"; t+=")"; }
+      an.push(t); }
+    if(p!=null&&py!=null) an.push("수출단가 $"+Math.round(p).toLocaleString()+"/kg ("+(py>0?"+":"")+py+"% YoY → "+(py>0?"단가 상승":"단가 하락")+")");
+    body += '<div class="sect-t">핵심 분석</div><div class="interp">'+esc(an.join(" · ")+". "+(meta.i||""))+'</div>';
+    if(meta.s) body += '<p class="note">관련주: '+esc(meta.s)+'</p>';
+    var fv=kxFilterSeries(c.months,c.val), fp=kxFilterSeries(c.months,c.price);
+    body += '<div class="kx-grid">'+
+      (fv.vals.length?lineChartMany("수출금액", "US$10억 · "+(H.latest_month||""), fv.labels, fv.vals, "#7c3aed", function(x){return "$"+x+"B";}):"")+
+      (fp.vals.length?lineChartMany("수출단가", "$/kg (ASP 추세 대용)", fp.labels, fp.vals, "#b45309", function(x){return "$"+Math.round(x).toLocaleString();}):"")+
+      '</div>';
+    body += '<p class="note">출처: 관세청 품목별 수출입실적 · 상세 HS는 최신월 1~2개월 지연 · 매일 cron 자동 갱신.</p>';
+  }
+  m.innerHTML='<div class="mhd"><div><h3>🏭 '+esc(meta.n)+'</h3><div class="mdate">섹터별 수출 세부 · 관세청 실데이터</div></div><button class="mclose" title="닫기">✕</button></div><div class="mbd">'+body+'</div>';
+  m.querySelector('.mclose').addEventListener('click', closeModal);
+  openOverlay(m);
 }
 function kxFilterSeries(months, vals){
   var L=[],V=[]; if(!vals) return {labels:L,vals:V};
   for(var i=0;i<months.length;i++){ if(vals[i]!=null){ L.push(months[i]); V.push(vals[i]); } }
   return {labels:L, vals:V};
 }
-function renderKXCatChart(key){
-  var so=kxSeriesObj(), s=so.s, m=so.months;
-  var cat=(KX.categories||[]).find(function(c){ return c.key===key; })||{};
-  var charts=[];
-  var yoy=kxFilterSeries(m, s[key+"_yoy"]);
-  if(yoy.vals.length) charts.push(barChart(cat.name.split("(")[0]+" 수출 YoY", "전년동월 대비 %", yoy.labels, yoy.vals, "#2563eb"));
-  if(key==='semi'){
-    charts.push(lineChart("반도체 수출액 (US$10억)", "월별, 사상최대 경신", m, s.semi_val, "#7c3aed"));
-    var mp=kxFilterSeries(m, s.semi_mom);
-    if(mp.vals.length) charts.push(barChart("반도체 수출 MoM", "전월대비 %(수출액 산출)", mp.labels, mp.vals, "#0d9488"));
-  }
-  charts.push('<div class="chartbox"><div class="ct">'+esc(cat.name)+' · 관련주</div>'+
-    '<div class="cs">'+esc(cat.stocks||"")+'</div>'+
-    '<div style="font-size:11.5px;color:var(--text-soft);line-height:1.6;margin-top:4px">'+esc(cat.note||"")+'</div></div>');
-  $('kxCatCharts').innerHTML = charts.join("");
-}
-function renderKXSemi(){
-  var sd=KX.semiDetail; if(!sd){ $('kxSemiCards').innerHTML=""; $('kxSemiNote').textContent=""; return; }
-  var st={ watch:["var(--warn-fg)","var(--warn-bg)"], strong:["var(--pos)","var(--pos-soft)"], neutral:["var(--muted)","var(--neu-soft)"] };
-  $('kxSemiCards').innerHTML = (sd.subitems||[]).map(function(it){
-    var c=st[it.status]||st.neutral;
-    return '<div class="semicard"><div class="sct"><b>'+esc(it.name)+'</b>'+
-      (it.tag?' <span class="badge" style="background:'+c[1]+';color:'+c[0]+'">'+esc(it.tag)+'</span>':'')+'</div>'+
-      '<div class="scn">'+esc(it.note||"")+'</div></div>';
-  }).join("");
-  $('kxSemiNote').textContent = sd.note||"";
-}
-
 /* ── 메모리 고정거래가 (DRAM·NAND 장기 차트, Meritz 엑셀) ── */
 var MEM = window.MEMORY_PRICES || null;
 var memRange = 24;
@@ -864,36 +905,6 @@ function renderMemory(){
   }).join("");
   $('memNote').textContent = "출처: "+(MEM.source||"")+" · 기준 "+(MEM.as_of_month||"")+". 로컬 엑셀(fetch_memory_prices.py)로 갱신 — 메모리 단가는 반도체 수출·삼성전자·SK하이닉스 실적의 핵심 선행지표.";
 }
-/* ── 반도체 세부 자동수집 (관세청 실데이터: 금액·단가 × YoY/MoM/값) ── */
-var saMetric="val", saBasis="yoy";
-var SEMI_SUB=["semi_mem","semi_sys","dram_incl","dram_excl","nand","mcp","ssd"];
-function renderSemiAuto(){
-  var H=window.EXPORT_HISTORY;
-  if(!H||!H.cat){ ["saBar","saLatest","saCharts","saNote"].forEach(function(id){var e=$(id); if(e)e.style.display="none";}); return; }
-  function last(a){ for(var i=a.length-1;i>=0;i--) if(a[i]!=null) return a[i]; return null; }
-  $('saLatest').innerHTML = SEMI_SUB.map(function(k){
-    var c=H.cat[k]; if(!c) return "";
-    var v=last(c.val), p=last(c.price), vy=last(c.val_yoy);
-    return '<div class="k"><div class="lbl">'+esc(c.name)+'</div>'+
-      '<div class="val">$'+(v!=null?v:"-")+'B</div>'+
-      '<div style="font-size:10px;font-weight:700" class="'+(vy!=null&&vy<0?"neg":"pos")+'">YoY '+(vy>0?"+":"")+vy+'%</div>'+
-      '<div style="font-size:10px;color:var(--muted)">단가 $'+(p!=null?Math.round(p).toLocaleString():"-")+'/kg</div></div>';
-  }).join("");
-  var key = saBasis==="raw" ? saMetric : saMetric+"_"+saBasis;
-  var isPct = saBasis!=="raw";
-  var color = saMetric==="val" ? "#7c3aed" : "#b45309";
-  var fmtFn = isPct ? function(v){ return (v>0?"+":"")+v+"%"; }
-    : (saMetric==="val" ? function(v){ return "$"+v+"B"; } : function(v){ return "$"+Math.round(v).toLocaleString(); });
-  $('saCharts').innerHTML = SEMI_SUB.map(function(k){
-    var c=H.cat[k]; if(!c) return "";
-    var f=kxFilterSeries(c.months, c[key]);
-    if(!f.vals.length) return "";
-    var sub=(saMetric==="val"?"수출금액":"수출단가")+" · "+(saBasis==="yoy"?"YoY %":saBasis==="mom"?"MoM %":(saMetric==="val"?"US$10억":"$/kg"));
-    return lineChartMany(c.name, sub, f.labels, f.vals, color, fmtFn);
-  }).join("");
-  $('saNote').textContent = "출처: "+(H.source||"")+" · 최신 "+(H.latest_month||"")+". 디램(모듈포함)=디램칩+MCP · 수출단가=금액/중량($/kg, ASP 추세 대용). 상세 HS는 1~2개월 지연 · 매일 cron 자동 갱신.";
-}
-
 /* 다점 라인차트 (점별 라벨 생략, x라벨 thinning). fmtFn(v)→표시문자열(단위 포함). 음수 허용. */
 function lineChartMany(title, sub, labels, vals, color, fmtFn){
   fmtFn = fmtFn || function(v){ return "$"+(Math.abs(v)<10?(+v.toFixed(1)):Math.round(v)); };
@@ -986,11 +997,6 @@ $('filters').addEventListener('click', function(e){
   dm.querySelectorAll('.kx-tab').forEach(function(t){ t.classList.toggle('on', t===b); });
   renderKXCompare();
 }); })();
-(function(){
-  var m=$('saMetric'), b=$('saBasis');
-  if(m) m.addEventListener('click', function(e){ var t=e.target.closest('.kx-tab'); if(!t) return; saMetric=t.dataset.m; m.querySelectorAll('.kx-tab').forEach(function(x){x.classList.toggle('on',x===t);}); renderSemiAuto(); });
-  if(b) b.addEventListener('click', function(e){ var t=e.target.closest('.kx-tab'); if(!t) return; saBasis=t.dataset.b; b.querySelectorAll('.kx-tab').forEach(function(x){x.classList.toggle('on',x===t);}); renderSemiAuto(); });
-})();
 (function(){ var mr=$('memRange'); if(!mr) return; mr.addEventListener('click', function(e){
   var b=e.target.closest('.kx-tab'); if(!b) return;
   memRange=+b.dataset.r;
@@ -1100,7 +1106,6 @@ function renderTSMC(){
 renderMonth();
 renderUpcoming();
 renderKX();
-renderSemiAuto();
 renderMemory();
 renderTSMC();
 initHoldings();
