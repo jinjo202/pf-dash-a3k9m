@@ -54,11 +54,11 @@ def _http_json(url):
         raise RuntimeError("JSON 파싱 실패(키/서비스 확인): " + raw[:200])
 
 
-def fetch_hs(hs, strt, end):
-    """getNitemtradeList: {year:'2026.06', expDlr:'44823000', ...}. expDlr=천달러 단위."""
+def _fetch_window(hs, strt_s, end_s):
+    """단일 요청(1년 이내). getNitemtradeList: {year:'2026.06', expDlr:'44823000'(천달러)}."""
     q = {
-        "serviceKey": KEY, "strtYymm": strt, "endYymm": end,
-        "hsSgn": hs, "returnType": "json", "numOfRows": "500", "pageNo": "1",
+        "serviceKey": KEY, "strtYymm": strt_s, "endYymm": end_s,
+        "hsSgn": hs, "returnType": "json", "numOfRows": "1000", "pageNo": "1",
     }
     url = API_URL + "?" + urllib.parse.urlencode(q, safe="")
     data = _http_json(url)
@@ -74,7 +74,21 @@ def fetch_hs(hs, strt, end):
             exp = float(it.get("expDlr") or 0)  # 천달러
         except (TypeError, ValueError):
             continue
-        out[ym] = out.get(ym, 0.0) + exp
+        # 품목 소계 행(누계/전체)이 섞일 수 있어 월별 최대값이 아니라 합산 방지: 마지막 값 사용
+        out[ym] = exp
+    return out
+
+
+def fetch_hs(hs, strt, end):
+    """조회기간 1년 제한 → 12개월 창으로 쪼개 순회 병합. strt/end 는 int(YYYYMM)."""
+    out, ws = {}, strt
+    while ws <= end:
+        we = min(add_months(ws, 11), end)
+        try:
+            out.update(_fetch_window(hs, f"{ws:06d}", f"{we:06d}"))
+        except Exception as e:
+            print(f"  {hs} {ws}-{we} 실패: {str(e)[:70]}")
+        ws = add_months(we, 1)
     return out
 
 
@@ -94,20 +108,15 @@ def main():
 
     now = dt.date.today()
     end = now.year * 100 + now.month
-    # YoY 계산 위해 +12개월 더 과거부터
+    # YoY 계산 위해 +12개월 더 과거부터 (fetch_hs가 1년 창으로 쪼개 순회)
     strt = add_months(end, -(args.months + 12) + 1)
-    strt_s, end_s = f"{strt:06d}", f"{end:06d}"
 
     # HS별 월별 수출($천) 수집 → 품목별 합산
     cat_month = {}  # cat -> {ym(int): usd_thousand}
     for cat, hslist in CATEGORY_HS.items():
         agg = {}
         for hs in hslist:
-            try:
-                m = fetch_hs(hs, strt_s, end_s)
-            except Exception as e:
-                print(f"  {cat}/{hs} 실패: {str(e)[:80]}")
-                continue
+            m = fetch_hs(hs, strt, end)
             for ym, v in m.items():
                 agg[int(ym)] = agg.get(int(ym), 0.0) + v
         cat_month[cat] = agg
