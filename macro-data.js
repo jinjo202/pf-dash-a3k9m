@@ -5,14 +5,6 @@ window.MACRO = {
   "update_log": [
     {
       "date": "2026-06-18",
-      "type": "revision",
-      "key": "oil_yoy",
-      "title": "WTI 유가 (YoY)",
-      "detail": "16.6% → 15.8% (수정)",
-      "as_of": "2026-06-17"
-    },
-    {
-      "date": "2026-06-18",
       "type": "flows",
       "key": "krflow_26.06.18",
       "title": "한국 투자자 수급 갱신",
@@ -470,12 +462,29 @@ window.MACRO = {
       "title": "WTI 유가 (YoY)",
       "detail": "-0.0% → 6.9% (2026-07-03 발표)",
       "as_of": "2026-07-03"
+    },
+    {
+      "date": "2026-07-05",
+      "type": "release",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "6.9% → 6.4% (2026-07-05 발표)",
+      "as_of": "2026-07-05"
     }
   ],
-  "updates_today": [],
-  "generated": "2026-07-05T10:29:30Z",
+  "updates_today": [
+    {
+      "date": "2026-07-05",
+      "type": "release",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "6.9% → 6.4% (2026-07-05 발표)",
+      "as_of": "2026-07-05"
+    }
+  ],
+  "generated": "2026-07-05T22:47:10Z",
   "regime": {
-    "score": 15,
+    "score": 16,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
@@ -501,7 +510,7 @@ window.MACRO = {
       },
       "earnings": {
         "name": "기업이익",
-        "score": 46,
+        "score": 52,
         "n": 1
       }
     }
@@ -828,15 +837,15 @@ window.MACRO = {
       "fair_pe": 19.0,
       "components": {
         "val": -13,
-        "earn": 39,
+        "earn": 50,
         "fx": 0,
         "mon": -10,
         "cycle": 34
       },
       "horizon": {
-        "m1": 17,
-        "m3": 15,
-        "m12": 11
+        "m1": 20,
+        "m3": 18,
+        "m12": 14
       },
       "fx_val": null,
       "fx_chg": null,
@@ -851,17 +860,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 23,
-        "fx": -42,
+        "fx": -70,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 14,
-        "m3": 39,
-        "m12": 53
+        "m1": 4,
+        "m3": 33,
+        "m12": 50
       },
-      "fx_val": 1530.15,
-      "fx_chg": -2.1,
+      "fx_val": 1529.13,
+      "fx_chg": -3.5,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -872,18 +881,18 @@ window.MACRO = {
       "fair_pe": 14.0,
       "components": {
         "val": -12,
-        "earn": 4,
-        "fx": -42,
+        "earn": -5,
+        "fx": -38,
         "mon": 30,
         "cycle": -26
       },
       "horizon": {
-        "m1": -14,
-        "m3": -11,
-        "m12": -8
+        "m1": -16,
+        "m3": -13,
+        "m12": -9
       },
       "fx_val": 1.14,
-      "fx_chg": -2.1,
+      "fx_chg": -1.9,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -894,17 +903,17 @@ window.MACRO = {
       "fair_pe": 15.0,
       "components": {
         "val": 0,
-        "earn": 27,
+        "earn": 17,
         "fx": -34,
         "mon": -40,
         "cycle": 23
       },
       "horizon": {
-        "m1": -5,
-        "m3": 0,
-        "m12": 2
+        "m1": -8,
+        "m3": -3,
+        "m12": -1
       },
-      "fx_val": 161.34,
+      "fx_val": 161.41,
       "fx_chg": -1.7,
       "cli": null,
       "phase": "확장 (Expansion)*",
@@ -916,18 +925,18 @@ window.MACRO = {
       "fair_pe": 13.0,
       "components": {
         "val": 51,
-        "earn": -56,
-        "fx": 18,
+        "earn": -57,
+        "fx": 14,
         "mon": 30,
         "cycle": 4
       },
       "horizon": {
-        "m1": -5,
-        "m3": 3,
+        "m1": -7,
+        "m3": 2,
         "m12": 8
       },
-      "fx_val": 6.77,
-      "fx_chg": 0.9,
+      "fx_val": 6.78,
+      "fx_chg": 0.7,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "인민은행 부양(+)"
@@ -8593,11 +8602,11 @@ window.MACRO = {
     "err_us": {
       "name": "미국 ERR(이익수정비율)",
       "pillar": "earnings",
-      "current": 0.486,
+      "current": 0.623,
       "unit": "",
       "z": null,
       "pct": null,
-      "score": 0.56,
+      "score": 0.68,
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
@@ -14116,7 +14125,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1530.2,
+      "current": 1529.1,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
@@ -14124,7 +14133,7 @@ window.MACRO = {
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "원화 약세는 위험회피·외인 유출",
-      "as_of": "2026-07-03",
+      "as_of": "2026-07-05",
       "history": {
         "dates": [
           "2025-06-01",
@@ -14880,15 +14889,15 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 6.9,
+      "current": 6.4,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.17,
+      "score": -0.16,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "급등 시 인플레·비용 압력",
-      "as_of": "2026-07-03",
+      "as_of": "2026-07-05",
       "history": {
         "dates": [
           "2001-01-01",
@@ -17481,7 +17490,7 @@ window.MACRO = {
     "countries": {
       "US": {
         "name": "미국",
-        "err": 0.486,
+        "err": 0.623,
         "err_label": "강한 상향",
         "err_cls": "pos",
         "rev7": 0.0,
@@ -17643,7 +17652,7 @@ window.MACRO = {
       },
       "EU": {
         "name": "유럽",
-        "err": 0.07,
+        "err": -0.056,
         "err_label": "중립",
         "err_cls": "neu",
         "rev7": -0.0,
@@ -17724,8 +17733,8 @@ window.MACRO = {
       },
       "JP": {
         "name": "일본",
-        "err": 0.333,
-        "err_label": "강한 상향",
+        "err": 0.2,
+        "err_label": "상향 우위",
         "err_cls": "pos",
         "rev7": -0.1,
         "rev30": 0.3,
@@ -17740,7 +17749,7 @@ window.MACRO = {
           100.0,
           101.31,
           100.99,
-          99.8
+          99.82
         ],
         "n": 5,
         "annual": {
@@ -17805,7 +17814,7 @@ window.MACRO = {
       },
       "CN": {
         "name": "중국",
-        "err": -0.636,
+        "err": -0.66,
         "err_label": "강한 하향",
         "err_cls": "neg",
         "rev7": -0.2,
@@ -17889,7 +17898,7 @@ window.MACRO = {
       "US": [
         {
           "name": "반도체·AI HW",
-          "err": 0.754,
+          "err": 0.79,
           "err_label": "강한 상향",
           "err_cls": "pos",
           "rev7": 0.4,
@@ -17988,7 +17997,7 @@ window.MACRO = {
         },
         {
           "name": "소프트웨어·IT",
-          "err": 0.948,
+          "err": 0.974,
           "err_label": "강한 상향",
           "err_cls": "pos",
           "rev7": 0.0,
@@ -18087,7 +18096,7 @@ window.MACRO = {
         },
         {
           "name": "커뮤니케이션",
-          "err": 0.773,
+          "err": 0.333,
           "err_label": "강한 상향",
           "err_cls": "pos",
           "rev7": 0.0,
@@ -18171,7 +18180,7 @@ window.MACRO = {
         },
         {
           "name": "금융",
-          "err": 0.684,
+          "err": 0.778,
           "err_label": "강한 상향",
           "err_cls": "pos",
           "rev7": 0.5,
@@ -18369,9 +18378,9 @@ window.MACRO = {
         },
         {
           "name": "임의소비재",
-          "err": -0.459,
-          "err_label": "강한 하향",
-          "err_cls": "neg",
+          "err": 0.111,
+          "err_label": "상향 우위",
+          "err_cls": "pos",
           "rev7": 0.0,
           "rev30": 0.2,
           "rev90": -0.7,
@@ -18468,8 +18477,8 @@ window.MACRO = {
         },
         {
           "name": "에너지",
-          "err": 0.49,
-          "err_label": "강한 상향",
+          "err": 0.235,
+          "err_label": "상향 우위",
           "err_cls": "pos",
           "rev7": -1.6,
           "rev30": -1.8,
@@ -18490,7 +18499,7 @@ window.MACRO = {
           "holdings": [
             {
               "ticker": "XOM",
-              "name": "Exxon Mobil Corporation",
+              "name": "ExxonMobil Holdings Corporation",
               "mktcap": 568230805504,
               "fwdpe": 12.7,
               "pbr": 2.21,
@@ -18552,7 +18561,7 @@ window.MACRO = {
         },
         {
           "name": "산업재",
-          "err": 0.2,
+          "err": 0.238,
           "err_label": "상향 우위",
           "err_cls": "pos",
           "rev7": 0.0,
@@ -20395,12 +20404,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 6.9%(중립)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 6.4%(중립)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.8배(악재)·KOSPI 12M Fwd PER 5.9배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.49%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1530.2원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 120.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -8.2조원(중립)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1529.1원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 120.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -8.2조원(중립)",
     "sentiment": "[혼조/중립] VIX 변동성 16.1(중립)·S&P500 12M 모멘텀 18.0%(강한 호재)·CNN 공포·탐욕 지수 32(강한 악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
-    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.486(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.269(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",
-    "overall": "종합 레짐 점수 +15. 매크로 +1, 밸류 -5, 수급 +17, 센티 +5, 기업이익 +46."
+    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.623(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.269(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",
+    "overall": "종합 레짐 점수 +16. 매크로 +1, 밸류 -5, 수급 +17, 센티 +5, 기업이익 +52."
   },
   "outlook": {
     "short": {
@@ -20409,7 +20418,7 @@ window.MACRO = {
       "text": "센티먼트·모멘텀 기반. VIX·추세가 핵심 변수. 단기 비대칭 리스크 점검."
     },
     "mid": {
-      "bias": "완만한 상승",
+      "bias": "상승",
       "cls": "pos",
       "text": "매크로·유동성·기업이익 수정 + 과거 유사국면 이후 3개월 중간값 N/A."
     },
