@@ -7,9 +7,13 @@ name: Calendar Update
 
 on:
   schedule:
-    # 미 지표(BLS)·어닝은 매일 아침, 한국 수출 잠정(1/10/20일)도 이때 반영
-    - cron: '20 22 * * *'   # 07:20 KST (다음날)
-    - cron: '50 22 * * *'   # 07:50 KST (백업)
+    # GitHub 무료 스케줄러는 자주 skip → 시간대 분산 다중 백업(daily-update와 동일 전략).
+    # 한국 수출(1/10/20일 오전)·미 지표(BLS, 밤 발표)를 모두 커버.
+    - cron: '20 22 * * *'   # 07:20 KST (다음날) — 한국 수출 발표 반영
+    - cron: '50 22 * * *'   # 07:50 KST (백업1)
+    - cron: '20 0 * * *'    # 09:20 KST (백업2)
+    - cron: '10 4 * * *'    # 13:10 KST (백업3)
+    - cron: '40 13 * * *'   # 22:40 KST — 미 지표(BLS) 발표 후 반영
   workflow_dispatch:
   repository_dispatch:
     types: [calendar-trigger]

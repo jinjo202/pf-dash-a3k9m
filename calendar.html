@@ -226,6 +226,13 @@
   table.xt th { font-size:10.5px; color:var(--muted); font-weight:800; text-align:right; }
   table.xt th:first-child, table.xt td:first-child { text-align:left; }
   table.xt td.pos { color:var(--pos); font-weight:700; } table.xt td.neg { color:var(--neg); font-weight:700; }
+  table.xt tr.catrow { cursor:pointer; } table.xt tr.catrow:hover td { background:var(--row-hover); }
+  table.xt tr.catrow.on td { background:var(--accent-soft); }
+  table.xt tr.catrow.on td:first-child { box-shadow:inset 3px 0 0 var(--accent); }
+  .semicards { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; }
+  .semicard { border:1px solid var(--border); border-radius:9px; padding:10px 12px; background:var(--panel-soft); }
+  .semicard .sct { font-size:12.5px; font-weight:700; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .semicard .scn { font-size:11.5px; color:var(--muted); margin-top:5px; line-height:1.55; }
   .hl-box { border:1px solid var(--warn-bd); background:var(--warn-bg); border-radius:10px; padding:12px 14px; margin-bottom:14px; }
   .hl-box .hlt { font-size:13px; font-weight:800; color:var(--warn-fg); }
   .hl-box .hlb { font-size:12.5px; color:var(--text-soft); margin-top:5px; line-height:1.65; }
@@ -335,27 +342,29 @@
 
   <!-- 한국 수출 트래커 -->
   <div class="panel" id="kxPanel">
-    <h2>🇰🇷 한국 수출 트래커 <span class="pill warn">반도체·DRAM MoM 집중</span></h2>
+    <h2>🇰🇷 한국 수출 트래커 <span class="pill live">전 품목 · 업종별 선행지표</span></h2>
     <p class="hint" id="kxNote"></p>
-    <div class="hl-box" id="kxHighlight"></div>
+    <div class="hl-box pos" id="kxHighlight"></div>
 
     <div class="sect-t">📮 관세청 발표 사이클 (이번 달)</div>
     <div class="rel-timeline" id="kxTimeline"></div>
 
-    <div class="toolbar" style="margin-bottom:10px">
-      <div class="sect-t" style="margin:0">📈 시계열</div>
-      <div class="kx-tabs" id="kxTabs">
-        <button class="kx-tab on" data-v="yoy">YoY</button>
-        <button class="kx-tab" data-v="mom">MoM</button>
-      </div>
-    </div>
-    <div class="kx-grid" id="kxCharts"></div>
+    <div class="sect-t">📊 품목별 수출 YoY (최신월)</div>
+    <div class="chartbox" id="kxCompareChart"></div>
 
-    <div class="sect-t">🗂️ 월중 잠정(1~10일 / 1~20일) 트래킹</div>
-    <div style="overflow-x:auto">
-      <table class="xt" id="kxTable"></table>
+    <div class="sect-t">🗂️ 품목별 상세 · 관련주 <span style="font-weight:400;color:var(--muted);font-size:10.5px">(행/탭 클릭 → 시계열)</span></div>
+    <div style="overflow-x:auto"><table class="xt" id="kxCatTable"></table></div>
+
+    <div class="toolbar" style="margin:14px 0 10px">
+      <div class="sect-t" style="margin:0">📈 품목 시계열</div>
+      <div class="kx-tabs" id="kxCatTabs"></div>
     </div>
-    <p class="note">· 관세청은 <b>매월 1일 전월 확정</b>, 이후 <b>1~10일·1~20일 잠정</b>을 발표. 원계열은 조업일수 영향을 받으므로 <b>일평균 기준</b> 병행 확인. YoY(전년동월)와 함께 <b>MoM(전월대비)</b>로 가격·물량 모멘텀의 변곡을 조기 포착.</p>
+    <div class="kx-grid" id="kxCatCharts"></div>
+
+    <div class="sect-t">🔬 반도체 세부 (메모리 DRAM·NAND·HBM · 시스템)</div>
+    <div class="semicards" id="kxSemiCards"></div>
+    <p class="note" id="kxSemiNote"></p>
+    <p class="note">· 관세청은 <b>매월 1일 전월 확정</b>, 이후 <b>1~10일·1~20일 잠정</b>을 발표(원계열은 조업일수 영향 → <b>일평균</b> 병행). 품목별(HS코드)·일평균은 관세청 무역통계 OpenAPI로 자동화 가능(<code>TRADE_API_KEY</code>). 반도체 단가(DRAM·NAND)는 TrendForce 등 유료소스라 수기.</p>
   </div>
 
   <!-- TSMC 월매출 트래커 -->
@@ -622,7 +631,8 @@ function renderUpcoming(){
 
 /* ============================ 한국 수출 트래커 ============================ */
 var KX = DATA.krExport;
-var kxView = "yoy";
+var kxCat = "semi";
+function kxPct(s){ if(s==null) return null; var v=parseFloat(String(s).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:null; }
 function renderKX(){
   if(!KX){ $('kxPanel').style.display='none'; return; }
   $('kxNote').textContent = KX.note||"";
@@ -636,7 +646,6 @@ function renderKX(){
     .filter(function(e){ return e.date.slice(0,7)===fmtISO(new Date(STATE.y,STATE.m,1)).slice(0,7); })
     .sort(function(a,b){ return a.date<b.date?-1:1; });
   if(!rel.length){
-    // fallback: 최근 export 이벤트
     rel = EVENTS.filter(function(e){ return e.type==='export'; }).sort(function(a,b){return a.date<b.date?-1:1;}).slice(0,3);
   }
   $('kxTimeline').innerHTML = rel.map(function(e){
@@ -649,29 +658,92 @@ function renderKX(){
     s.addEventListener('click', function(){ openEvent(EVENTS[+this.dataset.i]); });
   });
 
-  renderKXCharts();
-  renderKXTable();
+  renderKXCompare();
+  renderKXCatTable();
+  renderKXCatTabs();
+  renderKXCatChart(kxCat);
+  renderKXSemi();
 }
 
-function renderKXCharts(){
-  var s = KX.series; if(!s){ return; }
-  var charts;
-  if(kxView==='yoy'){
-    charts = [
-      barChart("총수출 YoY", "전년동월 대비 %, 통관기준", s.months, s.total_yoy, "#2563eb"),
-      barChart("반도체 수출 YoY", "전년동월 대비 %, 수출 견인", s.months, s.semi_yoy, "#7c3aed")
-    ];
-  } else {
-    charts = [
-      barChart("반도체 수출 MoM", "전월대비 %, 물량 모멘텀", s.months, s.semi_mom, "#b45309"),
-      barChart("DRAM 고정거래가 MoM", "전월대비 % — 이번 달 이슈", s.months, s.dram_mom, "#dc2626")
-    ];
+/* 품목별 YoY 비교 (수평 막대, 0기준) */
+function renderKXCompare(){
+  var cats = KX.categories||[];
+  var labels = cats.map(function(c){ return c.name.split("(")[0]; });
+  var vals = cats.map(function(c){ return kxPct(c.yoy); });
+  $('kxCompareChart').innerHTML = '<div class="ct">품목별 수출 YoY ('+esc(KX.headline_month||"")+')</div>'+
+    '<div class="cs">전년동월 대비 %, 업종주 선행지표</div>'+hbarChartSVG(labels, vals);
+}
+function hbarChartSVG(labels, vals){
+  var n=labels.length, rowH=27, padT=6, padB=6, padL=62, padR=44, W=340;
+  var H=padT+padB+n*rowH;
+  var mx=Math.max.apply(null, vals.map(function(v){return Math.abs(v||0);}))*1.06 || 1;
+  var iw=W-padL-padR;
+  var rows=labels.map(function(l,i){
+    var v=vals[i]; if(v==null) v=0;
+    var y=padT+i*rowH, bw=iw*(Math.abs(v)/mx), c=v<0?"#dc2626":"#2563eb";
+    return '<text x="'+(padL-6)+'" y="'+(y+rowH/2+3.5)+'" font-size="10" fill="var(--text-soft)" text-anchor="end" font-weight="700">'+esc(l)+'</text>'+
+      '<rect x="'+padL+'" y="'+(y+5)+'" width="'+Math.max(bw,1).toFixed(1)+'" height="'+(rowH-11)+'" rx="2.5" fill="'+c+'"/>'+
+      '<text x="'+(padL+Math.max(bw,1)+5).toFixed(1)+'" y="'+(y+rowH/2+3.5)+'" font-size="9.5" fill="var(--text-soft)" font-weight="800">'+(v>0?"+":"")+v+'%</text>';
+  }).join("");
+  return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+rows+'</svg>';
+}
+
+/* 품목별 상세 표 (행 클릭 → 시계열) */
+function renderKXCatTable(){
+  var head='<thead><tr><th>품목</th><th>금액</th><th>YoY</th><th>MoM</th><th>관련주</th></tr></thead>';
+  var rows=(KX.categories||[]).map(function(c){
+    function cl(v){ var p=kxPct(v); return p==null?"":(p<0?"neg":"pos"); }
+    return '<tr class="catrow'+(c.key===kxCat?" on":"")+'" data-k="'+esc(c.key)+'">'+
+      '<td><b>'+esc(c.name)+'</b>'+(c.badge?' <span class="badge" style="background:var(--gold-soft);color:var(--gold)">'+esc(c.badge)+'</span>':'')+'</td>'+
+      '<td>'+esc(c.val||"-")+'</td>'+
+      '<td class="'+cl(c.yoy)+'">'+esc(c.yoy||"-")+'</td>'+
+      '<td class="'+cl(c.mom)+'">'+esc(c.mom||"-")+'</td>'+
+      '<td style="text-align:left;color:var(--muted)">'+esc(c.stocks||"")+'</td></tr>';
+  }).join("");
+  $('kxCatTable').innerHTML = head+'<tbody>'+rows+'</tbody>';
+  $('kxCatTable').querySelectorAll('.catrow').forEach(function(r){
+    r.addEventListener('click', function(){ kxCat=this.dataset.k; renderKXCatTable(); renderKXCatTabs(); renderKXCatChart(kxCat); });
+  });
+}
+function renderKXCatTabs(){
+  $('kxCatTabs').innerHTML = (KX.categories||[]).map(function(c){
+    return '<button class="kx-tab'+(c.key===kxCat?" on":"")+'" data-k="'+esc(c.key)+'">'+esc(c.name.split("(")[0])+'</button>';
+  }).join("");
+  $('kxCatTabs').querySelectorAll('.kx-tab').forEach(function(b){
+    b.addEventListener('click', function(){ kxCat=this.dataset.k; renderKXCatTable(); renderKXCatTabs(); renderKXCatChart(kxCat); });
+  });
+}
+function kxFilterSeries(months, vals){
+  var L=[],V=[]; if(!vals) return {labels:L,vals:V};
+  for(var i=0;i<months.length;i++){ if(vals[i]!=null){ L.push(months[i]); V.push(vals[i]); } }
+  return {labels:L, vals:V};
+}
+function renderKXCatChart(key){
+  var s=KX.series||{}, m=s.months||[];
+  var cat=(KX.categories||[]).find(function(c){ return c.key===key; })||{};
+  var charts=[];
+  var yoy=kxFilterSeries(m, s[key+"_yoy"]);
+  if(yoy.vals.length) charts.push(barChart(cat.name.split("(")[0]+" 수출 YoY", "전년동월 대비 %", yoy.labels, yoy.vals, "#2563eb"));
+  if(key==='semi'){
+    charts.push(lineChart("반도체 수출액 (US$10억)", "월별, 사상최대 경신", m, s.semi_val, "#7c3aed"));
+    var mp=kxFilterSeries(m, s.semi_mom);
+    if(mp.vals.length) charts.push(barChart("반도체 수출 MoM", "전월대비 %(수출액 산출)", mp.labels, mp.vals, "#0d9488"));
   }
-  // DRAM 단가 레벨(라인)은 항상 노출
-  charts.push(lineChart("DRAM 단가 지수", "고정거래가 레벨(임의 기준=100)", s.months, s.dram_level, "#b45309"));
-  charts.push(barChart("총수출 vs 반도체 YoY 스프레드", "반도체 − 총수출 (%p)", s.months,
-    s.semi_yoy.map(function(v,i){ return +(v - s.total_yoy[i]).toFixed(1); }), "#0891b2"));
-  $('kxCharts').innerHTML = charts.join("");
+  charts.push('<div class="chartbox"><div class="ct">'+esc(cat.name)+' · 관련주</div>'+
+    '<div class="cs">'+esc(cat.stocks||"")+'</div>'+
+    '<div style="font-size:11.5px;color:var(--text-soft);line-height:1.6;margin-top:4px">'+esc(cat.note||"")+'</div></div>');
+  $('kxCatCharts').innerHTML = charts.join("");
+}
+function renderKXSemi(){
+  var sd=KX.semiDetail; if(!sd){ $('kxSemiCards').innerHTML=""; $('kxSemiNote').textContent=""; return; }
+  var st={ watch:["var(--warn-fg)","var(--warn-bg)"], strong:["var(--pos)","var(--pos-soft)"], neutral:["var(--muted)","var(--neu-soft)"] };
+  $('kxSemiCards').innerHTML = (sd.subitems||[]).map(function(it){
+    var c=st[it.status]||st.neutral;
+    return '<div class="semicard"><div class="sct"><b>'+esc(it.name)+'</b>'+
+      (it.tag?' <span class="badge" style="background:'+c[1]+';color:'+c[0]+'">'+esc(it.tag)+'</span>':'')+'</div>'+
+      '<div class="scn">'+esc(it.note||"")+'</div></div>';
+  }).join("");
+  $('kxSemiNote').textContent = sd.note||"";
 }
 
 /* SVG 막대차트 (음수 지원) */
@@ -722,19 +794,6 @@ function chartBox(title, sub, svg){
   return '<div class="chartbox"><div class="ct">'+esc(title)+'</div><div class="cs">'+esc(sub)+'</div>'+svg+'</div>';
 }
 
-function renderKXTable(){
-  if(!KX.tenday){ $('kxTable').style.display='none'; return; }
-  var head='<thead><tr><th>기간</th><th>총수출 YoY</th><th>반도체 YoY</th><th>조업일수</th><th>비고</th></tr></thead>';
-  var rows=KX.tenday.map(function(r){
-    function cl(v){ return /^-|▼/.test(String(v))?"neg":(/^\+/.test(String(v))?"pos":""); }
-    return '<tr><td><b>'+esc(r.period)+'</b></td>'+
-      '<td class="'+cl(r.total_yoy)+'">'+esc(r.total_yoy)+'</td>'+
-      '<td class="'+cl(r.semi_yoy)+'">'+esc(r.semi_yoy)+'</td>'+
-      '<td>'+esc(r.days)+'</td><td style="text-align:left;color:var(--muted)">'+esc(r.note||"")+'</td></tr>';
-  }).join("");
-  $('kxTable').innerHTML = head+'<tbody>'+rows+'</tbody>';
-}
-
 /* ============================ 이벤트 바인딩 ============================ */
 $('prevM').addEventListener('click', function(){ STATE.m--; if(STATE.m<0){STATE.m=11;STATE.y--;} renderMonth(); renderKX(); });
 $('nextM').addEventListener('click', function(){ STATE.m++; if(STATE.m>11){STATE.m=0;STATE.y++;} renderMonth(); renderKX(); });
@@ -743,12 +802,6 @@ $('filters').addEventListener('click', function(e){
   var b=e.target.closest('.fbtn'); if(!b) return;
   var f=b.dataset.f; STATE.filters[f]=!STATE.filters[f]; b.classList.toggle('on');
   renderMonth(); renderUpcoming();
-});
-$('kxTabs').addEventListener('click', function(e){
-  var b=e.target.closest('.kx-tab'); if(!b) return;
-  kxView=b.dataset.v;
-  $('kxTabs').querySelectorAll('.kx-tab').forEach(function(t){ t.classList.toggle('on', t===b); });
-  renderKXCharts();
 });
 
 /* ============================ 보유 분배금 (암호화 게이트) ============================ */

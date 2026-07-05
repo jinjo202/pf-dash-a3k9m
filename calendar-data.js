@@ -37,12 +37,12 @@ window.CALENDAR = {
 
   events: [
     /* ===================== 매크로 (한국) ===================== */
-    { date:"2026-07-01", type:"macro", region:"KR", importance:3, released:true, verified:false,
-      title:"🇰🇷 6월 수출입 (확정)", unit:"% YoY", source:"관세청/산업부",
-      consensus:"+9.5%", prior:"+8.3%(5월)", actual:"+10.2%", mom:"+3.1%", yoy:"+10.2%",
-      url:"https://www.customs.go.kr/kcs/na/ntt/selectNttList.do?mi=2891&bbsId=1289",
-      detail:"6월 통관기준 수출 +10.2% YoY 확정. 반도체가 견인(반도체 수출 +38%대 추정), 일평균 수출도 증가. 대미·대중 동반 개선.",
-      interp:"반도체 슈퍼사이클 지속 확인. 단, 반도체 편중도 심화 → 반도체 단가(특히 DRAM) 모멘텀이 하반기 수출 방향성의 핵심 변수. 하단 ‘한국 수출 트래커’ 참조." },
+    { date:"2026-07-01", type:"macro", region:"KR", importance:3, released:true, verified:true,
+      title:"🇰🇷 6월 수출입 (확정)", unit:"% YoY", source:"산업통상자원부",
+      consensus:"+55%", prior:"+53.2%(5월)", actual:"+70.9%", mom:null, yoy:"+70.9%",
+      url:"https://www.motir.go.kr/",
+      detail:"6월 수출 $102.25B(+70.9%), 사상 첫 1,000억달러. 반도체 $44.82B(+199.5%, 첫 $40B)·자동차 +5.8%·화장품 +42.5%·음식료 +16.8%. 무역흑자 사상 최대(>$30B).",
+      interp:"반도체(AI·메모리)가 압도적이나 화장품·음식료·자동차 등 소비재·완성차도 견조 — 수출 데이터는 전 업종 주가의 선행지표. 하단 ‘한국 수출 트래커(전 품목)’ 참조." },
 
     { date:"2026-07-02", type:"macro", region:"KR", importance:2, released:true, verified:false,
       title:"🇰🇷 6월 소비자물가(CPI)", unit:"% YoY", source:"통계청",
@@ -52,14 +52,14 @@ window.CALENDAR = {
 
     { date:"2026-07-13", type:"export", region:"KR", importance:3, released:false, verified:false,
       title:"🇰🇷 7월 1~10일 수출 (잠정)", unit:"% YoY", source:"관세청",
-      consensus:null, prior:"6월 1~10일 +12.4%", actual:null, mom:null, yoy:null,
+      consensus:null, prior:"6월 확정 +70.9%", actual:null, mom:null, yoy:null,
       url:"https://www.customs.go.kr/kcs/na/ntt/selectNttList.do?mi=2891&bbsId=1289",
-      detail:"관세청 월중 잠정치(1~10일 통관). 조업일수 보정 전 원계열 → 일평균 기준 병행 확인 필요.",
-      interp:"월초 10일치는 방향성 선행지표. 특히 반도체 일평균 수출과 DRAM 단가 흐름을 이 시점에 1차 점검." },
+      detail:"관세청 월중 잠정치(1~10일 통관). 조업일수 보정 전 원계열 → 일평균 기준 병행 확인. 반도체·자동차·화장품·음식료 품목별 확인.",
+      interp:"월초 10일치는 방향성 선행지표. 반도체 일평균 + 소비재(화장품·음식료) 흐름을 이 시점에 1차 점검." },
 
     { date:"2026-07-21", type:"export", region:"KR", importance:3, released:false, verified:false,
       title:"🇰🇷 7월 1~20일 수출 (잠정)", unit:"% YoY", source:"관세청",
-      consensus:null, prior:"6월 1~20일 +9.8%", actual:null, mom:null, yoy:null,
+      consensus:null, prior:"6월 확정 +70.9%", actual:null, mom:null, yoy:null,
       url:"https://www.customs.go.kr/kcs/na/ntt/selectNttList.do?mi=2891&bbsId=1289",
       detail:"1~20일 누적 통관 잠정. 월 전체 방향 확정에 가장 신뢰도 높은 중간치.",
       interp:"20일치에서 반도체 YoY 둔화 + DRAM 단가 MoM 하락이 겹치면 하반기 수출 피크아웃 논쟁 재점화." },
@@ -353,31 +353,45 @@ window.CALENDAR = {
 
   /* ===================== 한국 수출 트래커 ===================== */
   krExport: {
-    note: "관세청은 매월 1일 전월 확정치, 이후 월중 1~10일·1~20일 잠정치를 발표한다. 반도체(특히 DRAM 단가) 모멘텀 추적이 목적 — YoY뿐 아니라 MoM·일평균까지 본다. 수치는 큐레이션/추정 포함(‘검증필요’). 실제 발표치로 교체.",
+    note: "관세청/산업부 월별 수출입 동향(매월 1일 확정, 10·20일 잠정). 반도체뿐 아니라 자동차·화장품·음식료 등 전 품목이 관련 업종 주가의 선행지표. 수치는 산업부·언론 확인분(2026.6). 품목별 YoY/MoM 모니터링, 반도체는 메모리(DRAM·NAND·HBM) 세부까지.",
+    headline_month: "2026.06",
 
-    // 월중 잠정(1~10일 / 1~20일) 발표 트래킹
-    tenday: [
-      { period:"2026-06 1~10일", total_yoy:"+12.4%", semi_yoy:"+41.2%", days:"8.0일", note:"반도체 견인 뚜렷" },
-      { period:"2026-06 1~20일", total_yoy:"+9.8%",  semi_yoy:"+37.5%", days:"14.5일", note:"일평균도 증가" },
-      { period:"2026-06 확정",   total_yoy:"+10.2%", semi_yoy:"+38.1%", days:"21.0일", note:"6월 확정" },
-      { period:"2026-07 1~10일", total_yoy:"—",      semi_yoy:"—",      days:"—",     note:"7/13 발표 예정" }
+    // 품목별 최신월(6월) 스냅샷 + 관련 한국주
+    categories: [
+      { key:"total",    name:"총수출",           val:"$102.25B", yoy:"+70.9%",  mom:null,      badge:"첫 $100B", stocks:"코스피 전반", note:"6월 사상 첫 1,000억달러·무역흑자 사상최대(>$30B)." },
+      { key:"semi",     name:"반도체",            val:"$44.82B",  yoy:"+199.5%", mom:"+20.6%",  badge:"첫 $40B",  stocks:"삼성전자·SK하이닉스", note:"AI·메모리 가격 상승이 견인. 세부는 아래 메모리 트래커." },
+      { key:"auto",     name:"자동차",            val:"$6.71B",   yoy:"+5.8%",   mom:null,      badge:null,       stocks:"현대차·기아·현대모비스", note:"부품 공급 정상화·생산 증가." },
+      { key:"cosmetic", name:"화장품",            val:"$1.34B",   yoy:"+42.5%",  mom:null,      badge:"H1 +27.2%",stocks:"아모레퍼시픽·코스맥스·한국콜마·실리콘투", note:"K-뷰티 수요 지속, 3~5월 연속 월최대. 중국 의존 탈피·유럽/미국 확대." },
+      { key:"food",     name:"음식료(농수산식품)", val:"$1.17B",   yoy:"+16.8%",  mom:null,      badge:null,       stocks:"삼양식품·농심·CJ제일제당·오리온", note:"라면·김 등 K-푸드. 라면 5월 +21% YoY(단 -13.5% MoM)." }
     ],
 
-    // 차트용 시계열 (월별). value=null 은 미발표.
+    // 품목별 월별 시계열(YoY %). null=미확보. 산업부·언론 확인분.
     series: {
-      months: ["26.01","26.02","26.03","26.04","26.05","26.06"],
-      total_yoy:  [ 10.3,  8.1, 11.5,  9.0,  8.3, 10.2 ],   // 총수출 YoY(%)
-      semi_yoy:   [ 42.0, 33.5, 45.1, 36.2, 34.8, 38.1 ],   // 반도체 수출 YoY(%)
-      semi_mom:   [ -6.2,  3.1, 12.4, -4.5,  2.0,  5.1 ],   // 반도체 수출 MoM(%)
-      dram_mom:   [  4.5,  3.0,  6.5,  2.0, -1.5, -3.8 ],   // DRAM 고정거래가 MoM(%)  ← 이번 이슈
-      dram_level: [  108,  111,  118,  120,  118,  114 ]    // DRAM 단가 지수(임의 기준=100)
+      months:       ["26.01","26.02","26.03","26.04","26.05","26.06"],
+      total_yoy:    [ null,  null,  48.3,  48.0,  53.2,  70.9 ],
+      semi_yoy:     [ 102.7, 160.6, 151.4, 173.5, 169.4, 199.5 ],
+      semi_val:     [ 12.45, 23.25, 32.83, 31.90, 37.16, 44.82 ],  // 반도체 수출액($B)
+      semi_mom:     [ null,  86.7,  41.2,  -2.8,  16.5,  20.6 ],   // 수출액에서 산출
+      auto_yoy:     [ null,  null,  null,  null,  null,  5.8 ],
+      cosmetic_yoy: [ null,  null,  null,  null,  null,  42.5 ],
+      food_yoy:     [ null,  null,  null,  null,  null,  16.8 ]
     },
 
-    // 이번 달 하이라이트(이슈 트래킹)
+    // 반도체 세부: 메모리(DRAM·NAND·HBM)·시스템. 단가(가격) 데이터는 TrendForce 등 유료라 수기.
+    semiDetail: {
+      note: "반도체 수출 급증은 HBM/AI·메모리 가격 상승 주도. 단가(고정거래가) MoM은 TrendForce 등 별도 유료소스 → 수기 갱신(‘관측’).",
+      subitems: [
+        { name:"DRAM(범용) 고정거래가", tag:"관측 필요", status:"watch",   note:"수출 물량·HBM은 강세이나 범용 DRAM 고정거래가는 최근 MoM 조정 관측 — TrendForce 확인(수기)." },
+        { name:"NAND 고정거래가",       tag:"관측 필요", status:"watch",   note:"NAND 가격 사이클. 서버·SSD·PC 수요 연동." },
+        { name:"HBM",                  tag:"강세",     status:"strong",  note:"AI 가속기 수요로 공급부족 지속 — 삼성전자·SK하이닉스 실적 프리미엄." },
+        { name:"시스템반도체·파운드리",  tag:"중립",     status:"neutral", note:"메모리 대비 상대 부진. TSMC 월매출 트래커 교차확인." }
+      ]
+    },
+
     highlight: {
-      title: "⚠️ DRAM 고정거래가 MoM 하락 전환",
-      body: "5월 -1.5% → 6월 -3.8%(MoM)로 2개월 연속 마이너스. 반도체 수출 YoY는 여전히 +38%로 강하나, 가격 모멘텀(MoM)이 먼저 꺾이는 구간. 물량(출하)·HBM 믹스가 단가 약세를 상쇄 중인지, 7월 1~10일·1~20일 잠정에서 반도체 일평균과 함께 재확인 필요.",
-      verified: false
+      title: "🚀 6월 수출 첫 $100B — 반도체 +199.5% & 소비재도 강세",
+      body: "총수출 $102.25B(+70.9%, 사상 첫 1,000억달러), 반도체 $44.82B(+199.5%, 첫 $40B). 동시에 화장품 +42.5%·음식료 +16.8%·자동차 +5.8%로 소비재·완성차도 견조. 수출 데이터는 반도체뿐 아니라 화장품(아모레·코스맥스)·음식료(삼양·농심)·자동차(현대·기아) 업종 주가의 선행지표. 무역흑자 사상 최대(>$30B).",
+      verified: true
     }
   },
 
