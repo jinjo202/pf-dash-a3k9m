@@ -907,6 +907,14 @@ function openSubItem(k){
       (fv.vals.length?lineChartMany(isRgn?"수출금액(대"+meta.n+")":"수출금액", "US$10억 · "+(H.latest_month||""), fv.labels, fv.vals, "#7c3aed", function(x){return "$"+x+"B";}):"")+
       (fp.vals.length?lineChartMany("수출단가", "$/kg (ASP 추세 대용)", fp.labels, fp.vals, "#b45309", function(x){return "$"+Math.round(x).toLocaleString();}):"")+
       '</div>';
+    var fyy=kxFilterSeries(c.months,c.val_yoy), fmm=kxFilterSeries(c.months,c.val_mom);
+    if(fyy.vals.length || fmm.vals.length){
+      body += '<div class="sect-t">📈 YoY·MoM 모멘텀 추세 (2025.02~)</div>';
+      body += '<div class="kx-grid">'+
+        (fyy.vals.length?barChartLong("금액 YoY 추세", "전년동월 대비 % · 월별", fyy.labels, fyy.vals, "#2563eb"):"")+
+        (fmm.vals.length?barChartLong("금액 MoM 추세", "전월대비 % · 월별", fmm.labels, fmm.vals, "#0d9488"):"")+
+        '</div>';
+    }
     body += '<p class="note">출처: 관세청'+(isRgn?" 품목별국가별(총수출)":" 품목별 수출입실적")+' · 상세는 최신월 1~2개월 지연 · 매일 cron 자동 갱신.'+(isRgn?" 지역은 주요국 합산 근사.":"")+'</p>';
   }
   m.innerHTML='<div class="mhd"><div><h3>'+(isRgn?"🌏":"🏭")+' '+esc(meta.n)+'</h3><div class="mdate">'+(isRgn?"국가·지역별 총수출":"섹터별 수출 세부")+' · 관세청 실데이터</div></div><button class="mclose" title="닫기">✕</button></div><div class="mbd">'+body+'</div>';
@@ -993,6 +1001,31 @@ function barChart(title, sub, labels, vals, color){
     '<line x1="'+padL+'" y1="'+yOf(0).toFixed(1)+'" x2="'+(W-padR)+'" y2="'+yOf(0).toFixed(1)+'" stroke="var(--border)" stroke-width="1"/>'+
     bars+xlbls+hits+'</svg>';
   return chartBox(title, sub, svg);
+}
+/* 장기 월별 막대차트(다개월 YoY/MoM 추세용) — 막대폭 확보를 위해 가로 스크롤, x라벨 솎아내기 */
+function barChartLong(title, sub, labels, vals, color){
+  var n=labels.length, bw=22, gap=30, padL=30, padR=10, padT=14, padB=22;
+  var W=padL+gap*n+padR, H=150, iw=gap*n, ih=H-padT-padB;
+  var mx=Math.max.apply(null, vals.concat([0]).map(Math.abs))*1.18 || 1;
+  var min=-mx, max=mx;
+  function yOf(v){ return padT + ih*(1-(v-min)/(max-min)); }
+  var showVal = n<=14;
+  var bars=vals.map(function(v,i){
+    var x=padL+gap*i+(gap-bw)/2;
+    var y0=yOf(0), y1=yOf(v);
+    var top=Math.min(y0,y1), h=Math.abs(y1-y0);
+    var c = v<0 ? "#dc2626" : color;
+    var lblY = v<0 ? (top+h+11) : (top-4);
+    var val = '<rect x="'+x.toFixed(1)+'" y="'+top.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,1).toFixed(1)+'" rx="2" fill="'+c+'" data-tip="'+esc(labels[i])+': '+(v>0?"+":"")+v+'%"/>';
+    if(showVal) val += '<text x="'+(x+bw/2).toFixed(1)+'" y="'+lblY.toFixed(1)+'" font-size="8" fill="var(--text-soft)" text-anchor="middle" font-weight="700" pointer-events="none">'+(v>0?"+":"")+v+'</text>';
+    return val;
+  }).join("");
+  var xlbls=labels.map(function(l,i){ var x=padL+gap*i+gap/2;
+    return '<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" font-size="8" fill="var(--muted)" text-anchor="middle" pointer-events="none" transform="rotate(-40 '+x.toFixed(1)+' '+(H-6)+')">'+esc(l)+'</text>'; }).join("");
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" style="min-width:'+Math.max(W,280)+'px" preserveAspectRatio="xMinYMid meet">'+
+    '<line x1="'+padL+'" y1="'+yOf(0).toFixed(1)+'" x2="'+(padL+iw)+'" y2="'+yOf(0).toFixed(1)+'" stroke="var(--border)" stroke-width="1"/>'+
+    bars+xlbls+'</svg>';
+  return '<div class="chartbox"><div class="ct">'+esc(title)+'</div><div class="cs">'+esc(sub)+'</div><div style="overflow-x:auto">'+svg+'</div></div>';
 }
 /* SVG 라인차트 */
 function lineChart(title, sub, labels, vals, color){
