@@ -216,6 +216,9 @@
   /* ── 한국 수출 트래커 ── */
   .kx-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   @media (max-width:820px){ .kx-grid { grid-template-columns:1fr; } }
+  /* 다개월 추세차트(폭이 가변적) 전용 — 그리드 대신 전체너비로 세로 쌓기, 열 폭 붕괴 방지 */
+  .trend-stack { display:flex; flex-direction:column; gap:12px; }
+  .trend-stack .chartbox { width:100%; }
   .chartbox { border:1px solid var(--border); border-radius:10px; padding:12px 12px 6px; background:var(--panel-soft); }
   .chartbox .ct { font-size:12px; font-weight:800; margin-bottom:2px; display:flex; align-items:center; gap:6px; justify-content:space-between; }
   .chartbox .cs { font-size:10.5px; color:var(--muted); margin-bottom:8px; }
@@ -910,7 +913,7 @@ function openSubItem(k){
     var fyy=kxFilterSeries(c.months,c.val_yoy), fmm=kxFilterSeries(c.months,c.val_mom);
     if(fyy.vals.length || fmm.vals.length){
       body += '<div class="sect-t">📈 YoY·MoM 모멘텀 추세 (2025.02~)</div>';
-      body += '<div class="kx-grid">'+
+      body += '<div class="trend-stack">'+
         (fyy.vals.length?barChartLong("금액 YoY 추세", "전년동월 대비 % · 월별", fyy.labels, fyy.vals, "#2563eb"):"")+
         (fmm.vals.length?barChartLong("금액 MoM 추세", "전월대비 % · 월별", fmm.labels, fmm.vals, "#0d9488"):"")+
         '</div>';
