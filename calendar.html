@@ -43,6 +43,8 @@
     var v = Math.floor(Date.now() / 60000);
     document.write('<script src="calendar-data.js?v=' + v + '" onerror="window.CALENDAR=window.CALENDAR||null"></scr' + 'ipt>');
     document.write('<script src="calendar-auto.js?v=' + v + '" onerror="window.CALENDAR_AUTO=window.CALENDAR_AUTO||null"></scr' + 'ipt>');
+    document.write('<script src="export-history.js?v=' + v + '" onerror="window.EXPORT_HISTORY=window.EXPORT_HISTORY||null"></scr' + 'ipt>');
+    document.write('<script src="memory-prices.js?v=' + v + '" onerror="window.MEMORY_PRICES=window.MEMORY_PRICES||null"></scr' + 'ipt>');
     document.write('<script src="calendar-holdings.js?v=' + v + '" onerror="window.CALENDAR_HOLDINGS_ENCRYPTED=window.CALENDAR_HOLDINGS_ENCRYPTED||null"></scr' + 'ipt>');
   })();
 </script>
@@ -364,6 +366,18 @@
     <div class="sect-t">🔬 반도체 세부 (메모리 DRAM·NAND·HBM · 시스템)</div>
     <div class="semicards" id="kxSemiCards"></div>
     <p class="note" id="kxSemiNote"></p>
+
+    <div class="toolbar" id="memBar" style="margin:12px 0 8px">
+      <div class="sect-t" style="margin:0">💾 메모리 고정거래가 (DRAMeXchange · Meritz)</div>
+      <div class="kx-tabs" id="memRange">
+        <button class="kx-tab" data-r="12">1년</button>
+        <button class="kx-tab on" data-r="24">2년</button>
+        <button class="kx-tab" data-r="0">전체</button>
+      </div>
+    </div>
+    <div class="kv" id="memLatest"></div>
+    <div class="kx-grid" id="memCharts"></div>
+    <p class="note" id="memNote"></p>
     <p class="note">· 관세청은 <b>매월 1일 전월 확정</b>, 이후 <b>1~10일·1~20일 잠정</b>을 발표(원계열은 조업일수 영향 → <b>일평균</b> 병행). 품목별(HS코드)·일평균은 관세청 무역통계 OpenAPI로 자동화 가능(<code>TRADE_API_KEY</code>). 반도체 단가(DRAM·NAND)는 TrendForce 등 유료소스라 수기.</p>
   </div>
 
@@ -631,7 +645,13 @@ function renderUpcoming(){
 
 /* ============================ 한국 수출 트래커 ============================ */
 var KX = DATA.krExport;
+var EXPH = window.EXPORT_HISTORY || null;   // 관세청 자동수집 품목별 과거 시계열(있으면 우선)
 var kxCat = "semi";
+/* 품목 시계열: 관세청 히스토리 우선, 없으면 큐레이션 series */
+function kxSeriesObj(){
+  if(EXPH && EXPH.series && EXPH.months && EXPH.months.length) return { months:EXPH.months, s:EXPH.series };
+  return { months:(KX.series&&KX.series.months)||[], s:KX.series||{} };
+}
 function kxPct(s){ if(s==null) return null; var v=parseFloat(String(s).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:null; }
 function renderKX(){
   if(!KX){ $('kxPanel').style.display='none'; return; }
@@ -719,7 +739,7 @@ function kxFilterSeries(months, vals){
   return {labels:L, vals:V};
 }
 function renderKXCatChart(key){
-  var s=KX.series||{}, m=s.months||[];
+  var so=kxSeriesObj(), s=so.s, m=so.months;
   var cat=(KX.categories||[]).find(function(c){ return c.key===key; })||{};
   var charts=[];
   var yoy=kxFilterSeries(m, s[key+"_yoy"]);
@@ -744,6 +764,50 @@ function renderKXSemi(){
       '<div class="scn">'+esc(it.note||"")+'</div></div>';
   }).join("");
   $('kxSemiNote').textContent = sd.note||"";
+}
+
+/* ── 메모리 고정거래가 (DRAM·NAND 장기 차트, Meritz 엑셀) ── */
+var MEM = window.MEMORY_PRICES || null;
+var memRange = 24;
+function renderMemory(){
+  if(!MEM){ ["memBar","memLatest","memCharts","memNote"].forEach(function(id){ var e=$(id); if(e) e.style.display="none"; }); return; }
+  var keys=[["dram_ddr5_16gb","#2563eb"],["nand_128g_mlc","#7c3aed"],["dram_server_ddr5","#b45309"],["dram_ddr4_8gb","#0d9488"]];
+  $('memLatest').innerHTML = keys.map(function(k){
+    var L=(MEM.latest||{})[k[0]]; if(!L) return "";
+    var mc=L.mom==null?"":(L.mom<0?"neg":(L.mom>0?"pos":""));
+    return '<div class="k"><div class="lbl">'+esc(MEM.labels[k[0]])+'</div>'+
+      '<div class="val">$'+L.val+'</div>'+
+      '<div style="font-size:10.5px;font-weight:700" class="'+mc+'">MoM '+(L.mom>0?"+":"")+L.mom+'% · YoY '+(L.yoy>0?"+":"")+L.yoy+'%</div></div>';
+  }).join("");
+  var m=MEM.months||[], N=memRange;
+  function slc(a){ return N>0 ? a.slice(-N) : a.slice(); }
+  var ms=slc(m);
+  $('memCharts').innerHTML = keys.map(function(k){
+    var f=kxFilterSeries(ms, slc(MEM.series[k[0]]||[]));
+    if(!f.vals.length) return "";
+    return lineChartMany(MEM.labels[k[0]], "고정거래가 US$ · "+(N>0?(N+"개월"):"전체"), f.labels, f.vals, k[1]);
+  }).join("");
+  $('memNote').textContent = "출처: "+(MEM.source||"")+" · 기준 "+(MEM.as_of_month||"")+". 로컬 엑셀(fetch_memory_prices.py)로 갱신 — 메모리 단가는 반도체 수출·삼성전자·SK하이닉스 실적의 핵심 선행지표.";
+}
+/* 다점 라인차트 (점별 라벨 생략, x라벨 thinning) */
+function lineChartMany(title, sub, labels, vals, color){
+  var W=340,H=150, padL=34, padR=12, padT=12, padB=20;
+  var iw=W-padL-padR, ih=H-padT-padB;
+  var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals);
+  var pad=(mx-mn)*0.12||1; mn=Math.max(0,mn-pad); mx+=pad;
+  function yOf(v){ return padT+ih*(1-(v-mn)/(mx-mn)); }
+  var n=vals.length, gap=iw/(n-1||1);
+  var pts=vals.map(function(v,i){ return (padL+gap*i).toFixed(1)+","+yOf(v).toFixed(1); });
+  var lx=padL+gap*(n-1), ly=yOf(vals[n-1]);
+  function fmt(v){ return v<10?(+v.toFixed(1)):Math.round(v); }
+  var end='<circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="3" fill="'+color+'"/>'+
+    '<text x="'+(lx-3).toFixed(1)+'" y="'+(ly-6).toFixed(1)+'" font-size="9" fill="var(--text-soft)" text-anchor="end" font-weight="800">$'+fmt(vals[n-1])+'</text>';
+  var yl='<text x="'+(padL-4)+'" y="'+(yOf(mx)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+fmt(mx)+'</text>'+
+         '<text x="'+(padL-4)+'" y="'+(yOf(mn)+3).toFixed(1)+'" font-size="7.5" fill="var(--muted)" text-anchor="end">'+fmt(mn)+'</text>';
+  var step=Math.max(1,Math.round(n/6)), xl="";
+  for(var i=0;i<n;i+=step){ var x=padL+gap*i; xl+='<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" font-size="7.5" fill="var(--muted)" text-anchor="middle">'+esc(labels[i])+'</text>'; }
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet"><polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linejoin="round"/>'+end+yl+xl+'</svg>';
+  return chartBox(title, sub, svg);
 }
 
 /* SVG 막대차트 (음수 지원) */
@@ -803,6 +867,12 @@ $('filters').addEventListener('click', function(e){
   var f=b.dataset.f; STATE.filters[f]=!STATE.filters[f]; b.classList.toggle('on');
   renderMonth(); renderUpcoming();
 });
+(function(){ var mr=$('memRange'); if(!mr) return; mr.addEventListener('click', function(e){
+  var b=e.target.closest('.kx-tab'); if(!b) return;
+  memRange=+b.dataset.r;
+  mr.querySelectorAll('.kx-tab').forEach(function(t){ t.classList.toggle('on', t===b); });
+  renderMemory();
+}); })();
 
 /* ============================ 보유 분배금 (암호화 게이트) ============================ */
 /* 포트폴리오 탭과 동일 크립토(PBKDF2-SHA256 + AES-GCM). 비번은 pf_pw 공유 —
@@ -906,6 +976,7 @@ function renderTSMC(){
 renderMonth();
 renderUpcoming();
 renderKX();
+renderMemory();
 renderTSMC();
 initHoldings();
 </script>

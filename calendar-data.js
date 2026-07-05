@@ -379,12 +379,12 @@ window.CALENDAR = {
 
     // 반도체 세부: 메모리(DRAM·NAND·HBM)·시스템. 단가(가격) 데이터는 TrendForce 등 유료라 수기.
     semiDetail: {
-      note: "반도체 수출 급증은 HBM/AI·메모리 가격 상승 주도. 단가(고정거래가) MoM은 TrendForce 등 별도 유료소스 → 수기 갱신(‘관측’).",
+      note: "반도체 수출 급증(+199.5%)은 메모리 고정거래가 급등·HBM/AI가 주도. 아래 DRAM·NAND 고정거래가 장기 차트(Meritz·DRAMeXchange)에서 단가 사이클을 직접 트래킹. 최신월은 급등 후 보합.",
       subitems: [
-        { name:"DRAM(범용) 고정거래가", tag:"관측 필요", status:"watch",   note:"수출 물량·HBM은 강세이나 범용 DRAM 고정거래가는 최근 MoM 조정 관측 — TrendForce 확인(수기)." },
-        { name:"NAND 고정거래가",       tag:"관측 필요", status:"watch",   note:"NAND 가격 사이클. 서버·SSD·PC 수요 연동." },
-        { name:"HBM",                  tag:"강세",     status:"strong",  note:"AI 가속기 수요로 공급부족 지속 — 삼성전자·SK하이닉스 실적 프리미엄." },
-        { name:"시스템반도체·파운드리",  tag:"중립",     status:"neutral", note:"메모리 대비 상대 부진. TSMC 월매출 트래커 교차확인." }
+        { name:"DDR5 16Gb 고정가", tag:"강세·보합", status:"strong",  note:"2026 급등(YoY 수백%대). 공급부족+AI 수요. 최신월 MoM 보합(숨고르기) — 아래 차트." },
+        { name:"NAND 128Gb 고정가", tag:"강세·보합", status:"strong",  note:"낸드 사이클 반등. 서버·SSD·PC 수요. 최신월 보합." },
+        { name:"서버 DDR5 RDIMM",   tag:"급등",     status:"strong",  note:"AI 서버향 프리미엄 극대화($142→$422). 삼성·SK 실적 레버리지." },
+        { name:"시스템반도체·파운드리", tag:"중립",  status:"neutral", note:"메모리 대비 상대 부진. TSMC 월매출 트래커 교차확인." }
       ]
     },
 

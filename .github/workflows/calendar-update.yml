@@ -77,6 +77,14 @@ jobs:
         run: python fetch_calendar.py
         continue-on-error: true
 
+      # 한국 품목별 수출 과거 시계열 누적(관세청 OpenAPI, TRADE_API_KEY 있으면)
+      - name: Fetch Korea export history by item (관세청)
+        env:
+          TRADE_API_KEY: ${{ secrets.TRADE_API_KEY }}
+          TRADE_API_URL: ${{ vars.TRADE_API_URL }}
+        run: python fetch_export.py
+        continue-on-error: true
+
       - name: Commit and push if changed
         run: |
           set -e
@@ -85,7 +93,7 @@ jobs:
 
           # 이 워크플로가 건드리는 파일은 딱 2개. 소스/다른 데이터는 절대 건드리지 않음.
           # (평문 portfolio-data.plain.js / calendar-holdings.plain.js 는 gitignored)
-          TRACKED="calendar-auto.js calendar-holdings.js"
+          TRACKED="calendar-auto.js calendar-holdings.js export-history.js"
 
           TMP="$(mktemp -d)"
           for f in $TRACKED; do [ -f "$f" ] && cp "$f" "$TMP/$(echo "$f" | tr '/' '_')"; done
