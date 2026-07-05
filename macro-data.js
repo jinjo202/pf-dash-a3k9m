@@ -1,7 +1,7 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-07-04",
+  "as_of": "2026-07-05",
   "update_log": [
     {
       "date": "2026-06-18",
@@ -473,7 +473,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-04T23:55:36Z",
+  "generated": "2026-07-05T01:51:57Z",
   "regime": {
     "score": 15,
     "label": "비중확대 우위",
@@ -6251,7 +6251,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-07-04",
+    "as_of": "2026-07-05",
     "month": "2026.07",
     "unit": "조원",
     "ytd_total": {
@@ -6997,7 +6997,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -7684,7 +7684,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -8581,7 +8581,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "2026.07 KOSPI 누적(조원): 외국인 -8.2·기관 +2.3·개인 +5.7(3일). 최근 26.07.03: 외국인 -2.17·기관 +4.41·개인 -2.29. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -8601,7 +8601,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": null
     },
     "eps_rev_us": {
@@ -8615,7 +8615,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +3.1%. 그래프=90일 경로.",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": {
         "dates": [
           "90일전",
@@ -8644,7 +8644,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": null
     },
     "eps_rev_kr": {
@@ -8658,7 +8658,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +2.1%. 그래프=90일 경로.",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": {
         "dates": [
           "90일전",
@@ -8687,7 +8687,7 @@ window.MACRO = {
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 19.75 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-07-04",
+      "as_of": "2026-07-05",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
@@ -14064,7 +14064,7 @@ window.MACRO = {
     "us10y": {
       "name": "미국 10Y 금리",
       "pillar": "valuation",
-      "current": 4.37,
+      "current": 4.49,
       "unit": "%",
       "z": 1.62,
       "pct": 100.0,
@@ -14072,7 +14072,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "할인율. 급등 시 밸류 부담",
-      "as_of": "2026-06-26",
+      "as_of": "2026-07-02",
       "history": {
         "dates": [
           "2025-06-01",
@@ -17476,7 +17476,7 @@ window.MACRO = {
     ]
   },
   "earnings": {
-    "as_of": "2026-07-04",
+    "as_of": "2026-07-05",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -17502,10 +17502,10 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (22일 경과)",
+          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (23일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-06-12",
-          "days_old": 22,
+          "days_old": 23,
           "stale": true,
           "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
           "years": [
@@ -17583,10 +17583,10 @@ window.MACRO = {
         "n": 29,
         "annual": {
           "unit": "지수(2020=100, 컨센서스)",
-          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (34일 경과)",
+          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (35일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 34,
+          "days_old": 35,
           "stale": true,
           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. ※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
           "years": [
@@ -17664,10 +17664,10 @@ window.MACRO = {
         "n": 6,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (34일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (35일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 34,
+          "days_old": 35,
           "stale": true,
           "note": null,
           "years": [
@@ -17745,10 +17745,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (34일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (35일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 34,
+          "days_old": 35,
           "stale": true,
           "note": null,
           "years": [
@@ -17826,10 +17826,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (34일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (35일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 34,
+          "days_old": 35,
           "stale": true,
           "note": null,
           "years": [
@@ -18443,8 +18443,8 @@ window.MACRO = {
               "rets": {
                 "w1": 6.1,
                 "m1": 1.5,
-                "m3": -8.1,
-                "ytd": -7.0
+                "m3": -8.7,
+                "ytd": -7.7
               },
               "rev30": -0.03734891976912014,
               "note": "가성비 메뉴"
@@ -20396,7 +20396,7 @@ window.MACRO = {
   },
   "commentary": {
     "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 6.9%(중립)",
-    "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.8배(악재)·KOSPI 12M Fwd PER 5.9배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.37%(중립)",
+    "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.8배(악재)·KOSPI 12M Fwd PER 5.9배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.49%(중립)",
     "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1530.2원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 120.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -8.2조원(중립)",
     "sentiment": "[혼조/중립] VIX 변동성 16.1(중립)·S&P500 12M 모멘텀 18.0%(강한 호재)·CNN 공포·탐욕 지수 32(강한 악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.486(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.269(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",

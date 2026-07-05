@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-04T23:57:06
+// 갱신: 2026-07-05T01:53:27
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,6 +7,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNX2tmTGJMNjBjbmRrY0RYd0pQZDlhVUJNM0JPRGg1Wjc4NFRqeTEwZTZ0QmdnQ2xwZGdOZ2V6aVhEUFRtQVZPZzY3RDlIbzNhSVBQQ2RjbFJzSm9DRnpXa2c5WUNuVmJkUWRwenlzdmotZnJrclMzY1lFRW9GYkZQUGlpR1lPb3Zs0gGcAUFVX3lxTE1oajAyVHR2N0RGWEVqSkppaXh4UHZSeGE2LXU0Yl9FX1gtRFJGUU9HSUtlQWVuM3pyTlhQNS1HTHlMZGcya3hiMkxnc3pzeHByWVpRXzhOVDdNcGFsS1dvSEo3b1B5NnZQQndDbzNMbXgxaDJ2THpRYUFPcm1tc19BX2ROSWlhSzdPN0hVRUc4R1F2bnQ5RkFPVHYwUg?oc=5",
    "source": "Chosunbiz",
    "date": "2026-07-04"
+  },
+  {
+   "title": "[주간증시전망] AI 투자 둔화 우려 속 흔들린 코스피…삼성전자 실적이 반등 좌우 - 브릿지경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1lZUhaaVJWRG5VbEp0eE1lNFk3M0ZRZVZhWUg0blJ4OXlaVG1CeWZhRDZ5WnFjVXFLOTFZekQyWE1ZcjZGcXBjTzZKZTdkSU9uZFhObzd6SFd0Zw?oc=5",
+   "source": "브릿지경제",
+   "date": "2026-07-05"
   },
   {
    "title": "[증시전망] 코스피 8000선 회복했지만 ...삼성전자 실적에 쏠린 눈 - 디지털투데이",
@@ -18,12 +24,6 @@ window.HOLDING_NEWS = {
    "title": "[주간증시전망] 코스피, 'PER 6배' 역대급 저평가…삼성전자 실적 '촉각' - ebn.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5yLXJXQkZUZ29yaWs2ck1QWUFHekM5NFZzSTAwcU53Yi1NWDlBWm96ZGdmOWhnSS1qaENWc1BlZzhPNktwRXllMk0zanhMWlRmVS12OFdLS2I1eGpCZjRkeTE2clV2ZzhV?oc=5",
    "source": "ebn.co.kr",
-   "date": "2026-07-04"
-  },
-  {
-   "title": "'삼성전자 실적에 달렸다'…코스피 7200~9000 [주간 증시 전망] - 데일리안",
-   "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPdHc0YjBSQWZjU2R2Vy1sZzlUeWJYVTAxbnV6WnpYR1Z5UFJub3lhd3JaRnZrdHM0VnhFMjJjdTZ2aW1PWXkyS2IwSFh5R3oyVWg4NmVNbFJXUEk1cnJmNWs4ajNNMUJBN09tVWlSd1V4TFlvdXBsdFQxNzhBR1pOdmx3ZUR1WnVWc0dlSFBwSjFrRjd2TFpLaHhRLTdYeFR3cF9vc0VTNlZESWVHUFc2WlNHbU00TzNDWmpDbTBiNkNwRjhNXzQtOG1IMGFOWmVjcmMwNnJIbWctNnd1Q3Atd0xtdk5XLW81ZkRFd3FkVmxBYzFjOUpRM3l2VdIB-wFBVV95cUxPdHc0YjBSQWZjU2R2Vy1sZzlUeWJYVTAxbnV6WnpYR1Z5UFJub3lhd3JaRnZrdHM0VnhFMjJjdTZ2aW1PWXkyS2IwSFh5R3oyVWg4NmVNbFJXUEk1cnJmNWs4ajNNMUJBN09tVWlSd1V4TFlvdXBsdFQxNzhBR1pOdmx3ZUR1WnVWc0dlSFBwSjFrRjd2TFpLaHhRLTdYeFR3cF9vc0VTNlZESWVHUFc2WlNHbU00TzNDWmpDbTBiNkNwRjhNXzQtOG1IMGFOWmVjcmMwNnJIbWctNnd1Q3Atd0xtdk5XLW81ZkRFd3FkVmxBYzFjOUpRM3l2VQ?oc=5",
-   "source": "데일리안",
    "date": "2026-07-04"
   }
  ],
@@ -61,15 +61,15 @@ window.HOLDING_NEWS = {
    "date": "2026-07-01"
   },
   {
-   "title": "제룡전기(033100)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략 - 씽크풀 AI",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5rVXoxRDBKaFczV3RoSlhYQjhKVm5zbmcyZDc0elJpbUJaU19EdHJTLS02emx6Y05QMzNMTXhPSW8tZmdHaTVJU2pKdGc3NVhQa25KNzNGQ1R3N3Jp?oc=5",
-   "source": "씽크풀 AI",
-   "date": "2026-07-01"
-  },
-  {
    "title": "효성중공업, 주가 장중 8%대 급등…전력 인프라 투자 기대에 370만원대 안착 - CBC뉴스",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9ocGFlQ0xROFJXeHhyRkppUnpJMVVkd0tXVjhEZjllYnlXQXpWUEJkOFUzc0NiTEIxbUtPSk1YMUJ1cXd1OW9IaVZrQlAzdzFxdnRpUFlveFJTVUhlZE41OVUwRUNTdS1T?oc=5",
    "source": "CBC뉴스",
+   "date": "2026-07-01"
+  },
+  {
+   "title": "제룡전기(033100)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략 - 씽크풀 AI",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5rVXoxRDBKaFczV3RoSlhYQjhKVm5zbmcyZDc0elJpbUJaU19EdHJTLS02emx6Y05QMzNMTXhPSW8tZmdHaTVJU2pKdGc3NVhQa25KNzNGQ1R3N3Jp?oc=5",
+   "source": "씽크풀 AI",
    "date": "2026-07-01"
   },
   {
@@ -166,7 +166,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "테슬라 AI5 칩, 옵티머스·로보택시 승부수 - 초이스스탁",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE01b2ZmRGt3SEJJQWZOWmJXdm8tQ21wTVJqc0lMNVRkbHdYamNqWGhYRnJTZEFLUUhQdVBUSEJZbGlHU0QyS1lVYWxHWVJ6TDREMWlOcVlVWkRxbXAyNW9FaUxB?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9RVnQyelNsekZ4cl91b0VZb0Y2dVJlc1VsR3dhV04yRE1GSGhBaHltQm1ibVlnVW1WUXl1UWlsZzJIMFptUnZPWFJRUEpYQW1Zb0E2WkJzbGk5ZWw4Z2dGU2xfd3pxdUU?oc=5",
    "source": "초이스스탁",
    "date": "2026-07-01"
   },
@@ -237,16 +237,16 @@ window.HOLDING_NEWS = {
  ],
  "KODEX 자동차": [
   {
-   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
-   "source": "조선일보",
-   "date": "2026-06-25"
-  },
-  {
    "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByWlVzOEwtaDF2SGhKa0VpT3ZLZnZvYS1SUjBRQmRmWmhodlZuRU5zVHhCc2t1cHhvdWdzdEVFSzFXNGdKNWdxT2Z0ZUktU0k2bXRXSXRoRjZ5RmgwaVZ4akY0Ny1OZlBiYzZTYVA1Yjc?oc=5",
    "source": "연합인포맥스",
    "date": "2026-06-09"
+  },
+  {
+   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
+   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
+   "source": "조선일보",
+   "date": "2026-06-25"
   },
   {
    "title": "자동차주 주가 혼조…기아 상승, 현대차·현대모비스 보합권 유지 - CBC뉴스",
@@ -419,10 +419,10 @@ window.HOLDING_NEWS = {
  ],
  "KODEX S&P500(H)": [
   {
-   "title": "나스닥 100 선물, 어제 하락 이후 강하게 반등. 월가 투자은행들, 미국 증시 상승세 여전히 지속될 것으로 전망. - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOdUNxTXhrd0loVkJRUDg1NEJWRTNVNUpucnlfRlQyWjVRRDRUbEk1Ykd4NDh3N25VZGN3Mm1nTmgtdFJDeGtidU81Y1hUZk0tdlUwenNoeEtPRlFEdEVNLUJrcDhDamVOU0d3Q3VzcTUtQlZMNHprdkgxTlNJcl9tak5kQThaMlpQX0MtNTNZb1JnRVdlVWphVVNrbDNsLURoM3p5dHdWNjVGQmpBZk41TFdiOWZJcEs3aG1temtrZ2VGbnFoVnRWQ05ka3RlamV4?oc=5",
+   "title": "샌디스크 858% 폭등하며 1위 기록. 2026년 상반기 S&P 500 상승률 상위 10개 종목 공개, 월가가 하반기 깊은 조정을 경고하는 이유. - Tradin",
+   "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQaE5MeXZadEtpdVZrbVFkb3Jsb1htODU3dmdxRDlzNVNheks2U1pJV1BEVjBQLS1uRjhFMVBzWHFzOUtra2NjUjZ4MVJWcFhDQUlyRUV3WnJNUkJScUxScmk1UWk4TGdYTDJhYlJSNWNGMFc5R0FxVXFPbUN4cXZ6aVRJRG96ZHU4XzdoZWxkZUxtNTN2WnpoNGFFS0pyVUhlMVdRQWZDWTRtc3BnZzcxdUJIOFh1QnZ4aElYVTQydVdPUWpkcklLNQ?oc=5",
    "source": "TradingKey",
-   "date": "2026-07-03"
+   "date": "2026-07-04"
   },
   {
    "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
@@ -477,12 +477,6 @@ window.HOLDING_NEWS = {
    "date": "2026-06-30"
   },
   {
-   "title": "\"가치주 샀는데 엔비디아가?\"… 삼전·하이닉스 주주가 봐야 할 3가지 잣대 - 초이스스탁",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE00a2JuSmMyVFluX3g2MndmSEFOV0k1ZnFsRkFRb3hNMW5La0tGbS1hek1VbDZ4VkE4ejQxNlRDQlBJSWtSSWJWRkRuMWdsTlVvdjduaG5kMWU3V1UwN2ptcnNR?oc=5",
-   "source": "초이스스탁",
-   "date": "2026-06-15"
-  },
-  {
    "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZVJXYXF5Qmg5SGNFQjhjZ3pZdkhSQzlYWHk0LTQ5akxrWFpYZGlZTGpZNkVWWm5Qd0JiMXMzajdVYXpRdHBOZ0F4dlM0eF9QMFhuaTFOQ1laSjljZV8zeDhxMlE4ZXRCLXJmTkZZRjZBUjlkcmxHdUl6aXFia1E5Zm5CcU9EeHRP?oc=5",
    "source": "글로벌이코노믹",
@@ -493,6 +487,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1SSkVxS19nVko3eXNYalVvRVBRc29GU2w0VkRYUmFzbVZJbXBnZ09UVld6ME5DVXZQR3RsZzRocWRtMWZ2NzRFOTdwZHVHblFKczlRWWZtTDFfeFRnSmpLendCbw?oc=5",
    "source": "프라임경제",
    "date": "2026-03-03"
+  },
+  {
+   "title": "'220조 큰손' 노르웨이 스토어브랜드 \"삼성화재·KCC·현대모비스, 숨겨진 가치주\" - 더구루",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9qYVBIeXFqM1JUOVBRZnVSaFNkSERuaW9PY2xQY2t1dng4blh6aWJ0ZTFSS2l4VWM3cXhqTzZXSjZNc0Q1eGRCNVM1Tk1BZG1TTlZEUTBmcG44S1ZRTGJPZHYyQQ?oc=5",
+   "source": "더구루",
+   "date": "2026-06-25"
   }
  ],
  "Xtrackers DAX ETF (XDAX)": [
