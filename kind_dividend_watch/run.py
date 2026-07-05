@@ -64,8 +64,14 @@ from dart_client import DartApiClient
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 
+def _clean(s: str) -> str:
+    """BOM(U+FEFF)·공백 제거. 시크릿/env에 BOM이 섞이면 SMTP ascii 인코딩 에러 발생."""
+    return s.replace("﻿", "").strip()
+
+
 def _require(key: str) -> str:
     v = os.getenv(key)
+    v = _clean(v) if v else v
     if not v:
         print(f"❌ .env 설정 누락: {key}", file=sys.stderr)
         sys.exit(1)
@@ -73,8 +79,8 @@ def _require(key: str) -> str:
 
 
 def _recipients() -> list[str]:
-    raw = os.getenv("RECIPIENT_EMAILS", "")
-    return [e.strip() for e in raw.split(",") if e.strip()]
+    raw = _clean(os.getenv("RECIPIENT_EMAILS", ""))
+    return [_clean(e) for e in raw.split(",") if _clean(e)]
 
 
 def cmd_test() -> None:
@@ -132,7 +138,7 @@ def _sync_and_notify(recipients: list[str], dry_run: bool) -> None:
                     + ("<p style='color:#c00'>⚠️ " + "<br>".join(warns) + "</p>" if warns else "")
                     + "<p style='color:#888;font-size:12px'>포트폴리오 보유 변경에 따라 자동 반영됨.</p></div>")
             mailer.send_email(_require("SMTP_USER"), _require("SMTP_PASS"),
-                              os.getenv("SENDER_EMAIL", _require("SMTP_USER")), recipients,
+                              _clean(os.getenv("SENDER_EMAIL") or _require("SMTP_USER")), recipients,
                               "[감시대상 변경] 배당·분배 모니터링 자동 업데이트", body)
     else:
         print("🔄 감시대상 변동 없음")
@@ -172,7 +178,7 @@ def cmd_once(dry_run: bool) -> None:
         dart,
         smtp_user=_require("SMTP_USER"),
         smtp_pass=_require("SMTP_PASS"),
-        sender=os.getenv("SENDER_EMAIL", _require("SMTP_USER")),
+        sender=_clean(os.getenv("SENDER_EMAIL") or _require("SMTP_USER")),
         recipients=recipients,
         days=int(os.getenv("LOOKBACK_DAYS", "1")),
         dry_run=dry_run,
@@ -188,7 +194,7 @@ def cmd_test_email() -> None:
         print("❌ RECIPIENT_EMAILS 미설정", file=sys.stderr)
         sys.exit(1)
     su, sp = _require("SMTP_USER"), _require("SMTP_PASS")
-    sender = os.getenv("SENDER_EMAIL", su)
+    sender = _clean(os.getenv("SENDER_EMAIL") or su)
     sent = 0
     # 해외 ETF: 최근 30일 실제 분배 하나로 테스트
     try:
