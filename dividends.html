@@ -43,6 +43,7 @@
     var v = Math.floor(Date.now() / 60000);
     document.write('<script src="dividends-data.js?v=' + v + '" onerror="window.DIVIDENDS_UNIVERSE=window.DIVIDENDS_UNIVERSE||null"></scr' + 'ipt>');
     document.write('<script src="dividends-quotes.js?v=' + v + '" onerror="window.DIVIDENDS_QUOTES=window.DIVIDENDS_QUOTES||null"></scr' + 'ipt>');
+    document.write('<script src="dividends-news.js?v=' + v + '" onerror="window.DIVIDENDS_NEWS=window.DIVIDENDS_NEWS||null"></scr' + 'ipt>');
   })();
 </script>
 <style>
@@ -172,6 +173,8 @@
   table.dt tbody tr.main { cursor:pointer; }
   table.dt tbody tr.main:hover td { background:var(--row-hover); }
   table.dt tbody tr.main:hover td:first-child { background:var(--row-hover); }
+  tr.grp-head td { position:sticky; left:0; background:var(--panel-soft); font-weight:800; font-size:12.5px; color:var(--text-soft); padding:9px 12px; border-top:1px solid var(--border); border-bottom:2px solid var(--border); letter-spacing:-.01em; }
+  tr.grp-head .grp-n { color:var(--muted); font-weight:600; font-size:11px; margin-left:4px; }
   .nm-cell { display:flex; align-items:center; gap:9px; }
   .chev { color:var(--muted); font-size:11px; transition:transform .18s; flex:0 0 auto; }
   tr.main.open .chev { transform:rotate(90deg); color:var(--accent); }
@@ -181,6 +184,18 @@
   .badge.king, .badge.aristo { background:var(--gold-soft); color:var(--gold); }
   .badge.reit, .badge.mlp, .badge.bdc { background:var(--accent-soft); color:var(--accent); }
   .badge.held { background:var(--held-soft); color:var(--held-fg); border:1px solid var(--held-bd); }
+  .badge.weak { background:var(--warn-bg); color:var(--warn-fg); border:1px solid var(--warn-bd); }
+  .d-weak { margin:10px 0; border:1px solid var(--warn-bd); background:var(--warn-bg); border-radius:9px; padding:10px 12px; }
+  .d-weak h4 { margin:0 0 5px; font-size:12px; font-weight:800; color:var(--warn-fg); }
+  .d-weak p { margin:0; font-size:12px; line-height:1.6; color:var(--text-soft); }
+  .d-weak .weak-q { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .d-weak .weak-q span { font-size:10.5px; font-weight:700; color:var(--warn-fg); background:var(--panel); border:1px solid var(--warn-bd); border-radius:6px; padding:2px 7px; font-variant-numeric:tabular-nums; }
+  .news-list { display:flex; flex-direction:column; gap:6px; }
+  .news-item { display:flex; flex-direction:column; gap:2px; padding:8px 11px; border:1px solid var(--border); border-radius:9px; background:var(--panel); text-decoration:none; transition:all .12s; }
+  .news-item:hover { border-color:var(--accent); background:var(--accent-soft); }
+  .news-t { font-size:12.5px; font-weight:600; color:var(--text); line-height:1.45; }
+  .news-item:hover .news-t { color:var(--accent); }
+  .news-m { font-size:10.5px; color:var(--muted); }
   tr.main.is-held td:first-child { box-shadow:inset 3px 0 0 var(--held-fg); }
   .ex-p { color:var(--accent); font-weight:700; } .ex-n { color:var(--muted); }
   .yld-big { font-weight:800; font-size:13.5px; }
@@ -396,6 +411,7 @@
     <div class="toolbar" style="margin-top:16px">
       <label class="switch"><input type="checkbox" id="only5"><span class="track"></span><span>시가배당률 5%+ 만</span></label>
       <label class="switch"><input type="checkbox" id="onlyHeld"><span class="track"></span><span>보유 종목만</span></label>
+      <label class="switch"><input type="checkbox" id="grpToggle"><span class="track"></span><span>섹터별 묶기</span></label>
       <span class="grp">카테고리
         <select id="catSel"><option value="">전체</option></select>
       </span>
@@ -814,6 +830,10 @@ var UNI = window.DIVIDENDS_UNIVERSE || null;
 var QUOTES = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.data) || {};
 var QUOTE_ASOF = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.as_of) || null;
 var BENCH = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.bench) || {};
+var NEWS = (window.DIVIDENDS_NEWS && window.DIVIDENDS_NEWS.data) || {};
+var NEWS_ASOF = (window.DIVIDENDS_NEWS && window.DIVIDENDS_NEWS.as_of) || null;
+// 부진(라gg) 판정: 큐레이션 사유 있거나 1년 수익률 마이너스
+function isLaggard(r){ return !!(r.it.weak) || (r.ret1y!=null && r.ret1y<0); }
 // 지역별 벤치마크 매핑
 var BENCH_KEY = { KR:'KOSPI', US:'SP500', EU:'STOXX600' };
 var BENCH_LABEL = { KOSPI:'KOSPI', SP500:'S&P500', STOXX600:'STOXX600' };
@@ -935,7 +955,7 @@ function extLinks(row){
 }
 
 /* ============================ 상태 + 렌더 ============================ */
-var STATE = { region:'ALL', only5:false, onlyHeld:false, cat:'', sort:'yld' };
+var STATE = { region:'ALL', only5:false, onlyHeld:false, group:false, cat:'', sort:'yld' };
 try { var sr=localStorage.getItem('div_region'); if(sr) STATE.region=sr; } catch(e){}
 
 var COLS = [
@@ -956,6 +976,22 @@ var COLS = [
   { k:'mcap',  label:'시가총액',     sortable:true }
 ];
 
+/* ── 섹터 그룹핑 ── */
+var SECTOR_GROUPS = [
+  { key:'금융',        emoji:'🏦', re:/은행|보험|BDC|여신|카드|금융/ },
+  { key:'통신',        emoji:'📡', re:/통신/ },
+  { key:'에너지',      emoji:'🛢️', re:/에너지|미드스트림/ },
+  { key:'유틸리티',    emoji:'⚡', re:/유틸리티|전력/ },
+  { key:'필수소비재',  emoji:'🛒', re:/담배|음료|필수소비/ },
+  { key:'헬스케어',    emoji:'💊', re:/제약|헬스케어|바이오/ },
+  { key:'리츠·인프라', emoji:'🏢', re:/리츠|인프라/ },
+  { key:'경기소비재',  emoji:'🚗', re:/자동차|경기소비/ },
+  { key:'소재',        emoji:'🏭', re:/소재|화학|광산/ }
+];
+function groupOf(r){ var s=r.it.sec||''; for(var i=0;i<SECTOR_GROUPS.length;i++){ if(SECTOR_GROUPS[i].re.test(s)) return SECTOR_GROUPS[i].key; } return '기타'; }
+function groupOrder(k){ for(var i=0;i<SECTOR_GROUPS.length;i++){ if(SECTOR_GROUPS[i].key===k) return i; } return 99; }
+function groupMeta(k){ for(var i=0;i<SECTOR_GROUPS.length;i++){ if(SECTOR_GROUPS[i].key===k) return SECTOR_GROUPS[i]; } return {key:'기타',emoji:'📦'}; }
+
 function currentRows(){
   var rows = ALL_ROWS.slice();
   if(STATE.region!=='ALL') rows = rows.filter(function(r){ return r.rg===STATE.region; });
@@ -964,12 +1000,21 @@ function currentRows(){
   if(STATE.cat) rows = rows.filter(function(r){ return r.it.cat===STATE.cat; });
   var s=STATE.sort;
   var asc = (s==='payout'||s==='per'); // 낮을수록 좋은 지표는 오름차순
-  rows.sort(function(a,b){
+  function cmp(a,b){
     var va=a[s], vb=b[s];
     var na=(va==null), nb=(vb==null);
     if(na&&nb) return 0; if(na) return 1; if(nb) return -1; // null은 항상 뒤로
     return asc ? (va-vb) : (vb-va);
-  });
+  }
+  if(STATE.group){
+    rows.sort(function(a,b){
+      var ga=groupOrder(groupOf(a)), gb=groupOrder(groupOf(b));
+      if(ga!==gb) return ga-gb;
+      return cmp(a,b);
+    });
+  } else {
+    rows.sort(cmp);
+  }
   return rows;
 }
 
@@ -1013,9 +1058,12 @@ function rowHtml(r, idx){
   var flag = r.meets5 ? '<span class="flag5" title="시가배당률 5% 이상">5%+</span>' : '<span class="flag5 no" title="시가배당률 5% 미만(품질 앵커)">&lt;5%</span>';
   var liveDot = r.yldLive ? '' : ' <span class="muted" title="자동수집 전 — 큐레이션 추정치" style="font-size:9px">≈</span>';
   var heldBadge = r.held ? '<span class="badge held" title="보유 종목">보유</span>' : '';
+  var lag = isLaggard(r);
+  var weakTip = it.weak ? it.weak.slice(0,80) : '최근 1년 주가 부진 — 상세의 사유·뉴스 참조';
+  var weakBadge = lag ? '<span class="badge weak" title="'+esc(weakTip)+'">부진</span>' : '';
   var nm = '<div class="nm-cell">'
     + '<span class="chev">▶</span>'
-    + '<div><div class="nm-main">'+flag_(rg_of(r))+' '+esc(it.n)+' '+heldBadge+'<span class="badge '+bc+'">'+esc(it.cat)+'</span></div>'
+    + '<div><div class="nm-main">'+flag_(rg_of(r))+' '+esc(it.n)+' '+heldBadge+weakBadge+'<span class="badge '+bc+'">'+esc(it.cat)+'</span></div>'
     + '<div class="nm-sub">'+esc(it.t)+' · '+esc(it.sec)+'</div></div></div>';
   return '<tr class="main'+(r.held?' is-held':'')+'" data-idx="'+idx+'">'
     + '<td>'+nm+'</td>'
@@ -1082,6 +1130,36 @@ function divScheduleHtml(r){
   return '<div class="d-div"><h4>💵 배당 이력 · 일정</h4>'
     + '<div class="divsched">'+chipH+'</div>'
     + histBlock + '</div>';
+}
+// 부진 사유(주가 약세) — 큐레이션 사유 우선, 없으면 정량 근거
+function weakReasonHtml(r){
+  if(!isLaggard(r)) return '';
+  var reason = r.it.weak
+    ? esc(r.it.weak)
+    : '최근 1년 주가 수익률이 마이너스입니다(1Y '+(r.ret1y!=null?(r.ret1y>0?'+':'')+r.ret1y.toFixed(1)+'%':'—')+'). 구체적 배경은 아래 관련 뉴스를 참고하세요.';
+  var quant = [];
+  if(r.r3m!=null) quant.push('3M '+(r.r3m>0?'+':'')+r.r3m.toFixed(1)+'%');
+  if(r.ret1y!=null) quant.push('1Y '+(r.ret1y>0?'+':'')+r.ret1y.toFixed(1)+'%');
+  if(r.rytdEx!=null) quant.push('YTD 벤치대비 '+(r.rytdEx>0?'+':'')+r.rytdEx.toFixed(1)+'%p');
+  return '<div class="d-weak"><h4>📉 최근 주가 부진 사유</h4>'
+    + '<p>'+reason+'</p>'
+    + (quant.length?'<div class="weak-q">'+quant.map(function(q){return '<span>'+q+'</span>';}).join('')+'</div>':'')
+    + (r.it.weak?'':'<p class="dh-cap" style="margin-top:6px">※ 자동 판정(수익률 기반). 정성 사유는 아래 뉴스·AI 딥리서치로 확인하세요.</p>')
+    + '</div>';
+}
+// 관련 뉴스(Google News RSS) — 링크 연결
+function newsHtml(r){
+  var items = NEWS[r.it.yf];
+  if(!items || !items.length) return '<div class="d-div"><h4>📰 관련 뉴스</h4><p class="dh-cap">수집된 뉴스가 없습니다.</p></div>';
+  var lis = items.map(function(x){
+    var meta = [x.s, x.d].filter(Boolean).join(' · ');
+    return '<a class="news-item" href="'+esc(x.u)+'" target="_blank" rel="noopener">'
+      + '<span class="news-t">'+esc(x.t)+'</span>'
+      + '<span class="news-m">'+esc(meta)+' ↗</span></a>';
+  }).join('');
+  return '<div class="d-div"><h4>📰 관련 뉴스 <span class="cs-sub">· Google News</span></h4>'
+    + '<div class="news-list">'+lis+'</div>'
+    + '<p class="dh-cap" style="margin-top:6px">자동 수집('+esc(NEWS_ASOF||'—')+'). 제목/언론사는 구글뉴스 기준이며 클릭 시 원문으로 이동합니다.</p></div>';
 }
 // 기간수익률 · 벤치마크 대비
 function returnsMatrixHtml(r){
@@ -1236,6 +1314,7 @@ function detailHtml(r, idx){
     +   '<div class="d-block">'
     +     '<h4>💡 추천 사유</h4><p>'+esc(it.thesis)+'</p>'
     +     '<h4>⚠️ 핵심 리스크</h4><p>'+esc(it.risks)+'</p>'
+    +     weakReasonHtml(r)
     +     '<div class="d-src"><b>근거·출처:</b> '+esc(it.src)+'</div>'
     +     '<div class="d-actions">'
     +       '<button type="button" class="deep-btn" data-deep="'+idx+'">✨ AI 배당 딥리서치</button>'
@@ -1249,6 +1328,7 @@ function detailHtml(r, idx){
     + candleChartHtml(r, idx)
     + returnsMatrixHtml(r)
     + divScheduleHtml(r)
+    + newsHtml(r)
     + '</div></td></tr>';
 }
 
@@ -1267,7 +1347,20 @@ function render(){
   renderCards(rows);
   var tb=$('tbody');
   if(!rows.length){ tb.innerHTML='<tr><td colspan="'+COLS.length+'" style="text-align:center;padding:30px;color:var(--muted)">조건에 맞는 종목이 없습니다.</td></tr>'; return; }
-  tb.innerHTML = rows.map(function(r,i){ return rowHtml(r,i); }).join('');
+  if(STATE.group){
+    var counts={}; rows.forEach(function(r){ var g=groupOf(r); counts[g]=(counts[g]||0)+1; });
+    var html='', lastG=null;
+    rows.forEach(function(r,i){
+      var g=groupOf(r);
+      if(g!==lastG){ lastG=g; var gm=groupMeta(g);
+        html+='<tr class="grp-head"><td colspan="'+COLS.length+'">'+gm.emoji+' '+esc(g)+' <span class="grp-n">'+counts[g]+'종목</span></td></tr>';
+      }
+      html+=rowHtml(r,i);
+    });
+    tb.innerHTML=html;
+  } else {
+    tb.innerHTML = rows.map(function(r,i){ return rowHtml(r,i); }).join('');
+  }
   // 현재 렌더된 rows를 인덱스로 참조
   window.__ROWS=rows;
   // 행 클릭 → 상세 토글 (열 때 차트 지연 렌더)
@@ -1335,6 +1428,7 @@ Array.prototype.forEach.call($('regionTabs').querySelectorAll('.region-tab'), fu
 });
 $('only5').addEventListener('change', function(){ STATE.only5=this.checked; render(); });
 $('onlyHeld').addEventListener('change', function(){ STATE.onlyHeld=this.checked; render(); });
+$('grpToggle').addEventListener('change', function(){ STATE.group=this.checked; render(); });
 $('catSel').addEventListener('change', function(){ STATE.cat=this.value; render(); });
 $('sortSel').addEventListener('change', function(){ STATE.sort=this.value; render(); });
 
