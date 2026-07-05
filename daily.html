@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-05a";</script>
+<script>window.CODE_VERSION = "2026-07-06a";</script>
 <script>
   (function () {
     try {
@@ -386,16 +386,16 @@
   .mc-close { margin-left:auto; font-size:11px; font-weight:700; color:var(--muted); cursor:pointer;
     padding:3px 9px; border-radius:7px; border:1px solid var(--border); }
   .mc-close:hover { background:var(--neu-soft); color:var(--text); }
-  .mc-plot { position:relative; width:100%; }
-  .mc-chart { display:block; width:100%; height:150px; }
-  .mc-bar { fill:var(--accent); opacity:.55; transition:opacity .1s; }
-  .mc-bar.last { opacity:.95; }
-  .mc-bar.up { fill:var(--pos); opacity:.65; }
-  .mc-bar.down { fill:var(--neg); opacity:.65; }
-  .mc-bar.hl { opacity:1; }
+  .mc-plot { position:relative; width:100%; cursor:crosshair; }
+  .mc-chart { display:block; width:100%; height:170px; }
+  .mc-line { fill:none; stroke:var(--accent); stroke-width:1.75; stroke-linejoin:round; stroke-linecap:round; }
+  .mc-area { fill:var(--accent); opacity:.10; }
   .mc-zero { stroke:var(--muted); stroke-width:1; stroke-dasharray:3 3; opacity:.5; }
+  .mc-crosshair { stroke:var(--muted); stroke-width:1; stroke-dasharray:2 2; opacity:0; }
+  .mc-dot { fill:var(--panel); stroke:var(--accent); stroke-width:2; opacity:0; }
+  .mc-hitzone { fill:transparent; }
   .mc-tip { position:absolute; pointer-events:none; z-index:5; background:var(--text); color:var(--panel);
-    font-size:10.5px; font-weight:700; padding:3px 7px; border-radius:6px; white-space:nowrap; transform:translateX(-50%); }
+    font-size:10.5px; font-weight:700; padding:3px 7px; border-radius:6px; white-space:nowrap; transform:translate(-50%,-100%); opacity:0; transition:opacity .08s; }
   .mc-axis { display:flex; justify-content:space-between; font-size:9.5px; color:var(--muted); font-weight:600; margin-top:2px; }
   .mc-note { font-size:10px; color:var(--muted); margin-top:8px; }
   .mc-empty { font-size:12px; color:var(--muted); font-style:italic; padding:22px 0; text-align:center; }
@@ -947,6 +947,8 @@ function makeSpark(data, opts) {
     if (key === 'oil_yoy') return (v > 0 ? '+' : '') + v.toFixed(1) + '%';
     return (Math.round(v * 100) / 100).toString();
   }
+  // 지표별 차트 지오메트리를 showMindChart의 mousemove 핸들러에서 재사용하기 위해 보관
+  var _mindChartState = null;
   function renderMindChart(key, d) {
     var name = (d && d.name) || key;
     var head = '<div class="mc-head"><span class="mc-title">' + escHtml(name) + '</span>' +
@@ -954,41 +956,40 @@ function makeSpark(data, opts) {
       (d && d.as_of ? '<span class="mc-asof">' + d.as_of + '</span>' : '') +
       '<span class="mc-close" onclick="showMindChart(\'' + key + '\')">✕ 닫기</span></div>';
     var h = d && d.history;
-    var vals0 = h && (h.values || h.vals), dates0 = h && h.dates;
-    if (!vals0 || !vals0.length || !dates0 || !dates0.length) {
+    var vals = h && (h.values || h.vals), dates = h && h.dates;
+    _mindChartState = null;
+    if (!vals || !vals.length || !dates || !dates.length) {
       return head + '<div class="mc-empty">과거 시계열이 없습니다. ' +
         (d && d.manual ? '(수동 지표 — 현재값만 저장)' : '') + '</div>';
     }
-    // 최대 24개 막대로 다운샘플(양끝 유지)
-    var MAX = 24, n = vals0.length, idxs = [];
-    if (n <= MAX) { for (var a = 0; a < n; a++) idxs.push(a); }
-    else { var step = (n - 1) / (MAX - 1); for (var b = 0; b < MAX; b++) idxs.push(Math.round(b * step)); }
-    var vals = idxs.map(function(i){ return vals0[i]; });
-    var dates = idxs.map(function(i){ return dates0[i]; });
+    // 라인차트는 밀도가 높아도 가독성이 유지되므로 다운샘플 없이 전체 시계열 표시(장기 추이 확인 목적)
+    var n = vals.length;
     var mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
     var hasNeg = mn < 0;
     var domMin, domMax;
     if (hasNeg) { domMax = Math.max(0, mx); domMin = Math.min(0, mn); var pad = (domMax - domMin) * 0.08 || 1; domMax += pad; domMin -= pad; }
-    else { var rng = (mx - mn) || Math.abs(mx) || 1; domMin = mn - rng * 0.18; domMax = mx + rng * 0.06; }
-    var W = 600, H = 150, PL = 6, PR = 6, PT = 10, PB = 20;
+    else { var rng = (mx - mn) || Math.abs(mx) || 1; domMin = mn - rng * 0.1; domMax = mx + rng * 0.1; }
+    var W = 600, H = 170, PL = 4, PR = 4, PT = 10, PB = 10;
     var iw = W - PL - PR, ih = H - PT - PB;
+    var xOf = function(i){ return n > 1 ? PL + (i / (n - 1)) * iw : PL + iw / 2; };
     var yOf = function(v){ return PT + (1 - (v - domMin) / (domMax - domMin)) * ih; };
-    var base = hasNeg ? yOf(0) : (PT + ih);
-    var slot = iw / vals.length, bw = Math.max(3, slot * 0.66);
-    var bars = vals.map(function(v, i) {
-      var x = PL + i * slot + (slot - bw) / 2;
-      var y = yOf(v), top = Math.min(y, base), hgt = Math.max(1, Math.abs(base - y));
-      var cls = hasNeg ? (v >= 0 ? 'up' : 'down') : (i === vals.length - 1 ? 'last' : '');
-      return '<rect class="mc-bar ' + cls + '" x="' + x.toFixed(1) + '" y="' + top.toFixed(1) +
-        '" width="' + bw.toFixed(1) + '" height="' + hgt.toFixed(1) + '" rx="1.5" ' +
-        'data-d="' + dates[i] + '" data-v="' + mindHistFmt(key, v) + '"></rect>';
-    }).join('');
-    var zeroLine = hasNeg ? '<line class="mc-zero" x1="' + PL + '" y1="' + base.toFixed(1) + '" x2="' + (W - PR) + '" y2="' + base.toFixed(1) + '"></line>' : '';
+    var pts = vals.map(function(v, i){ return [xOf(i), yOf(v)]; });
+    var lineD = pts.map(function(p, i){ return (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join('');
+    var baseY = (PT + ih).toFixed(1);
+    var areaD = 'M' + pts[0][0].toFixed(1) + ',' + baseY + 'L' + pts.map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join('L') + 'L' + pts[pts.length - 1][0].toFixed(1) + ',' + baseY + 'Z';
+    var zeroLine = hasNeg ? '<line class="mc-zero" x1="' + PL + '" y1="' + yOf(0).toFixed(1) + '" x2="' + (W - PR) + '" y2="' + yOf(0).toFixed(1) + '"></line>' : '';
     var svg = '<svg class="mc-chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' +
-      zeroLine + bars + '</svg>';
+      '<path class="mc-area" d="' + areaD + '"></path>' +
+      zeroLine +
+      '<path class="mc-line" d="' + lineD + '" vector-effect="non-scaling-stroke"></path>' +
+      '<line class="mc-crosshair" x1="0" y1="' + PT + '" x2="0" y2="' + (PT + ih) + '"></line>' +
+      '<circle class="mc-dot" r="4"></circle>' +
+      '<rect class="mc-hitzone" x="0" y="0" width="' + W + '" height="' + H + '"></rect>' +
+      '</svg>';
     var axis = '<div class="mc-axis"><span>' + dates[0] + '</span><span>' + dates[dates.length - 1] + '</span></div>';
-    return head + '<div class="mc-plot">' + svg + '<div class="mc-tip" style="display:none"></div></div>' + axis +
-      '<div class="mc-note">막대에 커서를 올리면 날짜·수치가 표시됩니다 · ' + vals0.length + '개 시점 중 ' + vals.length + '개 표시</div>';
+    _mindChartState = { key: key, vals: vals, dates: dates, xOf: xOf, yOf: yOf, W: W, H: H, fmt: function(v){ return mindHistFmt(key, v); } };
+    return head + '<div class="mc-plot">' + svg + '<div class="mc-tip"></div></div>' + axis +
+      '<div class="mc-note">그래프 위에 커서를 올리면 날짜·수치가 표시됩니다 · 전체 ' + n + '개 시점(' + dates[0] + ' ~ ' + dates[dates.length - 1] + ')</div>';
   }
   window.showMindChart = function(key) {
     var panel = document.getElementById('mindChartPanel');
@@ -1007,13 +1008,36 @@ function makeSpark(data, opts) {
     for (var i = 0; i < cards.length; i++) {
       if (cards[i].getAttribute('onclick') && cards[i].getAttribute('onclick').indexOf("'" + key + "'") >= 0) { cards[i].classList.add('sel'); break; }
     }
-    // 호버 툴팁 바인딩
-    var tip = panel.querySelector('.mc-tip'), plot = panel.querySelector('.mc-plot');
-    panel.querySelectorAll('rect.mc-bar').forEach(function(bar) {
-      bar.addEventListener('mouseenter', function(){ if (tip) { tip.textContent = bar.dataset.d + ' · ' + bar.dataset.v; tip.style.display = 'block'; } bar.classList.add('hl'); });
-      bar.addEventListener('mousemove', function(e){ if (!tip || !plot) return; var r = plot.getBoundingClientRect(); var x = e.clientX - r.left, y = e.clientY - r.top; tip.style.left = Math.min(Math.max(x, 4), r.width - 4) + 'px'; tip.style.top = Math.max(y - 30, 0) + 'px'; });
-      bar.addEventListener('mouseleave', function(){ if (tip) tip.style.display = 'none'; bar.classList.remove('hl'); });
-    });
+    // 호버: 크로스헤어 + 최근접 포인트 도트 + 툴팁(마우스무브로 가장 가까운 데이터 포인트 탐색)
+    var st = _mindChartState;
+    if (!st) return;
+    var plot = panel.querySelector('.mc-plot');
+    var svgEl = panel.querySelector('.mc-chart');
+    var hit = panel.querySelector('.mc-hitzone');
+    var crosshair = panel.querySelector('.mc-crosshair');
+    var dot = panel.querySelector('.mc-dot');
+    var tip = panel.querySelector('.mc-tip');
+    if (!plot || !hit) return;
+    function moveTo(clientX, clientY) {
+      var r = svgEl.getBoundingClientRect();
+      var svgX = (clientX - r.left) / r.width * st.W;
+      var n = st.vals.length;
+      var idx = 0, best = Infinity;
+      for (var i = 0; i < n; i++) { var dx = Math.abs(st.xOf(i) - svgX); if (dx < best) { best = dx; idx = i; } }
+      var px = st.xOf(idx), py = st.yOf(st.vals[idx]);
+      crosshair.setAttribute('x1', px); crosshair.setAttribute('x2', px); crosshair.style.opacity = '1';
+      dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.style.opacity = '1';
+      tip.textContent = st.dates[idx] + ' · ' + st.fmt(st.vals[idx]);
+      tip.style.opacity = '1';
+      var pr = plot.getBoundingClientRect();
+      var tipX = (px / st.W) * pr.width, tipY = (py / st.H) * pr.height;
+      tip.style.left = Math.min(Math.max(tipX, 24), pr.width - 24) + 'px';
+      tip.style.top = Math.max(tipY - 8, 14) + 'px';
+    }
+    hit.addEventListener('mousemove', function(e){ moveTo(e.clientX, e.clientY); });
+    hit.addEventListener('mouseleave', function(){ crosshair.style.opacity = '0'; dot.style.opacity = '0'; tip.style.opacity = '0'; });
+    // 터치 디바이스 지원
+    hit.addEventListener('touchmove', function(e){ if (e.touches && e.touches[0]) { moveTo(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); } }, { passive: false });
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
