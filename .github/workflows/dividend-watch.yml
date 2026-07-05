@@ -14,6 +14,10 @@ on:
         description: '장시간 게이트 무시(테스트용 강제 실행)'
         type: boolean
         default: false
+      test_email:
+        description: '[테스트] 메일 실제 발송(파이프라인·SMTP 검증)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -55,7 +59,12 @@ jobs:
           SENDER_EMAIL: ${{ secrets.GMAIL_SENDER }}
           RECIPIENT_EMAILS: ${{ secrets.RECIPIENT_EMAILS }}
           LOOKBACK_DAYS: '2'
-        run: python kind_dividend_watch/run.py --once
+        run: |
+          if [ "${{ inputs.test_email }}" = "true" ]; then
+            python kind_dividend_watch/run.py --test-email
+          else
+            python kind_dividend_watch/run.py --once
+          fi
 
       - name: Save state (encrypt)
         env:

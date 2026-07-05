@@ -181,6 +181,41 @@ def cmd_once(dry_run: bool) -> None:
     print(f"\n{'🧪 DRY-RUN' if dry_run else '✅'} 사이클 종료 — 신규 발송 {n}건")
 
 
+def cmd_test_email() -> None:
+    """실제 최근 분배 데이터로 [테스트] 메일 발송(파이프라인·SMTP 검증). 중복상태 안 건드림."""
+    recipients = _recipients()
+    if not recipients:
+        print("❌ RECIPIENT_EMAILS 미설정", file=sys.stderr)
+        sys.exit(1)
+    su, sp = _require("SMTP_USER"), _require("SMTP_PASS")
+    sender = os.getenv("SENDER_EMAIL", su)
+    sent = 0
+    # 해외 ETF: 최근 30일 실제 분배 하나로 테스트
+    try:
+        import overseas_etf
+        ov = overseas_etf.recent_distributions(days_back=30)
+    except Exception as e:
+        print(f"⚠️ 해외ETF 조회 실패: {e}")
+        ov = []
+    if ov:
+        e = ov[0]
+        subj = "[테스트] " + mailer.build_overseas_subject(e)
+        body = ("<div style='background:#fff3cd;padding:12px;border-radius:8px;margin-bottom:12px;font-size:13px'>"
+                "✅ <b>테스트 메일</b>입니다. 실제 알림 파이프라인이 정상 작동함을 확인하기 위한 발송입니다.</div>"
+                + mailer.build_overseas_body(e))
+        if mailer.send_email(su, sp, sender, recipients, subj, body):
+            print(f"   ✅ 해외ETF 테스트 발송: {e['name']} ({e['ex_date']})")
+            sent += 1
+    else:
+        # 폴백 샘플
+        e = {"id": "test", "sym": "QQQM", "name": "Invesco NASDAQ-100 ETF (QQQM)", "ccy": "$",
+             "ex_date": "2026-06-22", "amount": "$0.352", "pay_date": "2026-06-26", "pay_estimated": False}
+        if mailer.send_email(su, sp, sender, recipients, "[테스트] " + mailer.build_overseas_subject(e),
+                             mailer.build_overseas_body(e)):
+            sent += 1
+    print(f"\n✅ 테스트 메일 {sent}건 발송 → {recipients}")
+
+
 def cmd_loop(dry_run: bool) -> None:
     interval = int(os.getenv("POLL_INTERVAL_MINUTES", "5"))
     print(f"♻️  상시 모니터링 시작 (간격 {interval}분, dry_run={dry_run})")
@@ -195,6 +230,7 @@ def cmd_loop(dry_run: bool) -> None:
 def main() -> None:
     p = argparse.ArgumentParser(description="KIND/DART 배당공시 메일러")
     p.add_argument("--test", action="store_true", help="연결/매핑/매치 점검(발송 없음)")
+    p.add_argument("--test-email", dest="test_email", action="store_true", help="[테스트] 메일 실제 발송(파이프라인 검증)")
     p.add_argument("--once", action="store_true", help="1회 사이클(cron용)")
     p.add_argument("--loop", action="store_true", help="상시 데몬")
     p.add_argument("--dry-run", action="store_true", help="실제 발송 생략")
@@ -202,6 +238,8 @@ def main() -> None:
 
     if a.test:
         cmd_test()
+    elif a.test_email:
+        cmd_test_email()
     elif a.loop:
         cmd_loop(a.dry_run)
     elif a.once:
