@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-07-06b";</script>
+<script>window.CODE_VERSION = "2026-07-06c";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1867,8 +1867,34 @@ function histIndexAsOf(dateStr) {
 }
 
 // 특정 인덱스 시점의 보유배열 (mkt=as-of, w 재계산). 최신이면 allHoldings의 broker mkt 사용.
+// 한 종목의 (거래일 ≤ dateStr) 누적 매입/매도 + as-of 장부가(book_basis)/매도원가(cost_sold) 계산.
+// applySnapshot(스냅샷 드롭다운)과 시점비교 탭(holdingsAtIndex) 양쪽이 공유 — 시점별 장부가 일관성 보장.
+// (round2는 파일 하단에 정의되어 있으나 함수 선언 호이스팅으로 호출 시점엔 이미 사용 가능)
+function asOfCore(h, dateStr) {
+  const isin = h.isin || '';
+  const allTrades = (portfolioData && portfolioData.trades) || [];
+  let buy = 0, sell = 0;
+  for (const t of allTrades) {
+    if (!isin || t.isin !== isin) continue;
+    if (t.date > dateStr) break;  // trades는 날짜순 정렬되어 있음
+    if (t.action === '매입') buy += t.amount;
+    else if (t.action === '매도') sell += t.amount;
+  }
+  const startAt = (h.start_2026 != null) ? h.start_2026 : (h.book || 0);
+  const fullSell = h.ytd_sell || 0;          // 전체 기간(현재까지) 매도 합
+  const fullCostSold = h.cost_sold || 0;     // broker 최종 매각 cost
+  let costSoldAt = 0;
+  if (fullSell > 0 && sell > 0) {
+    // as-of 시점까지 매도된 비율만큼 cost 차감 (매도 시점에 고정 — mkt 변동에 의존하지 않음)
+    costSoldAt = fullCostSold * (sell / fullSell);
+  }
+  const bookBasisAt = (startAt + buy) - costSoldAt;
+  return { buy: round2(buy), sell: round2(sell), bookBasisAt: round2(bookBasisAt), costSoldAt: round2(costSoldAt) };
+}
+
 function holdingsAtIndex(idx, isLatest) {
   const hist = portfolioData && portfolioData.historical;
+  const dateStr = (hist && hist.dates) ? hist.dates[idx] : null;
   const out = (allHoldings || []).map(h => {
     let mktAt;
     if (isLatest) {
@@ -1877,7 +1903,13 @@ function holdingsAtIndex(idx, isLatest) {
       const s = hist && hist.holdings_mkt && hist.holdings_mkt[h.name];
       mktAt = (s && idx < s.length && s[idx] != null) ? s[idx] : (h.mkt || 0);
     }
-    return { ...h, mkt: mktAt };
+    if (isLatest) return { ...h, mkt: mktAt };  // 최신은 broker 확정치(book_basis 등) 그대로가 가장 정확
+    const { buy, sell, bookBasisAt, costSoldAt } = asOfCore(h, dateStr);
+    return {
+      ...h, mkt: mktAt,
+      ytd_buy: buy, ytd_sell: sell, ytd_net_cf: round2(buy - sell),
+      book_basis: bookBasisAt, cost_sold: costSoldAt,
+    };
   });
   const tot = out.reduce((s, x) => s + (x.mkt || 0), 0);
   if (tot > 0) out.forEach(h => { h.w = (h.mkt || 0) / tot; });
@@ -2089,43 +2121,53 @@ function cmpDimTable(rowsA, rowsB, nameMap, unit) {
 
 // 보유 종목 상세 비교 표 — 각 시점의 실제 보유 종목명·지역·시가(억)를 나란히.
 // name을 키로 매칭(동일 allHoldings 백킹이라 시점 간 이름 안정적). 한쪽에만 있으면(신규매수/전량매도) 반대편 0으로 표시.
+// 같은 종목(name 키)을 A/B 시점의 장부가(book_basis)·시가(mkt)로 나란히 비교.
+// 한쪽에만 보유가 있으면(신규 편입/편출) 반대편은 '-'로 표시하고 배지를 붙임.
 function cmpHoldingsTable(holdingsA, holdingsB) {
   const map = new Map();
   (holdingsA || []).forEach(h => {
     const mkt = h.mkt || 0; if (mkt <= 0) return;
-    map.set(h.name, { region: h.region, a: mkt, b: 0 });
+    map.set(h.name, { region: h.region, aMkt: mkt, aBook: h.book_basis || 0, bMkt: 0, bBook: 0 });
   });
   (holdingsB || []).forEach(h => {
     const mkt = h.mkt || 0; if (mkt <= 0) return;
-    const e = map.get(h.name) || { region: h.region, a: 0, b: 0 };
-    e.b = mkt; e.region = e.region || h.region;
+    const e = map.get(h.name) || { region: h.region, aMkt: 0, aBook: 0, bMkt: 0, bBook: 0 };
+    e.bMkt = mkt; e.bBook = h.book_basis || 0; e.region = e.region || h.region;
     map.set(h.name, e);
   });
   if (!map.size) return '<div style="color:var(--muted);padding:8px">보유 종목 데이터 없음</div>';
-  const arr = [...map.entries()].map(([name, v]) => ({ name, region: v.region, a: v.a, b: v.b, d: v.b - v.a }));
-  arr.sort((x, y) => Math.max(y.a, y.b) - Math.max(x.a, x.b));
+  const arr = [...map.entries()].map(([name, v]) => ({ name, ...v, d: v.bMkt - v.aMkt }));
+  arr.sort((x, y) => Math.max(y.aMkt, y.bMkt) - Math.max(x.aMkt, x.bMkt));
   const dCell = d => {
     if (Math.abs(d) < 0.01) return '<span style="color:var(--muted)">·</span>';
     const c = d > 0 ? 'var(--pos)' : 'var(--neg)';
     return `<span style="color:${c};font-weight:700">${d > 0 ? '▲' : '▼'}${fmt(Math.abs(d), 1)}</span>`;
   };
   const statusTag = r => {
-    if (r.a > 0 && r.b <= 0) return '<span class="badge" style="background:var(--neg);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px">청산</span>';
-    if (r.a <= 0 && r.b > 0) return '<span class="badge" style="background:var(--pos);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px">신규</span>';
+    if (r.aMkt > 0 && r.bMkt <= 0) return '<span class="badge" style="background:var(--neg);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px">편출</span>';
+    if (r.aMkt <= 0 && r.bMkt > 0) return '<span class="badge" style="background:var(--pos);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px">신규</span>';
     return '';
   };
+  const cell = (v, held) => held ? fmt(v, 1) : '<span style="color:var(--muted-soft)">-</span>';
   const rows = arr.map(r => `<tr>
       <td style="white-space:nowrap">
         <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${REGION_COLORS[r.region] || '#94a3b8'};margin-right:5px;vertical-align:middle"></span>
         ${escHtml(r.name)}${statusTag(r)}
       </td>
-      <td style="text-align:right;color:var(--muted)">${r.a > 0 ? fmt(r.a, 1) : '-'}</td>
-      <td style="text-align:right;font-weight:600">${r.b > 0 ? fmt(r.b, 1) : '-'}</td>
+      <td style="text-align:right;color:var(--muted)">${cell(r.aBook, r.aMkt > 0)}</td>
+      <td style="text-align:right;color:var(--muted)">${cell(r.aMkt, r.aMkt > 0)}</td>
+      <td style="text-align:right;font-weight:600">${cell(r.bBook, r.bMkt > 0)}</td>
+      <td style="text-align:right;font-weight:600">${cell(r.bMkt, r.bMkt > 0)}</td>
       <td style="text-align:right;white-space:nowrap">${dCell(r.d)}</td>
     </tr>`).join('');
-  return `<div class="table-scroll" style="max-height:420px"><table class="cmp-tbl"><thead><tr>
-      <th>종목명 (시가·억원)</th><th style="text-align:right">A</th><th style="text-align:right">B</th><th style="text-align:right">Δ</th>
-    </tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="table-scroll" style="max-height:420px"><table class="cmp-tbl"><thead>
+      <tr><th rowspan="2" style="vertical-align:bottom">종목명 (억원)</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">A</th>
+        <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border)">B</th>
+        <th rowspan="2" style="text-align:right;vertical-align:bottom">Δ시가</th></tr>
+      <tr><th style="text-align:right">장부가</th><th style="text-align:right">시가</th>
+        <th style="text-align:right">장부가</th><th style="text-align:right">시가</th></tr>
+    </thead><tbody>${rows}</tbody></table></div>`;
 }
 
 // 위험지표 비교 표
@@ -2438,15 +2480,9 @@ function applySnapshot(dateStr) {
       // 1) 시가 — historical share-aware 시리즈에서
       const series = hist.holdings_mkt && hist.holdings_mkt[h.name];
       const mktAt = (series && idx < series.length) ? series[idx] : (h.mkt || 0);
-      // 2) 이 종목의 (날짜 ≤ snapshot) 거래만 cumsum
+      // 2) 누적 매입/매도 + as-of 장부가(book_basis)/매도원가 — 시점비교 탭(asOfCore)과 공유 로직
+      const { buy, sell, bookBasisAt, costSoldAt } = asOfCore(h, dateStr);
       const isin = h.isin || '';
-      let buy = 0, sell = 0;
-      for (const t of allTrades) {
-        if (!isin || t.isin !== isin) continue;
-        if (t.date > dateStr) break;  // 정렬되어 있음
-        if (t.action === '매입') buy += t.amount;
-        else if (t.action === '매도') sell += t.amount;
-      }
       // 3) 전일 대비 손익 — historical[idx] vs historical[idx-1]
       //    매매 cashflow도 차감해서 순수 가격변동분만 계산
       let dailyPnl = null, dailyPct = null;
@@ -2467,26 +2503,15 @@ function applySnapshot(dateStr) {
       }
       // 4) 평균잔액 (시간가중 시장가치) — historical 시리즈에서 직접
       const avgInv = computeAvgBalanceFromHistorical(h.name, 0, idx);
-      // 5) 매각이익(realized)은 매도 시점에 고정 — mkt에 의존하면 안 됨!
-      //    broker가 계산한 최종 cost_sold(h.cost_sold)를 스냅샷까지 매도된 비율로 안분.
-      //    (각 종목은 단일 매도라 비율이 0 또는 1 → 매도 후 realized 고정)
-      const startAt = (h.start_2026 != null) ? h.start_2026 : (h.book || 0);
-      const fullSell = h.ytd_sell || 0;          // 전체 기간 매도 합
-      const fullCostSold = h.cost_sold || 0;     // broker 최종 매각 cost
-      let costSoldAt = 0;
-      if (fullSell > 0 && sell > 0) {
-        // 스냅샷까지 매도된 비율만큼 cost 차감 (locked at sale)
-        costSoldAt = fullCostSold * (sell / fullSell);
-      }
-      const bookBasisAt = (startAt + buy) - costSoldAt;  // 보유 잔여 cost
+      // 5) 매각이익(realized)은 매도 시점에 고정 — mkt에 의존하면 안 됨! (asOfCore가 비례배분 계산)
       return {
         ...h,
         mkt: mktAt,
-        ytd_buy: round2(buy),
-        ytd_sell: round2(sell),
+        ytd_buy: buy,
+        ytd_sell: sell,
         ytd_net_cf: round2(buy - sell),
-        book_basis: round2(bookBasisAt),   // null 대신 명시적 cost basis → realized 고정
-        cost_sold: round2(costSoldAt),
+        book_basis: bookBasisAt,   // null 대신 명시적 cost basis → realized 고정
+        cost_sold: costSoldAt,
         avg_invested: avgInv != null ? round2(avgInv) : null,
         daily_pnl: dailyPnl != null ? round2(dailyPnl) : null,
         daily_chg_pct: dailyPct != null ? round2(dailyPct) : null,
