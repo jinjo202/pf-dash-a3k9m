@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-05",
-  "generated_utc": "2026-07-05T22:58:37Z",
+  "generated_utc": "2026-07-05T23:36:41Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5478,13 +5478,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1529.0,
+      "current": 1542.13,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 6.3349,
-      "mtd_pct": -0.8257,
-      "daily_pct": -0.8514,
-      "as_of": "2026-07-05",
+      "ytd_pct": 7.248,
+      "mtd_pct": 0.0259,
+      "daily_pct": -0.6238,
+      "as_of": "2026-07-03",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5496,6 +5496,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-07-03",
           "2025-07-04",
           "2025-07-07",
           "2025-07-08",
@@ -5754,10 +5755,10 @@ window.BENCHMARKS = {
           "2026-06-30",
           "2026-07-01",
           "2026-07-02",
-          "2026-07-03",
-          "2026-07-05"
+          "2026-07-03"
         ],
         "values": [
+          1354.75,
           1357.1,
           1362.2,
           1374.64,
@@ -6016,8 +6017,7 @@ window.BENCHMARKS = {
           1541.73,
           1548.61,
           1551.8101,
-          1542.13,
-          1529.0
+          1542.13
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 68.33,
+      "current": 68.3,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 19.0004,
-      "mtd_pct": -1.6835,
-      "daily_pct": -0.5241,
+      "ytd_pct": 18.9481,
+      "mtd_pct": -1.7266,
+      "daily_pct": -0.5678,
       "as_of": "2026-07-05",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           69.5,
           68.58,
           68.69,
-          68.33
+          68.3
         ]
       }
     },
