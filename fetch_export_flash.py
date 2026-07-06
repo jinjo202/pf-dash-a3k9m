@@ -147,8 +147,11 @@ def main():
         r = bymon.get(mon)
         if not r:
             return None
+        raw = (r.get(field) or "").replace(",", "").strip()
+        if not raw:
+            return None
         try:
-            return float(r.get(field) or 0) / 1e6   # 천달러 → $10억
+            return float(raw) / 1e6   # 천달러(콤마 포함 문자열) → $10억
         except ValueError:
             return None
 

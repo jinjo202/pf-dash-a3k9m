@@ -910,17 +910,26 @@ function openSubItem(k){
   if(!c){ body='<p class="note">이 항목의 관세청 데이터가 아직 없습니다(수집 대기 또는 HS 미매핑).</p>'+(meta.s?'<p class="note">관련주: '+esc(meta.s)+'</p>':''); }
   else {
     var v=lastNonNull(c.val), vy=lastNonNull(c.val_yoy), vm=lastNonNull(c.val_mom), p=lastNonNull(c.price), py=lastNonNull(c.price_yoy), pm=lastNonNull(c.price_mom);
-    // ⚡ 신속 잠정치(산업부 월간잠정·보도): 관세청 상세(latest_month)가 flash 월을 아직 못 따라온 경우만 표시
-    var FL = window.EXPORT_FLASH || (KX && KX.flash);   // 자동수집(10일단위 API) 우선, 수기 폴백
-    if(FL && FL.items && FL.items[k] && (!H.latest_month || H.latest_month < FL.month)){
-      var fi = FL.items[k];
-      var fparts = [];
-      if(fi.val!=null) fparts.push("수출 $"+fi.val+"B");
-      if(fi.yoy!=null) fparts.push("YoY <span class='"+(fi.yoy<0?"neg":"pos")+"'>"+(fi.yoy>0?"+":"")+fi.yoy+"%</span>");
-      body += '<div class="hl-box" style="margin:0 0 12px;border-color:var(--accent);background:var(--accent-soft)">'+
-        '<div class="hlt" style="color:var(--accent)">⚡ '+esc(FL.month)+' 신속 잠정치 <span class="badge chk">잠정·미확정</span></div>'+
-        '<div class="hlb">'+(fparts.length?fparts.join(" · ")+"<br>":"")+esc(fi.extra||"")+
-        '<br><span style="opacity:.8">'+esc(FL.note||"")+' 출처: '+esc(FL.source||"")+'</span></div></div>';
+    // ⚡ 신속 잠정치: 관세청 10일단위(자동, 항목별 우선) + 산업부/언론 수기(폴백·뉴스코멘트 보존)
+    var AUTO_FL = window.EXPORT_FLASH, MANUAL_FL = KX && KX.flash;
+    var auFi = AUTO_FL && AUTO_FL.items && AUTO_FL.items[k];
+    var muFi = MANUAL_FL && MANUAL_FL.items && MANUAL_FL.items[k];
+    if(auFi || muFi){
+      var flMonth = auFi ? AUTO_FL.month : MANUAL_FL.month;
+      if(!H.latest_month || H.latest_month < flMonth){
+        var fVal = auFi ? auFi.val : muFi.val;
+        var fYoy = auFi ? auFi.yoy : muFi.yoy;
+        var fExtra = muFi ? muFi.extra : null;   // 뉴스 코멘트(단가 하락 등)는 자동 API에 없어 수기에서 보존
+        var fparts = [];
+        if(fVal!=null) fparts.push("수출 $"+fVal+"B");
+        if(fYoy!=null) fparts.push("YoY <span class='"+(fYoy<0?"neg":"pos")+"'>"+(fYoy>0?"+":"")+fYoy+"%</span>");
+        var badge = auFi ? '<span class="badge auto">관세청 10일단위 자동</span>' : '<span class="badge chk">잠정·미확정(언론)</span>';
+        var srcLine = auFi ? (AUTO_FL.note||"") : ((MANUAL_FL.note||"")+" 출처: "+(MANUAL_FL.source||""));
+        body += '<div class="hl-box" style="margin:0 0 12px;border-color:var(--accent);background:var(--accent-soft)">'+
+          '<div class="hlt" style="color:var(--accent)">⚡ '+esc(flMonth)+' 신속 잠정치 '+badge+'</div>'+
+          '<div class="hlb">'+(fparts.length?fparts.join(" · ")+"<br>":"")+esc(fExtra||"")+
+          '<br><span style="opacity:.8">'+esc(srcLine)+'</span></div></div>';
+      }
     }
     // 메모리 계약가 교차확인(Meritz, 관세청보다 최신월 반영 — 하드코딩 서사 대신 실데이터 자동 표시)
     var memXref = MEM_XREF[k];
