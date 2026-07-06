@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-06T12:14:49
+// 갱신: 2026-07-06T12:47:44
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -15,16 +15,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-05"
   },
   {
-   "title": "[주간증시전망] 삼성전자 실적이 분수령, 코스피 7300~9000 시험대 - 자본시장뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9vdk1DaEFfVW5SN3NrV1piOVFCWXhkdVBrNEdTV2VjeTlVRDhGNXB0ZFpkd3Rfbm05M0RDM016VmVBNlZZczFVdG9KeUpncHlOOWFmazNRMVpUWE9pZkxJSEQxcWRNblE?oc=5",
-   "source": "자본시장뉴스",
-   "date": "2026-07-05"
-  },
-  {
    "title": "[주간증시전망] 8000선 사수한 코스피, 삼성전자 실적이 반등 ‘신호탄’ 될까 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNX2tmTGJMNjBjbmRrY0RYd0pQZDlhVUJNM0JPRGg1Wjc4NFRqeTEwZTZ0QmdnQ2xwZGdOZ2V6aVhEUFRtQVZPZzY3RDlIbzNhSVBQQ2RjbFJzSm9DRnpXa2c5WUNuVmJkUWRwenlzdmotZnJrclMzY1lFRW9GYkZQUGlpR1lPb3Zs0gGcAUFVX3lxTE1oajAyVHR2N0RGWEVqSkppaXh4UHZSeGE2LXU0Yl9FX1gtRFJGUU9HSUtlQWVuM3pyTlhQNS1HTHlMZGcya3hiMkxnc3pzeHByWVpRXzhOVDdNcGFsS1dvSEo3b1B5NnZQQndDbzNMbXgxaDJ2THpRYUFPcm1tc19BX2ROSWlhSzdPN0hVRUc4R1F2bnQ5RkFPVHYwUg?oc=5",
    "source": "Chosunbiz",
    "date": "2026-07-04"
+  },
+  {
+   "title": "[주간증시전망] 삼성전자 실적이 분수령, 코스피 7300~9000 시험대 - 자본시장뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9vdk1DaEFfVW5SN3NrV1piOVFCWXhkdVBrNEdTV2VjeTlVRDhGNXB0ZFpkd3Rfbm05M0RDM016VmVBNlZZczFVdG9KeUpncHlOOWFmazNRMVpUWE9pZkxJSEQxcWRNblE?oc=5",
+   "source": "자본시장뉴스",
+   "date": "2026-07-05"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -47,10 +47,10 @@ window.HOLDING_NEWS = {
    "date": "2026-05-12"
   },
   {
-   "title": "\"코스닥, 지수 투자매력 약화…'AI 밸류체인' 종목선별해야\" - KB Think",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBES1hVdkRYV19Ja0NhN0s5ejQ3Z19zZGdoNWhvN1lOTmxxMWFhazhHSUVBVnFSZ2NqLWxnZmxIVVRzRENqb0FwZGFOdC16a0ppcFhWalFFUG55VHM2T213S1Bwdm92NkdtZlRZTFhBcGFuUQ?oc=5",
-   "source": "KB Think",
-   "date": "2026-05-19"
+   "title": "[마켓뷰] 반도체주 부진에…코스피, 0.2% 하락한 8394.65 마감 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUEk5b0dzNGFXUFE2Vjh5dWwzalhmRHF3amlJTzVNWVlMWnpnVXJLa1EtVE93VmRodUVTNXdpQ2o2ODF3ZVRtVTFzN0JqWGR1c1NGel9IRi1Dd2xjNWd3bHF2OFZoLUxqdlgwSGtEYk42VExZZFVmbDNsWVh1eklqY2hPNWp1VmVl0gGcAUFVX3lxTE40c0puV01wd2gwVXNudWk5N0trU0c2aVFUcmw5QURVVVBPMkR2aHdVU3pOVV9nY3VORHNOOGNRenlpdXdqV2RGbG9kZG1TS0R2S0ttWVpTZ0EtY3VZUTk1cldsZGFsdHhTc2F5WVN2ajVrSm9tV2lKa2oyTWxsUTU5cTh6Yk5uMVhIOVZOUktiZnNQM1paSmx5Z1hFTw?oc=5",
+   "source": "Chosunbiz",
+   "date": "2026-06-29"
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
@@ -67,16 +67,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-01"
   },
   {
-   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
-   "source": "매일신문",
-   "date": "2026-06-09"
-  },
-  {
    "title": "제룡전기(033100)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략 - 씽크풀 AI",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5rVXoxRDBKaFczV3RoSlhYQjhKVm5zbmcyZDc0elJpbUJaU19EdHJTLS02emx6Y05QMzNMTXhPSW8tZmdHaTVJU2pKdGc3NVhQa25KNzNGQ1R3N3Jp?oc=5",
    "source": "씽크풀 AI",
    "date": "2026-07-01"
+  },
+  {
+   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
+   "source": "매일신문",
+   "date": "2026-06-09"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -333,10 +333,10 @@ window.HOLDING_NEWS = {
    "date": "2026-02-03"
   },
   {
-   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
-   "source": "블루밍비트",
-   "date": "2026-05-30"
+   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-04-17"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
