@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-07-03b";</script>
+<script>window.CODE_VERSION = "2026-07-06b";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1983,7 +1983,7 @@ function buildProfile(dateStr, vtrades, forceWeighted) {
     const cf = buildCashflowByDate(portfolioData.trades, null, dates);
     risk = _riskFromSeries(pf, bm, dates, cf);
   }
-  return { date: hist.dates[idx], isLatest, total, nHold, dims, risk, whatif, weighted: useWeighted };
+  return { date: hist.dates[idx], isLatest, total, nHold, dims, risk, whatif, weighted: useWeighted, holdings };
 }
 
 // ── 렌더링 ──────────────────────────────────────────────────────────
@@ -2087,6 +2087,47 @@ function cmpDimTable(rowsA, rowsB, nameMap, unit) {
     </tr></thead><tbody>${rows}</tbody></table>`;
 }
 
+// 보유 종목 상세 비교 표 — 각 시점의 실제 보유 종목명·지역·시가(억)를 나란히.
+// name을 키로 매칭(동일 allHoldings 백킹이라 시점 간 이름 안정적). 한쪽에만 있으면(신규매수/전량매도) 반대편 0으로 표시.
+function cmpHoldingsTable(holdingsA, holdingsB) {
+  const map = new Map();
+  (holdingsA || []).forEach(h => {
+    const mkt = h.mkt || 0; if (mkt <= 0) return;
+    map.set(h.name, { region: h.region, a: mkt, b: 0 });
+  });
+  (holdingsB || []).forEach(h => {
+    const mkt = h.mkt || 0; if (mkt <= 0) return;
+    const e = map.get(h.name) || { region: h.region, a: 0, b: 0 };
+    e.b = mkt; e.region = e.region || h.region;
+    map.set(h.name, e);
+  });
+  if (!map.size) return '<div style="color:var(--muted);padding:8px">보유 종목 데이터 없음</div>';
+  const arr = [...map.entries()].map(([name, v]) => ({ name, region: v.region, a: v.a, b: v.b, d: v.b - v.a }));
+  arr.sort((x, y) => Math.max(y.a, y.b) - Math.max(x.a, x.b));
+  const dCell = d => {
+    if (Math.abs(d) < 0.01) return '<span style="color:var(--muted)">·</span>';
+    const c = d > 0 ? 'var(--pos)' : 'var(--neg)';
+    return `<span style="color:${c};font-weight:700">${d > 0 ? '▲' : '▼'}${fmt(Math.abs(d), 1)}</span>`;
+  };
+  const statusTag = r => {
+    if (r.a > 0 && r.b <= 0) return '<span class="badge" style="background:var(--neg);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px">청산</span>';
+    if (r.a <= 0 && r.b > 0) return '<span class="badge" style="background:var(--pos);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px">신규</span>';
+    return '';
+  };
+  const rows = arr.map(r => `<tr>
+      <td style="white-space:nowrap">
+        <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${REGION_COLORS[r.region] || '#94a3b8'};margin-right:5px;vertical-align:middle"></span>
+        ${escHtml(r.name)}${statusTag(r)}
+      </td>
+      <td style="text-align:right;color:var(--muted)">${r.a > 0 ? fmt(r.a, 1) : '-'}</td>
+      <td style="text-align:right;font-weight:600">${r.b > 0 ? fmt(r.b, 1) : '-'}</td>
+      <td style="text-align:right;white-space:nowrap">${dCell(r.d)}</td>
+    </tr>`).join('');
+  return `<div class="table-scroll" style="max-height:420px"><table class="cmp-tbl"><thead><tr>
+      <th>종목명 (시가·억원)</th><th style="text-align:right">A</th><th style="text-align:right">B</th><th style="text-align:right">Δ</th>
+    </tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
 // 위험지표 비교 표
 function cmpRiskTable(rA, rB) {
   if (!rA && !rB) return '<div style="color:var(--muted);padding:8px">위험지표 데이터 부족</div>';
@@ -2146,6 +2187,12 @@ function renderCompare() {
       <span>총평가액 Δ <b class="${cls(totD)}">${(totD >= 0 ? '+' : '') + fmtAmtBig(totD)}</b></span>
     </div>`;
 
+  const holdingsCard = `
+    <div class="cmp-card" style="margin-bottom:14px">
+      <h4>📦 보유 종목 상세 (시가·억원)</h4>
+      ${cmpHoldingsTable(pA.holdings, pB.holdings)}
+    </div>`;
+
   const grid = `
     <div class="cmp-grid">
       <div class="cmp-card"><h4>⚖️ 위험·수익 지표${pA.weighted ? ' <span style="font-weight:600;color:var(--warn-fg)">(가상 비중 소급 모델)</span>' : ''}</h4>${cmpRiskTable(pA.risk, pB.risk)}
@@ -2157,7 +2204,7 @@ function renderCompare() {
       <div class="cmp-card"><h4>📐 사이즈 비중</h4>${cmpDimTable(pA.dims.size, pB.dims.size, window.SIZE_NAMES, '사이즈')}</div>
     </div>`;
 
-  body.innerHTML = summary + grid;
+  body.innerHTML = summary + holdingsCard + grid;
 }
 
 // Chart.js 전역 기본값 — 대시보드 팔레트와 통일
