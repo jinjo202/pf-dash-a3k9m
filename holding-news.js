@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-06T11:42:38
+// 갱신: 2026-07-06T12:14:49
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -333,10 +333,10 @@ window.HOLDING_NEWS = {
    "date": "2026-02-03"
   },
   {
-   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-04-17"
+   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
+   "source": "블루밍비트",
+   "date": "2026-05-30"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
@@ -373,6 +373,12 @@ window.HOLDING_NEWS = {
    "date": "2026-07-05"
   },
   {
+   "title": "S&P 500 이익 25% 폭증 전망...\"월가 실적 거품 터진다\" 경고 - 코인리더스",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5hc0xkdTNfY1U0MFBXdWZlRC12NC1zQ0dxTXdBMjAyanNla09uRW0xWFZOWlJxNzZLclNRZ09UcHBIdWtDTzc2Y0ZR?oc=5",
+   "source": "코인리더스",
+   "date": "2026-07-06"
+  },
+  {
    "title": "나스닥 100 선물, 어제 하락 이후 강하게 반등. 월가 투자은행들, 미국 증시 상승세 여전히 지속될 것으로 전망. - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOdUNxTXhrd0loVkJRUDg1NEJWRTNVNUpucnlfRlQyWjVRRDRUbEk1Ykd4NDh3N25VZGN3Mm1nTmgtdFJDeGtidU81Y1hUZk0tdlUwenNoeEtPRlFEdEVNLUJrcDhDamVOU0d3Q3VzcTUtQlZMNHprdkgxTlNJcl9tak5kQThaMlpQX0MtNTNZb1JnRVdlVWphVVNrbDNsLURoM3p5dHdWNjVGQmpBZk41TFdiOWZJcEs3aG1temtrZ2VGbnFoVnRWQ05ka3RlamV4?oc=5",
    "source": "TradingKey",
@@ -383,12 +389,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
    "source": "YTN",
    "date": "2026-06-07"
-  },
-  {
-   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
-   "source": "뉴닉",
-   "date": "2026-05-11"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
@@ -425,6 +425,12 @@ window.HOLDING_NEWS = {
    "date": "2026-07-05"
   },
   {
+   "title": "S&P 500 이익 25% 폭증 전망...\"월가 실적 거품 터진다\" 경고 - 코인리더스",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5hc0xkdTNfY1U0MFBXdWZlRC12NC1zQ0dxTXdBMjAyanNla09uRW0xWFZOWlJxNzZLclNRZ09UcHBIdWtDTzc2Y0ZR?oc=5",
+   "source": "코인리더스",
+   "date": "2026-07-06"
+  },
+  {
    "title": "샌디스크 858% 폭등하며 1위 기록. 2026년 상반기 S&P 500 상승률 상위 10개 종목 공개, 월가가 하반기 깊은 조정을 경고하는 이유. - Tradin",
    "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQaE5MeXZadEtpdVZrbVFkb3Jsb1htODU3dmdxRDlzNVNheks2U1pJV1BEVjBQLS1uRjhFMVBzWHFzOUtra2NjUjZ4MVJWcFhDQUlyRUV3WnJNUkJScUxScmk1UWk4TGdYTDJhYlJSNWNGMFc5R0FxVXFPbUN4cXZ6aVRJRG96ZHU4XzdoZWxkZUxtNTN2WnpoNGFFS0pyVUhlMVdRQWZDWTRtc3BnZzcxdUJIOFh1QnZ4aElYVTQydVdPUWpkcklLNQ?oc=5",
    "source": "TradingKey",
@@ -435,12 +441,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
    "source": "YTN",
    "date": "2026-06-07"
-  },
-  {
-   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
-   "source": "뉴닉",
-   "date": "2026-05-11"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
@@ -477,6 +477,12 @@ window.HOLDING_NEWS = {
    "date": "2026-06-30"
   },
   {
+   "title": "\"가치주 샀는데 엔비디아가?\"… 삼전·하이닉스 주주가 봐야 할 3가지 잣대 - 초이스스탁",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE00a2JuSmMyVFluX3g2MndmSEFOV0k1ZnFsRkFRb3hNMW5La0tGbS1hek1VbDZ4VkE4ejQxNlRDQlBJSWtSSWJWRkRuMWdsTlVvdjduaG5kMWU3V1UwN2ptcnNR?oc=5",
+   "source": "초이스스탁",
+   "date": "2026-06-15"
+  },
+  {
    "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZVJXYXF5Qmg5SGNFQjhjZ3pZdkhSQzlYWHk0LTQ5akxrWFpYZGlZTGpZNkVWWm5Qd0JiMXMzajdVYXpRdHBOZ0F4dlM0eF9QMFhuaTFOQ1laSjljZV8zeDhxMlE4ZXRCLXJmTkZZRjZBUjlkcmxHdUl6aXFia1E5Zm5CcU9EeHRP?oc=5",
    "source": "글로벌이코노믹",
@@ -487,12 +493,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1SSkVxS19nVko3eXNYalVvRVBRc29GU2w0VkRYUmFzbVZJbXBnZ09UVld6ME5DVXZQR3RsZzRocWRtMWZ2NzRFOTdwZHVHblFKczlRWWZtTDFfeFRnSmpLendCbw?oc=5",
    "source": "프라임경제",
    "date": "2026-03-03"
-  },
-  {
-   "title": "'220조 큰손' 노르웨이 스토어브랜드 \"삼성화재·KCC·현대모비스, 숨겨진 가치주\" - 더구루",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9qYVBIeXFqM1JUOVBRZnVSaFNkSERuaW9PY2xQY2t1dng4blh6aWJ0ZTFSS2l4VWM3cXhqTzZXSjZNc0Q1eGRCNVM1Tk1BZG1TTlZEUTBmcG44S1ZRTGJPZHYyQQ?oc=5",
-   "source": "더구루",
-   "date": "2026-06-25"
   }
  ],
  "Xtrackers DAX ETF (XDAX)": [
