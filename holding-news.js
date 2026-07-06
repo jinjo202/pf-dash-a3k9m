@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-06T22:48:33
+// 갱신: 2026-07-06T23:24:44
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,16 +9,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-06"
   },
   {
+   "title": "美 반도체주 반등에 코스피도 상승 출발 전망…삼성전자 실적이 방향 가른다 - 세종의소리",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1tbmdfNG80Q2xnaEVxSVJnTEh6cGpqVWpzbGxuUVF1eGM1MU52ZnFWNnBqYmYzWGtkbzdnUWNUcVRiUFY3THZyWnlCLTdqVzhidDV3UHdfT1JUTFJDb0NDcFRfVTFwc1U?oc=5",
+   "source": "세종의소리",
+   "date": "2026-07-06"
+  },
+  {
    "title": "[주간증시전망] 8000선 사수한 코스피, 삼성전자 실적이 반등 ‘신호탄’ 될까 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNX2tmTGJMNjBjbmRrY0RYd0pQZDlhVUJNM0JPRGg1Wjc4NFRqeTEwZTZ0QmdnQ2xwZGdOZ2V6aVhEUFRtQVZPZzY3RDlIbzNhSVBQQ2RjbFJzSm9DRnpXa2c5WUNuVmJkUWRwenlzdmotZnJrclMzY1lFRW9GYkZQUGlpR1lPb3Zs0gGcAUFVX3lxTE1oajAyVHR2N0RGWEVqSkppaXh4UHZSeGE2LXU0Yl9FX1gtRFJGUU9HSUtlQWVuM3pyTlhQNS1HTHlMZGcya3hiMkxnc3pzeHByWVpRXzhOVDdNcGFsS1dvSEo3b1B5NnZQQndDbzNMbXgxaDJ2THpRYUFPcm1tc19BX2ROSWlhSzdPN0hVRUc4R1F2bnQ5RkFPVHYwUg?oc=5",
    "source": "Chosunbiz",
    "date": "2026-07-04"
-  },
-  {
-   "title": "[AI MY 증시전망] \"코스피, 공포심리 딛고 반등 모색…반도체 실적 주목\" - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9wcHpRc2JNc1NiQkktOEJ0SmFaUE94ZFlrTWdjQTI0dmYxZDJ2SEFMbUVGTTdtSVpnVXNiVzZ5Z3I1dHBKc3Z4VmZESGtGc1hhdlBPVHlSWjZBWmZL?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-07-05"
   },
   {
    "title": "[주간증시전망] AI 흔들리자 코스피 출렁…차주 삼성전자 실적·FOMC 의사록 주목 - 아주경제",
@@ -341,28 +341,28 @@ window.HOLDING_NEWS = {
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "[미국 특징주] 월가, 주식시장 불안 불구 하반기 강세 지속 기대 - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBBWXpOYmU4b2RVUW83N0VZSF8tTHRfMGtTaS1yRkpyVGRHdEJleW1kUDV4QTJfUGt3OUpqUUxoTWUyNGNweFdBYUhxdmM2cXpHX0pN?oc=5",
-   "source": "네이트",
-   "date": "2026-07-02"
-  },
-  {
    "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9mT0ctREk4djBUMFB0dTA4YXI5TndwZlhGeVZ0ZHphU09WNWxBalh1a0NZXzlIRlNYTW90M1pqejBLQml3ZUg3SmkxYTg3Nnc2N0E?oc=5",
    "source": "매일경제 마켓",
    "date": "2026-05-14"
   },
   {
-   "title": "이란전쟁 특수 노린 큰손들…1Q 에너지 대거 베팅했다 - 마켓인",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9rSUh2VS10aVEzUzdYXzVGaHQ5YjBVMngyd09yNmFmMlpHbzhVSFFTYmUxNlJld0JXc2Z1WEowQWlOTmxTd3ZCUFJuWjNDUVY1LVZvWGkyalNhNnc2M1ViUF9FWHowZFBDTWZ4RlpJVWlEeDQ?oc=5",
-   "source": "마켓인",
-   "date": "2026-05-19"
+   "title": "[미국 특징주] 월가, 주식시장 불안 불구 하반기 강세 지속 기대 - 네이트",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBBWXpOYmU4b2RVUW83N0VZSF8tTHRfMGtTaS1yRkpyVGRHdEJleW1kUDV4QTJfUGt3OUpqUUxoTWUyNGNweFdBYUhxdmM2cXpHX0pN?oc=5",
+   "source": "네이트",
+   "date": "2026-07-02"
   },
   {
    "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAzbVNDWlA5LUVLUFdGLXhGZTVBQ1M4X0lDQmRXcFc2YURaWUhuLXJ3MFZDX3lsYkZYaUk1aWJVV1p1RGFPYzdSYmVtLThIVHc4ZUhSVlZZRFVRODNwbkY5S0JDN01xN1g1bGljbmhB?oc=5",
    "source": "아시아투데이",
    "date": "2026-02-09"
+  },
+  {
+   "title": "샌디스크도 꺾였다, 메모리 조정?…내일 3대 이벤트 주목 [김현석의 월스트리트나우] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE13T3lUM1p1RGM2RDdaRm15amU2OG5wYnItdmNJT3FkMXNrOVN6WVhJOWRlZXY5STB0UE1jd0tpMkotaElKcWRoaExUUVBiZy10V0ZmS2FMbW94d9IBVEFVX3lxTE84YjhXSlBRTW14QkpXTUhKNzBhRk5LU1J4bXFIbHp1OWlha3RBem5LcUt2cTNSZ1c3aHRzcDFBZG52bU1XQ1c5QTY1bzd4UUlWOEIxUA?oc=5",
+   "source": "한국경제",
+   "date": "2026-01-09"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
