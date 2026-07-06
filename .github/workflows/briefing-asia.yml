@@ -2,9 +2,9 @@ name: Asia Market Briefing
 
 on:
   schedule:
-    # 초안(장중 잠정, 마감 전): 14:30 KST = 05:30 UTC. 이메일 [초안], 아카이브 미기록.
-    - cron: '30 5 * * 1-5'   # 14:30 KST (초안)
-    # 확정본: 아시아장 마감(15:30 KST = 06:30 UTC) 직후. 무료 cron 지연 대비 백업 3회.
+    # 확정본만 GitHub 스케줄(백업). 초안(14:30)은 GitHub 무료 cron이 수시간 지연되어
+    # 부적합 → cron-job.org 정시 트리거(repository_dispatch: briefing-asia-draft)만 사용.
+    # 확정본: 아시아장 마감(15:30 KST) 직후. 무료 cron 지연 대비 백업 4회.
     # 멱등성 가드(--skip-if-exists)로 중복 생성·발송 방지(데이터 미확정 시 자동 스킵).
     - cron: '40 6 * * 1-5'   # 15:40 KST (주력, 마감 직후)
     - cron: '55 6 * * 1-5'   # 15:55 KST (백업1)
@@ -17,7 +17,8 @@ on:
         required: false
         default: ""
   repository_dispatch:
-    types: [briefing-asia-trigger]
+    # briefing-asia-trigger=확정본(15:40 정시), briefing-asia-draft=초안(14:30 정시)
+    types: [briefing-asia-trigger, briefing-asia-draft]
 
 permissions:
   contents: write
@@ -55,10 +56,10 @@ jobs:
           python fetch_daily.py || true
           python fetch_benchmarks.py || true
 
-      # ── 초안(14:30 KST): 장중 잠정치 기반, 이메일만(아카이브·커밋 없음) ──
+      # ── 초안(14:30 KST, cron-job.org briefing-asia-draft): 장중 잠정치, 이메일만 ──
       - name: Generate DRAFT briefing (장중 잠정)
         id: gendraft
-        if: github.event.schedule == '30 5 * * 1-5'
+        if: github.event.action == 'briefing-asia-draft'
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
@@ -71,10 +72,10 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: python briefing/send_email_asia.py briefing/_draft-asia.js ${{ steps.gendraft.outputs.as_of }}
 
-      # ── 확정본(마감 후): 아카이브 기록 + 커밋 + 발송 ──
+      # ── 확정본(마감 후): 아카이브 기록 + 커밋 + 발송 (초안 dispatch 제외 전부) ──
       - name: Generate briefing (Claude Code, 구독 차감)
         id: gen
-        if: github.event.schedule != '30 5 * * 1-5'
+        if: github.event.action != 'briefing-asia-draft'
         env:
           # 구독(Max) 차감 — claude -p CLI 경유. API 키 없이 작동.
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
