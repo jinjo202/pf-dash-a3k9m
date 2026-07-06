@@ -44,6 +44,7 @@
     document.write('<script src="calendar-data.js?v=' + v + '" onerror="window.CALENDAR=window.CALENDAR||null"></scr' + 'ipt>');
     document.write('<script src="calendar-auto.js?v=' + v + '" onerror="window.CALENDAR_AUTO=window.CALENDAR_AUTO||null"></scr' + 'ipt>');
     document.write('<script src="export-history.js?v=' + v + '" onerror="window.EXPORT_HISTORY=window.EXPORT_HISTORY||null"></scr' + 'ipt>');
+    document.write('<script src="export-flash.js?v=' + v + '" onerror="window.EXPORT_FLASH=window.EXPORT_FLASH||null"></scr' + 'ipt>');
     document.write('<script src="memory-prices.js?v=' + v + '" onerror="window.MEMORY_PRICES=window.MEMORY_PRICES||null"></scr' + 'ipt>');
     document.write('<script src="calendar-holdings.js?v=' + v + '" onerror="window.CALENDAR_HOLDINGS_ENCRYPTED=window.CALENDAR_HOLDINGS_ENCRYPTED||null"></scr' + 'ipt>');
   })();
@@ -910,7 +911,7 @@ function openSubItem(k){
   else {
     var v=lastNonNull(c.val), vy=lastNonNull(c.val_yoy), vm=lastNonNull(c.val_mom), p=lastNonNull(c.price), py=lastNonNull(c.price_yoy), pm=lastNonNull(c.price_mom);
     // ⚡ 신속 잠정치(산업부 월간잠정·보도): 관세청 상세(latest_month)가 flash 월을 아직 못 따라온 경우만 표시
-    var FL = KX && KX.flash;
+    var FL = window.EXPORT_FLASH || (KX && KX.flash);   // 자동수집(10일단위 API) 우선, 수기 폴백
     if(FL && FL.items && FL.items[k] && (!H.latest_month || H.latest_month < FL.month)){
       var fi = FL.items[k];
       var fparts = [];
