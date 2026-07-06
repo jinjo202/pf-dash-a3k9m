@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-05d";</script>
+<script>window.CODE_VERSION = "2026-07-06a";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -280,6 +280,23 @@
   .uni-log-row:last-child { border-bottom:none; }
   .uni-log-r { font-size:11.5px; color:var(--text-soft); margin-top:2px; line-height:1.45; }
 
+  /* 채팅: 로컬 주소 안내 + Gemini 모델 주석 (sectors.html과 동일 패턴) */
+  .gem-note { margin-top:10px; font-size:11.5px; color:var(--muted); border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); padding:0 12px; }
+  .gem-note summary { cursor:pointer; padding:9px 0; font-weight:700; color:var(--text-soft); user-select:none; }
+  .gem-note summary:hover { color:var(--accent); }
+  .gem-note ul { margin:2px 0 12px; padding-left:18px; line-height:1.7; }
+  .gem-note li { margin:4px 0; }
+  .gem-note b { color:var(--text-soft); }
+  .gem-note code { font-family:ui-monospace,monospace; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
+  .local-bar { margin-top:10px; }
+  .local-bar code { font-family:ui-monospace,monospace; background:var(--neu-soft); padding:1px 5px; border-radius:5px; }
+  .local-ok { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--pos); font-weight:700; }
+  .local-box { display:flex; align-items:center; gap:8px 12px; flex-wrap:wrap; padding:11px 14px; border:1px solid var(--accent); background:var(--accent-soft); border-radius:10px; font-size:12.5px; line-height:1.6; }
+  .local-box a { color:var(--accent); font-weight:800; text-decoration:none; font-family:ui-monospace,monospace; font-size:13px; }
+  .local-box a:hover { text-decoration:underline; }
+  .lb-copy { padding:5px 11px; border:1px solid var(--accent); border-radius:7px; background:var(--panel); color:var(--accent); cursor:pointer; font-size:11.5px; font-weight:700; }
+  .lb-copy:hover { background:var(--accent); color:#fff; }
+
   .memo-list { margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
   .memo-list li { display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.55; }
   .memo-list .k { flex:0 0 84px; font-weight:700; color:var(--muted); font-size:12px; padding-top:1px; }
@@ -541,7 +558,17 @@
         </div>
       </div>
       <p class="note" id="chatModeNote"></p>
+      <div id="localLinkBar" class="local-bar"></div>
       <p class="note">· <b>Claude 요금제(구독)</b>: 로컬 <code>python serve.py</code> 실행 시, 로그인된 Claude Code CLI로 호출 → 토큰이 API가 아니라 <b>구독</b>에서 차감(2026-06-15부터 구독의 별도 'Agent SDK 크레딧' 풀에서 차감). GitHub Pages 등 정적 호스팅에선 불가.<br>· <b>Gemini API 키 (무료 티어)</b>: 웹(정적 호스팅)에서 브라우저가 Google Gemini를 직접 호출. 키는 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>에서 무료 발급(분당·일일 rate limit 있음). 2026년 신규 키는 <code>AQ.</code>로 시작(구 <code>AIza</code>도 호환). 키는 이 브라우저 localStorage에만 저장 — 저장소엔 절대 안 들어감. 공용 PC에선 사용 후 키를 비우세요.<br>· <b>Anthropic API 키</b>: 브라우저에서 Anthropic API 직접 호출(API 사용량으로 청구). 키는 이 브라우저 localStorage에만 저장.</p>
+      <details class="gem-note"><summary>ℹ️ Gemini 모델 버전 차이 (무료 티어 데이터 정책 포함)</summary>
+        <ul>
+          <li><b>Gemini 3.5 Flash</b> — 가장 빠르고 <b>무료 한도가 가장 넉넉</b>. 일상 토론·요약에 충분. 복잡한 다단계 판단은 다소 얕을 수 있음.</li>
+          <li><b>Gemini 3.1 Pro (프리뷰)</b> — <b>최고 추론</b>. 포지셔닝·시나리오·리스크 심층 분석에 유리하나, 무료 한도(RPM·일일)가 더 빡빡하고 응답이 느림.</li>
+          <li><b>Gemini 2.5 Pro</b> — 안정 버전. 3.x 프리뷰가 불안정할 때 폴백용.</li>
+          <li>🔴 <b>이 탭 주의 — 실제 포지션이 주입됨</b>: 정성요인 토론과 AI 심층의견에는 <b>현재 보유 종목·비중·손익</b>이 컨텍스트로 자동 주입됩니다. Google 무료 티어는 정책상 보낸 프롬프트·응답을 <b>모델 학습·인적 검토에 사용할 수 있으므로</b>, 무료 Gemini로는 <b>실제 포지션이 외부 학습에 노출될 수 있습니다.</b> 민감한 계정 정보를 다룰 땐 학습에 쓰이지 않는 <b>구독 차감(로컬 serve.py)</b> 또는 <b>유료 Anthropic API</b>를 쓰세요. 무료 Gemini는 일반적·비민감 질문에만 권장.</li>
+          <li>· 무료 한도 초과 시 <code>429</code> 오류 — 잠시 후 재시도하거나 Flash로 낮추세요.</li>
+        </ul>
+      </details>
     </div>
 
     <!-- 좌측 하단 섹션 네비게이터(목차) — 클릭 시 해당 섹션으로 스크롤 -->
@@ -1994,6 +2021,30 @@ async function probeBackend(){
   catch(e){ return null; }
 }
 
+function isLocalHost(){ var h=location.hostname; return h==='localhost' || h==='127.0.0.1' || h==='0.0.0.0' || h==='[::1]' || h===''; }
+
+/* 로컬(구독 차감) 주소 안내 — 배당주(sectors) 시트와 동일. serve.py 기본 포트 8000. */
+function renderLocalLink(){
+  var bar=$('localLinkBar'); if(!bar) return;
+  var localUrl='http://localhost:8000/fm.html';
+  if (backendHealth && backendHealth.claude){
+    bar.innerHTML='<span class="local-ok">✅ 로컬 serve.py 연결됨 — 구독 차감(Claude 요금제)으로 버튼 클릭 즉시 생성됩니다.</span>';
+    return;
+  }
+  var whereMsg = isLocalHost()
+    ? '지금 접속한 <code>'+esc(location.host)+'</code> 에는 serve.py 백엔드가 없습니다(구독 차감 시 501). 무료 <b>Gemini</b> 키를 저장하면 여기서도 바로 됩니다.'
+    : '웹(정적 호스팅)에선 구독 차감이 불가합니다. <b>구독(Claude 요금제)</b>으로 쓰려면 내 PC에서 <code>python serve.py</code> 실행 후 아래 로컬 주소로 접속하세요.';
+  bar.innerHTML='<div class="local-box"><span>🖥 '+whereMsg+' 구독 차감은 로컬에서 <code>python serve.py</code> 실행 후:</span>'+
+    '<a href="'+localUrl+'">'+localUrl+'</a>'+
+    '<button type="button" class="lb-copy" id="lbCopy">주소 복사</button></div>';
+  var cp=$('lbCopy');
+  if(cp) cp.addEventListener('click', function(){
+    var self=this;
+    try{ navigator.clipboard.writeText(localUrl).then(function(){ self.textContent='복사됨 ✓'; }, function(){ self.textContent='복사 실패'; }); }
+    catch(e){ self.textContent='복사 실패'; }
+  });
+}
+
 async function sendChat(){
   if (chatBusy) return;
   var mode = $('chatMode').value;
@@ -2088,10 +2139,12 @@ async function initChat(){
   var mode = savedMode || 'sub';
   $('chatMode').value = mode;
   updateModeUI();
+  renderLocalLink();
 
   $('chatMode').addEventListener('change', function(){
     try { localStorage.setItem('fm_chat_mode', this.value); } catch(e){}
     updateModeUI();
+    renderLocalLink();
   });
   $('saveKey').addEventListener('click', function(){
     var v = $('apiKey').value.trim();
