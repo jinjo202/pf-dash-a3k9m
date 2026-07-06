@@ -2,18 +2,18 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-06",
-  "generated_utc": "2026-07-06T16:41:10Z",
+  "generated_utc": "2026-07-06T17:09:22Z",
   "indices": [
     {
       "name": "MSCI ACWI",
       "ticker": "ACWI",
       "category": "MSCI",
-      "current": 157.87,
+      "current": 157.995,
       "baseline": 141.49,
       "mtd_baseline": 156.97,
-      "ytd_pct": 11.5768,
-      "mtd_pct": 0.5734,
-      "daily_pct": 1.1015,
+      "ytd_pct": 11.6651,
+      "mtd_pct": 0.653,
+      "daily_pct": 1.1816,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -547,7 +547,7 @@ window.BENCHMARKS = {
           156.97,
           156.12,
           156.15,
-          157.87
+          157.995
         ]
       }
     },
@@ -555,12 +555,12 @@ window.BENCHMARKS = {
       "name": "MSCI EM",
       "ticker": "EEM",
       "category": "MSCI",
-      "current": 67.72,
+      "current": 67.71,
       "baseline": 54.71,
       "mtd_baseline": 68.41,
-      "ytd_pct": 23.7799,
-      "mtd_pct": -1.0086,
-      "daily_pct": 3.0746,
+      "ytd_pct": 23.7617,
+      "mtd_pct": -1.0232,
+      "daily_pct": 3.0594,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -1094,7 +1094,7 @@ window.BENCHMARKS = {
           68.41,
           66.48,
           65.7,
-          67.72
+          67.71
         ]
       }
     },
@@ -2196,12 +2196,12 @@ window.BENCHMARKS = {
       "name": "S&P 500",
       "ticker": "^GSPC",
       "category": "미국",
-      "current": 7534.7402,
+      "current": 7541.5898,
       "baseline": 6845.5,
       "mtd_baseline": 7499.3599,
-      "ytd_pct": 10.0685,
-      "mtd_pct": 0.4718,
-      "daily_pct": 0.6882,
+      "ytd_pct": 10.1686,
+      "mtd_pct": 0.5631,
+      "daily_pct": 0.7797,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -2735,7 +2735,7 @@ window.BENCHMARKS = {
           7499.3599,
           7483.23,
           7483.2402,
-          7534.7402
+          7541.5898
         ]
       }
     },
@@ -2743,12 +2743,12 @@ window.BENCHMARKS = {
       "name": "NASDAQ",
       "ticker": "^IXIC",
       "category": "미국",
-      "current": 26170.4102,
+      "current": 26174.9609,
       "baseline": 23241.9902,
       "mtd_baseline": 26213.7207,
-      "ytd_pct": 12.5997,
-      "mtd_pct": -0.1652,
-      "daily_pct": 1.3074,
+      "ytd_pct": 12.6193,
+      "mtd_pct": -0.1479,
+      "daily_pct": 1.325,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -3282,7 +3282,7 @@ window.BENCHMARKS = {
           26213.7207,
           26040.0293,
           25832.6699,
-          26170.4102
+          26174.9609
         ]
       }
     },
@@ -3290,12 +3290,12 @@ window.BENCHMARKS = {
       "name": "필라델피아 반도체",
       "ticker": "^SOX",
       "category": "미국",
-      "current": 13073.9736,
+      "current": 13047.7061,
       "baseline": 7083.1299,
       "mtd_baseline": 14246.96,
-      "ytd_pct": 84.579,
-      "mtd_pct": -8.2332,
-      "daily_pct": 3.5462,
+      "ytd_pct": 84.2082,
+      "mtd_pct": -8.4176,
+      "daily_pct": 3.3382,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -3829,7 +3829,7 @@ window.BENCHMARKS = {
           14246.96,
           13353.2803,
           12626.2197,
-          13073.9736
+          13047.7061
         ]
       }
     },
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1531.14,
+      "current": 1531.1,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 6.4837,
-      "mtd_pct": -0.6869,
-      "daily_pct": -0.7127,
+      "ytd_pct": 6.4809,
+      "mtd_pct": -0.6895,
+      "daily_pct": -0.7152,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1548.61,
           1551.8101,
           1542.13,
-          1531.14
+          1531.1
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 68.3,
+      "current": 68.31,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 18.9481,
-      "mtd_pct": -1.7266,
-      "daily_pct": -0.5678,
+      "ytd_pct": 18.9655,
+      "mtd_pct": -1.7122,
+      "daily_pct": -0.5532,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           69.5,
           68.58,
           68.69,
-          68.3
+          68.31
         ]
       }
     },
@@ -7119,12 +7119,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 15.9,
+      "current": 15.89,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 6.3545,
-      "mtd_pct": -3.3435,
-      "daily_pct": -1.548,
+      "ytd_pct": 6.2876,
+      "mtd_pct": -3.4043,
+      "daily_pct": -1.6099,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -7658,7 +7658,7 @@ window.BENCHMARKS = {
           16.45,
           16.59,
           16.15,
-          15.9
+          15.89
         ]
       }
     },
