@@ -941,6 +941,48 @@ def build_kr_credit(kospi_me, kosdaq_me):
             "source": "KRX 신용거래(시드)", "source_url": "https://freesis.kofia.or.kr/"}
 
 
+def build_kr_credit_daily():
+    """일별 신용잔고 + 지수 시계열 (최근 90 거래일).
+    총 신용잔고(네이버 실측) × 월별 KOSPI/KOSDAQ 비율 → 시장별 분해.
+    지수: yfinance ^KS11(KOSPI), ^KQ11(KOSDAQ)."""
+    kd = load_kr_deposit()
+    if not (kd and kd.get("credit", {}).get("dates")):
+        return None
+    try:
+        import yfinance as yf
+        import pandas as pd
+        cred_dates = kd["credit"]["dates"][-90:]
+        cred_vals = kd["credit"]["values"][-90:]
+        start_dt = cred_dates[0]
+        kospi_raw = yf.Ticker("^KS11").history(start=start_dt, auto_adjust=False, interval="1d")
+        kosdaq_raw = yf.Ticker("^KQ11").history(start=start_dt, auto_adjust=False, interval="1d")
+        if kospi_raw.empty or kosdaq_raw.empty:
+            return None
+        kospi_map = {ts.strftime("%Y-%m-%d"): round(float(v), 2)
+                     for ts, v in kospi_raw["Close"].items() if not pd.isna(v)}
+        kosdaq_map = {ts.strftime("%Y-%m-%d"): round(float(v), 2)
+                      for ts, v in kosdaq_raw["Close"].items() if not pd.isna(v)}
+        dates, kospi_c, kosdaq_c, kospi_i, kosdaq_i = [], [], [], [], []
+        for d, tot in zip(cred_dates, cred_vals):
+            ki = kospi_map.get(d)
+            qi = kosdaq_map.get(d)
+            if ki is None and qi is None:
+                continue
+            sh = _kospi_credit_share(d[:7])
+            dates.append(d)
+            kospi_c.append(round(tot * sh, 2))
+            kosdaq_c.append(round(tot * (1 - sh), 2))
+            kospi_i.append(ki)
+            kosdaq_i.append(qi)
+        if len(dates) < 5:
+            return None
+        return {"dates": dates, "kospi_credit": kospi_c, "kosdaq_credit": kosdaq_c,
+                "kospi_idx": kospi_i, "kosdaq_idx": kosdaq_i, "unit": "조원"}
+    except Exception as e:
+        print(f"[build_kr_credit_daily] 실패: {e}")
+        return None
+
+
 # 수동 지표 원본 데이터 링크 (클릭 시 원천 확인)
 MANUAL_URLS = {
     "ism_pmi": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
@@ -2010,6 +2052,7 @@ def build():
               f"→ 직전({len(prev_rh)}) 보존 + 신규월 {len(tail)}개 append")
         regime_history = prev_rh + tail
     kr_credit = build_kr_credit(kospi_me, kosdaq_me)
+    kr_credit_daily = build_kr_credit_daily()
 
     # --- 업데이트 알림 (직전 대비 변경분) ---
     prev = load_prev()
@@ -2034,6 +2077,7 @@ def build():
         "regime_history": regime_history,
         "kr_flows_ts": kr_flows_ts,
         "kr_credit": kr_credit,
+        "kr_credit_daily": kr_credit_daily,
         "indicators": indicators,
         "indices": indices,
         "analogs": analogs,

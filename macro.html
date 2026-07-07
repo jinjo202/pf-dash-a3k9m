@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-27a";</script>
+<script>window.CODE_VERSION = "2026-06-27b";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -1106,16 +1106,27 @@ function renderKrFlows(M) {
 }
 
 function krCreditChart(canvas, dates, idx, credit, idxName) {
+  var daily = dates.length > 30;
+  var barColor = getComputedStyle(document.documentElement).getPropertyValue('--theme') === 'dark'
+    ? 'rgba(96,165,250,0.55)' : 'rgba(59,130,246,0.45)';
+  var barBorder = daily ? 'rgba(59,130,246,0.0)' : 'rgba(59,130,246,0.7)';
   var c = new Chart(canvas.getContext('2d'), {
-    type: 'line', data: { labels: dates, datasets: [
-      { label: idxName + ' 지수', data: idx, borderColor: '#2563eb', backgroundColor: 'transparent', borderWidth: 1.8, pointRadius: 0, tension: .15, yAxisID: 'y' },
-      { label: '신용잔고', data: credit, borderColor: '#e11d48', backgroundColor: '#e11d4818', borderWidth: 1.8, pointRadius: 2, tension: .15, fill: true, yAxisID: 'y1' }] },
+    data: { labels: dates, datasets: [
+      { type: 'bar', label: '신용잔고(조)', data: credit,
+        backgroundColor: barColor, borderColor: barBorder, borderWidth: 0,
+        maxBarThickness: daily ? 8 : 18, yAxisID: 'y1', order: 2 },
+      { type: 'line', label: idxName + ' 지수', data: idx,
+        borderColor: '#f97316', backgroundColor: 'transparent',
+        borderWidth: 1.8, pointRadius: 0, tension: .15, yAxisID: 'y', order: 1 }] },
     options: { responsive: true, maintainAspectRatio: false, animation: false,
       plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 9 }, color: cssVar('--muted'), boxWidth: 9, padding: 6 } },
-        tooltip: { callbacks: { title: function (i) { return i[0].label.slice(0, 7); }, label: function (i) { return i.dataset.label + ' ' + i.raw + (i.dataset.yAxisID === 'y1' ? '조' : ''); } } } },
-      scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 6, font: { size: 8 }, color: cssVar('--muted'), callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(2, 7) : ''; } } },
-        y: { position: 'left', grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: '#2563eb' } },
-        y1: { position: 'right', grid: { display: false }, ticks: { font: { size: 8 }, color: '#e11d48', callback: function (v) { return v + '조'; } } } } }
+        tooltip: { mode: 'index', intersect: false,
+          callbacks: { title: function (i) { return i[0].label; },
+            label: function (i) { return i.dataset.label + ': ' + (i.dataset.yAxisID === 'y1' ? i.raw + '조' : i.raw); } } } },
+      scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: daily ? 8 : 6, font: { size: 8 }, color: cssVar('--muted'),
+          callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(2, 7) : ''; } } },
+        y: { position: 'right', grid: { display: false }, ticks: { font: { size: 8 }, color: '#f97316' } },
+        y1: { position: 'left', grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: 'rgba(59,130,246,0.8)', callback: function (v) { return v + '조'; } } } } }
   });
   CHARTS.push(c);
 }
@@ -1387,7 +1398,7 @@ function render(M) {
       var show = det.style.display === 'none';
       det.style.display = show ? 'block' : 'none';
       if (show && !creditDrawn) {
-        var cr = M.kr_credit;
+        var cr = M.kr_credit_daily || M.kr_credit;
         var k = document.getElementById('krCreditKospi'); if (k) krCreditChart(k, cr.dates, cr.kospi_idx, cr.kospi_credit || cr.total_credit, 'KOSPI');
         var q = document.getElementById('krCreditKosdaq'); if (q) krCreditChart(q, cr.dates, cr.kosdaq_idx, cr.kosdaq_credit || cr.total_credit, 'KOSDAQ');
         creditDrawn = true;
