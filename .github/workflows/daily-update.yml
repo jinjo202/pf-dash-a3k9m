@@ -78,6 +78,8 @@ jobs:
       - name: Fetch macro regime data (FRED + yfinance → macro-data.js)
         run: python fetch_macro.py
         continue-on-error: true
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
 
       - name: Fetch historical valuations (S&P 500 PE/PB from multpl.com)
         run: python fetch_historical_valuations.py

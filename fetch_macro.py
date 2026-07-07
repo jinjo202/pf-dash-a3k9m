@@ -28,6 +28,7 @@ OUT = HERE / "macro-data.js"
 BENCH = HERE / "benchmarks.js"
 
 FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={id}&cosd={start}"
+FRED_API = "https://api.stlouisfed.org/fred/series/observations?series_id={id}&observation_start={start}&api_key={key}&file_type=json"
 START = "2000-01-01"
 
 # ── 수동 입력 (무료 장기 시계열이 없는 항목) ──────────────────────────────
@@ -229,13 +230,34 @@ def fetch_multpl(slug):
 
 
 def fred_csv(series_id, start=START):
-    """FRED CSV → (dates[ISO], values[float]). 결측('.')은 건너뜀."""
-    import time
-    time.sleep(0.15)  # rate-limit 정중함(연속 요청 throttling 완화)
+    """FRED 데이터 fetch. FRED_API_KEY 환경변수 있으면 API JSON, 없으면 CSV fallback."""
+    import os, time, json as _json
+    time.sleep(0.15)
+    api_key = os.environ.get("FRED_API_KEY", "")
+    if api_key:
+        url = FRED_API.format(id=series_id, start=start, key=api_key)
+        try:
+            txt = http_get(url)
+            data = _json.loads(txt)
+            dates, vals = [], []
+            for obs in data.get("observations", []):
+                d, v = obs.get("date", ""), obs.get("value", ".")
+                if not d or v in (".", "", "NA"):
+                    continue
+                try:
+                    vals.append(float(v))
+                    dates.append(d)
+                except ValueError:
+                    continue
+            if dates:
+                return dates, vals
+        except Exception as e:
+            print(f"  [fred-api] {series_id} 실패({e}), CSV fallback")
+    # CSV fallback (FRED_API_KEY 없거나 API 실패 시)
     url = FRED_CSV.format(id=series_id, start=start)
     txt = http_get(url)
     dates, vals = [], []
-    for line in txt.splitlines()[1:]:  # 헤더 스킵
+    for line in txt.splitlines()[1:]:
         parts = line.split(",")
         if len(parts) < 2:
             continue
