@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-07T00:00:22
+// 갱신: 2026-07-07T00:32:42
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -289,6 +289,12 @@ window.HOLDING_NEWS = {
  ],
  "SPDR Communication ETF (XLC)": [
   {
+   "title": "엔비디아 숨 고를 때 6%대 급등…다우 53000 이끈 '이 주식' - 위키트리",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9qdEFwSHJxTnR5LWlnTVduTVo2c21XTzdMSWZpVEtqYXBmZWo3R3RpSnhFb0psSllsMk43VGctSkNuc0R1dzhVbmF2c1RVNFZCVXA4SHRB?oc=5",
+   "source": "위키트리",
+   "date": "2026-07-06"
+  },
+  {
    "title": "[The Numbers] 빅테크 '메타', 구매자에서 판매자 '선언'에 美·韓 증시 '패닉'…AI 사이클 2막, 한국이 봐야 할 것들 - 뉴스스페이스",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE83bTM1VEtXUFJsZlRHZjVnUHg0YWFUNDFXd2thZGVoaG1OM1FycUJvRU5PcWQzZXVKM2VQa2FXWng0d0UySkZXYTdXclFHeG9GckJyTzRUNFAzX1M4U3lxNQ?oc=5",
    "source": "뉴스스페이스",
@@ -305,12 +311,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQMVBKb1ZuZThxX2V0X3l2eFB5ZjlaeDFONDRfOEhUbXJjQlVheDU1ZnJqcGkyUHE0TG10SUp1ZTJlMzBkeER0SVZmQ2JYUzc2Rmo5NGtOVnRqVnVXbWRSZFVTVUFOSERwcDNINEc4YkIteG9wWlFya0dsVHoxdm05OG5nQjdnTWc?oc=5",
    "source": "네이버 프리미엄콘텐츠",
    "date": "2023-12-06"
-  },
-  {
-   "title": "알파벳 A (GOOGL) - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5DVFloQ0pYbW84T2xwMkxjT1k3VFpmLXlxbE5wdnEzWlY1TDlaSWVqUlBPb25ZaHRvRVkzTXQzMmgwR256OHI1WjZqNXE5a3BYU3JQcTRaWQ?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2017-01-08"
   }
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
@@ -333,10 +333,10 @@ window.HOLDING_NEWS = {
    "date": "2026-02-03"
   },
   {
-   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-04-17"
+   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
+   "source": "블루밍비트",
+   "date": "2026-05-30"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [

@@ -1,8 +1,8 @@
 // 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
-  "as_of": "2026-07-06",
-  "generated_utc": "2026-07-06T23:33:10Z",
+  "as_of": "2026-07-07",
+  "generated_utc": "2026-07-07T00:05:35Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5478,13 +5478,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1531.0,
+      "current": 1528.78,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 6.474,
-      "mtd_pct": -0.696,
-      "daily_pct": -0.7217,
-      "as_of": "2026-07-06",
+      "ytd_pct": 6.3196,
+      "mtd_pct": -0.84,
+      "daily_pct": -0.145,
+      "as_of": "2026-07-07",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5496,7 +5496,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-04",
           "2025-07-07",
           "2025-07-08",
           "2025-07-09",
@@ -5755,10 +5754,10 @@ window.BENCHMARKS = {
           "2026-07-01",
           "2026-07-02",
           "2026-07-03",
-          "2026-07-06"
+          "2026-07-06",
+          "2026-07-07"
         ],
         "values": [
-          1357.1,
           1362.2,
           1374.64,
           1370.3,
@@ -6017,7 +6016,8 @@ window.BENCHMARKS = {
           1548.61,
           1551.8101,
           1542.13,
-          1531.0
+          1531.0,
+          1528.78
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 68.85,
+      "current": 68.77,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 19.906,
-      "mtd_pct": -0.9353,
-      "daily_pct": 0.2329,
+      "ytd_pct": 19.7666,
+      "mtd_pct": -1.0504,
+      "daily_pct": 0.1165,
       "as_of": "2026-07-06",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           69.5,
           68.58,
           68.69,
-          68.85
+          68.77
         ]
       }
     },
@@ -7672,7 +7672,7 @@ window.BENCHMARKS = {
       "ytd_pct": 45.0,
       "mtd_pct": null,
       "daily_pct": 0.0,
-      "as_of": "2026-07-06",
+      "as_of": "2026-07-07",
       "decimals": 2,
       "valuation": {
         "pe": null,
