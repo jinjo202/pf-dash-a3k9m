@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-07",
-  "generated_utc": "2026-07-07T21:09:03Z",
+  "generated_utc": "2026-07-07T21:36:06Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1513.4301,
+      "current": 1513.5699,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 5.2521,
-      "mtd_pct": -1.8356,
-      "daily_pct": -1.1476,
+      "ytd_pct": 5.2618,
+      "mtd_pct": -1.8265,
+      "daily_pct": -1.1385,
       "as_of": "2026-07-07",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1551.8101,
           1542.13,
           1531.0,
-          1513.4301
+          1513.5699
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 72.17,
+      "current": 72.2,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 25.6879,
-      "mtd_pct": 3.8417,
-      "daily_pct": 5.2808,
+      "ytd_pct": 25.7402,
+      "mtd_pct": 3.8849,
+      "daily_pct": 5.3246,
       "as_of": "2026-07-07",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           68.58,
           68.69,
           68.55,
-          72.17
+          72.2
         ]
       }
     },
@@ -7137,6 +7137,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-06-24",
           "2025-06-25",
           "2025-06-26",
           "2025-06-27",
@@ -7367,7 +7368,6 @@ window.BENCHMARKS = {
           "2026-05-20",
           "2026-05-21",
           "2026-05-22",
-          "2026-05-25",
           "2026-05-26",
           "2026-05-27",
           "2026-05-28",
@@ -7399,6 +7399,7 @@ window.BENCHMARKS = {
           "2026-07-07"
         ],
         "values": [
+          17.48,
           16.76,
           16.59,
           16.32,
@@ -7629,7 +7630,6 @@ window.BENCHMARKS = {
           17.44,
           16.76,
           16.7,
-          16.59,
           17.01,
           16.29,
           15.74,
