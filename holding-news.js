@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-06T23:24:44
+// 갱신: 2026-07-07T00:00:22
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
    "source": "연합인포맥스",
+   "date": "2026-07-06"
+  },
+  {
+   "title": "[AI MY 증시전망] 삼성전자 역대 최대 실적·美 반도체 반등 '훈풍' - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBoc0cyZk14S3lCNFJEajFqX3g0WjRvWTFiZEFUbnZaMzVmaWowRDNocjhZWTIxSkplM3VBQWxFNXA3ajY1U1UybjVHeTdVWXFuZTdjenpJY1JvaVc5?oc=5",
+   "source": "뉴스핌",
    "date": "2026-07-06"
   },
   {
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNX2tmTGJMNjBjbmRrY0RYd0pQZDlhVUJNM0JPRGg1Wjc4NFRqeTEwZTZ0QmdnQ2xwZGdOZ2V6aVhEUFRtQVZPZzY3RDlIbzNhSVBQQ2RjbFJzSm9DRnpXa2c5WUNuVmJkUWRwenlzdmotZnJrclMzY1lFRW9GYkZQUGlpR1lPb3Zs0gGcAUFVX3lxTE1oajAyVHR2N0RGWEVqSkppaXh4UHZSeGE2LXU0Yl9FX1gtRFJGUU9HSUtlQWVuM3pyTlhQNS1HTHlMZGcya3hiMkxnc3pzeHByWVpRXzhOVDdNcGFsS1dvSEo3b1B5NnZQQndDbzNMbXgxaDJ2THpRYUFPcm1tc19BX2ROSWlhSzdPN0hVRUc4R1F2bnQ5RkFPVHYwUg?oc=5",
    "source": "Chosunbiz",
    "date": "2026-07-04"
-  },
-  {
-   "title": "[주간증시전망] AI 흔들리자 코스피 출렁…차주 삼성전자 실적·FOMC 의사록 주목 - 아주경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9NNmR0NFR2M182Zmc0Q3h4MTNsblJVNEJaUWRQcC11QzBHWms5YU9nRjdBckMxdVJ4dndWSG9qOUhxb1JuQm04d2ZfbGFjZlVjXzQtT1dkbjFmZ9IBWEFVX3lxTE5wdkwtTXo2M0lEbElULVZGbnU1cU9IMDFJLS1wcmpWUzVTNERubVlKOHZycmFDVlg2d1k0ckxDY3R1WU5veUtyQms3cDJfWWRlc1JkRkRQUFA?oc=5",
-   "source": "아주경제",
-   "date": "2026-07-03"
   }
  ],
  "KODEX 코스닥150 ETF": [

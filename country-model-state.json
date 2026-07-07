@@ -1,63 +1,77 @@
 {
- "last_rebalance": "2026-07-04",
+ "last_rebalance": "2026-07-07",
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.116,
+   "score": 1.086,
    "factors": {
     "value": 1.86,
     "momentum": 1.85,
-    "earnings": 0.66,
+    "earnings": 0.51,
     "macro": 0.23,
     "currency": 0.12
    }
   },
   "이머징": {
    "pref": "중립",
-   "score": -0.153,
+   "score": -0.159,
    "factors": {
     "value": 0.24,
-    "momentum": -0.36,
-    "earnings": -1.89,
+    "momentum": -0.39,
+    "earnings": -1.88,
     "macro": 0.98,
     "currency": 0.6
    }
   },
   "미국": {
    "pref": "중립",
-   "score": -0.225,
+   "score": -0.187,
    "factors": {
-    "value": -0.78,
+    "value": -0.82,
     "momentum": -0.78,
-    "earnings": 0.77,
+    "earnings": 0.99,
     "macro": -0.53,
     "currency": 1.19
    }
   },
   "유럽": {
-   "pref": "축소",
-   "score": -0.255,
+   "pref": "중립",
+   "score": -0.233,
    "factors": {
-    "value": -0.75,
-    "momentum": -0.9,
-    "earnings": -0.14,
+    "value": -0.73,
+    "momentum": -0.88,
+    "earnings": -0.08,
     "macro": 0.98,
     "currency": -0.12
    }
   },
   "일본": {
    "pref": "축소",
-   "score": -0.485,
+   "score": -0.507,
    "factors": {
-    "value": -0.56,
-    "momentum": 0.19,
-    "earnings": 0.6,
+    "value": -0.55,
+    "momentum": 0.2,
+    "earnings": 0.45,
     "macro": -1.66,
     "currency": -1.79
    }
   }
  },
  "changes": [
+  {
+   "date": "2026-07-07",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "유럽",
+     "from_pref": "축소",
+     "to_pref": "중립",
+     "flipped": true,
+     "d_score": 0.02,
+     "driver": "이익수정 z-0.1→-0.1"
+    }
+   ]
+  },
   {
    "date": "2026-07-04",
    "trigger": "이벤트(팩터 변화)",
@@ -189,20 +203,6 @@
      "flipped": true,
      "d_score": 0.01,
      "driver": "밸류 z-1.1→-1.0"
-    }
-   ]
-  },
-  {
-   "date": "2026-06-17",
-   "trigger": "이벤트(팩터 변화)",
-   "items": [
-    {
-     "country": "유럽",
-     "from_pref": "축소",
-     "to_pref": "중립",
-     "flipped": true,
-     "d_score": 0.04,
-     "driver": "이익수정 z-0.5→-0.2"
     }
    ]
   }
