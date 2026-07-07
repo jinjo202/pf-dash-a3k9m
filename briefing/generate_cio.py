@@ -500,7 +500,7 @@ def main():
         cur = (load_fm_cio().get("entries") or [None])[0] or {}
         if cur.get("as_of") == as_of and cur.get("slot") == slot:
             print("skip: CIO daily for %s (%s) already exists" % (as_of, slot))
-            gb.gh_output(status="skipped", as_of=as_of)
+            gb.gh_output(status="skipped", as_of=as_of, slot=slot)
             return
 
     payload = build_payload(as_of, slot)
@@ -574,7 +574,7 @@ def main():
     nd = len((entry.get("debate") or {}).get("rounds") or [])
     print("generated: CIO daily %s (%s) -> fm-cio.js (chain %d · factors %d · debate %d)"
           % (as_of, slot, len(entry["chain"]), len(entry["factors"]), nd))
-    gb.gh_output(status="generated", as_of=as_of)
+    gb.gh_output(status="generated", as_of=as_of, slot=slot)
 
 
 if __name__ == "__main__":

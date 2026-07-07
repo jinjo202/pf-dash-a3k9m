@@ -65,8 +65,15 @@ jobs:
             echo "변경 없음."; exit 0
           fi
           git commit -m "fm-cio: ${{ steps.gen.outputs.as_of }} CIO 데일리 자동 갱신"
+          AS_OF="${{ steps.gen.outputs.as_of }}"; SLOT="${{ steps.gen.outputs.slot }}"
           for attempt in 1 2 3; do
             git fetch origin main
+            # 백업 슬롯 경합: 주력이 먼저 같은 (as_of,slot)을 이미 push했으면 우리 재생성은 중복 → 스킵(성공 처리).
+            # (fm-cio.js는 전량 재생성 파일이라 rebase가 entries[0]에서 충돌 → 자동해소 불가. 중복이면 원격 우선.)
+            git show origin/main:fm-cio.js > /tmp/remote-cio.js 2>/dev/null || true
+            if [ -s /tmp/remote-cio.js ] && node -e "global.window={};eval(require('fs').readFileSync('/tmp/remote-cio.js','utf8'));process.exit((window.FM_CIO.entries||[]).some(function(x){return x.as_of==='$AS_OF'&&x.slot==='$SLOT';})?0:1)"; then
+              echo "원격에 $AS_OF ($SLOT) entry 이미 존재 — 백업 슬롯 중복이므로 스킵(정상)."; exit 0
+            fi
             if git rebase origin/main && git push; then
               echo "push 성공 (attempt $attempt)"; exit 0
             fi
