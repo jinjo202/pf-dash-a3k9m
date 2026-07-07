@@ -474,7 +474,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-07T10:33:30Z",
+  "generated": "2026-07-07T11:05:02Z",
   "regime": {
     "score": 17,
     "label": "비중확대 우위",
@@ -492,7 +492,7 @@ window.MACRO = {
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 19,
+        "score": 20,
         "n": 7
       },
       "sentiment": {
@@ -852,17 +852,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 20,
-        "fx": -58,
+        "fx": -54,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 7,
-        "m3": 35,
+        "m1": 9,
+        "m3": 36,
         "m12": 51
       },
-      "fx_val": 1515.84,
-      "fx_chg": -2.9,
+      "fx_val": 1513.48,
+      "fx_chg": -2.7,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOK 동결·완화 여지"
@@ -896,17 +896,17 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 17,
-        "fx": -34,
+        "fx": -36,
         "mon": -40,
         "cycle": 23
       },
       "horizon": {
-        "m1": -8,
+        "m1": -9,
         "m3": -3,
         "m12": -1
       },
-      "fx_val": 161.89,
-      "fx_chg": -1.7,
+      "fx_val": 161.94,
+      "fx_chg": -1.8,
       "cli": null,
       "phase": "확장 (Expansion)*",
       "mon_note": "BOJ 정상화(긴축, −)"
@@ -14133,11 +14133,11 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1519.0,
+      "current": 1515.3,
       "unit": "원",
       "z": 1.57,
       "pct": 100.0,
-      "score": -0.79,
+      "score": -0.7,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "원화 약세는 위험회피·외인 유출",
@@ -14185,11 +14185,11 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 15.8,
+      "current": 15.9,
       "unit": "",
       "z": 0.11,
       "pct": 84.6,
-      "score": 0.22,
+      "score": 0.21,
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "공포 게이지. 낮을수록 안정",
@@ -14897,11 +14897,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 6.7,
+      "current": 6.5,
       "unit": "%",
       "z": 1.29,
       "pct": 89.8,
-      "score": -0.17,
+      "score": -0.16,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "급등 시 인플레·비용 압력",
@@ -18653,7 +18653,7 @@ window.MACRO = {
               "ticker": "HON",
               "name": "Honeywell International Inc.",
               "mktcap": 73243959296,
-              "fwdpe": 24.2,
+              "fwdpe": 24.1,
               "pbr": 5.39,
               "rets": {
                 "w1": -5.1,
@@ -20412,12 +20412,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 6.7%(중립)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.3%(호재)·비농업 고용 (전월비) 172.0천명(호재)·장단기 금리차(10Y-2Y) 0.47%p(호재)·WTI 유가 (YoY) 6.5%(중립)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 20.0배(악재)·KOSPI 12M Fwd PER 5.5배(강한 호재)·주식위험프리미엄(ERP) 0.35%p(악재)·미국 10Y 금리 4.49%(중립)",
-    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1519.0원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 118.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.5조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 15.8(호재)·S&P500 12M 모멘텀 18.9%(강한 호재)·CNN 공포·탐욕 지수 45(중립)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
+    "flows": "[완만한 호재 우위] M2 통화량 (YoY) 4.7%(강한 호재)·신용 스프레드(Baa-10Y) 1.57%p(호재)·USD/KRW 1515.3원(강한 악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 118.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.5조원(중립)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 15.9(호재)·S&P500 12M 모멘텀 18.9%(강한 호재)·CNN 공포·탐욕 지수 45(중립)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.598(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.237(상향 우위)·한국 Fwd EPS 수정(1개월) 0.3%(유지)",
-    "overall": "종합 레짐 점수 +17. 매크로 +1, 밸류 -6, 수급 +19, 센티 +13, 기업이익 +50."
+    "overall": "종합 레짐 점수 +17. 매크로 +1, 밸류 -6, 수급 +20, 센티 +13, 기업이익 +50."
   },
   "outlook": {
     "short": {

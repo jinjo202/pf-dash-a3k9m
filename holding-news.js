@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-07T10:35:00
+// 갱신: 2026-07-07T11:06:31
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -29,16 +29,16 @@ window.HOLDING_NEWS = {
  ],
  "KODEX 코스닥150 ETF": [
   {
-   "title": "코스피 반도체 부진 속 인프라 테마 강세…코스닥은 1%대 상승 [장중시황] - 2news.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE0wc00wa0RYU0JNZGhSS2t5SnVDT0RYY09hNWgwTVZGc1drU0NCSlBsT09HTjFkYUJMTFk3cHVMcloya3U4dENCTzF6cEdDSkJrZWNESmZSZ05IMnRVZnBOVDJaRFMxdnJn?oc=5",
-   "source": "2news.co.kr",
-   "date": "2026-07-01"
-  },
-  {
    "title": "[코스닥 활성화-上] 지지부진 코스닥, 하반기부터 달라질까 - 시사저널e",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9jOV9aaGZOTzJqenEwVVFPTXJkc3I0QjlidnE2eVpoeGZVZWl0SG96V3VRaFNiLXpUS3VtaXFCX1pQODBEUjZ6Y0U3Nl8zT1NURmJ0LWV2NFM1clVONEV6ejJkMTNuODcwR2NaTjQ5SW9NZ9IBdkFVX3lxTE11THFnZ29fNjR3YWZ1c1NiLVlaQW5UbnlKejJRay13dFhPU3BVMGtuVUlyMnMwUTJQY2xMMkR1dE4zTHEzNm9iV0VRUXdSZzNyQ0Q0ZFlPMng2d2NyaTk1bXY3SWZ4U1phdU9ZVERLcGp1c0hoVlE?oc=5",
    "source": "시사저널e",
    "date": "2026-05-12"
+  },
+  {
+   "title": "코스피 반도체 부진 속 인프라 테마 강세…코스닥은 1%대 상승 [장중시황] - 2news.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE0wc00wa0RYU0JNZGhSS2t5SnVDT0RYY09hNWgwTVZGc1drU0NCSlBsT09HTjFkYUJMTFk3cHVMcloya3U4dENCTzF6cEdDSkJrZWNESmZSZ05IMnRVZnBOVDJaRFMxdnJn?oc=5",
+   "source": "2news.co.kr",
+   "date": "2026-07-01"
   },
   {
    "title": "\"코스닥, 지수 투자매력 약화…'AI 밸류체인' 종목선별해야\" - KB Think",
@@ -379,16 +379,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
-   "title": "S&P 500 이익 25% 폭증 전망...\"월가 실적 거품 터진다\" 경고 - 코인리더스",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5hc0xkdTNfY1U0MFBXdWZlRC12NC1zQ0dxTXdBMjAyanNla09uRW0xWFZOWlJxNzZLclNRZ09UcHBIdWtDTzc2Y0ZR?oc=5",
-   "source": "코인리더스",
-   "date": "2026-07-06"
-  },
-  {
    "title": "다우존스, 나스닥, S&P 500 전망: 마이크론 실적·PCE 데이터가 랠리 시험대에 - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wcC1jVlNJeDN1VExIQXJIOTV0Qm9WdFJrd1dyR3RBbGJjOU1Sd19qSnhCN0xTVzMwQWFWenRoMDZUS3pDbTRSdkNKeVp6WmF2UEM2Y19oNmpiR2dodmU5VWVvWnFIM0ZTREQ3QmJaTmw?oc=5",
    "source": "Investing.com 한국어",
    "date": "2026-06-22"
+  },
+  {
+   "title": "S&P 500 이익 25% 폭증 전망...\"월가 실적 거품 터진다\" 경고 - 코인리더스",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5hc0xkdTNfY1U0MFBXdWZlRC12NC1zQ0dxTXdBMjAyanNla09uRW0xWFZOWlJxNzZLclNRZ09UcHBIdWtDTzc2Y0ZR?oc=5",
+   "source": "코인리더스",
+   "date": "2026-07-06"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
@@ -463,10 +463,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-02"
   },
   {
-   "title": "하나證 “베트남, 4월 7일 FTSE 신흥국 승격 판가름… 중동 리스크는 단기 변수” - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTXd6VnNYcktUMzZHcVFzbGFaUDZOVDUtWHdLTmZtUGtlSDVaWEpwRkt4TXFrSFN2OEtHelQ0OS1KN3Nmak50aUxDdWVtYmx4Ny1ONWFQNkJLQ09xNWloT1l6WlM5X0ZNamxHeWFnRFI1VU5VV19uck1LakhPbmNEdFgxZDlDRldo0gGcAUFVX3lxTE5UUzlqT3FzSEtNYXFnaU9vd3RHcnZ1S3lDVkY2YkY3bjVGMGpITG5aN19zanNody1wQUNyeFZLczY0QWZPa1FkM0xZZ1YySXFCaDlmSWlYVFJ1SzRRMFpTLVBLVnZfenRzSHhKYllKenlXNVJ1RVA1Unc1b3E4ZlM1LUYwcktKLWRBc1VvYlBvbmJpSHdVa3M0SDB2ag?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-03-24"
+   "title": "[기획] 베트남 예금 투자의 덫 '하이 리스크' 대신 '스마트 헷지' 3부 - 인사이드비나",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHYXI2N3RDeHRHZG52UXpERU10cnY4M0lFMFRqcHoxUVVJVTNuWHF2RXNzSEg1UUR6c0ptV19Qbzg5NXYxZ0lfTV92SVU2S0wyWFRWVjhNMTVBMEhDLW1TdlFJc0x4UGlnQ3M2Uw?oc=5",
+   "source": "인사이드비나",
+   "date": "2026-03-10"
   }
  ],
  "Dimensional International Value (DFIV)": [
