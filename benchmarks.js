@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-07",
-  "generated_utc": "2026-07-07T23:10:54Z",
+  "generated_utc": "2026-07-07T23:27:23Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 72.48,
+      "current": 72.36,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 26.2278,
-      "mtd_pct": 4.2878,
-      "daily_pct": 5.733,
+      "ytd_pct": 26.0188,
+      "mtd_pct": 4.1151,
+      "daily_pct": 5.558,
       "as_of": "2026-07-07",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           68.58,
           68.69,
           68.55,
-          72.48
+          72.36
         ]
       }
     },
