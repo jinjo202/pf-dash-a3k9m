@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-08T07:23:28
+// 갱신: 2026-07-08T09:13:30
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -35,16 +35,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-19"
   },
   {
-   "title": "[마켓뷰] 반도체주 부진에…코스피, 0.2% 하락한 8394.65 마감 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUEk5b0dzNGFXUFE2Vjh5dWwzalhmRHF3amlJTzVNWVlMWnpnVXJLa1EtVE93VmRodUVTNXdpQ2o2ODF3ZVRtVTFzN0JqWGR1c1NGel9IRi1Dd2xjNWd3bHF2OFZoLUxqdlgwSGtEYk42VExZZFVmbDNsWVh1eklqY2hPNWp1VmVl0gGcAUFVX3lxTE40c0puV01wd2gwVXNudWk5N0trU0c2aVFUcmw5QURVVVBPMkR2aHdVU3pOVV9nY3VORHNOOGNRenlpdXdqV2RGbG9kZG1TS0R2S0ttWVpTZ0EtY3VZUTk1cldsZGFsdHhTc2F5WVN2ajVrSm9tV2lKa2oyTWxsUTU5cTh6Yk5uMVhIOVZOUktiZnNQM1paSmx5Z1hFTw?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-06-29"
-  },
-  {
    "title": "[코스닥 활성화-上] 지지부진 코스닥, 하반기부터 달라질까 - 시사저널e",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9jOV9aaGZOTzJqenEwVVFPTXJkc3I0QjlidnE2eVpoeGZVZWl0SG96V3VRaFNiLXpUS3VtaXFCX1pQODBEUjZ6Y0U3Nl8zT1NURmJ0LWV2NFM1clVONEV6ejJkMTNuODcwR2NaTjQ5SW9NZ9IBdkFVX3lxTE11THFnZ29fNjR3YWZ1c1NiLVlaQW5UbnlKejJRay13dFhPU3BVMGtuVUlyMnMwUTJQY2xMMkR1dE4zTHEzNm9iV0VRUXdSZzNyQ0Q0ZFlPMng2d2NyaTk1bXY3SWZ4U1phdU9ZVERLcGp1c0hoVlE?oc=5",
    "source": "시사저널e",
    "date": "2026-05-12"
+  },
+  {
+   "title": "[마켓뷰] 반도체주 부진에…코스피, 0.2% 하락한 8394.65 마감 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUEk5b0dzNGFXUFE2Vjh5dWwzalhmRHF3amlJTzVNWVlMWnpnVXJLa1EtVE93VmRodUVTNXdpQ2o2ODF3ZVRtVTFzN0JqWGR1c1NGel9IRi1Dd2xjNWd3bHF2OFZoLUxqdlgwSGtEYk42VExZZFVmbDNsWVh1eklqY2hPNWp1VmVl0gGcAUFVX3lxTE40c0puV01wd2gwVXNudWk5N0trU0c2aVFUcmw5QURVVVBPMkR2aHdVU3pOVV9nY3VORHNOOGNRenlpdXdqV2RGbG9kZG1TS0R2S0ttWVpTZ0EtY3VZUTk1cldsZGFsdHhTc2F5WVN2ajVrSm9tV2lKa2oyTWxsUTU5cTh6Yk5uMVhIOVZOUktiZnNQM1paSmx5Z1hFTw?oc=5",
+   "source": "Chosunbiz",
+   "date": "2026-06-29"
   },
   {
    "title": "코스피는 ‘8000’ 가는데… ‘1200’선에서 헤매는 코스닥 - 부산일보",
@@ -81,16 +81,16 @@ window.HOLDING_NEWS = {
  ],
  "KoAct 바이오헬스케어액티브": [
   {
+   "title": "[주식] 코스닥 800선마저 붕괴...바이오도 10%대 하락세 잇따라 - 히트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5aNTNLeFQya2QxM0FTdWtPZDBETlNWekVMeUpoRjBMY2Jxd2tPM3Eya2VodEMtbjJXNGVPV09PR0U0dC01SjlwT29UZFFHU2ZsOGpHZHlwOWFtWnowR3A2bVgwQ0tsZkdwUmpv?oc=5",
+   "source": "히트뉴스",
+   "date": "2026-07-08"
+  },
+  {
    "title": "상반기 제약바이오 IPO 6곳…공모가 상단에도 주가 엇갈려 - 메디파나뉴스",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBhWUlzay00cHk4elRXSjBtVGlLVmV3YTFBNHB6RUdWRDJhMFk4T1pJaE5iSml4azgtSGR4NVAwaGNiU3Q4UTN2S2NqLW9pazUtUzduZTNpSUQtTGlmbm95OU4tNFlNQlNRTzRV?oc=5",
    "source": "메디파나뉴스",
    "date": "2026-07-07"
-  },
-  {
-   "title": "[주식] 코스피 8000선 붕괴...코스닥도 동반 하락 - 히트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBnOUJMUWwtTG5xRm1xdTVaZUU4MExMREQ4dzFISXRmdGt0ZzZuS1ItZ1BrY1hpeXFOMDZNTm5RS3hQeEMxa3hnZUMwSnFfYlhQYURIckVpcmlJUTZPMmloSVlzU0x6TEJCc3Zv?oc=5",
-   "source": "히트뉴스",
-   "date": "2026-07-02"
   },
   {
    "title": "제약·바이오株 급등…국민성장펀드 날개 달고 다시 비상하나 - 연합뉴스",
@@ -333,10 +333,10 @@ window.HOLDING_NEWS = {
    "date": "2026-02-03"
   },
   {
-   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
-   "source": "블루밍비트",
-   "date": "2026-05-30"
+   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-04-17"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
@@ -431,16 +431,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-04"
   },
   {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
-   "source": "YTN",
-   "date": "2026-06-07"
-  },
-  {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
    "date": "2026-05-11"
+  },
+  {
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
+   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
+   "source": "YTN",
+   "date": "2026-06-07"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
@@ -497,28 +497,28 @@ window.HOLDING_NEWS = {
  ],
  "Xtrackers DAX ETF (XDAX)": [
   {
+   "title": "유럽증시, 기술주가 상승세 주도하며 일제히 올라… 5년 반 만에 최고 분기 수익률 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE0tcDZ5YjExYnp5di1WYmZ5MUFCWWlJWU9HTC1PX2FuUHdCbzBYeDBSSjl4Zlh2VENfWWc3TWFxMUJoU0x6Sl9xVkZZTEQ0U1Nud1pqRmZBRDg2akFE?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-06-30"
+  },
+  {
    "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - 블루밍비트",
    "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtd1otcWJxdzROcElqRmhLT0dEVTdfUENvSEM3eDlZYW9Xb3l4dHVEZzJrTFcyQU1CR3REOGZlM2lEVDJJMlVNcDZSc0ppV1c5?oc=5",
    "source": "블루밍비트",
    "date": "2026-03-02"
   },
   {
-   "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-01-20"
+   "title": "[유럽개장]장 초반 상승세…독일 DAX 1.39%↑ - 아시아경제",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE8yeFNmRlF6T3VoekZVZGVFSnh6OF91dGJRMFprSnBPRkV5ODUxR3NxQ0lCMkwzSTJPbnhqRFl0QmNubHBrRGlJZ3N5aFpOU1Bwa1FDclJqeEx5Y1hPRDZqdQ?oc=5",
+   "source": "아시아경제",
+   "date": "2026-03-20"
   },
   {
    "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
    "date": "2026-02-09"
-  },
-  {
-   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-02-24"
   }
  ],
  "Fidelity European Dividend": [
@@ -535,16 +535,16 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "[2026 증시전망]① 정책·유동성 업고 붉은말처럼…\"코스피 최대 5,500 가능\" - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFB6Szk4Yjd5M3EyUkpMVHFKazRoTnYta3B2dDFVblhwV1NaRzlNV2t6S1lkbGJNYloybzRXU1ZuVkE2NWEwQ004MGV2WFYtNUpK?oc=5",
-   "source": "매일경제 마켓",
-   "date": "2025-12-31"
-  },
-  {
    "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
    "source": "조세일보",
    "date": "2026-01-23"
+  },
+  {
+   "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE00TFZNWmR2UFI2bmpzd1hMRDBVSmhkUVJuRVB0bnRkM0tVcExnZmJwRWNsekRqUldVMDhSZjEzU1Zsaks2VkoyV2pYWUhXVGhFcXJlaHdkOEJZZVQxTmppQw?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2024-04-05"
   }
  ]
 };
