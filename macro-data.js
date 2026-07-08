@@ -476,7 +476,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-08T23:24:03Z",
+  "generated": "2026-07-08T23:36:30Z",
   "regime": {
     "score": 15,
     "label": "비중확대 우위",
@@ -869,7 +869,7 @@ window.MACRO = {
         "m3": 39,
         "m12": 53
       },
-      "fx_val": 1504.63,
+      "fx_val": 1505.42,
       "fx_chg": -1.9,
       "cli": 102.6,
       "phase": "확장 (Expansion)",
@@ -882,17 +882,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 5,
-        "fx": -60,
+        "fx": -58,
         "mon": 30,
         "cycle": -26
       },
       "horizon": {
-        "m1": -20,
-        "m3": -15,
+        "m1": -19,
+        "m3": -14,
         "m12": -9
       },
       "fx_val": 1.14,
-      "fx_chg": -3.0,
+      "fx_chg": -2.9,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -913,7 +913,7 @@ window.MACRO = {
         "m3": -4,
         "m12": -1
       },
-      "fx_val": 162.54,
+      "fx_val": 162.56,
       "fx_chg": -2.1,
       "cli": 100.3,
       "phase": "확장 (Expansion)",
@@ -20467,7 +20467,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2266385350656,
               "fwdpe": 21.5,
-              "pbr": 99.0,
+              "pbr": 98.75,
               "rets": {
                 "w1": -8.5,
                 "m1": 5.5,
