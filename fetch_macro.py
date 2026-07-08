@@ -205,6 +205,84 @@ def fetch_cnn_fng():
     return None
 
 
+def fetch_vkospi():
+    """VKOSPI(코스피200 변동성지수) 자동 조회.
+
+    investing.com 내부 API(instrumentId=956761, KSVKOSPI)에서 일별 종가를 가져온다.
+    이 엔드포인트는 Cloudflare가 Python urllib/requests의 TLS 지문을 차단하지만
+    curl은 통과시킨다(투자자·개발자 커뮤니티에 알려진 동작) — 그래서 curl subprocess로 호출.
+    KRX 데이터포털은 이 정보를 로그인 계정 없이는 조회 불가(확인됨)라 대안으로 사용.
+    실패 시 None → 호출부에서 기존 시드값 유지(fail-safe).
+    반환: {"current": float, "prev": float, "as_of": "YYYY-MM-DD",
+           "history": {"dates": [...], "values": [...]}} 또는 None.
+    """
+    import subprocess, json as _json
+    url = ("https://api.investing.com/api/financialdata/956761/historical/chart/"
+           "?interval=P1D&pointscount=70")
+    ua = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/125.0 Safari/537.36")
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "--max-time", "20", "-A", ua,
+             "-H", "Accept: application/json",
+             "-H", "Referer: https://kr.investing.com/indices/kospi-volatility",
+             url],
+            capture_output=True, timeout=25, check=True,
+        )
+        data = _json.loads(r.stdout.decode("utf-8", errors="replace"))
+        rows = data.get("data") or []
+        if len(rows) < 2:
+            raise ValueError("데이터 부족")
+        dates, vals = [], []
+        for ts, o, h, l, c, *_ in rows:
+            d = datetime.fromtimestamp(ts / 1000, timezone.utc).date().isoformat()
+            dates.append(d)
+            vals.append(round(float(c), 2))
+        return {"current": vals[-1], "prev": vals[-2], "as_of": dates[-1],
+                "history": {"dates": dates, "values": vals}}
+    except Exception as e:
+        print(f"  [err] VKOSPI 자동조회 실패(시드값 유지): {e}")
+        return None
+
+
+def fetch_ism_pmi():
+    """ISM 제조업 PMI 자동 조회.
+
+    investing.com 경제캘린더 페이지(event_id=173)에 내장된 __NEXT_DATA__ JSON에서
+    최신 발표치(actual/previous/발표일)를 추출. FRED는 2016년 라이선스 문제로
+    ISM PMI 배포를 중단해 대안으로 사용. investing.com도 Cloudflare가 Python
+    TLS 지문을 막아 curl subprocess 필요(fetch_vkospi와 동일 이유).
+    실패 시 None → 호출부에서 기존 시드값 유지(fail-safe).
+    반환: {"current": float, "prev": float, "as_of": "YYYY-MM-DD"} 또는 None.
+    """
+    import subprocess, re as _re, json as _json
+    url = "https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173"
+    ua = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/125.0 Safari/537.36")
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "--compressed", "--max-time", "20", "-A", ua, url],
+            capture_output=True, timeout=25, check=True,
+        )
+        html = r.stdout.decode("utf-8", errors="replace")
+        m = _re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', html, _re.S)
+        if not m:
+            raise ValueError("__NEXT_DATA__ 없음")
+        data = _json.loads(m.group(1))
+        s = _json.dumps(data)
+        idx = s.find('"closestOccurrences"')
+        if idx < 0:
+            raise ValueError("closestOccurrences 없음")
+        window = s[idx:idx + 600]
+        actual = float(_re.search(r'"actual":\s*([\d.]+)', window).group(1))
+        prev = float(_re.search(r'"previous":\s*([\d.]+)', window).group(1))
+        as_of = _re.search(r'"occurrence_time":\s*"([^"]{10})', window).group(1)
+        return {"current": actual, "prev": prev, "as_of": as_of}
+    except Exception as e:
+        print(f"  [err] ISM PMI 자동조회 실패(시드값 유지): {e}")
+        return None
+
+
 def fetch_multpl(slug):
     """multpl.com 월별 테이블 → (dates[ISO], values[float]). 실패 시 ([],[])."""
     import re, html as _html
@@ -1934,6 +2012,26 @@ def build():
         print(f"  [ok] CNN F&G {fng['current']} (직전 {fng['prev']}, {fng['as_of']})")
     else:
         print("  [skip] CNN F&G 시드값 유지")
+    vk = fetch_vkospi()
+    if vk:
+        seed = MANUAL["vkospi"]
+        sent_manual["vkospi"] = {**seed, "current": vk["current"], "prev": vk["prev"],
+                                  "as_of": vk["as_of"], "history": vk["history"],
+                                  "source": {"name": "investing.com (KSVKOSPI)",
+                                             "url": "https://kr.investing.com/indices/kospi-volatility"}}
+        print(f"  [ok] VKOSPI {vk['current']} (직전 {vk['prev']}, {vk['as_of']})")
+    else:
+        print("  [skip] VKOSPI 시드값 유지")
+    ism = fetch_ism_pmi()
+    if ism:
+        seed = MANUAL["ism_pmi"]
+        sent_manual["ism_pmi"] = {**seed, "current": ism["current"], "prev": ism["prev"],
+                                   "as_of": ism["as_of"],
+                                   "source": {"name": "investing.com (ISM 제조업 PMI)",
+                                              "url": "https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173"}}
+        print(f"  [ok] ISM PMI {ism['current']} (직전 {ism['prev']}, {ism['as_of']})")
+    else:
+        print("  [skip] ISM PMI 시드값 유지")
     flows_manual, kr_flows_ts = load_kr_flows()
     for key, m in {**sent_manual, **flows_manual}.items():
         score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
