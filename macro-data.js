@@ -476,7 +476,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-09T23:24:22Z",
+  "generated": "2026-07-09T23:44:52Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -1018,7 +1018,7 @@ window.MACRO = {
         "avg10y": 101.3,
         "dev_pct": 5.9
       },
-      "fx12m": 11.2,
+      "fx12m": 11.3,
       "cli": 101.0,
       "phase": "확장 (Expansion)",
       "mon_note": "Fed 동결·인하 지연(제약적)"
@@ -1039,7 +1039,7 @@ window.MACRO = {
         "m3": 37,
         "m12": 52
       },
-      "fx_val": 1505.8,
+      "fx_val": 1506.5,
       "fx_chg": -2.5,
       "reer": {
         "cur": 84.8,
@@ -1086,17 +1086,17 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 20,
-        "fx": -46,
+        "fx": -44,
         "mon": -40,
         "cycle": 20
       },
       "horizon": {
-        "m1": -12,
+        "m1": -11,
         "m3": -5,
-        "m12": -2
+        "m12": -1
       },
-      "fx_val": 162.38,
-      "fx_chg": -2.3,
+      "fx_val": 162.36,
+      "fx_chg": -2.2,
       "reer": {
         "cur": 65.9,
         "avg10y": 87.8,
@@ -1114,23 +1114,23 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -54,
-        "fx": 8,
+        "fx": 6,
         "mon": 30,
         "cycle": -20
       },
       "horizon": {
-        "m1": -13,
+        "m1": -14,
         "m3": -5,
         "m12": 3
       },
-      "fx_val": 6.8,
-      "fx_chg": 0.4,
+      "fx_val": 6.79,
+      "fx_chg": 0.3,
       "reer": {
         "cur": 90.9,
         "avg10y": 98.0,
         "dev_pct": -7.3
       },
-      "fx12m": 16.5,
+      "fx12m": 16.7,
       "cli": 98.9,
       "phase": "회복 (Recovery)",
       "mon_note": "인민은행 부양(+)"
@@ -13020,7 +13020,7 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 9.5,
+      "current": 9.7,
       "unit": "%",
       "z": -0.28,
       "pct": 42.7,
@@ -15644,7 +15644,7 @@ window.MACRO = {
       "current": 1.51,
       "unit": "",
       "z": -1.13,
-      "pct": 5.6,
+      "pct": 6.0,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
@@ -16185,7 +16185,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.512
+          1.513
         ]
       },
       "z_from": "2000-08",
@@ -26517,7 +26517,7 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[완만한 호재 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.38%p(호재)·WTI 유가 (YoY) 9.5%(악재)",
+    "macro": "[완만한 호재 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.38%p(호재)·WTI 유가 (YoY) 9.7%(악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.9배(악재)·KOSPI 12M Fwd PER 5.1배(강한 호재)·주식위험프리미엄(ERP) 0.48%p(중립)·미국 10Y 금리 4.54%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.56%p(호재)·USD/KRW 1503.3원(중립)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 110.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.0조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 15.8(호재)·S&P500 12M 모멘텀 19.0%(강한 호재)·CNN 공포·탐욕 지수 47(중립)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
