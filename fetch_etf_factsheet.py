@@ -25,6 +25,14 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
+# GitHub Actions 러너는 UTC. dt.date.today()를 그대로 쓰면 밤~새벽(KST) 실행 시
+# as_of가 하루 전 날짜로 찍혀 "오늘 갱신 안 됨"처럼 보임 → KST 기준 날짜로 고정.
+KST = dt.timezone(dt.timedelta(hours=9))
+
+
+def today_kst():
+    return dt.datetime.now(KST).date()
+
 # yfinance가 벤치마크(추종지수) 필드를 제공하지 않아 수동 보강 — fm-data.js ETF 유니버스 고정 세트.
 BENCHMARK_MAP = {
     "SMH": "MVIS US Listed Semiconductor 25 Index", "SOXX": "ICE Semiconductor Index",
@@ -150,7 +158,7 @@ def compute_returns(yf_symbol):
 
     ytd = None
     try:
-        this_year = c.index.year == dt.date.today().year
+        this_year = c.index.year == today_kst().year
         ys = c[this_year]
         if len(ys) > 1:
             ytd = round((cur / float(ys.iloc[0]) - 1) * 100, 1)
@@ -274,7 +282,7 @@ def main():
     universe = etf_universe(fm)
     prev_payload = load_prev_payload()
     prev = prev_payload.get("data") or {}
-    today = dt.date.today().isoformat()
+    today = today_kst().isoformat()
     out = {}
     failed = []
     for e in universe:
