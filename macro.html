@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-07-10a";</script>
+<script>window.CODE_VERSION = "2026-07-10b";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -1219,6 +1219,17 @@ function krCreditChart(canvas, dates, idx, credit, idxName) {
   var barColor = getComputedStyle(document.documentElement).getPropertyValue('--theme') === 'dark'
     ? 'rgba(96,165,250,0.55)' : 'rgba(59,130,246,0.45)';
   var barBorder = daily ? 'rgba(59,130,246,0.0)' : 'rgba(59,130,246,0.7)';
+  // 신용잔고 축을 0부터가 아니라 실제 변동폭에 맞춰 확대 — 미세한 증감도 눈에 띄게
+  var cVals = (credit || []).filter(function (v) { return v != null; });
+  var cMin = cVals.length ? Math.min.apply(null, cVals) : 0;
+  var cMax = cVals.length ? Math.max.apply(null, cVals) : 1;
+  var cPad = Math.max((cMax - cMin) * 0.15, cMax * 0.01, 0.1);
+  var cAxis = { min: +(cMin - cPad).toFixed(2), max: +(cMax + cPad).toFixed(2) };
+  var iVals = (idx || []).filter(function (v) { return v != null; });
+  var iMin = iVals.length ? Math.min.apply(null, iVals) : 0;
+  var iMax = iVals.length ? Math.max.apply(null, iVals) : 1;
+  var iPad = Math.max((iMax - iMin) * 0.15, iMax * 0.01, 0.1);
+  var iAxis = { min: +(iMin - iPad).toFixed(2), max: +(iMax + iPad).toFixed(2) };
   var c = new Chart(canvas.getContext('2d'), {
     data: { labels: dates, datasets: [
       { type: 'bar', label: '신용잔고(조)', data: credit,
@@ -1234,8 +1245,8 @@ function krCreditChart(canvas, dates, idx, credit, idxName) {
             label: function (i) { return i.dataset.label + ': ' + (i.dataset.yAxisID === 'y1' ? i.raw + '조' : i.raw); } } } },
       scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: daily ? 8 : 6, font: { size: 8 }, color: cssVar('--muted'),
           callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(2, 7) : ''; } } },
-        y: { position: 'right', grid: { display: false }, ticks: { font: { size: 8 }, color: '#f97316' } },
-        y1: { position: 'left', grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: 'rgba(59,130,246,0.8)', callback: function (v) { return v + '조'; } } } } }
+        y: { position: 'right', min: iAxis.min, max: iAxis.max, grid: { display: false }, ticks: { font: { size: 8 }, color: '#f97316' } },
+        y1: { position: 'left', min: cAxis.min, max: cAxis.max, grid: { color: cssVar('--border') }, ticks: { font: { size: 8 }, color: 'rgba(59,130,246,0.8)', callback: function (v) { return v + '조'; } } } } }
   });
   CHARTS.push(c);
 }
