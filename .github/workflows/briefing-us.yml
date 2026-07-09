@@ -53,6 +53,12 @@ jobs:
           python fetch_daily.py || true
           python fetch_benchmarks.py || true
 
+      # 지연된 백업 런들이 몰려도 중복 생성·발송하지 않도록, 생성 직전 origin 최신 아카이브로 동기화.
+      - name: Sync briefing archive from origin
+        run: |
+          git fetch origin main || true
+          git checkout origin/main -- briefings-archive.js briefing-data.js briefings 2>/dev/null || true
+
       - name: Generate briefing (Claude Code, 구독 차감)
         id: gen
         env:
@@ -61,10 +67,18 @@ jobs:
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
         run: python briefing/generate_briefing.py us --skip-if-exists
 
-      - name: Commit & push briefing files
+      # 발송을 커밋보다 먼저 — 아카이브 커밋 경합이 이메일 발송을 막거나 지연시키지 않도록.
+      - name: Send email (SMTP)
+        if: steps.gen.outputs.status == 'generated'
+        env:
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python briefing/send_email_us.py briefings-archive.js ${{ steps.gen.outputs.as_of }}
+
+      # 아카이브 커밋은 best-effort — 실패해도 잡을 실패시키지 않는다(이메일은 이미 발송됨).
+      - name: Commit & push briefing files (best-effort)
         if: steps.gen.outputs.status == 'generated'
         run: |
-          set -e
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -- daily-data.js benchmarks.js 2>/dev/null || true
@@ -74,21 +88,19 @@ jobs:
           fi
           git commit -m "briefing: ${{ steps.gen.outputs.as_of }} 미국장 마감 시황 브리핑"
           for attempt in 1 2 3; do
-            git fetch origin main
+            git fetch origin main || true
             if git rebase origin/main && git push; then
               echo "push 성공 (attempt $attempt)"; exit 0
             fi
             git rebase --abort 2>/dev/null || true
+            # 다른 런이 이미 오늘치를 커밋했으면 우리 커밋은 불필요 — 정상 종료.
+            if git cat-file -p origin/main:briefings-archive.js 2>/dev/null \
+                 | grep -q "\"as_of\": \"${{ steps.gen.outputs.as_of }}\""; then
+              echo "origin 에 이미 ${{ steps.gen.outputs.as_of }} 존재 — 커밋 생략"; exit 0
+            fi
             sleep $((attempt * 5))
           done
-          echo "::error::3회 시도 후 push 실패"; exit 1
-
-      - name: Send email (SMTP)
-        if: steps.gen.outputs.status == 'generated'
-        env:
-          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python briefing/send_email_us.py briefings-archive.js ${{ steps.gen.outputs.as_of }}
+          echo "::warning::아카이브 push 실패 — 이메일은 발송 완료, 아카이브는 다음 런에서 반영"; exit 0
 
       - name: Re-send existing briefing email (manual)
         if: ${{ github.event.inputs.send_as_of != '' }}
