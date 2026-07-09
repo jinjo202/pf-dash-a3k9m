@@ -475,25 +475,8 @@ window.MACRO = {
       "as_of": "2026-07-09"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-07-09",
-      "type": "release",
-      "key": "oil_yoy",
-      "title": "WTI 유가 (YoY)",
-      "detail": "13.6% → 12.2% (2026-07-09 발표)",
-      "as_of": "2026-07-09"
-    },
-    {
-      "date": "2026-07-09",
-      "type": "release",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "42 → 42 (2026-07-09 발표)",
-      "as_of": "2026-07-09"
-    }
-  ],
-  "generated": "2026-07-09T07:28:27Z",
+  "updates_today": [],
+  "generated": "2026-07-09T10:07:43Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -511,7 +494,7 @@ window.MACRO = {
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 30,
+        "score": 29,
         "n": 7
       },
       "sentiment": {
@@ -877,17 +860,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 21,
-        "fx": -42,
+        "fx": -48,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 13,
-        "m3": 38,
-        "m12": 53
+        "m1": 11,
+        "m3": 37,
+        "m12": 52
       },
-      "fx_val": 1508.05,
-      "fx_chg": -2.1,
+      "fx_val": 1512.28,
+      "fx_chg": -2.4,
       "cli": 102.6,
       "phase": "확장 (Expansion)",
       "mon_note": "BOK 동결·완화 여지"
@@ -899,7 +882,7 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 5,
-        "fx": -56,
+        "fx": -58,
         "mon": 30,
         "cycle": -26
       },
@@ -909,7 +892,7 @@ window.MACRO = {
         "m12": -9
       },
       "fx_val": 1.14,
-      "fx_chg": -2.8,
+      "fx_chg": -2.9,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -930,7 +913,7 @@ window.MACRO = {
         "m3": -4,
         "m12": -1
       },
-      "fx_val": 162.37,
+      "fx_val": 162.41,
       "fx_chg": -2.0,
       "cli": 100.3,
       "phase": "확장 (Expansion)",
@@ -16178,13 +16161,13 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1508.8,
+      "current": 1512.3,
       "unit": "원",
       "z": 2.78,
       "pct": 99.7,
-      "score": -0.12,
-      "signal": "중립",
-      "signal_cls": "neu",
+      "score": -0.21,
+      "signal": "악재",
+      "signal_cls": "neg",
       "desc": "원화 약세는 위험회피·외인 유출",
       "as_of": "2026-07-09",
       "history": {
@@ -16851,7 +16834,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "공포 게이지. 낮을수록 안정",
-      "as_of": "2026-07-08",
+      "as_of": "2026-07-09",
       "history": {
         "dates": [
           "2000-01-01",
@@ -20492,7 +20475,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2266385350656,
               "fwdpe": 21.5,
-              "pbr": 99.0,
+              "pbr": 98.75,
               "rets": {
                 "w1": -8.5,
                 "m1": 5.5,
@@ -22960,10 +22943,10 @@ window.MACRO = {
   "commentary": {
     "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.35%p(호재)·WTI 유가 (YoY) 12.2%(악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.6배(악재)·KOSPI 12M Fwd PER 5.1배(강한 호재)·주식위험프리미엄(ERP) 0.55%p(중립)·미국 10Y 금리 4.57%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.55%p(강한 호재)·USD/KRW 1508.8원(중립)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 112.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.0조원(중립)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.55%p(강한 호재)·USD/KRW 1512.3원(악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 112.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.0조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 16.9(중립)·S&P500 12M 모멘텀 18.0%(강한 호재)·CNN 공포·탐욕 지수 42(악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.594(강한 상향)·미국 Fwd EPS 수정(1개월) 0.1%(유지)·한국 ERR(이익수정비율) 0.237(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",
-    "overall": "종합 레짐 점수 +16. 매크로 -13, 밸류 -3, 수급 +30, 센티 +11, 기업이익 +51."
+    "overall": "종합 레짐 점수 +16. 매크로 -13, 밸류 -3, 수급 +29, 센티 +11, 기업이익 +51."
   },
   "outlook": {
     "short": {
