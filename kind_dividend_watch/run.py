@@ -172,19 +172,25 @@ def cmd_once(dry_run: bool) -> None:
     if not recipients:
         print("❌ RECIPIENT_EMAILS 미설정", file=sys.stderr)
         sys.exit(1)
-    _sync_and_notify(recipients, dry_run)
-    dart = _make_dart()
-    n = monitor.run_cycle(
-        dart,
-        smtp_user=_require("SMTP_USER"),
-        smtp_pass=_require("SMTP_PASS"),
-        sender=_clean(os.getenv("SENDER_EMAIL") or _require("SMTP_USER")),
-        recipients=recipients,
-        days=int(os.getenv("LOOKBACK_DAYS", "1")),
-        dry_run=dry_run,
-    )
-    dart.close()
-    print(f"\n{'🧪 DRY-RUN' if dry_run else '✅'} 사이클 종료 — 신규 발송 {n}건")
+    # 네트워크 일시 오류(타임아웃 등)는 이번 사이클만 건너뛴다 → 워크플로 실패 알림 방지.
+    # 다음 스케줄(30분 후)에 자동 복구. 설정/로직 오류는 그대로 전파돼 드러난다.
+    import requests
+    try:
+        _sync_and_notify(recipients, dry_run)
+        dart = _make_dart()
+        n = monitor.run_cycle(
+            dart,
+            smtp_user=_require("SMTP_USER"),
+            smtp_pass=_require("SMTP_PASS"),
+            sender=_clean(os.getenv("SENDER_EMAIL") or _require("SMTP_USER")),
+            recipients=recipients,
+            days=int(os.getenv("LOOKBACK_DAYS", "1")),
+            dry_run=dry_run,
+        )
+        dart.close()
+        print(f"\n{'🧪 DRY-RUN' if dry_run else '✅'} 사이클 종료 — 신규 발송 {n}건")
+    except (requests.exceptions.RequestException, TimeoutError, ConnectionError, OSError) as e:
+        print(f"⏭️  일시적 네트워크 오류 — 이번 사이클 건너뜀(다음 실행에 복구): {e}")
 
 
 def cmd_test_email() -> None:
