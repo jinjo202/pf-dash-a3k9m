@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-06a";</script>
+<script>window.CODE_VERSION = "2026-07-09a";</script>
 <script>
   (function () {
     try {
@@ -508,6 +508,7 @@
     border-radius:12px; padding:14px 16px; box-shadow:var(--shadow-sm);
   }
   .sh-title { font-size:14px; font-weight:800; margin-bottom:10px; display:flex; align-items:center; }
+  .sh-note { font-size:10.5px; color:var(--muted); margin-top:8px; }
   .sh-close { margin-left:auto; font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; padding:2px 8px; border-radius:6px; }
   .sh-close:hover { background:var(--neu-soft); color:var(--text); }
   .sh-table { width:100%; border-collapse:collapse; font-size:12.5px; }
@@ -1773,7 +1774,7 @@ function makeSpark(data, opts) {
       html += '<div class="panel-title">🗂 미국 GICS 섹터 (SPDR ETF 기준)' +
         (usR.as_of ? ' <span style="font-size:11px;font-weight:600;color:var(--muted)">· ' + usR.as_of + ' 종가</span>' : '') + '</div>';
       html += '<div class="panel-hint">S&P 500 11개 GICS 섹터 일간·월초(MTD)·연초(YTD) 등락. XLK·XLF·XLV 등 SPDR 섹터 ETF 종가 기준.</div>';
-      html += renderSectorHeatmap(usR.sectors);
+      html += renderSectorHeatmap(usR.sectors, usR.stocks);
       html += '</div>';
     }
 
@@ -1882,12 +1883,27 @@ function makeSpark(data, opts) {
 
   /* ── 섹터 히트맵 ── */
   var _sectorHold = {};
-  function renderSectorHeatmap(sectors) {
+  var _sectorHoldSynthetic = {};
+  // 지역 자체 종목 유니버스(r.stocks)를 섹터별로 그룹핑 — 미국 SPDR ETF 구성종목이 없는
+  // 지역(유럽·중국·일본·한국)의 대체 데이터 소스. 이미 로드된 실데이터만 재사용(가공 없음).
+  function sectorHoldingsFromStocks(sectorName, stocks) {
+    if (!stocks || !stocks.length) return null;
+    var list = stocks.filter(function(x){ return x.sector === sectorName; });
+    if (!list.length) return null;
+    list = list.slice().sort(function(a, b){ return (b.mktcap || 0) - (a.mktcap || 0); });
+    return list.map(function(x){
+      return { name: x.name, ticker: x.ticker, mktcap: x.mktcap, daily: x.chgPct, mtd: x.mtdPct, ytd: x.ytdPct };
+    });
+  }
+  function renderSectorHeatmap(sectors, fallbackStocks) {
     var html = '<div class="sector-grid">';
     sectors.forEach(function(s) {
       var cls = heatClass(s.chgPct);
-      var has = s.holdings && s.holdings.length;
-      if (has) _sectorHold[s.name] = s.holdings;
+      var native = s.holdings && s.holdings.length;
+      var holds = native ? s.holdings : sectorHoldingsFromStocks(s.name, fallbackStocks);
+      var synthetic = !native && !!holds;
+      var has = !!(holds && holds.length);
+      if (has) { _sectorHold[s.name] = holds; _sectorHoldSynthetic[s.name] = synthetic; }
       var perfBits = [];
       if (s.mtdPct != null) perfBits.push('MTD ' + (s.mtdPct>0?'+':'') + fmt(s.mtdPct,1) + '%');
       if (s.ytdPct != null) perfBits.push('YTD ' + (s.ytdPct>0?'+':'') + fmt(s.ytdPct,1) + '%');
@@ -1897,7 +1913,7 @@ function makeSpark(data, opts) {
         '<div class="spct">' + fmtPct(s.chgPct) + '</div>' +
         (perfBits.length ? '<div class="sperf">' + perfBits.join(' · ') + '</div>' : '') +
         (s.etf ? '<div class="setf">' + s.etf + '</div>' : '') +
-        (has ? '<div class="smore">상위10 ▾</div>' : '') +
+        (has ? '<div class="smore">' + (native ? '상위10 ▾' : '구성종목 ▾') + '</div>' : '') +
         '</div>';
     });
     html += '</div>';
@@ -1913,33 +1929,75 @@ function makeSpark(data, opts) {
     if (usd >= 1e6)  return '$' + (usd/1e6).toFixed(0) + 'M';
     return '$' + usd.toFixed(0);
   }
-  function fmtMktcapKrw(usd) {
-    var krw = (D && D.krw) || 0;
-    if (usd == null || !krw) return '';
-    var won = usd * krw;
-    if (won >= 1e12) return '₩' + (won/1e12).toFixed(1) + '조';
-    if (won >= 1e8)  return '₩' + Math.round(won/1e8).toLocaleString('ko-KR') + '억';
-    return '₩' + (won/1e8).toFixed(2) + '억';
+  // 티커 접미사로 시총 원통화 판별 — yfinance는 거래소 통화 그대로 mktcap을 반환하므로
+  // (예: .KS→원화, .T→엔화, .HK→홍콩달러) 무조건 $ 표기하면 수십~수천배 오차가 생김.
+  var TICKER_CCY = [
+    { re: /\.(KS|KQ)$/i, sym: '₩', group: 'ea' },
+    { re: /\.T$/i,       sym: '¥', group: 'ea' },
+    { re: /\.(SS|SZ)$/i, sym: '¥', group: 'ea' },
+    { re: /\.HK$/i,      sym: 'HK$', group: 'wide' },
+    { re: /\.(DE|PA|AS|MC|BR)$/i, sym: '€', group: 'wide' },
+    { re: /\.SW$/i,      sym: 'Fr', group: 'wide' },
+    { re: /\.L$/i,       sym: '£', group: 'wide' },
+    { re: /\.CO$/i,      sym: 'kr', group: 'wide' },
+  ];
+  function tickerCcy(ticker) {
+    if (!ticker) return null;
+    for (var i = 0; i < TICKER_CCY.length; i++) if (TICKER_CCY[i].re.test(ticker)) return TICKER_CCY[i];
+    return null;
   }
-  function renderSectorHoldings(name, holds) {
+  // 동아시아(원/엔/위안) 조·억 표기
+  function fmtMktcapEA(v, sym) {
+    if (v >= 1e12) return sym + (v / 1e12).toFixed(1) + '조';
+    if (v >= 1e8)  return sym + Math.round(v / 1e8).toLocaleString('ko-KR') + '억';
+    return sym + Math.round(v).toLocaleString('ko-KR');
+  }
+  // 그 외 통화 T/B/M 표기(달러 포맷과 동일 스케일, 기호만 교체)
+  function fmtMktcapWide(v, sym) {
+    if (v >= 1e12) return sym + (v / 1e12).toFixed(2) + 'T';
+    if (v >= 1e9)  return sym + (v / 1e9).toFixed(1) + 'B';
+    if (v >= 1e6)  return sym + (v / 1e6).toFixed(0) + 'M';
+    return sym + v.toFixed(0);
+  }
+  // 종목 시총 표기: 티커로 원통화 판별 후 정확히 표기. 원화(KRW)만 실시간 환율(D.krw) 보유해
+  // USD/원화 병기, 그 외 통화(JPY/CNY/EUR 등)는 실시간 환율 데이터가 없어 무리한 달러 환산 없이
+  // 현지통화 그대로 정직하게 표기.
+  // plain=true: HTML을 못 쓰는 컨텍스트(title 속성 등)용 — 태그 없는 순수 텍스트 반환
+  function fmtMktcapByTicker(v, ticker, plain) {
+    if (v == null) return '—';
+    var c = tickerCcy(ticker);
+    if (!c) return fmtMktcapUsd(v);   // 접미사 없음 = 미국(USD)
+    if (c.sym === '₩') {
+      var krw = (D && D.krw) || 0;
+      var local = fmtMktcapEA(v, c.sym);
+      if (!krw) return local;
+      var usdPart = fmtMktcapUsd(v / krw);
+      return plain ? (usdPart + ' (' + local + ')') : (usdPart + ' <span class="sh-krw">(' + local + ')</span>');
+    }
+    return c.group === 'ea' ? fmtMktcapEA(v, c.sym) : fmtMktcapWide(v, c.sym);
+  }
+  function renderSectorHoldings(name, holds, synthetic) {
     if (!holds || !holds.length) return '<div class="empty-note">' + escHtml(name) + ' 상위 종목 데이터 없음</div>';
     var rows = holds.map(function(h, i) {
       return '<tr>' +
         '<td class="sh-rank">' + (i+1) + '</td>' +
         '<td class="sh-name">' + escHtml(stockLabel(h.name, h.ticker)) + '</td>' +
-        '<td class="sh-mc">' + fmtMktcapUsd(h.mktcap) +
-          (h.mktcap ? ' <span class="sh-krw">(' + fmtMktcapKrw(h.mktcap) + ')</span>' : '') + '</td>' +
+        '<td class="sh-mc">' + fmtMktcapByTicker(h.mktcap, h.ticker) + '</td>' +
         '<td class="mom ' + colorClass(h.daily) + '">' + fmtPct(h.daily) + '</td>' +
         '<td class="mom ' + colorClass(h.mtd) + '">' + fmtPct(h.mtd) + '</td>' +
         '<td class="mom ' + colorClass(h.ytd) + '">' + fmtPct(h.ytd) + '</td>' +
       '</tr>';
     }).join('');
-    return '<div class="sh-title">📊 ' + escHtml(name) + ' 상위 ' + holds.length + '종목' +
+    var titleWord = synthetic ? '구성' : '상위';
+    var note = synthetic
+      ? '<div class="sh-note">※ 섹터 ETF 구성종목이 아닌, 이 지역 커버 유니버스 내 해당 섹터 종목(시총순)입니다 — 시장 전체 상위 종목과 다를 수 있습니다.</div>'
+      : '';
+    return '<div class="sh-title">📊 ' + escHtml(name) + ' ' + titleWord + ' ' + holds.length + '종목' +
       ' <span class="sh-close" onclick="showSectorHoldings(\'' + escHtml(name).replace(/'/g,'') + '\')">✕ 닫기</span></div>' +
       '<table class="sh-table"><thead><tr>' +
       '<th></th><th>종목</th><th style="text-align:right">시총 (원화환산)</th>' +
       '<th style="text-align:right">일간</th><th style="text-align:right">MTD</th><th style="text-align:right">YTD</th>' +
-      '</tr></thead><tbody>' + rows + '</tbody></table>';
+      '</tr></thead><tbody>' + rows + '</tbody></table>' + note;
   }
   window.showSectorHoldings = function(name) {
     var panel = document.getElementById('sectorHoldPanel');
@@ -1948,7 +2006,7 @@ function makeSpark(data, opts) {
     if (panel.dataset.open === name && panel.style.display !== 'none') {
       panel.style.display = 'none'; panel.dataset.open = ''; return;
     }
-    panel.innerHTML = renderSectorHoldings(name, _sectorHold[name]);
+    panel.innerHTML = renderSectorHoldings(name, _sectorHold[name], _sectorHoldSynthetic[name]);
     panel.style.display = 'block'; panel.dataset.open = name;
     var cell = document.querySelector('.sector-cell[data-sector="' + name + '"]');
     if (cell) cell.classList.add('sel');
@@ -2039,7 +2097,7 @@ function makeSpark(data, opts) {
           if (hpx > 30) label += '<span class="tm-pct" style="font-size:' + Math.max(8, Math.min(14, tf - 2)) + 'px">' + fmtPct(s.chgPct) + '</span>';
         }
         var tip = (s.name || s.ticker) + (s.ticker ? ' (' + s.ticker + ')' : '') + ' · ' + fmtPct(s.chgPct) +
-          ' · 시총 ' + fmtMktcapUsd(s.mktcap);
+          ' · 시총 ' + fmtMktcapByTicker(s.mktcap, s.ticker, true);
         html += '<div class="tm-tile ' + heatClass(s.chgPct) + '" title="' + escHtml(tip) + '" style="left:' +
           pct(t.x, W) + ';top:' + pct(t.y, H) + ';width:' + pct(t.w, W) + ';height:' + pct(t.h, H) + '">' +
           label + '</div>';
@@ -2117,8 +2175,7 @@ function makeSpark(data, opts) {
     var rankCls = i < 3 ? 'gf-rank top3' : 'gf-rank';
     var meta = [];
     if (s.sector) meta.push(escHtml(s.sector));
-    if (s.mktcap) meta.push('시총 <b>' + fmtMktcapUsd(s.mktcap) + '</b>' +
-        ((D && D.krw) ? ' (' + fmtMktcapKrw(s.mktcap) + ')' : ''));
+    if (s.mktcap) meta.push('시총 <b>' + fmtMktcapByTicker(s.mktcap, s.ticker) + '</b>');
     if (s.fwdPER != null) meta.push('Fwd PER <b>' + s.fwdPER + '</b>');
     if (s.ytdPct != null) meta.push('<span class="' + (s.ytdPct>=0?'mpos':'mneg') + '">YTD ' + (s.ytdPct>0?'+':'') + fmt(s.ytdPct,1) + '%</span>');
     if (s.mtdPct != null) meta.push('<span class="' + (s.mtdPct>=0?'mpos':'mneg') + '">MTD ' + (s.mtdPct>0?'+':'') + fmt(s.mtdPct,1) + '%</span>');
@@ -2257,7 +2314,7 @@ function makeSpark(data, opts) {
       } else {
         html += '<div class="panel-hint">유니버스 구성 종목의 GICS 섹터 평균 일간·월초(MTD)·연초(YTD) 등락</div>';
       }
-      html += renderSectorHeatmap(r.sectors);
+      html += renderSectorHeatmap(r.sectors, r.stocks);
       html += '</div>';
     }
     html += '</div>'; // .two-col
