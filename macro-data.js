@@ -476,7 +476,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-09T10:33:06Z",
+  "generated": "2026-07-09T10:39:51Z",
   "regime": {
     "score": 16,
     "label": "비중확대 우위",
@@ -869,7 +869,7 @@ window.MACRO = {
         "m3": 37,
         "m12": 52
       },
-      "fx_val": 1512.26,
+      "fx_val": 1511.88,
       "fx_chg": -2.4,
       "cli": 102.6,
       "phase": "확장 (Expansion)",
@@ -926,17 +926,17 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -54,
-        "fx": 14,
+        "fx": 10,
         "mon": 30,
         "cycle": -20
       },
       "horizon": {
-        "m1": -11,
+        "m1": -12,
         "m3": -4,
-        "m12": 4
+        "m12": 3
       },
-      "fx_val": 6.78,
-      "fx_chg": 0.7,
+      "fx_val": 6.79,
+      "fx_chg": 0.5,
       "cli": 98.9,
       "phase": "회복 (Recovery)",
       "mon_note": "인민은행 부양(+)"
@@ -12826,11 +12826,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 12.5,
+      "current": 12.6,
       "unit": "%",
       "z": -0.28,
       "pct": 42.7,
-      "score": -0.31,
+      "score": -0.32,
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
@@ -22941,7 +22941,7 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.35%p(호재)·WTI 유가 (YoY) 12.5%(악재)",
+    "macro": "[부담 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.35%p(호재)·WTI 유가 (YoY) 12.6%(악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.6배(악재)·KOSPI 12M Fwd PER 5.1배(강한 호재)·주식위험프리미엄(ERP) 0.55%p(중립)·미국 10Y 금리 4.57%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.55%p(강한 호재)·USD/KRW 1512.2원(악재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 112.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.0조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 16.9(중립)·S&P500 12M 모멘텀 18.0%(강한 호재)·CNN 공포·탐욕 지수 42(악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
