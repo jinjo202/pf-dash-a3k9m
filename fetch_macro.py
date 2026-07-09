@@ -492,6 +492,32 @@ def score_indicator(key, cur, hist_vals, ctx):
     if key == "oil_yoy":
         # 유가 급등(인플레/비용) 악재
         return clamp(-cur / 40.0)
+    if key == "t10y3m":
+        # NY Fed probit 기준 스프레드. 역전 심화 = 침체 경고, 가파른 정상화 = 회복
+        if cur < 0:
+            return clamp(cur / 0.7)
+        return clamp(cur / 1.5)
+    if key == "cfnai":
+        # CFNAI-MA3: 0=추세성장, -0.7=침체 임계(시카고연준 공식)
+        return clamp((cur + 0.35) / 0.45)
+    if key == "sahm":
+        # Sahm(2019): 0.5%p 이상 = 침체 시작. 0 근처 = 노동시장 안정
+        return clamp((0.25 - cur) / 0.25)
+    if key == "copper_gold":
+        # 레벨보다 추세 — 6개월 변화율(성장 기대 방향)
+        if len(hist_vals) >= 7 and hist_vals[-7]:
+            chg6 = (hist_vals[-1] / hist_vals[-7] - 1) * 100
+            return clamp(chg6 / 15.0)
+        return 0.0
+    if key == "hy_oas":
+        # HY OAS: ~4.2% 중립(장기 중앙값), 3% 미만 타이트(위험선호 강), 6%+ 스트레스
+        return clamp((4.2 - cur) / 1.8)
+    if key == "nfci":
+        # 0=역사평균. 음수=완화적(호재), 양수=긴축적(악재)
+        return clamp(-cur / 0.5)
+    if key == "move":
+        # 채권 변동성. ~95 중립, 낮을수록 금리 안정(호재), 130+ 스트레스
+        return clamp((95 - cur) / 40.0)
     if key == "spx_mom":
         # 12개월 모멘텀 + 200일선 위/아래
         m = clamp(cur / 15.0)
@@ -573,6 +599,10 @@ INDICATORS = [
     ("cli_us",       "OECD 경기선행지수(미)", "macro", "USALOLITOAASTSAM", "level", 1, "", "100=추세선. 위·상승=확장, 아래·하락=수축 (진폭조정)"),
     ("gdpnow",       "GDPNow (애틀랜타 연준)","macro", "GDPNOW", "level", 1, "%", "실시간 GDP 성장 추정(nowcast). 발표 전 선행 추정치"),
     ("oil_yoy",      "WTI 유가 (YoY)",       "macro", "DCOILWTICO","oilyoy",1, "%",  "급등 시 인플레·비용 압력"),
+    ("t10y3m",       "장단기 금리차(10Y-3M)","macro", "T10Y3M",    "daily", 2, "%p", "NY Fed 침체모델(Estrella-Mishkin)의 기준 스프레드. 역전(<0)은 12개월 내 침체 경고 — 10Y-2Y보다 예측력 우수"),
+    ("cfnai",        "시카고연준 활동지수(MA3)","macro","CFNAI",   "ma3",   2, "",   "85개 실물지표 합성(CFNAI) 3개월 평균. 0=추세성장, -0.7 이하=침체 임계(시카고연준 공식 기준)"),
+    ("sahm",         "Sahm Rule 침체신호",   "macro", "SAHMREALTIME","level",2, "%p","실업률 3개월평균 − 직전 12개월 저점. 0.5%p 이상 = 침체 시작(1970년 이후 무오류 실시간 신호)"),
+    ("copper_gold",  "구리/금 비율",         "macro", "HG=F/GC=F", "cugd",  2, "",  "실물수요(구리) vs 안전선호(금). 상승 추세 = 글로벌 성장 기대 개선 — 10Y 금리 선행 프록시"),
     # 밸류에이션
     ("spx_fwd_pe",   "S&P500 12M Fwd PER",   "valuation", "bench", "bench", 1, "배", "이익 대비 가격. 높을수록 기대수익 낮음"),
     ("cape",         "S&P500 CAPE(실러 PE)",  "valuation", "shiller-pe", "multpl", 1, "배", "경기조정 P/E(최근 10년 평균이익). 역사평균 ~17, 높을수록 장기 고평가"),
@@ -581,10 +611,13 @@ INDICATORS = [
     ("us10y",        "미국 10Y 금리",        "valuation", "DGS10", "daily", 2, "%",  "할인율. 급등 시 밸류 부담"),
     # 수급·유동성
     ("m2_yoy",       "M2 통화량 (YoY)",      "flows", "M2SL",          "yoy",   1, "%", "유동성. 증가할수록 위험자산 우호"),
-    ("baa_spread",   "신용 스프레드(Baa-10Y)","flows", "BAA10Y",       "daily", 2, "%p","위험선호 게이지. 낮을수록 강세, 4%+ 스트레스"),
+    ("baa_spread",   "신용 스프레드(Baa-10Y)","flows", "BAA10Y",       "daily", 2, "%p","위험선호 게이지(투자등급). 낮을수록 강세, 4%+ 스트레스"),
+    ("hy_oas",       "하이일드 스프레드(OAS)","flows", "BAMLH0A0HYM2", "daily", 2, "%p","정크본드 위험프리미엄(ICE BofA). 위험선호의 가장 민감한 게이지 — 3% 미만 타이트, 6%+ 스트레스"),
+    ("nfci",         "금융환경지수(NFCI)",   "flows", "NFCI",          "daily", 2, "",  "시카고연준 105개 지표 합성 금융환경. 0=역사평균, 음수=완화적(위험자산 우호)"),
     ("usdkrw",       "USD/KRW",              "flows", "DEXKOUS",       "daily", 1, "원","원화 약세는 위험회피·외인 유출"),
     # 센티먼트
     ("vix",          "VIX 변동성",           "sentiment", "VIXCLS", "daily", 1, "",  "공포 게이지. 낮을수록 안정"),
+    ("move",         "MOVE (채권 변동성)",   "sentiment", "^MOVE",  "yfmo",  1, "",  "미 국채 옵션 내재변동성(ICE BofA). 금리 불확실성 게이지 — 80 미만 안정, 120+ 스트레스"),
     ("spx_mom",      "S&P500 12M 모멘텀",    "sentiment", "spxmom", "spxmom",1, "%",  "추세. 200일선 상회 여부 포함"),
 ]
 
@@ -598,12 +631,15 @@ PILLARS = {
 
 # 과거 유사국면 매칭에 쓸 deep-history 지표 (월간 정렬)
 ANALOG_FEATURES = ["cpi_yoy", "core_cpi_yoy", "unemployment", "fed_funds",
-                   "yield_curve", "m2_yoy", "baa_spread", "vix", "oil_yoy", "spx_mom", "cli_us"]
+                   "yield_curve", "m2_yoy", "baa_spread", "vix", "oil_yoy", "spx_mom", "cli_us",
+                   "t10y3m", "nfci", "cfnai", "sahm"]   # hy_oas는 FRED 3년 제한으로 제외
 ANALOG_LABELS = {
     "cpi_yoy": "인플레", "core_cpi_yoy": "근원물가", "unemployment": "실업률",
     "fed_funds": "정책금리", "yield_curve": "장단기차", "m2_yoy": "유동성",
     "baa_spread": "신용스프레드", "vix": "변동성", "oil_yoy": "유가",
     "spx_mom": "주가모멘텀", "cli_us": "경기선행지수",
+    "t10y3m": "10Y-3M", "hy_oas": "HY스프레드", "nfci": "금융환경",
+    "cfnai": "실물활동", "sahm": "Sahm룰",
 }
 
 
@@ -1104,8 +1140,12 @@ def indicator_source(key, src, transform):
         return {"name": "yfinance (benchmarks.js)", "url": f"https://finance.yahoo.com/quote/{ytk}"}
     if transform == "multpl":
         return {"name": "multpl.com", "url": f"https://www.multpl.com/{src}"}
-    if transform in ("yoy", "mom", "level", "daily", "oilyoy") and src and len(src) <= 14 and src.replace("_", "").isalnum() and any(ch.isupper() for ch in src):
+    if transform in ("yoy", "mom", "level", "daily", "oilyoy", "ma3") and src and len(src) <= 14 and src.replace("_", "").isalnum() and any(ch.isupper() for ch in src):
         return {"name": f"FRED: {src}", "url": f"https://fred.stlouisfed.org/series/{src}"}
+    if transform == "yfmo":
+        return {"name": f"yfinance ({src})", "url": f"https://finance.yahoo.com/quote/{src.replace('^', '%5E')}"}
+    if transform == "cugd":
+        return {"name": "yfinance (HG=F/GC=F)", "url": "https://finance.yahoo.com/quote/HG%3DF"}
     if key in ("spx_mom",):
         return {"name": "Yahoo Finance (^GSPC)", "url": "https://finance.yahoo.com/quote/%5EGSPC/history"}
     if key in ("spx_fwd_pe", "erp"):
@@ -1555,6 +1595,23 @@ def _yf_fx_3m(ticker):
         return None, None
 
 
+# BIS 실질실효환율(REER, broad) — 통화 밸류에이션. 10년 평균 대비 괴리로 저평가/고평가 측정.
+REER_FRED = {"US": "RBUSBIS", "KR": "RBKRBIS", "EU": "RBXMBIS", "JP": "RBJPBIS", "CN": "RBCNBIS"}
+FX12_KRW = {"US": "KRW=X", "EU": "EURKRW=X", "JP": "JPYKRW=X"}  # 대KRW 12M 모멘텀. CN은 크로스
+
+
+def _yf_12m_chg(ticker):
+    """yfinance 12개월 변화율(%). 실패 시 None."""
+    try:
+        import yfinance as yf
+        h = yf.Ticker(ticker).history(period="13mo")["Close"].dropna()
+        if len(h) < 150:
+            return None
+        return round((float(h.iloc[-1]) / float(h.iloc[0]) - 1) * 100, 1)
+    except Exception:
+        return None
+
+
 def build_country_pref(earn, bench):
     """국가 선호도: 밸류·이익·환율·통화정책·경기 종합 → 1·3·12개월 점수."""
     print("=== 국가 선호도 ===")
@@ -1596,11 +1653,31 @@ def build_country_pref(earn, bench):
                 cyc_s = clamp((g - 12.0) / 18.0)  # ~12% 추세 기준 정규화
                 phase = ("확장 (Expansion)" if g >= 13 else
                          "수축 (Contraction)" if g <= 4 else "둔화 (Slowdown)") + "*"
+        # ── Currency 3요소 소스 (weekly/country_model.py가 소비) ──
+        # REER 밸류: BIS 실질실효환율의 10년 평균 대비 괴리(%). 음수=저평가.
+        reer = None
+        try:
+            _, rv_ = fred_csv(REER_FRED[cc], start="2015-01-01")
+            if rv_:
+                m10 = sum(rv_) / len(rv_)
+                reer = {"cur": round(rv_[-1], 1), "avg10y": round(m10, 1),
+                        "dev_pct": round((rv_[-1] / m10 - 1) * 100, 1)}
+        except Exception:
+            pass
+        # 대KRW 12개월 FX 모멘텀(%): KRW 투자자의 무헤지 환수익 방향. KR=0(home).
+        fx12 = 0.0 if cc == "KR" else None
+        if cc in FX12_KRW:
+            fx12 = _yf_12m_chg(FX12_KRW[cc])
+        elif cc == "CN":
+            a, b = _yf_12m_chg("KRW=X"), _yf_12m_chg("CNY=X")
+            if a is not None and b is not None:
+                fx12 = round(a - b, 1)   # CNYKRW ≈ USDKRW / USDCNY
         comp = {"val": round(val * 100), "earn": round(earn_s * 100), "fx": round(fx_s * 100),
                 "mon": round(mon_s * 100), "cycle": round(cyc_s * 100)}
         horizon = {h: round(sum(comp[k] * w for k, w in wts.items())) for h, wts in PREF_WEIGHTS.items()}
         out[cc] = {"name": cfg["name"], "pe": round(pe, 1) if pe else None, "fair_pe": fair,
                    "components": comp, "horizon": horizon, "fx_val": fx_val, "fx_chg": fx_chg,
+                   "reer": reer, "fx12m": fx12,
                    "cli": cli_now, "phase": phase, "mon_note": cfg["mon_note"]}
         print(f"  {cfg['name']}: 1M {horizon['m1']:+d} 3M {horizon['m3']:+d} 12M {horizon['m12']:+d} "
               f"(val {comp['val']:+d} earn {comp['earn']:+d} fx {comp['fx']:+d} cyc {comp['cycle']:+d})")
@@ -1608,10 +1685,11 @@ def build_country_pref(earn, bench):
 
 
 HIST_PILLAR_KEYS = {
-    "macro": ["cpi_yoy", "core_cpi_yoy", "unemployment", "payrolls", "fed_funds", "consumer_sent", "yield_curve", "cli_us", "oil_yoy"],
+    "macro": ["cpi_yoy", "core_cpi_yoy", "unemployment", "payrolls", "fed_funds", "consumer_sent",
+              "yield_curve", "cli_us", "oil_yoy", "t10y3m", "cfnai", "sahm", "copper_gold"],
     "valuation": ["cape", "us10y"],
-    "flows": ["m2_yoy", "baa_spread", "usdkrw"],
-    "sentiment": ["vix", "spx_mom"],
+    "flows": ["m2_yoy", "baa_spread", "usdkrw", "nfci"],   # hy_oas는 FRED가 최근 3년만 제공(ICE 라이선스) → 제외
+    "sentiment": ["vix", "spx_mom"],   # move는 야후 히스토리 얕아 타임머신 제외
     "earnings": ["spx_eps_yoy"],
 }
 HIST_WEIGHTS = {"macro": 0.24, "valuation": 0.20, "flows": 0.18, "sentiment": 0.18, "earnings": 0.20}
@@ -1688,6 +1766,170 @@ def build_regime_history(monthly, spx_me, kospi_me, max_months=192):
                             "spx12": _fwd_ret(spx_me, mo, 12), "kospi1": _fwd_ret(kospi_me, mo, 1),
                             "kospi3": _fwd_ret(kospi_me, mo, 3), "kospi12": _fwd_ret(kospi_me, mo, 12)}})
     return out
+
+
+def _zseries(me):
+    """월말 dict {ym: val} → 전 히스토리 z-score dict {ym: z}. 표본<24면 {}."""
+    ks = sorted(me)
+    vals = [me[k] for k in ks]
+    if len(vals) < 24:
+        return {}
+    mean = sum(vals) / len(vals)
+    sd = (sum((x - mean) ** 2 for x in vals) / len(vals)) ** 0.5 or 1.0
+    return {k: (me[k] - mean) / sd for k in ks}
+
+
+# Investment Clock 4국면 (Merrill Lynch "The Investment Clock", 2004)
+QUADRANT_PHASES = {
+    ("up", "down"):   {"name": "회복 (Recovery)", "cls": "strong-pos",
+                       "assets": "주식(성장주) > 회사채 > 국채 > 원자재",
+                       "desc": "성장 개선 + 인플레 하락 = 골디락스. 마진 확대·멀티플 상승 동시 진행 — 주식 최선호 국면."},
+    ("up", "up"):     {"name": "과열 (Overheat)", "cls": "pos",
+                       "assets": "원자재 > 주식(가치·시클리컬) > 현금 > 채권",
+                       "desc": "성장·인플레 동반 상승. 원자재·시클리컬·가치주 우위, 금리 상승으로 장기채·성장주 부담."},
+    ("down", "up"):   {"name": "스태그플레이션 (Stagflation)", "cls": "neg",
+                       "assets": "현금 > 원자재 > 채권 > 주식",
+                       "desc": "성장 둔화 + 인플레 상승 — 주식에 최악의 조합. 현금·방어주 중심, 정책 대응 여력 제한."},
+    ("down", "down"): {"name": "디스인플레 둔화 (Reflation)", "cls": "neu",
+                       "assets": "국채 > 회사채 > 주식(퀄리티·방어) > 원자재",
+                       "desc": "성장·인플레 동반 하락. 금리 인하 사이클 — 듀레이션(국채) 최선호, 주식은 퀄리티·방어 중심."},
+}
+
+
+def build_quadrant(monthly):
+    """성장×인플레 4국면 (Investment Clock, Merrill Lynch 2004 · Bridgewater 프레임워크).
+
+    성장 컴포지트 = mean z(CFNAI-MA3, 고용 3MMA, OECD CLI, 구리/금)
+    인플레 컴포지트 = mean z(근원CPI YoY, 헤드라인CPI YoY, 유가 YoY)
+    축 = 각 컴포지트의 3개월 모멘텀(Δ) → 사분면 판정 + 최근 13개월 궤적.
+    """
+    # 고용은 변동 큰 mom 값 → 3개월 이동평균 전처리
+    pay = monthly.get("payrolls", {})
+    pay3 = {}
+    ks = sorted(pay)
+    for i in range(2, len(ks)):
+        pay3[ks[i]] = (pay[ks[i]] + pay[ks[i - 1]] + pay[ks[i - 2]]) / 3
+    growth_in = {"cfnai": monthly.get("cfnai", {}), "payrolls": pay3,
+                 "cli_us": monthly.get("cli_us", {}), "copper_gold": monthly.get("copper_gold", {})}
+    infl_in = {"core_cpi_yoy": monthly.get("core_cpi_yoy", {}), "cpi_yoy": monthly.get("cpi_yoy", {}),
+               "oil_yoy": monthly.get("oil_yoy", {})}
+    gz = {k: _zseries(v) for k, v in growth_in.items() if v}
+    iz = {k: _zseries(v) for k, v in infl_in.items() if v}
+    gz = {k: v for k, v in gz.items() if v}
+    iz = {k: v for k, v in iz.items() if v}
+    if len(gz) < 2 or len(iz) < 2:
+        return None
+
+    def composite(zs):
+        months = sorted(set().union(*[set(z.keys()) for z in zs.values()]))
+        comp = {}
+        for mo in months:
+            xs = []
+            for z in zs.values():
+                mk = [k for k in z if k <= mo]
+                if mk:                      # carry-forward: 발표 지연 지표는 직전값
+                    xs.append(z[max(mk)])
+            if len(xs) >= 2:
+                comp[mo] = sum(xs) / len(xs)
+        return comp
+
+    cg, ci = composite(gz), composite(iz)
+    common = sorted(set(cg) & set(ci))
+    if len(common) < 16:
+        return None
+    trail = []
+    for mo in common[-13:]:
+        idx = common.index(mo)
+        if idx < 3:
+            continue
+        p3 = common[idx - 3]
+        trail.append({"ym": mo, "g": round(cg[mo] - cg[p3], 2), "i": round(ci[mo] - ci[p3], 2)})
+    if not trail:
+        return None
+    last = trail[-1]
+    key = ("up" if last["g"] >= 0 else "down", "up" if last["i"] >= 0 else "down")
+    phase = QUADRANT_PHASES[key]
+    return {"axes": {"x": "성장 모멘텀 (컴포지트 3개월Δ)", "y": "인플레 모멘텀 (컴포지트 3개월Δ)"},
+            "trail": trail,
+            "level": {"g": round(cg[common[-1]], 2), "i": round(ci[common[-1]], 2)},
+            "phase": phase,
+            "inputs": {"growth": sorted(gz.keys()), "inflation": sorted(iz.keys())},
+            "as_of": common[-1],
+            "note": "Merrill Lynch Investment Clock(2004) 프레임워크. 성장=CFNAI·고용·CLI·구리/금, "
+                    "인플레=근원/헤드라인CPI·유가. 각 축은 z-컴포지트의 3개월 변화."}
+
+
+def build_recession(monthly):
+    """침체확률 대시보드 — 독립 4신호 병렬.
+
+    1) NY Fed probit (Estrella-Mishkin 1998): 10Y-3M 스프레드 → 12개월 내 침체확률
+    2) Sahm Rule (Sahm 2019, FRED 실시간)
+    3) Chauvet-Piger 마코프 스위칭 확률 (RECPROUSM156N)
+    4) CFNAI-MA3 (시카고연준, -0.7 = 침체 임계)
+    """
+    sig = []
+
+    def add(key, name, val, unit, status, thr, desc, src_id):
+        lbl = {"safe": "안전", "watch": "주의", "alert": "경고"}[status]
+        sig.append({"key": key, "name": name, "value": val, "unit": unit,
+                    "status": status, "status_ko": lbl, "threshold": thr, "desc": desc,
+                    "source": {"name": f"FRED: {src_id}" if src_id else "derived",
+                               "url": f"https://fred.stlouisfed.org/series/{src_id}" if src_id else None}})
+
+    t = monthly.get("t10y3m", {})
+    if t:
+        s = t[max(t)]
+        p = round(0.5 * (1 + math.erf((-0.5333 - 0.6330 * s) / math.sqrt(2))) * 100, 1)
+        st = "safe" if p < 15 else ("watch" if p < 30 else "alert")
+        add("probit", "NY Fed 수익률곡선 모델", p, "%", st, "30% 이상 경고",
+            f"10Y-3M 스프레드 {s:+.2f}%p 기반 12개월 내 침체확률(Estrella-Mishkin probit). "
+            "역사상 30% 돌파 시 대부분 침체 선행.", "T10Y3M")
+
+    sm = monthly.get("sahm", {})
+    if sm:
+        v = round(sm[max(sm)], 2)
+        st = "safe" if v < 0.2 else ("watch" if v < 0.5 else "alert")
+        add("sahm", "Sahm Rule", v, "%p", st, "0.50%p = 침체 트리거",
+            "실업률 3개월평균이 12개월 저점 대비 얼마나 상승했는지. "
+            "0.5%p 이상이면 침체가 이미 시작됐다는 실시간 신호(1970년 이후 무오류).", "SAHMREALTIME")
+
+    try:
+        d, v = fred_csv("RECPROUSM156N")
+        if v:
+            cp = round(v[-1], 1)
+            st = "safe" if cp < 20 else ("watch" if cp < 80 else "alert")
+            add("chauvet", "Chauvet-Piger 확률", cp, "%", st, "80% 이상 = 침체 판정",
+                "마코프 스위칭 동적요인 모델의 현재 침체확률. 80% 이상 3개월 지속 시 "
+                "침체로 판정하는 학계 표준(Chauvet & Piger 2008).", "RECPROUSM156N")
+    except Exception as e:
+        print(f"  [err] Chauvet-Piger: {e}")
+
+    cf = monthly.get("cfnai", {})
+    if cf:
+        v = round(cf[max(cf)], 2)
+        st = "safe" if v > -0.35 else ("watch" if v > -0.7 else "alert")
+        add("cfnai", "CFNAI-MA3", v, "", st, "-0.70 이하 = 침체 임계",
+            "85개 실물지표 합성(3개월 평균). 0=추세성장. -0.7 이하는 침체 국면 진입 신호"
+            "(시카고연준 공식 기준).", "CFNAI")
+
+    if not sig:
+        return None
+    n_alert = sum(1 for s in sig if s["status"] == "alert")
+    n_watch = sum(1 for s in sig if s["status"] == "watch")
+    if n_alert >= 2:
+        verdict = {"label": "침체 경고", "cls": "neg",
+                   "desc": f"4개 독립 신호 중 {n_alert}개 경고 — 방어 포지션 강화 필요."}
+    elif n_alert == 1 or n_watch >= 2:
+        verdict = {"label": "주의 관찰", "cls": "neu",
+                   "desc": f"경고 {n_alert}·주의 {n_watch} — 단일 신호는 오탐 있음, 조합 악화 여부 추적."}
+    else:
+        d = ("독립 신호 모두 안전권" if n_watch == 0
+             else f"경고 없음 · 주의 {n_watch}개 — 대체로 안전권")
+        verdict = {"label": "침체 신호 없음", "cls": "pos",
+                   "desc": d + ". 경기 연착륙/확장 시나리오 유지."}
+    return {"signals": sig, "verdict": verdict,
+            "note": "서로 다른 방법론(수익률곡선·노동시장·마코프모델·실물합성)의 독립 신호를 병렬 표시. "
+                    "단일 모델 과신 방지 목적."}
 
 
 def build_earnings():
@@ -1939,6 +2181,28 @@ def build():
                     pk = f"{y-1:04d}-{m:02d}"
                     if pk in me and me[pk] > 0:
                         dates.append(k + "-01"); vals.append((me[k] / me[pk] - 1) * 100)
+            elif transform == "ma3":
+                # 월간 시계열 → 3개월 이동평균 (CFNAI-MA3 등 공식 지표 규격)
+                d, v = fred_csv(src)
+                me = to_month_end(d, v); ks = sorted(me)
+                dates = [k + "-01" for k in ks[2:]]
+                vals = [(me[ks[i]] + me[ks[i - 1]] + me[ks[i - 2]]) / 3 for i in range(2, len(ks))]
+            elif transform == "yfmo":
+                # yfinance 월간 종가. 월간 히스토리 미지원 티커(^MOVE 등)는 일별 2y 폴백
+                dates, vals = yf_monthly(src)
+                if len(vals) < 3:
+                    import yfinance as yf
+                    h = yf.Ticker(src).history(period="2y")["Close"].dropna()
+                    if len(h):
+                        dd = [ts.strftime("%Y-%m-%d") for ts in h.index]
+                        dates, vals = downsample_monthly(dd, [float(x) for x in h.values])
+            elif transform == "cugd":
+                # 구리/금 비율 (×1000 스케일): 실물수요 vs 안전선호
+                cd, cv = yf_monthly("HG=F"); gd, gv = yf_monthly("GC=F")
+                cme, gme = to_month_end(cd, cv), to_month_end(gd, gv)
+                ks = [k for k in sorted(set(cme) & set(gme)) if gme[k]]
+                dates = [k + "-01" for k in ks]
+                vals = [round(cme[k] / gme[k] * 1000, 3) for k in ks]
             elif transform == "multpl":
                 dates, vals = fetch_multpl(src)
             elif transform == "spxmom":
@@ -2173,6 +2437,14 @@ def build():
         regime_history = prev_rh + tail
     kr_credit = build_kr_credit(kospi_me, kosdaq_me)
     kr_credit_daily = build_kr_credit_daily()
+    quadrant = build_quadrant(monthly)
+    if quadrant:
+        print(f"  [quadrant] {quadrant['phase']['name']} (성장Δ {quadrant['trail'][-1]['g']:+.2f}, "
+              f"인플레Δ {quadrant['trail'][-1]['i']:+.2f})")
+    recession = build_recession(monthly)
+    if recession:
+        print(f"  [recession] {recession['verdict']['label']} — " +
+              ", ".join(f"{s['name']} {s['value']}{s['unit']}({s['status_ko']})" for s in recession["signals"]))
 
     # --- 업데이트 알림 (직전 대비 변경분) ---
     prev = load_prev()
@@ -2191,6 +2463,8 @@ def build():
         "regime": {"score": overall_score, "label": regime_label, "cls": regime_cls,
                    "pillars": pillars_out},
         "cycle": cycle,
+        "quadrant": quadrant,
+        "recession": recession,
         "monthly_factors": build_monthly(today),
         "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,

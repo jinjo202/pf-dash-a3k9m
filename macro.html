@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-06-27b";</script>
+<script>window.CODE_VERSION = "2026-07-10a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -217,6 +217,34 @@
   .cm-q.neu { background:#fef3c7; color:#92400e; }
   .cm-q.neg { background:var(--neg-soft); color:var(--neg); }
   [data-theme="dark"] .cm-q.neu { background:#422006; color:#fde68a; }
+  /* 성장×인플레 quadrant (Investment Clock) */
+  .quad-wrap { display:grid; grid-template-columns:minmax(300px,1.35fr) minmax(230px,1fr); gap:18px; align-items:center; }
+  @media (max-width:720px) { .quad-wrap { grid-template-columns:1fr; } }
+  .quad-chart { position:relative; height:330px; }
+  .quad-phase { font-size:21px; font-weight:850; letter-spacing:-.02em; margin:2px 0 8px; }
+  .quad-phase.strong-pos, .quad-phase.pos { color:var(--pos); }
+  .quad-phase.neg { color:var(--neg); } .quad-phase.neu { color:#b45309; }
+  .quad-assets { font-size:12px; font-weight:700; background:var(--accent-soft); border-radius:8px; padding:8px 11px; margin-bottom:8px; line-height:1.5; }
+  /* 침체확률 대시보드 */
+  .rec-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; margin-top:10px; }
+  .rec-card { border:1px solid var(--border); border-left:4px solid var(--neu); border-radius:10px; padding:11px 13px; background:var(--card); }
+  .rec-card.pos { border-left-color:var(--pos); } .rec-card.neg { border-left-color:var(--neg); }
+  .rec-card.neu { border-left-color:#f59e0b; }
+  .rec-card .l { font-size:11px; color:var(--muted); font-weight:700; }
+  .rec-card .v { font-size:21px; font-weight:850; margin:2px 0; font-variant-numeric:tabular-nums; }
+  .rec-card .v span { font-size:12px; color:var(--muted); font-weight:600; margin-left:2px; }
+  .rec-card .st { display:inline-block; font-size:10.5px; font-weight:700; padding:1px 8px; border-radius:8px; }
+  .rec-card .st.pos { background:var(--pos-soft); color:var(--pos); }
+  .rec-card .st.neg { background:var(--neg-soft); color:var(--neg); }
+  .rec-card .st.neu { background:#fef3c7; color:#92400e; }
+  [data-theme="dark"] .rec-card .st.neu { background:#422006; color:#fde68a; }
+  .rec-card .thr { font-size:10px; color:var(--muted); margin-top:3px; }
+  .rec-card .s { font-size:11px; color:var(--text-soft); margin-top:5px; line-height:1.5; }
+  .rec-verdict { font-size:12px; font-weight:700; padding:3px 10px; border-radius:10px; margin-left:8px; vertical-align:middle; }
+  .rec-verdict.pos { background:var(--pos-soft); color:var(--pos); }
+  .rec-verdict.neg { background:var(--neg-soft); color:var(--neg); }
+  .rec-verdict.neu { background:#fef3c7; color:#92400e; }
+  [data-theme="dark"] .rec-verdict.neu { background:#422006; color:#fde68a; }
   .pref-table td.sc, .pref-table th { text-align:center; }
   .pref-table td.nm { font-weight:700; }
   .sc-cell { display:inline-block; min-width:38px; padding:2px 6px; border-radius:5px; font-weight:700; font-size:11.5px; }
@@ -864,6 +892,85 @@ function renderCycle(M) {
     'CLI는 신규수주·재고·금리차·주가·기대 등 선행지표 합성으로 경기 전환점을 6~9개월 선행.</div></div>';
 }
 
+function renderQuadrant(M) {
+  if (!M.quadrant) return '';
+  var q = M.quadrant, p = q.phase;
+  return '<div class="panel"><h2>🕰️ 성장×인플레 4국면 — Investment Clock</h2>' +
+    '<p class="hint">성장 컴포지트(CFNAI·고용·CLI·구리/금) × 인플레 컴포지트(근원/헤드라인CPI·유가)의 3개월 모멘텀. 최근 ' + q.trail.length + '개월 궤적 · ' + (q.as_of || '') + ' 기준</p>' +
+    '<div class="quad-wrap">' +
+      '<div class="quad-chart"><canvas id="quadChart"></canvas></div>' +
+      '<div><div class="cyc-label">현재 국면</div>' +
+        '<div class="quad-phase ' + p.cls + '">' + p.name + '</div>' +
+        '<div class="quad-assets">🎯 자산 우선순위: ' + p.assets + '</div>' +
+        '<div class="cyc-desc">' + p.desc + '</div></div>' +
+    '</div>' +
+    '<div class="cyc-method">📐 <b>방법론</b>: Merrill Lynch "The Investment Clock"(2004) — 성장·인플레 모멘텀의 2×2 사분면으로 자산배분 국면 판정. ' +
+    '각 축은 구성지표의 전 히스토리 z-score 평균(컴포지트)의 3개월 변화. 발표 지연 지표는 직전값 carry-forward. ' +
+    '<span class="cm-q pos">회복</span> 성장↑·인플레↓ → 주식 · <span class="cm-q pos">과열</span> 성장↑·인플레↑ → 원자재 · ' +
+    '<span class="cm-q neg">스태그플레이션</span> 성장↓·인플레↑ → 현금 · <span class="cm-q neu">디스인플레 둔화</span> 성장↓·인플레↓ → 국채.</div></div>';
+}
+
+function drawQuadrant(M) {
+  var el = document.getElementById('quadChart');
+  if (!el || !M.quadrant) return;
+  var t = M.quadrant.trail, n = t.length;
+  var pts = t.map(function (x) { return { x: x.g, y: x.i }; });
+  var mx = 0;
+  t.forEach(function (x) { mx = Math.max(mx, Math.abs(x.g), Math.abs(x.i)); });
+  var lim = Math.max(0.8, Math.ceil(mx * 1.25 * 10) / 10);
+  var quadLabels = {
+    id: 'quadLabels',
+    afterDraw: function (chart) {
+      var ctx = chart.ctx, ca = chart.chartArea;
+      ctx.save(); ctx.font = '700 10px Pretendard, sans-serif'; ctx.globalAlpha = 0.8; ctx.fillStyle = cssVar('--muted');
+      ctx.textAlign = 'right'; ctx.fillText('과열 → 원자재·가치주', ca.right - 6, ca.top + 13);
+      ctx.textAlign = 'left'; ctx.fillText('스태그플레이션 → 현금', ca.left + 6, ca.top + 13);
+      ctx.fillText('디스인플레 둔화 → 국채', ca.left + 6, ca.bottom - 7);
+      ctx.textAlign = 'right'; ctx.fillText('회복(골디락스) → 주식', ca.right - 6, ca.bottom - 7);
+      ctx.restore();
+    }
+  };
+  function axGrid(c2) { return c2.tick.value === 0 ? cssVar('--muted') : cssVar('--border'); }
+  var c = new Chart(el.getContext('2d'), {
+    type: 'scatter',
+    data: { datasets: [{ data: pts, showLine: true, tension: .3,
+      borderColor: 'rgba(37,99,235,0.45)', borderWidth: 1.4,
+      pointRadius: pts.map(function (_, i) { return i === n - 1 ? 7 : 2.2 + i * 0.22; }),
+      pointBackgroundColor: pts.map(function (_, i) { return i === n - 1 ? '#e11d48' : 'rgba(37,99,235,0.55)'; }),
+      pointBorderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: function (i) { var d = t[i.dataIndex];
+          return d.ym + ' — 성장Δ ' + (d.g > 0 ? '+' : '') + d.g + ' · 인플레Δ ' + (d.i > 0 ? '+' : '') + d.i; } } } },
+      scales: {
+        x: { min: -lim, max: lim, grid: { color: axGrid },
+             title: { display: true, text: '성장 모멘텀 (컴포지트 3개월Δ) →', font: { size: 10 }, color: cssVar('--muted') },
+             ticks: { font: { size: 9 }, color: cssVar('--muted'), maxTicksLimit: 7 } },
+        y: { min: -lim, max: lim, grid: { color: axGrid },
+             title: { display: true, text: '인플레 모멘텀 →', font: { size: 10 }, color: cssVar('--muted') },
+             ticks: { font: { size: 9 }, color: cssVar('--muted'), maxTicksLimit: 7 } } } },
+    plugins: [quadLabels]
+  });
+  CHARTS.push(c);
+}
+
+function renderRecession(M) {
+  if (!M.recession) return '';
+  var r = M.recession, v = r.verdict;
+  var cards = r.signals.map(function (s) {
+    var cls = s.status === 'safe' ? 'pos' : (s.status === 'watch' ? 'neu' : 'neg');
+    return '<div class="rec-card ' + cls + '"><div class="l">' + s.name + '</div>' +
+      '<div class="v">' + s.value + '<span>' + s.unit + '</span></div>' +
+      '<div class="st ' + cls + '">' + s.status_ko + '</div>' +
+      '<div class="thr">기준: ' + s.threshold + '</div>' +
+      '<div class="s">' + s.desc + '</div></div>';
+  }).join('');
+  return '<div class="panel"><h2>🚨 침체확률 대시보드 <span class="rec-verdict ' + v.cls + '">' + v.label + '</span></h2>' +
+    '<p class="hint">' + v.desc + '</p>' +
+    '<div class="rec-grid">' + cards + '</div>' +
+    '<p class="disclaimer">' + r.note + '</p></div>';
+}
+
 function renderCountryPref(M) {
   if (!M.country_pref) return '';
   var order = ['US', 'KR', 'EU', 'JP', 'CN'];
@@ -872,6 +979,8 @@ function renderCountryPref(M) {
     var co = p.components, note = [];
     if (p.pe) note.push('PER ' + p.pe + '(적정~' + p.fair_pe + ')');
     if (p.fx_chg !== null && p.fx_chg !== undefined) note.push('통화 3M ' + (p.fx_chg > 0 ? '+' : '') + p.fx_chg + '%');
+    if (p.reer && p.reer.dev_pct !== null && p.reer.dev_pct !== undefined)
+      note.push('REER ' + (p.reer.dev_pct > 0 ? '+' : '') + p.reer.dev_pct + '%(10Y평균比' + (p.reer.dev_pct <= -3 ? '·저평가' : p.reer.dev_pct >= 3 ? '·고평가' : '') + ')');
     if (p.cli !== null && p.cli !== undefined) note.push('CLI ' + p.cli);
     note.push(p.mon_note);
     return '<tr><td class="nm">' + p.name + '</td>' +
@@ -1209,8 +1318,10 @@ function render(M) {
   });
   html += '</div></div></div></div>';
 
-  /* ── Cycle phase + Monthly factors + Updates + Time machine ── */
+  /* ── Cycle phase + Quadrant + Recession + Monthly factors + Updates + Time machine ── */
   html += renderCycle(M);
+  html += renderQuadrant(M);
+  html += renderRecession(M);
   html += renderMonthly(M);
   html += renderUpdates(M);
   html += renderTimeMachine(M);
@@ -1334,6 +1445,7 @@ function render(M) {
   app.innerHTML = html;
 
   /* draw charts after DOM */
+  drawQuadrant(M);
   if (window.COUNTRY_MODEL) drawBacktestChart(window.COUNTRY_MODEL);
   Object.keys(M.indicators).forEach(function (k) {
     var d = M.indicators[k];

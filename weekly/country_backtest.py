@@ -119,7 +119,7 @@ def backtest():
 
 STATE = os.path.join(REPO, "country-model-state.json")
 _FAC_KO = {"value": "밸류", "momentum": "모멘텀", "earnings": "이익수정",
-           "macro": "매크로", "currency": "통화캐리"}
+           "macro": "매크로", "currency": "통화(FX3요소)"}
 SCORE_THRESH = 0.40    # 종합점수 변화 임계 (이벤트 리밸런싱)
 FACTOR_THRESH = 0.80   # 단일 팩터 z 변화 임계
 MONTHLY_DAYS = 30
@@ -198,7 +198,8 @@ def main():
         "방법론: 5개 팩터를 5개국 횡단면 z-score(평균0·표준편차1)로 표준화 후 가중합성. "
         "Value=12M Fwd PER 적정대비 괴리(쌀수록+), Momentum=12-1개월 가격(최근1M skip), "
         "Earnings=이익수정비율(ERR)+1M수정, Macro=OECD CLI 수준+통화정책 방향, "
-        "Currency=KRW 대비 정책금리 캐리. 종합점수 ≥+0.25 비중확대, ≤−0.25 축소, 그 외 중립. "
+        "Currency=FX 3요소 등가중(정책금리 캐리 + 대KRW 12M 모멘텀 + BIS REER 10년평균 대비 밸류). "
+        "종합점수 ≥+0.25 비중확대, ≤−0.25 축소, 그 외 중립. "
         "리밸런싱: 월 1회 정기 + 선호변경·점수 ±0.4·단일팩터 z ±0.8 이상 변화 시 이벤트.")
 
     out = {

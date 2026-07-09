@@ -13,7 +13,12 @@
   · Earnings 20%   — 이익수정비율(ERR)+1M 수정. Causeway/MSCI: revisions 강건한 예측력.
   · Macro 20%      — Zaremba 외(2022, J.Fin.Markets): OECD CLI 변화가 국가수익률 예측
                      (월 1.43%). + 통화정책 방향(완화 +/긴축 −). AQR Macro Momentum.
-  · Currency 10%   — KRW 기준 투자자 캐리(상대금리). Menkhoff 외(2012). 무헤지 수익 가산.
+  · Currency 10%   — FX 3요소 등가중 (KRW 기준 무헤지 투자자 관점):
+                     ① 캐리(상대 정책금리) — Menkhoff 외(2012) carry premium
+                     ② 대KRW 12M 모멘텀 — Asness 외(2013) FX momentum
+                     ③ REER 밸류 — BIS 실질실효환율 10년 평균 대비 괴리(고평가 −).
+                       Asness 외(2013) FX value: REER 저평가 통화가 장기 초과수익.
+                     소스: fetch_macro.py가 country_pref에 reer/fx12m 제공(FRED RB*BIS).
 
 각 팩터를 5개국 횡단면 z-score 후 가중합 → 종합점수 → 선호도(비중확대/중립/축소).
 출력: 종합점수·순위·팩터별 기여 + 한 줄 근거.
@@ -105,13 +110,24 @@ def compute():
             raw[c]["macro"] = 0.6 * growth + 0.4 * (mon * 2.0)  # mon 스케일 맞춤
         else:
             raw[c]["macro"] = mon * 2.0
-        # Currency: KRW 대비 캐리(상대금리). 한국=0(home)
-        raw[c]["currency"] = (POLICY_RATE.get(c, 2.5) - POLICY_RATE["KR"]) if c != "KR" else 0.0
+        # Currency 3요소 (KR=home이라 전부 0 → FX 노출 없음)
+        if c == "KR":
+            raw[c]["carry"] = raw[c]["fxmom"] = raw[c]["fxval"] = 0.0
+        else:
+            raw[c]["carry"] = POLICY_RATE.get(c, 2.5) - POLICY_RATE["KR"]
+            raw[c]["fxmom"] = p.get("fx12m")                    # 대KRW 12M 변화율(%)
+            rd = (p.get("reer") or {}).get("dev_pct")
+            raw[c]["fxval"] = (-rd) if rd is not None else None  # REER 고평가(−)/저평가(+)
+        raw[c]["currency"] = None  # 아래서 서브팩터 z 평균으로 채움
 
-    # 팩터별 z-score
+    # 팩터별 z-score (currency는 3요소 z 등가중 평균)
     zf = {}
-    for f in WEIGHTS:
+    for f in [k for k in WEIGHTS if k != "currency"]:
         zf[f] = zscores({c: raw[c][f] for c, _, _ in MARKETS})
+    _subs = [zscores({c: raw[c][k] for c, _, _ in MARKETS}) for k in ("carry", "fxmom", "fxval")]
+    zf["currency"] = {c: round(sum(s[c] for s in _subs) / 3.0, 4) for c, _, _ in MARKETS}
+    for c, _, _ in MARKETS:
+        raw[c]["currency"] = {k: raw[c][k] for k in ("carry", "fxmom", "fxval")}
 
     # 종합 z + 선호도
     out = []
@@ -131,7 +147,7 @@ def compute():
 
 
 _FAC_KO = {"value": "밸류", "momentum": "모멘텀", "earnings": "이익수정",
-           "macro": "매크로", "currency": "통화캐리"}
+           "macro": "매크로", "currency": "통화(FX3요소)"}
 
 
 def rationale(r):
