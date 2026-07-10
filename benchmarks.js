@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-10",
-  "generated_utc": "2026-07-10T21:13:52Z",
+  "generated_utc": "2026-07-10T22:21:04Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 19.04,
+        "pe": 19.14,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -564,7 +564,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 7.93,
+        "pe": 7.91,
         "pb": 1.27,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1111,8 +1111,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-09",
       "decimals": 0,
       "valuation": {
-        "pe": 5.19,
-        "pb": 2.07,
+        "pe": 5.18,
+        "pb": 2.08,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
@@ -2205,8 +2205,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 19.94,
-        "pb": 1.75,
+        "pe": 20.05,
+        "pb": 1.76,
         "roe": null,
         "src": "SPY (top derived)",
         "pe_kind": "fwd",
@@ -2752,8 +2752,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 19.26,
-        "pb": 2.02,
+        "pe": 19.35,
+        "pb": 2.03,
         "roe": null,
         "src": "QQQ (top derived)",
         "pe_kind": "fwd",
@@ -3299,8 +3299,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 20.18,
-        "pb": 1.36,
+        "pe": 20.31,
+        "pb": 1.37,
         "roe": null,
         "src": "SOXX (top derived)",
         "pe_kind": "fwd",
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 641.1,
+      "current": 640.87,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 8.1514,
-      "mtd_pct": -0.0982,
-      "daily_pct": 0.0359,
-      "as_of": "2026-07-10",
+      "ytd_pct": 8.1126,
+      "mtd_pct": -0.134,
+      "daily_pct": 0.78,
+      "as_of": "2026-07-09",
       "decimals": 2,
       "valuation": {
-        "pe": 15.8,
+        "pe": 15.76,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -3855,6 +3855,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-06-25",
           "2025-06-26",
           "2025-06-27",
           "2025-06-30",
@@ -4113,10 +4114,10 @@ window.BENCHMARKS = {
           "2026-07-06",
           "2026-07-07",
           "2026-07-08",
-          "2026-07-09",
-          "2026-07-10"
+          "2026-07-09"
         ],
         "values": [
+          536.98,
           537.48,
           543.63,
           541.37,
@@ -4375,8 +4376,7 @@ window.BENCHMARKS = {
           650.5,
           646.29,
           635.91,
-          640.87,
-          641.1
+          640.87
         ]
       }
     },
@@ -4394,7 +4394,7 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 23.0,
-        "pb": 1.39,
+        "pb": 1.4,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-09",
       "decimals": 2,
       "valuation": {
-        "pe": 11.91,
+        "pe": 11.89,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
