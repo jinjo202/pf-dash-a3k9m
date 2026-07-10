@@ -475,17 +475,8 @@ window.MACRO = {
       "as_of": "2026-07-10"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-07-10",
-      "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "42.0배 → 42.2배 (2026-07-10 발표)",
-      "as_of": "2026-07-10"
-    }
-  ],
-  "generated": "2026-07-10T22:54:11Z",
+  "updates_today": [],
+  "generated": "2026-07-10T23:11:51Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -24068,7 +24059,7 @@ window.MACRO = {
               "name": "Taiwan Semiconductor Manufactur",
               "mktcap": 2251500027904,
               "fwdpe": 21.4,
-              "pbr": 98.35,
+              "pbr": 98.1,
               "rets": {
                 "w1": -0.0,
                 "m1": 1.7,
