@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-10T10:33:29
+// 갱신: 2026-07-10T10:40:30
 // 총 88개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -192,16 +192,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-10"
   },
   {
-   "title": "에코프로비엠, 1.2조 유증 앞두고 주가 하락…핵심 과제로 떠오른 ‘수익성 비전’ - 아시아투데이",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB0enlQQ005SUhTRFpoOWo0MkNGTnNHaUM3VEhCc3dxc2NXb0QxZWl6dkxNbnlkeFpnenhYRHpYazg5dUNjSFlIOEpSWEVHN3dvMjk4alV4Y2U5a2lVMklXTUkwOGI1c1NfT3BHQWlB?oc=5",
-   "source": "아시아투데이",
-   "date": "2026-07-09"
-  },
-  {
    "title": "에코프로비엠, 1.2조 증자 '고난도 딜'…흥행 위해 주관사 성과보수까지 - 인베스트조선",
    "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOMnREZDQySVhUb19Kam9uTFhuaEZDZEpVdzZ1dW5WM2pnVnFIcjFRSVNEZ1drbzRkdU1mbHVjYm5BMlZrUEExYjNfdEIwelFoVVdtOXVFXzd1U2RpNng0RGdBTWpuSnF1ZVBxajRCeUt5ek1BU2hocV96TTVmYVhpY1RHYw?oc=5",
    "source": "인베스트조선",
    "date": "2026-07-01"
+  },
+  {
+   "title": "에코프로비엠, 1.2조 유증 앞두고 주가 하락…핵심 과제로 떠오른 ‘수익성 비전’ - 아시아투데이",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB0enlQQ005SUhTRFpoOWo0MkNGTnNHaUM3VEhCc3dxc2NXb0QxZWl6dkxNbnlkeFpnenhYRHpYazg5dUNjSFlIOEpSWEVHN3dvMjk4alV4Y2U5a2lVMklXTUkwOGI1c1NfT3BHQWlB?oc=5",
+   "source": "아시아투데이",
+   "date": "2026-07-09"
   },
   {
    "title": "코스닥 30주년 덮친 1.2조 기습유증…에코프로비엠, 청구서 개미 몫 - v.daum.net",
@@ -218,22 +218,22 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-10"
   },
   {
-   "title": "에코프로비엠, 1.2조 증자 '고난도 딜'…흥행 위해 주관사 성과보수까지 - 인베스트조선",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOMnREZDQySVhUb19Kam9uTFhuaEZDZEpVdzZ1dW5WM2pnVnFIcjFRSVNEZ1drbzRkdU1mbHVjYm5BMlZrUEExYjNfdEIwelFoVVdtOXVFXzd1U2RpNng0RGdBTWpuSnF1ZVBxajRCeUt5ek1BU2hocV96TTVmYVhpY1RHYw?oc=5",
-   "source": "인베스트조선",
-   "date": "2026-07-01"
-  },
-  {
-   "title": "에코프로 주가, 7월 10일 장중 85,200원 7.30% 상승 - 톱스타뉴스",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9scWNTQlpseWc5Z0FwbmcxeFcweHJhNk52dGNpcUNiRFJRZm8zZk9rXzJaZFBISENsVXExeHh0RGlXR0NuV1cxMWZVZkNhYmpwaEtiRlRVaWVXSkFqM19rR1JKdklPellCQ0xIbW41TC1MZw?oc=5",
-   "source": "톱스타뉴스",
-   "date": "2026-07-10"
+   "title": "에코프로비엠, 1.2조 유증 앞두고 주가 하락…핵심 과제로 떠오른 ‘수익성 비전’ - 아시아투데이",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB0enlQQ005SUhTRFpoOWo0MkNGTnNHaUM3VEhCc3dxc2NXb0QxZWl6dkxNbnlkeFpnenhYRHpYazg5dUNjSFlIOEpSWEVHN3dvMjk4alV4Y2U5a2lVMklXTUkwOGI1c1NfT3BHQWlB?oc=5",
+   "source": "아시아투데이",
+   "date": "2026-07-09"
   },
   {
    "title": "[1% 초고수의 선택] 코스피 반등장 '에코프로' 사고 '두산' 차익실현 - ebn.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5OYjNLaUM5RzUyOGFXdzdYaVZMdEhFZEZ5TjNOS1B4WFY1ZlpSelkzM3ZWY1U0SW5TRnMwd3U1UlhRMUF0ZTRIRU9temxhRWwwUVNiZ1hHZ0VnZnlRck93QTNKT0d5ekRa?oc=5",
    "source": "ebn.co.kr",
    "date": "2026-07-10"
+  },
+  {
+   "title": "에코프로비엠, 1.2조 증자 '고난도 딜'…흥행 위해 주관사 성과보수까지 - 인베스트조선",
+   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOMnREZDQySVhUb19Kam9uTFhuaEZDZEpVdzZ1dW5WM2pnVnFIcjFRSVNEZ1drbzRkdU1mbHVjYm5BMlZrUEExYjNfdEIwelFoVVdtOXVFXzd1U2RpNng0RGdBTWpuSnF1ZVBxajRCeUt5ek1BU2hocV96TTVmYVhpY1RHYw?oc=5",
+   "source": "인베스트조선",
+   "date": "2026-07-01"
   }
  ],
  "리노공업": [
@@ -400,6 +400,12 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-09"
   },
   {
+   "title": "기아, 2분기 강력한 펀더멘털 vs 단기 손익 부담…목표주가는 '동상이몽' - 이투데이",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1IRHRFa2h5UGNVaGFlNnpNZktXVTJsVkN2azNHaUljWUhXeWFmcFFfbW5uc1FhRlI2bGdNemlxN3JEUV9jV3pVRlRXNnEtZnUyOUdIZg?oc=5",
+   "source": "이투데이",
+   "date": "2026-07-10"
+  },
+  {
    "title": "[장중수급포착] 기아, 기관 7일 연속 순매수행진... 주가 +1.86% - 뉴스핌",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBJcVgtUk9WbURSOEhLelc5dmhrWktnNXNwZV9JOUV0LUVFZHZLUmtvM3RkYTNuTFNvSHZTQmFGQWk0X1o2QnNvZWFSYUVIOE9UMHRxd0ZMTWNKRER4?oc=5",
    "source": "뉴스핌",
@@ -410,12 +416,6 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1laEt2SkszT25LX25FNUJFTnBsVWdvZDJXc1VOd2JXWlMtUTZFLTdOcjdQTHZvRTZRbGxtSGY0cE8wenVrZUh4Q3Z2VU5JdkFyVklMWjFWZ3JXc1ludzNIR1FB?oc=5",
    "source": "버핏연구소",
    "date": "2026-07-09"
-  },
-  {
-   "title": "기아, 2분기 강력한 펀더멘털 vs 단기 손익 부담…목표주가는 '동상이몽' - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBXN2ZReXJ4Y2xwVldIbEtLTmk1c1ZaM21mZjZ4SjBYWDhkdzRNZ0JTVU9qSk02a3RSMFNZbG9hMGFsWXZRMlM1enFXZm5nbU9RSldRbkRCalc1LXpMbGVDeg?oc=5",
-   "source": "네이트",
-   "date": "2026-07-10"
   }
  ],
  "현대모비스": [
@@ -556,16 +556,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-10"
   },
   {
+   "title": "전기요금 하반기도 동결…주가 역풍 맞은 이곳은 [이런국장 저런주식] - 서울경제신문",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBSdnQ2NG5Db2QwR1hPZWtobkp5RTluSU9DcHNvNkQ1Ti10cjR6N1pBTHJmcmFpX1lBZmFvUENsTDJpT3pMT3F1QXZIaVpqOGRad3fSAVNBVV95cUxNTDBpRlg2RHdWaUtzYlhsQXI4TmE2aWRjNy1jWTZuVlhiLWtxek5SU1pQNlpOT0F6X1JXV3o5Tzg0Q3R6dVpqREpHYjd0cWRZVG9mRQ?oc=5",
+   "source": "서울경제신문",
+   "date": "2026-06-27"
+  },
+  {
    "title": "한국전력 주가, 7월 7일 장중 38,150원 2.55% 하락 - 톱스타뉴스",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9zb0ZHS1dPdWxzQ1RiQTRKQ04yNHkwaVRhRjJrek1WSHZOcEJWamtQakRuXzZlUmphTDhuWEUxYmxUeGR5MmhTZHB0WE1VTWFUTm5Ua2swR0F1MGdPU1dyN0dTaE5LRjRFVzVYOS1oell6Zw?oc=5",
    "source": "톱스타뉴스",
    "date": "2026-07-07"
-  },
-  {
-   "title": "KB證 “한국전력, 목표주가 5만4000원 하향…전쟁 여파 지연 반영 불가피” - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE9LbFVYRW1namNnYTEwa2x6YVdmZjdGTXVNbFhDbEpqcnI5X0ZuU2lZaFBvODlkSm9qTHFpdUVtVVBjX0pFUkE?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-06-23"
   },
   {
    "title": "[특징주] 한국전력 ‘중동 리스크 완화 기대’…목표가·주가 ↑ - 에너지경제신문",
@@ -926,16 +926,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-02"
   },
   {
-   "title": "Microsoft Corp (MSFT) 주식 움직였습니다 하락 3.80%에 6월25일: 전체 분석 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQODd3MUM0ZW1EMWJjT1pzbUtUV2pZQ0J2REUxY2ZHNkEwUUJJbG1vcUlyeFF1cC03QmNxS0ltVVRTa3pqMm55Q1B1azJIUGFKaE9EdHpIVTJCZ1B4a3d6MkMxaWlWamloQlU0MktySHlYR2lOeF9RWGJ2TGdOclBNX1NWZENIWHoxNGNZMU1YVQ?oc=5",
-   "source": "TradingKey",
-   "date": "2026-06-25"
-  },
-  {
    "title": "Microsoft Corp (MSFT) 주식 움직였습니다 상승 3.24%에 7월1일: 투자자가 알아야 할 정보 - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPNVNiWlBDNFdoUDk1bVR3SC1jMzdjUG42UFl5cDNELTFwMmZZX0FwWHNtVjJ5Qnp4ZEN6VzVWTEU1U0RyOEVxSjlSSVg0S1NZZUJLMlRaNUVwMVd2WUI0RFhHZkVIejZYLXlCellqZTdKNVdVSi1EMDdNWVhTSWFLcVFmWUl5emRhOTBQSWhFaw?oc=5",
    "source": "TradingKey",
    "date": "2026-07-01"
+  },
+  {
+   "title": "Microsoft Corp (MSFT) 주식 움직였습니다 하락 3.80%에 6월25일: 전체 분석 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQODd3MUM0ZW1EMWJjT1pzbUtUV2pZQ0J2REUxY2ZHNkEwUUJJbG1vcUlyeFF1cC03QmNxS0ltVVRTa3pqMm55Q1B1azJIUGFKaE9EdHpIVTJCZ1B4a3d6MkMxaWlWamloQlU0MktySHlYR2lOeF9RWGJ2TGdOclBNX1NWZENIWHoxNGNZMU1YVQ?oc=5",
+   "source": "TradingKey",
+   "date": "2026-06-25"
   }
  ],
  "Micron Technology Inc": [
@@ -2216,9 +2216,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "SK Hynix Inc": [
   {
-   "title": "BNK투자증권, SK하이닉스 목표주가 185만 원?…충격의 리포트 - TV조선뉴스",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE96ekFIbFJ5c1BhVWxYcS1MaEFxcVlfbGJFYWR6TXZKVVZUSGd1WjdyZzVfbjlhNzEyXzFHOFp2R25RQm5JMXZNZ1RhSDQ2dEVSdDRXM25NbGkwTE9veGdWTmgwLWJPUjlvY1dWOVlTOW1ONGU1aWhaakpTMTQ3ajA?oc=5",
-   "source": "TV조선뉴스",
+   "title": "SK하이닉스 ADR 상장 D-1…애널리스트들 주가 전망 여전히 '긍정적' - 지디넷코리아",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBuVW9YTHhYNXMybE1KejczcjVtYWlUQ25uTGFUcFdjUm1uRzVhLVlfT0owTFpIdFNTRHJxWVZ6QndkTmlTMGZWTFQxSTVRdHA1SHhQWmln?oc=5",
+   "source": "지디넷코리아",
    "date": "2026-07-09"
   },
   {
@@ -2228,15 +2228,15 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-08"
   },
   {
-   "title": "나스닥 가는 SK하이닉스...주가 반등 계기 될까? - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQYmxaSEFyLVczMnRtaEtjYlhwYkxrd3ZXQ1ZPZ2Vpcm96T0VEYVRwNU9xQktsOWhWSjF6YS1ZSkNPYUY3VVd1Nl9CUWxPbE8xR3l1cDNOZnEyc3lWaVRYTzFRMkVaMjI4cDRZMHpMaFRmd291VmFSRTJDY1RoWTllRV9JNWdwbTRmSklv?oc=5",
-   "source": "조선일보",
-   "date": "2026-07-09"
-  },
-  {
    "title": "하이닉스 ADR 40조 흥행…185만원 vs 420만원, 전망 극과 극 - 중앙일보",
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFAwd09SajJReFBmdG9DWWUyLWJJbWVrSWNaYVNXclpsX2R1VGU2bDhJbWhuZFVLOExlSXdBWWxCS0NGdVJnTTNXSzdkNDRhSzNHUEJ1TDR3?oc=5",
    "source": "중앙일보",
+   "date": "2026-07-10"
+  },
+  {
+   "title": "SK하이닉스, 오늘 밤 나스닥 입성…국내 주가 영향은? - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBWVUhneTBoWWhYVUtNeXQ1NFBZdmlLSWQwNWdCenpkdTFZSGJaMndsRkxQMWFtUFpXTEpkaUo2Rk1weDlyWmRkX0tMUnhKZGRqQUE?oc=5",
+   "source": "매일경제 마켓",
    "date": "2026-07-10"
   }
  ],

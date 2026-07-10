@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-10",
-  "generated_utc": "2026-07-10T10:29:19Z",
+  "generated_utc": "2026-07-10T10:37:30Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -3837,12 +3837,12 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 641.71,
+      "current": 641.76,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 8.2543,
-      "mtd_pct": -0.0031,
-      "daily_pct": 0.1311,
+      "ytd_pct": 8.2628,
+      "mtd_pct": 0.0047,
+      "daily_pct": 0.1389,
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
@@ -4376,7 +4376,7 @@ window.BENCHMARKS = {
           646.29,
           635.91,
           640.87,
-          641.71
+          641.76
         ]
       }
     },
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1504.62,
+      "current": 1504.24,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 4.6394,
-      "mtd_pct": -2.407,
-      "daily_pct": 0.0845,
+      "ytd_pct": 4.6129,
+      "mtd_pct": -2.4317,
+      "daily_pct": 0.0592,
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1528.76,
           1519.86,
           1503.35,
-          1504.62
+          1504.24
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 72.02,
+      "current": 71.93,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 25.4267,
-      "mtd_pct": 3.6259,
-      "daily_pct": -0.0832,
+      "ytd_pct": 25.2699,
+      "mtd_pct": 3.4964,
+      "daily_pct": -0.2081,
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           70.44,
           73.52,
           72.08,
-          72.02
+          71.93
         ]
       }
     },
