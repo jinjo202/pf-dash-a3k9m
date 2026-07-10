@@ -8,8 +8,8 @@ window.EXPORT_FLASH = {
  "note": "관세청 10일단위 잠정(2026.06 누계, ~01~30). 상세 HS 확정(익월 15일) 전 신속치 — YoY는 전년 동월 같은 집계 기준.",
  "items": {
   "total": {
-   "val": 102.25,
-   "yoy": 70.9,
+   "val": 102.17,
+   "yoy": 70.7,
    "name": "전체"
   },
   "semi": {
@@ -18,18 +18,18 @@ window.EXPORT_FLASH = {
    "name": "반도체"
   },
   "steel": {
-   "val": 4.35,
-   "yoy": 17.8,
+   "val": 4.36,
+   "yoy": 17.9,
    "name": "철강제품"
   },
   "auto": {
-   "val": 6.37,
-   "yoy": 6.2,
+   "val": 6.36,
+   "yoy": 6.1,
    "name": "승용차"
   },
   "petroprod": {
-   "val": 5.63,
-   "yoy": 48.7,
+   "val": 5.58,
+   "yoy": 47.5,
    "name": "석유제품"
   },
   "wireless": {
@@ -48,7 +48,7 @@ window.EXPORT_FLASH = {
    "name": "자동차부품"
   },
   "computer": {
-   "val": 5.59,
+   "val": 5.58,
    "yoy": 282.7,
    "name": "컴퓨터주변기기"
   },
