@@ -485,7 +485,7 @@ window.MACRO = {
       "as_of": "2026-07-10"
     }
   ],
-  "generated": "2026-07-10T22:23:19Z",
+  "generated": "2026-07-10T22:54:11Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
