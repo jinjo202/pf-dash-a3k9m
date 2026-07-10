@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-09a";</script>
+<script>window.CODE_VERSION = "2026-07-09b";</script>
 <script>
   (function () {
     try {
@@ -1890,7 +1890,7 @@ function makeSpark(data, opts) {
     if (!stocks || !stocks.length) return null;
     var list = stocks.filter(function(x){ return x.sector === sectorName; });
     if (!list.length) return null;
-    list = list.slice().sort(function(a, b){ return (b.mktcap || 0) - (a.mktcap || 0); });
+    list = list.slice().sort(function(a, b){ return (b.mktcap || 0) - (a.mktcap || 0); }).slice(0, 10);
     return list.map(function(x){
       return { name: x.name, ticker: x.ticker, mktcap: x.mktcap, daily: x.chgPct, mtd: x.mtdPct, ytd: x.ytdPct };
     });
