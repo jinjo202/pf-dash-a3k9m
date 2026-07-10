@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-10T10:14:24
+// 갱신: 2026-07-10T10:32:19
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -62,7 +62,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "효성중공업, 주가 6%대 약세…전력설비주 차익실현에 동반 하락 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9vX29UQ1JyWE9JV0dmdS1rVnV6TWdHZTFLSldSVk80WUlrS1Q0Zi1oeDZ2RmlRSEc5R3BxZkFsUXRTNkZGM2FBRzd1Y0JHRTFhUXRNMDE1T2tTWGFCLUtlWHhOejFONVBR?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBOOUJLNkc4dk5uNnlwYVJqbHhoOXRHd2dTY3N6M2piZEc2a2pHZXdaR2NKTmp4Rm43WF9PUE5lUXVLcUV4cWhvMVQ2QjVIank0V2tQN2ZITmRLNjF6S0ZtY2pYWQ?oc=5",
    "source": "CBC뉴스",
    "date": "2026-07-06"
   },
