@@ -181,6 +181,16 @@ def build_html(brief):
         else:
             parts.append(styled_blank())
 
+    # 이번주 관전 포인트(outlook) — 앞을 내다보는 전망을 이메일 본문 하단에 노출.
+    outlook = [str(x).strip() for x in (brief.get("outlook") or []) if x and str(x).strip()]
+    if outlook:
+        parts.append('<p style="' + BODY + '"><span style="' + INNER_BLACK +
+                     ';font-weight:bold">■ 이번주 관전 포인트</span></p>')
+        for i, w in enumerate(outlook[:4]):
+            parts.append('<p style="' + BODY + '"><span style="' + INNER_BLACK +
+                         '">' + str(i + 1) + '. ' + esc(w) + '</span></p>')
+        parts.append(styled_blank())
+
     parts.append(body_p("감사합니다."))
     parts.append('</div>')
 
