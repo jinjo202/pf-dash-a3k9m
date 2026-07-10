@@ -1054,6 +1054,25 @@ def build():
     except Exception as e:
         print(f"  [warn] KRW=X 환율 실패: {e}", file=sys.stderr)
 
+    # 통화별 → 원화 크로스 환율 (해외 종목 시총 원화환산용). 실패 시 해당 통화만 생략.
+    fx_krw = {}
+    _FX = {"JPY": "JPYKRW=X", "HKD": "HKDKRW=X", "CNY": "CNYKRW=X", "EUR": "EURKRW=X",
+           "GBP": "GBPKRW=X", "CHF": "CHFKRW=X", "DKK": "DKKKRW=X"}
+    for ccy, ftk in _FX.items():
+        try:
+            _h = yf.Ticker(ftk).history(period="5d")["Close"].dropna()
+            if len(_h):
+                fx_krw[ccy] = round(float(_h.iloc[-1]), 4)
+        except Exception as e:
+            print(f"  [warn] {ftk} 실패: {e}", file=sys.stderr)
+    # NOK은 직접 크로스가 없어 USD 경유(USDKRW / USDNOK)
+    try:
+        _n = yf.Ticker("NOK=X").history(period="5d")["Close"].dropna()  # USD/NOK
+        if len(_n) and krw_rate:
+            fx_krw["NOK"] = round(krw_rate / float(_n.iloc[-1]), 4)
+    except Exception as e:
+        print(f"  [warn] NOK=X 실패: {e}", file=sys.stderr)
+
     regions_out = []
 
     for rkey, rmeta in REGION_META.items():
@@ -1253,7 +1272,8 @@ def build():
     payload = {
         "as_of":         global_as_of,
         "generated_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "krw":           krw_rate,        # 원/달러 (시총 원화 환산용)
+        "krw":           krw_rate,        # 원/달러 (USD 종목 시총 원화 환산용)
+        "fx":            fx_krw,          # 통화→원화 크로스 (해외 종목 시총 원화환산용)
         "regions":       regions_out,
     }
 

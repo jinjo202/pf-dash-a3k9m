@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-09b";</script>
+<script>window.CODE_VERSION = "2026-07-10a";</script>
 <script>
   (function () {
     try {
@@ -1932,14 +1932,15 @@ function makeSpark(data, opts) {
   // 티커 접미사로 시총 원통화 판별 — yfinance는 거래소 통화 그대로 mktcap을 반환하므로
   // (예: .KS→원화, .T→엔화, .HK→홍콩달러) 무조건 $ 표기하면 수십~수천배 오차가 생김.
   var TICKER_CCY = [
-    { re: /\.(KS|KQ)$/i, sym: '₩', group: 'ea' },
-    { re: /\.T$/i,       sym: '¥', group: 'ea' },
-    { re: /\.(SS|SZ)$/i, sym: '¥', group: 'ea' },
-    { re: /\.HK$/i,      sym: 'HK$', group: 'wide' },
-    { re: /\.(DE|PA|AS|MC|BR)$/i, sym: '€', group: 'wide' },
-    { re: /\.SW$/i,      sym: 'Fr', group: 'wide' },
-    { re: /\.L$/i,       sym: '£', group: 'wide' },
-    { re: /\.CO$/i,      sym: 'kr', group: 'wide' },
+    { re: /\.(KS|KQ)$/i, sym: '₩', ccy: 'KRW', group: 'ea' },
+    { re: /\.T$/i,       sym: '¥', ccy: 'JPY', group: 'ea' },
+    { re: /\.(SS|SZ)$/i, sym: '¥', ccy: 'CNY', group: 'ea' },
+    { re: /\.HK$/i,      sym: 'HK$', ccy: 'HKD', group: 'wide' },
+    { re: /\.(DE|PA|AS|MC|BR|MI)$/i, sym: '€', ccy: 'EUR', group: 'wide' },
+    { re: /\.SW$/i,      sym: 'Fr', ccy: 'CHF', group: 'wide' },
+    { re: /\.L$/i,       sym: '£', ccy: 'GBP', group: 'wide' },
+    { re: /\.CO$/i,      sym: 'kr', ccy: 'DKK', group: 'wide' },
+    { re: /\.OL$/i,      sym: 'kr', ccy: 'NOK', group: 'wide' },
   ];
   function tickerCcy(ticker) {
     if (!ticker) return null;
@@ -1959,22 +1960,22 @@ function makeSpark(data, opts) {
     if (v >= 1e6)  return sym + (v / 1e6).toFixed(0) + 'M';
     return sym + v.toFixed(0);
   }
-  // 종목 시총 표기: 티커로 원통화 판별 후 정확히 표기. 원화(KRW)만 실시간 환율(D.krw) 보유해
-  // USD/원화 병기, 그 외 통화(JPY/CNY/EUR 등)는 실시간 환율 데이터가 없어 무리한 달러 환산 없이
-  // 현지통화 그대로 정직하게 표기.
+  // 종목 시총 표기: 티커로 원통화 판별 → 원화환산(₩) 우선 표기 + 현지통화 병기.
+  // 환율: USD는 D.krw, 그 외(JPY/CNY/EUR/GBP/CHF/HKD/DKK/NOK)는 D.fx[통화].
+  // 원화(KRW) 종목은 이미 원화라 그대로. 환율 데이터가 없으면 현지통화만 표기(정직).
   // plain=true: HTML을 못 쓰는 컨텍스트(title 속성 등)용 — 태그 없는 순수 텍스트 반환
   function fmtMktcapByTicker(v, ticker, plain) {
     if (v == null) return '—';
     var c = tickerCcy(ticker);
-    if (!c) return fmtMktcapUsd(v);   // 접미사 없음 = 미국(USD)
-    if (c.sym === '₩') {
-      var krw = (D && D.krw) || 0;
-      var local = fmtMktcapEA(v, c.sym);
-      if (!krw) return local;
-      var usdPart = fmtMktcapUsd(v / krw);
-      return plain ? (usdPart + ' (' + local + ')') : (usdPart + ' <span class="sh-krw">(' + local + ')</span>');
-    }
-    return c.group === 'ea' ? fmtMktcapEA(v, c.sym) : fmtMktcapWide(v, c.sym);
+    var ccy = c ? c.ccy : 'USD';
+    var localStr = !c ? fmtMktcapUsd(v)
+      : (c.group === 'ea' ? fmtMktcapEA(v, c.sym) : fmtMktcapWide(v, c.sym));
+    if (ccy === 'KRW') return localStr;                 // 이미 원화
+    var rate = ccy === 'USD' ? ((D && D.krw) || 0)
+      : ((D && D.fx && D.fx[ccy]) || 0);
+    if (!rate) return localStr;                          // 환율 없으면 현지통화만
+    var krwStr = fmtMktcapEA(v * rate, '₩');
+    return krwStr + (plain ? ' (' + localStr + ')' : ' <span class="sh-krw">(' + localStr + ')</span>');
   }
   function renderSectorHoldings(name, holds, synthetic) {
     if (!holds || !holds.length) return '<div class="empty-note">' + escHtml(name) + ' 상위 종목 데이터 없음</div>';
