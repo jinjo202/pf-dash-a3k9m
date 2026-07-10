@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-09T23:45:10
+// 갱신: 2026-07-10T01:19:52
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,16 +9,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-06"
   },
   {
+   "title": "[AI MY 증시전망] 불안 되돌림…반도체 앞세워 강세 시도 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9xbExBeE9PZ05kTVY0SVNMM3RGaUlTQmVSbDFqTV9EUVZkZUhkZG1wZUhxZkxBMTBpOUJRb3djblVEYjVMcjdDTDEtQjVLcFRpcnVMb0RVdWFmcVNv?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-07-09"
+  },
+  {
    "title": "[주간증시전망] 8000선 사수한 코스피, 삼성전자 실적이 반등 ‘신호탄’ 될까 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNX2tmTGJMNjBjbmRrY0RYd0pQZDlhVUJNM0JPRGg1Wjc4NFRqeTEwZTZ0QmdnQ2xwZGdOZ2V6aVhEUFRtQVZPZzY3RDlIbzNhSVBQQ2RjbFJzSm9DRnpXa2c5WUNuVmJkUWRwenlzdmotZnJrclMzY1lFRW9GYkZQUGlpR1lPb3Zs0gGcAUFVX3lxTE1oajAyVHR2N0RGWEVqSkppaXh4UHZSeGE2LXU0Yl9FX1gtRFJGUU9HSUtlQWVuM3pyTlhQNS1HTHlMZGcya3hiMkxnc3pzeHByWVpRXzhOVDdNcGFsS1dvSEo3b1B5NnZQQndDbzNMbXgxaDJ2THpRYUFPcm1tc19BX2ROSWlhSzdPN0hVRUc4R1F2bnQ5RkFPVHYwUg?oc=5",
    "source": "Chosunbiz",
    "date": "2026-07-04"
-  },
-  {
-   "title": "[AI MY 증시전망] \"코스피, 공포심리 딛고 반등 모색…반도체 실적 주목\" - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9wcHpRc2JNc1NiQkktOEJ0SmFaUE94ZFlrTWdjQTI0dmYxZDJ2SEFMbUVGTTdtSVpnVXNiVzZ5Z3I1dHBKc3Z4VmZESGtGc1hhdlBPVHlSWjZBWmZL?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-07-05"
   },
   {
    "title": "'변동성' 시달린 코스피…이젠 '실적 시즌' 시작이다 [주간 증시 전망] - v.daum.net",
@@ -61,10 +61,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-08"
   },
   {
-   "title": "LS, 32만원선 회복…전력 인프라 기대감 속 주가 3%대 강세 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1jSVNSV0ZQOExXLU95MmRuQTVtN19GbVllS3llWTFfc3lfTE9WdHhGa25YV2xEZkdrZC1jWGg2dkVadzQzTmRDdjl4dkRpczRKdjBJQVhMRHhoN28wTXF0SVRSUC1QNjRQ?oc=5",
+   "title": "효성중공업, 주가 6%대 약세…전력설비주 차익실현에 동반 하락 - CBC뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9vX29UQ1JyWE9JV0dmdS1rVnV6TWdHZTFLSldSVk80WUlrS1Q0Zi1oeDZ2RmlRSEc5R3BxZkFsUXRTNkZGM2FBRzd1Y0JHRTFhUXRNMDE1T2tTWGFCLUtlWHhOejFONVBR?oc=5",
    "source": "CBC뉴스",
-   "date": "2026-07-09"
+   "date": "2026-07-06"
   },
   {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
@@ -333,10 +333,10 @@ window.HOLDING_NEWS = {
    "date": "2026-04-17"
   },
   {
-   "title": "BofA \"美 증시, 지금은 약세론 주장 불가능\"...경기민감주 랠리 주도 기대↑ - 코인리더스",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5NRXp3bk1NVnFvUzFTZ1JmSzNUajZWYWdvcW0ybVAwSnI4dnBkeUdscFE3LVRrZGctQzRtb1VMY002ZElxZnQ1U2pB?oc=5",
-   "source": "코인리더스",
-   "date": "2026-07-03"
+   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
+   "source": "블루밍비트",
+   "date": "2026-05-30"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
