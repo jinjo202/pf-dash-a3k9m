@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-10a";</script>
+<script>window.CODE_VERSION = "2026-07-11a";</script>
 <script>
   (function () {
     try {
@@ -47,6 +47,7 @@
     document.write('<sc'+'ript src="briefing-data.js?v=' + v + '"><\/sc'+'ript>');
     document.write('<sc'+'ript src="weekly-data.js?v=' + v + '" onerror="window.WEEKLY=null"><\/sc'+'ript>');
     document.write('<sc'+'ript src="macro-data.js?v=' + v + '" onerror="window.MACRO=null"><\/sc'+'ript>');
+    document.write('<sc'+'ript src="morning-note.js?v=' + v + '" onerror="window.MORNING=null"><\/sc'+'ript>');
   })();
 </script>
 <!-- 워드(.docx) 생성용 라이브러리 (클라이언트 사이드, 브리핑 → 개조식 보고서) -->
@@ -656,6 +657,56 @@
   .tm-tile .tm-tkr { font-weight:800; letter-spacing:-.02em; }
   .tm-tile .tm-pct { font-weight:600; opacity:.92; }
   .tm-empty { color:var(--muted); font-size:12px; font-style:italic; padding:30px 0; text-align:center; }
+
+  /* ── 모닝 노트 ── */
+  .mn-wrap { max-width:900px; }
+  .mn-topbar { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .mn-badge { font-size:11px; font-weight:800; color:#fff; background:var(--accent); padding:4px 11px; border-radius:20px; }
+  .mn-when { font-size:11px; color:var(--muted); font-weight:600; }
+  .mn-pdf { margin-left:auto; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border:1px solid var(--accent); border-radius:8px; padding:6px 12px; cursor:pointer; white-space:nowrap; }
+  .mn-pdf:hover { filter:brightness(1.08); }
+  .mn-card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px 22px; box-shadow:var(--shadow-sm); }
+  .mn-tone { display:inline-block; font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; margin-bottom:10px;
+    background:var(--accent-soft); color:var(--accent); }
+  .mn-headline { font-size:22px; font-weight:800; letter-spacing:-.02em; line-height:1.28; margin:0 0 10px; color:var(--text); }
+  .mn-lead { font-size:13.5px; line-height:1.8; color:var(--text-soft); margin:0 0 18px; }
+  .mn-sec { margin-top:20px; }
+  .mn-sec-h { font-size:14px; font-weight:800; margin:0 0 10px; padding-left:9px; border-left:3px solid var(--accent); }
+  .mn-idxrow { display:flex; flex-wrap:wrap; gap:8px; }
+  .mn-idx { font-size:12px; font-weight:700; background:var(--panel-soft); border:1px solid var(--border); border-radius:8px; padding:6px 10px; }
+  .mn-list { display:flex; flex-direction:column; gap:11px; }
+  .mn-li { display:flex; gap:9px; }
+  .mn-li .dot { width:7px; height:7px; border-radius:50%; margin-top:6px; flex-shrink:0; background:var(--accent); }
+  .mn-li .t { font-size:13px; font-weight:700; line-height:1.45; color:var(--text); }
+  .mn-li .d { font-size:11.5px; line-height:1.55; color:var(--muted); margin-top:3px; }
+  .mn-two { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:640px){ .mn-two { grid-template-columns:1fr; } }
+  .mn-mv { display:flex; align-items:center; gap:8px; padding:6px 0; border-top:1px solid var(--border); font-size:12.5px; }
+  .mn-mv:first-child { border-top:none; }
+  .mn-mv .nm { font-weight:700; color:var(--text); }
+  .mn-mv .pct { margin-left:auto; font-weight:800; font-variant-numeric:tabular-nums; }
+  .mn-ol { display:flex; flex-direction:column; }
+  .mn-olrow { display:flex; gap:10px; padding:9px 0; border-top:1px solid var(--border); }
+  .mn-olrow:first-child { border-top:none; }
+  .mn-olrow .num { font-size:12.5px; font-weight:800; color:var(--accent); min-width:20px; }
+  .mn-olrow .txt { font-size:12.5px; font-weight:600; line-height:1.5; color:var(--text-soft); }
+  .mn-mtab { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .mn-mtab td { padding:6px 8px; border-bottom:1px solid var(--border); }
+  .mn-mtab td:nth-child(2) { text-align:right; font-weight:800; font-variant-numeric:tabular-nums; }
+  .mn-mtab td:nth-child(3) { text-align:right; font-weight:700; }
+  .mn-foot { margin-top:18px; font-size:10.5px; color:var(--muted); line-height:1.5; }
+  .mn-empty { color:var(--muted); font-size:13px; padding:40px 0; text-align:center; }
+  /* 인쇄(PDF 저장): 모닝 노트만 흰 배경으로 깔끔하게 */
+  @media print {
+    header, .sidebar, .theme-toggle, .mn-pdf { display:none !important; }
+    main { padding:0 !important; max-width:none !important; }
+    #view-content, #region-content { display:block !important; }
+    body { background:#fff !important; }
+    .mn-card { box-shadow:none !important; border:1px solid #ddd !important; page-break-inside:auto; }
+    .mn-wrap { max-width:none !important; }
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  }
 
   /* ── 브리핑 카드 (장전/장마감후 시황) ── */
   .bfc-hero { margin:6px 0 4px; }
@@ -1445,6 +1496,59 @@ function makeSpark(data, opts) {
     }
     return html;
   }
+
+  /* ── 모닝 노트 렌더 ── */
+  function renderMorningNote() {
+    var MN = window.MORNING;
+    if (!MN) return '<div class="mn-wrap"><div class="mn-empty">모닝 노트 데이터(morning-note.js)가 아직 생성되지 않았습니다.<br>로컬에서 <code>python morning_note.py</code> 실행 또는 cron 갱신 후 표시됩니다.</div></div>';
+    var html = '<div class="mn-wrap">';
+    html += '<div class="mn-topbar">' +
+      '<span class="mn-badge">🌅 모닝 노트</span>' +
+      '<span class="mn-when">' + escHtml(MN.date_kst || '') + ' KST 작성 · 기준 ' + escHtml(MN.as_of || '') + ' 마감</span>' +
+      '<button type="button" class="mn-pdf" onclick="printMorningNote()">📄 PDF 출력</button>' +
+    '</div>';
+    html += '<div class="mn-card">';
+    if (MN.tone) html += '<span class="mn-tone">시장 톤 · ' + escHtml(MN.tone) + '</span>';
+    html += '<h1 class="mn-headline">' + escHtml(MN.headline || '') + '</h1>';
+    if (MN.lead) html += '<p class="mn-lead">' + escHtml(MN.lead) + '</p>';
+
+    if (MN.indices && MN.indices.length) {
+      html += '<div class="mn-sec"><div class="mn-sec-h">📈 지역 대표지수</div><div class="mn-idxrow">';
+      MN.indices.forEach(function(x){ html += '<span class="mn-idx ' + colorClass(x.chg) + '">' + escHtml(x.name) + ' ' + fmtPct(x.chg) + '</span>'; });
+      html += '</div></div>';
+    }
+    if (MN.us && MN.us.length) {
+      html += '<div class="mn-sec"><div class="mn-sec-h">🌙 간밤 미국' + (MN.us_as_of ? ' (' + escHtml(MN.us_as_of) + ')' : '') + '</div><div class="mn-list">';
+      MN.us.forEach(function(s){ html += '<div class="mn-li"><span class="dot"></span><div><div class="t">' + escHtml(s.head) + '</div>' + (s.detail ? '<div class="d">' + escHtml(s.detail) + '</div>' : '') + '</div></div>'; });
+      html += '</div></div>';
+    }
+    html += '<div class="mn-sec"><div class="mn-two">';
+    html += '<div><div class="mn-sec-h" style="margin-bottom:8px">📈 상승 Top</div>';
+    (MN.movers_up || []).forEach(function(m){ html += '<div class="mn-mv"><span>' + m.flag + '</span><span class="nm">' + escHtml(m.name) + '</span><span class="pct pos">' + fmtPct(m.pct) + '</span></div>'; });
+    html += '</div><div><div class="mn-sec-h" style="margin-bottom:8px">📉 하락 Top</div>';
+    (MN.movers_down || []).forEach(function(m){ html += '<div class="mn-mv"><span>' + m.flag + '</span><span class="nm">' + escHtml(m.name) + '</span><span class="pct neg">' + fmtPct(m.pct) + '</span></div>'; });
+    html += '</div></div></div>';
+
+    if (MN.asia && MN.asia.length) {
+      html += '<div class="mn-sec"><div class="mn-sec-h">🌏 아시아' + (MN.asia_as_of ? ' (' + escHtml(MN.asia_as_of) + ')' : '') + '</div><div class="mn-list">';
+      MN.asia.forEach(function(h){ html += '<div class="mn-li"><span class="dot"></span><div class="t">' + escHtml(h) + '</div></div>'; });
+      html += '</div></div>';
+    }
+    if (MN.outlook && MN.outlook.length) {
+      html += '<div class="mn-sec"><div class="mn-sec-h">🎯 오늘의 관전 포인트</div><div class="mn-ol">';
+      MN.outlook.forEach(function(o, i){ html += '<div class="mn-olrow"><span class="num">' + ('0' + (i + 1)).slice(-2) + '</span><span class="txt">' + escHtml(o) + '</span></div>'; });
+      html += '</div></div>';
+    }
+    if (MN.macro && MN.macro.length) {
+      html += '<div class="mn-sec"><div class="mn-sec-h">📊 매크로 스냅샷</div><table class="mn-mtab"><tbody>';
+      MN.macro.forEach(function(m){ var cls = m.cls === 'pos' ? 'pos' : (m.cls === 'neg' ? 'neg' : ''); html += '<tr><td>' + escHtml(m.name) + '</td><td>' + escHtml(m.value) + '</td><td class="' + cls + '">' + escHtml(m.signal || '') + '</td></tr>'; });
+      html += '</tbody></table></div>';
+    }
+    html += '<div class="mn-foot">※ 기존 시황 브리핑·매크로·등락 데이터를 자동 조합한 요약입니다(장 시작 전 기준, 프리마켓·개장가에 따라 변동 가능). 등락 사유·전망은 자동 생성이며 투자판단의 근거가 아닙니다.</div>';
+    html += '</div></div>';
+    return html;
+  }
+  window.printMorningNote = function(){ window.print(); };
 
   function renderBriefingFeed(feed) {
     var list = getBriefings(feed);
@@ -2585,6 +2689,7 @@ function makeSpark(data, opts) {
 
   function renderView(view) {
     if (view === 'overview') return renderOverview();
+    if (view === 'morning')  return renderMorningNote();         // 모닝 노트
     if (view === 'global')   return renderBriefingOnly('us');    // 장전
     if (view === 'intraday') return renderIntraday();            // 장중
     if (view === 'asia')     return renderBriefingOnly('asia');  // 장마감후
@@ -2627,8 +2732,11 @@ function makeSpark(data, opts) {
             '</div>';
   sbHtml += '<div class="sb-section">' +
             '<div class="sb-label">일간 시황</div>' +
+            '<div class="sb-item" data-view="morning" onclick="switchView(\'morning\')">' +
+            '<span class="sb-icon">🌅</span><span>모닝 노트</span>' +
+            '</div>' +
             '<div class="sb-item" data-view="global" onclick="switchView(\'global\')">' +
-            '<span class="sb-icon">🌅</span><span>장전</span>' +
+            '<span class="sb-icon">🗞</span><span>장전</span>' +
             (hasGlobal ? '' : '<span style="margin-left:auto;font-size:10px;color:var(--muted)">N/A</span>') +
             '</div>' +
             '<div class="sb-item" data-view="intraday" onclick="switchView(\'intraday\')">' +
