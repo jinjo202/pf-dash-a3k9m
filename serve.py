@@ -306,6 +306,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             pass
 
         sent = False
+        rate_limit_info = None   # 마지막으로 관측한 5시간 사용량 윈도우 상태(실패 시 원인 표시용)
+        result_error = None      # result 이벤트가 is_error=true로 온 경우의 메시지
         try:
             for line in proc.stdout:
                 line = line.strip()
@@ -328,6 +330,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                                 "추가 과금을 막기 위해 호출을 중단했습니다. `claude` 가 구독으로 로그인됐는지 확인하세요.")
                         return
                     continue
+                if t == "rate_limit_event":
+                    rate_limit_info = ev.get("rate_limit_info") or None
+                    continue
                 if t == "stream_event":
                     e = ev.get("event", {})
                     if e.get("type") == "content_block_delta":
@@ -341,10 +346,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         if blk.get("type") == "text" and blk.get("text"):
                             sent = True
                             self._w(blk["text"])
-                elif t == "result" and not sent:
-                    if ev.get("result"):
+                elif t == "result":
+                    if ev.get("result") and not sent:
                         sent = True
                         self._w(str(ev["result"]))
+                    elif ev.get("is_error"):
+                        result_error = str(ev.get("result") or ev.get("subtype") or "알 수 없는 오류")
         except Exception:
             pass
 
@@ -356,6 +363,28 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             except Exception:
                 pass
         if not sent:
+            # 5시간 사용량 윈도우 소진이 원인인지 우선 표시 — "로그인 문제"로 오인하는 것 방지.
+            if rate_limit_info and rate_limit_info.get("status") not in ("allowed", None):
+                import datetime as _dt
+                resets_at = rate_limit_info.get("resetsAt")
+                resets_str = ""
+                if resets_at:
+                    try:
+                        resets_str = _dt.datetime.fromtimestamp(
+                            resets_at, _dt.timezone(_dt.timedelta(hours=9))
+                        ).strftime("%H:%M KST")
+                    except Exception:
+                        pass
+                util = rate_limit_info.get("utilization")
+                util_pct = ("%.0f%%" % (util * 100)) if isinstance(util, (int, float)) else "?"
+                self._w("⏳ Claude 요금제 5시간 사용량 한도 임박/소진으로 응답을 받지 못했습니다.\n"
+                        "사용률 %s (임계 90%% 초과)%s\n"
+                        "잠시 후 재시도하거나, 위 모드를 무료 Gemini로 잠시 전환하세요." % (
+                            util_pct, (" · 리셋 " + resets_str) if resets_str else ""))
+                return
+            if result_error:
+                self._w("⚠ Claude Code 오류: " + result_error[:500])
+                return
             err = ""
             try:
                 err = (proc.stderr.read() or "")[:600]
