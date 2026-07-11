@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-11",
-  "generated_utc": "2026-07-11T08:30:43Z",
+  "generated_utc": "2026-07-11T08:58:46Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 19.14,
+        "pe": 18.95,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2205,8 +2205,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 20.05,
-        "pb": 1.76,
+        "pe": 19.83,
+        "pb": 1.75,
         "roe": null,
         "src": "SPY (top derived)",
         "pe_kind": "fwd",
@@ -2752,7 +2752,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 19.35,
+        "pe": 19.18,
         "pb": 2.03,
         "roe": null,
         "src": "QQQ (top derived)",
@@ -3299,8 +3299,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 20.31,
-        "pb": 1.37,
+        "pe": 20.2,
+        "pb": 1.35,
         "roe": null,
         "src": "SOXX (top derived)",
         "pe_kind": "fwd",
@@ -3846,7 +3846,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 15.77,
+        "pe": 15.83,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4393,7 +4393,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 0,
       "valuation": {
-        "pe": 23.0,
+        "pe": 23.02,
         "pb": 1.4,
         "roe": null,
         "src": "EWJ (top derived)",
