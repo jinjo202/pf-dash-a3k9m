@@ -219,6 +219,63 @@ def _dividend_extras(tk, price, closes=None):
     return ex
 
 
+def _pick(df, names):
+    """income_stmt DataFrame에서 후보 행이름 중 존재하는 첫 값 반환(열=기간)."""
+    for nm in names:
+        if nm in df.index:
+            return df.loc[nm]
+    return None
+
+
+def _financials(tk):
+    """최근 3개년(연간) + 최근 4분기 매출/영업이익/순이익.
+    반환: {ccy, a:[[기간,매출,영업이익,순이익]...], q:[...]} (값=보고통화 원화폐단위)."""
+    REV = ["Total Revenue", "Operating Revenue", "Total Revenue As Reported"]
+    OP = ["Operating Income", "Total Operating Income As Reported", "EBIT"]
+    NI = ["Net Income", "Net Income Common Stockholders",
+          "Net Income From Continuing Operation Net Minority Interest"]
+
+    def series_at(row, col):
+        if row is None:
+            return None
+        try:
+            v = row.get(col)
+            v = float(v)
+            return v if v == v else None
+        except Exception:
+            return None
+
+    def build(df, n, quarterly):
+        if df is None or df.empty:
+            return []
+        rev, op, ni = _pick(df, REV), _pick(df, OP), _pick(df, NI)
+        cols = list(df.columns)[:n]
+        rows = []
+        for c in cols:
+            try:
+                if quarterly:
+                    label = f"{str(c.year)[2:]}Q{(c.month - 1)//3 + 1}"
+                else:
+                    label = str(c.year)
+            except Exception:
+                label = str(c)[:7]
+            rows.append([label, series_at(rev, c), series_at(op, c), series_at(ni, c)])
+        return rows
+
+    out = {"ccy": None, "a": [], "q": []}
+    try:
+        out["a"] = build(tk.income_stmt, 3, False)
+    except Exception:
+        out["a"] = []
+    try:
+        out["q"] = build(tk.quarterly_income_stmt, 4, True)
+    except Exception:
+        out["q"] = []
+    if not out["a"] and not out["q"]:
+        return None
+    return out
+
+
 def fetch_one(sym: str):
     """(dict) 반환. 실패시 값 None."""
     q = {"price": None, "ccy": "", "yld": None, "yldT": None, "payout": None,
@@ -227,7 +284,7 @@ def fetch_one(sym: str):
          "drate": None, "exdiv": None,
          "dps_ttm": None, "freq_n": None, "freq": None,
          "last_div": None, "next_exdiv": None, "next_paydiv": None, "hist": [],
-         "ohlc": []}
+         "ohlc": [], "avg3y": None, "yld3avg": None, "fin": None}
     info = {}
     tk = None
     for attempt in range(3):
@@ -301,6 +358,18 @@ def fetch_one(sym: str):
         if chg is not None:
             q["ret1y"] = round(chg * 100, 1)
 
+    # 과거 3년 평균주가 + 그 대비 배당률(정상화 배당률): 고평가/저평가 판단 보조
+    try:
+        if closes is not None and len(closes):
+            a3 = closes.dropna().tail(756)  # 약 3년(252*3) 거래일
+            if len(a3):
+                avg3 = float(a3.mean())
+                q["avg3y"] = _rp(avg3)
+                if drate is not None and avg3 > 0:
+                    q["yld3avg"] = round(drate / avg3 * 100, 2)
+    except Exception:
+        pass
+
     # 최근 250거래일(~1년) OHLC (캔들차트·이평선·RSI용) — [MM-DD, O, H, L, C]
     #   MA60/RSI14 는 룩백이 필요해 넉넉히 저장, 프런트에서 기간(1M/3M/6M/1Y) 슬라이스
     try:
@@ -330,6 +399,18 @@ def fetch_one(sym: str):
     # TTM 주당배당이 있으면 이를 표시용 DPS 로도 사용(단위=주가 통화, .L은 pence)
     if q.get("dps_ttm") is None and q.get("drate") is not None:
         q["dps_ttm"] = round(q["drate"], 4)
+    # TTM 배당률 폴백: trailingAnnualDividendRate 누락 시(주로 KR) TTM 배당금/주가로 계산
+    if q.get("yldT") is None and q.get("dps_ttm") and price and price > 0:
+        q["yldT"] = round(q["dps_ttm"] / price * 100, 2)
+
+    # ── 재무: 최근 3년(연간) + 4분기 매출/영업이익/순이익 ──
+    try:
+        fin = _financials(tk)
+        if fin:
+            fin["ccy"] = info.get("financialCurrency") or q.get("ccy") or ""
+            q["fin"] = fin
+    except Exception:
+        pass
     return q
 
 

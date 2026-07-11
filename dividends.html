@@ -152,6 +152,25 @@
   .switch .track::after { content:""; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#fff; transition:transform .15s; box-shadow:0 1px 2px rgba(0,0,0,.3); }
   .switch input:checked + .track { background:var(--accent); }
   .switch input:checked + .track::after { transform:translateX(16px); }
+  .search-box { padding:7px 11px; border:1px solid var(--border); border-radius:8px; background:var(--panel); color:var(--text); font-size:12.5px; min-width:190px; font-family:inherit; }
+  .search-box:focus { outline:none; border-color:var(--accent); }
+
+  /* 비교 체크박스 + 패널 */
+  .cmp-chk { flex:0 0 auto; width:15px; height:15px; cursor:pointer; accent-color:var(--accent); }
+  #comparePanel h2 { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .cmp-clear { margin-left:auto; font-size:11.5px; font-weight:700; color:var(--muted); background:var(--panel-soft); border:1px solid var(--border); border-radius:7px; padding:5px 11px; cursor:pointer; }
+  .cmp-clear:hover { color:var(--neg); border-color:var(--neg); }
+  .cmp-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-top:10px; }
+  .cmp-t { border-collapse:collapse; font-size:12px; font-variant-numeric:tabular-nums; }
+  .cmp-t th, .cmp-t td { padding:7px 12px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; min-width:96px; }
+  .cmp-t thead th { font-size:12px; font-weight:800; color:var(--text); border-bottom:2px solid var(--border); vertical-align:top; }
+  .cmp-t .cmp-mk { text-align:left; position:sticky; left:0; background:var(--panel); color:var(--muted); font-weight:700; min-width:110px; z-index:1; }
+  .cmp-t thead .cmp-mk { z-index:2; }
+  .cmp-t tbody tr:hover td { background:var(--row-hover); }
+  .cmp-t tbody tr:hover .cmp-mk { background:var(--row-hover); }
+  .cmp-tk { font-size:10px; color:var(--muted); font-family:ui-monospace,monospace; font-weight:500; margin-top:2px; }
+  .cmp-x { border:none; background:var(--neu-soft); color:var(--muted); width:17px; height:17px; border-radius:50%; cursor:pointer; font-size:10px; line-height:1; padding:0; }
+  .cmp-x:hover { background:var(--neg); color:#fff; }
 
   /* summary cards */
   .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:16px 0 0; }
@@ -162,7 +181,7 @@
 
   /* table */
   .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:12px; }
-  table.dt { border-collapse:collapse; width:100%; min-width:1180px; font-size:12.5px; font-variant-numeric:tabular-nums; background:var(--panel); }
+  table.dt { border-collapse:collapse; width:100%; min-width:1280px; font-size:12.5px; font-variant-numeric:tabular-nums; background:var(--panel); }
   table.dt th, table.dt td { padding:9px 12px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
   table.dt thead th { font-size:11px; font-weight:800; color:var(--muted); letter-spacing:.02em; position:sticky; top:0; background:var(--panel); cursor:pointer; user-select:none; z-index:1; }
   table.dt thead th:hover { color:var(--accent); }
@@ -199,6 +218,7 @@
   tr.main.is-held td:first-child { box-shadow:inset 3px 0 0 var(--held-fg); }
   .ex-p { color:var(--accent); font-weight:700; } .ex-n { color:var(--muted); }
   .yld-big { font-weight:800; font-size:13.5px; }
+  .yld-ttm { font-size:9.5px; color:var(--muted); font-weight:600; margin-top:1px; }
   .yld-hi { color:var(--pos); }
   .flag5 { display:inline-block; margin-left:5px; font-size:9.5px; font-weight:800; color:var(--pos); }
   .flag5.no { color:var(--muted-soft); }
@@ -266,6 +286,13 @@
   .rsi-g { stroke:var(--border); stroke-width:.7; stroke-dasharray:2 2; }
   .rsi-g70 { stroke:var(--neg); opacity:.45; } .rsi-g30 { stroke:var(--pos); opacity:.45; }
   .rsi-lab { fill:#a855f7; font-weight:800; }
+  .fin-cap { font-size:11px; font-weight:800; color:var(--text-soft); margin:2px 0 4px; }
+  .fin-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .fin-t { border-collapse:collapse; width:100%; min-width:300px; font-size:11.5px; font-variant-numeric:tabular-nums; }
+  .fin-t th, .fin-t td { padding:5px 9px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
+  .fin-t thead th { font-size:10px; color:var(--muted); font-weight:800; }
+  .fin-t td:first-child, .fin-t th:first-child { text-align:left; color:var(--muted); font-weight:700; position:sticky; left:0; background:var(--panel-soft); }
+  .fin-t tbody tr:hover td { background:var(--row-hover); }
   .retmx { width:100%; max-width:460px; border-collapse:collapse; font-size:11.5px; font-variant-numeric:tabular-nums; }
   .retmx th, .retmx td { padding:5px 10px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
   .retmx th { font-size:10px; color:var(--muted); font-weight:800; }
@@ -412,6 +439,7 @@
     </div>
     <div class="cards" id="cards"></div>
     <div class="toolbar" style="margin-top:16px">
+      <input type="search" id="searchBox" class="search-box" placeholder="🔍 종목 검색 (이름·티커)" autocomplete="off" />
       <label class="switch"><input type="checkbox" id="only5"><span class="track"></span><span>시가배당률 5%+ 만</span></label>
       <label class="switch"><input type="checkbox" id="onlyHeld"><span class="track"></span><span>보유 종목만</span></label>
       <label class="switch"><input type="checkbox" id="grpToggle"><span class="track"></span><span>섹터별 묶기</span></label>
@@ -434,6 +462,9 @@
       </span>
     </div>
   </div>
+
+  <!-- 종목 비교 패널 -->
+  <div class="panel hidden" id="comparePanel"></div>
 
   <!-- 스크리닝 테이블 -->
   <div class="tbl-wrap">
@@ -695,7 +726,7 @@ function personaDiv(rg){
   return [
     '당신은 글로벌 운용사의 시니어 배당·인컴 전략 애널리스트입니다. 담당 시장은 '+regionKo(rg)+'입니다.',
     '기관 포트폴리오 매니저(고객)를 위해 "이 종목을 배당(인컴) 포트폴리오에 편입할 가치가 있는가"를 판정하는 의사결정 지향 리서치를 작성합니다. 결론(편입 적합도)을 먼저 제시한 뒤 근거를 답니다.',
-    '반드시 다루세요: (1) 배당 매력 — 현재 시가배당률·배당 성장 이력/여력, (2) 배당 안전성 — 배당성향·FCF/이익 대비 배당 커버리지·부채, 삭감 리스크, (3) 밸류에이션(PER·PBR·동종 대비), (4) 핵심 리스크 3가지, (5) 결론 — 편입 적합도(적극/보통/관망)와 그 이유. 필요하면 표를 사용.',
+    '반드시 다루세요: (1) 배당 매력 — 현재 시가배당률·배당 성장 이력/여력, (2) 배당 안전성 — 배당성향·FCF/이익 대비 배당 커버리지·부채, 삭감 리스크, (3) 사업 구조 — 최근 실적(매출·영업이익·순이익) 흐름과 특히 **주요 사업부/세그먼트별 매출 구성과 비중**(표로), (4) 밸류에이션(PER·PBR·동종 대비), (5) 핵심 리스크 3가지, (6) 결론 — 편입 적합도(적극/보통/관망)와 그 이유. 필요하면 표를 사용.',
     '현재 시점은 '+asOfStr()+'입니다. 웹 검색(web_search/google_search)이 가능하면 최신 주가·배당수익률·최근 배당 발표(증액/삭감/특별배당)·컨센서스를 반영하고 핵심 수치엔 출처(매체·날짜)를 표기하세요. 검색이 불가하면 추정치임을 명시하세요.',
     '출력은 한국어. 마크다운(##, ###, 표, 불릿)을 적극 활용. 통화는 해당 시장 기준. 과도한 면책·반복 금지, 표는 핵심만.'
   ].join('\n');
@@ -861,6 +892,9 @@ function buildRows(){
       rows.push({
         rg:rg, it:it, q:q,
         yld:yld, yldLive:!!(q && q.yld!=null),
+        yldT:(q&&q.yldT!=null)?q.yldT:null,
+        yld3avg:(q&&q.yld3avg!=null)?q.yld3avg:null,
+        avg3y:(q&&q.avg3y!=null)?q.avg3y:null,
         meets5:meets5,
         payout:(q&&q.payout!=null)?q.payout:null,
         per:(q&&q.per!=null)?q.per:null,
@@ -958,12 +992,13 @@ function extLinks(row){
 }
 
 /* ============================ 상태 + 렌더 ============================ */
-var STATE = { region:'ALL', only5:false, onlyHeld:false, group:false, cat:'', sort:'yld' };
+var STATE = { region:'ALL', only5:false, onlyHeld:false, group:false, cat:'', sort:'yld', search:'', compare:[] };
 try { var sr=localStorage.getItem('div_region'); if(sr) STATE.region=sr; } catch(e){}
 
 var COLS = [
   { k:'nm',    label:'종목',        sortable:false },
-  { k:'yld',   label:'시가배당률',   sortable:true },
+  { k:'yld',   label:'시가배당률 (fwd/TTM)', sortable:true },
+  { k:'yld3avg',label:'배당률(3Y평균가)', sortable:true },
   { k:'dps',   label:'주당배당(연)', sortable:false },
   { k:'freq',  label:'주기',        sortable:false },
   { k:'streak',label:'연속증배',     sortable:true },
@@ -1001,6 +1036,8 @@ function currentRows(){
   if(STATE.only5) rows = rows.filter(function(r){ return r.meets5; });
   if(STATE.onlyHeld) rows = rows.filter(function(r){ return r.held; });
   if(STATE.cat) rows = rows.filter(function(r){ return r.it.cat===STATE.cat; });
+  if(STATE.search){ var s=STATE.search.toLowerCase();
+    rows = rows.filter(function(r){ return (r.it.n+' '+r.it.nEn+' '+r.it.t+' '+r.it.yf).toLowerCase().indexOf(s)>=0; }); }
   var s=STATE.sort;
   var asc = (s==='payout'||s==='per'); // 낮을수록 좋은 지표는 오름차순
   function cmp(a,b){
@@ -1064,13 +1101,17 @@ function rowHtml(r, idx){
   var lag = isLaggard(r);
   var weakTip = it.weak ? it.weak.slice(0,80) : '최근 1년 주가 부진 — 상세의 사유·뉴스 참조';
   var weakBadge = lag ? '<span class="badge weak" title="'+esc(weakTip)+'">부진</span>' : '';
+  var cmpOn = STATE.compare.indexOf(it.yf)>=0;
   var nm = '<div class="nm-cell">'
+    + '<input type="checkbox" class="cmp-chk" data-yf="'+esc(it.yf)+'"'+(cmpOn?' checked':'')+' title="비교에 추가" onclick="event.stopPropagation()">'
     + '<span class="chev">▶</span>'
     + '<div><div class="nm-main">'+flag_(rg_of(r))+' '+esc(it.n)+' '+heldBadge+weakBadge+'<span class="badge '+bc+'">'+esc(it.cat)+'</span></div>'
     + '<div class="nm-sub">'+esc(it.t)+' · '+esc(it.sec)+'</div></div></div>';
   return '<tr class="main'+(r.held?' is-held':'')+'" data-idx="'+idx+'">'
     + '<td>'+nm+'</td>'
-    + '<td><span class="yld-big '+yldCls+'">'+fmtYld(r.yld)+'</span>'+liveDot+flag+'</td>'
+    + '<td><span class="yld-big '+yldCls+'">'+fmtYld(r.yld)+'</span>'+liveDot+flag
+    +   '<div class="yld-ttm">TTM '+(r.yldT!=null?r.yldT.toFixed(1)+'%':'—')+'</div></td>'
+    + '<td>'+(r.yld3avg!=null?'<span class="tnum">'+r.yld3avg.toFixed(1)+'%</span>':'<span class="muted">—</span>')+'</td>'
     + '<td>'+esc(fmtMoney(r.dpsAnnual, r.ccy))+'</td>'
     + '<td class="muted">'+esc(freqDisplay(r))+'</td>'
     + '<td>'+fmtStreak(r.streak)+'</td>'
@@ -1163,6 +1204,38 @@ function newsHtml(r){
   return '<div class="d-div"><h4>📰 관련 뉴스 <span class="cs-sub">· Google News</span></h4>'
     + '<div class="news-list">'+lis+'</div>'
     + '<p class="dh-cap" style="margin-top:6px">자동 수집('+esc(NEWS_ASOF||'—')+'). 제목/언론사는 구글뉴스 기준이며 클릭 시 원문으로 이동합니다.</p></div>';
+}
+// 재무 수치 포맷(대단위)
+function fmtFin(v, ccy){
+  if(v==null) return '<span class="muted">—</span>';
+  var neg=v<0, a=Math.abs(v), s;
+  if(ccy==='KRW'){ s = a>=1e12 ? (a/1e12).toFixed(1)+'조' : (a/1e8).toFixed(0)+'억'; }
+  else {
+    var sym = ccy==='USD'?'$':(ccy==='EUR'?'€':((ccy==='GBP'||ccy==='GBp')?'£':(ccy==='CHF'?'CHF ':'')));
+    s = a>=1e9 ? sym+(a/1e9).toFixed(2)+'B' : sym+(a/1e6).toFixed(0)+'M';
+  }
+  return (neg?'<span class="rn">−'+s+'</span>':s);
+}
+// 실적: 최근 4분기 + 최근 3년 매출/영업이익/순이익
+function financialsHtml(r){
+  var f = r.q && r.q.fin;
+  if(!f || ((!f.a||!f.a.length) && (!f.q||!f.q.length)))
+    return '<div class="d-div"><h4>🏢 실적 (매출·영업이익·순이익)</h4><p class="dh-cap">재무 데이터가 부족합니다(yfinance).</p></div>';
+  var ccy=f.ccy||r.ccy;
+  function tbl(arr){
+    if(!arr||!arr.length) return '<p class="dh-cap">데이터 없음</p>';
+    var rows=arr.slice().reverse(); // 오래된→최근
+    function line(label, idx){
+      return '<tr><td>'+label+'</td>'+rows.map(function(p){return '<td>'+fmtFin(p[idx],ccy)+'</td>';}).join('')+'</tr>';
+    }
+    return '<div class="fin-scroll"><table class="fin-t"><thead><tr><th></th>'
+      + rows.map(function(p){return '<th>'+esc(p[0])+'</th>';}).join('')+'</tr></thead>'
+      + '<tbody>'+line('매출',1)+line('영업이익',2)+line('순이익',3)+'</tbody></table></div>';
+  }
+  return '<div class="d-div"><h4>🏢 실적 <span class="cs-sub">· '+esc(ccy)+' · yfinance</span></h4>'
+    + '<div class="fin-cap">최근 4분기</div>'+tbl(f.q)
+    + '<div class="fin-cap" style="margin-top:10px">최근 3개년(연간)</div>'+tbl(f.a)
+    + '<p class="dh-cap" style="margin-top:7px">※ <b>사업부·세그먼트별 매출 구성</b>은 yfinance가 제공하지 않습니다 — 상단 <b>✨AI 배당 딥리서치</b>가 사업부별 매출/비중을 함께 정리합니다. 은행 등 일부 업종은 영업이익 표기가 없을 수 있습니다.</p></div>';
 }
 // 기간수익률 · 벤치마크 대비
 function returnsMatrixHtml(r){
@@ -1302,7 +1375,9 @@ function detailHtml(r, idx){
   var quant=[
     ['현재가', r.price!=null ? (fmtMoney(r.price, r.ccy)) : '—'],
     ['시가배당률(fwd)', fmtYld(r.yld)+(r.yldLive?'':' (추정)')],
-    ['TTM 배당률', (q&&q.yldT!=null)?q.yldT.toFixed(1)+'%':'—'],
+    ['TTM 배당률', r.yldT!=null?r.yldT.toFixed(1)+'%':'—'],
+    ['3Y평균가 배당률', r.yld3avg!=null?r.yld3avg.toFixed(1)+'%':'—'],
+    ['3Y 평균주가', r.avg3y!=null?fmtMoney(r.avg3y, r.ccy):'—'],
     ['배당성향', fmtPct(r.payout,0)],
     ['PER', fmtNum(r.per,1)],
     ['PBR', fmtNum(r.pbr,2)],
@@ -1329,10 +1404,64 @@ function detailHtml(r, idx){
     +   '</div>'
     + '</div>'
     + candleChartHtml(r, idx)
+    + financialsHtml(r)
     + returnsMatrixHtml(r)
     + divScheduleHtml(r)
     + newsHtml(r)
     + '</div></td></tr>';
+}
+
+/* ── 종목 비교 ── */
+var CMP_METRICS = [
+  { l:'지역', f:function(r){ return flag_(r.rg); } },
+  { l:'카테고리', f:function(r){ return esc(r.it.cat); } },
+  { l:'보유', f:function(r){ return r.held?'<span class="badge held">보유</span>':'<span class="muted">—</span>'; } },
+  { l:'시가배당률(fwd)', f:function(r){ return '<b>'+fmtYld(r.yld)+'</b>'; } },
+  { l:'TTM 배당률', f:function(r){ return r.yldT!=null?r.yldT.toFixed(1)+'%':'—'; } },
+  { l:'3Y평균가 배당률', f:function(r){ return r.yld3avg!=null?r.yld3avg.toFixed(1)+'%':'—'; } },
+  { l:'주당배당(연)', f:function(r){ return esc(fmtMoney(r.dpsAnnual, r.ccy)); } },
+  { l:'배당주기', f:function(r){ return esc(freqDisplay(r)); } },
+  { l:'연속증배', f:function(r){ return r.streak==null?'—':(r.streak===0?'재설정':r.streak+'년'); } },
+  { l:'5Y 배당CAGR', f:function(r){ return fmtPct(r.cagr5,1); } },
+  { l:'배당성향', f:function(r){ return fmtPct(r.payout,0); } },
+  { l:'PER', f:function(r){ return fmtNum(r.per,1); } },
+  { l:'PBR', f:function(r){ return fmtNum(r.pbr,2); } },
+  { l:'YTD', f:function(r){ return fmtRet(r.rytd); } },
+  { l:'1년', f:function(r){ return fmtRet(r.ret1y); } },
+  { l:'시가총액', f:function(r){ return fmtMcap(r.mcap, r.ccy); } }
+];
+function rowByYf(yf){ for(var i=0;i<ALL_ROWS.length;i++){ if(ALL_ROWS[i].it.yf===yf) return ALL_ROWS[i]; } return null; }
+function renderCompare(){
+  var panel=$('comparePanel');
+  var rows=STATE.compare.map(rowByYf).filter(Boolean);
+  if(!rows.length){ panel.classList.add('hidden'); panel.innerHTML=''; return; }
+  var head='<tr><th class="cmp-mk">지표</th>'+rows.map(function(r){
+    return '<th>'+flag_(r.rg)+' '+esc(r.it.n)+' <button class="cmp-x" data-yf="'+esc(r.it.yf)+'" title="제거">✕</button>'
+      + '<div class="cmp-tk">'+esc(r.it.t)+'</div></th>';
+  }).join('')+'</tr>';
+  var body=CMP_METRICS.map(function(m){
+    return '<tr><td class="cmp-mk">'+m.l+'</td>'+rows.map(function(r){ return '<td>'+m.f(r)+'</td>'; }).join('')+'</tr>';
+  }).join('');
+  panel.innerHTML='<h2>📊 종목 비교 <span class="pill live">'+rows.length+'종목</span>'
+    + '<button type="button" class="cmp-clear" id="cmpClear">비교 초기화</button></h2>'
+    + '<div class="cmp-scroll"><table class="cmp-t"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
+  panel.classList.remove('hidden');
+  Array.prototype.forEach.call(panel.querySelectorAll('.cmp-x'), function(b){
+    b.addEventListener('click', function(){ toggleCompare(b.getAttribute('data-yf'), false); });
+  });
+  $('cmpClear').addEventListener('click', function(){ STATE.compare=[]; renderCompare(); syncCmpChecks(); });
+}
+function toggleCompare(yf, on){
+  var i=STATE.compare.indexOf(yf);
+  if(on===undefined) on = (i<0);
+  if(on && i<0) STATE.compare.push(yf);
+  else if(!on && i>=0) STATE.compare.splice(i,1);
+  renderCompare(); syncCmpChecks();
+}
+function syncCmpChecks(){
+  Array.prototype.forEach.call(document.querySelectorAll('.cmp-chk'), function(c){
+    c.checked = STATE.compare.indexOf(c.getAttribute('data-yf'))>=0;
+  });
 }
 
 // 상세 패널 폭 = 테이블 래퍼의 보이는 폭(가로 스크롤바 제외)에 고정
@@ -1395,6 +1524,10 @@ function render(){
       renderChart(+btn.getAttribute('data-cidx'), +btn.getAttribute('data-per'));
     });
   });
+  // 비교 체크박스
+  Array.prototype.forEach.call(tb.querySelectorAll('.cmp-chk'), function(c){
+    c.addEventListener('change', function(e){ e.stopPropagation(); toggleCompare(c.getAttribute('data-yf'), c.checked); });
+  });
   setDetailWidth();
 }
 
@@ -1432,6 +1565,7 @@ Array.prototype.forEach.call($('regionTabs').querySelectorAll('.region-tab'), fu
 $('only5').addEventListener('change', function(){ STATE.only5=this.checked; render(); });
 $('onlyHeld').addEventListener('change', function(){ STATE.onlyHeld=this.checked; render(); });
 $('grpToggle').addEventListener('change', function(){ STATE.group=this.checked; render(); });
+$('searchBox').addEventListener('input', function(){ STATE.search=this.value.trim(); render(); });
 $('catSel').addEventListener('change', function(){ STATE.cat=this.value; render(); });
 $('sortSel').addEventListener('change', function(){ STATE.sort=this.value; render(); });
 
