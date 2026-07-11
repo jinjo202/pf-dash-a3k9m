@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-06a";</script>
+<script>window.CODE_VERSION = "2026-07-11a";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -251,6 +251,9 @@
   .etf-hold-row .ehw { font-weight:800; font-variant-numeric:tabular-nums; text-align:right; }
   .etf-hold-row .ehbar { height:7px; border-radius:4px; background:var(--panel-soft); border:1px solid var(--border); overflow:hidden; }
   .etf-hold-row .ehbar i { display:block; height:100%; background:var(--accent); }
+  .etf-hold-ret { font-size:11px; color:var(--text-soft); margin:1px 0 6px; font-variant-numeric:tabular-nums; }
+  .etf-hold-ret .ehrl { color:var(--muted); font-weight:600; }
+  .etf-hold-ret .ehr-sep { color:var(--muted); }
   .etf-link { display:inline-block; margin-top:12px; padding:8px 13px; border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); color:var(--accent); font-size:13px; font-weight:700; text-decoration:none; }
   .etf-link:hover { border-color:var(--accent); background:var(--accent-soft); }
 
@@ -1778,17 +1781,20 @@ function openEtfFactsheet(ticker){
   var retHtml = (d.r_1m!=null||d.r_3m!=null||d.r_ytd!=null)
     ? '<div class="etf-ret-grid">'+rcell('1개월',d.r_1m)+rcell('3개월',d.r_3m)+rcell('YTD',d.r_ytd)+'</div>' : '';
 
-  // 상위 구성종목 + 비중
+  // 상위 구성종목 + 비중 + 개별 수익률(1M/3M/YTD)
   var th=(d.top_holdings||[]);
   var holdHtml='';
+  function hret(l,v){ if(v==null) return ''; var c=v<0?'var(--neg)':'var(--pos)'; return '<span class="ehr"><span class="ehrl">'+l+'</span> <span style="color:'+c+';font-weight:700">'+(v>=0?'+':'')+v+'%</span></span>'; }
   if (th.length){
-    holdHtml='<div class="fin-sec">🧬 상위 구성종목 (비중)</div><div class="etf-hold-list">'+
+    holdHtml='<div class="fin-sec">🧬 상위 구성종목 (비중 · 1M/3M/YTD)</div><div class="etf-hold-list">'+
       th.map(function(h){
         var w=(h.weight_pct!=null)?h.weight_pct:0;
+        var rets=[hret('1M',h.r_1m),hret('3M',h.r_3m),hret('YTD',h.r_ytd)].filter(Boolean).join(' <span class="ehr-sep">·</span> ');
         return '<div class="etf-hold-row"><span class="ehn">'+esc(h.name||h.ticker||'')+
           (h.ticker&&h.name?' <span class="eht">'+esc(h.ticker)+'</span>':'')+'</span>'+
           '<span class="ehw">'+(h.weight_pct!=null?h.weight_pct.toFixed(2)+'%':'—')+'</span>'+
-          '<span class="ehbar"><i style="width:'+Math.min(100,w).toFixed(1)+'%"></i></span></div>';
+          '<span class="ehbar"><i style="width:'+Math.min(100,w).toFixed(1)+'%"></i></span></div>'+
+          (rets?'<div class="etf-hold-ret">'+rets+'</div>':'');
       }).join('')+'</div>';
   }
 

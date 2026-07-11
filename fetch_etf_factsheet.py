@@ -6,6 +6,7 @@
   벤치마크 지수명은 yfinance에 필드가 없어 BENCHMARK_MAP(수동 큐레이션)으로 보강.
 - 한국 상장 ETF: 네이버금융 종목 페이지(시가총액=AUM 근사·상장주식수·상장일·펀드보수·자산운용사·거래량).
   기초지수 설명문에서 정규식으로 벤치마크명 best-effort 추출, 실패 시 BENCHMARK_MAP 폴백.
+- 상위 구성종목(top_holdings)마다 자체 1M/3M/YTD 수익률도 함께 계산(yfinance).
 - fm-etf.js (window.FM_ETF) 생성. fm.html이 ETF칩 클릭 시 모달로 표시.
 
 ⚠ 큐레이션/수동 갱신 스크립트(cron 대상 아님). ETF 유니버스 추가 시 fm-data.js와 함께 재실행:
@@ -16,6 +17,7 @@ import re
 import subprocess
 import sys
 import io
+import time
 import datetime as dt
 
 import requests
@@ -101,7 +103,7 @@ _NAVER_M = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X
 
 
 def us_top_holdings(sym, n=5):
-    """미국 ETF 상위 구성종목+비중 — yfinance funds_data. 실패 시 빈 리스트."""
+    """미국 ETF 상위 구성종목+비중+수익률(1M/3M/YTD) — yfinance funds_data. 실패 시 빈 리스트."""
     try:
         th = yf.Ticker(sym).funds_data.top_holdings
         if th is None or th.empty:
@@ -109,15 +111,21 @@ def us_top_holdings(sym, n=5):
         out = []
         for symbol, r in th.head(n).iterrows():
             wp = r.get("Holding Percent")
-            out.append({"ticker": str(symbol), "name": r.get("Name"),
-                        "weight_pct": round(float(wp) * 100, 2) if wp is not None else None})
+            row = {"ticker": str(symbol), "name": r.get("Name"),
+                   "weight_pct": round(float(wp) * 100, 2) if wp is not None else None}
+            time.sleep(0.25)
+            ret = compute_returns(str(symbol))
+            row["r_1m"] = ret.get("r_1m")
+            row["r_3m"] = ret.get("r_3m")
+            row["r_ytd"] = ret.get("r_ytd")
+            out.append(row)
         return out
     except Exception:
         return []
 
 
 def kr_top_holdings(code6, n=5):
-    """한국 ETF 상위 구성종목+비중 — 네이버 모바일 API(etfTop10MajorConstituentAssets). 실패 시 빈 리스트."""
+    """한국 ETF 상위 구성종목+비중+수익률(1M/3M/YTD) — 네이버 모바일 API(etfTop10) + yfinance(.KS). 실패 시 빈 리스트."""
     try:
         r = requests.get("https://m.stock.naver.com/api/stock/%s/etfAnalysis" % code6,
                          headers=_NAVER_M, timeout=12)
@@ -125,8 +133,16 @@ def kr_top_holdings(code6, n=5):
         out = []
         for x in top[:n]:
             w = str(x.get("etfWeight") or "").replace("%", "").strip()
-            out.append({"ticker": x.get("itemCode"), "name": x.get("itemName"),
-                        "weight_pct": float(w) if w else None})
+            item_code = x.get("itemCode")
+            row = {"ticker": item_code, "name": x.get("itemName"),
+                   "weight_pct": float(w) if w else None}
+            if item_code:
+                time.sleep(0.25)
+                ret = compute_returns(item_code + ".KS")
+                row["r_1m"] = ret.get("r_1m")
+                row["r_3m"] = ret.get("r_3m")
+                row["r_ytd"] = ret.get("r_ytd")
+            out.append(row)
         return out
     except Exception:
         return []
