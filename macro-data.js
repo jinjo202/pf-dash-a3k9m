@@ -477,7 +477,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-11T09:01:13Z",
+  "generated": "2026-07-11T09:09:54Z",
   "regime": {
     "score": 26,
     "label": "비중확대 우위",
