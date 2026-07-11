@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<title>종목분석 Agent · 단일종목 투자위원회</title>
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('pf_theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" rel="stylesheet" />
+<style>
+  :root {
+    --bg:#f6f7fb; --panel:#ffffff; --line:#e3e7ef; --text:#1a2330; --muted:#5a6b80;
+    --accent:#2b6cb0; --accent-soft:#e8f0fa;
+  }
+  [data-theme="dark"] {
+    --bg:#0b0f16; --panel:#111722; --line:#1e2733; --text:#e6ecf3; --muted:#8593a6;
+    --accent:#6ea8d8; --accent-soft:#16283a;
+  }
+  * { box-sizing:border-box; }
+  html,body{ height:100%; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Pretendard Variable', Pretendard, 'Malgun Gothic', system-ui, sans-serif;
+    display:flex; flex-direction:column;
+  }
+  header {
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 22px 10px; flex-wrap:wrap; flex:none;
+  }
+  h1 { margin:0; font-size:20px; }
+  .sub { font-size:12px; color:var(--muted); margin-top:3px; }
+  .header-actions { display:flex; align-items:center; gap:2px; flex-wrap:wrap; }
+  .nav-link { font-size:12px; font-weight:600; color:var(--muted); text-decoration:none; padding:7px 10px; border-radius:6px; }
+  .nav-link:hover { background:var(--accent-soft); color:var(--accent); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); }
+  .theme-toggle {
+    display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600;
+    color:var(--muted); background:var(--panel); border:1px solid var(--line);
+    border-radius:8px; padding:7px 12px; cursor:pointer; font-family:inherit;
+  }
+  .theme-toggle:hover { color:var(--accent); border-color:var(--accent); }
+  main { flex:1 1 auto; min-height:0; padding:0 22px 18px; display:flex; flex-direction:column; }
+  iframe {
+    flex:1 1 auto; min-height:480px; width:100%;
+    border:1px solid var(--line); border-radius:12px; background:#0b0f16; display:block;
+  }
+  .note { font-size:11.5px; color:var(--muted); margin:8px 2px 0; flex:none; }
+  @media (max-width:700px){ header{ padding:10px 12px 8px; } main{ padding:0 12px 12px; } h1{ font-size:17px; } }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>📈 종목분석 Agent</h1>
+    <div class="sub">티커 하나로 AI 투자위원회 소집 · 산업 딥리서치 + 브로커 모델 밸류에이션 → BUY/HOLD/SELL</div>
+  </div>
+  <div class="header-actions">
+    <a class="nav-link" href="portfolio.html">← 포트폴리오</a>
+    <a class="nav-link" href="sectors.html">🔬 섹터분석</a>
+    <a class="nav-link" href="dividends.html">💰 배당주</a>
+    <a class="nav-link" href="daily.html">📊 데일리</a>
+    <a class="nav-link" href="macro.html">🧭 매크로</a>
+    <a class="nav-link" href="calendar.html">📅 캘린더</a>
+    <a class="nav-link" href="fm.html">🏦 펀드매니저</a>
+    <a class="nav-link" href="agent.html">🤖 펀드매니저agent</a>
+    <a class="nav-link active" href="stock.html">📈 종목분석agent</a>
+    <button type="button" id="themeToggle" class="theme-toggle" title="다크/라이트 전환">
+      <span id="themeIcon">🌙</span><span id="themeLabel">다크</span>
+    </button>
+  </div>
+</header>
+<main>
+  <iframe id="saFrame" title="종목분석 위원회" src="stock_agent.html"></iframe>
+  <p class="note">· 위원회 내부에도 다크/라이트 버튼이 있습니다. 키(Gemini/Anthropic)는 다른 탭과 공유(localStorage)됩니다. AI 추정 기반 · 교육·연구용.</p>
+</main>
+<script>
+  (function () {
+    function $(id){ return document.getElementById(id); }
+    function apply(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      $('themeIcon').textContent = t === 'dark' ? '☀️' : '🌙';
+      $('themeLabel').textContent = t === 'dark' ? '라이트' : '다크';
+    }
+    apply(document.documentElement.getAttribute('data-theme') || 'light');
+    $('themeToggle').addEventListener('click', function () {
+      var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('pf_theme', cur); } catch (e) {}
+      apply(cur);
+      // iframe(위원회)에도 즉시 반영 — 같은 오리진이므로 직접 셋
+      try {
+        var d = $('saFrame').contentDocument;
+        if (d && d.body) d.body.setAttribute('data-th', cur);
+      } catch (e) {}
+    });
+    // 다른 탭에서 테마가 바뀐 경우 동기화
+    window.addEventListener('storage', function (e) {
+      if (e.key === 'pf_theme' && e.newValue) apply(e.newValue);
+    });
+  })();
+</script>
+</body>
+</html>

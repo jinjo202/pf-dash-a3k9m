@@ -239,6 +239,44 @@
     #ticker{width:84px}
     .apibar input[type=password]{min-width:140px!important}
   }
+
+  /* ── 라이트 테마 (pf_theme 공유) ── */
+  body[data-th="light"]{--bg:#eef2f7;--panel:#ffffff;--panel2:#f7f9fc;--line:#d9e1ea;--line2:#c5d1de;--ink:#182230;--dim:#49596c;--faint:#7c8b9d;--steel:#2b6cb0;--amber:#9a6410;--green:#17804a;--red:#c23445;--plat:#8a6a1f;--you:#6d47c9}
+  body[data-th="light"] .btn.primary{color:#fff}
+  body[data-th="light"] .btn.doc{border-color:#d8c9a0}
+  body[data-th="light"] .btn.rep{border-color:#bfe0cc}
+  body[data-th="light"] .apibar select,body[data-th="light"] .apibar input{background:#fff;color:#182230}
+  body[data-th="light"] .seat.active{background:#e9eff7}
+  body[data-th="light"] .seat.you{background:#f1ecfb99}
+  body[data-th="light"] .msg .text{color:#243244}
+  body[data-th="light"] .msg.me .body{background:#f3effc;border-color:#dccdf7}
+  body[data-th="light"] .msg.me .text{color:#3a2a6b}
+  body[data-th="light"] .typing .bubble{background:#fff;border-color:#d9e1ea}
+  body[data-th="light"] .verdict{background:#f2f6fa}
+  body[data-th="light"] .verdict.green{color:#17804a;border-color:#bfe0cc}
+  body[data-th="light"] .verdict.red{color:#c23445;border-color:#ecc8cd}
+  body[data-th="light"] .verdict.amber{color:#9a6410;border-color:#e8d9b8}
+  body[data-th="light"] .led-item.green .lv{color:#17804a}
+  body[data-th="light"] .led-item.red .lv{color:#c23445}
+  body[data-th="light"] .led-item.amber .lv{color:#9a6410}
+  body[data-th="light"] .led-item.you .lv{color:#6d47c9}
+  body[data-th="light"] .ref{background:#eaf2fa;border-color:#c4d9ec;color:#2b6cb0}
+  body[data-th="light"] .ref.deck{background:#faf5e6;border-color:#e4d5a8;color:#8a6a1f}
+  body[data-th="light"] table.dk td{color:#243244}
+  body[data-th="light"] table.dk td.lbl{color:#33445a}
+  body[data-th="light"] table.dk td.dim{color:#66788c}
+  body[data-th="light"] table.dk tr.hl-row td{background:#e9f5ee}
+  body[data-th="light"] .chip{background:#f1ecfb;border-color:#d9c9f6;color:#6d47c9}
+  body[data-th="light"] #coInput{background:#fff;color:#182230}
+  body[data-th="light"] .decision .dh{background:#e9f5ee;border-color:#bfe0cc}
+  body[data-th="light"] .drow .v{color:#182230}
+  body[data-th="light"] .track{background:#e3eaf2}
+  body[data-th="light"] .track .cur{background:#7d97b8}
+  body[data-th="light"] .bar-pair .bl .nm{color:#33445a}
+  body[data-th="light"] .gshead{background:#f2f6fb;border-color:#d5e0eb}
+  body[data-th="light"] .hl .ht{color:#243244}
+  body[data-th="light"] #mBody svg{background:#0e141d;border-radius:8px}
+
   .apibar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 16px;border-bottom:1px solid var(--line);background:var(--panel2)}
   .apibar select,.apibar input{font-family:inherit;font-size:12px;color:var(--ink);background:#0c1119;border:1px solid var(--line2);border-radius:6px;padding:6px 9px;outline:none}
   .apibar input:focus,.apibar select:focus{border-color:var(--steel)}
@@ -264,11 +302,12 @@
 <div class="apibar">
   <span class="lbl">종목</span><input id="ticker" placeholder="NVDA" value="NVDA" autocomplete="off">
   <span class="lbl">엔진</span>
-  <select id="chatMode"><option value="gemini">Gemini API 키 (무료 티어)</option><option value="api">Anthropic API 키</option><option value="demo">데모 (NVDA 예시·키 불필요)</option></select>
+  <select id="chatMode"><option value="gemini">Gemini API 키 (무료 티어)</option><option value="api">Anthropic API 키</option><option value="sub">구독 차감 (로컬 serve.py)</option><option value="demo">데모 (NVDA 예시·키 불필요)</option></select>
   <span id="geminiWrap"><input type="password" id="geminiKey" placeholder="Gemini 키 (localStorage에만 저장)" autocomplete="off" style="min-width:200px"><button class="btn" id="saveGem">저장</button></span>
   <span id="apiWrap" style="display:none"><input type="password" id="apiKey" placeholder="sk-ant-…" autocomplete="off" style="min-width:200px"><button class="btn" id="saveApi">저장</button></span>
   <select id="model"></select>
   <button class="btn primary run" id="runBtn">위원회 소집 ▶</button>
+  <button class="btn" id="themeBtn" title="다크/라이트 전환">☀️ 라이트</button>
   <div class="warn">⚠️ 시세·재무는 AI 지식 기반 추정입니다(실시간 아님) — 수치는 참고용. 무료 Gemini는 프롬프트가 학습에 쓰일 수 있습니다. 교육·연구용 시뮬레이션.</div>
 </div>
 <div id="app">
@@ -316,7 +355,7 @@ function avatar(a,ring){const s=a.skin,h=a.hair;let hair="";
     <path d="M18,22.2 q2,1.2 4,0" stroke="#b06a52" stroke-width="1" fill="none" stroke-linecap="round" opacity=".7"/>${gl}
   </svg>`;
 }
-const dots=(n,m=5)=>`<span style="letter-spacing:1px">${'●'.repeat(n)}<span style="color:#2a3542">${'●'.repeat(m-n)}</span></span>`;
+const dots=(n,m=5)=>`<span style="letter-spacing:1px">${'●'.repeat(n)}<span style="color:var(--line2)">${'●'.repeat(m-n)}</span></span>`;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/</g,'&lt;');
 // ── 참석자 (연습 로스터 그대로) ──
@@ -545,6 +584,10 @@ async function callAnthropic(user,model){var key=(localStorage.getItem('fm_chat_
   body:JSON.stringify({model:model,max_tokens:16384,messages:[{role:'user',content:user}]})});
  if(!resp.ok){var e='';try{e=await resp.text();}catch(_){}throw new Error('API '+resp.status+': '+e.slice(0,300));}
  var j=await resp.json();return (j.content||[]).map(function(b){return b.text||'';}).join('');}
+async function callSub(user,model){
+ var resp=await fetch('/fm-chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({system:'당신은 기관 리서치 JSON 생성기입니다. JSON만 출력합니다.',context:'',messages:[{role:'user',content:user}],model:model})});
+ if(!resp.ok)throw new Error('구독 백엔드(/fm-chat) 응답 없음 — 로컬 serve.py로 서빙 중일 때만 사용 가능합니다.');
+ var j=await resp.json();return j.text||j.content||JSON.stringify(j);}
 async function run(){var tk=($('ticker').value||'NVDA').trim().toUpperCase();var mode=$('chatMode').value,model=$('model').value;
  $('hint').style.display='none';$('runBtn').disabled=true;var prev=$('runBtn').textContent;$('runBtn').textContent='분석 중… (30초~2분)';
  [].forEach.call(feed.querySelectorAll('.msg,.typing,.phase-div,.decision'),function(e){e.remove();});ledList.innerHTML='';
@@ -552,7 +595,7 @@ async function run(){var tk=($('ticker').value||'NVDA').trim().toUpperCase();var
  ORDER.forEach(function(k){$('seat-'+k).classList.remove('active','done');});
  try{var raw;
   if(mode==='demo'){await new Promise(function(r){setTimeout(r,300);});raw=JSON.stringify(DEMO);if(tk!=='NVDA'){var d=JSON.parse(raw);d.meta.ticker=tk;d.meta.name=tk+' (데모 — 수치는 NVDA 예시)';raw=JSON.stringify(d);}}
-  else raw = mode==='gemini'?await callGemini(taskPrompt(tk),model):await callAnthropic(taskPrompt(tk),model);
+  else raw = mode==='gemini'?await callGemini(taskPrompt(tk),model): mode==='api'?await callAnthropic(taskPrompt(tk),model): await callSub(taskPrompt(tk),model);
   COM=JSON.parse(stripJson(raw));
   if(!COM.rating||!COM.px||!COM.texts)throw new Error('모델 응답 스키마 불완전 — 다시 시도하거나 Pro 모델을 사용하세요.');
   refreshTape();buildScript();$('runBtn').textContent=prev;$('runBtn').disabled=false;auto=true;$('autoBtn').textContent='일시정지';next();
@@ -560,9 +603,9 @@ async function run(){var tk=($('ticker').value||'NVDA').trim().toUpperCase();var
   var m=document.createElement('div');m.className='msg';m.innerHTML='<div class="body"><div class="text" style="color:var(--red)">소집 실패: '+esc(e.message||e)+'</div><div class="text" style="color:var(--faint);font-size:12px;margin-top:6px">무료 티어 rate limit이거나 JSON 파싱 실패일 수 있습니다. 잠시 후 재시도, Pro 모델, 또는 데모 모드를 사용하세요.</div></div>';feed.appendChild(m);}}
 $('runBtn').onclick=run;
 function syncMode(){var m=$('chatMode').value;$('geminiWrap').style.display=(m==='gemini')?'':'none';$('apiWrap').style.display=(m==='api')?'':'none';
- $('modeTag').textContent={gemini:'Gemini',api:'Anthropic',demo:'데모'}[m];
+ $('modeTag').textContent={gemini:'Gemini',api:'Anthropic',sub:'구독',demo:'데모'}[m];
  var sel=$('model');sel.innerHTML='';
- ((m==='api')?[['claude-opus-4-8','Claude Opus 4.8'],['claude-sonnet-5','Claude Sonnet 5']]:[['gemini-3.5-flash','Gemini 3.5 Flash (무료 넉넉)'],['gemini-3.1-pro-preview','Gemini 3.1 Pro (추론)'],['gemini-2.5-pro','Gemini 2.5 Pro (폴백)']]).forEach(function(o){var e=document.createElement('option');e.value=o[0];e.textContent=o[1];sel.appendChild(e);});}
+ ((m==='api'||m==='sub')?[['claude-opus-4-8','Claude Opus 4.8'],['claude-sonnet-5','Claude Sonnet 5']]:[['gemini-3.5-flash','Gemini 3.5 Flash (무료 넉넉)'],['gemini-3.1-pro-preview','Gemini 3.1 Pro (추론)'],['gemini-2.5-pro','Gemini 2.5 Pro (폴백)']]).forEach(function(o){var e=document.createElement('option');e.value=o[0];e.textContent=o[1];sel.appendChild(e);});}
 $('chatMode').onchange=syncMode;syncMode();
 $('saveGem').onclick=function(){localStorage.setItem('fm_gemini_key',($('geminiKey').value||'').trim());$('geminiKey').value='';$('saveGem').textContent='저장됨';setTimeout(function(){$('saveGem').textContent='저장';},1200);};
 $('saveApi').onclick=function(){localStorage.setItem('fm_chat_key',($('apiKey').value||'').trim());$('apiKey').value='';$('saveApi').textContent='저장됨';setTimeout(function(){$('saveApi').textContent='저장';},1200);};
@@ -577,6 +620,15 @@ $('pdfBtn').onclick=function(){if(!COM){alert('먼저 위원회를 소집하세�
 $('repBtn').onclick=function(){if(!COM){alert('먼저 위원회를 소집하세요.');return;}buildReport();document.body.classList.add('mode-report');setTimeout(function(){window.print();},180);};
 window.addEventListener('afterprint',function(){document.body.classList.remove('mode-report');});
 window.addEventListener('keydown',function(e){if(e.target.id==='coInput'||e.target.id==='ticker')return;if(e.code==='Escape')ov.classList.remove('show');else if((e.code==='Space'||e.code==='ArrowRight')&&!ov.classList.contains('show')&&COM){e.preventDefault();next();}});
+
+// ── 다크/라이트 전환 (대시보드 pf_theme 공유·storage 동기화) ──
+(function(){
+ function apply(t){document.body.setAttribute('data-th',t);var b=$('themeBtn');if(b)b.textContent=(t==='light'?'🌙 다크':'☀️ 라이트');}
+ var t;try{t=localStorage.getItem('pf_theme')||'dark';}catch(_){t='dark';}
+ apply(t);
+ $('themeBtn').onclick=function(){var nt=document.body.getAttribute('data-th')==='light'?'dark':'light';try{localStorage.setItem('pf_theme',nt);}catch(_){}apply(nt);};
+ window.addEventListener('storage',function(e){if(e.key==='pf_theme'&&e.newValue)apply(e.newValue);});
+})();
 window.__SC={DECKS:DECKS,DEMO:DEMO,setCOM:function(c){COM=c;refreshTape();buildScript();},pmFinal:pmFinal,showDecision:showDecision,buildReport:buildReport,avatar:avatar,CAST:CAST,ORDER:ORDER,SCRIPT:function(){return SCRIPT;}};
 </script>
 </body>
