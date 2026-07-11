@@ -624,7 +624,9 @@ window.addEventListener('keydown',function(e){if(e.target.id==='coInput'||e.targ
 // ── 다크/라이트 전환 (대시보드 pf_theme 공유·storage 동기화) ──
 (function(){
  function apply(t){document.body.setAttribute('data-th',t);var b=$('themeBtn');if(b)b.textContent=(t==='light'?'🌙 다크':'☀️ 라이트');}
- var t;try{t=localStorage.getItem('pf_theme')||'dark';}catch(_){t='dark';}
+ var t=null;try{t=localStorage.getItem('pf_theme');}catch(_){}
+ if(!t){try{if(window.parent!==window)t=window.parent.document.documentElement.getAttribute('data-theme');}catch(_){}}
+ t=t||'dark';
  apply(t);
  $('themeBtn').onclick=function(){var nt=document.body.getAttribute('data-th')==='light'?'dark':'light';try{localStorage.setItem('pf_theme',nt);}catch(_){}apply(nt);};
  window.addEventListener('storage',function(e){if(e.key==='pf_theme'&&e.newValue)apply(e.newValue);});
