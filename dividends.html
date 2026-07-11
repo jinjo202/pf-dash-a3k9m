@@ -1528,11 +1528,19 @@ function syncCmpChecks(){
 }
 
 /* ── 유니버스 밖 종목 실시간 조회 ── */
+function workerBase(){
+  // 저장값 우선, 없으면 입력칸에 적힌 값이라도 사용(저장 버튼 안 눌러도 동작)
+  var w=(localStorage.getItem('div_lookup_worker')||'').trim();
+  if(!w){ var el=$('workerUrl'); w=(el&&el.value||'').trim(); if(w){ try{localStorage.setItem('div_lookup_worker',w);}catch(e){} } }
+  w=w.replace(/\/+$/,'');
+  if(w && !/^https?:\/\//.test(w)) w='https://'+w;              // 프로토콜 누락 보정
+  return w;
+}
 function lookupEndpoints(query){
   var eps=[], enc=encodeURIComponent(query);
   if(isLocalHost()) eps.push('/div-lookup?q='+enc);            // 로컬 serve.py 우선
-  var w=(localStorage.getItem('div_lookup_worker')||'').trim().replace(/\/+$/,'');
-  if(w) eps.push(w+'?q='+enc);                                  // Cloudflare Worker(정적 사이트)
+  var w=workerBase();
+  if(w) eps.push(w+'/?q='+enc);                                 // Cloudflare Worker(정적 사이트)
   return eps;
 }
 async function doLookup(query){
@@ -1693,21 +1701,25 @@ $('searchBox').addEventListener('input', function(){
 });
 $('searchBox').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); doLookup(this.value); } });
 $('lookupBtn').addEventListener('click', function(){ doLookup($('searchBox').value); });
-// 조회 서버(Worker) URL 설정
+// 조회 서버(Worker) URL 설정 — 버튼/Enter/포커스이탈 어디서든 자동 저장
 (function(){
-  var saved=(localStorage.getItem('div_lookup_worker')||'');
-  $('workerUrl').value=saved;
+  $('workerUrl').value=(localStorage.getItem('div_lookup_worker')||'');
   function stat(){
     var w=(localStorage.getItem('div_lookup_worker')||'').trim();
-    $('workerStatus').innerHTML = w ? '<span style="color:var(--pos);font-weight:700">✓ 조회서버 설정됨</span>'
-      : (isLocalHost()?'로컬 serve.py 사용 중(설정 불필요)':'미설정 — 정적 사이트에선 조회 불가');
+    $('workerStatus').innerHTML = w ? '<span style="color:var(--pos);font-weight:700">✓ 조회서버 설정됨</span> <span class="dh-cap">'+esc(w)+'</span>'
+      : (isLocalHost()?'로컬 serve.py 사용 중(설정 불필요)':'미설정 — URL 입력 후 저장');
   }
-  stat();
-  $('saveWorker').addEventListener('click', function(){
+  function save(){
     var v=$('workerUrl').value.trim().replace(/\/+$/,'');
+    if(v && !/^https?:\/\//.test(v)) v='https://'+v;
+    $('workerUrl').value=v;
     try{ localStorage.setItem('div_lookup_worker', v); }catch(e){}
     stat();
-  });
+  }
+  stat();
+  $('saveWorker').addEventListener('click', save);
+  $('workerUrl').addEventListener('blur', save);
+  $('workerUrl').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); save(); } });
 })();
 $('catSel').addEventListener('change', function(){ STATE.cat=this.value; render(); });
 $('sortSel').addEventListener('change', function(){ STATE.sort=this.value; render(); });
