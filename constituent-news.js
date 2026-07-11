@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-11T07:24:48
+// 갱신: 2026-07-11T08:26:55
 // 총 87개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -22,17 +22,17 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-08"
   },
   {
-   "title": "“삼전 59만원, 하닉 430만원”…메모리의 시간 ‘이때’ 또 온다 [반도체 긴급점검①] - 중앙일보",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE4yLV9tY09CcXExX2hPZ1g3ZWFtb09HbzlBVDR1SnpVOFBJNXZzT2k1UUNJWHZFT0d2TFNRSFRPZEVtS2dxSWh1LWcxVmRTU05QWk5EZnF3?oc=5",
-   "source": "중앙일보",
-   "date": "2026-07-07"
+   "title": "삼성전자·SK하이닉스 급락에 힘 받는 '반도체 고점론'?, 7말8초에 주목해야 하는 이유 📊 - 뉴닉",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFA0Z2VDS2JTWFFFN3g2dmxTa2NHQUNWYWF3d3BwRVFfbmxpZDR4Nlh2WnJrWG5yZTgzUUswem9vZUU3ajltNXd4RXFnLXVmVi1XY2M4?oc=5",
+   "source": "뉴닉",
+   "date": "2026-07-09"
   }
  ],
  "SK하이닉스": [
   {
-   "title": "‘185만vs430만’ 엇갈린 목표가…SK하이닉스, ADR 상장 앞두고 숨고르기 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9XaTkxVWdOSWMtd1ZVR1Ryb21EVW4yanUxa2UwOHJPVGJkWmJZdHlHeXFuOVNXd1ZobjN6ZjRoR1dHX0l5UkZlOXVNQlBwbjA?oc=5",
-   "source": "v.daum.net",
+   "title": "SK하이닉스 주가, 월가 데뷔 첫날 12.8% 상승 168달러로 마감 - 뉴스타운",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFA4OVFkLTF5MDU4ZUZ0SUhtQkxqR2c2cjhCbnNsaTQwWUxKMEVOM05OcEN3eWFsOF8xYkY0ZGZXY0dkTmJsUzk3YUdudl9xaW1wNUNSTDN5bDJzZnJES3FkaDVjWWZ1NzNXb1NhUmFn?oc=5",
+   "source": "뉴스타운",
    "date": "2026-07-10"
   },
   {
@@ -42,16 +42,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-09"
   },
   {
-   "title": "SK하이닉스 목표주가 ‘고작’ 185만원...BNK證 “수요 모멘텀 둔화” - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTFBNLWQ0Y0twQy1YUU5zZG9IWGp6M3hvUEE4dHBtY3lreXc4UTlhazJxZjItbHg5ZGFtUE8tUzd6b1h5NGFRMGc?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-11"
-  },
-  {
    "title": "SK하이닉스 ADR, 국내 주식과 상호전환 가능해진다 - 인베스트조선",
    "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNMXV0VWZaS3NHbXpDRWhJNndPM0RkRFlEdS1Qdl9wRndsYjRrb3BocHZkczY5NlllRTliQTVXalFHRkVJYzlNZVpiczV3OGpSd3d6dTZUa1hVdHRZQ0Y0MGFBdVBGVThGVVN0bWhsMmpqM3pJY1dMV2xBQWdIQWdaSVhwSQ?oc=5",
    "source": "인베스트조선",
    "date": "2026-07-08"
+  },
+  {
+   "title": "\"반도체 고점인가요\"…증권가 목표주가 잇단 하향에 '피크아웃' 우려 확산 - 뉴시스",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5yWWNoWXVYS3l6LVAtLUpETHVmS0tTblRiT0NGT1RRclc3LVlvQnE0OEg3SjAtV2hlb2Qyc2M1S0tfZlBYdEh1LS1IMFI5NzljMDIwVkRUZXg4c2drSVNwX9IBeEFVX3lxTE5Xc1U3WU44SlBmcnFiN2RWTkp0dEJESGdmTHoxQmhhMllydzlnSkVESkZMRU5ZNEtORmUyQVJuS1k1U25GYzNyckluR3luWFZhTjZIN3VaVW1yZ01hMVVYVkhqcGVrenAtdi1qMDk3ajZWNU02em1pcA?oc=5",
+   "source": "뉴시스",
+   "date": "2026-07-11"
   }
  ],
  "LG에너지솔루션": [
@@ -100,10 +100,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-05-22"
   },
   {
-   "title": "삼성바이오·셀트리온 목표 주가 하향...노사갈등·섹터 약세 영향 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5EaWc0VVlicklMZHZjS19XakRPTkpJcWNrbjRDV3k1ZS1KdVVaNlFQQ0dldm9ST0RqSmc4NXhxbW94Y1F0amFTZzlCS2tUZTQ?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-05"
+   "title": "[알아BIO] ’파업 리스크’에 떨고 있는 삼성바이오… 주가·수주 ’비상등’ - 연합뉴스TV",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9XZkFzQ1pEaXEyVVVBZVZMWG4yRmE3ZUxWWmo3eFRibHBzajk4YXp6NWhOZFdjZm5nb01fYXZyUmdfelhyOUhIUDBxS2VWSmw4NlY5LUNfMGxicU5tREM4bm51S04ybjQ?oc=5",
+   "source": "연합뉴스TV",
+   "date": "2026-05-07"
   }
  ],
  "현대차": [
@@ -126,10 +126,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-25"
   },
   {
-   "title": "7월 2주차 현대차 주가 3거래일 하락 끊고 반등 - TopStarNews",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9HTDZqamQ5dXVKc3RPVEJsako4YzRyTUVYd0RCXzc0dUxqcmE0Z0g4RjF5WVhmTVVSeTJVcnJHdHdJYklJeGJxSzFVcWhHY1N4Szd4Zm1qMkd1V0NuWE83dG1lWXlzbnVNY3ExX21oVVNvZw?oc=5",
-   "source": "TopStarNews",
-   "date": "2026-07-11"
+   "title": "[재계핫이슈] 주가 30% 폭락한 현대차의 진짜 위기…노조의 ‘완전 월급제’가 분수령 - 펜앤마이크",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBveU9pbE54QkJaSVVsVnoxcWJqRjBwNldfdlN6UHp0VG5ieHBjV29lRFpYZGx3cU1VVlNhdlMxTTBlR1IwUW9ZaGpQLVl6SmlpajAwM25pSEl2SFFtNWZTSjFydjZWQWNIQWQ00gFvQVVfeXFMUGxzYmR3YlNZY19YZWZjSkM3RXU0RlRjOWtEVDNBbnotLUphTGNlajBlOFE5UWNBZndfM2c4R3FTOUtpUmU4UWsyekJwOHZId0ljajZlUkxjbUtCdE9Kd2FDTjhUbjk0aHRWTmJMc3p3?oc=5",
+   "source": "펜앤마이크",
+   "date": "2026-06-26"
   }
  ],
  "HLB": [
@@ -322,16 +322,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-09"
   },
   {
-   "title": "미국 주문 몰리는 LS·HD·효성 K전력 3사…주가 재평가·등급 상향 기대감 - 인베스트조선",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQa0hub2M4UE9ETHZjc21WeXJrMEVlWWtLOG9uU000VmdwVzM4N3MtNUJOQXkyXzFvY3BXWjVUTmNEMkJlUWdwdm85cnRmS20tQkR4WkFZM2ZWSmk3MVNYQUcySGdndm5qdE9qVEZtYVNINDZhekZjNWtlUFBTOE9DZkRHTQ?oc=5",
-   "source": "인베스트조선",
-   "date": "2026-07-08"
-  },
-  {
    "title": "효성중공업 주가, 1년 만에 8배 뛴 이유 - 한겨레",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1hMTJDQnRqZnVvbU5RcUhhY3MtN213OEw5QnBlQU91dlJtQnZGRENIMV9uTnZxMGdpNFNxY29QRW5EZWVDYTFXOW1zdFFPWU1mVWNJTWFmZVhJVkNzZWhHOF9RcENWRFNxREdmTGVfUXlWdw?oc=5",
    "source": "한겨레",
    "date": "2026-06-05"
+  },
+  {
+   "title": "미국 주문 몰리는 LS·HD·효성 K전력 3사…주가 재평가·등급 상향 기대감 - 인베스트조선",
+   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQa0hub2M4UE9ETHZjc21WeXJrMEVlWWtLOG9uU000VmdwVzM4N3MtNUJOQXkyXzFvY3BXWjVUTmNEMkJlUWdwdm85cnRmS20tQkR4WkFZM2ZWSmk3MVNYQUcySGdndm5qdE9qVEZtYVNINDZhekZjNWtlUFBTOE9DZkRHTQ?oc=5",
+   "source": "인베스트조선",
+   "date": "2026-07-08"
   },
   {
    "title": "‘1년만에 700% 폭등’ 효성중공업 주가…고평가 vs 저평가? - 스트레이트뉴스",
@@ -374,16 +374,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-11"
   },
   {
+   "title": "두산에너빌리티 주가 주말 앞두고 모처럼 반등…새 주 반등세 이어갈까? - CBC뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1KRkVRRnFoRUItQkVNQjVTVlN3Y1VVU2RkclNBN3c3ZjEwejRETUdOamxBNklnZWRGTGpDRENzZ0EyMnRPNFUzUmNpNGFsUDJkblZGLUpmWTdIMS1vMXU2Z2JlQzh0QWds?oc=5",
+   "source": "CBC뉴스",
+   "date": "2026-07-10"
+  },
+  {
    "title": "[The Numbers] 두산에너빌리티 10만원 깨졌네, 팔까살까?…체코·SMR 호재 속 ‘신호와 소음’ 체크리스트 5가지 - 뉴스스페이스",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1zaUlSSkRNOFVaSTIxeGZYektFWWJOOEUyYkcyWEl2SzVfS0VuR2IyWFlSSTFRSEFzanBnbFBFYm5hNzRHMTVoUlJuSDZrV003Mm9SQ0lyQUJScTVUMS1zNw?oc=5",
    "source": "뉴스스페이스",
    "date": "2026-06-22"
-  },
-  {
-   "title": "두산에너빌리티 주가 주말 앞두고 모처럼 반등…새 주 반등세 이어갈까? - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFAxa2w3ODhzS2FFempicUU4TzBVUDlvUWRFV2dWSzVSRGgwUFE4eU5YOWJsdFl3VjBOX3dQM3pwT0Nub0xTSjFadTQyZTdDd0hkZUZhTDFmYkh5VXp2Nl9vVlpwZw?oc=5",
-   "source": "CBC뉴스",
-   "date": "2026-07-10"
   },
   {
    "title": "[주식도락] 가라앉는 '원전주' 두산에너빌 주가…반등 가능할까 - 뉴스드림",
@@ -614,16 +614,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-11"
   },
   {
-   "title": "우리기술 주가 전일 이어 2거래일 연속 강세…1만1000원선 회복 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9pdlJubGlhQ0FCcXVzd2xyeTNzUFpGZkhPdlhsUkhBaTRMT3pFZEQ0YVM1eW1JOWl5dVF0NDVBMTh2RUlETVdsR0RzRWp2UTREMWNiQmxRVXk3MXF3bVNJbGRvakFmOGZX?oc=5",
-   "source": "CBC뉴스",
-   "date": "2026-07-10"
-  },
-  {
    "title": "인베스팅프로 적정가치, 우리기술 57% 폭락 예측 성공 - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5waVVUY2ZQRWJuSnF6YXlMZWVuUkJ3ZHhaaVJndWlMSEJnc2h5T2FqZDNZcFU2ZTkyQjEtVERlSjhCeWpVT2t0VDNJd1dWbjEtQjRxN0VRV1JRMWtYMDRTdzE2VXYzc3FaSjd6WEd5R0JGa3huS2c?oc=5",
    "source": "Investing.com 한국어",
    "date": "2026-06-29"
+  },
+  {
+   "title": "우리기술 주가 전일 이어 2거래일 연속 강세…1만1000원선 회복 - CBC뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9pdlJubGlhQ0FCcXVzd2xyeTNzUFpGZkhPdlhsUkhBaTRMT3pFZEQ0YVM1eW1JOWl5dVF0NDVBMTh2RUlETVdsR0RzRWp2UTREMWNiQmxRVXk3MXF3bVNJbGRvakFmOGZX?oc=5",
+   "source": "CBC뉴스",
+   "date": "2026-07-10"
   }
  ],
  "한화에어로스페이스": [
@@ -1558,9 +1558,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "TSMC": [
   {
-   "title": "“월요일 16% 오르나” 들뜬 SK하이닉스 주주들…TSMC와 PER에 답 있다 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE9oQmpmWDluSEN3TFdlRTdOUlVqVWdKbWlVWGo4TVJ4a1RvN2dfQnJpbDhCYlJRZG0zRHQtbXpyZEtYN012eFEtLU14dw?oc=5",
-   "source": "v.daum.net",
+   "title": "“월요일 16% 오르나” 들뜬 SK하이닉스 주주들…TSMC와 PER에 답 있다 - 헤럴드경제",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5CSDNlNzcxWWxKR2Q5MV9rTzgzdVFHX25FRnZNaDY5Tlp2ZlR1SHhpZXBxbzRpYWI0LVlzTG5OdXNiejJEQndVc0lDeWgxQ3F3ZFVsTDBB?oc=5",
+   "source": "헤럴드경제",
    "date": "2026-07-11"
   },
   {
@@ -1570,16 +1570,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-10"
   },
   {
+   "title": "[재계핫이슈] SK하이닉스 ADR 13% 급등의 진짜 의미…TSMC식 ‘ADR 프리미엄’ 시작? - 펜앤마이크",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE01aUg2QzktXy1ySllrRmhUNnZKME5UN3hMdExVRTk2UVRpYnBoYkNuVmtSZWJEa2NuUEozX1NwRnU0Q0tHclprUFFqR1k0aUhCRnNBZ2o3emhxQjgwUnZLZEN0a25sMUFCSHhn0gFvQVVfeXFMUEl0dUgxQUN6WHZaVUlZbWJTeW90Ukk3NUlvUUhIbTlFeV93cDd0dU5iUjdMYjFwZWh4cmo2T2U5TlMxbzM4RXg3eVA0bnA0cE5xczNtVGRKM1NjQlZSRDlYel84WXBwUndxT3NMbVQw?oc=5",
+   "source": "펜앤마이크",
+   "date": "2026-07-11"
+  },
+  {
    "title": "'TSMC ADR과는 다르다'...SKHY, 차익거래 기대감 주목 - 인베스트조선",
    "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNWGVReWRlRmJZU09zS01oYVBzYlBVXzJtN2dfWmROY2lRWVFBSFBRRmp4WE44M2U3YVFTNkxSRzF0a2ljUGZhUU0ySkFaZjFYbmhkZ1pLaVV6Q0pZdHdILWpFdV94N0s5eUx0ZWRyZGlQVmJXeTJVc3pOclA4empCcWliMA?oc=5",
    "source": "인베스트조선",
    "date": "2026-07-10"
-  },
-  {
-   "title": "TSMC 주가, 오늘 왜 급등했나? - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0tcTc1VXdETTNaZk4xMXloVDJMTUM3TW9MODRldzMxME5JV3R1TkZDMzhyc2VFWVNjRHJwQU9ET1Zrclo3VGxIam9NMkFKb0JnY2gyTjVmNnp1ekdtcXl2SGdGMFFwWC1paDRPQVMzZ1Y?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-07-06"
   }
  ],
  "Alphabet": [
