@@ -160,6 +160,13 @@
   .search-hint b { color:var(--accent); }
   .lookup-btn { flex:0 0 auto; padding:10px 15px; border:1.5px solid var(--accent); border-radius:10px; background:var(--accent); color:#fff; font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap; }
   .lookup-btn:hover { background:var(--accent-hover); }
+  .lookup-cfg { margin-top:8px; border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); padding:0 12px; }
+  .lookup-cfg summary { cursor:pointer; padding:8px 0; font-size:12px; font-weight:700; color:var(--text-soft); user-select:none; }
+  .lookup-cfg summary:hover { color:var(--accent); }
+  .lookup-cfg[open] { padding-bottom:12px; }
+  .worker-url { flex:1; min-width:220px; padding:8px 11px; border:1px solid var(--border); border-radius:8px; background:var(--panel); color:var(--text); font-size:12.5px; font-family:ui-monospace,monospace; }
+  .worker-url:focus { outline:none; border-color:var(--accent); }
+  .worker-save { padding:8px 14px; border:1px solid var(--accent); border-radius:8px; background:var(--accent); color:#fff; font-size:12px; font-weight:700; cursor:pointer; }
   .lookup-panel { border:1.5px solid var(--accent); }
   .lookup-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
   .lookup-nm { font-size:16px; font-weight:800; }
@@ -456,6 +463,15 @@
       <button type="button" id="lookupBtn" class="lookup-btn">🔎 직접 조회</button>
       <span class="search-hint" id="searchHint"></span>
     </div>
+    <details class="lookup-cfg" id="lookupCfg">
+      <summary>⚙ 유니버스 밖 조회 설정 (정적 사이트용 조회 서버)</summary>
+      <p class="note" style="margin:6px 0 8px">유니버스에 없는 종목도 검색하면 같은 지표·차트·재무가 나옵니다. <b>로컬 <code>python serve.py</code> → localhost:8000</b>에서는 자동으로 됩니다. <b>공개 사이트(github.io)</b>에서 쓰려면 무료 <b>Cloudflare Worker</b> URL을 아래에 넣으세요(배포법: 저장소 <code>cloudflare-worker/README.md</code>).</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input type="text" id="workerUrl" class="worker-url" placeholder="https://your-worker.workers.dev" autocomplete="off" />
+        <button type="button" id="saveWorker" class="worker-save">저장</button>
+        <span id="workerStatus" class="search-hint"></span>
+      </div>
+    </details>
     <div class="hidden" id="lookupResult"></div>
     <div class="cards" id="cards"></div>
     <div class="toolbar" style="margin-top:16px">
@@ -1512,31 +1528,41 @@ function syncCmpChecks(){
 }
 
 /* ── 유니버스 밖 종목 실시간 조회 ── */
+function lookupEndpoints(query){
+  var eps=[], enc=encodeURIComponent(query);
+  if(isLocalHost()) eps.push('/div-lookup?q='+enc);            // 로컬 serve.py 우선
+  var w=(localStorage.getItem('div_lookup_worker')||'').trim().replace(/\/+$/,'');
+  if(w) eps.push(w+'?q='+enc);                                  // Cloudflare Worker(정적 사이트)
+  return eps;
+}
 async function doLookup(query){
   query=(query||'').trim();
   var panel=$('lookupResult');
   if(!query){ panel.classList.add('hidden'); panel.innerHTML=''; return; }
+  var eps=lookupEndpoints(query);
+  if(!eps.length){
+    panel.classList.remove('hidden');
+    panel.innerHTML='<div class="panel"><h2>🔎 유니버스 밖 조회 — 조회 서버 필요</h2>'
+      +'<p class="hint">이 공개 사이트(github.io)에서 임의 종목을 조회하려면 무료 <b>Cloudflare Worker</b> URL을 <b>⚙ 유니버스 밖 조회 설정</b>에 한 번 넣어주세요(배포법: 저장소 <code>cloudflare-worker/README.md</code>).<br>또는 로컬에서 <code>python serve.py</code> 실행 후 <a href="http://localhost:8000/dividends.html">localhost:8000</a> 으로 접속하면 설정 없이 됩니다.</p></div>';
+    $('lookupCfg').open=true; panel.scrollIntoView({behavior:'smooth',block:'start'}); return;
+  }
   panel.classList.remove('hidden');
-  panel.innerHTML='<div class="panel"><div class="gen-wait">🔎 <b>'+esc(query)+'</b> 실시간 조회 중… (yfinance)'
+  panel.innerHTML='<div class="panel"><div class="gen-wait">🔎 <b>'+esc(query)+'</b> 실시간 조회 중…'
     +'<div class="gen-sub">유니버스 밖 종목의 시세·재무·차트를 그 자리에서 가져옵니다. 보통 5~15초.</div></div></div>';
   panel.scrollIntoView({behavior:'smooth', block:'start'});
-  try{
-    var resp=await fetch('/div-lookup?q='+encodeURIComponent(query), {cache:'no-store'});
-    if(!resp.ok) throw new Error('backend '+resp.status);
-    var data=await resp.json();
-    if(!data.ok) throw new Error(data.error||'조회 실패');
-    renderLookup(data);
-  }catch(err){
-    var msg=String(err&&err.message||err);
-    var noBackend = !isLocalHost() || /Failed to fetch|NetworkError|backend (0|40|41|42|50|51)/.test(msg);
-    panel.innerHTML='<div class="panel"><h2>🔎 유니버스 밖 조회</h2>'
-      + (noBackend
-        ? '<p class="hint">실시간 조회는 <b>로컬 서버(serve.py)</b>에서만 됩니다 — 브라우저에서 야후를 직접 부르면 CORS로 막힙니다.<br>'
-          + '① 터미널에서 <code>python serve.py</code> 실행 → ② <a href="http://localhost:8000/dividends.html">http://localhost:8000/dividends.html</a> 로 접속 → ③ 다시 검색.<br>'
-          + '정적 사이트(github.io)에서는 대신 유니버스 종목의 <b>✨AI 배당 딥리서치</b>로 임의 종목을 물어볼 수 있습니다.</p>'
-        : '<p class="hint" style="color:var(--neg)">조회 실패: '+esc(msg)+'</p><p class="dh-cap">종목명(예: 삼성전자, Apple)·티커(AAPL)·6자리코드(005930)로 다시 시도해 보세요.</p>')
-      + '</div>';
+  var lastErr='';
+  for(var i=0;i<eps.length;i++){
+    try{
+      var resp=await fetch(eps[i], {cache:'no-store'});
+      if(!resp.ok){ lastErr='HTTP '+resp.status; continue; }
+      var data=await resp.json();
+      if(!data.ok){ lastErr=data.error||'조회 실패'; continue; }
+      renderLookup(data); return;
+    }catch(err){ lastErr=String(err&&err.message||err); }
   }
+  panel.innerHTML='<div class="panel"><h2>🔎 유니버스 밖 조회</h2>'
+    +'<p class="hint" style="color:var(--neg)">조회 실패: '+esc(lastErr)+'</p>'
+    +'<p class="dh-cap">종목명(삼성전자·Apple)·티커(AAPL)·6자리코드(005930)로 다시 시도하거나, ⚙ 설정에서 조회 서버(Worker) URL을 확인하세요.</p></div>';
 }
 function renderLookup(data){
   var it={ t:data.t, yf:data.yf, n:data.n||data.t, nEn:data.nEn||'', sec:data.sec||'—', cat:'유니버스 외', ex:data.ex||'', held:false };
@@ -1667,6 +1693,22 @@ $('searchBox').addEventListener('input', function(){
 });
 $('searchBox').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); doLookup(this.value); } });
 $('lookupBtn').addEventListener('click', function(){ doLookup($('searchBox').value); });
+// 조회 서버(Worker) URL 설정
+(function(){
+  var saved=(localStorage.getItem('div_lookup_worker')||'');
+  $('workerUrl').value=saved;
+  function stat(){
+    var w=(localStorage.getItem('div_lookup_worker')||'').trim();
+    $('workerStatus').innerHTML = w ? '<span style="color:var(--pos);font-weight:700">✓ 조회서버 설정됨</span>'
+      : (isLocalHost()?'로컬 serve.py 사용 중(설정 불필요)':'미설정 — 정적 사이트에선 조회 불가');
+  }
+  stat();
+  $('saveWorker').addEventListener('click', function(){
+    var v=$('workerUrl').value.trim().replace(/\/+$/,'');
+    try{ localStorage.setItem('div_lookup_worker', v); }catch(e){}
+    stat();
+  });
+})();
 $('catSel').addEventListener('change', function(){ STATE.cat=this.value; render(); });
 $('sortSel').addEventListener('change', function(){ STATE.sort=this.value; render(); });
 

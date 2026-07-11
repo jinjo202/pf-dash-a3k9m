@@ -1,0 +1,5 @@
+{
+  "name": "dividends-lookup-worker",
+  "type": "module",
+  "private": true
+}
