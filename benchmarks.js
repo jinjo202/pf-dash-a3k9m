@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-11",
-  "generated_utc": "2026-07-11T09:07:36Z",
+  "generated_utc": "2026-07-11T22:21:00Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 18.95,
+        "pe": 19.14,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2205,8 +2205,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 19.83,
-        "pb": 1.75,
+        "pe": 20.05,
+        "pb": 1.76,
         "roe": null,
         "src": "SPY (top derived)",
         "pe_kind": "fwd",
@@ -2752,7 +2752,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 19.18,
+        "pe": 19.35,
         "pb": 2.03,
         "roe": null,
         "src": "QQQ (top derived)",
@@ -3299,8 +3299,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 20.2,
-        "pb": 1.35,
+        "pe": 20.3,
+        "pb": 1.37,
         "roe": null,
         "src": "SOXX (top derived)",
         "pe_kind": "fwd",
@@ -3846,7 +3846,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 15.83,
+        "pe": 15.77,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4393,7 +4393,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 0,
       "valuation": {
-        "pe": 23.02,
+        "pe": 23.0,
         "pb": 1.4,
         "roe": null,
         "src": "EWJ (top derived)",
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
-        "pe": 11.88,
+        "pe": 11.87,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5478,13 +5478,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1498.7,
+      "current": 1498.87,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 4.2277,
-      "mtd_pct": -2.791,
-      "daily_pct": -0.4788,
-      "as_of": "2026-07-11",
+      "ytd_pct": 4.2395,
+      "mtd_pct": -2.78,
+      "daily_pct": -0.298,
+      "as_of": "2026-07-10",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5496,6 +5496,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-07-10",
           "2025-07-11",
           "2025-07-14",
           "2025-07-15",
@@ -5754,10 +5755,10 @@ window.BENCHMARKS = {
           "2026-07-07",
           "2026-07-08",
           "2026-07-09",
-          "2026-07-10",
-          "2026-07-11"
+          "2026-07-10"
         ],
         "values": [
+          1373.0,
           1372.64,
           1378.17,
           1382.01,
@@ -6016,8 +6017,7 @@ window.BENCHMARKS = {
           1528.76,
           1519.86,
           1503.35,
-          1505.91,
-          1498.7
+          1498.87
         ]
       }
     },
