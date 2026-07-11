@@ -379,7 +379,12 @@ const SAMPLE={asOf:"2026-07-10",total:80,unit:"조원",net:92,
  buckets:[{name:"미국",cur:46,tgt:42},{name:"한국",cur:20,tgt:22},{name:"선진유럽",cur:10,tgt:12},{name:"일본",cur:8,tgt:10},{name:"신흥(중국외)",cur:9,tgt:10},{name:"중국",cur:7,tgt:4}],
  sectors:[{name:"IT/반도체",cur:34,tgt:30},{name:"경기소비재",cur:12,tgt:12},{name:"금융",cur:11,tgt:13},{name:"헬스케어",cur:10,tgt:12},{name:"산업재",cur:9,tgt:10},{name:"커뮤니케이션",cur:8,tgt:8},{name:"에너지",cur:6,tgt:7},{name:"기타",cur:10,tgt:8}],
  holdings:[{name:"NVIDIA",ticker:"NVDA",region:"US",w:6.2},{name:"Microsoft",ticker:"MSFT",region:"US",w:5.1},{name:"삼성전자",ticker:"005930",region:"KR",w:4.8},{name:"Apple",ticker:"AAPL",region:"US",w:4.2},{name:"ASML",ticker:"ASML",region:"EU",w:3.1},{name:"TSMC",ticker:"TSM",region:"TW",w:3.0},{name:"Alphabet",ticker:"GOOGL",region:"US",w:2.7},{name:"Novo Nordisk",ticker:"NVO",region:"EU",w:2.2},{name:"Toyota",ticker:"7203",region:"JP",w:1.9},{name:"Tencent",ticker:"0700",region:"CN",w:1.7}],
- macro:{regime:"neutral",outlook:"디스인플레이션 지속·완만한 성장 둔화. 금리 인하 사이클 초입, 실적 모멘텀은 AI/반도체 집중.",country_pref:"US 비중 소폭 축소, 일본·유럽 확대, 중국 축소"}};
+ macro:{regime:"neutral",outlook:"완만한 성장 둔화. 통화정책은 국가별 디버전스 가능 — 최신 방향은 웹 브리핑/컨텍스트로 확인. 실적 모멘텀은 AI/반도체 집중.",country_pref:"US 비중 소폭 축소, 일본·유럽 확대, 중국 축소"}};
+function macroSlice(M){if(!M)return null;var out={as_of:M.as_of||''};
+ try{out.updates=(M.update_log||[]).slice(0,8).map(function(u){return (u.title||'')+': '+(u.detail||'');});}catch(_){}
+ try{var oks=[];(function walk(o,d){if(!o||d>4||oks.length>=3)return;if(typeof o==='object'){if(typeof o.outlook==='string'&&o.outlook.length>30&&oks.indexOf(o.outlook)<0)oks.push(o.outlook.slice(0,300));for(var k in o){if(oks.length>=3)break;walk(o[k],d+1);}}})(M,0);out.outlooks=oks;}catch(_){}
+ try{var rh=M.regimeHistory||M.regime_history||M.history;if(Array.isArray(rh)&&rh.length){var last=rh[rh.length-1];out.regime_now=(last.phase||'')+' (score '+(last.score!=null?last.score:'')+', '+(last.date||'')+')';}}catch(_){}
+ return out;}
 function mapCtx(w){try{
   if(!(w&&w.PF&&w.PF.holdings&&w.SNAP))return null;
   var SNAP=w.SNAP,RECS=w.RECS,PFh=w.PF,MACRO=w.MACRO,BO=w.BUCKET_ORDER,tot=SNAP.total||1;
@@ -390,7 +395,7 @@ function mapCtx(w){try{
   var holdings=(PFh.holdings||[]).slice().sort(function(a,b){return (b.mkt||0)-(a.mkt||0);}).slice(0,14).map(function(h){return {name:h.name,ticker:h.ticker||"",region:h.region||"",w:Math.round((h.mkt||0)/tot*1000)/10};});
   var rg=MACRO&&MACRO.regime,regime=(typeof rg==='string')?rg:((rg&&(rg.label||rg.name))||'neutral');
   return {asOf:SNAP.asOf,total:SNAP.total,unit:SNAP.unit,net:(RECS&&RECS.sizing&&RECS.sizing.band&&parseFloat(RECS.sizing.band.net))||null,
-    buckets:buckets,sectors:sectors,holdings:holdings,macro:{regime:regime,outlook:(MACRO&&MACRO.outlook)||"",country_pref:(MACRO&&MACRO.country_pref)||""}};
+    buckets:buckets,sectors:sectors,holdings:holdings,macro:{regime:regime,outlook:(MACRO&&MACRO.outlook)||"",country_pref:(MACRO&&MACRO.country_pref)||"",data:macroSlice(MACRO)}};
  }catch(e){return null;}}
 function CTX(){try{var p=(window.parent&&window.parent!==window)?window.parent:null;return mapCtx(window)||mapCtx(p)||SAMPLE;}catch(e){return SAMPLE;}}
 let PF=CTX();
@@ -399,58 +404,69 @@ const CAST={
  tech:{nm:"기술적 분석가",rl:"Technical / Market",grp:"시장 분석",c:"var(--steel)",av:{skin:"#d6a679",hair:"#2b2b30",style:"short",glass:1,tie:"#6ea8d8",brow:"flat"}},
  news:{nm:"뉴스플로우 분석가",rl:"News Flow",grp:"시장 분석",c:"var(--steel)",av:{skin:"#c0885c",hair:"#4a3526",style:"short",glass:0,tie:"#6ea8d8",brow:"flat"}},
  senti:{nm:"센티먼트 분석가",rl:"Sentiment",grp:"시장 분석",c:"var(--steel)",av:{skin:"#ecc6a0",hair:"#3a2a20",style:"bun",glass:0,tie:"#6ea8d8",brow:"soft"}},
+ rates:{nm:"금리·FX 전략가",rl:"Rates & FX",grp:"금리·통화정책",c:"var(--amber)",av:{skin:"#d6a679",hair:"#6b4a2f",style:"part",glass:1,tie:"#e0a94a",brow:"stern"}},
  macro:{nm:"매크로 전략가",rl:"Macro / Regime",grp:"전략",c:"var(--steel)",av:{skin:"#c0885c",hair:"#2b2b30",style:"part",glass:1,tie:"#6ea8d8",brow:"stern"}},
  sizing:{nm:"자산배분 · 사이징",rl:"Net Exposure",grp:"자산배분",c:"var(--plat)",av:{skin:"#d6a679",hair:"#2b2b30",style:"short",glass:0,tie:"#d8c48a",brow:"flat"}},
  country:{nm:"국가·지역 배분",rl:"Country / Region",grp:"자산배분",c:"var(--steel)",av:{skin:"#ecc6a0",hair:"#6b4a2f",style:"part",glass:1,tie:"#6ea8d8",brow:"flat"}},
  sector:{nm:"섹터 배분",rl:"Sector",grp:"자산배분",c:"var(--steel)",av:{skin:"#c0885c",hair:"#4a3526",style:"short",glass:0,tie:"#6ea8d8",brow:"flat"}},
+ fund:{nm:"펀더멘털 애널리스트",rl:"Holdings Fundamentals",grp:"종목",c:"var(--steel)",av:{skin:"#ecc6a0",hair:"#2b2b30",style:"short",glass:1,tie:"#6ea8d8",brow:"flat"}},
  stock:{nm:"종목 심사",rl:"Single Names",grp:"종목",c:"var(--amber)",av:{skin:"#ecc6a0",hair:"#3a2a20",style:"bun",glass:0,tie:"#e0a94a",brow:"soft"}},
  risk:{nm:"리스크 관리",rl:"Risk",grp:"리스크",c:"var(--red)",av:{skin:"#d6a679",hair:"#8a8f99",style:"short",glass:1,tie:"#e05d6a",brow:"furrow"}},
  cio:{nm:"CIO (최종 결정)",rl:"Chief Investment Officer",grp:"운용위",c:"var(--plat)",av:{skin:"#9c6b47",hair:"#8a8f99",style:"part",glass:0,tie:"#d8c48a",brow:"stern"}},
  copm:{nm:"공동 운용역 (나)",rl:"Co-PM · YOU",grp:"운용위",c:"var(--you)",you:true,av:{skin:"#d6a679",hair:"#2b2b30",style:"short",glass:0,tie:"#b98bff",brow:"flat"}},
 };
-const ORDER=["tech","news","senti","macro","sizing","country","sector","stock","risk","cio","copm"];
-const PHASES=["시장 진단","매크로 레짐","순노출 사이징","국가·지역 배분","섹터 배분","종목 액션","리스크 리뷰","공동 운용역","CIO 최종"];
+const ORDER=["tech","news","senti","rates","macro","sizing","country","sector","fund","stock","risk","cio","copm"];
+const PHASES=["시장 진단","금리·통화정책","매크로 레짐","순노출 사이징","국가·지역 배분","섹터 배분","보유종목 펀더멘털","종목 액션","리스크 리뷰","공동 운용역","CIO 최종"];
 // 대시보드 fm.html 페르소나 계승
 function personaText(){return [
  '당신은 약 80조원 주식 포트폴리오를 운용하는 기관의 투자위원회다. 자기자본 운용이라 절대수익이 최우선이며 글로벌 벤치마크 대비 아웃퍼폼을 노린다.',
  '의사결정 4단계: (1) 포지션 사이징(순노출/베타 — 매크로 레짐), (2) 국가/지역 배분, (3) 섹터 배분, (4) 장기 단일종목·테마.',
- '회의는 먼저 시장 분석(기술적 추세·뉴스플로우·센티먼트)으로 시장 상태를 진단한 뒤, 그 위에서 매크로·사이징·배분·종목을 논의한다.',
+ '회의는 먼저 시장 분석(기술적·뉴스플로우·센티먼트)과 금리·FX 진단으로 시장 상태를 확정한 뒤, 그 위에서 매크로·사이징·배분·펀더멘털·종목을 논의한다.',
+ '오늘 날짜: '+new Date().toISOString().slice(0,10)+'. 당신의 학습 지식은 낡았을 수 있다. 국가별 통화정책 방향(인상/동결/인하)과 최근 지표·이벤트는 <MARKET_BRIEF>와 <CONTEXT>의 매크로 데이터만 사실 근거로 삼아라. 근거가 없으면 방향을 단정하지 말고 \"확인 필요\"로 표기하라. 미국·한국 등 국가 간 정책 디버전스 가능성을 항상 점검하라.',
  '<CONTEXT>에 현재 포지션·비중·매크로가 JSON으로 주어진다. 이를 사실 근거로, 각 담당이 명확한 권고(확대/중립/축소, 편입/보유/축소/매도)와 근거·트리거를 제시하라. 막연한 양비론 금지. 실제 보유 종목만 매도/축소 대상이다.'
 ].join('\n');}
 function contextStr(){return JSON.stringify(PF);}
 // 위원회 산출 스키마(모델이 JSON으로만 반환)
-function taskPrompt(){return personaText()+`
+function taskPrompt(brief){return personaText()+`
 
 <CONTEXT>
 `+contextStr()+`
 </CONTEXT>
+
+<MARKET_BRIEF>
+`+(brief||'(웹 브리핑 없음 — 정책 방향·최근 이벤트를 학습 지식으로 단정하지 말고, 컨텍스트에 근거가 없으면 "확인 필요"로 조건부 서술하라)')+`
+</MARKET_BRIEF>
 
 위 포트폴리오를 대상으로 운용위원회 회의를 아래 JSON 스키마로만 출력하라(JSON 외 텍스트 금지). 각 text는 2~4문장 한국어, 컨텍스트 수치를 인용. 판정은 데이터에 근거해 실제로 결정(무조건 확대/유지 금지).
 {
  "tech":{"text":"","signal":"강세|중립|약세","points":[{"k":"지수 추세","v":""},{"k":"브레드스","v":""},{"k":"주요 보유 모멘텀","v":""}]},
  "news":{"text":"","flag":"긍정|중립|부정","items":[{"headline":"","impact":"긍정|중립|부정"}]},
  "senti":{"text":"","gauge":"공포|중립|과열","score":50,"drivers":[{"k":"","v":""}]},
+ "rates":{"text":"","table":[{"country":"미국","policy":"인상|동결|인하|확인 필요","note":"근거·다음 회의"},{"country":"한국","policy":"","note":""},{"country":"일본","policy":"","note":""},{"country":"유로존","policy":"","note":""},{"country":"중국","policy":"","note":""}],"fx":"원/달러 등 환율 시사점"},
  "macro":{"text":"","regime":"risk-on|neutral|risk-off","outlook":"한 줄"},
  "sizing":{"text":"","action":"증가|유지|축소","target_net":"예: 90%"},
  "country":{"text":"","tilts":[{"name":"국가","stance":"확대|중립|축소"}]},
  "sector":{"text":"","tilts":[{"name":"섹터","stance":"확대|중립|축소"}]},
+ "fund":{"text":"","names":[{"name":"보유 상위 종목명","view":"긍정|중립|부정","valuation":"밸류 한 줄","catalyst":"실적/이벤트 촉매"}]},
  "stocks":{"text":"","actions":[{"name":"보유종목명","action":"편입|보유|축소|매도","note":"짧은 근거"}]},
  "risk":{"text":"","flag":"낮음|보통|높음"},
  "cio":{"text":"","decision":{"net_action":"증가|유지|축소","headline":"한 줄 결론"}},
  "gate_text":"공동 운용역에게 의견을 청하는 1~2문장",
- "report_html":"<div class=\\"cover\\">...표지+요약+배분+리스크 섹션 HTML(인라인 class만, 스크립트 금지)...</div>"
+ "report_html":"<div class=\\"cover\\">...표지+요약+금리·매크로+배분+보유종목 펀더멘털+리스크 섹션 HTML(인라인 class만, 스크립트 금지)...</div>"
 }`;}
 // 데모(키 없이)
 const MOCK_COM={
  tech:{text:"글로벌 지수는 완만한 상승 추세이나 브레드스가 좁습니다 — 소수 대형 기술주가 주도합니다. 주요 보유 반도체는 단기 과열 후 되돌림 구간이라 신규 확대엔 신중이 필요합니다.",signal:"중립",points:[{k:"지수 추세",v:"완만한 상승, 200일선 상회"},{k:"브레드스",v:"좁음 — 소수 주도"},{k:"반도체 모멘텀",v:"단기 과열 후 조정"}]},
- news:{text:"뉴스 플로우는 혼재입니다. 금리 인하 기대는 우호적이나 중국 규제·지정학 헤드라인이 반복되고, AI 캐펙스 지속성 논쟁이 커지고 있습니다.",flag:"중립",items:[{headline:"금리 인하 사이클 초입 기대",impact:"긍정"},{headline:"중국 반도체 수출규제 지속",impact:"부정"},{headline:"AI 캐펙스 견조하나 '피크' 논쟁",impact:"중립"}]},
+ news:{text:"뉴스 플로우는 혼재입니다. 통화정책 경로 불확실성(미 인하 지연 vs 한국 긴축)이 헤드라인을 지배하고, 중국 규제·지정학과 AI 캐펙스 지속성 논쟁이 반복됩니다.",flag:"중립",items:[{headline:"정책 디버전스 — 미 인하 지연·한국 긴축",impact:"중립"},{headline:"중국 반도체 수출규제 지속",impact:"부정"},{headline:"AI 캐펙스 견조하나 '피크' 논쟁",impact:"중립"}]},
  senti:{text:"투자심리는 중립~과열 경계입니다. AI 낙관이 짙어 쏠림 위험이 있으나 극단적 탐욕은 아닙니다. 역발상보다 리스크 관리가 우선입니다.",gauge:"중립",score:62,drivers:[{k:"AI 낙관",v:"높음"},{k:"변동성(VIX)",v:"낮음"},{k:"자금 흐름",v:"기술주 집중"}]},
- macro:{text:"레짐은 중립입니다. 디스인플레이션과 금리 인하 초입이 위험자산에 우호적이나, 실적 모멘텀이 AI/반도체에 편중돼 폭이 좁습니다. 순노출은 소폭만 유지하되 쏠림을 경계합니다.",regime:"neutral",outlook:"완만한 성장 둔화 + 인하 사이클 초입"},
+ rates:{text:"정책 디버전스가 핵심입니다. 미국은 유가발 인플레로 인하가 지연되는 동결 국면, 한국은 환율·물가 방어의 인상 국면입니다. 한국 자산엔 금리 부담이, 미 성장주 밸류에는 실질금리 경로가 관건입니다.",table:[{country:"미국",policy:"동결",note:"유가발 인플레로 인하 지연"},{country:"한국",policy:"인상",note:"환율·물가 방어 긴축 국면"},{country:"일본",policy:"인상",note:"정상화 지속"},{country:"유로존",policy:"동결",note:"관망"},{country:"중국",policy:"인하",note:"완화 기조"}],fx:"원/달러 상방 압력 — 한국 긴축에도 달러 우위"},
+ fund:{text:"보유 상위 종목 펀더멘털은 대체로 견조합니다. NVDA는 성장 대비 밸류 매력, 삼성전자는 HBM 모멘텀이 유효합니다. 다만 빅테크 전반의 밸류 부담과 실적 이벤트 리스크는 분산으로 관리해야 합니다.",names:[{name:"NVIDIA",view:"긍정",valuation:"Fwd P/E ~16배 성장 대비 저평가",catalyst:"8월 실적·신제품 사이클"},{name:"Microsoft",view:"중립",valuation:"프리미엄 유지",catalyst:"Azure 성장률"},{name:"삼성전자",view:"긍정",valuation:"P/B 저평가 구간",catalyst:"HBM4 양산"},{name:"Apple",view:"중립",valuation:"서비스 견조·하드웨어 둔화",catalyst:"신제품"},{name:"TSMC",view:"긍정",valuation:"CoWoS 풀가동",catalyst:"월 매출"}]},
+ macro:{text:"레짐은 중립입니다. 정책 디버전스(미 인하 지연·한국 긴축)와 AI/반도체 편중이 특징 — 위험자산에 중립적이되 폭이 좁습니다. 순노출은 소폭만 유지하되 쏠림을 경계합니다.",regime:"neutral",outlook:"완만한 성장 둔화 + 정책 디버전스"},
  sizing:{text:"현재 순노출 92%는 다소 높습니다. 레짐이 중립이고 집중도가 큰 만큼 88% 내외로 소폭 축소해 변동성 예산을 확보하길 권합니다.",action:"축소",target_net:"88%"},
  country:{text:"미국 46%는 목표 42% 대비 과다입니다. 소폭 축소하고 일본·유럽을 확대, 중국은 7%→4%로 축소합니다.",tilts:[{name:"미국",stance:"축소"},{name:"일본",stance:"확대"},{name:"유럽",stance:"확대"},{name:"중국",stance:"축소"}]},
  sector:{text:"IT/반도체 34%는 목표 30% 대비 과다 — 일부 이익실현으로 헬스케어·금융을 보강합니다.",tilts:[{name:"IT/반도체",stance:"축소"},{name:"헬스케어",stance:"확대"},{name:"금융",stance:"확대"}]},
  stocks:{text:"NVDA는 비중이 커 일부 축소해 리밸런싱, 중국 익스포저(텐센트)는 축소, 헬스케어(노보) 확대, 일본(도요타) 확대를 제안합니다.",actions:[{name:"NVIDIA",action:"축소",note:"비중 6.2%로 과대, 일부 이익실현"},{name:"Tencent",action:"매도",note:"중국 규제·비중 축소"},{name:"Novo Nordisk",action:"편입",note:"헬스케어 확대"},{name:"Toyota",action:"편입",note:"일본 확대"},{name:"삼성전자",action:"보유",note:"핵심 보유 유지"}]},
- risk:{text:"집중 리스크(반도체·미국)가 가장 큽니다. 순노출 축소와 지역 분산으로 완화하되, 인하 지연·AI 캐펙스 둔화를 트리거로 봅니다.",flag:"보통"},
+ risk:{text:"집중 리스크(반도체·미국)가 가장 큽니다. 순노출 축소와 지역 분산으로 완화하되, 미 인하 지연·한국 긴축 심화·AI 캐펙스 둔화를 트리거로 봅니다.",flag:"보통"},
  cio:{text:"레짐 중립·집중도 과다를 반영해 순노출을 소폭 축소하고, 미국·반도체·중국을 덜고 일본·유럽·헬스케어를 채웁니다. 급격한 변경 대신 단계적 리밸런싱으로 갑니다.",decision:{net_action:"축소",headline:"순노출 소폭 축소 + 미국/반도체/중국 축소, 일본/유럽/헬스케어 확대"}},
  gate_text:"공동 운용역님, 순노출 축소 폭과 리밸런싱 우선순위에 동의하십니까? 의견을 주세요.",
  report_html:'<div class="cover"><div class="kicker">Investment Committee · Portfolio Review</div><h1>포트폴리오 운용위원회 리뷰</h1><div class="sub">2026-07-10 · Agent 분석</div></div><div class="ratingbar"><div class="rc"><div class="rk">순노출</div><div class="rv" style="color:#c0392b">축소 → 88%</div></div><div class="rc"><div class="rk">레짐</div><div class="rv">중립</div></div><div class="rc"><div class="rk">핵심 이동</div><div class="rv" style="font-size:11pt">US·반도체·중국 ↓ / 일본·유럽·헬스 ↑</div></div></div><h2>1. 요약</h2><p>레짐 중립·집중도 과다를 반영해 순노출을 92%→88%로 소폭 축소하고 지역·섹터 분산을 높인다. 단계적 리밸런싱.</p><h2>2. 배분 이동</h2><ul><li>국가: 미국·중국 축소, 일본·유럽 확대</li><li>섹터: IT/반도체 축소, 헬스케어·금융 확대</li><li>종목: NVDA 일부 이익실현, 텐센트 매도, 노보·도요타 편입</li></ul><h2>3. 리스크</h2><ul><li>반도체·미국 집중</li><li>금리 인하 지연 / AI 캐펙스 둔화</li></ul>'
@@ -463,6 +479,8 @@ const DECKS={
  tech:function(){var t=COM.tech||{};return {title:"기술적·시장 진단",sub:"추세·브레드스·모멘텀",note:t.text||"",body:'<table class="dk"><tr><th>항목</th><th>판단</th></tr><tr><td class="lbl">시그널</td><td>'+(t.signal||'-')+'</td></tr>'+((t.points||[]).map(function(p){return '<tr><td class="lbl">'+p.k+'</td><td>'+p.v+'</td></tr>';}).join(''))+'</table>'};},
  newsflow:function(){var n=COM.news||{};return {title:"뉴스 플로우",sub:"헤드라인 · 영향",note:n.text||"",body:'<table class="dk"><tr><th>헤드라인</th><th style="text-align:right">영향</th></tr>'+((n.items||[]).map(function(it){var c=it.impact==='긍정'?'a-buy':it.impact==='부정'?'a-sell':'a-hold';return '<tr><td class="lbl">'+it.headline+'</td><td style="text-align:right"><span class="actbadge '+c+'">'+(it.impact||'중립')+'</span></td></tr>';}).join(''))+'</table>'};},
  senti:function(){var s=COM.senti||{};var sc=Math.max(0,Math.min(100,s.score||50));return {title:"투자심리 게이지",sub:"공포 ↔ 과열",note:s.text||"",body:'<div style="font-size:12px;color:#8593a6;margin-bottom:4px">현재 '+(s.gauge||'중립')+' ('+sc+'/100)</div><div class="gauge" style="background:linear-gradient(90deg,#4bbf7b,#e0a94a 55%,#e05d6a)"><div class="tgtline" style="left:'+sc+'%"></div></div><table class="dk" style="margin-top:10px"><tr><th>드라이버</th><th>강도</th></tr>'+((s.drivers||[]).map(function(d){return '<tr><td class="lbl">'+d.k+'</td><td>'+d.v+'</td></tr>';}).join(''))+'</table>'};},
+ rates:function(){var r=COM.rates||{};return {title:"국가별 통화정책 · FX",sub:"정책 방향 (웹 브리핑/컨텍스트 근거)",note:(r.fx?('FX: '+r.fx):'')+(r.text?(' · '+r.text):''),body:'<table class="dk"><tr><th>국가</th><th>방향</th><th>근거</th></tr>'+((r.table||[]).map(function(c){var col=c.policy==='인상'?'a-sell':c.policy==='인하'?'a-buy':'a-hold';return '<tr><td class="lbl">'+c.country+'</td><td><span class="actbadge '+col+'">'+(c.policy||'확인 필요')+'</span></td><td class="lbl">'+(c.note||'')+'</td></tr>';}).join(''))+'</table>'};},
+ fundam:function(){var f=COM.fund||{};return {title:"보유종목 펀더멘털",sub:"밸류에이션 · 촉매",note:f.text||"",body:'<table class="dk"><tr><th>종목</th><th>뷰</th><th>밸류에이션</th><th>촉매</th></tr>'+((f.names||[]).map(function(n){var col=n.view==='긍정'?'a-buy':n.view==='부정'?'a-sell':'a-hold';return '<tr><td class="lbl">'+n.name+'</td><td><span class="actbadge '+col+'">'+(n.view||'-')+'</span></td><td class="lbl">'+(n.valuation||'')+'</td><td class="lbl">'+(n.catalyst||'')+'</td></tr>';}).join(''))+'</table>'};},
  macro:function(){return {title:"매크로 레짐·아웃룩",sub:"전략 · 컨텍스트",note:PF.macro.outlook||"",body:'<table class="dk"><tr><th>항목</th><th>값</th></tr><tr><td class="lbl">레짐</td><td>'+(COM.macro.regime||PF.macro.regime)+'</td></tr><tr><td class="lbl">국가선호</td><td>'+(PF.macro.country_pref||'-')+'</td></tr><tr><td class="lbl">아웃룩</td><td>'+(COM.macro.outlook||PF.macro.outlook||'-')+'</td></tr></table>'};},
  exposure:function(){var cur=PF.net||90,tgt=parseFloat((COM.sizing&&COM.sizing.target_net)||cur)||cur;return {title:"순노출 사이징",sub:"현재 vs 목표",note:"레짐과 집중도를 반영한 순노출(그로스) 목표.",body:'<div style="font-size:12px;color:#8593a6;margin-bottom:4px">현재 '+cur+'% → 목표 '+tgt+'% ('+(COM.sizing&&COM.sizing.action||'')+')</div><div class="gauge"><div class="fill" style="width:'+Math.min(cur,100)+'%"></div><div class="tgtline" style="left:'+Math.min(tgt,100)+'%"></div></div>'};},
  country:function(){return {title:"국가·지역 배분",sub:"현재 vs 목표 비중",note:"막대=현재, 노란선=목표.",body:barPair(PF.buckets)};},
@@ -477,20 +495,28 @@ function stanceColor(s){return (s==='확대'||s==='증가'||s==='편입')?'green
 function topTilt(arr){if(!arr||!arr.length)return'중립';var e=arr.find(function(x){return x.stance!=='중립';})||arr[0];return e.name+' '+e.stance;}
 // ── 대본 생성 ──
 let SCRIPT=[],COM=null;
+function ratesVerdict(){var t=(COM.rates&&COM.rates.table)||[];var us=t.find(function(c){return /미국/.test(c.country);}),kr=t.find(function(c){return /한국/.test(c.country);});
+ var lab=[us?('미 '+us.policy):null,kr?('한 '+kr.policy):null].filter(Boolean).join(' · ')||'확인 필요';
+ var col=(kr&&kr.policy==='인상')?'red':(us&&us.policy==='인하')?'green':'amber';return [col,"금리·FX",lab];}
+function fundVerdict(){var n=(COM.fund&&COM.fund.names)||[];var p=n.filter(function(x){return x.view==='긍정';}).length,m=n.filter(function(x){return x.view==='부정';}).length;
+ return [p>m?'green':m>p?'red':'amber',"펀더멘털","긍정 "+p+" · 부정 "+m];}
 function buildScript(){
  COM.tech=COM.tech||{text:'',signal:'중립'};COM.news=COM.news||{text:'',flag:'중립'};COM.senti=COM.senti||{text:'',gauge:'중립'};
+ COM.rates=COM.rates||{text:'(금리 데이터 없음 — 확인 필요)',table:[]};COM.fund=COM.fund||{text:'',names:[]};
  SCRIPT=[
   {ph:0,who:"tech",t:COM.tech.text,refs:["tech"],v:[COM.tech.signal==='강세'?'green':COM.tech.signal==='약세'?'red':'amber',"기술적",COM.tech.signal]},
   {ph:0,who:"news",t:COM.news.text,refs:["newsflow"],v:[COM.news.flag==='긍정'?'green':COM.news.flag==='부정'?'red':'amber',"뉴스플로우",COM.news.flag]},
   {ph:0,who:"senti",t:COM.senti.text,refs:["senti"],v:[COM.senti.gauge==='과열'?'red':COM.senti.gauge==='공포'?'green':'amber',"센티먼트",COM.senti.gauge]},
-  {ph:1,who:"macro",t:COM.macro.text,refs:["macro"],v:[COM.macro.regime==='risk-on'?'green':COM.macro.regime==='risk-off'?'red':'amber',"레짐",COM.macro.regime]},
-  {ph:2,who:"sizing",t:COM.sizing.text,refs:["exposure"],v:[stanceColor(COM.sizing.action),"순노출",COM.sizing.action+" "+(COM.sizing.target_net||'')]},
-  {ph:3,who:"country",t:COM.country.text,refs:["country"],v:[stanceColor((COM.country.tilts[0]||{}).stance),"국가/지역",topTilt(COM.country.tilts)]},
-  {ph:4,who:"sector",t:COM.sector.text,refs:["sector"],v:[stanceColor((COM.sector.tilts[0]||{}).stance),"섹터",topTilt(COM.sector.tilts)]},
-  {ph:5,who:"stock",t:COM.stocks.text,refs:["holdings"],v:["amber","종목 액션",(COM.stocks.actions||[]).length+"건 조정"]},
-  {ph:6,who:"risk",t:COM.risk.text,refs:["risk"],v:[COM.risk.flag==='높음'?'red':COM.risk.flag==='낮음'?'green':'amber',"리스크",COM.risk.flag]},
-  {ph:7,who:"cio",gate:1,t:COM.gate_text||"공동 운용역님, 의견을 주시죠."},
-  {ph:8,who:"cio",final:1,dyn:1},
+  {ph:1,who:"rates",t:COM.rates.text,refs:["rates"],v:ratesVerdict()},
+  {ph:2,who:"macro",t:COM.macro.text,refs:["macro"],v:[COM.macro.regime==='risk-on'?'green':COM.macro.regime==='risk-off'?'red':'amber',"레짐",COM.macro.regime]},
+  {ph:3,who:"sizing",t:COM.sizing.text,refs:["exposure"],v:[stanceColor(COM.sizing.action),"순노출",COM.sizing.action+" "+(COM.sizing.target_net||'')]},
+  {ph:4,who:"country",t:COM.country.text,refs:["country","rates"],v:[stanceColor((COM.country.tilts[0]||{}).stance),"국가/지역",topTilt(COM.country.tilts)]},
+  {ph:5,who:"sector",t:COM.sector.text,refs:["sector"],v:[stanceColor((COM.sector.tilts[0]||{}).stance),"섹터",topTilt(COM.sector.tilts)]},
+  {ph:6,who:"fund",t:COM.fund.text,refs:["fundam"],v:fundVerdict()},
+  {ph:7,who:"stock",t:COM.stocks.text,refs:["holdings","fundam"],v:["amber","종목 액션",(COM.stocks.actions||[]).length+"건 조정"]},
+  {ph:8,who:"risk",t:COM.risk.text,refs:["risk"],v:[COM.risk.flag==='높음'?'red':COM.risk.flag==='낮음'?'green':'amber',"리스크",COM.risk.flag]},
+  {ph:9,who:"cio",gate:1,t:COM.gate_text||"공동 운용역님, 의견을 주시죠."},
+  {ph:10,who:"cio",final:1,dyn:1},
  ];
 }
 
@@ -550,7 +576,8 @@ function coSubmit(text,key){var c=CAST.copm;var m=document.createElement('div');
  else autoReply(text);}
 function inferStance(t){t=t.toLowerCase();if(/방어|줄|축소|보수|줄이/.test(t))return"defensive";if(/공격|늘|편입|사|확대/.test(t))return"aggressive";if(/검토|보류|나중|더 보/.test(t))return"review";return"agree";}
 function autoReply(text){var t=text.toLowerCase(),who="cio",msg="의견 감사합니다. 최종 결정에 반영하겠습니다.";
- if(/매크로|금리|레짐|경기/.test(t)){who="macro";msg="레짐은 "+PF.macro.regime+"입니다. 인하 사이클·실적 폭이 관건입니다.";}
+ if(/금리|환율|통화|fx|디버전스/.test(t)){who="rates";msg="국가별 정책 방향은 발표자료(국가별 통화정책·FX)를 근거로 합니다. 미·한 디버전스가 배분의 핵심 변수입니다.";}
+ else if(/매크로|레짐|경기/.test(t)){who="macro";msg="레짐은 "+PF.macro.regime+"입니다. 정책 경로와 실적 폭이 관건입니다.";}
  else if(/순노출|비중|익스포저|레버/.test(t)){who="sizing";msg="현재 순노출 "+(PF.net||'-')+"%입니다. 집중도를 감안해 목표를 조정합니다.";}
  else if(/국가|지역|미국|중국|일본|유럽/.test(t)){who="country";msg="지역 배분은 컨텍스트의 국가선호를 따릅니다.";}
  else if(/섹터|반도체|it|헬스|금융/.test(t)){who="sector";msg="섹터는 현재 vs 목표 괴리를 좁히는 방향입니다.";}
@@ -605,6 +632,14 @@ function parseLLMJson(raw){
  try{return JSON.parse(repairJson(s));}
  catch(e2){throw new Error('JSON 파싱 실패('+(e2.message||'').slice(0,60)+') — 응답이 잘렸을 수 있습니다.');}
 }
+async function geminiGround(model){var raw=(localStorage.getItem('fm_gemini_key')||'').trim();var key=raw.replace(/[^\x21-\x7E]/g,'');
+ if(!key)throw new Error('no key');
+ var names=PF.holdings.slice(0,6).map(function(h){return h.name;}).join(', ');
+ var q='오늘 날짜 기준 최신 사실만 웹 검색으로 확인해 한국어로 간결히 정리하라(각 항목 1줄, 총 14줄 이내, 가능한 날짜 명시).\n1) 미국·한국·일본·유로존·중국 중앙은행의 최근 정책금리 결정과 현재 국면(인상/동결/인하), 다음 회의 전망\n2) 이번 주 글로벌 증시 핵심 이슈 2가지\n3) 다음 보유 종목별 최신 핵심 뉴스 각 1줄: '+names;
+ var body={contents:[{role:'user',parts:[{text:q}]}],tools:[{google_search:{}}],generationConfig:{maxOutputTokens:2048}};
+ var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
+ if(!resp.ok)throw new Error('ground '+resp.status);
+ var j=await resp.json();return ((((j.candidates||[])[0]||{}).content||{}).parts||[]).map(function(p){return p.text||'';}).join('').slice(0,2600);}
 async function geminiFetch(key,model,body){
  function base(m){return 'https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(m)+':generateContent';}
  function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
@@ -636,8 +671,11 @@ async function callGemini(sys,user,model){
 }
 async function callAnthropic(sys,user,model){
  var key=(localStorage.getItem('fm_chat_key')||'').trim();if(!key)throw new Error('Anthropic 키 미입력');
- var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-  body:JSON.stringify({model:model,max_tokens:4096,system:sys,messages:[{role:'user',content:user}]})});
+ var H={'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+ var base={model:model,max_tokens:16384,system:sys,messages:[{role:'user',content:user}]};
+ var withTools=Object.assign({},base,{tools:[{type:'web_search_20250305',name:'web_search',max_uses:3}]});
+ var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:H,body:JSON.stringify(withTools)});
+ if(resp.status===400)resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:H,body:JSON.stringify(base)});
  if(!resp.ok){var e='';try{e=await resp.text();}catch(_){}throw new Error('API '+resp.status+': '+e.slice(0,300));}
  var j=await resp.json();return (j.content||[]).map(function(b){return b.text||'';}).join('');
 }
@@ -656,7 +694,12 @@ async function runCommittee(){
  try{
   var raw;
   if(mode==='demo'){await new Promise(function(r){setTimeout(r,300);});raw=JSON.stringify(MOCK_COM);}
-  else{var sys=personaText(),user=taskPrompt();
+  else{var sys=personaText();
+   var brief='';
+   if(mode==='gemini'){try{$('runBtn').textContent='웹 브리핑 수집 중…';brief=await geminiGround(model);}catch(ge){brief='';}}
+   else if(mode==='sub')brief='(당신에게 WebSearch 도구가 있다. 각국 통화정책 방향·핵심 뉴스를 검색해 사실 확인 후 작성하라.)';
+   $('runBtn').textContent='위원회 분석 중…';
+   var user=taskPrompt(brief);
    var once=async function(extra){var u=user+(extra||'');return mode==='gemini'?await callGemini(sys,u,model): mode==='api'?await callAnthropic(sys,u,model): await callSub(sys,u,model);};
    raw=await once('');
    try{COM=parseLLMJson(raw);}
