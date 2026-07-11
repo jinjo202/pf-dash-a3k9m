@@ -606,12 +606,22 @@ function parseLLMJson(raw){
  catch(e2){throw new Error('JSON 파싱 실패('+(e2.message||'').slice(0,60)+') — 응답이 잘렸을 수 있습니다.');}
 }
 async function geminiFetch(key,model,body){
- var url='https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent';
+ function base(m){return 'https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(m)+':generateContent';}
+ function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
  var gc=body.generationConfig;
  if(/flash/i.test(model))gc.thinkingConfig={thinkingBudget:0};
- var resp=await fetch(url,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
- if(resp.status===400&&gc.thinkingConfig){delete gc.thinkingConfig;
-  resp=await fetch(url,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});}
+ var H={'content-type':'application/json','x-goog-api-key':key};
+ function hit(m){return fetch(base(m),{method:'POST',headers:H,body:JSON.stringify(body)});}
+ var resp=await hit(model);
+ if(resp.status===400&&gc.thinkingConfig){delete gc.thinkingConfig;resp=await hit(model);}
+ if(resp.status===429){
+  var t1='';try{t1=await resp.clone().text();}catch(_){}
+  var d=(t1.match(/retryDelay"?\s*:?\s*"?([0-9]+)/)||[])[1];
+  await sleep(Math.min(d?parseInt(d,10):6,15)*1000);
+  resp=await hit(model);                 // 분당 한도 회복 후 재시도
+  if(resp.status===429){var fb='gemini-2.5-flash-lite';if(model!==fb)resp=await hit(fb);}  // 한도 큰 모델로 폴백
+ }
+ if(resp.status===429){throw new Error('무료 할당량(분당/일일)을 초과했습니다. 1분 뒤 다시 소집하거나, 상단 모델을 Flash-Lite로 바꾸거나(한도 큼), 데모 모드로 미리보세요. 일일 한도면 내일 초기화됩니다.');}
  if(!resp.ok){var e='';try{e=await resp.text();}catch(_){}
   throw new Error('Gemini '+resp.status+': '+e.slice(0,300));}
  var j=await resp.json();var cand=(j.candidates||[])[0]||{};
@@ -652,7 +662,7 @@ $('runBtn').onclick=run;
 function syncMode(){var m=$('chatMode').value;$('geminiWrap').style.display=(m==='gemini')?'':'none';$('apiWrap').style.display=(m==='api')?'':'none';
  $('modeTag').textContent={gemini:'Gemini',api:'Anthropic',sub:'구독',demo:'데모'}[m];
  var sel=$('model');sel.innerHTML='';
- ((m==='api'||m==='sub')?[['claude-opus-4-8','Claude Opus 4.8'],['claude-sonnet-5','Claude Sonnet 5']]:[['gemini-3.5-flash','Gemini 3.5 Flash (무료 넉넉)'],['gemini-3.1-pro-preview','Gemini 3.1 Pro (추론)'],['gemini-2.5-pro','Gemini 2.5 Pro (폴백)']]).forEach(function(o){var e=document.createElement('option');e.value=o[0];e.textContent=o[1];sel.appendChild(e);});}
+ ((m==='api'||m==='sub')?[['claude-opus-4-8','Claude Opus 4.8'],['claude-sonnet-5','Claude Sonnet 5']]:[['gemini-2.5-flash-lite','Gemini 2.5 Flash-Lite (무료 한도 큼·권장)'],['gemini-2.5-flash','Gemini 2.5 Flash (무료)'],['gemini-3.5-flash','Gemini 3.5 Flash'],['gemini-3.1-pro-preview','Gemini 3.1 Pro (추론)'],['gemini-2.5-pro','Gemini 2.5 Pro']]).forEach(function(o){var e=document.createElement('option');e.value=o[0];e.textContent=o[1];sel.appendChild(e);});}
 $('chatMode').onchange=syncMode;syncMode();
 $('saveGem').onclick=function(){localStorage.setItem('fm_gemini_key',($('geminiKey').value||'').trim());$('geminiKey').value='';$('saveGem').textContent='저장됨';setTimeout(function(){$('saveGem').textContent='저장';},1200);};
 $('saveApi').onclick=function(){localStorage.setItem('fm_chat_key',($('apiKey').value||'').trim());$('apiKey').value='';$('saveApi').textContent='저장됨';setTimeout(function(){$('saveApi').textContent='저장';},1200);};
