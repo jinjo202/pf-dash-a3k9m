@@ -640,6 +640,23 @@ async function geminiGround(model){var raw=(localStorage.getItem('fm_gemini_key'
  var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
  if(!resp.ok)throw new Error('ground '+resp.status);
  var j=await resp.json();return ((((j.candidates||[])[0]||{}).content||{}).parts||[]).map(function(p){return p.text||'';}).join('').slice(0,2600);}
+async function listGeminiModels(key){
+ var r=await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key='+encodeURIComponent(key));
+ if(!r.ok)throw new Error('list '+r.status);
+ var j=await r.json();
+ return (j.models||[]).filter(function(m){return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0;}).map(function(m){return (m.name||'').replace('models/','');}).filter(function(id){return /gemini/.test(id)&&!/embedding|aqa|imagen|vision-latest|tts|image-generation/i.test(id);});
+}
+async function populateGeminiModels(){
+ try{if($('chatMode').value!=='gemini')return;
+  var key=(localStorage.getItem('fm_gemini_key')||'').trim().replace(/[^\x21-\x7E]/g,'');if(!key)return;
+  var ids=await listGeminiModels(key);if(!ids.length)return;
+  var rank=function(id){var s=0;if(/flash/.test(id))s-=10;if(/pro/.test(id))s-=5;if(/lite/.test(id))s+=4;if(/latest/.test(id))s-=1;if(/preview|exp|thinking|8b/i.test(id))s+=2;return s;};
+  ids.sort(function(a,b){return rank(a)-rank(b)||b.localeCompare(a);});
+  var sel=$('model'),cur=sel.value;sel.innerHTML='';
+  ids.slice(0,14).forEach(function(id){var o=document.createElement('option');o.value=id;o.textContent=id;sel.appendChild(o);});
+  if([].some.call(sel.options,function(o){return o.value===cur;}))sel.value=cur;
+ }catch(_){}
+}
 async function geminiFetch(key,model,body){
  function base(m){return 'https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(m)+':generateContent';}
  function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
@@ -654,9 +671,16 @@ async function geminiFetch(key,model,body){
   var d=(t1.match(/retryDelay"?\s*:?\s*"?([0-9]+)/)||[])[1];
   await sleep(Math.min(d?parseInt(d,10):6,15)*1000);
   resp=await hit(model);                 // 분당 한도 회복 후 재시도
-  if(resp.status===429){var fb='gemini-2.5-flash-lite';if(model!==fb)resp=await hit(fb);}  // 한도 큰 모델로 폴백
  }
- if(resp.status===429){throw new Error('무료 할당량(분당/일일)을 초과했습니다. 1분 뒤 다시 소집하거나, 상단 모델을 Flash-Lite로 바꾸거나(한도 큼), 데모 모드로 미리보세요. 일일 한도면 내일 초기화됩니다.');}
+ if(resp.status===404||resp.status===429){   // 모델 미지원(404)/한도(429) → 계정에서 가능한 모델로 폴백
+  var alt=null;
+  try{var ids=await listGeminiModels(key);
+   alt=ids.filter(function(id){return /flash/.test(id)&&!/lite|8b/i.test(id)&&id!==model;})[0]||ids.filter(function(id){return id!==model;})[0];}catch(_){}
+  if(!alt)alt=(model!=='gemini-2.5-flash')?'gemini-2.5-flash':'gemini-flash-latest';
+  if(alt){resp=await hit(alt);}
+ }
+ if(resp.status===404){throw new Error('이 계정에서 사용 가능한 Gemini 모델을 찾지 못했습니다. 상단 모델을 gemini-2.5-flash로 바꾸거나 키/프로젝트를 확인하세요.');}
+ if(resp.status===429){throw new Error('무료 할당량(분당/일일)을 초과했습니다. 1분 뒤 다시 소집하거나, 다른 모델/데모 모드를 사용하세요. 일일 한도면 내일 초기화됩니다.');}
  if(!resp.ok){var e='';try{e=await resp.text();}catch(_){}
   throw new Error('Gemini '+resp.status+': '+e.slice(0,300));}
  var j=await resp.json();var cand=(j.candidates||[])[0]||{};
@@ -717,9 +741,9 @@ $('runBtn').onclick=runCommittee;
 // 모드 전환 UI
 function syncMode(){var m=$('chatMode').value;$('geminiWrap').style.display=(m==='gemini')?'':'none';$('apiWrap').style.display=(m==='api')?'':'none';
  $('modeTag').textContent={gemini:'Gemini',api:'Anthropic',sub:'구독',demo:'데모'}[m];
- var sel=$('model');sel.innerHTML='';var opts=(m==='api')?[['claude-opus-4-8','Claude Opus 4.8'],['claude-sonnet-5','Claude Sonnet 5']]:(m==='sub')?[['claude-opus-4-8','Opus (구독)'],['claude-sonnet-5','Sonnet (구독)']]:[['gemini-3.5-flash','Gemini 3.5 Flash (무료 넉넉)'],['gemini-3.1-pro-preview','Gemini 3.1 Pro (추론)'],['gemini-2.5-pro','Gemini 2.5 Pro (폴백)']];
+ var sel=$('model');sel.innerHTML='';var opts=(m==='api')?[['claude-opus-4-8','Claude Opus 4.8'],['claude-sonnet-5','Claude Sonnet 5']]:(m==='sub')?[['claude-opus-4-8','Opus (구독)'],['claude-sonnet-5','Sonnet (구독)']]:[['gemini-2.5-flash','Gemini 2.5 Flash (권장)'],['gemini-flash-latest','Gemini Flash (최신)'],['gemini-2.5-pro','Gemini 2.5 Pro'],['gemini-pro-latest','Gemini Pro (최신·추론)'],['gemini-2.0-flash','Gemini 2.0 Flash']];
  opts.forEach(function(o){var e=document.createElement('option');e.value=o[0];e.textContent=o[1];sel.appendChild(e);});
- $('warn').style.display=(m==='gemini')?'':'none';}
+ $('warn').style.display=(m==='gemini')?'':'none';populateGeminiModels();}
 
 // ── 다크/라이트 전환 (대시보드 pf_theme 공유·storage 동기화) ──
 (function(){
@@ -732,7 +756,7 @@ function syncMode(){var m=$('chatMode').value;$('geminiWrap').style.display=(m==
  window.addEventListener('storage',function(e){if(e.key==='pf_theme'&&e.newValue)apply(e.newValue);});
 })();
 $('chatMode').onchange=syncMode;
-$('saveGem').onclick=function(){localStorage.setItem('fm_gemini_key',($('geminiKey').value||'').trim());$('geminiKey').value='';$('saveGem').textContent='저장됨';setTimeout(function(){$('saveGem').textContent='저장';},1200);};
+$('saveGem').onclick=function(){localStorage.setItem('fm_gemini_key',($('geminiKey').value||'').trim());$('geminiKey').value='';$('saveGem').textContent='저장됨';populateGeminiModels();setTimeout(function(){$('saveGem').textContent='저장';},1200);};
 $('saveApi').onclick=function(){localStorage.setItem('fm_chat_key',($('apiKey').value||'').trim());$('apiKey').value='';$('saveApi').textContent='저장됨';setTimeout(function(){$('saveApi').textContent='저장';},1200);};
 try{if(localStorage.getItem('fm_gemini_key'))$('geminiKey').placeholder='저장된 키 사용 중 (다시 저장하면 교체)';}catch(_){}
 syncMode();
