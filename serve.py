@@ -169,14 +169,107 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     # ---------- 라우팅 ----------
     def do_GET(self):
-        if self.path.split("?")[0] == "/fm-chat/health":
+        p = self.path.split("?")[0]
+        if p == "/fm-chat/health":
             return self._health()
+        if p == "/div-lookup":
+            return self._div_lookup()
         return super().do_GET()
 
     def do_POST(self):
         if self.path.split("?")[0] == "/fm-chat":
             return self._chat()
         self.send_error(404, "Not Found")
+
+    # ---------- 배당 종목 실시간 조회(유니버스 밖) ----------
+    def _json_out(self, obj):
+        body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.end_headers()
+        try:
+            self.wfile.write(body)
+        except Exception:
+            pass
+
+    def _resolve_symbol(self, query):
+        """검색어(한글명·영문명·티커)를 yfinance 심볼로 해석."""
+        import re
+        import urllib.request
+        import urllib.parse
+        q = query.strip()
+        if not q:
+            return None
+        # 6자리 숫자 → 한국(KOSPI 우선)
+        if re.fullmatch(r"\d{6}", q):
+            return q + ".KS"
+        # 한글 포함 → 네이버 주식 자동완성으로 코드 해석(야후는 한글명 미지원)
+        if re.search(r"[가-힣]", q):
+            try:
+                url = "https://ac.stock.naver.com/ac?" + urllib.parse.urlencode(
+                    {"q": q, "target": "stock,index", "st": "111"})
+                req = urllib.request.Request(url, headers={
+                    "User-Agent": "Mozilla/5.0", "Referer": "https://finance.naver.com/"})
+                d = json.loads(urllib.request.urlopen(req, timeout=10).read().decode("utf-8", "ignore"))
+                for it in (d.get("items") or []):
+                    code = it.get("code") or ""
+                    tc = (it.get("typeCode") or "").upper()
+                    if re.fullmatch(r"\d{6}", code):
+                        return code + (".KQ" if "KOSDAQ" in tc else ".KS")
+            except Exception:
+                pass
+        # 야후 검색 API(서버사이드 → CORS 무관)로 해석
+        try:
+            url = "https://query2.finance.yahoo.com/v1/finance/search?" + urllib.parse.urlencode(
+                {"q": q, "quotesCount": 6, "newsCount": 0})
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            data = json.loads(urllib.request.urlopen(req, timeout=10).read().decode("utf-8", "ignore"))
+            quotes = data.get("quotes", []) or []
+            for wanted in ("EQUITY", "ETF"):
+                for it in quotes:
+                    if it.get("quoteType") == wanted and it.get("symbol"):
+                        return it["symbol"]
+            if quotes and quotes[0].get("symbol"):
+                return quotes[0]["symbol"]
+        except Exception:
+            pass
+        # 폴백: 심볼처럼 보이면 그대로
+        if re.fullmatch(r"[A-Za-z0-9.\-]{1,12}", q):
+            return q.upper()
+        return None
+
+    def _div_lookup(self):
+        import re
+        from urllib.parse import urlparse, parse_qs
+        try:
+            qs = parse_qs(urlparse(self.path).query)
+            query = (qs.get("q", [""])[0]).strip()
+            if not query:
+                return self._json_out({"ok": False, "error": "빈 검색어"})
+            symbol = self._resolve_symbol(query)
+            if not symbol:
+                return self._json_out({"ok": False, "error": "종목을 찾지 못했습니다: " + query})
+            import fetch_dividends as fd
+            import yfinance as yf
+            info = {}
+            try:
+                info = yf.Ticker(symbol).info or {}
+            except Exception:
+                info = {}
+            q = fd.fetch_one(symbol)
+            if not q or q.get("price") is None:
+                return self._json_out({"ok": False, "error": "시세를 가져오지 못했습니다: " + symbol})
+            eu = re.search(r"\.(L|PA|DE|MI|SW|MC|AS|BR|VI|ST|HE|OL|LS|SG|F)$", symbol)
+            rg = "KR" if symbol.endswith((".KS", ".KQ")) else ("EU" if eu else "US")
+            return self._json_out({
+                "ok": True, "yf": symbol, "t": symbol.split(".")[0],
+                "n": info.get("shortName") or info.get("longName") or symbol,
+                "nEn": info.get("longName") or info.get("shortName") or "",
+                "sec": info.get("sector") or info.get("industry") or "",
+                "ex": info.get("exchange") or "", "rg": rg, "q": q,
+            })
+        except Exception as e:
+            return self._json_out({"ok": False, "error": str(e)[:200]})
 
     # ---------- 헬스체크 ----------
     def _health(self):

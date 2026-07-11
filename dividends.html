@@ -157,6 +157,16 @@
   .search-box::placeholder { color:var(--muted); }
   .search-box:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
   .search-hint { font-size:12px; color:var(--muted); font-weight:600; white-space:nowrap; }
+  .search-hint b { color:var(--accent); }
+  .lookup-btn { flex:0 0 auto; padding:10px 15px; border:1.5px solid var(--accent); border-radius:10px; background:var(--accent); color:#fff; font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap; }
+  .lookup-btn:hover { background:var(--accent-hover); }
+  .lookup-panel { border:1.5px solid var(--accent); }
+  .lookup-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+  .lookup-nm { font-size:16px; font-weight:800; }
+  .lookup-tk { font-size:11.5px; color:var(--muted); font-family:ui-monospace,monospace; margin-left:4px; }
+  .lookup-x { flex:0 0 auto; border:1px solid var(--border); background:var(--panel); color:var(--muted); padding:5px 11px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:700; }
+  .lookup-x:hover { color:var(--neg); border-color:var(--neg); }
+  .lookup-panel .detail-in { border-bottom:none; padding:6px 0 0; }
 
   /* 비교 체크박스 + 패널 */
   .cmp-chk { flex:0 0 auto; width:15px; height:15px; cursor:pointer; accent-color:var(--accent); }
@@ -442,9 +452,11 @@
       <div class="hint" id="updatedStamp" style="margin:0"></div>
     </div>
     <div class="search-row">
-      <input type="search" id="searchBox" class="search-box" placeholder="🔍 종목 검색 — 이름·티커 (예: 기아, MO, AXA)" autocomplete="off" />
+      <input type="search" id="searchBox" class="search-box" placeholder="🔍 종목 검색 — 유니버스 필터 + Enter로 유니버스 밖 종목 실시간 조회 (예: 삼성전자, AAPL, 005930)" autocomplete="off" />
+      <button type="button" id="lookupBtn" class="lookup-btn">🔎 직접 조회</button>
       <span class="search-hint" id="searchHint"></span>
     </div>
+    <div class="hidden" id="lookupResult"></div>
     <div class="cards" id="cards"></div>
     <div class="toolbar" style="margin-top:16px">
       <label class="switch"><input type="checkbox" id="only5"><span class="track"></span><span>시가배당률 5%+ 만</span></label>
@@ -901,47 +913,49 @@ function excess(stockRet, rg, period){
   return Math.round((stockRet - bv)*10)/10;
 }
 
+// 큐레이션 it + 라이브 q → 행 객체(테이블/조회 공용)
+function mkRow(rg, it, q, regCcy){
+  var yld = (q && q.yld!=null) ? q.yld : (it.yldC!=null?it.yldC:null);
+  var meets5 = (yld!=null) ? (yld>=5) : !!it.meets5;
+  var ccy = (q&&q.ccy)?q.ccy:regCcy;
+  return {
+    rg:rg, it:it, q:q,
+    yld:yld, yldLive:!!(q && q.yld!=null),
+    yldT:(q&&q.yldT!=null)?q.yldT:null,
+    yld3avg:(q&&q.yld3avg!=null)?q.yld3avg:null,
+    avg3y:(q&&q.avg3y!=null)?q.avg3y:null,
+    meets5:meets5,
+    payout:(q&&q.payout!=null)?q.payout:null,
+    per:(q&&q.per!=null)?q.per:null,
+    pbr:(q&&q.pbr!=null)?q.pbr:null,
+    mcap:(q&&q.mcap!=null)?q.mcap:null,
+    mcapKRW: toKRW((q&&q.mcap!=null)?q.mcap:null, ccy),
+    ret1y:(q&&q.ret1y!=null)?q.ret1y:null,
+    r1m:(q&&q.r1m!=null)?q.r1m:null,
+    r3m:(q&&q.r3m!=null)?q.r3m:null,
+    rytd:(q&&q.rytd!=null)?q.rytd:null,
+    rytdEx: excess((q&&q.rytd!=null)?q.rytd:null, rg, 'rytd'),
+    held:!!it.held,
+    price:(q&&q.price!=null)?q.price:null,
+    ccy:ccy,
+    streak:(it.streak!=null)?it.streak:null,
+    cagr5:(it.cagr5!=null)?it.cagr5:null,
+    dpsAnnual:(q&&q.drate!=null)?q.drate:((q&&q.dps_ttm!=null)?q.dps_ttm:null),
+    freqLive:(q&&q.freq)?q.freq:null,
+    freqN:(q&&q.freq_n!=null)?q.freq_n:null,
+    hist:(q&&q.hist)?q.hist:null,
+    lastDiv:(q&&q.last_div)?q.last_div:null,
+    nextEx:(q&&q.next_exdiv)?q.next_exdiv:null,
+    nextPay:(q&&q.next_paydiv)?q.next_paydiv:null
+  };
+}
 // 전 지역 종목을 평탄화 + 라이브 병합
 function buildRows(){
   var rows=[];
   if(!UNI || !UNI.regions) return rows;
   ['US','EU','KR'].forEach(function(rg){
     var reg=UNI.regions[rg]; if(!reg||!reg.items) return;
-    reg.items.forEach(function(it){
-      var q = QUOTES[it.yf] || null;
-      var yld = (q && q.yld!=null) ? q.yld : (it.yldC!=null?it.yldC:null);
-      var meets5 = (yld!=null) ? (yld>=5) : !!it.meets5;
-      rows.push({
-        rg:rg, it:it, q:q,
-        yld:yld, yldLive:!!(q && q.yld!=null),
-        yldT:(q&&q.yldT!=null)?q.yldT:null,
-        yld3avg:(q&&q.yld3avg!=null)?q.yld3avg:null,
-        avg3y:(q&&q.avg3y!=null)?q.avg3y:null,
-        meets5:meets5,
-        payout:(q&&q.payout!=null)?q.payout:null,
-        per:(q&&q.per!=null)?q.per:null,
-        pbr:(q&&q.pbr!=null)?q.pbr:null,
-        mcap:(q&&q.mcap!=null)?q.mcap:null,
-        mcapKRW: toKRW((q&&q.mcap!=null)?q.mcap:null, (q&&q.ccy)?q.ccy:reg.ccy),
-        ret1y:(q&&q.ret1y!=null)?q.ret1y:null,
-        r1m:(q&&q.r1m!=null)?q.r1m:null,
-        r3m:(q&&q.r3m!=null)?q.r3m:null,
-        rytd:(q&&q.rytd!=null)?q.rytd:null,
-        rytdEx: excess((q&&q.rytd!=null)?q.rytd:null, rg, 'rytd'),
-        held:!!it.held,
-        price:(q&&q.price!=null)?q.price:null,
-        ccy:(q&&q.ccy)?q.ccy:reg.ccy,
-        streak:(it.streak!=null)?it.streak:null,
-        cagr5:(it.cagr5!=null)?it.cagr5:null,
-        dpsAnnual:(q&&q.drate!=null)?q.drate:((q&&q.dps_ttm!=null)?q.dps_ttm:null),
-        freqLive:(q&&q.freq)?q.freq:null,
-        freqN:(q&&q.freq_n!=null)?q.freq_n:null,
-        hist:(q&&q.hist)?q.hist:null,
-        lastDiv:(q&&q.last_div)?q.last_div:null,
-        nextEx:(q&&q.next_exdiv)?q.next_exdiv:null,
-        nextPay:(q&&q.next_paydiv)?q.next_paydiv:null
-      });
-    });
+    reg.items.forEach(function(it){ rows.push(mkRow(rg, it, QUOTES[it.yf]||null, reg.ccy)); });
   });
   return rows;
 }
@@ -1326,7 +1340,7 @@ function candleChartHtml(r, idx){
 function renderChart(idx, per){
   var block=document.querySelector('.chart-block[data-cidx="'+idx+'"]');
   if(!block) return;
-  var r=(window.__ROWS||[])[idx]; if(!r) return;
+  var r=(idx==='L')?window.__LOOKUP:(window.__ROWS||[])[idx]; if(!r) return;
   var oh=r.q&&r.q.ohlc; if(!oh||oh.length<2) return;
   per=per||CHART_DEFAULT;
   // 탭 활성화
@@ -1393,7 +1407,8 @@ function renderChart(idx, per){
   var perLabel=(CHART_PERIODS.filter(function(p){return p.k===per;})[0]||{}).l||'';
   block.querySelector('.cs-chg').innerHTML=perLabel+' <span class="'+(chg>=0?'rp':'rn')+'">'+(chg>=0?'+':'')+chg.toFixed(1)+'%</span>';
 }
-function detailHtml(r, idx){
+// 상세 내용(‹detail-in› 안쪽) — 테이블 행/조회 패널 공용
+function detailInner(r, idx){
   var it=r.it, q=r.q;
   var quant=[
     ['현재가', r.price!=null ? (fmtMoney(r.price, r.ccy)) : '—'],
@@ -1411,13 +1426,17 @@ function detailHtml(r, idx){
     ['시가총액(원화)', r.mcapKRW!=null?fmtKRW(r.mcapKRW):(r.ccy==='KRW'?fmtMcap(r.mcap,r.ccy):'—')]
   ];
   var qh = quant.map(function(x){ return '<div class="q"><span class="qk">'+x[0]+'</span><span class="qv">'+x[1]+'</span></div>'; }).join('');
-  return '<tr class="detail hidden" data-detail="'+idx+'"><td colspan="'+COLS.length+'"><div class="detail-in">'
-    + '<div class="d-grid">'
+  // 큐레이션(추천사유·리스크·출처)은 유니버스 종목만 — 조회 종목(ad-hoc)은 안내로 대체
+  var curated = it.thesis
+    ? '<h4>💡 추천 사유</h4><p>'+esc(it.thesis)+'</p>'
+      + '<h4>⚠️ 핵심 리스크</h4><p>'+esc(it.risks||'—')+'</p>'
+      + weakReasonHtml(r)
+      + '<div class="d-src"><b>근거·출처:</b> '+esc(it.src||'')+'</div>'
+    : '<div class="d-src" style="background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-fg)">🔎 <b>유니버스 밖 조회 종목</b> — 큐레이션 추천사유는 없습니다. 배당·재무·차트 지표는 실시간 조회값이며, 정성 분석은 아래 <b>AI 배당 딥리서치</b>를 이용하세요.</div>'
+      + weakReasonHtml(r);
+  return '<div class="d-grid">'
     +   '<div class="d-block">'
-    +     '<h4>💡 추천 사유</h4><p>'+esc(it.thesis)+'</p>'
-    +     '<h4>⚠️ 핵심 리스크</h4><p>'+esc(it.risks)+'</p>'
-    +     weakReasonHtml(r)
-    +     '<div class="d-src"><b>근거·출처:</b> '+esc(it.src)+'</div>'
+    +     curated
     +     '<div class="d-actions">'
     +       '<button type="button" class="deep-btn" data-deep="'+idx+'">✨ AI 배당 딥리서치</button>'
     +       extLinks(r)
@@ -1431,8 +1450,11 @@ function detailHtml(r, idx){
     + financialsHtml(r)
     + returnsMatrixHtml(r)
     + divScheduleHtml(r)
-    + newsHtml(r)
-    + '</div></td></tr>';
+    + newsHtml(r);
+}
+function detailHtml(r, idx){
+  return '<tr class="detail hidden" data-detail="'+idx+'"><td colspan="'+COLS.length+'">'
+    + '<div class="detail-in">'+detailInner(r, idx)+'</div></td></tr>';
 }
 
 /* ── 종목 비교 ── */
@@ -1487,6 +1509,54 @@ function syncCmpChecks(){
   Array.prototype.forEach.call(document.querySelectorAll('.cmp-chk'), function(c){
     c.checked = STATE.compare.indexOf(c.getAttribute('data-yf'))>=0;
   });
+}
+
+/* ── 유니버스 밖 종목 실시간 조회 ── */
+async function doLookup(query){
+  query=(query||'').trim();
+  var panel=$('lookupResult');
+  if(!query){ panel.classList.add('hidden'); panel.innerHTML=''; return; }
+  panel.classList.remove('hidden');
+  panel.innerHTML='<div class="panel"><div class="gen-wait">🔎 <b>'+esc(query)+'</b> 실시간 조회 중… (yfinance)'
+    +'<div class="gen-sub">유니버스 밖 종목의 시세·재무·차트를 그 자리에서 가져옵니다. 보통 5~15초.</div></div></div>';
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
+  try{
+    var resp=await fetch('/div-lookup?q='+encodeURIComponent(query), {cache:'no-store'});
+    if(!resp.ok) throw new Error('backend '+resp.status);
+    var data=await resp.json();
+    if(!data.ok) throw new Error(data.error||'조회 실패');
+    renderLookup(data);
+  }catch(err){
+    var msg=String(err&&err.message||err);
+    var noBackend = !isLocalHost() || /Failed to fetch|NetworkError|backend (0|40|41|42|50|51)/.test(msg);
+    panel.innerHTML='<div class="panel"><h2>🔎 유니버스 밖 조회</h2>'
+      + (noBackend
+        ? '<p class="hint">실시간 조회는 <b>로컬 서버(serve.py)</b>에서만 됩니다 — 브라우저에서 야후를 직접 부르면 CORS로 막힙니다.<br>'
+          + '① 터미널에서 <code>python serve.py</code> 실행 → ② <a href="http://localhost:8000/dividends.html">http://localhost:8000/dividends.html</a> 로 접속 → ③ 다시 검색.<br>'
+          + '정적 사이트(github.io)에서는 대신 유니버스 종목의 <b>✨AI 배당 딥리서치</b>로 임의 종목을 물어볼 수 있습니다.</p>'
+        : '<p class="hint" style="color:var(--neg)">조회 실패: '+esc(msg)+'</p><p class="dh-cap">종목명(예: 삼성전자, Apple)·티커(AAPL)·6자리코드(005930)로 다시 시도해 보세요.</p>')
+      + '</div>';
+  }
+}
+function renderLookup(data){
+  var it={ t:data.t, yf:data.yf, n:data.n||data.t, nEn:data.nEn||'', sec:data.sec||'—', cat:'유니버스 외', ex:data.ex||'', held:false };
+  var rgCcy = (data.q&&data.q.ccy) || (data.rg==='KR'?'KRW':(data.rg==='US'?'USD':'EUR'));
+  var r=mkRow(data.rg, it, data.q, rgCcy);
+  window.__LOOKUP=r;
+  var panel=$('lookupResult');
+  panel.innerHTML='<div class="panel lookup-panel">'
+    + '<div class="lookup-head"><div><span class="pill live">실시간 조회</span> <b class="lookup-nm">'+flag_(r.rg)+' '+esc(it.n)+'</b> <span class="lookup-tk">'+esc(it.t)+' · '+esc(it.sec)+'</span></div>'
+    + '<button type="button" class="lookup-x" id="lookupClose">✕ 닫기</button></div>'
+    + '<div class="detail-in" style="position:static;width:auto">'+detailInner(r, 'L')+'</div></div>';
+  renderChart('L', CHART_DEFAULT);
+  var block=panel.querySelector('.chart-block');
+  if(block) Array.prototype.forEach.call(block.querySelectorAll('.period-tab'), function(b){
+    b.addEventListener('click', function(){ renderChart('L', +b.getAttribute('data-per')); });
+  });
+  var deep=panel.querySelector('[data-deep]');
+  if(deep) deep.addEventListener('click', function(){ startStockDiv(it, data.q, r.rg); });
+  $('lookupClose').addEventListener('click', function(){ panel.classList.add('hidden'); panel.innerHTML=''; window.__LOOKUP=null; });
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 // 상세 패널 폭 = 테이블 래퍼의 보이는 폭(가로 스크롤바 제외)에 고정
@@ -1593,8 +1663,10 @@ $('grpToggle').addEventListener('change', function(){ STATE.group=this.checked; 
 $('searchBox').addEventListener('input', function(){
   STATE.search=this.value.trim(); render();
   var n=document.querySelectorAll('#tbody tr.main').length;
-  $('searchHint').textContent = STATE.search ? (n+'종목 검색됨') : '';
+  $('searchHint').innerHTML = STATE.search ? (n+'종목 · 유니버스 밖은 <b>Enter</b> 또는 직접조회') : '';
 });
+$('searchBox').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); doLookup(this.value); } });
+$('lookupBtn').addEventListener('click', function(){ doLookup($('searchBox').value); });
 $('catSel').addEventListener('change', function(){ STATE.cat=this.value; render(); });
 $('sortSel').addEventListener('change', function(){ STATE.sort=this.value; render(); });
 

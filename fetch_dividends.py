@@ -331,18 +331,19 @@ def fetch_one(sym: str):
             trate *= 100
     q["drate"] = drate if drate is not None else trate
 
+    # 배당수익률 = 연배당금/주가 (통화단위 일치). 가장 직접적이라 이를 신뢰.
     if price and price > 0:
         if drate is not None:
             q["yld"] = round(drate / price * 100, 2)
         if trate is not None:
             q["yldT"] = round(trate / price * 100, 2)
-    # dividendYield 필드로 폴백/보정: 계산값 누락 또는 비정상(<0.5%)이면 사용
-    #   (dividendYield 는 이 yfinance 버전에서 % 단위, 예: 5.3 = 5.3%)
-    dy = _num(info.get("dividendYield"))
-    if dy is not None:
-        dy_pct = dy if dy > 1 else dy * 100
-        if q["yld"] is None or q["yld"] < 0.5:
-            q["yld"] = round(dy_pct, 2)
+    # drate 가 없을 때만 dividendYield 필드로 폴백.
+    #   이 yfinance 버전에서 dividendYield 는 이미 % 단위(예: 5.3=5.3%, 0.34=0.34%)
+    #   → ×100 하지 않는다(저배당주 AAPL 0.34%가 34%로 뻥튀기되던 버그 수정).
+    if q["yld"] is None:
+        dy = _num(info.get("dividendYield"))
+        if dy is not None:
+            q["yld"] = round(dy, 2)
 
     pr = _num(info.get("payoutRatio"))
     q["payout"] = round(pr * 100, 1) if pr is not None else None
