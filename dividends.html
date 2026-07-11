@@ -219,6 +219,7 @@
   .ex-p { color:var(--accent); font-weight:700; } .ex-n { color:var(--muted); }
   .yld-big { font-weight:800; font-size:13.5px; }
   .yld-ttm { font-size:9.5px; color:var(--muted); font-weight:600; margin-top:1px; }
+  .mc-krw { font-size:9.5px; color:var(--accent); font-weight:700; margin-top:1px; }
   .yld-hi { color:var(--pos); }
   .flag5 { display:inline-block; margin-left:5px; font-size:9.5px; font-weight:800; color:var(--pos); }
   .flag5.no { color:var(--muted-soft); }
@@ -457,7 +458,7 @@
           <option value="rytdEx">YTD 초과(벤치대비) ↓</option>
           <option value="r3m">3M 수익률 ↓</option>
           <option value="ret1y">1년수익률 ↓</option>
-          <option value="mcap">시가총액 ↓</option>
+          <option value="mcapKRW">시가총액(원화) ↓</option>
         </select>
       </span>
     </div>
@@ -866,6 +867,21 @@ var QUOTE_ASOF = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.as_of) || n
 var BENCH = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.bench) || {};
 var NEWS = (window.DIVIDENDS_NEWS && window.DIVIDENDS_NEWS.data) || {};
 var NEWS_ASOF = (window.DIVIDENDS_NEWS && window.DIVIDENDS_NEWS.as_of) || null;
+var FX = (window.DIVIDENDS_QUOTES && window.DIVIDENDS_QUOTES.fx) || {};
+// 시총 통화 → 원화 환율(단위당 KRW). 런던(.L)은 시총이 파운드(GBP)라 GBP 환율 사용
+function fxForMcap(ccy){
+  if(ccy==='KRW') return 1;
+  if(ccy==='GBp'||ccy==='GBX'||ccy==='GBP') return FX.GBP||null;
+  return FX[ccy]||null;
+}
+function toKRW(mcap, ccy){ var r=fxForMcap(ccy); return (mcap!=null && r) ? mcap*r : null; }
+// 원화 대단위 포맷(조/억)
+function fmtKRW(v){
+  if(v==null) return '—';
+  if(v>=1e12) return '₩'+(v/1e12).toFixed(1)+'조';
+  if(v>=1e8) return '₩'+(v/1e8).toFixed(0)+'억';
+  return '₩'+Math.round(v).toLocaleString();
+}
 // 부진(라gg) 판정: 큐레이션 사유 있거나 1년 수익률 마이너스
 function isLaggard(r){ return !!(r.it.weak) || (r.ret1y!=null && r.ret1y<0); }
 // 지역별 벤치마크 매핑
@@ -900,6 +916,7 @@ function buildRows(){
         per:(q&&q.per!=null)?q.per:null,
         pbr:(q&&q.pbr!=null)?q.pbr:null,
         mcap:(q&&q.mcap!=null)?q.mcap:null,
+        mcapKRW: toKRW((q&&q.mcap!=null)?q.mcap:null, (q&&q.ccy)?q.ccy:reg.ccy),
         ret1y:(q&&q.ret1y!=null)?q.ret1y:null,
         r1m:(q&&q.r1m!=null)?q.r1m:null,
         r3m:(q&&q.r3m!=null)?q.r3m:null,
@@ -1011,7 +1028,7 @@ var COLS = [
   { k:'rytd',  label:'YTD',         sortable:true },
   { k:'rytdEx',label:'YTD초과',      sortable:true },
   { k:'ret1y', label:'1년',         sortable:true },
-  { k:'mcap',  label:'시가총액',     sortable:true }
+  { k:'mcapKRW', label:'시가총액 (≈원화)', sortable:true }
 ];
 
 /* ── 섹터 그룹핑 ── */
@@ -1124,7 +1141,7 @@ function rowHtml(r, idx){
     + '<td>'+fmtRet(r.rytd)+'</td>'
     + '<td>'+fmtExcess(r.rytdEx)+'</td>'
     + '<td>'+fmtRet(r.ret1y)+'</td>'
-    + '<td class="mcv">'+fmtMcap(r.mcap, r.ccy)+'</td>'
+    + '<td class="mcv">'+fmtMcap(r.mcap, r.ccy)+(r.ccy==='KRW'?'':'<div class="mc-krw">'+(r.mcapKRW!=null?'≈ '+fmtKRW(r.mcapKRW):'<span class="muted">환율 대기</span>')+'</div>')+'</td>'
     + '</tr>'
     + detailHtml(r, idx);
 }
@@ -1384,7 +1401,8 @@ function detailHtml(r, idx){
     ['5Y 배당 CAGR', fmtPct(r.cagr5,1)+' (추정)'],
     ['연속 증배', r.streak==null?'—':((r.streak===0?'재설정 이력':r.streak+'년')+' (추정)')],
     ['1년 수익률', r.ret1y==null?'—':((r.ret1y>0?'+':'')+r.ret1y.toFixed(1)+'%')],
-    ['시가총액', fmtMcap(r.mcap, r.ccy)]
+    ['시가총액', fmtMcap(r.mcap, r.ccy)],
+    ['시가총액(원화)', r.mcapKRW!=null?fmtKRW(r.mcapKRW):(r.ccy==='KRW'?fmtMcap(r.mcap,r.ccy):'—')]
   ];
   var qh = quant.map(function(x){ return '<div class="q"><span class="qk">'+x[0]+'</span><span class="qv">'+x[1]+'</span></div>'; }).join('');
   return '<tr class="detail hidden" data-detail="'+idx+'"><td colspan="'+COLS.length+'"><div class="detail-in">'
@@ -1428,7 +1446,8 @@ var CMP_METRICS = [
   { l:'PBR', f:function(r){ return fmtNum(r.pbr,2); } },
   { l:'YTD', f:function(r){ return fmtRet(r.rytd); } },
   { l:'1년', f:function(r){ return fmtRet(r.ret1y); } },
-  { l:'시가총액', f:function(r){ return fmtMcap(r.mcap, r.ccy); } }
+  { l:'시가총액', f:function(r){ return fmtMcap(r.mcap, r.ccy); } },
+  { l:'시가총액(원화)', f:function(r){ return r.mcapKRW!=null?fmtKRW(r.mcapKRW):(r.ccy==='KRW'?fmtMcap(r.mcap,r.ccy):'—'); } }
 ];
 function rowByYf(yf){ for(var i=0;i<ALL_ROWS.length;i++){ if(ALL_ROWS[i].it.yf===yf) return ALL_ROWS[i]; } return null; }
 function renderCompare(){

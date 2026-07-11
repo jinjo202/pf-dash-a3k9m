@@ -105,6 +105,21 @@ def _returns_from_hist(closes):
     return out
 
 
+def fetch_fx():
+    """원화환산용 환율(KRW per 1 unit): USD/EUR/GBP/CHF."""
+    pairs = {"USD": "USDKRW=X", "EUR": "EURKRW=X", "GBP": "GBPKRW=X", "CHF": "CHFKRW=X"}
+    out = {"KRW": 1.0}
+    for k, sym in pairs.items():
+        try:
+            h = yf.Ticker(sym).history(period="5d")
+            cl = h["Close"] if (h is not None and len(h)) else None
+            out[k] = round(float(cl.iloc[-1]), 2) if (cl is not None and len(cl)) else None
+        except Exception:
+            out[k] = None
+        time.sleep(0.3)
+    return out
+
+
 def fetch_bench():
     """벤치마크 지수들의 기간수익률 수집 → {key: {r1m,r3m,rytd,r1y}}."""
     out = {}
@@ -449,9 +464,11 @@ def main():
         time.sleep(0.5)
     print("벤치마크 지수 수집…")
     bench = fetch_bench()
+    print("환율 수집…")
+    fx = fetch_fx()
     kst = timezone(timedelta(hours=9))
     as_of = datetime.now(kst).strftime("%Y-%m-%d %H:%M KST")
-    payload = {"as_of": as_of, "source": "yfinance", "data": data, "bench": bench}
+    payload = {"as_of": as_of, "source": "yfinance", "data": data, "bench": bench, "fx": fx}
     OUT.write_text(
         "// 배당주 계량지표 (yfinance, 시세성). fetch_dividends.py 로 갱신. 배당수익률=연배당/주가 직접계산.\n"
         "window.DIVIDENDS_QUOTES = " + json.dumps(payload, ensure_ascii=False, allow_nan=False) + ";\n",
