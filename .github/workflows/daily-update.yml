@@ -137,6 +137,10 @@ jobs:
         run: python morning_note.py
         continue-on-error: true
 
+      - name: Fetch benchmark factor aggregates (proxy ETF → bm-factors.js, 3일 캐시)
+        run: python fetch_bm_factors.py
+        continue-on-error: true
+
       - name: Re-encrypt portfolio data
         env:
           PORTFOLIO_PASSWORD: ${{ secrets.PORTFOLIO_PASSWORD }}
@@ -151,7 +155,7 @@ jobs:
           # cron이 건드려야 할 파일은 데이터 3종뿐. portfolio.html 등 소스 파일은
           # 절대 cron이 commit하면 안 됨 (과거: soft-reset 패턴이 옛 working tree의
           # portfolio.html을 그대로 커밋해 사용자 변경을 되돌리는 버그 발생).
-          TRACKED="portfolio-data.js prices_log.json benchmarks.js macro-data.js kr_flows.json kr_deposit.json daily-data.js holding-news.js constituent-news.js country-model.js country-model-state.json sector-returns.js sector-quotes.js dividends-quotes.js dividends-news.js morning-note.js"
+          TRACKED="portfolio-data.js prices_log.json benchmarks.js macro-data.js kr_flows.json kr_deposit.json daily-data.js holding-news.js constituent-news.js country-model.js country-model-state.json sector-returns.js sector-quotes.js dividends-quotes.js dividends-news.js morning-note.js bm-factors.js"
 
           # 생성된 데이터 파일을 임시 백업 (origin 정렬 시 보존)
           TMP="$(mktemp -d)"

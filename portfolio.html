@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-07-12a";</script>
+<script>window.CODE_VERSION = "2026-07-12b";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -58,6 +58,7 @@
     var v = Date.now() + '-' + Math.floor(Math.random() * 1e9);  // 매번 유일
     document.write('<script src="portfolio-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="benchmarks.js?v=' + v + '"></scr' + 'ipt>');
+    document.write('<script src="bm-factors.js?v=' + v + '" onerror="window.BM_FACTORS=window.BM_FACTORS||null"></scr' + 'ipt>');
     document.write('<script src="holding-news.js?v=' + v + '" onerror="window.HOLDING_NEWS=window.HOLDING_NEWS||{}"></scr' + 'ipt>');
     document.write('<script src="constituent-news.js?v=' + v + '" onerror="window.CONSTITUENT_NEWS=window.CONSTITUENT_NEWS||{}"></scr' + 'ipt>');
   })();
@@ -1609,8 +1610,9 @@
       <h3>🎯 스타일 팩터 — 노출 · 리스크 분해<span class="pl-badge">PORT</span></h3>
       <div class="pl-2col">
         <div>
-          <div class="pl-subttl">스타일 노출 (보유 유니버스 z-score, 시가가중)</div>
+          <div class="pl-subttl" id="factorExpTitle">스타일 노출</div>
           <div class="pl-canvas-wrap short"><canvas id="factorExpChart"></canvas></div>
+          <div class="pl-chips" id="factorExpChips" style="margin-top:10px"></div>
         </div>
         <div>
           <div class="pl-subttl">수익률 분산 기여 — 4팩터 회귀 (KOSPI·S&P500·USD/KRW·EM)</div>
@@ -1619,8 +1621,11 @@
         </div>
       </div>
       <div class="footer-note">
-        노출 z-score는 <strong>보유 종목 유니버스 내부</strong> 상대값(0=유니버스 평균, BM 대비 아님 — BM 구성종목 데이터 없음) ·
-        밸류=−z(fwd PE)·모멘텀=3개월 TWR·변동성=90일 실현변동성·사이즈=대형−소형 비중·퀄리티=ROE·성장=성장/테마 팩터비중 ·
+        <strong>BM 대비 액티브 노출</strong>: 밸류(PE)·퀄리티(ROE)는 프록시 ETF의 Morningstar 집계지표
+        (ACWI→ACWI ETF·S&P500→IVV·KOSPI→EWY, 선택 벤치마크 블렌드), 모멘텀(3M)·변동성(63일 연환산)은 BM 지수 시계열에서 직접 계산 ·
+        미국 상장 보유분의 모멘텀·변동성은 <strong>USD 환산</strong>(원/달러 번역효과 제거) 후 비교 ·
+        z 단위 = 보유 유니버스 횡단면 σ · PE 정의(fwd vs Morningstar 집계)에 미세한 차이 존재 ·
+        사이즈·성장은 BM 대응지표가 없어 <strong>유니버스 내부 z</strong>로 하단 칩에 표시 ·
         분산 기여는 일별 TWR의 시계열 OLS(연초~현재), 잔차=종목특이. 음(−) 기여는 분산 상쇄(헤지) 의미.
       </div>
     </div>
@@ -2745,6 +2750,98 @@ function computeStyleExposures() {
   return out;
 }
 
+// ── BM 대비 액티브 노출 (bm-factors.js의 프록시 ETF 집계 사용) ──
+// USD/KRW 히스토리 → hist.dates 정렬 환율 배열(전방 채움)
+function _plFxAligned() {
+  const h = _plIndexHistory('USD/KRW');
+  if (!h) return null;
+  const map = {};
+  for (let i = 0; i < h.dates.length; i++) if (h.values[i] != null) map[h.dates[i]] = h.values[i];
+  const dates = portfolioData.historical.dates;
+  const out = new Array(dates.length);
+  let last = null;
+  for (const d of Object.keys(map).sort()) { if (d <= dates[0]) last = map[d]; }
+  for (let i = 0; i < dates.length; i++) {
+    if (map[dates[i]] != null) last = map[dates[i]];
+    out[i] = last;
+  }
+  return out.every(v => v == null) ? null : out;
+}
+// 시리즈의 최근 63일 모멘텀(TWR)·연환산 변동성. cfByDate로 현금흐름 제거.
+function _plMomVol(series, dates, cfByDate, fx) {
+  const rets = [];
+  for (let i = 1; i < series.length; i++) {
+    let prev = series[i - 1], cur = series[i], cf = (cfByDate && cfByDate[dates[i]]) || 0;
+    if (fx && fx[i] != null && fx[i - 1] != null) { prev = prev / fx[i - 1]; cur = cur / fx[i]; cf = cf / fx[i]; }
+    rets.push((prev != null && cur != null && prev > 0.0001) ? (cur - cf) / prev - 1 : null);
+  }
+  const tail = rets.slice(-63).filter(r => r != null);
+  if (tail.length < 40) return { mom: null, vol: null };
+  let c = 1; for (const r of tail) c *= (1 + r);
+  const mu = tail.reduce((s, r) => s + r, 0) / tail.length;
+  const sd = Math.sqrt(tail.reduce((s, r) => s + (r - mu) ** 2, 0) / tail.length);
+  return { mom: (c - 1) * 100, vol: sd * Math.sqrt(252) * 100 };
+}
+
+function computeActiveExposures() {
+  const bmf = window.BM_FACTORS && BM_FACTORS.indices;
+  const hist = portfolioData && portfolioData.historical;
+  if (!bmf || !hist) return null;
+  // 1) BM 밸류·퀄리티: 선택 벤치마크 가중 블렌드 (BM_FACTORS에 있는 지수만, 재정규화)
+  const w = benchmarkState.weights || {};
+  let pe_bm = 0, roe_bm = 0, wPe = 0, wRoe = 0;
+  for (const [nm, wv] of Object.entries(w)) {
+    if (wv <= 0 || !bmf[nm]) continue;
+    if (bmf[nm].pe != null) { pe_bm += wv * bmf[nm].pe; wPe += wv; }
+    if (bmf[nm].roe != null) { roe_bm += wv * bmf[nm].roe; wRoe += wv; }
+  }
+  pe_bm = wPe > 0 ? pe_bm / wPe : null;
+  roe_bm = wRoe > 0 ? roe_bm / wRoe : null;
+  // 2) BM 모멘텀·변동성: 블렌드 지수 시계열에서 직접 (현지통화 기준)
+  const bmSeries = buildBenchmarkSeries();
+  const bmMV = bmSeries ? _plMomVol(bmSeries, hist.dates, null, null) : { mom: null, vol: null };
+  // 3) 포트폴리오 측 — 종목별 지표 (미국 상장분은 USD 환산해 번역효과 제거)
+  const fx = _plFxAligned();
+  const held = allHoldings.filter(h => (h.mkt || 0) > 0);
+  const tot = held.reduce((s, h) => s + h.mkt, 0);
+  if (tot <= 0) return null;
+  const per = held.map(h => {
+    const ser = hist.holdings_mkt[h.name];
+    const isUsd = /\sUS$/.test(h.ticker || '');
+    let mv = { mom: null, vol: null };
+    if (ser && ser.length > 64) {
+      const cfH = buildCashflowByDate(portfolioData.trades, h.isin, hist.dates);
+      mv = _plMomVol(ser, hist.dates, cfH, isUsd ? fx : null);
+    }
+    return { w: h.mkt / tot,
+      pe: (h.valuation && h.valuation.pe > 0) ? h.valuation.pe : null,
+      roe: (h.valuation && h.valuation.roe != null) ? h.valuation.roe : null,
+      mom: mv.mom, vol: mv.vol };
+  });
+  // 가중평균(결측 재정규화) + 횡단면 σ
+  function agg(key) {
+    let s = 0, sw = 0;
+    const vals = [];
+    for (const p of per) { if (p[key] == null || isNaN(p[key])) continue; s += p.w * p[key]; sw += p.w; vals.push(p[key]); }
+    if (sw <= 0 || vals.length < 5) return { avg: null, sd: null };
+    const mu = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const sd = Math.sqrt(vals.reduce((a, b) => a + (b - mu) ** 2, 0) / vals.length) || null;
+    return { avg: s / sw, sd };
+  }
+  const P = { pe: agg('pe'), roe: agg('roe'), mom: agg('mom'), vol: agg('vol') };
+  const rows = [];
+  function push(label, port, bm, sd, invert, unit, fmtD) {
+    if (port == null || bm == null || !sd) return;
+    const z = (invert ? (bm - port) : (port - bm)) / sd;
+    rows.push({ label, z, port, bm, unit, fmtD });
+  }
+  push('밸류 (저PE)', P.pe.avg, pe_bm, P.pe.sd, true, '배', 1);
+  push('퀄리티 (ROE)', P.roe.avg, roe_bm, P.roe.sd, false, '%', 1);
+  push('모멘텀 (3M)', P.mom.avg, bmMV.mom, P.mom.sd, false, '%', 1);
+  push('고변동성 (63D)', P.vol.avg, bmMV.vol, P.vol.sd, false, '%', 1);
+  return rows.length >= 2 ? { rows, asof: BM_FACTORS.as_of } : null;
+}
+
 // 다중 OLS (intercept 포함) — 가우스 소거. X: n×k, y: n
 function _plOls(X, y) {
   const n = X.length, k = X[0].length;
@@ -2818,20 +2915,43 @@ function computeFactorRisk() {
 function renderFactorLab() {
   const expEl = document.getElementById('factorExpChart');
   if (!expEl) return;
-  // (a) 노출
+  // (a) 노출 — BM 프록시 집계가 있으면 '액티브 노출', 없으면 유니버스 내부 z 폴백
+  const active = computeActiveExposures();
   const exp = computeStyleExposures();
-  if (exp) {
-    const FNAME = { value: '밸류 (저PE)', momentum: '모멘텀 (3M)', vol: '고변동성', size: '사이즈 (대형)', quality: '퀄리티 (ROE)', growth: '성장·테마' };
-    const rows = exp.filter(e => e.z != null);
+  const titleEl = document.getElementById('factorExpTitle');
+  const chipsEl = document.getElementById('factorExpChips');
+  const FNAME = { value: '밸류 (저PE)', momentum: '모멘텀 (3M)', vol: '고변동성', size: '사이즈 (대형)', quality: '퀄리티 (ROE)', growth: '성장·테마' };
+  let rows, tooltipCb;
+  if (active) {
+    if (titleEl) titleEl.textContent = `스타일 노출 — BM 대비 액티브 (z) · 프록시 집계 ${active.asof}`;
+    rows = active.rows.map(r => ({ label: r.label, z: r.z, port: r.port, bm: r.bm, unit: r.unit, fmtD: r.fmtD }));
+    tooltipCb = c => {
+      const r = rows[c.dataIndex];
+      return [`액티브 ${fmt(c.parsed.x, 2)}σ`, `포트 ${fmt(r.port, r.fmtD)}${r.unit} vs BM ${fmt(r.bm, r.fmtD)}${r.unit}`];
+    };
+    // 사이즈·성장은 BM 대응 지표가 없어 내부 z 칩으로
+    if (chipsEl && exp) {
+      const internal = exp.filter(e => (e.f === 'size' || e.f === 'growth') && e.z != null);
+      chipsEl.innerHTML = internal.map(e =>
+        `<span>${FNAME[e.f]} <b class="${cls(e.z)}">${(e.z >= 0 ? '+' : '') + e.z.toFixed(2)}σ</b> <span style="color:var(--muted)">(유니버스 내부)</span></span>`
+      ).join('');
+    }
+  } else if (exp) {
+    if (titleEl) titleEl.textContent = '스타일 노출 (보유 유니버스 z-score, 시가가중)';
+    if (chipsEl) chipsEl.innerHTML = '<span style="color:var(--muted)">BM 프록시 집계(bm-factors.js) 미로드 — 내부 상대값 표시</span>';
+    rows = exp.filter(e => e.z != null).map(e => ({ label: FNAME[e.f] || e.f, z: e.z }));
+    tooltipCb = c => `${fmt(c.parsed.x, 2)}σ (유니버스 평균 대비)`;
+  }
+  if (rows && rows.length) {
     destroy('factorExp');
     charts.factorExp = new Chart(expEl, {
       type: 'bar',
       plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
       data: {
-        labels: rows.map(e => FNAME[e.f] || e.f),
+        labels: rows.map(r => r.label),
         datasets: [{
-          data: rows.map(e => e.z),
-          backgroundColor: rows.map(e => e.z >= 0 ? PL_COLOR.pos() : PL_COLOR.neg()),
+          data: rows.map(r => r.z),
+          backgroundColor: rows.map(r => r.z >= 0 ? PL_COLOR.pos() : PL_COLOR.neg()),
           borderRadius: 3,
         }],
       },
@@ -2845,7 +2965,7 @@ function renderFactorLab() {
         },
         plugins: {
           legend: { display: false },
-          tooltip: { callbacks: { label: c => `${fmt(c.parsed.x, 2)}σ (유니버스 평균 대비)` } },
+          tooltip: { callbacks: { label: tooltipCb } },
           datalabels: {
             display: true, anchor: 'end', align: 'end', clamp: true,
             color: () => _plDark() ? '#cbd5e1' : '#334155', font: { weight: '700', size: 10 },
