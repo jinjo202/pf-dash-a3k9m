@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-07-12b";</script>
+<script>window.CODE_VERSION = "2026-07-12c";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1572,6 +1572,26 @@
       table.pl-tbl td { padding:3px 8px; text-align:right; border-bottom:1px solid var(--row-alt); font-variant-numeric:tabular-nums; }
     </style>
 
+    <!-- 리스크 랩 공용 컨트롤: 환헤지 비율 -->
+    <div class="panel" id="hedgeCtrlPanel" style="margin-top:16px;padding:12px 16px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;font-size:13px">
+        <b>🛡 환헤지 비율</b>
+        <span style="display:inline-flex;align-items:center;gap:6px">
+          <input type="range" id="hedgeSlider" min="0" max="100" step="5" value="100" style="width:160px">
+          <input type="number" id="hedgeInput" min="0" max="100" step="5" value="100"
+            style="width:64px;font:inherit;font-size:13px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;background:var(--panel);color:var(--text)">%
+        </span>
+        <span id="hedgeStatus" style="font-size:12px"></span>
+        <span style="color:var(--muted);font-size:12px">현재 운용정책 = <b>100% 헤지</b> (USD수익률 = 원화수익률) · 아래 리스크 랩 3개 패널에 즉시 반영</span>
+      </div>
+      <div class="footer-note" style="margin-top:8px">
+        헤지 반영 수익률: USD 상장 보유분의 일별 시계열을 (1+r<sub>KRW</sub>)/(1+r<sub>FX</sub>)<sup>H</sup>로 조정 —
+        H=100%면 달러 수익률(번역효과 완전 제거), H=0%면 무헤지 원화 수익률(기존 데이터 그대로) ·
+        EUR 상장분(~7%)은 EUR/KRW 시계열 부재로 미조정 · 헤지 비용(스왑포인트)·리밸런싱 미반영 ·
+        상단 '위험·수익 메트릭' 등 기존 패널은 무헤지 원화 기준 유지.
+      </div>
+    </div>
+
     <!-- 패널 1: 기간 성과요인 분해 (Attribution Over Time) -->
     <div class="panel" id="attribTimeSection" style="margin-top:16px">
       <h3>📊 기간 성과요인 분해 — 배분·선택 효과 시계열<span class="pl-badge">PORT</span></h3>
@@ -2364,6 +2384,68 @@ const PL_COLOR = {
   surface: () => _plDark() ? '#141a2e' : '#ffffff',
 };
 
+// ── 환헤지 비율 상태 (0~1). 현재 운용정책 100% — 사용자 조절·localStorage 지속 ──
+let plHedge = (() => {
+  try {
+    const v = parseFloat(localStorage.getItem('pf_hedge_ratio'));
+    return isNaN(v) ? 1 : Math.min(1, Math.max(0, v));
+  } catch (e) { return 1; }
+})();
+function _plIsUsd(h) { return /\sUS$/.test(h.ticker || ''); }
+// USD/KRW 누적계수 fx(t)/fx(0) — renderPortLab마다 재계산(캐시)
+let _plFxFactorArr;
+function _plFxFactorMemo() {
+  if (_plFxFactorArr !== undefined) return _plFxFactorArr;
+  const fx = _plFxAligned();
+  _plFxFactorArr = (fx && fx[0] != null) ? fx.map(v => v != null ? v / fx[0] : null) : null;
+  return _plFxFactorArr;
+}
+// 헤지 조정 시계열: USD 상장 종목이면 ser(t)/(fx(t)/fx(0))^H — H=1이면 달러 수익률, H=0이면 원본(무헤지)
+function _plAdjSeries(h, ser) {
+  if (!ser || plHedge <= 0 || !_plIsUsd(h)) return ser;
+  const f = _plFxFactorMemo();
+  if (!f) return ser;
+  return ser.map((v, i) => (v == null || f[i] == null) ? v : v / Math.pow(f[i], plHedge));
+}
+function _plAdjCf(h, cf) {
+  if (!cf || plHedge <= 0 || !_plIsUsd(h)) return cf;
+  const f = _plFxFactorMemo();
+  if (!f) return cf;
+  const dates = portfolioData.historical.dates;
+  const out = {};
+  for (let i = 0; i < dates.length; i++) {
+    const c = cf[dates[i]];
+    if (c) out[dates[i]] = f[i] != null ? c / Math.pow(f[i], plHedge) : c;
+  }
+  return out;
+}
+// 헤지 조정 포트폴리오 합산 시계열 + 합산 cashflow (리스크 랩 공용)
+function _plAdjPortSeries() {
+  const hist = portfolioData.historical;
+  const N = hist.dates.length;
+  const total = new Array(N).fill(0);
+  const cfAll = {};
+  for (const h of allHoldings) {
+    const ser0 = hist.holdings_mkt[h.name];
+    if (!ser0) continue;
+    const ser = _plAdjSeries(h, ser0);
+    for (let i = 0; i < Math.min(N, ser.length); i++) total[i] += (ser[i] || 0);
+    const cf = _plAdjCf(h, buildCashflowByDate(portfolioData.trades, h.isin, hist.dates));
+    for (const d in cf) cfAll[d] = (cfAll[d] || 0) + cf[d];
+  }
+  return { total, cfByDate: cfAll };
+}
+function _plAdjPortDailyRet() {
+  const hist = portfolioData.historical;
+  const { total, cfByDate } = _plAdjPortSeries();
+  const r = [];
+  for (let i = 1; i < total.length; i++) {
+    const c = cfByDate[hist.dates[i]] || 0;
+    r.push(total[i - 1] > 0.01 ? (total[i] - c) / total[i - 1] - 1 : null);
+  }
+  return r;
+}
+
 // ── 공용: 일수익 시리즈 ──
 function _plDailyRet(values) {
   const out = [];
@@ -2407,25 +2489,26 @@ function computeAttribTimeline() {
   const wbMap = benchmarkRegionWeights();
   const regions = Object.keys(wbMap);
 
-  // 지역 합산 시계열 + 지역별 일자 cashflow
+  // 지역 합산 시계열 + 지역별 일자 cashflow — 환헤지 조정 반영(USD 상장분)
   const regSeries = {}, regCf = {};
   for (const rg of regions) { regSeries[rg] = new Array(N).fill(0); regCf[rg] = {}; }
   for (const h of allHoldings) {
-    const ser = hist.holdings_mkt[h.name];
-    if (!ser || !regSeries[h.region]) continue;
+    const ser0 = hist.holdings_mkt[h.name];
+    if (!ser0 || !regSeries[h.region]) continue;
+    const ser = _plAdjSeries(h, ser0);
     const S = regSeries[h.region];
     for (let i = 0; i < Math.min(N, ser.length); i++) S[i] += (ser[i] || 0);
-    const cfH = buildCashflowByDate(portfolioData.trades, h.isin, dates);
+    const cfH = _plAdjCf(h, buildCashflowByDate(portfolioData.trades, h.isin, dates));
     for (const dt in cfH) regCf[h.region][dt] = (regCf[h.region][dt] || 0) + cfH[dt];
   }
-  // 지역 BM 일수익 (hist.benchmarks, 이미 포트 날짜 정렬)
+  // 지역 BM 일수익 (hist.benchmarks — 현지통화 지수라 헤지 기준과 정합)
   const bmRet = {};
   for (const rg of regions) {
     const bh = hist.benchmarks[REGION_TO_BENCHMARK[rg]];
     bmRet[rg] = (bh && bh.values) ? _plDailyRet(bh.values) : null;
   }
-  const pfTot = hist.portfolio_total;
-  const rpAll = _plPortDailyRet();
+  const pfTot = _plAdjPortSeries().total;
+  const rpAll = _plAdjPortDailyRet();
 
   // 일별 효과: A(배분), S(선택+상호), resid = (rp-rb) - (A+S)
   const daily = [];
@@ -2499,6 +2582,7 @@ function renderAttribTimeline() {
     `<span>배분효과 <b class="${cls(t.alloc)}">${fmtPct(t.alloc, 2)}</b></span>`,
     `<span>선택효과 <b class="${cls(t.sel)}">${fmtPct(t.sel, 2)}</b></span>`,
     `<span>기타(편입·복리) <b class="${cls(t.resid)}">${fmtPct(t.resid, 2)}</b></span>`,
+    `<span style="color:var(--muted)">🛡 환헤지 ${Math.round(plHedge * 100)}% 반영</span>`,
   ].join('');
   destroy('attribTime');
   const gap = { borderColor: PL_COLOR.surface(), borderWidth: { top: 0, bottom: 0, left: 1, right: 1 } };
@@ -2604,8 +2688,8 @@ function computeStressTests() {
     if (!drv) continue;   // 드라이버 시계열 없음 → 시나리오 생략
     let impact = 0;
     for (const h of held) {
-      const ser = hist.holdings_mkt[h.name];
-      const cfH = buildCashflowByDate(portfolioData.trades, h.isin, dates);
+      const ser = _plAdjSeries(h, hist.holdings_mkt[h.name]);
+      const cfH = _plAdjCf(h, buildCashflowByDate(portfolioData.trades, h.isin, dates));
       let b = ser ? _plSeriesBetaToDriver(ser, cfH, drv) : { beta: null, n: 0 };
       if (b.beta == null || b.n < 40) {
         const proxy = regionProxySeries[h.region];
@@ -2622,8 +2706,8 @@ function computeStressTests() {
     }
     results.push({ label: sc.label, total: impact * 100, active: (impact - bmImpact) * 100 });
   }
-  // 실측 최악 10거래일 재현 (β 미사용 — 실제 TWR)
-  const rp = _plPortDailyRet();
+  // 실측 최악 10거래일 재현 (β 미사용 — 실제 TWR, 헤지 조정 반영)
+  const rp = _plAdjPortDailyRet();
   const rbSeries = bmSeries ? _plDailyRet(bmSeries) : null;
   let worst = null;
   for (let i = 0; i + 10 <= rp.length; i++) {
@@ -2693,6 +2777,7 @@ function renderStressTests() {
     `<span>시나리오 <b>${r.results.length}개</b> · 보유 ${r.nHeld}종목 β 전파</span>`,
     `<span>최악 시나리오 <b class="neg">${escHtml(worstSc.label)} ${fmtPct(worstSc.total, 1)}</b></span>`,
     `<span>vs <b>${escHtml(benchmarkLabel())}</b></span>`,
+    `<span style="color:var(--muted)">🛡 환헤지 ${Math.round(plHedge * 100)}% 반영</span>`,
     r.fallbackCount ? `<span style="color:var(--muted)">β 폴백 ${r.fallbackCount}건(지역 프록시)</span>` : '',
   ].filter(Boolean).join('');
   _plStressBarChart('stressTotalChart', 'stressTotal', r.results, 'total', '%');
@@ -2800,18 +2885,16 @@ function computeActiveExposures() {
   // 2) BM 모멘텀·변동성: 블렌드 지수 시계열에서 직접 (현지통화 기준)
   const bmSeries = buildBenchmarkSeries();
   const bmMV = bmSeries ? _plMomVol(bmSeries, hist.dates, null, null) : { mom: null, vol: null };
-  // 3) 포트폴리오 측 — 종목별 지표 (미국 상장분은 USD 환산해 번역효과 제거)
-  const fx = _plFxAligned();
+  // 3) 포트폴리오 측 — 종목별 지표 (USD 상장분은 환헤지 비율 H만큼 번역효과 제거)
   const held = allHoldings.filter(h => (h.mkt || 0) > 0);
   const tot = held.reduce((s, h) => s + h.mkt, 0);
   if (tot <= 0) return null;
   const per = held.map(h => {
-    const ser = hist.holdings_mkt[h.name];
-    const isUsd = /\sUS$/.test(h.ticker || '');
+    const ser = _plAdjSeries(h, hist.holdings_mkt[h.name]);
     let mv = { mom: null, vol: null };
     if (ser && ser.length > 64) {
-      const cfH = buildCashflowByDate(portfolioData.trades, h.isin, hist.dates);
-      mv = _plMomVol(ser, hist.dates, cfH, isUsd ? fx : null);
+      const cfH = _plAdjCf(h, buildCashflowByDate(portfolioData.trades, h.isin, hist.dates));
+      mv = _plMomVol(ser, hist.dates, cfH, null);
     }
     return { w: h.mkt / tot,
       pe: (h.valuation && h.valuation.pe > 0) ? h.valuation.pe : null,
@@ -2872,7 +2955,7 @@ function computeFactorRisk() {
   const hist = portfolioData && portfolioData.historical;
   if (!hist || !hist.benchmarks) return null;
   const dates = hist.dates;
-  const rp = _plPortDailyRet();
+  const rp = _plAdjPortDailyRet();   // 환헤지 조정 포트 수익률 — FX β는 잔여(미헤지) 민감도
   // 팩터: KOSPI, S&P500 (hist.benchmarks) + USD/KRW, MSCI EM
   const defs = [
     { name: '한국 주식 (KOSPI)',   ret: hist.benchmarks['KOSPI'] ? _plDailyRet(hist.benchmarks['KOSPI'].values) : null },
@@ -3023,7 +3106,37 @@ function renderFactorLab() {
   }
 }
 
+let _hedgeWired = false;
+function _wireHedgeCtrl() {
+  if (_hedgeWired) return;
+  const sl = document.getElementById('hedgeSlider');
+  const inp = document.getElementById('hedgeInput');
+  if (!sl || !inp) return;
+  _hedgeWired = true;
+  const v0 = Math.round(plHedge * 100);
+  sl.value = v0; inp.value = v0;
+  const apply = (v) => {
+    v = Math.min(100, Math.max(0, Math.round(v / 5) * 5));
+    sl.value = v; inp.value = v;
+    plHedge = v / 100;
+    try { localStorage.setItem('pf_hedge_ratio', String(plHedge)); } catch (e) {}
+    renderPortLab();
+  };
+  sl.addEventListener('change', () => apply(+sl.value));
+  sl.addEventListener('input', () => { inp.value = sl.value; });   // 드래그 중 숫자만 동기화
+  inp.addEventListener('change', () => apply(+inp.value));
+}
+function _hedgeStatusHtml() {
+  const pct = Math.round(plHedge * 100);
+  const cls2 = pct === 100 ? 'pos' : (pct === 0 ? 'neg' : '');
+  const note = pct === 100 ? '정책과 일치' : (pct === 0 ? '무헤지 (원화 번역 포함)' : '부분 헤지');
+  return `<b class="${cls2}">${pct}% 헤지</b> <span style="color:var(--muted)">· ${note}</span>`;
+}
 function renderPortLab() {
+  _plFxFactorArr = undefined;   // 환율 계수 캐시 리셋 (헤지비율·데이터 갱신 반영)
+  _wireHedgeCtrl();
+  const st = document.getElementById('hedgeStatus');
+  if (st) st.innerHTML = _hedgeStatusHtml();
   try { renderAttribTimeline(); } catch (e) { console.error('[portlab] attrib', e); }
   try { renderStressTests(); } catch (e) { console.error('[portlab] stress', e); }
   try { renderFactorLab(); } catch (e) { console.error('[portlab] factor', e); }
