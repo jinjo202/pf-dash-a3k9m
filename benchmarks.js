@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-12",
-  "generated_utc": "2026-07-12T13:09:36Z",
+  "generated_utc": "2026-07-12T22:20:57Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5478,13 +5478,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1498.87,
+      "current": 1498.92,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 4.2395,
-      "mtd_pct": -2.78,
-      "daily_pct": -0.298,
-      "as_of": "2026-07-10",
+      "ytd_pct": 4.243,
+      "mtd_pct": -2.7767,
+      "daily_pct": -0.4642,
+      "as_of": "2026-07-12",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5496,7 +5496,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-10",
           "2025-07-11",
           "2025-07-14",
           "2025-07-15",
@@ -5755,10 +5754,10 @@ window.BENCHMARKS = {
           "2026-07-07",
           "2026-07-08",
           "2026-07-09",
-          "2026-07-10"
+          "2026-07-10",
+          "2026-07-12"
         ],
         "values": [
-          1373.0,
           1372.64,
           1378.17,
           1382.01,
@@ -6017,7 +6016,8 @@ window.BENCHMARKS = {
           1528.76,
           1519.86,
           1503.35,
-          1498.87
+          1505.91,
+          1498.92
         ]
       }
     },
@@ -6577,8 +6577,8 @@ window.BENCHMARKS = {
       "mtd_baseline": 69.5,
       "ytd_pct": 24.3643,
       "mtd_pct": 2.7482,
-      "daily_pct": -0.9295,
-      "as_of": "2026-07-10",
+      "daily_pct": 0.0,
+      "as_of": "2026-07-12",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -6590,7 +6590,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-06-30",
           "2025-07-01",
           "2025-07-02",
           "2025-07-03",
@@ -6849,10 +6848,10 @@ window.BENCHMARKS = {
           "2026-07-07",
           "2026-07-08",
           "2026-07-09",
-          "2026-07-10"
+          "2026-07-10",
+          "2026-07-12"
         ],
         "values": [
-          65.11,
           65.45,
           67.45,
           67.0,
@@ -7111,6 +7110,7 @@ window.BENCHMARKS = {
           70.44,
           73.52,
           72.08,
+          71.41,
           71.41
         ]
       }
