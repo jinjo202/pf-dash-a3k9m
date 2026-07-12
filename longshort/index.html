@@ -610,11 +610,14 @@ setBook(0);
     const W = 1100, Ht = 270, pad = { l: 52, r: 14, t: 12, b: 26 };
     const dates = series[0].data.map(p => p[0]);
     const di = {}; dates.forEach((d, i) => di[d] = i);
+    // 축 범위는 데이터 기준. 한도선(ylines)은 y.fit일 때만 범위에 포함 —
+    // 범위 밖 한도선은 가장자리에 화살표로 표시(데이터가 눌리지 않게).
     let vals = [];
     series.forEach(s => s.data.forEach(p => vals.push(p[1])));
-    (opts.ylines || []).forEach(y => vals.push(y.v));
+    (opts.ylines || []).forEach(y => { if (y.fit) vals.push(y.v); });
+    if (opts.includeZero) vals.push(0);
     let lo = Math.min(...vals), hi = Math.max(...vals);
-    const span = Math.max(hi - lo, 1e-6); lo -= span * .06; hi += span * .06;
+    const span = Math.max(hi - lo, 1e-6); lo -= span * .12; hi += span * .12;
     const X = i => pad.l + i * (W - pad.l - pad.r) / Math.max(dates.length - 1, 1);
     const Y = v => pad.t + (hi - v) * (Ht - pad.t - pad.b) / (hi - lo);
     const yfmt = opts.yfmt || (v => v.toFixed(0));
@@ -634,8 +637,13 @@ setBook(0);
       } else if (yr !== lastYr) lastYr = yr;
     });
     (opts.ylines || []).forEach(y => {
-      svg += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(y.v)}" y2="${Y(y.v)}" stroke="${y.color || "var(--warn)"}" stroke-width="1" ${y.dash ? 'stroke-dasharray="6 4"' : ""}/>
-        <text x="${W - pad.r - 4}" y="${Y(y.v) - 4}" fill="${y.color || "var(--warn)"}" font-size="10" text-anchor="end">${y.label || ""}</text>`;
+      const outHi = y.v > hi, outLo = y.v < lo, inRange = !outHi && !outLo;
+      const yy = outHi ? hi : (outLo ? lo : y.v);
+      const arrow = outHi ? "▲ " : (outLo ? "▼ " : "");
+      const ty = outHi ? Y(yy) + 12 : Y(yy) - 4;
+      const col = y.color || "var(--warn)";
+      svg += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(yy)}" y2="${Y(yy)}" stroke="${col}" stroke-width="1" ${(!inRange || y.dash) ? 'stroke-dasharray="6 4"' : ""} opacity="${inRange ? 1 : .65}"/>
+        <text x="${W - pad.r - 4}" y="${ty}" fill="${col}" font-size="10" text-anchor="end">${arrow}${y.label || ""}</text>`;
     });
     (opts.vlines || []).forEach(v => {
       const i = di[v.date] ?? dates.findIndex(d => d >= v.date);
@@ -675,15 +683,17 @@ setBook(0);
       document.getElementById("bt-t1").textContent = `Gross Exposure (% NAV) — 정책 상한 ${B.meta.grossCap}%`;
       lineChart(document.getElementById("bt-c1"),
         [{ name: "Gross", color: "var(--accent)", data: B.expo.map(e => [e[0], e[1]]), width: 1.6 }],
-        { ylines: [{ v: B.meta.grossCap, label: `상한 ${B.meta.grossCap}%`, color: "var(--neg)", dash: 1 },
-                   { v: B.meta.grossTarget, label: `목표 ${B.meta.grossTarget}%`, color: "var(--warn)", dash: 1 }] });
+        { includeZero: true,
+          ylines: [{ v: B.meta.grossCap, label: `상한 ${B.meta.grossCap}%`, color: "var(--neg)", dash: 1 },
+                   { v: B.meta.grossTarget, label: `목표 ${B.meta.grossTarget}%`, color: "var(--warn)", fit: true, dash: 1 }] });
       p2.style.display = "";
       document.getElementById("bt-t2").textContent = `Net Exposure (% NAV) — 정책 상한 ±${B.meta.netCap}%`;
       lineChart(document.getElementById("bt-c2"),
         [{ name: "Net", color: "var(--pos)", data: B.expo.map(e => [e[0], e[2]]), width: 1.6 }],
-        { ylines: [{ v: B.meta.netCap, label: `+${B.meta.netCap}%`, color: "var(--neg)", dash: 1 },
-                   { v: -B.meta.netCap, label: `-${B.meta.netCap}%`, color: "var(--neg)", dash: 1 },
-                   { v: 0, label: "", color: "#8b93a3", dash: 1 }] });
+        { includeZero: true,
+          ylines: [{ v: B.meta.netCap, label: `상한 +${B.meta.netCap}%`, color: "var(--neg)", dash: 1 },
+                   { v: -B.meta.netCap, label: `상한 -${B.meta.netCap}%`, color: "var(--neg)", dash: 1 },
+                   { v: 0, label: "중립", color: "var(--axis)", fit: true, dash: 1 }] });
       document.getElementById("bt-note").textContent =
         `기간 ${B.meta.period} · 실데이터(야후 파이낸스) 일별 시뮬레이션을 주 단위로 다운샘플. ` +
         `페어 방향은 2026년 시점 선정(사후 편향)이므로 수익률이 아닌 리스크 룰의 방어 거동을 검증하는 차트다. ` +
@@ -700,9 +710,12 @@ setBook(0);
       document.getElementById("bt-t1").textContent = "Net Exposure (% NAV) — 레짐 스케일링 실측 (강세 55 / 중립 35 / 경계 15 / 위기 0)";
       lineChart(document.getElementById("bt-c1"),
         [{ name: "Net", color: "var(--accent)", data: B.expoDir, width: 1.4 }],
-        { ylines: [{ v: 70, label: "하드캡 +70%", color: "var(--neg)", dash: 1 },
-                   { v: 55, label: "강세 밴드", color: "var(--warn)", dash: 1 },
-                   { v: 0, label: "", color: "#8b93a3", dash: 1 }] });
+        { includeZero: true,
+          ylines: [{ v: 70, label: "하드캡 +70%", color: "var(--neg)", dash: 1 },
+                   { v: 55, label: "강세 55", color: "var(--warn)", fit: true, dash: 1 },
+                   { v: 35, label: "중립 35", color: "var(--axis)", fit: true, dash: 1 },
+                   { v: 15, label: "경계 15", color: "var(--axis)", fit: true, dash: 1 },
+                   { v: 0, label: "위기 0", color: "var(--axis)", fit: true, dash: 1 }] });
       p2.style.display = "none";
       document.getElementById("bt-note").textContent =
         `기간 ${B.meta.period} · 넷 익스포저는 실측 VIX·50/200일선 신호로 일별 산출(전일 신호만 사용, 룩어헤드 없음) + 손실 사다리 반영. ` +
