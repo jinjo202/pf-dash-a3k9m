@@ -236,9 +236,15 @@
   <div id="modal-body"></div>
 </div>
 
-<script src="data.js"></script>
-<script src="backtest_data.js"></script>
-<script src="fundamentals.js"></script>
+<script>
+  // 데이터 스크립트 캐시버스팅 (분 단위) — 매일 자동 업데이트가 즉시 반영되도록
+  (function () {
+    var v = Math.floor(Date.now() / 60000);
+    document.write('<sc' + 'ript src="data.js?v=' + v + '"><\/sc' + 'ript>');
+    document.write('<sc' + 'ript src="backtest_data.js?v=' + v + '"><\/sc' + 'ript>');
+    document.write('<sc' + 'ript src="fundamentals.js?v=' + v + '"><\/sc' + 'ript>');
+  })();
+</script>
 <script>
 function renderBook(D) {
   const fmt = (n, d = 2) => {
@@ -445,10 +451,10 @@ function openModal(t) {
   if (x.isPref && F.tickers[x.commonTicker]) {
     const disc = (1 - x.price / F.tickers[x.commonTicker].price) * 100;
     chips.push(`보통주 대비 디스카운트 <b>${disc.toFixed(1)}%</b>`);
-  } else {
-    chips.push(`PER(T12M) <b>${x.per == null ? "적자/—" : x.per + "x"}</b>`);
   }
-  if (x.psr != null) chips.push(`PSR <b>${x.psr}x</b>`);
+  chips.push(`PER(12M Fwd) <b>${x.perFwd == null ? "적자/—" : x.perFwd + "x"}</b>`);
+  if (x.psr != null) chips.push(`PSR(T12M) <b>${x.psr}x</b>`);
+  if (x.gpm != null) chips.push(`매출총이익률(T12M) <b>${x.gpm}%</b>`);
   if (x.opm != null) chips.push(`영업이익률(T12M) <b>${x.opm}%</b>`);
   const Q = x.quarters || [];
   const latest = Q[Q.length - 1];
@@ -459,10 +465,12 @@ function openModal(t) {
   }
 
   const C = x.finCcy;
+  const mgn = (v, rev) => (v != null && rev) ? (v / rev * 100).toFixed(1) + "%" : "—";
   const annualTbl = `<table style="width:100%"><tr><th class="l">연간 (${C})</th>${x.annual.map(a => `<th>${a.y}</th>`).join("")}</tr>` +
-    [["매출", "rev"], ["영업이익", "op"], ["순이익", "ni"]].map(([nm, k]) =>
+    [["매출", "rev"], ["매출총이익", "gp"], ["영업이익", "op"], ["순이익", "ni"]].map(([nm, k]) =>
       `<tr><td class="l">${nm}</td>${x.annual.map(a => `<td>${fmtFin(a[k], C)}</td>`).join("")}</tr>`).join("") +
-    `<tr><td class="l">영업이익률</td>${x.annual.map(a => `<td>${a.rev && a.op != null ? (a.op / a.rev * 100).toFixed(1) + "%" : "—"}</td>`).join("")}</tr></table>`;
+    `<tr><td class="l" style="color:var(--muted)">매출총이익률(GPM)</td>${x.annual.map(a => `<td style="color:var(--muted)">${mgn(a.gp, a.rev)}</td>`).join("")}</tr>` +
+    `<tr><td class="l" style="color:var(--muted)">영업이익률(OPM)</td>${x.annual.map(a => `<td style="color:var(--muted)">${mgn(a.op, a.rev)}</td>`).join("")}</tr></table>`;
 
   const yoy = (k) => { // 최신분기 vs 전년 동기
     if (!latest || !yoyQ || yoyQ[k] == null || latest[k] == null || yoyQ[k] <= 0) return "—";
@@ -470,8 +478,9 @@ function openModal(t) {
     return `<span class="${g >= 0 ? "yoy-up" : "yoy-dn"}">${g >= 0 ? "+" : ""}${g.toFixed(0)}%</span>`;
   };
   const qTbl = `<table style="width:100%"><tr><th class="l">분기 (${C})</th>${Q.map(q => `<th${q === latest ? ' style="color:var(--accent)"' : ""}>${q.q}</th>`).join("")}<th>YoY(최신)</th></tr>` +
-    [["매출", "rev"], ["영업이익", "op"], ["순이익", "ni"]].map(([nm, k]) =>
-      `<tr><td class="l">${nm}</td>${Q.map(q => `<td>${fmtFin(q[k], C)}</td>`).join("")}<td>${yoy(k)}</td></tr>`).join("") + `</table>`;
+    [["매출", "rev"], ["매출총이익", "gp"], ["영업이익", "op"], ["순이익", "ni"]].map(([nm, k]) =>
+      `<tr><td class="l">${nm}</td>${Q.map(q => `<td>${fmtFin(q[k], C)}</td>`).join("")}<td>${yoy(k)}</td></tr>`).join("") +
+    `<tr><td class="l" style="color:var(--muted)">영업이익률(OPM)</td>${Q.map(q => `<td style="color:var(--muted)">${mgn(q.op, q.rev)}</td>`).join("")}<td></td></tr></table>`;
 
   document.getElementById("modal-body").innerHTML =
     `<h3>${x.name} <span style="color:var(--muted);font-size:.85rem">${t} · ${pxStr}</span></h3>
@@ -479,7 +488,7 @@ function openModal(t) {
      <div class="chips">${chips.map(c => `<span class="chip">${c}</span>`).join("")}</div>
      <h4>연간 실적 (최근 3개년)</h4><div class="tbl-wrap">${annualTbl}</div>
      <h4>분기 실적 (최근 ${Q.length}개 분기 — 전년 동기 비교 포함)</h4><div class="tbl-wrap">${qTbl}</div>
-     <div class="note">재무통화 ${C} · 주식수 ${(x.shares / 1e6).toFixed(0)}M(근사) · 출처: 야후 파이낸스 (${F.asOf}) · 모의 운용 참고용, 투자 권유 아님</div>`;
+     <div class="note">PER = 12M forward(야후 애널리스트 컨센서스) · PSR/GPM/OPM = 후행 T12M · 재무통화 ${C} · 주식수 ${(x.shares / 1e6).toFixed(0)}M(근사) · 출처: 야후 파이낸스 (${F.asOf}) · 모의 운용 참고용, 투자 권유 아님</div>`;
   document.getElementById("modal-bg").style.display = "block";
   document.getElementById("modal").style.display = "block";
 }

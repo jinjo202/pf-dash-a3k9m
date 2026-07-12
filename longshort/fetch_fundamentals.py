@@ -1,15 +1,50 @@
 # -*- coding: utf-8 -*-
 """
 종목 재무 스냅샷 수집 -> fundamentals.js 생성 (대시보드 종목 상세 모달용)
-소스: 야후 파이낸스 fundamentals-timeseries (연간 3y + 분기 8Q 매출/영업이익/순이익) + v8 chart (주가/환율)
-시총 = 주가 x 주식수(연간 기본주식수 근사, 일부 하드코딩 오버라이드). ADR은 원주 환산 비율 적용.
-실행: python fetch_fundamentals.py  (일일 업데이트 시 주 1회 정도면 충분)
+소스: 야후 파이낸스 fundamentals-timeseries (연간 3y + 분기 8Q 매출/매출총이익/영업이익/순이익) + v8 chart (주가/환율)
+     + quoteSummary(crumb 인증)에서 12M forward PER.
+시총 = 주가 x 주식수(연간 기본주식수 근사, 일부 하드코딩 오버라이드).
+지표: PER = 12M forward(야후 애널리스트 컨센서스), PSR = 후행 T12M, OPM/GPM = 후행 T12M.
+실행: python fetch_fundamentals.py  (일일 업데이트 시 실행)
 """
-import json, ssl, sys, time, urllib.request, urllib.parse
+import json, ssl, sys, time, urllib.request, urllib.parse, http.cookiejar
 from datetime import datetime, timezone
 
-UA = {"User-Agent": "Mozilla/5.0"}
+UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 CTX = ssl.create_default_context()
+
+# crumb 인증 오프너 (quoteSummary용) — main()에서 1회 초기화
+_OPENER = None
+_CRUMB = None
+
+def init_crumb():
+    global _OPENER, _CRUMB
+    cj = http.cookiejar.CookieJar()
+    _OPENER = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    for seed in ("https://finance.yahoo.com", "https://fc.yahoo.com"):
+        try:
+            _OPENER.open(urllib.request.Request(seed, headers=UA), timeout=15).read()
+        except Exception:
+            pass
+    try:
+        _CRUMB = _OPENER.open(urllib.request.Request(
+            "https://query1.finance.yahoo.com/v1/test/getcrumb", headers=UA), timeout=15).read().decode()
+    except Exception as e:
+        print(f"  crumb FAIL (forward PER 비활성): {e}", file=sys.stderr)
+        _CRUMB = None
+
+def forward_pe(ticker):
+    """야후 애널리스트 컨센서스 기반 12M forward PER. 실패 시 None."""
+    if not _CRUMB:
+        return None
+    try:
+        u = (f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{urllib.parse.quote(ticker)}"
+             f"?modules=defaultKeyStatistics&crumb={urllib.parse.quote(_CRUMB)}")
+        j = json.load(_OPENER.open(urllib.request.Request(u, headers=UA), timeout=20))
+        v = j["quoteSummary"]["result"][0]["defaultKeyStatistics"].get("forwardPE")
+        return v.get("raw") if isinstance(v, dict) else None
+    except Exception:
+        return None
 
 TICKERS = [
     # finCcy: 재무제표 통화, priceCcy: 주가 통화, adrRatio: 1 ADR = n 원주, sharesOverride: 주식수 강제
@@ -24,8 +59,8 @@ TICKERS = [
     {"t": "WMT",       "name": "Walmart",         "finCcy": "USD", "priceCcy": "USD"},
     {"t": "TGT",       "name": "Target",          "finCcy": "USD", "priceCcy": "USD"},
 ]
-TYPES = ("annualTotalRevenue,annualOperatingIncome,annualNetIncomeCommonStockholders,"
-         "quarterlyTotalRevenue,quarterlyOperatingIncome,quarterlyNetIncomeCommonStockholders,"
+TYPES = ("annualTotalRevenue,annualGrossProfit,annualOperatingIncome,annualNetIncomeCommonStockholders,"
+         "quarterlyTotalRevenue,quarterlyGrossProfit,quarterlyOperatingIncome,quarterlyNetIncomeCommonStockholders,"
          "annualBasicAverageShares")
 
 def get(url):
@@ -56,6 +91,7 @@ def q_label(d):
     return f"{y % 100}.{(m + 2) // 3}Q"
 
 def main():
+    init_crumb()
     fx = {}
     for sym, key in (("KRW=X", "USDKRW"), ("TWD=X", "USDTWD")):
         fx[key], _ = price_of(sym)
@@ -71,13 +107,15 @@ def main():
             def series(kind):
                 m = {d: v for d, v in f.get(kind, [])}
                 return m
-            arev, aop, ani = series("annualTotalRevenue"), series("annualOperatingIncome"), series("annualNetIncomeCommonStockholders")
-            qrev, qop, qni = series("quarterlyTotalRevenue"), series("quarterlyOperatingIncome"), series("quarterlyNetIncomeCommonStockholders")
+            arev, agp, aop, ani = (series("annualTotalRevenue"), series("annualGrossProfit"),
+                                    series("annualOperatingIncome"), series("annualNetIncomeCommonStockholders"))
+            qrev, qgp, qop, qni = (series("quarterlyTotalRevenue"), series("quarterlyGrossProfit"),
+                                    series("quarterlyOperatingIncome"), series("quarterlyNetIncomeCommonStockholders"))
 
-            annual = [{"y": d[:4], "rev": arev.get(d), "op": aop.get(d), "ni": ani.get(d)}
+            annual = [{"y": d[:4], "rev": arev.get(d), "gp": agp.get(d), "op": aop.get(d), "ni": ani.get(d)}
                       for d in sorted(arev)][-3:]
             qdates = sorted(qrev)[-8:]
-            quarters = [{"d": d, "q": q_label(d), "rev": qrev.get(d), "op": qop.get(d), "ni": qni.get(d)}
+            quarters = [{"d": d, "q": q_label(d), "rev": qrev.get(d), "gp": qgp.get(d), "op": qop.get(d), "ni": qni.get(d)}
                         for d in qdates]
 
             shares = cfg.get("sharesOverride")
@@ -91,16 +129,17 @@ def main():
 
             # 밸류에이션: T12M (최근 4개 분기 합)
             t12 = {}
-            for key, m in (("rev", qrev), ("op", qop), ("ni", qni)):
+            for key, m in (("rev", qrev), ("gp", qgp), ("op", qop), ("ni", qni)):
                 vals = [m[d] for d in sorted(m)[-4:] if m.get(d) is not None]
                 t12[key] = sum(vals) if len(vals) == 4 else None
             # 재무통화 -> 주가통화 변환 계수
             conv = 1.0
             if cfg["finCcy"] == "TWD" and cfg["priceCcy"] == "USD":
                 conv = 1.0 / fx["USDTWD"]
-            per = (mcap / (t12["ni"] * conv)) if (mcap and t12["ni"] and t12["ni"] > 0) else None
+            per_fwd = forward_pe(t)  # 12M forward PER (야후 컨센서스)
             psr = (mcap / (t12["rev"] * conv)) if (mcap and t12["rev"]) else None
             opm = (t12["op"] / t12["rev"] * 100) if (t12["op"] is not None and t12["rev"]) else None
+            gpm = (t12["gp"] / t12["rev"] * 100) if (t12["gp"] is not None and t12["rev"]) else None
 
             # 시총 원화 환산
             mcapKrw = None
@@ -112,13 +151,14 @@ def main():
                 "shares": shares, "adrRatio": cfg.get("adrRatio", 1),
                 "isPref": cfg.get("isPref", False), "commonTicker": cfg.get("commonTicker"),
                 "mcap": mcap, "mcapKrw": mcapKrw,
-                "per": round(per, 1) if per else None,
+                "perFwd": round(per_fwd, 1) if per_fwd else None,
                 "psr": round(psr, 2) if psr else None,
                 "opm": round(opm, 1) if opm is not None else None,
+                "gpm": round(gpm, 1) if gpm is not None else None,
                 "annual": annual, "quarters": quarters
             }
             print(f"  ok {t}: mcap={mcap and round(mcap/1e12,2)}T({cfg['priceCcy']}) "
-                  f"PER={result['tickers'][t]['per']} 분기 {len(quarters)}개", file=sys.stderr)
+                  f"fwdPER={result['tickers'][t]['perFwd']} GPM={result['tickers'][t]['gpm']} 분기 {len(quarters)}개", file=sys.stderr)
         except Exception as e:
             print(f"  FAILED {t}: {e}", file=sys.stderr)
 
