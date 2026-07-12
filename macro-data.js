@@ -477,7 +477,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-12T09:02:35Z",
+  "generated": "2026-07-12T09:17:34Z",
   "regime": {
     "score": 24,
     "label": "비중확대 우위",
@@ -25297,21 +25297,6 @@ window.MACRO = {
           "indicators": "중국 철강가·재고, 후판가격, 원료탄, 전기차·ESS 소재 수요",
           "holdings": [
             {
-              "ticker": "005490.KS",
-              "name": "POSCO Holdings",
-              "mktcap": 23707114274816,
-              "fwdpe": 10.5,
-              "pbr": null,
-              "rets": {
-                "w1": -2.0,
-                "m1": -12.4,
-                "m3": -13.1,
-                "ytd": 3.9
-              },
-              "rev30": -6.111324432033061,
-              "note": "철강가·2차전지 소재"
-            },
-            {
               "ticker": "010130.KS",
               "name": "KOREA ZINC",
               "mktcap": 21270141861888,
@@ -25340,6 +25325,21 @@ window.MACRO = {
               },
               "rev30": 2.230401595541509,
               "note": "전기로·후판"
+            },
+            {
+              "ticker": "005490.KS",
+              "name": "005490.KS",
+              "mktcap": null,
+              "fwdpe": null,
+              "pbr": null,
+              "rets": {
+                "w1": -2.0,
+                "m1": -12.4,
+                "m3": -13.1,
+                "ytd": 3.9
+              },
+              "rev30": -6.111324432033061,
+              "note": "철강가·2차전지 소재"
             }
           ]
         },
