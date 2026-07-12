@@ -152,13 +152,21 @@
   .switch .track::after { content:""; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#fff; transition:transform .15s; box-shadow:0 1px 2px rgba(0,0,0,.3); }
   .switch input:checked + .track { background:var(--accent); }
   .switch input:checked + .track::after { transform:translateX(16px); }
-  .search-row { display:flex; align-items:center; gap:10px; margin-top:14px; flex-wrap:wrap; }
-  .search-box { flex:1; min-width:220px; padding:11px 15px; border:1.5px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); font-size:14px; font-family:inherit; box-shadow:var(--shadow-sm); transition:border-color .15s, box-shadow .15s; }
+  /* 검색 히어로 패널 */
+  .search-hero { border:1.5px solid var(--accent); box-shadow:0 4px 18px -6px var(--accent), var(--shadow-sm); background:linear-gradient(180deg, var(--accent-soft) 0%, var(--panel) 60%); }
+  .sh-head { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .sh-title { font-size:16.5px; font-weight:800; letter-spacing:-.01em; color:var(--text); }
+  .sh-sub { font-size:12px; color:var(--muted); }
+  .sh-sub b { color:var(--accent); }
+  .search-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .search-wrap { position:relative; flex:1; min-width:240px; display:flex; align-items:center; }
+  .search-ic { position:absolute; left:15px; font-size:16px; pointer-events:none; opacity:.65; }
+  .search-box { flex:1; width:100%; padding:14px 16px 14px 44px; border:1.5px solid var(--border); border-radius:12px; background:var(--panel); color:var(--text); font-size:15px; font-family:inherit; box-shadow:var(--shadow-sm); transition:border-color .15s, box-shadow .15s; }
   .search-box::placeholder { color:var(--muted); }
-  .search-box:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
-  .search-hint { font-size:12px; color:var(--muted); font-weight:600; white-space:nowrap; }
+  .search-box:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-soft); }
+  .search-hint { display:block; font-size:12px; color:var(--muted); font-weight:600; margin-top:8px; }
   .search-hint b { color:var(--accent); }
-  .lookup-btn { flex:0 0 auto; padding:10px 15px; border:1.5px solid var(--accent); border-radius:10px; background:var(--accent); color:#fff; font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap; }
+  .lookup-btn { flex:0 0 auto; padding:14px 22px; border:1.5px solid var(--accent); border-radius:12px; background:var(--accent); color:#fff; font-size:14px; font-weight:800; cursor:pointer; white-space:nowrap; box-shadow:0 2px 8px -2px var(--accent); transition:background .15s; }
   .lookup-btn:hover { background:var(--accent-hover); }
   .lookup-cfg { margin-top:8px; border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); padding:0 12px; }
   .lookup-cfg summary { cursor:pointer; padding:8px 0; font-size:12px; font-weight:700; color:var(--text-soft); user-select:none; }
@@ -401,6 +409,32 @@
 </header>
 
 <main>
+  <!-- 종목 검색 · 실시간 조회 (강조 · 최상단) -->
+  <div class="panel search-hero">
+    <div class="sh-head">
+      <span class="sh-title">🔍 종목 검색 · 실시간 조회</span>
+      <span class="sh-sub">유니버스 종목 필터 + <b>없는 종목도 Enter로 즉시 조회</b> (지표·캔들·재무)</span>
+    </div>
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-ic" aria-hidden="true">🔍</span>
+        <input type="search" id="searchBox" class="search-box" placeholder="종목명·티커·코드 입력 후 Enter  (예: 삼성전자, AAPL, 005930)" autocomplete="off" />
+      </div>
+      <button type="button" id="lookupBtn" class="lookup-btn">직접 조회 →</button>
+    </div>
+    <div class="search-hint" id="searchHint"></div>
+    <details class="lookup-cfg" id="lookupCfg">
+      <summary>⚙ 유니버스 밖 조회 서버 (고급 · 보통 안 건드려도 됨)</summary>
+      <p class="note" style="margin:6px 0 8px">유니버스 밖 종목 조회는 기본 <b>Cloudflare Worker</b>로 <b>설정 없이 바로</b> 됩니다. 자기 서버로 바꾸려면 아래에 URL을 넣으세요. (로컬 <code>python serve.py</code> → localhost:8000 에서도 자동.)</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input type="text" id="workerUrl" class="worker-url" placeholder="https://your-worker.workers.dev (비우면 기본 서버)" autocomplete="off" />
+        <button type="button" id="saveWorker" class="worker-save">저장</button>
+        <span id="workerStatus" class="search-hint"></span>
+      </div>
+    </details>
+    <div class="hidden" id="lookupResult"></div>
+  </div>
+
   <!-- 스크리닝 기준 -->
   <div class="panel">
     <h2>🎯 스크리닝 기준</h2>
@@ -458,21 +492,6 @@
       </div>
       <div class="hint" id="updatedStamp" style="margin:0"></div>
     </div>
-    <div class="search-row">
-      <input type="search" id="searchBox" class="search-box" placeholder="🔍 종목 검색 — 유니버스 필터 + Enter로 유니버스 밖 종목 실시간 조회 (예: 삼성전자, AAPL, 005930)" autocomplete="off" />
-      <button type="button" id="lookupBtn" class="lookup-btn">🔎 직접 조회</button>
-      <span class="search-hint" id="searchHint"></span>
-    </div>
-    <details class="lookup-cfg" id="lookupCfg">
-      <summary>⚙ 유니버스 밖 조회 설정 (정적 사이트용 조회 서버)</summary>
-      <p class="note" style="margin:6px 0 8px">유니버스에 없는 종목도 검색하면 같은 지표·차트·재무가 나옵니다. <b>로컬 <code>python serve.py</code> → localhost:8000</b>에서는 자동으로 됩니다. <b>공개 사이트(github.io)</b>에서 쓰려면 무료 <b>Cloudflare Worker</b> URL을 아래에 넣으세요(배포법: 저장소 <code>cloudflare-worker/README.md</code>).</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input type="text" id="workerUrl" class="worker-url" placeholder="https://your-worker.workers.dev" autocomplete="off" />
-        <button type="button" id="saveWorker" class="worker-save">저장</button>
-        <span id="workerStatus" class="search-hint"></span>
-      </div>
-    </details>
-    <div class="hidden" id="lookupResult"></div>
     <div class="cards" id="cards"></div>
     <div class="toolbar" style="margin-top:16px">
       <label class="switch"><input type="checkbox" id="only5"><span class="track"></span><span>시가배당률 5%+ 만</span></label>
