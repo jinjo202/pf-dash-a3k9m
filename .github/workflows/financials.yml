@@ -1,0 +1,59 @@
+name: Daily Stock Financials
+
+# 데일리 종목 모달용 재무(daily-financials.js) 갱신.
+# 재무는 분기 단위라 매일 돌 필요 없음 → 주 2회 + 수동. 270종목 야후 수집(~15분).
+on:
+  schedule:
+    - cron: '20 20 * * 1'   # 월 05:20 KST
+    - cron: '20 20 * * 4'   # 목 05:20 KST
+  workflow_dispatch:
+  repository_dispatch:
+    types: [financials-trigger]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: financials-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build daily stock financials (야후 → daily-financials.js)
+        run: python daily_financials.py
+
+      - name: Commit and push if changed
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 위 스텝이 생성한 daily-financials.js를 백업(reset --hard로 안 날아가게)
+          TMP="$(mktemp -d)"; cp daily-financials.js "$TMP/daily-financials.js"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$TMP/daily-financials.js" daily-financials.js
+            git add daily-financials.js
+            if git diff --staged --quiet; then
+              echo "재무 변경 없음. 종료."; exit 0
+            fi
+            git commit -m "auto: daily financials $(date -u +%Y-%m-%d)"
+            if git push; then echo "push 성공 ($attempt)"; exit 0; fi
+            echo "push 실패 재시도 ($attempt/5)"; sleep $((attempt * 5))
+          done
+          echo "::error::push 실패"; exit 1

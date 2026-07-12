@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>데일리 시장 동향</title>
-<script>window.CODE_VERSION = "2026-07-11a";</script>
+<script>window.CODE_VERSION = "2026-07-12a";</script>
 <script>
   (function () {
     try {
@@ -48,6 +48,7 @@
     document.write('<sc'+'ript src="weekly-data.js?v=' + v + '" onerror="window.WEEKLY=null"><\/sc'+'ript>');
     document.write('<sc'+'ript src="macro-data.js?v=' + v + '" onerror="window.MACRO=null"><\/sc'+'ript>');
     document.write('<sc'+'ript src="morning-note.js?v=' + v + '" onerror="window.MORNING=null"><\/sc'+'ript>');
+    document.write('<sc'+'ript src="daily-financials.js?v=' + v + '" onerror="window.DAILY_FIN=null"><\/sc'+'ript>');
   })();
 </script>
 <!-- 워드(.docx) 생성용 라이브러리 (클라이언트 사이드, 브리핑 → 개조식 보고서) -->
@@ -658,6 +659,30 @@
   .tm-tile .tm-pct { font-weight:600; opacity:.92; }
   .tm-empty { color:var(--muted); font-size:12px; font-style:italic; padding:30px 0; text-align:center; }
 
+  /* ── 종목 재무 모달 ── */
+  #stkModalBg { position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; z-index:80; }
+  #stkModal { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:min(760px,94vw); max-height:88vh; overflow-y:auto; display:none; z-index:81;
+    background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:22px 24px; box-shadow:var(--shadow-md); }
+  #stkModal .sm-close { position:absolute; top:12px; right:16px; cursor:pointer; color:var(--muted); font-size:20px; background:none; border:none; }
+  #stkModal h3 { font-size:19px; font-weight:800; margin:0 0 2px; letter-spacing:-.01em; }
+  #stkModal .sm-mcap { font-size:14px; margin:6px 0 12px; color:var(--text); }
+  #stkModal .sm-chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  #stkModal .sm-chip { background:var(--panel-soft); border:1px solid var(--border); border-radius:14px; padding:4px 12px; font-size:11.5px; font-weight:600; color:var(--text-soft); }
+  #stkModal .sm-chip b { color:var(--accent); font-weight:800; }
+  #stkModal h4 { font-size:13px; font-weight:800; color:var(--accent); margin:16px 0 7px; }
+  #stkModal .sm-tblwrap { overflow-x:auto; border:1px solid var(--border); border-radius:8px; }
+  #stkModal table { width:100%; border-collapse:collapse; font-size:12px; }
+  #stkModal th, #stkModal td { padding:6px 9px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
+  #stkModal tr:last-child td { border-bottom:none; }
+  #stkModal th.l, #stkModal td.l { text-align:left; }
+  #stkModal th { font-size:10.5px; font-weight:700; color:var(--muted); }
+  #stkModal .yoy-up { color:var(--pos); font-weight:700; } #stkModal .yoy-dn { color:var(--neg); font-weight:700; }
+  #stkModal .sm-note { font-size:10.5px; color:var(--muted); margin-top:12px; line-height:1.5; }
+  .stk-click { cursor:pointer; }
+  .stk-click:hover { color:var(--accent); text-decoration:underline; text-decoration-style:dotted; }
+  @media print { #stkModal, #stkModalBg { display:none !important; } }
+
   /* ── 모닝 노트 ── */
   .mn-wrap { max-width:900px; }
   .mn-topbar { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
@@ -813,6 +838,10 @@
 <main id="app">
   <div class="loading">데이터를 불러오는 중입니다…</div>
 </main>
+
+<!-- 종목 재무 모달 -->
+<div id="stkModalBg" onclick="closeStockModal()"></div>
+<div id="stkModal"><button class="sm-close" onclick="closeStockModal()" aria-label="닫기">✕</button><div id="stkModalBody"></div></div>
 
 <script>
 /* ─────────────────────────────────────────────────────────────
@@ -1205,7 +1234,7 @@ function makeSpark(data, opts) {
       var detail = m.detail ? '<div class="ovm-detail">' + escHtml(m.detail) + '</div>' : '';
       html += '<div class="ovm-tile" onclick="switchRegion(\'' + x.rkey + '\')">' +
         '<div class="ovm-thead">' +
-          '<span class="ovm-name">' + x.flag + ' ' + escHtml(m.name) + '</span>' +
+          '<span class="ovm-name">' + x.flag + ' ' + stkNameClick(m.name, m.ticker) + '</span>' +
           (m.ticker ? '<span class="ovm-tkr">' + escHtml(m.ticker) + '</span>' : '') +
           '<span class="ovm-pill ' + chipCls + '">' + arrow + fmtPct(m.chgPct) + '</span>' +
         '</div>' +
@@ -1496,6 +1525,89 @@ function makeSpark(data, opts) {
       html += '</div></div></div>';
     }
     return html;
+  }
+
+  /* ── 종목 재무 모달 (롱숏 대시보드 모달 이식) ── */
+  function stkFinDB(){ return (window.DAILY_FIN && window.DAILY_FIN.tickers) || {}; }
+  function hasStockFin(t){ var x = stkFinDB()[t]; return !!(x && x.annual && x.annual.length); }
+  function finFmt(v, ccy) {
+    if (v == null) return '—';
+    var neg = v < 0; v = Math.abs(v);
+    var s;
+    if (ccy === 'KRW' || ccy === 'JPY' || ccy === 'CNY') s = (v / 1e12).toFixed(1) + '조';
+    else { var sym = { USD:'$', EUR:'€', GBP:'£', CHF:'Fr', HKD:'HK$', DKK:'kr', NOK:'kr', TWD:'NT$' }[ccy] || '';
+           s = sym + (v / 1e9).toFixed(1) + 'B'; }
+    return (neg ? '−' : '') + s;
+  }
+  window.openStockModal = function(t) {
+    var F = window.DAILY_FIN;
+    if (!F || !F.tickers[t]) return;
+    var x = F.tickers[t];
+    var pxSym = { USD:'$', EUR:'€', GBP:'£', CHF:'Fr ', HKD:'HK$', DKK:'kr ', NOK:'kr ', KRW:'₩', JPY:'¥', CNY:'¥' }[x.priceCcy] || '';
+    var whole = (x.priceCcy === 'KRW' || x.priceCcy === 'JPY');
+    var px = x.price != null ? pxSym + x.price.toLocaleString('en-US', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: whole ? 0 : 2 }) : '—';
+    var mcapStr = x.priceCcy === 'KRW'
+      ? '<b>₩' + (x.mcap / 1e12).toFixed(0) + '조</b>'
+      : '<b>' + finFmt(x.mcap, x.priceCcy) + '</b>' + (x.mcapKrw ? ' <span style="color:var(--muted)">(₩' + (x.mcapKrw / 1e12).toFixed(0) + '조 환산)</span>' : '');
+
+    var chips = [];
+    chips.push('PER(12M Fwd) <b>' + (x.perFwd == null ? '적자/—' : x.perFwd + 'x') + '</b>');
+    if (x.psr != null) chips.push('PSR(T12M) <b>' + x.psr + 'x</b>');
+    if (x.gpm != null) chips.push('매출총이익률(T12M) <b>' + x.gpm + '%</b>');
+    if (x.opm != null) chips.push('영업이익률(T12M) <b>' + x.opm + '%</b>');
+    var Q = x.quarters || [];
+    var latest = Q[Q.length - 1];
+    var yoyQ = latest ? Q.filter(function(q){ return q.q === latest.q.replace(/^\d+/, function(m){ return (+m - 1); }); })[0] : null;
+    if (latest && yoyQ && yoyQ.rev) {
+      var g = (latest.rev / yoyQ.rev - 1) * 100;
+      chips.push('최신분기 매출 YoY <b class="' + (g >= 0 ? 'yoy-up' : 'yoy-dn') + '">' + (g >= 0 ? '+' : '') + g.toFixed(1) + '%</b>');
+    }
+    var C = x.finCcy;
+    var mgn = function(v, rev){ return (v != null && rev) ? (v / rev * 100).toFixed(1) + '%' : '—'; };
+    var A = x.annual || [];
+    var annTbl = '<table><tr><th class="l">연간 (' + C + ')</th>' + A.map(function(a){ return '<th>' + a.y + '</th>'; }).join('') + '</tr>' +
+      [['매출','rev'],['매출총이익','gp'],['영업이익','op'],['순이익','ni']].map(function(p){
+        return '<tr><td class="l">' + p[0] + '</td>' + A.map(function(a){ return '<td>' + finFmt(a[p[1]], C) + '</td>'; }).join('') + '</tr>';
+      }).join('') +
+      '<tr><td class="l" style="color:var(--muted)">매출총이익률(GPM)</td>' + A.map(function(a){ return '<td style="color:var(--muted)">' + mgn(a.gp, a.rev) + '</td>'; }).join('') + '</tr>' +
+      '<tr><td class="l" style="color:var(--muted)">영업이익률(OPM)</td>' + A.map(function(a){ return '<td style="color:var(--muted)">' + mgn(a.op, a.rev) + '</td>'; }).join('') + '</tr></table>';
+
+    var yoy = function(k){
+      if (!latest || !yoyQ || yoyQ[k] == null || latest[k] == null || yoyQ[k] <= 0) return '—';
+      var gg = (latest[k] / yoyQ[k] - 1) * 100;
+      return '<span class="' + (gg >= 0 ? 'yoy-up' : 'yoy-dn') + '">' + (gg >= 0 ? '+' : '') + gg.toFixed(0) + '%</span>';
+    };
+    var qTbl = '';
+    if (Q.length) {
+      qTbl = '<table><tr><th class="l">분기 (' + C + ')</th>' + Q.map(function(q){ return '<th' + (q === latest ? ' style="color:var(--accent)"' : '') + '>' + q.q + '</th>'; }).join('') + '<th>YoY(최신)</th></tr>' +
+        [['매출','rev'],['매출총이익','gp'],['영업이익','op'],['순이익','ni']].map(function(p){
+          return '<tr><td class="l">' + p[0] + '</td>' + Q.map(function(q){ return '<td>' + finFmt(q[p[1]], C) + '</td>'; }).join('') + '<td>' + yoy(p[1]) + '</td></tr>';
+        }).join('') +
+        '<tr><td class="l" style="color:var(--muted)">영업이익률(OPM)</td>' + Q.map(function(q){ return '<td style="color:var(--muted)">' + mgn(q.op, q.rev) + '</td>'; }).join('') + '<td></td></tr></table>';
+    }
+    document.getElementById('stkModalBody').innerHTML =
+      '<h3>' + escHtml(x.name) + ' <span style="color:var(--muted);font-size:13px;font-weight:600">' + escHtml(t) + ' · ' + px + '</span></h3>' +
+      '<div class="sm-mcap">시총 ' + mcapStr + '</div>' +
+      '<div class="sm-chips">' + chips.map(function(c){ return '<span class="sm-chip">' + c + '</span>'; }).join('') + '</div>' +
+      '<h4>연간 실적 (최근 ' + A.length + '개년)</h4><div class="sm-tblwrap">' + annTbl + '</div>' +
+      (qTbl ? '<h4>분기 실적 (최근 ' + Q.length + '개 분기 — 전년 동기 비교 포함)</h4><div class="sm-tblwrap">' + qTbl + '</div>' : '') +
+      '<div class="sm-note">PER = 12M forward(야후 애널리스트 컨센서스) · PSR/GPM/OPM = 후행 T12M · 재무통화 ' + C + ' · 주식수 ' + (x.shares ? (x.shares / 1e6).toFixed(0) + 'M(근사)' : '—') + ' · 출처: 야후 파이낸스 (' + escHtml(F.asOf || '') + ') · 참고용, 투자 권유 아님</div>';
+    document.getElementById('stkModalBg').style.display = 'block';
+    document.getElementById('stkModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeStockModal = function(){
+    document.getElementById('stkModalBg').style.display = 'none';
+    document.getElementById('stkModal').style.display = 'none';
+    document.body.style.overflow = '';
+  };
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeStockModal(); });
+  // 종목명 span: 재무 있으면 클릭 가능 마크업 (onclick=모달)
+  function stkNameClick(name, ticker) {
+    if (ticker && hasStockFin(ticker)) {
+      return '<span class="stk-click" onclick="event.stopPropagation(); openStockModal(\'' + ticker + '\')" title="클릭: 재무 상세">' + escHtml(name) + '</span>';
+    }
+    return escHtml(name);
   }
 
   /* ── 모닝 노트 렌더 ── */
@@ -2089,7 +2201,7 @@ function makeSpark(data, opts) {
     var rows = holds.map(function(h, i) {
       return '<tr>' +
         '<td class="sh-rank">' + (i+1) + '</td>' +
-        '<td class="sh-name">' + escHtml(stockLabel(h.name, h.ticker)) + '</td>' +
+        '<td class="sh-name">' + stkNameClick(stockLabel(h.name, h.ticker), h.ticker) + '</td>' +
         '<td class="sh-mc">' + fmtMktcapByTicker(h.mktcap, h.ticker) + '</td>' +
         '<td class="mom ' + colorClass(h.daily) + '">' + fmtPct(h.daily) + '</td>' +
         '<td class="mom ' + colorClass(h.mtd) + '">' + fmtPct(h.mtd) + '</td>' +
@@ -2205,8 +2317,9 @@ function makeSpark(data, opts) {
           if (hpx > 30) label += '<span class="tm-pct" style="font-size:' + Math.max(8, Math.min(14, tf - 2)) + 'px">' + fmtPct(s.chgPct) + '</span>';
         }
         var tip = (s.name || s.ticker) + (s.ticker ? ' (' + s.ticker + ')' : '') + ' · ' + fmtPct(s.chgPct) +
-          ' · 시총 ' + fmtMktcapByTicker(s.mktcap, s.ticker, true);
-        html += '<div class="tm-tile ' + heatClass(s.chgPct) + '" title="' + escHtml(tip) + '" style="left:' +
+          ' · 시총 ' + fmtMktcapByTicker(s.mktcap, s.ticker, true) + (hasStockFin(s.ticker) ? ' · 클릭: 재무' : '');
+        var clk = hasStockFin(s.ticker) ? ' onclick="openStockModal(\'' + s.ticker + '\')" style="cursor:pointer;' : ' style="';
+        html += '<div class="tm-tile ' + heatClass(s.chgPct) + '" title="' + escHtml(tip) + '"' + clk + 'left:' +
           pct(t.x, W) + ';top:' + pct(t.y, H) + ';width:' + pct(t.w, W) + ';height:' + pct(t.h, H) + '">' +
           label + '</div>';
       });
@@ -2290,7 +2403,7 @@ function makeSpark(data, opts) {
     return '<div class="gf-row">' +
       '<div class="' + rankCls + '">' + (i + 1) + '</div>' +
       '<div class="gf-id">' +
-        '<div class="gf-name">' + escHtml(stockLabel(s.name, s.ticker)) + '</div>' +
+        '<div class="gf-name">' + stkNameClick(stockLabel(s.name, s.ticker), s.ticker) + '</div>' +
         '<div class="gf-meta">' + meta.join('<span style="opacity:.4">·</span>') + '</div>' +
       '</div>' +
       '<div class="gf-spark">' + makeSpark(s.spark || [], {w:84, h:26, cls:'sparkline-sm', area:true}) + '</div>' +
