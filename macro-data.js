@@ -6,14 +6,6 @@ window.MACRO = {
     {
       "date": "2026-06-30",
       "type": "release",
-      "key": "oil_yoy",
-      "title": "WTI 유가 (YoY)",
-      "detail": "-6.0% → -6.6% (2026-06-30 발표)",
-      "as_of": "2026-06-30"
-    },
-    {
-      "date": "2026-06-30",
-      "type": "release",
       "key": "cape",
       "title": "S&P500 CAPE(실러 PE)",
       "detail": "41.4배 → 41.7배 (2026-06-30 발표)",
@@ -474,12 +466,29 @@ window.MACRO = {
       "title": "WTI 유가 (YoY)",
       "detail": "9.8% → 9.7% (수정)",
       "as_of": "2026-07-10"
+    },
+    {
+      "date": "2026-07-12",
+      "type": "release",
+      "key": "aaii_spread",
+      "title": "AAII 불-베어 스프레드",
+      "detail": "-6.3%p → -0.9%p (2026-07-08 발표)",
+      "as_of": "2026-07-08"
     }
   ],
-  "updates_today": [],
-  "generated": "2026-07-12T07:23:51Z",
+  "updates_today": [
+    {
+      "date": "2026-07-12",
+      "type": "release",
+      "key": "aaii_spread",
+      "title": "AAII 불-베어 스프레드",
+      "detail": "-6.3%p → -0.9%p (2026-07-08 발표)",
+      "as_of": "2026-07-08"
+    }
+  ],
+  "generated": "2026-07-12T07:43:32Z",
   "regime": {
-    "score": 26,
+    "score": 24,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
@@ -490,17 +499,17 @@ window.MACRO = {
       },
       "valuation": {
         "name": "밸류에이션",
-        "score": 0,
+        "score": -6,
         "n": 6
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 46,
-        "n": 9
+        "score": 43,
+        "n": 10
       },
       "sentiment": {
         "name": "센티먼트",
-        "score": 23,
+        "score": 20,
         "n": 8
       },
       "earnings": {
@@ -535,7 +544,7 @@ window.MACRO = {
       },
       {
         "ym": "2025-09",
-        "g": -0.01,
+        "g": -0.04,
         "i": 0.2
       },
       {
@@ -560,12 +569,12 @@ window.MACRO = {
       },
       {
         "ym": "2026-02",
-        "g": 0.24,
+        "g": 0.21,
         "i": -0.0
       },
       {
         "ym": "2026-03",
-        "g": 0.21,
+        "g": 0.2,
         "i": 0.67
       },
       {
@@ -575,12 +584,12 @@ window.MACRO = {
       },
       {
         "ym": "2026-05",
-        "g": 0.15,
+        "g": 0.17,
         "i": 0.9
       },
       {
         "ym": "2026-06",
-        "g": 0.13,
+        "g": 0.14,
         "i": -0.09
       },
       {
@@ -590,7 +599,7 @@ window.MACRO = {
       }
     ],
     "level": {
-      "g": -0.01,
+      "g": -0.0,
       "i": 0.33
     },
     "phase": {
@@ -998,10 +1007,10 @@ window.MACRO = {
   "country_pref": {
     "US": {
       "name": "미국",
-      "pe": 19.2,
+      "pe": 20.1,
       "fair_pe": 19.0,
       "components": {
-        "val": -3,
+        "val": -18,
         "earn": 47,
         "fx": 0,
         "mon": -10,
@@ -1009,8 +1018,8 @@ window.MACRO = {
       },
       "horizon": {
         "m1": 28,
-        "m3": 29,
-        "m12": 25
+        "m3": 27,
+        "m12": 20
       },
       "fx_val": null,
       "fx_chg": null,
@@ -1140,10 +1149,10 @@ window.MACRO = {
   "regime_history": [
     {
       "date": "2010-08-01",
-      "score": 25,
+      "score": 24,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 37,
+        "macro": 33,
         "valuation": 18,
         "flows": 9,
         "sentiment": -51,
@@ -1162,10 +1171,10 @@ window.MACRO = {
     },
     {
       "date": "2010-09-01",
-      "score": 38,
+      "score": 37,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 24,
+        "macro": 20,
         "valuation": 15,
         "flows": 40,
         "sentiment": 13,
@@ -1184,10 +1193,10 @@ window.MACRO = {
     },
     {
       "date": "2010-10-01",
-      "score": 46,
+      "score": 47,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 37,
+        "macro": 42,
         "valuation": 12,
         "flows": 45,
         "sentiment": 34,
@@ -1206,10 +1215,10 @@ window.MACRO = {
     },
     {
       "date": "2010-11-01",
-      "score": 41,
+      "score": 42,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 33,
+        "macro": 38,
         "valuation": 10,
         "flows": 47,
         "sentiment": 13,
@@ -1275,7 +1284,7 @@ window.MACRO = {
       "score": 54,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 57,
+        "macro": 58,
         "valuation": 2,
         "flows": 61,
         "sentiment": 48,
@@ -1360,10 +1369,10 @@ window.MACRO = {
     },
     {
       "date": "2011-06-01",
-      "score": 46,
+      "score": 45,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 16,
+        "macro": 10,
         "valuation": 8,
         "flows": 59,
         "sentiment": 57,
@@ -1385,7 +1394,7 @@ window.MACRO = {
       "score": 32,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 3,
+        "macro": 1,
         "valuation": 6,
         "flows": 43,
         "sentiment": 14,
@@ -1536,10 +1545,10 @@ window.MACRO = {
     },
     {
       "date": "2012-02-01",
-      "score": 35,
+      "score": 37,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 42,
+        "macro": 50,
         "valuation": 9,
         "flows": 42,
         "sentiment": 23,
@@ -1558,10 +1567,10 @@ window.MACRO = {
     },
     {
       "date": "2012-03-01",
-      "score": 41,
+      "score": 43,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 52,
+        "macro": 59,
         "valuation": 8,
         "flows": 47,
         "sentiment": 48,
@@ -1580,10 +1589,10 @@ window.MACRO = {
     },
     {
       "date": "2012-04-01",
-      "score": 29,
+      "score": 30,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 39,
+        "macro": 44,
         "valuation": 9,
         "flows": 22,
         "sentiment": 28,
@@ -1602,10 +1611,10 @@ window.MACRO = {
     },
     {
       "date": "2012-05-01",
-      "score": 15,
+      "score": 14,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 48,
+        "macro": 45,
         "valuation": 13,
         "flows": -10,
         "sentiment": -24,
@@ -1627,7 +1636,7 @@ window.MACRO = {
       "score": 24,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 37,
+        "macro": 35,
         "valuation": 14,
         "flows": 10,
         "sentiment": 30,
@@ -1646,10 +1655,10 @@ window.MACRO = {
     },
     {
       "date": "2012-07-01",
-      "score": 24,
+      "score": 23,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 36,
+        "macro": 33,
         "valuation": 12,
         "flows": 23,
         "sentiment": 33,
@@ -1668,10 +1677,10 @@ window.MACRO = {
     },
     {
       "date": "2012-08-01",
-      "score": 29,
+      "score": 28,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 34,
+        "macro": 29,
         "valuation": 11,
         "flows": 54,
         "sentiment": 53,
@@ -1693,7 +1702,7 @@ window.MACRO = {
       "score": 27,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 38,
+        "macro": 36,
         "valuation": 9,
         "flows": 52,
         "sentiment": 61,
@@ -1715,7 +1724,7 @@ window.MACRO = {
       "score": 27,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 39,
+        "macro": 38,
         "valuation": 10,
         "flows": 65,
         "sentiment": 47,
@@ -1737,7 +1746,7 @@ window.MACRO = {
       "score": 33,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 49,
+        "macro": 52,
         "valuation": 13,
         "flows": 61,
         "sentiment": 61,
@@ -1759,7 +1768,7 @@ window.MACRO = {
       "score": 31,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 51,
+        "macro": 50,
         "valuation": 12,
         "flows": 62,
         "sentiment": 50,
@@ -1778,10 +1787,10 @@ window.MACRO = {
     },
     {
       "date": "2013-01-01",
-      "score": 29,
+      "score": 30,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 47,
+        "macro": 49,
         "valuation": 9,
         "flows": 40,
         "sentiment": 69,
@@ -1954,10 +1963,10 @@ window.MACRO = {
     },
     {
       "date": "2013-09-01",
-      "score": 48,
+      "score": 50,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 55,
+        "macro": 61,
         "valuation": 2,
         "flows": 64,
         "sentiment": 57,
@@ -1979,7 +1988,7 @@ window.MACRO = {
       "score": 57,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 63,
+        "macro": 62,
         "valuation": 1,
         "flows": 66,
         "sentiment": 71,
@@ -2001,7 +2010,7 @@ window.MACRO = {
       "score": 60,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 67,
+        "macro": 64,
         "valuation": -3,
         "flows": 67,
         "sentiment": 72,
@@ -2064,10 +2073,10 @@ window.MACRO = {
     },
     {
       "date": "2014-02-01",
-      "score": 52,
+      "score": 53,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 50,
+        "macro": 54,
         "valuation": -2,
         "flows": 42,
         "sentiment": 70,
@@ -2086,10 +2095,10 @@ window.MACRO = {
     },
     {
       "date": "2014-03-01",
-      "score": 53,
+      "score": 52,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 55,
+        "macro": 52,
         "valuation": -4,
         "flows": 43,
         "sentiment": 71,
@@ -2108,10 +2117,10 @@ window.MACRO = {
     },
     {
       "date": "2014-04-01",
-      "score": 60,
+      "score": 59,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 59,
+        "macro": 55,
         "valuation": -3,
         "flows": 76,
         "sentiment": 73,
@@ -2133,7 +2142,7 @@ window.MACRO = {
       "score": 59,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 52,
+        "macro": 50,
         "valuation": -4,
         "flows": 75,
         "sentiment": 83,
@@ -2152,10 +2161,10 @@ window.MACRO = {
     },
     {
       "date": "2014-06-01",
-      "score": 60,
+      "score": 58,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 59,
+        "macro": 51,
         "valuation": -6,
         "flows": 75,
         "sentiment": 82,
@@ -2196,10 +2205,10 @@ window.MACRO = {
     },
     {
       "date": "2014-08-01",
-      "score": 54,
+      "score": 55,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 57,
+        "macro": 60,
         "valuation": -7,
         "flows": 53,
         "sentiment": 80,
@@ -2221,7 +2230,7 @@ window.MACRO = {
       "score": 46,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 63,
+        "macro": 65,
         "valuation": -8,
         "flows": 23,
         "sentiment": 58,
@@ -2243,7 +2252,7 @@ window.MACRO = {
       "score": 44,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 71,
+        "macro": 72,
         "valuation": -5,
         "flows": 21,
         "sentiment": 70,
@@ -2265,7 +2274,7 @@ window.MACRO = {
       "score": 38,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 73,
+        "macro": 69,
         "valuation": -11,
         "flows": 19,
         "sentiment": 73,
@@ -2284,10 +2293,10 @@ window.MACRO = {
     },
     {
       "date": "2014-12-01",
-      "score": 29,
+      "score": 30,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 74,
+        "macro": 77,
         "valuation": -12,
         "flows": 21,
         "sentiment": 44,
@@ -2328,10 +2337,10 @@ window.MACRO = {
     },
     {
       "date": "2015-02-01",
-      "score": 34,
+      "score": 35,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 61,
+        "macro": 65,
         "valuation": -12,
         "flows": 52,
         "sentiment": 73,
@@ -2350,10 +2359,10 @@ window.MACRO = {
     },
     {
       "date": "2015-03-01",
-      "score": 24,
+      "score": 25,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 49,
+        "macro": 54,
         "valuation": -11,
         "flows": 33,
         "sentiment": 63,
@@ -2372,10 +2381,10 @@ window.MACRO = {
     },
     {
       "date": "2015-04-01",
-      "score": 31,
+      "score": 30,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 68,
+        "macro": 65,
         "valuation": -12,
         "flows": 60,
         "sentiment": 67,
@@ -2397,7 +2406,7 @@ window.MACRO = {
       "score": 20,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 58,
+        "macro": 59,
         "valuation": -12,
         "flows": 33,
         "sentiment": 68,
@@ -2416,10 +2425,10 @@ window.MACRO = {
     },
     {
       "date": "2015-06-01",
-      "score": 9,
+      "score": 10,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 54,
+        "macro": 57,
         "valuation": -10,
         "flows": 32,
         "sentiment": 31,
@@ -2438,10 +2447,10 @@ window.MACRO = {
     },
     {
       "date": "2015-07-01",
-      "score": 10,
+      "score": 13,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 60,
+        "macro": 70,
         "valuation": -10,
         "flows": 11,
         "sentiment": 74,
@@ -2460,10 +2469,10 @@ window.MACRO = {
     },
     {
       "date": "2015-08-01",
-      "score": -21,
+      "score": -20,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 56,
+        "macro": 59,
         "valuation": -7,
         "flows": 3,
         "sentiment": -75,
@@ -2482,10 +2491,10 @@ window.MACRO = {
     },
     {
       "date": "2015-09-01",
-      "score": -17,
+      "score": -19,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 62,
+        "macro": 54,
         "valuation": -2,
         "flows": -1,
         "sentiment": -61,
@@ -2548,10 +2557,10 @@ window.MACRO = {
     },
     {
       "date": "2015-12-01",
-      "score": -10,
+      "score": -9,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 42,
+        "macro": 44,
         "valuation": -8,
         "flows": 33,
         "sentiment": -23,
@@ -2617,7 +2626,7 @@ window.MACRO = {
       "score": 3,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 43,
+        "macro": 42,
         "valuation": -6,
         "flows": 45,
         "sentiment": 34,
@@ -2639,7 +2648,7 @@ window.MACRO = {
       "score": 1,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 33,
+        "macro": 34,
         "valuation": -8,
         "flows": 57,
         "sentiment": 23,
@@ -2658,10 +2667,10 @@ window.MACRO = {
     },
     {
       "date": "2016-05-01",
-      "score": 4,
+      "score": 5,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 32,
+        "macro": 35,
         "valuation": -7,
         "flows": 56,
         "sentiment": 32,
@@ -2705,7 +2714,7 @@ window.MACRO = {
       "score": 17,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 46,
+        "macro": 48,
         "valuation": -11,
         "flows": 53,
         "sentiment": 57,
@@ -2724,10 +2733,10 @@ window.MACRO = {
     },
     {
       "date": "2016-08-01",
-      "score": 20,
+      "score": 21,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 31,
+        "macro": 35,
         "valuation": -12,
         "flows": 60,
         "sentiment": 71,
@@ -2749,7 +2758,7 @@ window.MACRO = {
       "score": 25,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 37,
+        "macro": 36,
         "valuation": -11,
         "flows": 57,
         "sentiment": 74,
@@ -2922,10 +2931,10 @@ window.MACRO = {
     },
     {
       "date": "2017-05-01",
-      "score": 57,
+      "score": 54,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 66,
+        "macro": 54,
         "valuation": -22,
         "flows": 55,
         "sentiment": 88,
@@ -2947,7 +2956,7 @@ window.MACRO = {
       "score": 50,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 55,
+        "macro": 56,
         "valuation": -24,
         "flows": 36,
         "sentiment": 84,
@@ -2966,10 +2975,10 @@ window.MACRO = {
     },
     {
       "date": "2017-07-01",
-      "score": 54,
+      "score": 53,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 49,
+        "macro": 47,
         "valuation": -25,
         "flows": 62,
         "sentiment": 89,
@@ -3032,10 +3041,10 @@ window.MACRO = {
     },
     {
       "date": "2017-10-01",
-      "score": 53,
+      "score": 54,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 51,
+        "macro": 55,
         "valuation": -29,
         "flows": 59,
         "sentiment": 89,
@@ -3098,10 +3107,10 @@ window.MACRO = {
     },
     {
       "date": "2018-01-01",
-      "score": 52,
+      "score": 51,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 49,
+        "macro": 46,
         "valuation": -39,
         "flows": 84,
         "sentiment": 72,
@@ -3123,7 +3132,7 @@ window.MACRO = {
       "score": 44,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 54,
+        "macro": 53,
         "valuation": -34,
         "flows": 57,
         "sentiment": 41,
@@ -3145,7 +3154,7 @@ window.MACRO = {
       "score": 41,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 44,
+        "macro": 45,
         "valuation": -33,
         "flows": 56,
         "sentiment": 40,
@@ -3167,7 +3176,7 @@ window.MACRO = {
       "score": 42,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 33,
+        "macro": 31,
         "valuation": -29,
         "flows": 51,
         "sentiment": 60,
@@ -3189,7 +3198,7 @@ window.MACRO = {
       "score": 44,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 41,
+        "macro": 39,
         "valuation": -30,
         "flows": 51,
         "sentiment": 63,
@@ -3211,7 +3220,7 @@ window.MACRO = {
       "score": 36,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 31,
+        "macro": 29,
         "valuation": -32,
         "flows": 25,
         "sentiment": 60,
@@ -3230,10 +3239,10 @@ window.MACRO = {
     },
     {
       "date": "2018-07-01",
-      "score": 38,
+      "score": 37,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 24,
+        "macro": 23,
         "valuation": -33,
         "flows": 27,
         "sentiment": 76,
@@ -3255,7 +3264,7 @@ window.MACRO = {
       "score": 38,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 25,
+        "macro": 28,
         "valuation": -35,
         "flows": 27,
         "sentiment": 76,
@@ -3274,10 +3283,10 @@ window.MACRO = {
     },
     {
       "date": "2018-09-01",
-      "score": 43,
+      "score": 44,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 30,
+        "macro": 32,
         "valuation": -36,
         "flows": 51,
         "sentiment": 79,
@@ -3296,10 +3305,10 @@ window.MACRO = {
     },
     {
       "date": "2018-10-01",
-      "score": 22,
+      "score": 23,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 27,
+        "macro": 28,
         "valuation": -29,
         "flows": 27,
         "sentiment": -18,
@@ -3321,7 +3330,7 @@ window.MACRO = {
       "score": 33,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 29,
+        "macro": 27,
         "valuation": -26,
         "flows": 36,
         "sentiment": 29,
@@ -3362,10 +3371,10 @@ window.MACRO = {
     },
     {
       "date": "2019-01-01",
-      "score": 27,
+      "score": 28,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 21,
+        "macro": 22,
         "valuation": -18,
         "flows": 60,
         "sentiment": -27,
@@ -3582,10 +3591,10 @@ window.MACRO = {
     },
     {
       "date": "2019-11-01",
-      "score": 29,
+      "score": 30,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 16,
+        "macro": 18,
         "valuation": -24,
         "flows": 71,
         "sentiment": 77,
@@ -3604,10 +3613,10 @@ window.MACRO = {
     },
     {
       "date": "2019-12-01",
-      "score": 29,
+      "score": 30,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 9,
+        "macro": 15,
         "valuation": -26,
         "flows": 79,
         "sentiment": 71,
@@ -3629,7 +3638,7 @@ window.MACRO = {
       "score": 9,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 22,
+        "macro": 23,
         "valuation": -29,
         "flows": 37,
         "sentiment": 46,
@@ -3648,10 +3657,10 @@ window.MACRO = {
     },
     {
       "date": "2020-02-01",
-      "score": -20,
+      "score": -18,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 28,
+        "macro": 35,
         "valuation": -28,
         "flows": 15,
         "sentiment": -44,
@@ -3736,10 +3745,10 @@ window.MACRO = {
     },
     {
       "date": "2020-06-01",
-      "score": -19,
+      "score": -20,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 1,
+        "macro": 0,
         "valuation": -20,
         "flows": 42,
         "sentiment": -17,
@@ -3758,10 +3767,10 @@ window.MACRO = {
     },
     {
       "date": "2020-07-01",
-      "score": -7,
+      "score": -6,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 27,
+        "macro": 31,
         "valuation": -23,
         "flows": 48,
         "sentiment": 15,
@@ -3780,10 +3789,10 @@ window.MACRO = {
     },
     {
       "date": "2020-08-01",
-      "score": -5,
+      "score": -6,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": 30,
+        "macro": 29,
         "valuation": -30,
         "flows": 66,
         "sentiment": 8,
@@ -3802,10 +3811,10 @@ window.MACRO = {
     },
     {
       "date": "2020-09-01",
-      "score": -5,
+      "score": -3,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": 35,
+        "macro": 43,
         "valuation": -28,
         "flows": 61,
         "sentiment": 8,
@@ -4044,10 +4053,10 @@ window.MACRO = {
     },
     {
       "date": "2021-08-01",
-      "score": 34,
+      "score": 32,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 32,
+        "macro": 25,
         "valuation": -50,
         "flows": 30,
         "sentiment": 58,
@@ -4069,7 +4078,7 @@ window.MACRO = {
       "score": 27,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 27,
+        "macro": 28,
         "valuation": -50,
         "flows": 32,
         "sentiment": 24,
@@ -4088,10 +4097,10 @@ window.MACRO = {
     },
     {
       "date": "2021-10-01",
-      "score": 35,
+      "score": 34,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 28,
+        "macro": 24,
         "valuation": -50,
         "flows": 45,
         "sentiment": 59,
@@ -4113,7 +4122,7 @@ window.MACRO = {
       "score": 23,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 20,
+        "macro": 21,
         "valuation": -50,
         "flows": 39,
         "sentiment": 4,
@@ -4135,7 +4144,7 @@ window.MACRO = {
       "score": 35,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 23,
+        "macro": 24,
         "valuation": -50,
         "flows": 54,
         "sentiment": 54,
@@ -4157,7 +4166,7 @@ window.MACRO = {
       "score": 23,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 17,
+        "macro": 16,
         "valuation": -50,
         "flows": 35,
         "sentiment": 16,
@@ -4179,7 +4188,7 @@ window.MACRO = {
       "score": 16,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 10,
+        "macro": 12,
         "valuation": -47,
         "flows": 35,
         "sentiment": -21,
@@ -4242,10 +4251,10 @@ window.MACRO = {
     },
     {
       "date": "2022-05-01",
-      "score": 7,
+      "score": 8,
       "phase": "둔화·후기 (Late-cycle)",
       "pillars": {
-        "macro": 8,
+        "macro": 9,
         "valuation": -28,
         "flows": 17,
         "sentiment": -67,
@@ -4267,7 +4276,7 @@ window.MACRO = {
       "score": -4,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -6,
+        "macro": -7,
         "valuation": -21,
         "flows": 6,
         "sentiment": -100,
@@ -4311,7 +4320,7 @@ window.MACRO = {
       "score": -20,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -17,
+        "macro": -16,
         "valuation": -28,
         "flows": 6,
         "sentiment": -89,
@@ -4333,7 +4342,7 @@ window.MACRO = {
       "score": -27,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -7,
+        "macro": -9,
         "valuation": -18,
         "flows": -7,
         "sentiment": -100,
@@ -4355,7 +4364,7 @@ window.MACRO = {
       "score": -37,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -17,
+        "macro": -15,
         "valuation": -13,
         "flows": -13,
         "sentiment": -89,
@@ -4377,7 +4386,7 @@ window.MACRO = {
       "score": -31,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -25,
+        "macro": -26,
         "valuation": -18,
         "flows": 25,
         "sentiment": -33,
@@ -4418,10 +4427,10 @@ window.MACRO = {
     },
     {
       "date": "2023-01-01",
-      "score": -23,
+      "score": -22,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -7,
+        "macro": -4,
         "valuation": -18,
         "flows": 38,
         "sentiment": -24,
@@ -4443,7 +4452,7 @@ window.MACRO = {
       "score": -29,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -2,
+        "macro": -3,
         "valuation": -21,
         "flows": 4,
         "sentiment": -29,
@@ -4465,7 +4474,7 @@ window.MACRO = {
       "score": -37,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -16,
+        "macro": -17,
         "valuation": -16,
         "flows": -35,
         "sentiment": -19,
@@ -4506,10 +4515,10 @@ window.MACRO = {
     },
     {
       "date": "2023-05-01",
-      "score": -24,
+      "score": -25,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -13,
+        "macro": -14,
         "valuation": -20,
         "flows": -10,
         "sentiment": 19,
@@ -4531,7 +4540,7 @@ window.MACRO = {
       "score": -11,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -11,
+        "macro": -10,
         "valuation": -25,
         "flows": -11,
         "sentiment": 72,
@@ -4550,10 +4559,10 @@ window.MACRO = {
     },
     {
       "date": "2023-07-01",
-      "score": -3,
+      "score": -4,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -12,
+        "macro": -14,
         "valuation": -29,
         "flows": 27,
         "sentiment": 72,
@@ -4619,7 +4628,7 @@ window.MACRO = {
       "score": -16,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -34,
+        "macro": -35,
         "valuation": -20,
         "flows": -21,
         "sentiment": 7,
@@ -4638,10 +4647,10 @@ window.MACRO = {
     },
     {
       "date": "2023-11-01",
-      "score": 13,
+      "score": 14,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -29,
+        "macro": -26,
         "valuation": -25,
         "flows": 31,
         "sentiment": 75,
@@ -4663,7 +4672,7 @@ window.MACRO = {
       "score": 23,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -22,
+        "macro": -25,
         "valuation": -31,
         "flows": 43,
         "sentiment": 78,
@@ -4682,10 +4691,10 @@ window.MACRO = {
     },
     {
       "date": "2024-01-01",
-      "score": 20,
+      "score": 19,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -16,
+        "macro": -18,
         "valuation": -33,
         "flows": 31,
         "sentiment": 68,
@@ -4707,7 +4716,7 @@ window.MACRO = {
       "score": 10,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -28,
+        "macro": -26,
         "valuation": -38,
         "flows": 1,
         "sentiment": 73,
@@ -4726,10 +4735,10 @@ window.MACRO = {
     },
     {
       "date": "2024-03-01",
-      "score": 10,
+      "score": 9,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -29,
+        "macro": -30,
         "valuation": -41,
         "flows": 11,
         "sentiment": 75,
@@ -4748,10 +4757,10 @@ window.MACRO = {
     },
     {
       "date": "2024-04-01",
-      "score": 7,
+      "score": 9,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -33,
+        "macro": -28,
         "valuation": -38,
         "flows": 15,
         "sentiment": 62,
@@ -4858,10 +4867,10 @@ window.MACRO = {
     },
     {
       "date": "2024-09-01",
-      "score": 18,
+      "score": 19,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -22,
+        "macro": -19,
         "valuation": -49,
         "flows": 70,
         "sentiment": 56,
@@ -4883,7 +4892,7 @@ window.MACRO = {
       "score": 7,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -23,
+        "macro": -24,
         "valuation": -50,
         "flows": 46,
         "sentiment": 24,
@@ -4949,7 +4958,7 @@ window.MACRO = {
       "score": 14,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -19,
+        "macro": -17,
         "valuation": -50,
         "flows": 31,
         "sentiment": 58,
@@ -4968,10 +4977,10 @@ window.MACRO = {
     },
     {
       "date": "2025-02-01",
-      "score": 14,
+      "score": 15,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -14,
+        "macro": -8,
         "valuation": -50,
         "flows": 28,
         "sentiment": 42,
@@ -5015,7 +5024,7 @@ window.MACRO = {
       "score": 17,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -7,
+        "macro": -6,
         "valuation": -36,
         "flows": 61,
         "sentiment": -18,
@@ -5037,7 +5046,7 @@ window.MACRO = {
       "score": 28,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -13,
+        "macro": -12,
         "valuation": -46,
         "flows": 75,
         "sentiment": 47,
@@ -5056,10 +5065,10 @@ window.MACRO = {
     },
     {
       "date": "2025-06-01",
-      "score": 28,
+      "score": 30,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -16,
+        "macro": -10,
         "valuation": -50,
         "flows": 79,
         "sentiment": 56,
@@ -5081,7 +5090,7 @@ window.MACRO = {
       "score": 30,
       "phase": "수축 (Contraction)",
       "pillars": {
-        "macro": -14,
+        "macro": -13,
         "valuation": -50,
         "flows": 76,
         "sentiment": 56,
@@ -5144,10 +5153,10 @@ window.MACRO = {
     },
     {
       "date": "2025-10-01",
-      "score": 20,
+      "score": 21,
       "phase": "회복 (Recovery)",
       "pillars": {
-        "macro": -26,
+        "macro": -22,
         "valuation": -50,
         "flows": 36,
         "sentiment": 53,
@@ -5169,7 +5178,7 @@ window.MACRO = {
       "score": 21,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": -17,
+        "macro": -18,
         "valuation": -50,
         "flows": 27,
         "sentiment": 58,
@@ -5191,7 +5200,7 @@ window.MACRO = {
       "score": 25,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": -6,
+        "macro": -10,
         "valuation": -50,
         "flows": 29,
         "sentiment": 65,
@@ -5232,10 +5241,10 @@ window.MACRO = {
     },
     {
       "date": "2026-02-01",
-      "score": 31,
+      "score": 30,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 1,
+        "macro": -3,
         "valuation": -50,
         "flows": 74,
         "sentiment": 41,
@@ -5279,7 +5288,7 @@ window.MACRO = {
       "score": 27,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 0,
+        "macro": 1,
         "valuation": -50,
         "flows": 37,
         "sentiment": 56,
@@ -5298,10 +5307,10 @@ window.MACRO = {
     },
     {
       "date": "2026-05-01",
-      "score": 29,
+      "score": 30,
       "phase": "확장 (Expansion)",
       "pillars": {
-        "macro": 6,
+        "macro": 7,
         "valuation": -50,
         "flows": 37,
         "sentiment": 63,
@@ -11564,13 +11573,13 @@ window.MACRO = {
       "pillar": "macro",
       "current": 0.35,
       "unit": "%p",
-      "z": -0.72,
-      "pct": 30.4,
+      "z": -0.73,
+      "pct": 30.2,
       "score": 0.23,
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "역전은 침체 경고, 정상화는 회복 신호",
-      "as_of": "2026-07-01",
+      "as_of": "2026-07-10",
       "history": {
         "dates": [
           "2000-01-01",
@@ -12216,7 +12225,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-01",
-      "z_n": 319,
+      "z_n": 6633,
       "kind": "release",
       "source": {
         "name": "FRED: T10Y2Y",
@@ -13672,13 +13681,13 @@ window.MACRO = {
       "pillar": "macro",
       "current": 0.71,
       "unit": "%p",
-      "z": -0.48,
-      "pct": 34.5,
+      "z": -0.49,
+      "pct": 34.2,
       "score": 0.47,
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "NY Fed 침체모델(Estrella-Mishkin)의 기준 스프레드. 역전(<0)은 12개월 내 침체 경고 — 10Y-2Y보다 예측력 우수",
-      "as_of": "2026-07-01",
+      "as_of": "2026-07-10",
       "history": {
         "dates": [
           "2000-01-01",
@@ -14324,7 +14333,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-01",
-      "z_n": 319,
+      "z_n": 6633,
       "kind": "release",
       "source": {
         "name": "FRED: T10Y3M",
@@ -15652,8 +15661,8 @@ window.MACRO = {
       "pillar": "macro",
       "current": 1.53,
       "unit": "",
-      "z": -1.12,
-      "pct": 6.4,
+      "z": -1.1,
+      "pct": 7.1,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
@@ -15663,13 +15672,16 @@ window.MACRO = {
         "dates": [
           "2000-08-01",
           "2000-09-01",
+          "2000-10-01",
           "2000-11-01",
           "2000-12-01",
           "2001-01-01",
           "2001-02-01",
           "2001-03-01",
+          "2001-04-01",
           "2001-05-01",
           "2001-06-01",
+          "2001-07-01",
           "2001-08-01",
           "2001-09-01",
           "2001-10-01",
@@ -15683,13 +15695,16 @@ window.MACRO = {
           "2002-06-01",
           "2002-07-01",
           "2002-08-01",
+          "2002-09-01",
           "2002-10-01",
           "2002-11-01",
+          "2002-12-01",
           "2003-01-01",
           "2003-02-01",
           "2003-03-01",
           "2003-04-01",
           "2003-05-01",
+          "2003-06-01",
           "2003-07-01",
           "2003-08-01",
           "2003-09-01",
@@ -15697,11 +15712,13 @@ window.MACRO = {
           "2003-11-01",
           "2003-12-01",
           "2004-01-01",
+          "2004-02-01",
           "2004-03-01",
           "2004-04-01",
           "2004-05-01",
           "2004-06-01",
           "2004-07-01",
+          "2004-08-01",
           "2004-09-01",
           "2004-10-01",
           "2004-11-01",
@@ -15710,6 +15727,7 @@ window.MACRO = {
           "2005-02-01",
           "2005-03-01",
           "2005-04-01",
+          "2005-05-01",
           "2005-06-01",
           "2005-07-01",
           "2005-08-01",
@@ -15717,6 +15735,7 @@ window.MACRO = {
           "2005-10-01",
           "2005-11-01",
           "2005-12-01",
+          "2006-01-01",
           "2006-02-01",
           "2006-03-01",
           "2006-04-01",
@@ -15725,13 +15744,16 @@ window.MACRO = {
           "2006-07-01",
           "2006-08-01",
           "2006-09-01",
+          "2006-10-01",
           "2006-11-01",
           "2006-12-01",
           "2007-01-01",
           "2007-02-01",
           "2007-03-01",
+          "2007-04-01",
           "2007-05-01",
           "2007-06-01",
+          "2007-07-01",
           "2007-08-01",
           "2007-09-01",
           "2007-10-01",
@@ -15742,6 +15764,7 @@ window.MACRO = {
           "2008-03-01",
           "2008-04-01",
           "2008-05-01",
+          "2008-06-01",
           "2008-07-01",
           "2008-08-01",
           "2008-09-01",
@@ -15749,6 +15772,8 @@ window.MACRO = {
           "2008-11-01",
           "2008-12-01",
           "2009-01-01",
+          "2009-02-01",
+          "2009-03-01",
           "2009-04-01",
           "2009-05-01",
           "2009-06-01",
@@ -15756,6 +15781,7 @@ window.MACRO = {
           "2009-08-01",
           "2009-09-01",
           "2009-10-01",
+          "2009-11-01",
           "2009-12-01",
           "2010-01-01",
           "2010-02-01",
@@ -15764,6 +15790,7 @@ window.MACRO = {
           "2010-05-01",
           "2010-06-01",
           "2010-07-01",
+          "2010-08-01",
           "2010-09-01",
           "2010-10-01",
           "2010-11-01",
@@ -15772,6 +15799,7 @@ window.MACRO = {
           "2011-02-01",
           "2011-03-01",
           "2011-04-01",
+          "2011-05-01",
           "2011-06-01",
           "2011-07-01",
           "2011-08-01",
@@ -15779,10 +15807,13 @@ window.MACRO = {
           "2011-10-01",
           "2011-11-01",
           "2011-12-01",
+          "2012-01-01",
           "2012-02-01",
           "2012-03-01",
+          "2012-04-01",
           "2012-05-01",
           "2012-06-01",
+          "2012-07-01",
           "2012-08-01",
           "2012-09-01",
           "2012-10-01",
@@ -15796,13 +15827,16 @@ window.MACRO = {
           "2013-06-01",
           "2013-07-01",
           "2013-08-01",
+          "2013-09-01",
           "2013-10-01",
           "2013-11-01",
+          "2013-12-01",
           "2014-01-01",
           "2014-02-01",
           "2014-03-01",
           "2014-04-01",
           "2014-05-01",
+          "2014-06-01",
           "2014-07-01",
           "2014-08-01",
           "2014-09-01",
@@ -15810,6 +15844,8 @@ window.MACRO = {
           "2014-11-01",
           "2014-12-01",
           "2015-01-01",
+          "2015-02-01",
+          "2015-03-01",
           "2015-04-01",
           "2015-05-01",
           "2015-06-01",
@@ -15817,11 +15853,13 @@ window.MACRO = {
           "2015-08-01",
           "2015-09-01",
           "2015-10-01",
+          "2015-11-01",
           "2015-12-01",
           "2016-01-01",
           "2016-02-01",
           "2016-03-01",
           "2016-04-01",
+          "2016-05-01",
           "2016-06-01",
           "2016-07-01",
           "2016-08-01",
@@ -15829,6 +15867,7 @@ window.MACRO = {
           "2016-10-01",
           "2016-11-01",
           "2016-12-01",
+          "2017-01-01",
           "2017-02-01",
           "2017-03-01",
           "2017-04-01",
@@ -15837,13 +15876,16 @@ window.MACRO = {
           "2017-07-01",
           "2017-08-01",
           "2017-09-01",
+          "2017-10-01",
           "2017-11-01",
           "2017-12-01",
           "2018-01-01",
           "2018-02-01",
           "2018-03-01",
+          "2018-04-01",
           "2018-05-01",
           "2018-06-01",
+          "2018-07-01",
           "2018-08-01",
           "2018-09-01",
           "2018-10-01",
@@ -15857,10 +15899,13 @@ window.MACRO = {
           "2019-06-01",
           "2019-07-01",
           "2019-08-01",
+          "2019-09-01",
           "2019-10-01",
           "2019-11-01",
+          "2019-12-01",
           "2020-01-01",
           "2020-02-01",
+          "2020-03-01",
           "2020-04-01",
           "2020-05-01",
           "2020-06-01",
@@ -15868,6 +15913,7 @@ window.MACRO = {
           "2020-08-01",
           "2020-09-01",
           "2020-10-01",
+          "2020-11-01",
           "2020-12-01",
           "2021-01-01",
           "2021-02-01",
@@ -15876,6 +15922,7 @@ window.MACRO = {
           "2021-05-01",
           "2021-06-01",
           "2021-07-01",
+          "2021-08-01",
           "2021-09-01",
           "2021-10-01",
           "2021-11-01",
@@ -15884,6 +15931,7 @@ window.MACRO = {
           "2022-02-01",
           "2022-03-01",
           "2022-04-01",
+          "2022-05-01",
           "2022-06-01",
           "2022-07-01",
           "2022-08-01",
@@ -15891,6 +15939,7 @@ window.MACRO = {
           "2022-10-01",
           "2022-11-01",
           "2022-12-01",
+          "2023-01-01",
           "2023-02-01",
           "2023-03-01",
           "2023-04-01",
@@ -15899,6 +15948,7 @@ window.MACRO = {
           "2023-07-01",
           "2023-08-01",
           "2023-09-01",
+          "2023-10-01",
           "2023-11-01",
           "2023-12-01",
           "2024-01-01",
@@ -15909,13 +15959,16 @@ window.MACRO = {
           "2024-06-01",
           "2024-07-01",
           "2024-08-01",
+          "2024-09-01",
           "2024-10-01",
           "2024-11-01",
+          "2024-12-01",
           "2025-01-01",
           "2025-02-01",
           "2025-03-01",
           "2025-04-01",
           "2025-05-01",
+          "2025-06-01",
           "2025-07-01",
           "2025-08-01",
           "2025-09-01",
@@ -15923,6 +15976,8 @@ window.MACRO = {
           "2025-11-01",
           "2025-12-01",
           "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
           "2026-04-01",
           "2026-05-01",
           "2026-06-01",
@@ -15931,13 +15986,16 @@ window.MACRO = {
         "values": [
           3.18,
           3.346,
+          3.196,
           3.114,
           3.112,
           3.195,
           3.036,
           2.941,
+          2.903,
           2.835,
           2.603,
+          2.547,
           2.473,
           2.209,
           2.225,
@@ -15951,13 +16009,16 @@ window.MACRO = {
           2.448,
           2.234,
           2.199,
+          2.038,
           2.245,
           2.366,
+          2.005,
           2.149,
           2.213,
           2.121,
           2.138,
           2.14,
+          2.162,
           2.311,
           2.137,
           2.109,
@@ -15965,11 +16026,13 @@ window.MACRO = {
           2.286,
           2.509,
           2.842,
+          3.388,
           3.179,
           3.125,
           3.244,
           3.069,
           3.345,
+          3.121,
           3.344,
           3.145,
           3.197,
@@ -15978,6 +16041,7 @@ window.MACRO = {
           3.436,
           3.52,
           3.444,
+          3.615,
           3.564,
           3.925,
           3.907,
@@ -15985,6 +16049,7 @@ window.MACRO = {
           4.077,
           4.195,
           4.18,
+          3.916,
           3.892,
           4.276,
           5.117,
@@ -15993,13 +16058,16 @@ window.MACRO = {
           5.692,
           5.542,
           5.778,
+          5.522,
           4.903,
           4.493,
           3.962,
           4.083,
           4.741,
+          5.204,
           5.134,
           5.329,
+          5.478,
           5.068,
           4.888,
           4.379,
@@ -16010,6 +16078,7 @@ window.MACRO = {
           4.217,
           4.56,
           4.089,
+          4.206,
           4.067,
           4.135,
           3.304,
@@ -16017,6 +16086,8 @@ window.MACRO = {
           1.989,
           1.579,
           1.577,
+          1.621,
+          1.993,
           2.305,
           2.245,
           2.436,
@@ -16024,6 +16095,7 @@ window.MACRO = {
           2.951,
           2.787,
           2.835,
+          2.666,
           3.038,
           2.813,
           2.923,
@@ -16032,6 +16104,7 @@ window.MACRO = {
           2.555,
           2.357,
           2.799,
+          2.692,
           2.788,
           2.75,
           2.76,
@@ -16040,6 +16113,7 @@ window.MACRO = {
           3.177,
           2.988,
           2.677,
+          2.717,
           2.844,
           2.748,
           2.29,
@@ -16047,10 +16121,13 @@ window.MACRO = {
           2.105,
           2.041,
           2.192,
+          2.179,
           2.264,
           2.291,
+          2.305,
           2.152,
           2.176,
+          2.123,
           2.05,
           2.13,
           2.054,
@@ -16064,13 +16141,16 @@ window.MACRO = {
           2.493,
           2.376,
           2.31,
+          2.504,
           2.489,
           2.583,
+          2.863,
           2.597,
           2.451,
           2.374,
           2.338,
           2.518,
+          2.412,
           2.515,
           2.438,
           2.483,
@@ -16078,6 +16158,8 @@ window.MACRO = {
           2.434,
           2.398,
           1.977,
+          2.24,
+          2.322,
           2.441,
           2.32,
           2.239,
@@ -16085,11 +16167,13 @@ window.MACRO = {
           2.066,
           2.103,
           2.027,
+          1.918,
           2.005,
           1.849,
           1.725,
           1.768,
           1.768,
+          1.727,
           1.665,
           1.646,
           1.584,
@@ -16097,6 +16181,7 @@ window.MACRO = {
           1.731,
           2.239,
           2.172,
+          2.252,
           2.159,
           2.122,
           2.051,
@@ -16105,13 +16190,16 @@ window.MACRO = {
           2.28,
           2.339,
           2.292,
+          2.44,
           2.385,
           2.511,
           2.378,
           2.362,
           2.282,
+          2.319,
           2.352,
           2.358,
+          2.304,
           2.207,
           2.339,
           2.197,
@@ -16125,10 +16213,13 @@ window.MACRO = {
           1.919,
           1.864,
           1.667,
+          1.75,
           1.742,
           1.803,
+          1.839,
           1.592,
           1.628,
+          1.415,
           1.398,
           1.397,
           1.513,
@@ -16136,6 +16227,7 @@ window.MACRO = {
           1.546,
           1.605,
           1.621,
+          1.926,
           1.856,
           1.934,
           2.369,
@@ -16144,6 +16236,7 @@ window.MACRO = {
           2.461,
           2.426,
           2.472,
+          2.402,
           2.33,
           2.454,
           2.412,
@@ -16152,6 +16245,7 @@ window.MACRO = {
           2.34,
           2.433,
           2.302,
+          2.331,
           2.059,
           2.033,
           2.054,
@@ -16159,6 +16253,7 @@ window.MACRO = {
           2.087,
           2.136,
           2.091,
+          2.192,
           2.24,
           2.085,
           1.945,
@@ -16167,6 +16262,7 @@ window.MACRO = {
           2.027,
           1.946,
           2.016,
+          1.834,
           1.879,
           1.882,
           1.905,
@@ -16177,13 +16273,16 @@ window.MACRO = {
           1.886,
           1.714,
           1.662,
+          1.706,
           1.575,
           1.536,
+          1.516,
           1.515,
           1.591,
           1.608,
           1.38,
           1.415,
+          1.527,
           1.315,
           1.301,
           1.251,
@@ -16191,6 +16290,8 @@ window.MACRO = {
           1.229,
           1.302,
           1.251,
+          1.148,
+          1.202,
           1.284,
           1.394,
           1.539,
@@ -16198,7 +16299,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-08",
-      "z_n": 266,
+      "z_n": 312,
       "kind": "release",
       "source": {
         "name": "yfinance (HG=F/GC=F)",
@@ -16208,12 +16309,12 @@ window.MACRO = {
     "spx_fwd_pe": {
       "name": "S&P500 12M Fwd PER",
       "pillar": "valuation",
-      "current": 19.2,
+      "current": 20.1,
       "unit": "배",
       "z": null,
       "pct": null,
-      "score": -0.29,
-      "signal": "악재",
+      "score": -0.51,
+      "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
       "as_of": "2026-07-12",
@@ -16916,11 +17017,11 @@ window.MACRO = {
     "erp": {
       "name": "주식위험프리미엄(ERP)",
       "pillar": "valuation",
-      "current": 0.68,
+      "current": 0.45,
       "unit": "%p",
       "z": null,
       "pct": null,
-      "score": -0.11,
+      "score": -0.18,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "S&P 어닝일드 − 미 10Y. 높을수록 주식 매력",
@@ -16939,8 +17040,8 @@ window.MACRO = {
       "pillar": "valuation",
       "current": 4.57,
       "unit": "%",
-      "z": 0.94,
-      "pct": 82.8,
+      "z": 0.93,
+      "pct": 82.3,
       "score": 0.0,
       "signal": "중립",
       "signal_cls": "neu",
@@ -17591,7 +17692,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-01",
-      "z_n": 319,
+      "z_n": 6632,
       "kind": "release",
       "source": {
         "name": "FRED: DGS10",
@@ -18240,13 +18341,13 @@ window.MACRO = {
       "pillar": "flows",
       "current": 1.56,
       "unit": "%p",
-      "z": -1.2,
+      "z": -1.21,
       "pct": 3.8,
       "score": 0.49,
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "위험선호 게이지(투자등급). 낮을수록 강세, 4%+ 스트레스",
-      "as_of": "2026-07-01",
+      "as_of": "2026-07-09",
       "history": {
         "dates": [
           "2000-01-01",
@@ -18892,7 +18993,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-01",
-      "z_n": 319,
+      "z_n": 6626,
       "kind": "release",
       "source": {
         "name": "FRED: BAA10Y",
@@ -18904,13 +19005,13 @@ window.MACRO = {
       "pillar": "flows",
       "current": 2.7,
       "unit": "%p",
-      "z": -1.13,
-      "pct": 5.4,
+      "z": -1.1,
+      "pct": 8.0,
       "score": 0.83,
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "정크본드 위험프리미엄(ICE BofA). 위험선호의 가장 민감한 게이지 — 3% 미만 타이트, 6%+ 스트레스",
-      "as_of": "2026-07-01",
+      "as_of": "2026-07-09",
       "history": {
         "dates": [
           "2023-07-01",
@@ -18992,7 +19093,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2023-07",
-      "z_n": 37,
+      "z_n": 787,
       "kind": "release",
       "source": {
         "name": "FRED: BAMLH0A0HYM2",
@@ -19010,7 +19111,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "시카고연준 105개 지표 합성 금융환경. 0=역사평균, 음수=완화적(위험자산 우호)",
-      "as_of": "2026-07-01",
+      "as_of": "2026-07-03",
       "history": {
         "dates": [
           "2000-01-01",
@@ -19656,7 +19757,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-01",
-      "z_n": 319,
+      "z_n": 1383,
       "kind": "release",
       "source": {
         "name": "FRED: NFCI",
@@ -19668,8 +19769,8 @@ window.MACRO = {
       "pillar": "flows",
       "current": 1498.9,
       "unit": "원",
-      "z": 2.78,
-      "pct": 99.7,
+      "z": 2.84,
+      "pct": 99.8,
       "score": 0.13,
       "signal": "중립",
       "signal_cls": "neu",
@@ -20320,7 +20421,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-01",
-      "z_n": 319,
+      "z_n": 6644,
       "kind": "release",
       "source": {
         "name": "FRED: DEXKOUS",
@@ -20333,8 +20434,8 @@ window.MACRO = {
       "pillar": "sentiment",
       "current": 15.0,
       "unit": "",
-      "z": -0.51,
-      "pct": 35.7,
+      "z": -0.48,
+      "pct": 37.0,
       "score": 0.3,
       "signal": "호재",
       "signal_cls": "pos",
@@ -20985,7 +21086,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2000-01",
-      "z_n": 319,
+      "z_n": 6701,
       "kind": "release",
       "source": {
         "name": "FRED: VIXCLS",
@@ -20996,15 +21097,15 @@ window.MACRO = {
     "move": {
       "name": "MOVE (채권 변동성)",
       "pillar": "sentiment",
-      "current": 69.5,
+      "current": 69.6,
       "unit": "",
-      "z": -0.97,
-      "pct": 20.0,
+      "z": -1.03,
+      "pct": 17.7,
       "score": 0.64,
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "미 국채 옵션 내재변동성(ICE BofA). 금리 불확실성 게이지 — 80 미만 안정, 120+ 스트레스",
-      "as_of": "2026-07-01",
+      "as_of": "2026-07-10",
       "history": {
         "dates": [
           "2024-07-01",
@@ -21062,7 +21163,7 @@ window.MACRO = {
         ]
       },
       "z_from": "2024-07",
-      "z_n": 25,
+      "z_n": 497,
       "kind": "release",
       "source": {
         "name": "yfinance (^MOVE)",
@@ -21769,20 +21870,20 @@ window.MACRO = {
     "aaii_spread": {
       "name": "AAII 불-베어 스프레드",
       "pillar": "sentiment",
-      "current": -6.3,
+      "current": -0.9,
       "unit": "%p",
       "z": null,
       "pct": null,
-      "score": 0.25,
-      "signal": "호재",
-      "signal_cls": "pos",
-      "desc": "AAII 개인투자자 설문: 강세 35.6%·중립 22.6%·약세 41.9%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
-      "as_of": "2026-05-28",
+      "score": 0.04,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "AAII 개인투자자 설문: 강세 36.3%·중립 26.5%·약세 37.2%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
+      "as_of": "2026-07-08",
       "history": null,
       "manual": true,
       "kind": "release",
       "source": {
-        "name": "원본 데이터",
+        "name": "aaii.com (자동)",
         "url": "https://www.aaii.com/sentimentsurvey"
       }
     },
@@ -22054,14 +22155,14 @@ window.MACRO = {
     "peg": {
       "name": "S&P500 PEG",
       "pillar": "valuation",
-      "current": 1.2,
+      "current": 1.25,
       "unit": "",
       "z": null,
       "pct": null,
-      "score": 0.4,
+      "score": 0.35,
       "signal": "호재",
       "signal_cls": "pos",
-      "desc": "Fwd PER 19.16 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
+      "desc": "Fwd PER 20.05 / EPS성장 16%. 1 미만 저평가, 2+ 부담",
       "as_of": "2026-07-12",
       "history": null,
       "source": {
@@ -23633,12 +23734,12 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 06/12 (30일 경과)",
+          "source": "FactSet Earnings Insight · EPS 기준 07/10 (2일 경과)",
           "actual_through": 2025,
-          "eps_as_of": "2026-06-12",
-          "days_old": 30,
-          "stale": true,
-          "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
+          "eps_as_of": "2026-07-10",
+          "days_old": 2,
+          "stale": false,
+          "note": "FactSet Earnings Insight(07/10 발간) 기준 — CY2026 EPS 성장 +24.2%, CY2027 +17.4% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $368.0(forward P/E 20.5·지수 7,543.64). 매주 금요일 자동 갱신.",
           "years": [
             {
               "y": 2020,
@@ -23678,14 +23779,14 @@ window.MACRO = {
             },
             {
               "y": 2026,
-              "eps": 339.1,
-              "yoy": 23.2,
+              "eps": 341.85,
+              "yoy": 24.2,
               "est": true
             },
             {
               "y": 2027,
-              "eps": 394.04,
-              "yoy": 16.2,
+              "eps": 401.33,
+              "yoy": 17.4,
               "est": true
             }
           ]
@@ -24551,6 +24652,21 @@ window.MACRO = {
               "note": "FSD·로보택시 기대"
             },
             {
+              "ticker": "HD",
+              "name": "Home Depot, Inc. (The)",
+              "mktcap": 342310125568,
+              "fwdpe": 21.3,
+              "pbr": 24.67,
+              "rets": {
+                "w1": -4.1,
+                "m1": 6.8,
+                "m3": 1.9,
+                "ytd": 1.2
+              },
+              "rev30": -0.07096117648551781,
+              "note": "주택수리"
+            },
+            {
               "ticker": "MCD",
               "name": "McDonald's Corporation",
               "mktcap": 195104915456,
@@ -24579,21 +24695,6 @@ window.MACRO = {
               },
               "rev30": 0.6822930922831594,
               "note": "리브랜딩·중국"
-            },
-            {
-              "ticker": "HD",
-              "name": "HD",
-              "mktcap": null,
-              "fwdpe": null,
-              "pbr": null,
-              "rets": {
-                "w1": -4.1,
-                "m1": 6.8,
-                "m3": 1.9,
-                "ytd": 1.2
-              },
-              "rev30": -0.07096117648551781,
-              "note": "주택수리"
             }
           ]
         },
@@ -26527,11 +26628,11 @@ window.MACRO = {
   },
   "commentary": {
     "macro": "[완만한 호재 우위] ISM 제조업 PMI 52.7(강한 호재)·미국 CPI (YoY) 4.2%(강한 악재)·미국 근원 CPI (YoY) 2.8%(악재)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.35%p(호재)·WTI 유가 (YoY) 9.7%(악재)",
-    "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.2배(악재)·KOSPI 12M Fwd PER 5.2배(강한 호재)·주식위험프리미엄(ERP) 0.68%p(중립)·미국 10Y 금리 4.57%(중립)",
+    "valuation": "[혼조/중립] S&P500 12M Fwd PER 20.1배(강한 악재)·KOSPI 12M Fwd PER 5.2배(강한 호재)·주식위험프리미엄(ERP) 0.45%p(중립)·미국 10Y 금리 4.57%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.56%p(호재)·USD/KRW 1498.9원(중립)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 110.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.3조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 15.0(호재)·S&P500 12M 모멘텀 19.5%(강한 호재)·CNN 공포·탐욕 지수 49(중립)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 15.0(호재)·S&P500 12M 모멘텀 19.5%(강한 호재)·CNN 공포·탐욕 지수 49(중립)·AAII 불-베어 스프레드 -0.9%p(중립)·CBOE 풋/콜 비율(총) 0.74(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.594(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.237(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",
-    "overall": "종합 레짐 점수 +26. 매크로 +8, 밸류 +0, 수급 +46, 센티 +23, 기업이익 +53."
+    "overall": "종합 레짐 점수 +24. 매크로 +8, 밸류 -6, 수급 +43, 센티 +20, 기업이익 +53."
   },
   "outlook": {
     "short": {
