@@ -282,6 +282,7 @@
   .apibar input:focus,.apibar select:focus{border-color:var(--steel)}
   .apibar .lbl{font-size:11px;color:var(--faint)}
   #ticker{width:110px;text-transform:uppercase;font-family:var(--mono);font-weight:700}
+  .localurl{color:var(--steel);text-decoration:none;cursor:pointer;font-weight:600}.localurl:hover{text-decoration:underline}
   .apibar .run{margin-left:auto}
   .apibar .warn{font-size:10.5px;color:var(--amber);width:100%;line-height:1.4}
   table.dk td.dim{color:#7d8aa0;font-size:10.5px}
@@ -310,7 +311,7 @@
 <body>
 <h2 class="sr-only">티커를 입력하면 AI 에이전트 투자위원회(분석가·산업·모델링·강세약세·리스크·PM)가 해당 종목을 분석·토론하고 BUY/HOLD/SELL을 결정합니다. 모델링 발표자료는 셀사이드 브로커 모델 양식(Tear Sheet·분기추정·세그먼트)을 따릅니다.</h2>
 <header>
-  <div class="brand"><div class="t">STOCK COMMITTEE</div><div class="s">종목분석 Agent · 단일종목 심층</div></div>
+  <div class="brand"><div class="t">STOCK COMMITTEE</div><div class="s">종목분석 Agent · <a class="localurl" id="localUrl"></a></div></div>
   <div class="tape" id="tape"></div>
   <div class="clock"><span class="k">MODE</span><span class="v" id="modeTag">—</span></div>
 </header>
@@ -330,7 +331,7 @@
   <div class="col" id="main">
     <div class="toolbar"><div class="phase-now">현재 세션 · <b id="phaseNow">대기</b></div><div class="sp"></div>
       <button class="btn" id="nextBtn">진행 ▸</button><button class="btn" id="autoBtn">자동</button>
-      <button class="btn doc" id="pdfBtn">회의록 PDF</button><button class="btn" id="dossBtn">📄 리포트·차트</button><button class="btn rep" id="repBtn">최종 레포트 PDF ⬇</button></div>
+      <button class="btn doc" id="pdfBtn">회의록 PDF</button><button class="btn" id="dossBtn">📄 리포트·차트</button><button class="btn" id="gsBtn" title="골드만삭스식 브로커 모델 엑셀 추출 (.xls)">📊 GS 모델</button><button class="btn rep" id="repBtn">최종 레포트 PDF ⬇</button></div>
     <div id="feed"><div id="printhead"><div class="pt" id="phT">종목분석 위원회 회의록</div><div class="pm" id="phSub"></div></div>
       <div style="padding:40px 10px;text-align:center;color:var(--faint)" id="hint">티커를 입력하고 <b style="color:var(--ink)">위원회 소집 ▶</b>. 분석가 브리핑 → 산업 딥리서치 → <b>브로커 모델 양식 밸류에이션</b> → 강세/약세 토론 → 리스크 → 공동 운용역(나) → 최종 BUY/HOLD/SELL.</div></div>
     <div class="composer" id="composer">
@@ -766,6 +767,45 @@ $('dossBtn').onclick=function(){if(!COM){alert('먼저 위원회를 소집하세
 window.addEventListener('afterprint',function(){document.body.classList.remove('mode-report');});
 window.addEventListener('keydown',function(e){if(e.target.id==='coInput'||e.target.id==='ticker')return;if(e.code==='Escape')ov.classList.remove('show');else if((e.code==='Space'||e.code==='ArrowRight')&&!ov.classList.contains('show')&&COM){e.preventDefault();next();}});
 
+// ── GS 브로커 모델(.xls) 추출 ──
+function xlsWorkbook(sheets){
+ var wsxml=sheets.map(function(s){return '<x:ExcelWorksheet><x:Name>'+s.name+'</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>';}).join('');
+ var body=sheets.map(function(s){return s.html;}).join('');
+ return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets>'+wsxml+'</x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>table{border-collapse:collapse;margin-bottom:10px}td,th{border:0.5pt solid #c8c8c8;padding:3px 7px;font-family:Calibri,Arial;font-size:10pt}th{background:#1f3864;color:#fff;text-align:right}td.lbl,th.lbl{text-align:left}td.num{text-align:right}td.hdr{font-size:13pt;font-weight:bold;background:#dbe5f1;color:#1f3864}</style></head><body>'+body+'</body></html>';
+}
+function _xn(v){return (typeof v==='number')?v:(v==null?'':esc(v));}
+function _xt(title,cols,rows){var span=cols.length;
+ var h='<table><tr><td class="hdr" colspan="'+span+'">'+esc(title)+'</td></tr><tr>'+cols.map(function(c,i){return '<th'+(i===0?' class="lbl"':'')+'>'+esc(c)+'</th>';}).join('')+'</tr>';
+ (rows||[]).forEach(function(r){h+='<tr><td class="lbl">'+esc(r.k)+'</td>'+(r.v||[]).map(function(v){return '<td class="num">'+_xn(v)+'</td>';}).join('')+'</tr>';});
+ return h+'</table>';}
+function exportGSModel(){
+ if(!COM){alert('먼저 위원회를 소집하세요.');return;}
+ var m=COM.meta,r=COM.rating,k=COM.keydata||{},px=COM.px||{},sheets=[];
+ if(COM.tear){var tc=COM.tear.cols||[],span=tc.length+1;
+  var mt='<table><tr><td class="hdr" colspan="'+span+'">'+esc(m.name)+' ('+esc(m.ticker)+') — '+esc(r.action)+'</td></tr>';
+  [['Rating',r.action],['Price',px.cur],['12m Price Target',r.target],['Upside',r.upside],['Market cap',k.mktcap],['Enterprise value',k.ev],['Fwd P/E',k.fpe],['PEG',k.peg],['Consensus',k.consensus]].forEach(function(x){mt+='<tr><td class="lbl">'+esc(x[0])+'</td><td class="num">'+_xn(x[1]==null?'':x[1])+'</td>'+(span>2?'<td colspan="'+(span-2)+'"></td>':'')+'</tr>';});
+  mt+='<tr><td colspan="'+span+'"></td></tr><tr><th class="lbl">GS Forecast</th>'+tc.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr>';
+  (COM.tear.rows||[]).forEach(function(rw){mt+='<tr><td class="lbl">'+esc(rw.k)+'</td>'+(rw.v||[]).map(function(v){return '<td class="num">'+_xn(v)+'</td>';}).join('')+'</tr>';});
+  mt+='</table>';sheets.push({name:'Metrics',html:mt});}
+ if(COM.fcst)sheets.push({name:'Quarterly',html:_xt('Quarterly Forecast (분기 추정)',[''].concat(COM.fcst.cols||[]),COM.fcst.rows)});
+ if(COM.seg)sheets.push({name:'Segments',html:_xt('Segment Revenue (세그먼트)',[''].concat(COM.seg.cols||[]),COM.seg.rows)});
+ var vt='<table><tr><td class="hdr" colspan="5">Valuation — DCF / Comps</td></tr><tr><th class="lbl">Case</th><th>WACC</th><th>g</th><th>Implied $</th><th>vs Cur</th></tr>';
+ ((COM.dcf&&COM.dcf.cases)||[]).forEach(function(c){var d=px.cur?Math.round((c.px/px.cur-1)*100):0;vt+='<tr><td class="lbl">'+esc(c.k)+'</td><td class="num">'+_xn(c.wacc)+'%</td><td class="num">'+_xn(c.g)+'%</td><td class="num">'+_xn(c.px)+'</td><td class="num">'+(d>=0?'+':'')+d+'%</td></tr>';});
+ vt+='<tr><td colspan="5"></td></tr><tr><th class="lbl">Comps</th><th>Multiple</th><th></th><th>Implied $</th><th></th></tr>';
+ ((COM.comps&&COM.comps.rows)||[]).forEach(function(c){vt+='<tr><td class="lbl">'+esc(c.k)+'</td><td class="num">'+esc(c.mult)+'</td><td></td><td class="num">'+_xn(c.px)+'</td><td></td></tr>';});
+ vt+='</table>';sheets.push({name:'Valuation',html:vt});
+ if(!sheets.length){alert('추출할 모델 데이터가 없습니다.');return;}
+ var blob=new Blob(['﻿'+xlsWorkbook(sheets)],{type:'application/vnd.ms-excel;charset=utf-8'});
+ var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(m.ticker||'model')+'_GS_model.xls';document.body.appendChild(a);a.click();
+ setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1500);
+}
+$('gsBtn').onclick=exportGSModel;
+// ── 로컬 주소 표시(클릭 복사) ──
+(function(){var u;try{u=(window.parent&&window.parent!==window)?window.parent.location.href:location.href;}catch(e){u=location.href;}
+ var s=String(u).replace(/^https?:\/\//,'').replace(/[#?].*$/,'');var el=document.getElementById('localUrl');if(!el)return;
+ el.textContent='🔗 '+s;el.href=u;el.title='클릭: 주소 복사';
+ el.onclick=function(ev){ev.preventDefault();try{navigator.clipboard.writeText(u);}catch(_){}var o=el.textContent;el.textContent='✓ 복사됨';setTimeout(function(){el.textContent=o;},1200);};
+})();
 // ── 다크/라이트 전환 (대시보드 pf_theme 공유·storage 동기화) ──
 (function(){
  function apply(t){document.body.setAttribute('data-th',t);var b=$('themeBtn');if(b)b.textContent=(t==='light'?'🌙 다크':'☀️ 라이트');}
