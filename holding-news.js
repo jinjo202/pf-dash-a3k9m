@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-12T09:17:52
+// 갱신: 2026-07-12T09:28:00
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -295,16 +295,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-02"
   },
   {
-   "title": "[매아리] \"휴전 시한 한국 시각 23일 오전\"…트럼프 \"종전 즉시 휘발윳값 정상화될 것\" - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5TWUZZdkdQQkNKTFRPWkJ4S3NKUlNKRG5mQ29DNXIxNkVJUDVHakRmTnZ2Wk55UlhZR2pGV0F4aUIzQ0VZSktPNEYzQUgyTkN1RkE?oc=5",
-   "source": "매일경제 마켓",
-   "date": "2026-04-21"
-  },
-  {
    "title": "엔비디아 숨 고를 때 6%대 급등…다우 53000 이끈 '이 주식' - 위키트리",
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9qdEFwSHJxTnR5LWlnTVduTVo2c21XTzdMSWZpVEtqYXBmZWo3R3RpSnhFb0psSllsMk43VGctSkNuc0R1dzhVbmF2c1RVNFZCVXA4SHRB?oc=5",
    "source": "위키트리",
    "date": "2026-07-06"
+  },
+  {
+   "title": "[매아리] \"휴전 시한 한국 시각 23일 오전\"…트럼프 \"종전 즉시 휘발윳값 정상화될 것\" - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5TWUZZdkdQQkNKTFRPWkJ4S3NKUlNKRG5mQ29DNXIxNkVJUDVHakRmTnZ2Wk55UlhZR2pGV0F4aUIzQ0VZSktPNEYzQUgyTkN1RkE?oc=5",
+   "source": "매일경제 마켓",
+   "date": "2026-04-21"
   },
   {
    "title": "당장 1000만원으로 뭘 살까, 트럼프빨 받을 '상반기 종목' - 중앙일보",
