@@ -7,6 +7,7 @@
 
 | 파일 | 역할 |
 |---|---|
+| [PROJECT_PLAN.md](PROJECT_PLAN.md) | **프로젝트 전체 계획서** — 구축 내역, 기술 결정, 운용 사이클, 로드맵 |
 | [STRATEGY.md](STRATEGY.md) | 전략 A 운용 계획서 — 철학, 노출도, 리스크 룰, 어트리뷰션, 위기 시나리오 |
 | [STRATEGY_DIRECTIONAL.md](STRATEGY_DIRECTIONAL.md) | 전략 B 운용 계획서 — 레짐 매트릭스, 베타 관리, 조건부 리밸런싱, 손실 사다리 |
 | [index.html](index.html) | 대시보드 (정적, GitHub Pages 배포 가능) |
