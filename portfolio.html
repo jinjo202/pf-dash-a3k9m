@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0" />
 <title>포트폴리오 분석 대시보드</title>
 <!-- 코드 버전 — 푸시할 때마다 갱신. 헤더에 표시되어 캐시 여부 즉시 확인 가능 -->
-<script>window.CODE_VERSION = "2026-07-06c";</script>
+<script>window.CODE_VERSION = "2026-07-12a";</script>
 <!-- 자동 캐시 무력화 (버전 직접 비교 방식):
      GitHub Pages가 HTML을 10분 캐시 + Fastly CDN이 HEAD Last-Modified를 캐시하는
      문제가 있어서, 서버의 실제 HTML을 받아 CODE_VERSION 문자열을 비교한다.
@@ -1195,6 +1195,9 @@
       <a class="pf-toc-link" data-target="pf-exposure" href="#pf-exposure">🔍 노출 분석</a>
       <a class="pf-toc-link" data-target="pf-holdings" href="#pf-holdings">📋 보유·매매</a>
       <a class="pf-toc-link" data-target="compareSection" href="#compareSection">📊 시점 비교</a>
+      <a class="pf-toc-link" data-target="attribTimeSection" href="#attribTimeSection">📊 요인분해 시계열</a>
+      <a class="pf-toc-link" data-target="stressSection" href="#stressSection">⚡ 스트레스 테스트</a>
+      <a class="pf-toc-link" data-target="factorSection" href="#factorSection">🎯 스타일 팩터</a>
     </nav>
     <div class="pf-body">
     <!-- 전체 펼치기/접기 + PDF 출력 -->
@@ -1545,6 +1548,80 @@
       <div class="footer-note">
         국가·섹터·팩터·사이즈 비중은 각 시점 <strong>as-of 시가가중</strong>(share-aware historical) · 위험지표는 <strong>[연초~해당일]</strong> 구간 기준.
         매매 효과만 보려면 <strong>매매 직전일(A) vs 매매 후 날짜(B)</strong>를 고르세요(그 사이 시장변동도 함께 반영됨).
+      </div>
+    </div>
+
+    <!-- ═══════════ 리스크 랩 (PORT 스타일 고급 분석) ═══════════ -->
+    <style>
+      .pl-badge { display:inline-block; margin-left:8px; padding:2px 8px; border-radius:5px;
+        background:var(--accent-soft); color:var(--accent); font-size:10px; font-weight:800; letter-spacing:.05em; vertical-align:middle; }
+      .pl-chips { display:flex; flex-wrap:wrap; gap:8px 18px; font-size:12.5px; padding:9px 12px;
+        background:var(--panel-soft); border:1px solid var(--border); border-radius:8px; margin:10px 0 12px; }
+      .pl-chips b { font-weight:800; }
+      .pl-canvas-wrap { position:relative; height:340px; }
+      .pl-canvas-wrap.short { height:270px; }
+      .pl-2col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+      .pl-2col > div { min-width:0; }   /* grid item이 캔버스 고유폭으로 터지는 것 방지 */
+      .pl-canvas-wrap { min-width:0; overflow:hidden; }
+      @media (max-width: 900px) { .pl-2col { grid-template-columns:1fr; } }
+      .pl-subttl { font-size:12.5px; font-weight:800; margin:4px 0 6px; color:var(--text-soft); }
+      table.pl-tbl { width:100%; border-collapse:collapse; font-size:12px; margin-top:10px; }
+      table.pl-tbl th { font-size:11px; color:var(--muted); font-weight:600; text-align:right; padding:3px 8px; border-bottom:1px solid var(--border); }
+      table.pl-tbl th:first-child, table.pl-tbl td:first-child { text-align:left; }
+      table.pl-tbl td { padding:3px 8px; text-align:right; border-bottom:1px solid var(--row-alt); font-variant-numeric:tabular-nums; }
+    </style>
+
+    <!-- 패널 1: 기간 성과요인 분해 (Attribution Over Time) -->
+    <div class="panel" id="attribTimeSection" style="margin-top:16px">
+      <h3>📊 기간 성과요인 분해 — 배분·선택 효과 시계열<span class="pl-badge">PORT</span></h3>
+      <div class="pl-chips" id="attribTimeSummary"></div>
+      <div class="pl-canvas-wrap"><canvas id="attribTimeChart"></canvas></div>
+      <div class="footer-note">
+        주간(5거래일) 집계 지역 Brinson-Fachler(선택효과는 상호작용 포함) vs 선택 벤치마크 지역구성 ·
+        <strong>Carino 링킹</strong> 적용 — 막대 누적합이 누적 초과수익(선)과 정확히 일치 ·
+        BM 지역가중은 현재 구성으로 고정(리밸런스 미반영) · 지역 대용지수: 한국=KOSPI·미국=S&P500·유럽=STOXX600·글로벌=니케이·이머징=MSCI EM.
+      </div>
+    </div>
+
+    <!-- 패널 2: 스트레스 테스트 -->
+    <div class="panel" id="stressSection" style="margin-top:16px">
+      <h3>⚡ 스트레스 테스트 — 시나리오 분석<span class="pl-badge">PORT</span></h3>
+      <div class="pl-chips" id="stressSummary"></div>
+      <div class="pl-2col">
+        <div>
+          <div class="pl-subttl">총수익 영향 (Total Return Impact, %)</div>
+          <div class="pl-canvas-wrap short"><canvas id="stressTotalChart"></canvas></div>
+        </div>
+        <div>
+          <div class="pl-subttl">초과수익 영향 (Active vs 벤치마크, %p)</div>
+          <div class="pl-canvas-wrap short"><canvas id="stressActiveChart"></canvas></div>
+        </div>
+      </div>
+      <div class="footer-note">
+        종목별 β(일수익 회귀, 현금흐름 제거) × 쇼크로 전파한 <strong>1차 근사</strong> — 비선형·전염효과 미반영 ·
+        β 관측 부족 종목은 지역 대용지수 β로 폴백 · '실측 최악 10일'은 보유 시계열의 실제 수익 재현(β 미사용) ·
+        금리 시나리오는 US10Y 일별 Δbp 대비 민감도 기준.
+      </div>
+    </div>
+
+    <!-- 패널 3: 스타일 팩터 -->
+    <div class="panel" id="factorSection" style="margin-top:16px">
+      <h3>🎯 스타일 팩터 — 노출 · 리스크 분해<span class="pl-badge">PORT</span></h3>
+      <div class="pl-2col">
+        <div>
+          <div class="pl-subttl">스타일 노출 (보유 유니버스 z-score, 시가가중)</div>
+          <div class="pl-canvas-wrap short"><canvas id="factorExpChart"></canvas></div>
+        </div>
+        <div>
+          <div class="pl-subttl">수익률 분산 기여 — 4팩터 회귀 (KOSPI·S&P500·USD/KRW·EM)</div>
+          <div class="pl-canvas-wrap short"><canvas id="factorRiskChart"></canvas></div>
+          <div class="table-scroll" style="max-height:180px"><table class="pl-tbl" id="factorBetaTable"></table></div>
+        </div>
+      </div>
+      <div class="footer-note">
+        노출 z-score는 <strong>보유 종목 유니버스 내부</strong> 상대값(0=유니버스 평균, BM 대비 아님 — BM 구성종목 데이터 없음) ·
+        밸류=−z(fwd PE)·모멘텀=3개월 TWR·변동성=90일 실현변동성·사이즈=대형−소형 비중·퀄리티=ROE·성장=성장/테마 팩터비중 ·
+        분산 기여는 일별 TWR의 시계열 OLS(연초~현재), 잔차=종목특이. 음(−) 기여는 분산 상쇄(헤지) 의미.
       </div>
     </div>
     </div><!-- /.pf-body -->
@@ -2261,6 +2338,577 @@ function renderCompare() {
   body.innerHTML = summary + holdingsCard + grid;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   리스크 랩 (PORT 스타일) — ① 기간 성과요인 분해(일별 Brinson + Carino 링킹)
+   ② 스트레스 테스트(β 전파) ③ 스타일 팩터 노출·분산 분해(OLS)
+   데이터: hist.benchmarks(지역지수 6종, 포트 날짜 정렬) + BENCHMARKS.indices
+   history(FX·금리·유가·VIX 등 260일) + holdings_mkt/trades.
+   ═══════════════════════════════════════════════════════════════════ */
+
+// ── 팔레트 (검증된 categorical 슬롯, 라이트/다크 셀렉트) ──
+function _plDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+const PL_COLOR = {
+  alloc: () => _plDark() ? '#3987e5' : '#2a78d6',   // 배분 (blue, slot1)
+  sel:   () => _plDark() ? '#199e70' : '#1baf7a',   // 선택 (aqua, slot2)
+  etc:   () => _plDark() ? '#7a7a72' : '#b9b8b0',   // 잔차 (neutral)
+  line:  () => _plDark() ? '#e2e8f0' : '#0f172a',   // 누적선 (ink)
+  pos:   () => _plDark() ? '#3987e5' : '#2a78d6',   // 스트레스 + (blue)
+  neg:   () => _plDark() ? '#e66767' : '#e34948',   // 스트레스 − (red)
+  vio:   () => _plDark() ? '#9085e9' : '#4a3aa7',   // violet (slot5)
+  yel:   () => _plDark() ? '#c98500' : '#eda100',   // yellow (slot3)
+  surface: () => _plDark() ? '#141a2e' : '#ffffff',
+};
+
+// ── 공용: 일수익 시리즈 ──
+function _plDailyRet(values) {
+  const out = [];
+  for (let i = 1; i < values.length; i++) {
+    const a = values[i], b = values[i - 1];
+    out.push((a != null && b != null && b > 0) ? a / b - 1 : null);
+  }
+  return out;
+}
+// 포트폴리오 TWR 일수익 (cashflow 제거). dates[1..]에 정렬, 길이 N-1.
+function _plPortDailyRet() {
+  const hist = portfolioData.historical;
+  const dates = hist.dates, pf = hist.portfolio_total;
+  const cf = buildCashflowByDate(portfolioData.trades, null, dates);
+  const r = [];
+  for (let i = 1; i < pf.length; i++) {
+    const c = cf[dates[i]] || 0;
+    r.push(pf[i - 1] > 0.01 ? (pf[i] - c) / pf[i - 1] - 1 : null);
+  }
+  return r;
+}
+// 단순 β (y ~ x), 쌍으로 유효한 관측만. {beta, n}
+function _plBeta(xs, ys) {
+  let n = 0, sx = 0, sy = 0, sxx = 0, sxy = 0;
+  for (let i = 0; i < Math.min(xs.length, ys.length); i++) {
+    const x = xs[i], y = ys[i];
+    if (x == null || y == null || isNaN(x) || isNaN(y)) continue;
+    n++; sx += x; sy += y; sxx += x * x; sxy += x * y;
+  }
+  if (n < 3) return { beta: null, n };
+  const vx = sxx / n - (sx / n) ** 2;
+  if (vx <= 0) return { beta: null, n };
+  return { beta: (sxy / n - (sx / n) * (sy / n)) / vx, n };
+}
+
+/* ── ① 기간 성과요인 분해 ────────────────────────────────────────── */
+function computeAttribTimeline() {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.holdings_mkt || !hist.benchmarks || !hist.dates || hist.dates.length < 15) return null;
+  const dates = hist.dates, N = dates.length;
+  const wbMap = benchmarkRegionWeights();
+  const regions = Object.keys(wbMap);
+
+  // 지역 합산 시계열 + 지역별 일자 cashflow
+  const regSeries = {}, regCf = {};
+  for (const rg of regions) { regSeries[rg] = new Array(N).fill(0); regCf[rg] = {}; }
+  for (const h of allHoldings) {
+    const ser = hist.holdings_mkt[h.name];
+    if (!ser || !regSeries[h.region]) continue;
+    const S = regSeries[h.region];
+    for (let i = 0; i < Math.min(N, ser.length); i++) S[i] += (ser[i] || 0);
+    const cfH = buildCashflowByDate(portfolioData.trades, h.isin, dates);
+    for (const dt in cfH) regCf[h.region][dt] = (regCf[h.region][dt] || 0) + cfH[dt];
+  }
+  // 지역 BM 일수익 (hist.benchmarks, 이미 포트 날짜 정렬)
+  const bmRet = {};
+  for (const rg of regions) {
+    const bh = hist.benchmarks[REGION_TO_BENCHMARK[rg]];
+    bmRet[rg] = (bh && bh.values) ? _plDailyRet(bh.values) : null;
+  }
+  const pfTot = hist.portfolio_total;
+  const rpAll = _plPortDailyRet();
+
+  // 일별 효과: A(배분), S(선택+상호), resid = (rp-rb) - (A+S)
+  const daily = [];
+  for (let t = 1; t < N; t++) {
+    let rb = 0, bad = false;
+    for (const rg of regions) {
+      const rr = bmRet[rg];
+      const v = rr ? rr[t - 1] : null;
+      if (v == null) { bad = true; break; }
+      rb += (wbMap[rg] || 0) * v;
+    }
+    const rp = rpAll[t - 1];
+    if (bad || rp == null) { daily.push({ date: dates[t], A: 0, S: 0, resid: 0, rp: rp || 0, rb: bad ? 0 : rb }); continue; }
+    let A = 0, S = 0;
+    for (const rg of regions) {
+      const Sr = regSeries[rg];
+      const prev = Sr[t - 1], cur = Sr[t];
+      const wpj = pfTot[t - 1] > 0.01 ? prev / pfTot[t - 1] : 0;
+      const rpj = prev > 0.01 ? (cur - (regCf[rg][dates[t]] || 0)) / prev - 1 : 0;
+      const rbj = bmRet[rg][t - 1];
+      const wbj = wbMap[rg] || 0;
+      A += (wpj - wbj) * (rbj - rb);
+      S += wbj * (rpj - rbj) + (wpj - wbj) * (rpj - rbj);
+    }
+    daily.push({ date: dates[t], A, S, resid: (rp - rb) - (A + S), rp, rb });
+  }
+
+  // 누적 수익(산술차 기준) + Carino 링킹 계수
+  let cumP = 1, cumB = 1;
+  for (const d of daily) { cumP *= (1 + d.rp); cumB *= (1 + d.rb); }
+  const Rp = cumP - 1, Rb = cumB - 1;
+  const K = (Math.abs(Rp - Rb) < 1e-12) ? 1 / (1 + Rp) : (Math.log(1 + Rp) - Math.log(1 + Rb)) / (Rp - Rb);
+  for (const d of daily) {
+    const k = (Math.abs(d.rp - d.rb) < 1e-12) ? 1 / (1 + d.rp) : (Math.log(1 + d.rp) - Math.log(1 + d.rb)) / (d.rp - d.rb);
+    d.w = k / K;   // 링킹 가중 — Σ w·효과 = Rp − Rb 성립
+  }
+
+  // 주간(5거래일) 집계 + 누적 초과수익 라인
+  const weeks = [];
+  let cp = 1, cb = 1;
+  for (let i = 0; i < daily.length; i += 5) {
+    const chunk = daily.slice(i, i + 5);
+    let A = 0, S = 0, E = 0;
+    for (const d of chunk) {
+      A += d.w * d.A; S += d.w * d.S; E += d.w * d.resid;
+      cp *= (1 + d.rp); cb *= (1 + d.rb);
+    }
+    weeks.push({
+      label: chunk[chunk.length - 1].date.slice(5),
+      A: A * 100, S: S * 100, E: E * 100,
+      cumExcess: (cp - cb) * 100,   // 산술차(Carino 기준과 일치)
+    });
+  }
+  return { weeks, totals: { alloc: daily.reduce((s, d) => s + d.w * d.A, 0) * 100,
+                            sel: daily.reduce((s, d) => s + d.w * d.S, 0) * 100,
+                            resid: daily.reduce((s, d) => s + d.w * d.resid, 0) * 100,
+                            excess: (Rp - Rb) * 100, pf: Rp * 100, bm: Rb * 100 } };
+}
+
+function renderAttribTimeline() {
+  const el = document.getElementById('attribTimeChart');
+  const sumEl = document.getElementById('attribTimeSummary');
+  if (!el) return;
+  const r = computeAttribTimeline();
+  if (!r) { if (sumEl) sumEl.innerHTML = '<span style="color:var(--muted)">데이터 부족</span>'; return; }
+  const t = r.totals;
+  const bmL = benchmarkLabel();
+  if (sumEl) sumEl.innerHTML = [
+    `<span>vs <b>${escHtml(bmL)}</b></span>`,
+    `<span>누적 초과수익 <b class="${cls(t.excess)}">${fmtPct(t.excess, 2)}</b> <span style="color:var(--muted)">(PF ${fmtPct(t.pf,1)} − BM ${fmtPct(t.bm,1)})</span></span>`,
+    `<span>배분효과 <b class="${cls(t.alloc)}">${fmtPct(t.alloc, 2)}</b></span>`,
+    `<span>선택효과 <b class="${cls(t.sel)}">${fmtPct(t.sel, 2)}</b></span>`,
+    `<span>기타(편입·복리) <b class="${cls(t.resid)}">${fmtPct(t.resid, 2)}</b></span>`,
+  ].join('');
+  destroy('attribTime');
+  const gap = { borderColor: PL_COLOR.surface(), borderWidth: { top: 0, bottom: 0, left: 1, right: 1 } };
+  charts.attribTime = new Chart(el, {
+    data: {
+      labels: r.weeks.map(w => w.label),
+      datasets: [
+        { type: 'line', label: '누적 초과수익', data: r.weeks.map(w => w.cumExcess),
+          borderColor: PL_COLOR.line(), backgroundColor: PL_COLOR.line(),
+          borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.25, order: 0 },
+        { type: 'bar', label: '배분효과 (주간)', data: r.weeks.map(w => w.A),
+          backgroundColor: PL_COLOR.alloc(), stack: 'fx', order: 2, ...gap },
+        { type: 'bar', label: '선택효과 (주간)', data: r.weeks.map(w => w.S),
+          backgroundColor: PL_COLOR.sel(), stack: 'fx', order: 2, ...gap },
+        { type: 'bar', label: '기타', data: r.weeks.map(w => w.E),
+          backgroundColor: PL_COLOR.etc(), stack: 'fx', order: 2, ...gap },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 13 } },
+        y: { stacked: true, ticks: { callback: v => fmt(v, 1) + '%' },
+             grid: { color: _plDark() ? '#2a324a' : '#eef0f3' } },
+      },
+      plugins: {
+        legend: { position: 'top', labels: { boxWidth: 10, boxHeight: 10 } },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmtPct(c.parsed.y, 2)}` } },
+        datalabels: { display: false },
+      },
+    },
+  });
+}
+
+/* ── ② 스트레스 테스트 ──────────────────────────────────────────── */
+function _plIndexHistory(name) {
+  const idx = (window.BENCHMARKS && BENCHMARKS.indices || []).find(x => x.name === name);
+  return (idx && idx.history && idx.history.dates && idx.history.dates.length > 30) ? idx.history : null;
+}
+// 드라이버 일변화 맵 date→value. 금리(isYield)는 Δbp, 그 외 단순수익률.
+function _plDriverRetByDate(name, isYield) {
+  const h = _plIndexHistory(name);
+  if (!h) return null;
+  const out = {};
+  for (let i = 1; i < h.dates.length; i++) {
+    const a = h.values[i], b = h.values[i - 1];
+    if (a == null || b == null) continue;
+    if (isYield) {
+      // ^TNX는 yield×10 스케일(예: 43.2 = 4.32%) → Δbp = Δ값×10
+      const scale = (Math.abs(b) > 20) ? 10 : 100;
+      out[h.dates[i]] = (a - b) * scale;
+    } else if (b > 0) {
+      out[h.dates[i]] = a / b - 1;
+    }
+  }
+  return out;
+}
+// 종목(또는 시리즈)의 드라이버 β. series는 hist.dates 기준, cfByDate로 현금흐름 제거.
+function _plSeriesBetaToDriver(series, cfByDate, drvByDate) {
+  const dates = portfolioData.historical.dates;
+  const xs = [], ys = [];
+  for (let i = 1; i < Math.min(series.length, dates.length); i++) {
+    const d = drvByDate[dates[i]];
+    const prev = series[i - 1], cur = series[i];
+    if (d == null || prev == null || cur == null || prev <= 0.01) continue;
+    xs.push(d); ys.push((cur - ((cfByDate && cfByDate[dates[i]]) || 0)) / prev - 1);
+  }
+  return _plBeta(xs, ys);
+}
+
+const STRESS_SCENARIOS = [
+  { key: 'spx-30',  label: 'S&P 500 −30%',      driver: 'S&P 500',  shock: -0.30 },
+  { key: 'spx-10',  label: 'S&P 500 −10%',      driver: 'S&P 500',  shock: -0.10 },
+  { key: 'ndx-25',  label: 'NASDAQ −25%',        driver: 'NASDAQ',   shock: -0.25 },
+  { key: 'kospi-20',label: 'KOSPI −20%',         driver: 'KOSPI',    shock: -0.20 },
+  { key: 'fx+10',   label: '원화 약세 +10% (USD/KRW)', driver: 'USD/KRW', shock: +0.10 },
+  { key: 'fx-10',   label: '원화 강세 −10% (USD/KRW)', driver: 'USD/KRW', shock: -0.10 },
+  { key: 'tnx+100', label: '미 10Y 금리 +100bp', driver: 'US 10Y',   shock: +100, isYield: true },
+  { key: 'wti+30',  label: 'WTI 유가 +30%',      driver: 'WTI 유가', shock: +0.30 },
+  { key: 'vix+100', label: 'VIX +100% (급등)',   driver: 'VIX',      shock: +1.00 },
+];
+
+function computeStressTests() {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.holdings_mkt) return null;
+  const held = allHoldings.filter(h => (h.mkt || 0) > 0);
+  const tot = held.reduce((s, h) => s + h.mkt, 0);
+  if (tot <= 0) return null;
+  const dates = hist.dates;
+  const bmSeries = buildBenchmarkSeries();
+  const bmCf = null;
+  // 지역 폴백 프록시(β 관측부족 종목용): 지역 BM 지수 시계열 자체의 드라이버 β
+  const regionProxySeries = {};
+  for (const [rg, nm] of Object.entries(REGION_TO_BENCHMARK)) {
+    const bh = hist.benchmarks[nm];
+    if (bh && bh.values) regionProxySeries[rg] = bh.values;
+  }
+  const results = [];
+  let fallbackCount = 0;
+  for (const sc of STRESS_SCENARIOS) {
+    const drv = _plDriverRetByDate(sc.driver, sc.isYield);
+    if (!drv) continue;   // 드라이버 시계열 없음 → 시나리오 생략
+    let impact = 0;
+    for (const h of held) {
+      const ser = hist.holdings_mkt[h.name];
+      const cfH = buildCashflowByDate(portfolioData.trades, h.isin, dates);
+      let b = ser ? _plSeriesBetaToDriver(ser, cfH, drv) : { beta: null, n: 0 };
+      if (b.beta == null || b.n < 40) {
+        const proxy = regionProxySeries[h.region];
+        if (proxy) { b = _plSeriesBetaToDriver(proxy, null, drv); fallbackCount++; }
+      }
+      const beta = (b && b.beta != null) ? b.beta : 0;
+      impact += (h.mkt / tot) * beta * sc.shock;
+    }
+    // 벤치마크 임팩트
+    let bmImpact = 0;
+    if (bmSeries) {
+      const bb = _plSeriesBetaToDriver(bmSeries, null, drv);
+      if (bb.beta != null) bmImpact = bb.beta * sc.shock;
+    }
+    results.push({ label: sc.label, total: impact * 100, active: (impact - bmImpact) * 100 });
+  }
+  // 실측 최악 10거래일 재현 (β 미사용 — 실제 TWR)
+  const rp = _plPortDailyRet();
+  const rbSeries = bmSeries ? _plDailyRet(bmSeries) : null;
+  let worst = null;
+  for (let i = 0; i + 10 <= rp.length; i++) {
+    let cp = 1, cb = 1, ok = true;
+    for (let j = i; j < i + 10; j++) {
+      if (rp[j] == null) { ok = false; break; }
+      cp *= (1 + rp[j]);
+      if (rbSeries && rbSeries[j] != null) cb *= (1 + rbSeries[j]);
+    }
+    if (!ok) continue;
+    if (!worst || cp - 1 < worst.cp) worst = { cp: cp - 1, cb: cb - 1, from: dates[i + 1], to: dates[i + 10] };
+  }
+  if (worst) {
+    results.push({
+      label: `실측 최악 10일 (${worst.from.slice(5)}~${worst.to.slice(5)})`,
+      total: worst.cp * 100, active: (worst.cp - worst.cb) * 100, historical: true,
+    });
+  }
+  results.sort((a, b) => b.total - a.total);
+  return { results, fallbackCount, nHeld: held.length };
+}
+
+function _plStressBarChart(canvasId, chartKey, rows, valueKey, unit) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  destroy(chartKey);
+  const vals = rows.map(r => r[valueKey]);
+  charts[chartKey] = new Chart(el, {
+    type: 'bar',
+    plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
+    data: {
+      labels: rows.map(r => r.label),
+      datasets: [{
+        data: vals,
+        backgroundColor: vals.map(v => v >= 0 ? PL_COLOR.pos() : PL_COLOR.neg()),
+        borderRadius: 3,
+      }],
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 46 } },
+      scales: {
+        x: { ticks: { callback: v => fmt(v, 0) + unit }, grid: { color: _plDark() ? '#2a324a' : '#eef0f3' } },
+        y: { grid: { display: false }, ticks: { font: { size: 10.5 } } },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${fmtPct(c.parsed.x, 2)}${unit === '%p' ? 'p' : ''}` } },
+        datalabels: {
+          display: true, anchor: 'end', align: 'end', clamp: true,
+          color: () => _plDark() ? '#cbd5e1' : '#334155',
+          font: { weight: '700', size: 10 },
+          formatter: v => (v >= 0 ? '+' : '') + v.toFixed(1),
+        },
+      },
+    },
+  });
+}
+
+function renderStressTests() {
+  const sumEl = document.getElementById('stressSummary');
+  if (!document.getElementById('stressTotalChart')) return;
+  const r = computeStressTests();
+  if (!r || !r.results.length) { if (sumEl) sumEl.innerHTML = '<span style="color:var(--muted)">드라이버 지수 데이터 부족</span>'; return; }
+  const worstSc = r.results[r.results.length - 1];
+  if (sumEl) sumEl.innerHTML = [
+    `<span>시나리오 <b>${r.results.length}개</b> · 보유 ${r.nHeld}종목 β 전파</span>`,
+    `<span>최악 시나리오 <b class="neg">${escHtml(worstSc.label)} ${fmtPct(worstSc.total, 1)}</b></span>`,
+    `<span>vs <b>${escHtml(benchmarkLabel())}</b></span>`,
+    r.fallbackCount ? `<span style="color:var(--muted)">β 폴백 ${r.fallbackCount}건(지역 프록시)</span>` : '',
+  ].filter(Boolean).join('');
+  _plStressBarChart('stressTotalChart', 'stressTotal', r.results, 'total', '%');
+  const byActive = r.results.slice().sort((a, b) => b.active - a.active);
+  _plStressBarChart('stressActiveChart', 'stressActive', byActive, 'active', '%p');
+}
+
+/* ── ③ 스타일 팩터 노출 + 분산 분해 ─────────────────────────────── */
+function computeStyleExposures() {
+  const hist = portfolioData && portfolioData.historical;
+  const held = allHoldings.filter(h => (h.mkt || 0) > 0);
+  const tot = held.reduce((s, h) => s + h.mkt, 0);
+  if (!held.length || tot <= 0) return null;
+  // 종목별 원시 지표
+  const raw = held.map(h => {
+    let mom = null;
+    const ser = hist && hist.holdings_mkt && hist.holdings_mkt[h.name];
+    if (ser && ser.length > 66) {
+      const cfH = buildCashflowByDate(portfolioData.trades, h.isin, hist.dates);
+      let c = 1, cnt = 0;
+      for (let i = ser.length - 63; i < ser.length; i++) {
+        const prev = ser[i - 1], cur = ser[i];
+        if (prev > 0.01 && cur != null) { c *= (cur - (cfH[hist.dates[i]] || 0)) / prev; cnt++; }
+      }
+      if (cnt > 40) mom = c - 1;
+    }
+    const lt = h.lookthrough || {};
+    const sz = lt.size ? ((lt.size.large || 0) - (lt.size.small || 0)) : null;
+    const fac = lt.factor || {};
+    return {
+      w: h.mkt / tot,
+      value: (h.valuation && h.valuation.pe > 0) ? -h.valuation.pe : null,  // 저PE = 밸류+
+      momentum: mom,
+      vol: (h.v90 != null) ? h.v90 : (h.v260 != null ? h.v260 : null),
+      size: sz,
+      quality: (h.valuation && h.valuation.roe != null) ? h.valuation.roe : null,
+      growth: (fac.growth || 0) + (fac.thematic || 0),
+    };
+  });
+  const factors = ['value', 'momentum', 'vol', 'size', 'quality', 'growth'];
+  const out = [];
+  for (const f of factors) {
+    const vals = raw.map(r => r[f]).filter(v => v != null && !isNaN(v));
+    if (vals.length < 5) { out.push({ f, z: null, n: vals.length }); continue; }
+    const mu = vals.reduce((s, v) => s + v, 0) / vals.length;
+    const sd = Math.sqrt(vals.reduce((s, v) => s + (v - mu) ** 2, 0) / vals.length) || 1;
+    let z = 0, wsum = 0;
+    for (const r of raw) {
+      if (r[f] == null || isNaN(r[f])) continue;
+      z += r.w * Math.max(-2.5, Math.min(2.5, (r[f] - mu) / sd));
+      wsum += r.w;
+    }
+    out.push({ f, z: wsum > 0 ? z / wsum : null, n: vals.length });
+  }
+  return out;
+}
+
+// 다중 OLS (intercept 포함) — 가우스 소거. X: n×k, y: n
+function _plOls(X, y) {
+  const n = X.length, k = X[0].length;
+  const m = k + 1;                      // +intercept
+  const A = Array.from({ length: m }, () => new Array(m + 1).fill(0));
+  for (let i = 0; i < n; i++) {
+    const row = [1, ...X[i]];
+    for (let a = 0; a < m; a++) {
+      for (let b = 0; b < m; b++) A[a][b] += row[a] * row[b];
+      A[a][m] += row[a] * y[i];
+    }
+  }
+  for (let col = 0; col < m; col++) {   // partial pivot
+    let piv = col;
+    for (let r2 = col + 1; r2 < m; r2++) if (Math.abs(A[r2][col]) > Math.abs(A[piv][col])) piv = r2;
+    if (Math.abs(A[piv][col]) < 1e-12) return null;
+    [A[col], A[piv]] = [A[piv], A[col]];
+    for (let r2 = 0; r2 < m; r2++) {
+      if (r2 === col) continue;
+      const fct = A[r2][col] / A[col][col];
+      for (let c2 = col; c2 <= m; c2++) A[r2][c2] -= fct * A[col][c2];
+    }
+  }
+  return A.map((row, i2) => row[m] / A[i2][i2]);   // [intercept, β1..βk]
+}
+
+function computeFactorRisk() {
+  const hist = portfolioData && portfolioData.historical;
+  if (!hist || !hist.benchmarks) return null;
+  const dates = hist.dates;
+  const rp = _plPortDailyRet();
+  // 팩터: KOSPI, S&P500 (hist.benchmarks) + USD/KRW, MSCI EM
+  const defs = [
+    { name: '한국 주식 (KOSPI)',   ret: hist.benchmarks['KOSPI'] ? _plDailyRet(hist.benchmarks['KOSPI'].values) : null },
+    { name: '미국 주식 (S&P500)',  ret: hist.benchmarks['S&P 500'] ? _plDailyRet(hist.benchmarks['S&P 500'].values) : null },
+    { name: '이머징 (MSCI EM)',    ret: hist.benchmarks['MSCI EM'] ? _plDailyRet(hist.benchmarks['MSCI EM'].values) : null },
+    { name: '환율 (USD/KRW)',      ret: (() => {
+        const drv = _plDriverRetByDate('USD/KRW', false);
+        return drv ? dates.slice(1).map(d => (drv[d] != null ? drv[d] : null)) : null;
+      })() },
+  ].filter(d => d.ret);
+  if (defs.length < 2 || !rp) return null;
+  // 완전 관측 행만
+  const X = [], y = [];
+  for (let i = 0; i < rp.length; i++) {
+    if (rp[i] == null) continue;
+    const row = defs.map(d => d.ret[i]);
+    if (row.some(v => v == null || isNaN(v))) continue;
+    X.push(row); y.push(rp[i]);
+  }
+  if (X.length < 40) return null;
+  const coef = _plOls(X, y);
+  if (!coef) return null;
+  const betas = coef.slice(1);
+  // 분산 기여: c_k = β_k · cov(f_k, rp) / var(rp)
+  const nObs = y.length;
+  const meanY = y.reduce((s, v) => s + v, 0) / nObs;
+  const varY = y.reduce((s, v) => s + (v - meanY) ** 2, 0) / nObs;
+  const contribs = defs.map((d, k2) => {
+    const fk = X.map(r2 => r2[k2]);
+    const mf = fk.reduce((s, v) => s + v, 0) / nObs;
+    let cov = 0;
+    for (let i = 0; i < nObs; i++) cov += (fk[i] - mf) * (y[i] - meanY);
+    cov /= nObs;
+    return { name: defs[k2].name, beta: betas[k2], contrib: varY > 0 ? betas[k2] * cov / varY : 0 };
+  });
+  const r2sum = contribs.reduce((s, c) => s + c.contrib, 0);
+  return { contribs, idio: 1 - r2sum, volAnnual: Math.sqrt(varY * 252) * 100, nObs };
+}
+
+function renderFactorLab() {
+  const expEl = document.getElementById('factorExpChart');
+  if (!expEl) return;
+  // (a) 노출
+  const exp = computeStyleExposures();
+  if (exp) {
+    const FNAME = { value: '밸류 (저PE)', momentum: '모멘텀 (3M)', vol: '고변동성', size: '사이즈 (대형)', quality: '퀄리티 (ROE)', growth: '성장·테마' };
+    const rows = exp.filter(e => e.z != null);
+    destroy('factorExp');
+    charts.factorExp = new Chart(expEl, {
+      type: 'bar',
+      plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
+      data: {
+        labels: rows.map(e => FNAME[e.f] || e.f),
+        datasets: [{
+          data: rows.map(e => e.z),
+          backgroundColor: rows.map(e => e.z >= 0 ? PL_COLOR.pos() : PL_COLOR.neg()),
+          borderRadius: 3,
+        }],
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        layout: { padding: { right: 44 } },
+        scales: {
+          x: { suggestedMin: -1, suggestedMax: 1, ticks: { callback: v => fmt(v, 1) + 'σ' },
+               grid: { color: _plDark() ? '#2a324a' : '#eef0f3' } },
+          y: { grid: { display: false } },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => `${fmt(c.parsed.x, 2)}σ (유니버스 평균 대비)` } },
+          datalabels: {
+            display: true, anchor: 'end', align: 'end', clamp: true,
+            color: () => _plDark() ? '#cbd5e1' : '#334155', font: { weight: '700', size: 10 },
+            formatter: v => (v >= 0 ? '+' : '') + v.toFixed(2),
+          },
+        },
+      },
+    });
+  }
+  // (b) 분산 분해 + β 테이블
+  const riskEl = document.getElementById('factorRiskChart');
+  const tblEl = document.getElementById('factorBetaTable');
+  const fr = computeFactorRisk();
+  if (riskEl && fr) {
+    const items = [
+      ...fr.contribs.map((c, i2) => ({ label: c.name, v: c.contrib * 100,
+        color: [PL_COLOR.alloc(), PL_COLOR.sel(), PL_COLOR.vio(), PL_COLOR.yel()][i2 % 4] })),
+      { label: '종목특이 (잔차)', v: fr.idio * 100, color: PL_COLOR.etc() },
+    ];
+    destroy('factorRisk');
+    charts.factorRisk = new Chart(riskEl, {
+      type: 'bar',
+      plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
+      data: {
+        labels: items.map(x => x.label),
+        datasets: [{ data: items.map(x => x.v), backgroundColor: items.map(x => x.color), borderRadius: 3 }],
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        layout: { padding: { right: 46 } },
+        scales: {
+          x: { ticks: { callback: v => fmt(v, 0) + '%' }, grid: { color: _plDark() ? '#2a324a' : '#eef0f3' } },
+          y: { grid: { display: false } },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => `분산 기여 ${fmt(c.parsed.x, 1)}%` } },
+          datalabels: {
+            display: true, anchor: 'end', align: 'end', clamp: true,
+            color: () => _plDark() ? '#cbd5e1' : '#334155', font: { weight: '700', size: 10 },
+            formatter: v => v.toFixed(0) + '%',
+          },
+        },
+      },
+    });
+    if (tblEl) {
+      tblEl.innerHTML = '<thead><tr><th>팩터</th><th>β</th><th>분산 기여</th></tr></thead><tbody>' +
+        fr.contribs.map(c => `<tr><td>${escHtml(c.name)}</td><td>${fmt(c.beta, 3)}</td><td>${fmt(c.contrib * 100, 1)}%</td></tr>`).join('') +
+        `<tr><td style="color:var(--muted)">종목특이 (잔차)</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">${fmt(fr.idio * 100, 1)}%</td></tr>` +
+        `<tr><td><b>포트폴리오 연변동성</b></td><td colspan="2"><b>${fmt(fr.volAnnual, 2)}%</b> <span style="color:var(--muted)">(${fr.nObs}일)</span></td></tr>` +
+        '</tbody>';
+    }
+  } else if (tblEl) {
+    tblEl.innerHTML = '<tbody><tr><td style="color:var(--muted)">팩터 회귀 데이터 부족</td></tr></tbody>';
+  }
+}
+
+function renderPortLab() {
+  try { renderAttribTimeline(); } catch (e) { console.error('[portlab] attrib', e); }
+  try { renderStressTests(); } catch (e) { console.error('[portlab] stress', e); }
+  try { renderFactorLab(); } catch (e) { console.error('[portlab] factor', e); }
+}
+
 // Chart.js 전역 기본값 — 대시보드 팔레트와 통일
 if (typeof Chart !== 'undefined') {
   Chart.defaults.font.family = '"Pretendard Variable", Pretendard, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
@@ -2850,6 +3498,8 @@ function render() {
   renderHoldings();
   // 시점 비교 패널 (최초 1회 초기화 → 이후 컨트롤 이벤트로 갱신)
   initCompare();
+  // 리스크 랩 (PORT): 요인분해 시계열·스트레스·팩터 — BM 토글 시에도 재계산되도록 render 경유
+  renderPortLab();
   // 스냅샷 모드일 때 각 패널 헤더에 배지 자동 부착
   attachSnapBadgesToPanels();
   // 패널 접기/펼치기 토글 설정 (1회)
