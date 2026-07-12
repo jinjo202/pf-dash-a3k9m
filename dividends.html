@@ -1528,12 +1528,15 @@ function syncCmpChecks(){
 }
 
 /* ── 유니버스 밖 종목 실시간 조회 ── */
+// 기본 조회 서버(Cloudflare Worker) — 박아두면 정적 사이트에서도 설정 없이 바로 조회됨.
+// 다른 서버로 바꾸려면 ⚙에서 URL 입력(localStorage가 우선).
+var DEFAULT_LOOKUP_WORKER='https://dividendlookup.jin-jo202.workers.dev';
 function workerBase(){
-  // 저장값 우선, 없으면 입력칸에 적힌 값이라도 사용(저장 버튼 안 눌러도 동작)
-  var w=(localStorage.getItem('div_lookup_worker')||'').trim();
-  if(!w){ var el=$('workerUrl'); w=(el&&el.value||'').trim(); if(w){ try{localStorage.setItem('div_lookup_worker',w);}catch(e){} } }
+  var w=(localStorage.getItem('div_lookup_worker')||'').trim();   // 사용자 지정 우선
+  if(!w){ var el=$('workerUrl'); w=(el&&el.value||'').trim(); }    // 입력칸 값
+  if(!w) w=DEFAULT_LOOKUP_WORKER;                                  // 기본값(설정 불필요)
   w=w.replace(/\/+$/,'');
-  if(w && !/^https?:\/\//.test(w)) w='https://'+w;              // 프로토콜 누락 보정
+  if(w && !/^https?:\/\//.test(w)) w='https://'+w;
   return w;
 }
 function lookupEndpoints(query){
@@ -1706,8 +1709,8 @@ $('lookupBtn').addEventListener('click', function(){ doLookup($('searchBox').val
   $('workerUrl').value=(localStorage.getItem('div_lookup_worker')||'');
   function stat(){
     var w=(localStorage.getItem('div_lookup_worker')||'').trim();
-    $('workerStatus').innerHTML = w ? '<span style="color:var(--pos);font-weight:700">✓ 조회서버 설정됨</span> <span class="dh-cap">'+esc(w)+'</span>'
-      : (isLocalHost()?'로컬 serve.py 사용 중(설정 불필요)':'미설정 — URL 입력 후 저장');
+    $('workerStatus').innerHTML = w ? '<span style="color:var(--pos);font-weight:700">✓ 지정 조회서버 사용</span> <span class="dh-cap">'+esc(w)+'</span>'
+      : (isLocalHost()?'로컬 serve.py 사용 중(설정 불필요)':'<span style="color:var(--pos);font-weight:700">✓ 기본 조회서버 사용 중</span> <span class="dh-cap">설정 없이 바로 조회됩니다</span>');
   }
   function save(){
     var v=$('workerUrl').value.trim().replace(/\/+$/,'');
