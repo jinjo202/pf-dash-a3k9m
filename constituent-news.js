@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-12T23:04:28
+// 갱신: 2026-07-12T23:17:11
 // 총 87개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -282,19 +282,13 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-07"
   },
   {
-   "title": "HD현대·LG이노텍 '황제주' 복귀 시동 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFB0SmlUV3c2Tms1ZlVteG5FZExfNjVHNUJNNHBRTEVFaENPV3JKZTE3NXdjQTMyVEVhSmNUaV9PSE1ZWk1ybXBtWEVXbnNNYkU?oc=5",
-   "source": "매일경제",
-   "date": "2026-07-12"
+   "title": "“빅테크 ‘1조 잭팟’에도 주가 하락?…HD현대일렉트릭, 펀더멘털은 ‘역대급’” - 뉴스퀘스트",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5hVHVnbnAzOUpoUW1FcV9yQW41eGJHX0plV0JTOVhIcXlZRVdFT0pLN3p4LUVRN2ZNTG54RlpmQUxaSXlEaDNjakh5d1hWcnMxbmlmVGMxaHRmaThUYndCdmNsdnNtelpiOWZpQzFBa9IBc0FVX3lxTE10RGVJaS1RQmt0d3BfQ19HYWxMOWVGS0huLVdPSndlQ2JxbjZWdE1sQ0NMSHV4UU4wcFUwQkZId3J0N1BFanZNRVgwcHZob3lodmVBMF9ScGhkVzMwUUpzSUxoZjRHU21YSjZhanFPX1pvLW8?oc=5",
+   "source": "뉴스퀘스트",
+   "date": "2026-07-10"
   }
  ],
  "LS ELECTRIC": [
-  {
-   "title": "LS ELECTRIC, AI 데이터센터 수주증가…목표가↑-iM - 머니투데이 - 머니투데이",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE80QU1qZlBFUnF4eXhQZHVqYkpvVHpDWVJIazFKZVRQQk5faDFhd1h3bmZHb08zTC1fQl9jVGNfeU85c0Y5c2dPdzVPV0lzbkd1UENQQkl0enZsTEV6SzdnTUZlZXBCRUJv0gFuQVVfeXFMTTJrS2hZQngtaDFCMktIVklFTmdCMGlKQVJxQWpBZWxCdVRZR3BWaWtwWl8tcmJ5Rld6U1J6eXZobTNNc0lOQnZVSGFZTVZQcjNKcnlRLWZ1bXVNNnZmX1I4Q21yNEhBeG03ZDdBVHc?oc=5",
-   "source": "머니투데이",
-   "date": "2026-07-12"
-  },
   {
    "title": "최근 5거래일 LS ELECTRIC 주가 등락 현황 - TopStarNews",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE93d2FPTE9yYUYxYU1UUnFQZ0x1SmhIWU9SOTRvR0MxUllYWTFfeFJCVWdEajRDVlg4WmRPdDlOakVGSTk3ai03Ql9jUUpHeUFVTHFmX1hRSUNtRFhqZHBmRmJiZVVHdTdsWXBxUWt6VkdUQQ?oc=5",
@@ -312,6 +306,12 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBPNk5QWkRMWjNBUmZ5eHN6LXRCbjhjei1Ic0dxTl9ER3IyM1NuY1Z5VElBS0dVeXlPNmxsc0xtUUV6dVJMTEFCUUJBOGFCZVZ6YlBzVERUX2hGb3EwYnhvdVpCblhJUWtNUkFrM3pxYmM?oc=5",
    "source": "연합인포맥스",
    "date": "2026-05-29"
+  },
+  {
+   "title": "LS ELECTRIC(LS일렉트릭), 주가 20만원선 회복…새주장 향방 주목, 지정학적 리스크 재고조는 부담 요인 - CBC뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5BbUlQZTdSNGs4T0xRN20wWWM4akIzODRDZmxzWXVjSXU5dGZkODNmMWgzVVFydGRUaTB4Q1gxbllsdzZMVlVMRkJOTUN6M0QySEJ6aHJsbnNWdlpZQ2UtcS0xU2FsTmF2?oc=5",
+   "source": "CBC뉴스",
+   "date": "2026-07-12"
   }
  ],
  "효성중공업": [
@@ -342,10 +342,16 @@ window.CONSTITUENT_NEWS = {
  ],
  "한국전력기술": [
   {
-   "title": "한화증권 \"한전기술, 올해 실적 개선 전망…목표가↑\" - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE94clhjbTVGY3l3WnlPWVFSMkFubC12VDI1bnNqNVBpVjA1Qm9GdnkzUWw2b1FVVG9ENk9XVGNWbVdEWXZMMVdYZm5vY2s2TUxpaGxpcFpMTzBhMTDSAWBBVV95cUxOUHpGVHg4bTZ5dmlocmdFM2tRcXpVYTVLaTZzMkwtai01RFYtRFVVVHFRX2RRVl9PV05tVmVEeG5jcldLUFFub2pvMTFZTUZZOVc2VHlDcjhGWGJURGNNZFg?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-03-11"
+   "title": "[종목분석] 한전기술, 美 원전사업 변수 부각…목표가 10% 하향 - TopStarNews",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE56REZ1XzN6Wm9INlZaNVpUS3dlWWtXcnFLWERLOXBaYng4b2lfZjhJWU94bnJmWERoWkhUblB3SWdtQ3VFNzN6UExzbkxhZ0hNNWdKN2NUQUpEUkxXb2Ewcjd5Y0dzeUk1cEFlcUdOc3ZEUQ?oc=5",
+   "source": "TopStarNews",
+   "date": "2026-06-22"
+  },
+  {
+   "title": "주요주주 국민연금공단, 한전기술 주식 보유 현황 변동 - 디지털투데이",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9NdWFhb3NlemdJRmx4UXMzRDZPU1BDRVNSQU5VbHBuVmNIX3d2YTBRTDhmcF92Z0tKeS1xaGhVT3hwZmdQTkhhM3Qwc0R0WlVOeHZlZG9XTTZ2TlJweFAzSGVBWmtjNWlsZmhPUjN3ZHI0aVk?oc=5",
+   "source": "디지털투데이",
+   "date": "2026-07-02"
   },
   {
    "title": "비에이치아이·한전기술 ,장 마감 직전 상한가…ETF 리밸런싱 영향 - 머니투데이 - 머니투데이",
@@ -354,16 +360,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-12"
   },
   {
-   "title": "한국전력기술, 기업가치 제고 본격화…초장기 성장 잠재력 주목 [밸류업 리포트] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE8tWGRNODdPWV9nZm9heVFuWDhhckRydm1OMVdTZzhQZktiODc1ajhTa2UwQ0ZHeXB6MU5tbmwyTnd3SlFXTFFpQ2NrdmZ2NWppNTRFclpaQWZ3d9IBVEFVX3lxTFBNY01IT2lBbDNTODFwSk9PaDdDY3ZJbU1JRWxQS0ZVdENRM0MzcFpySzNPdXNZSkd3Vm5zMFVrekQwQ29FZUJ5M1lUa2FsdENWdnlSRA?oc=5",
-   "source": "한국경제",
-   "date": "2026-02-03"
-  },
-  {
-   "title": "한국전력, 37년 만에 최고가 ... 4Q 실적 '한전기술과 한전KPS'에 주목 - 더스탁(The Stock)",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5HLS1qYUxKbWhrbkRIV0todF9OTHhNdTdqOVY0RDlFcGJVTi1UcHg0TW0wOUhaYnAtWWJ0WVVJMFFpbjJodDBnRUwwalQwTlRBTXZFRnNuVFAxNEZwYjJoNkxKVS1ZdVBLTFE?oc=5",
-   "source": "더스탁(The Stock)",
-   "date": "2026-01-22"
+   "title": "두산에너빌리티·한전기술 강세 마감, 우리기술·오르비텍은 약세…향후 주가 흐름도 '이목' - CBC뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE8tMjhqNzBuTThHYWdTWDVFX0RLNDdMNmU2Z0JrT1VaaW11OGxuLXcza2pGbWNFS1o4Q3RHY1lPcHQ0aDIxTXU5cHJvVl9sMjYwNV9zbF9HcmZNcVFUb21RZ0FHTmVYQml5?oc=5",
+   "source": "CBC뉴스",
+   "date": "2026-06-25"
   }
  ],
  "두산에너빌리티": [
@@ -562,16 +562,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-10"
   },
   {
-   "title": "한국전력, 종전 임박에 조정 마무리 수순…목표가 24%↑ - 머니투데이 - 머니투데이",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9vV1prZHZYZm5aMTZZOVhnOTJxYWZ2Wi1OMWZGWWZmLXB1eW1UekswMlVKZ2Y5blZZX01Id2pkT3lNWVU1RXpveWY1SmFZSkpzODc0ZnZ3VTZzWUxZYXB5bm04SkI0U3Jk0gFuQVVfeXFMTk1aNHZjR0J3TDhvbFhCa09tQ29INTh0aDdRd2h2VkROWU45Z1gydDI3WDJjbXJaRWtlaGIxbjROVFY4dUV0TzRIQWNRR19WY1FJU3pJU0N0dnZvYnBnQVBoa1VRUlZwMXEyRU9jUlE?oc=5",
-   "source": "머니투데이",
-   "date": "2026-06-16"
+   "title": "전기요금 하반기도 동결…주가 역풍 맞은 이곳은 [이런국장 저런주식] - 서울경제신문",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBSdnQ2NG5Db2QwR1hPZWtobkp5RTluSU9DcHNvNkQ1Ti10cjR6N1pBTHJmcmFpX1lBZmFvUENsTDJpT3pMT3F1QXZIaVpqOGRad3fSAVNBVV95cUxNTDBpRlg2RHdWaUtzYlhsQXI4TmE2aWRjNy1jWTZuVlhiLWtxek5SU1pQNlpOT0F6X1JXV3o5Tzg0Q3R6dVpqREpHYjd0cWRZVG9mRQ?oc=5",
+   "source": "서울경제신문",
+   "date": "2026-06-27"
   },
   {
-   "title": "\"역대급 불장에서 혼자 폭락\"…한전 담은 개미들 '눈물' [종목+] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5KcHhXQ1ZleTNSeUVMS3dEU1c4Zll5cE9jSy1IdnFHdkZVSjBWVTlBU0s3a3o1TnF2QW1ObU1KR3NpLVRQMmhIWmYtdjZuTjJnT1o5UTZXU3lmQdIBVEFVX3lxTE9tUVFSQ3l0aTdRRVlKcHBJT2RXNTBSMjdycTRNZXBGd0kwZEFaanh2REQwMTJCNDZmZ3I5dk92TkVTQVFHN3NvOGpHc0tVTWFYeldVZQ?oc=5",
-   "source": "한국경제",
-   "date": "2026-05-15"
+   "title": "[특징주] 한국전력 ‘중동 리스크 완화 기대’…목표가·주가 ↑ - 에너지경제신문",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE43WGtiX0VVb3h1djdtbWF0ZkYyVEdFM1RFQWUweVdvdlQ3VmJLa25uVV9kRXdtR2NRWmlXVlhuRG9TODc2b3Z1cHRXdC1CdHJ2R3hHajJpbDhFWlE?oc=5",
+   "source": "에너지경제신문",
+   "date": "2026-06-17"
   }
  ],
  "한전KPS": [

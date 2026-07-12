@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-12T23:03:23
+// 갱신: 2026-07-12T23:16:07
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -333,18 +333,18 @@ window.HOLDING_NEWS = {
    "date": "2026-04-17"
   },
   {
-   "title": "BofA \"美 증시, 지금은 약세론 주장 불가능\"...경기민감주 랠리 주도 기대↑ - 코인리더스",
-   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5NRXp3bk1NVnFvUzFTZ1JmSzNUajZWYWdvcW0ybVAwSnI4dnBkeUdscFE3LVRrZGctQzRtb1VMY002ZElxZnQ1U2pB?oc=5",
-   "source": "코인리더스",
-   "date": "2026-07-03"
+   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
+   "source": "블루밍비트",
+   "date": "2026-05-30"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "원자재 불장 찾아왔지만…품목별 시세 등락 심해 '사이클' 잘 올라타야 - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1tU0xOV1RveTQ4SUstQ1BaeHpSWDdiaTFtWXZpTF9nUkhtWHdQcG5TV0VXWnRvLWkyaS1ETXNMdUFKVzllSWEycVVHci05MzFESHc?oc=5",
+   "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9mT0ctREk4djBUMFB0dTA4YXI5TndwZlhGeVZ0ZHphU09WNWxBalh1a0NZXzlIRlNYTW90M1pqejBLQml3ZUg3SmkxYTg3Nnc2N0E?oc=5",
    "source": "매일경제 마켓",
-   "date": "2026-03-15"
+   "date": "2026-05-14"
   },
   {
    "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
