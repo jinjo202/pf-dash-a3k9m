@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-12T22:38:20
+// 갱신: 2026-07-12T23:03:23
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-07"
   },
   {
-   "title": "[주간증시전망] ASML·TSMC 실적에 쏠린 눈…코스피 반등 이어질까 - 글로벌이코노믹",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQU3NMTGVIR3c3UmFHVzBYN1pEUXZycnRPTTJ0RzNnZXd2b252aHRoWWhzcnVxTjhnQTdwdDhJNklab3lkN3dhS2g1U3BlX3J4cEZ6ZEJtUldVX1M4WHd5a0RJRlMwemZacEsxbjV5MUs1S2NNbjJCM1lGWnY2UlJROE9VQXpZSmhB?oc=5",
-   "source": "글로벌이코노믹",
-   "date": "2026-07-12"
+   "title": "[주간증시전망] 다음주 코스피 6900~7900 전망⋯‘고점론’ 속 美 반도체 실적 시험대 - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5zMlFUVkpJSDZOci1ScTRtMExLSDVIVkxfSV9YYWgwdkdPZDJqMG1yVjRCeXU4Vkk1a0dZUUpFYkpaWGNFX0E?oc=5",
+   "source": "v.daum.net",
+   "date": "2026-07-10"
   }
  ],
  "KODEX 코스닥150 ETF": [
