@@ -3,3 +3,4 @@ pandas>=2.0
 numpy>=1.24
 cryptography>=42.0
 deep-translator>=1.9
+pypdf>=4.0

@@ -205,6 +205,22 @@ def fetch_cnn_fng():
     return None
 
 
+# investing.com은 Cloudflare가 datacenter IP(GitHub Actions 등)를 봇으로 의심해 차단할 수 있어
+# 실제 브라우저에 최대한 가까운 헤더셋으로 curl 호출(TLS 지문 우회는 curl 자체가 담당).
+_INVESTING_CURL_HEADERS = [
+    "-A", ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+           "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"),
+    "-H", "Accept: application/json, text/html, */*",
+    "-H", "Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+    "-H", "sec-ch-ua: \"Chromium\";v=\"126\", \"Not.A/Brand\";v=\"24\", \"Google Chrome\";v=\"126\"",
+    "-H", "sec-ch-ua-mobile: ?0",
+    "-H", "sec-ch-ua-platform: \"Windows\"",
+    "-H", "sec-fetch-dest: empty",
+    "-H", "sec-fetch-mode: cors",
+    "-H", "sec-fetch-site: same-site",
+]
+
+
 def fetch_vkospi():
     """VKOSPI(코스피200 변동성지수) 자동 조회.
 
@@ -219,14 +235,10 @@ def fetch_vkospi():
     import subprocess, json as _json
     url = ("https://api.investing.com/api/financialdata/956761/historical/chart/"
            "?interval=P1D&pointscount=70")
-    ua = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-          "(KHTML, like Gecko) Chrome/125.0 Safari/537.36")
     try:
         r = subprocess.run(
-            ["curl", "-s", "--max-time", "20", "-A", ua,
-             "-H", "Accept: application/json",
-             "-H", "Referer: https://kr.investing.com/indices/kospi-volatility",
-             url],
+            ["curl", "-s", "--max-time", "20"] + _INVESTING_CURL_HEADERS + [
+             "-H", "Referer: https://kr.investing.com/indices/kospi-volatility", url],
             capture_output=True, timeout=25, check=True,
         )
         data = _json.loads(r.stdout.decode("utf-8", errors="replace"))
@@ -257,11 +269,9 @@ def fetch_ism_pmi():
     """
     import subprocess, re as _re, json as _json
     url = "https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173"
-    ua = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-          "(KHTML, like Gecko) Chrome/125.0 Safari/537.36")
     try:
         r = subprocess.run(
-            ["curl", "-s", "--compressed", "--max-time", "20", "-A", ua, url],
+            ["curl", "-s", "--compressed", "--max-time", "20"] + _INVESTING_CURL_HEADERS + [url],
             capture_output=True, timeout=25, check=True,
         )
         html = r.stdout.decode("utf-8", errors="replace")
@@ -280,6 +290,134 @@ def fetch_ism_pmi():
         return {"current": actual, "prev": prev, "as_of": as_of}
     except Exception as e:
         print(f"  [err] ISM PMI 자동조회 실패(시드값 유지): {e}")
+        return None
+
+
+# FactSet Earnings Insight 실제 최종 확정 EPS 앵커 — 완결된 캘린더연도의 bottom-up 실적치.
+# 이 값은 자동 갱신 대상이 아님(PDF가 CY 성장률만 텍스트로 주고 달러값은 차트 이미지라 추출 불가).
+# 해당 연도가 완전히 끝나고 실적치가 확정되면(보통 다음해 2월경) 1회 수동 갱신.
+US_EPS_ANCHOR = {"year": 2025, "value": 275.24}
+
+
+def fetch_factset_eps():
+    """FactSet Earnings Insight 주간 PDF에서 S&P500 CY EPS 성장률·forward P/E 자동 추출.
+
+    금요일 발간(가끔 공휴일로 목요일) URL 패턴을 최근 4주치 역순으로 탐색해 가장 최신
+    발간물을 찾고, pypdf로 텍스트 추출 → 정규식으로 CY 현재년/익년 성장률(%) + forward P/E +
+    종가를 뽑는다. US_EPS_ANCHOR(최종 확정년도 실적)에 성장률을 복리 적용해 달러 EPS 산출,
+    forward 12M EPS(=종가/forward PE)와 대조해 15% 이상 괴리나면 폐기(fail-safe).
+    ※ CY_now가 앵커연도+1이 아니면(앵커 갱신 필요한 해가 바뀐 경우) 자동 갱신 보류.
+    실패 시 None → 호출부에서 기존 시드값 유지.
+    반환: {"eps": {yr: val, ...}, "growth_now": %, "growth_next": %, "fwd_pe": x,
+           "index_close": x, "as_of": "YYYY-MM-DD"} 또는 None.
+    """
+    import subprocess, re as _re
+    from datetime import timedelta
+    base = ("https://advantage.factset.com/hubfs/Website/Resources%20Section/"
+            "Research%20Desk/Earnings%20Insight/EarningsInsight_{mmddyy}.pdf")
+    today = date.today()
+    ua = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/125.0 Safari/537.36")
+    pdf_bytes, used_date = None, None
+    for back in range(28):   # 최근 4주 역순(공휴일로 하루 당겨 발간되는 경우 대비 -1일도 시도)
+        d = today - timedelta(days=back)
+        for adj in (0, -1):
+            cand = d + timedelta(days=adj)
+            if cand.weekday() not in (3, 4):   # 목(3)·금(4)만 시도
+                continue
+            url = base.format(mmddyy=cand.strftime("%m%d%y"))
+            try:
+                r = subprocess.run(["curl", "-s", "-o", "-", "-w", "\n__HTTP__%{http_code}",
+                                     "--max-time", "20", "-A", ua, url],
+                                    capture_output=True, timeout=25, check=True)
+                out = r.stdout
+                marker = out.rfind(b"\n__HTTP__")
+                if marker < 0:
+                    continue
+                code = out[marker + 9:].decode().strip()
+                body = out[:marker]
+                if code == "200" and len(body) > 100000:
+                    pdf_bytes, used_date = body, cand
+                    break
+            except Exception:
+                continue
+        if pdf_bytes:
+            break
+    if not pdf_bytes:
+        print("  [err] FactSet EPS: 최근 4주 내 발간물 못 찾음(시드값 유지)")
+        return None
+    try:
+        import io as _io
+        from pypdf import PdfReader
+        reader = PdfReader(_io.BytesIO(pdf_bytes))
+        text = "\n".join(p.extract_text() or "" for p in reader.pages)
+        cy_now, cy_next = used_date.year, used_date.year + 1
+        m_now = _re.search(rf"CY\s*{cy_now}.{{0,60}}?earnings growth of ([\d.]+)%", text, _re.S)
+        m_next = _re.search(rf"CY\s*{cy_next}.{{0,60}}?earnings growth of ([\d.]+)%", text, _re.S)
+        m_pe = _re.search(r"forward 12-month P/E ratio for the S&P 500 is (\d+\.\d+)", text)
+        m_px = _re.search(r"closing price of ([\d,]+\.\d+)", text)
+        if not (m_now and m_next and m_pe and m_px):
+            raise ValueError(f"패턴 매칭 실패(now={bool(m_now)} next={bool(m_next)} "
+                              f"pe={bool(m_pe)} px={bool(m_px)})")
+        g_now, g_next = float(m_now.group(1)), float(m_next.group(1))
+        fwd_pe, index_close = float(m_pe.group(1)), float(m_px.group(1).replace(",", ""))
+        if cy_now != US_EPS_ANCHOR["year"] + 1:
+            print(f"  [skip] FactSet EPS: 앵커연도 불일치(앵커 {US_EPS_ANCHOR['year']}, CY_now {cy_now}) "
+                  f"— US_EPS_ANCHOR 수동 갱신 필요")
+            return None
+        eps_now = round(US_EPS_ANCHOR["value"] * (1 + g_now / 100), 2)
+        eps_next = round(eps_now * (1 + g_next / 100), 2)
+        fwd_check = index_close / fwd_pe
+        blend = (eps_now + eps_next) / 2
+        if fwd_check <= 0 or abs(blend / fwd_check - 1) > 0.15:
+            raise ValueError(f"forward EPS 교차검증 실패(blend {blend:.1f} vs fwd_check {fwd_check:.1f})")
+        return {"eps": {str(cy_now): eps_now, str(cy_next): eps_next},
+                "growth_now": g_now, "growth_next": g_next, "fwd_pe": fwd_pe,
+                "index_close": index_close, "fwd_eps_check": round(fwd_check, 1),
+                "as_of": used_date.isoformat()}
+    except Exception as e:
+        print(f"  [err] FactSet EPS 파싱 실패(시드값 유지): {e}")
+        return None
+
+
+def fetch_aaii():
+    """AAII 개인투자자 심리설문(불-베어 스프레드) 자동 조회.
+
+    aaii.com/sentimentsurvey는 기본 curl(단순 UA)은 403 차단하지만 브라우저에 가까운
+    풀 헤더셋(sec-ch-ua/sec-fetch-*)을 주면 통과한다(확인됨). 페이지에 최근 4주치가
+    "M/D/YYYY ... 36.3% 26.5% 37.2%"(강세/중립/약세) 순으로 렌더링돼 있어 가장 최근
+    날짜 뒤 첫 3개 퍼센트를 파싱. 실패 시 None → 호출부에서 기존 시드값 유지(fail-safe).
+    반환: {"bullish": %, "neutral": %, "bearish": %, "spread": %p, "as_of": "YYYY-MM-DD"} 또는 None.
+    """
+    import subprocess, re as _re
+    from datetime import datetime as _dt
+    url = "https://www.aaii.com/sentimentsurvey"
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "--max-time", "20"] + _INVESTING_CURL_HEADERS + [
+             "-H", "Accept: text/html,application/xhtml+xml",
+             "-H", "sec-fetch-dest: document", "-H", "sec-fetch-mode: navigate",
+             "-H", "sec-fetch-site: none", url],
+            capture_output=True, timeout=25, check=True,
+        )
+        html = r.stdout.decode("utf-8", errors="replace")
+        # 날짜 뒤 bar 클래스명(bullish/neutral/bearish)별 style width%를 순서대로 파싱
+        # (같은 % 값이 style 속성과 표시텍스트에 중복 등장해 단순 순차 캡처는 오탐 위험).
+        m = _re.search(
+            r'(\d{1,2}/\d{1,2}/\d{4}).{0,300}?class="bar bullish" style="width:([\d.]+)%".{0,80}?'
+            r'class="bar neutral" style="width:([\d.]+)%".{0,80}?'
+            r'class="bar bearish" style="width:([\d.]+)%"', html, _re.S)
+        if not m:
+            raise ValueError("설문 표 패턴 못 찾음")
+        d_str, bull, neu, bear = m.groups()
+        as_of = _dt.strptime(d_str, "%m/%d/%Y").date().isoformat()
+        bull, neu, bear = float(bull), float(neu), float(bear)
+        if not (0 <= bull <= 100 and 0 <= neu <= 100 and 0 <= bear <= 100):
+            raise ValueError(f"범위 밖 값 bull={bull} neu={neu} bear={bear}")
+        return {"bullish": bull, "neutral": neu, "bearish": bear,
+                "spread": round(bull - bear, 1), "as_of": as_of}
+    except Exception as e:
+        print(f"  [err] AAII 자동조회 실패(시드값 유지): {e}")
         return None
 
 
@@ -709,11 +847,11 @@ COUNTRY_EXTRA = {
 #  actual_through 이후 연도는 추정(E)으로 표시.
 COUNTRY_EPS_ANNUAL = {
     "US": {"unit": "$ (S&P500 Bottom-Up, FactSet)", "actual_through": 2025, "source": "FactSet Earnings Insight",
-           "eps_as_of": "2026-06-12",
-           "note": "FactSet Earnings Insight(6/12 발간) 기준 — CY2026 EPS 성장 +23.2%, CY2027 +16.2% 컨센서스. "
-                   "S&P500 bottom-up EPS, forward 12M ≈ $361.5(forward P/E 20.1·지수 7,267). 매주 금요일 갱신.",
+           "eps_as_of": "2026-07-10",
+           "note": "FactSet Earnings Insight(7/10 발간) 기준 — CY2026 EPS 성장 +24.2%, CY2027 +17.4% 컨센서스. "
+                   "S&P500 bottom-up EPS, forward 12M ≈ $368.0(forward P/E 20.5·지수 7,543.64). 매주 금요일 갱신.",
            "eps": {"2020": 140.23, "2021": 208.01, "2022": 219.17, "2023": 220.21,
-                   "2024": 243.02, "2025": 275.24, "2026": 339.10, "2027": 394.04}},
+                   "2024": 243.02, "2025": 275.24, "2026": 341.85, "2027": 401.33}},
     "KR": {"unit": "지수(2020=100, 컨센서스)", "actual_through": 2025, "source": "Goldman Sachs/MSCI",
            "eps_as_of": "2026-05-31",
            "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. "
@@ -2102,6 +2240,22 @@ def build():
     indicators = {} # key -> 출력 dict
     monthly = {}    # key -> {YYYY-MM: value}  (analog 매트릭스용, transformed)
 
+    # --- FactSet Earnings Insight 주간 EPS 자동 갱신 (build_earnings 전에 COUNTRY_EPS_ANNUAL 패치) ---
+    fe = fetch_factset_eps()
+    if fe:
+        us = COUNTRY_EPS_ANNUAL["US"]
+        us["eps"] = {**us["eps"], **fe["eps"]}
+        us["eps_as_of"] = fe["as_of"]
+        cy_now, cy_next = sorted(fe["eps"].keys())
+        us["note"] = (f"FactSet Earnings Insight({fe['as_of'][5:7]}/{fe['as_of'][8:10]} 발간) 기준 — "
+                       f"CY{cy_now} EPS 성장 +{fe['growth_now']}%, CY{cy_next} +{fe['growth_next']}% 컨센서스. "
+                       f"S&P500 bottom-up EPS, forward 12M ≈ ${fe['fwd_eps_check']}"
+                       f"(forward P/E {fe['fwd_pe']}·지수 {fe['index_close']:,.2f}). 매주 금요일 자동 갱신.")
+        print(f"  [ok] FactSet EPS {fe['as_of']}: CY{cy_now} +{fe['growth_now']}% "
+              f"(${fe['eps'][cy_now]}) · CY{cy_next} +{fe['growth_next']}% (${fe['eps'][cy_next]})")
+    else:
+        print("  [skip] FactSet EPS 시드값 유지")
+
     # --- S&P / KOSPI 장기 지수 (모멘텀·차트용) ---
     spx_dates, spx_vals = [], []
     try:
@@ -2158,7 +2312,9 @@ def build():
             elif transform == "level":
                 d, v = fred_csv(src); dates, vals = downsample_monthly(d, v)
             elif transform == "daily":
-                d, v = fred_csv(src); dates, vals = downsample_monthly(d, v)
+                # 조기 downsample 금지 — raw[key]에 원본 일별을 보존해야 as_of/current가
+                # 매달 1일에 멈추지 않고 진짜 최신 발표일을 반영(차트용 downsample은 별도 아래서).
+                dates, vals = fred_csv(src)
             elif transform == "benchlvl":
                 # benchmarks.js(yfinance, cron 안정 갱신)에서 직접 — FRED 차단 무관 항상 최신
                 bi = bench.get(src) or {}
@@ -2189,13 +2345,14 @@ def build():
                 vals = [(me[ks[i]] + me[ks[i - 1]] + me[ks[i - 2]]) / 3 for i in range(2, len(ks))]
             elif transform == "yfmo":
                 # yfinance 월간 종가. 월간 히스토리 미지원 티커(^MOVE 등)는 일별 2y 폴백
+                # (조기 downsample 금지 — as_of가 매달 1일에 멈추는 버그 방지, daily 케이스와 동일 이유)
                 dates, vals = yf_monthly(src)
                 if len(vals) < 3:
                     import yfinance as yf
                     h = yf.Ticker(src).history(period="2y")["Close"].dropna()
                     if len(h):
-                        dd = [ts.strftime("%Y-%m-%d") for ts in h.index]
-                        dates, vals = downsample_monthly(dd, [float(x) for x in h.values])
+                        dates = [ts.strftime("%Y-%m-%d") for ts in h.index]
+                        vals = [float(x) for x in h.values]
             elif transform == "cugd":
                 # 구리/금 비율 (×1000 스케일): 실물수요 vs 안전선호
                 cd, cv = yf_monthly("HG=F"); gd, gv = yf_monthly("GC=F")
@@ -2296,6 +2453,18 @@ def build():
         print(f"  [ok] ISM PMI {ism['current']} (직전 {ism['prev']}, {ism['as_of']})")
     else:
         print("  [skip] ISM PMI 시드값 유지")
+    aaii = fetch_aaii()
+    if aaii:
+        seed = MANUAL["aaii_spread"]
+        sent_manual["aaii_spread"] = {**seed, "current": aaii["spread"], "prev": seed["current"],
+                                       "as_of": aaii["as_of"],
+                                       "note": f"AAII 개인투자자 설문: 강세 {aaii['bullish']}%·중립 {aaii['neutral']}%·"
+                                               f"약세 {aaii['bearish']}%(역사평균 강세 37.5%). "
+                                               "역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
+                                       "source": {"name": "aaii.com (자동)", "url": "https://www.aaii.com/sentimentsurvey"}}
+        print(f"  [ok] AAII 스프레드 {aaii['spread']:+.1f}%p (강세{aaii['bullish']}·약세{aaii['bearish']}, {aaii['as_of']})")
+    else:
+        print("  [skip] AAII 시드값 유지")
     flows_manual, kr_flows_ts = load_kr_flows()
     for key, m in {**sent_manual, **flows_manual}.items():
         score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
