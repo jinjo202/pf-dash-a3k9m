@@ -1,18 +1,12 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-12T01:15:47
+// 갱신: 2026-07-12T07:24:08
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
-   "title": "AI 투자 우려 어떻게… 美 반도체주 실적 발표에 ‘주목’ [주간증시전망] - IT조선",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBpTkFHSHVHTUc3ODViYWdlTzlXYWVhSGo4ZGdsTnV4eGl4WDFaOW8yT1gyQ2x3OFl6aExMcjBnS3drdXJ0czFRX1N4SXdyRDNHa3lnSWJUT2RzbGVQXzJiU3FXUWpTVG9raEFOSVctLWjSAXRBVV95cUxPZGp2VW5MN1VOX1hQRzl4eE5zZ3FnY3VQUjdLcEVCTlFCTElQWEN4NEtZbFBxYkpCTndPQmhGNFgwY0YyRmQyUmYxTldOWEthZ2lhTm5pNkt1S3I4Ny1YZ3lFYnVuQVFPR01SeEEzYVdNSEwtMA?oc=5",
-   "source": "IT조선",
-   "date": "2026-07-11"
-  },
-  {
-   "title": "\"TSMC·ASML 실적 주목해야\"…코스피 6900~7900 [주간 증시 전망] - 데일리안",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBNVF9yN3B5MkJaOHVFV19jYVNxUy1fLUNjY2I3UVBoenFMWTJxcVBOTzdjV2hndlhxYWk3ZWdwYUVlMXN2aW1RcVBENkMtR3ZoWmdZSlV30gFYQVVfeXFMTzJ1ZFJhY0U2OVJXLUgyWmJIeHNDdzJlRnMwcEV4bDZVTTRraEpYMHNWd3B0R0w4ajdYNERTUEFsak9NaEtpR0xJU3BSZDFBSFZ3eHFyRkJIQg?oc=5",
-   "source": "데일리안",
-   "date": "2026-07-11"
+   "title": "[주간증시전망] ASML·TSMC 실적에 쏠린 눈…코스피 반등 이어질까 - 글로벌이코노믹",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQU3NMTGVIR3c3UmFHVzBYN1pEUXZycnRPTTJ0RzNnZXd2b252aHRoWWhzcnVxTjhnQTdwdDhJNklab3lkN3dhS2g1U3BlX3J4cEZ6ZEJtUldVX1M4WHd5a0RJRlMwemZacEsxbjV5MUs1S2NNbjJCM1lGWnY2UlJROE9VQXpZSmhB?oc=5",
+   "source": "글로벌이코노믹",
+   "date": "2026-07-12"
   },
   {
    "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
@@ -21,9 +15,15 @@ window.HOLDING_NEWS = {
    "date": "2026-07-07"
   },
   {
-   "title": "금융위기 때보다 싸진 코스피…반도체 고점론 판가름할 한 주[주간증시전망] - 이데일리TV",
-   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9VS1pvWWNyc1g3MUdSd1NYbThLUWh6cGd3c0tuTTdYTGdOd3UwY29EbmdIbUpQMmhzaG9KcnFWWWtyakN3RDFfZVBkRDQyLXprdUltazNhZzB4ampUa1lrOEJfYXZWYTcybHRKRHdHblpyZ0lNMjNZS0c5QQ?oc=5",
-   "source": "이데일리TV",
+   "title": "[주간 증시 전망] 반도체 조정에 숨 고른 증시…美 '어닝시즌' 개막에 주목 - 뉴스웍스",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1TS3dwMjNoNFo4OU4wWEkwZmN0enhSWDd2cDVJRkhmSFdGYklnLS1hRTU5ejJIUG5MNDBia0puMk11WFhISHNNZFJTNXdRWG1oZnpjbkE2T3ZSMkp3NjFka2NWaElESVdlMEVDOWhvY9IBc0FVX3lxTE00a0Rldmp5VWJVVXBvN0ZRT1pzbXJDdm40Y1FVR1JqeW14VTVxRGxkZTFBeEpERmdJM1VzblRMT05vVlJxWXRsajQ0WmJweVRPQkFaek9xMnN3djQ3XzZoYlJCUzNQcmcxMHhhRnZORG5zXzQ?oc=5",
+   "source": "뉴스웍스",
+   "date": "2026-07-12"
+  },
+  {
+   "title": "금융위기 때보다 싸진 코스피…반도체 고점론 판가름할 한 주[주간증시전망] - 이데일리",
+   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNeFlvOUpWdTlleDlzNHBIbzQzc052VGlEUjdKLXluVWRxUC1RMEtpejV6R1phZEJxdXVIVDdvenE2QVpoRzdRT0ctNURqTTVScFhYdU51cUlGdmVMNmp3eFN4cm1kX1F5YzFWUF9kZXc2SHpjdUxpV2lDZnpINmxkRQ?oc=5",
+   "source": "이데일리",
    "date": "2026-07-12"
   }
  ],
@@ -73,10 +73,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-01"
   },
   {
-   "title": "효성중공업, 주가 6%대 약세…전력설비주 차익실현에 동반 하락 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBOOUJLNkc4dk5uNnlwYVJqbHhoOXRHd2dTY3N6M2piZEc2a2pHZXdaR2NKTmp4Rm43WF9PUE5lUXVLcUV4cWhvMVQ2QjVIank0V2tQN2ZITmRLNjF6S0ZtY2pYWQ?oc=5",
-   "source": "CBC뉴스",
-   "date": "2026-07-06"
+   "title": "AI 전력·미 전력 수요 급증…K전력기기 3사 증권가 전망은 - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9uWWRmS3pXSFRlOGhXU1lkRWdPS0JpY3FJVkoxTGFnRUxWXzJ2a3hhZ3lBQndHUmdGSGZuRmJnYVpleGtwd2pDVGVvY25uSGtJNFE?oc=5",
+   "source": "매일경제",
+   "date": "2026-04-29"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -255,10 +255,10 @@ window.HOLDING_NEWS = {
    "date": "2026-02-25"
   },
   {
-   "title": "현대차·기아·현대모비스 동반 강세…자동차주 훈풍에 투자심리 개선 - CBC뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE05a2VkZDVubTZPTTBjM1lIdVg2V1dmQUkzczNxcDNBZGRlbjRtSlpoVUFmbDBUN2RCdktDb01Sbk5XMVljSFFTRHk3ZlFFUmpXcE5nVU9JUWl3bGNnS3lyUE92dE5TSW9F?oc=5",
-   "source": "CBC뉴스",
-   "date": "2026-06-15"
+   "title": "전쟁 터지고 20% 넘게 폭락했는데…전문가 \"반등 가능성 있다\" - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5UenVIXzRFbVVqSnF2WF9ybFJEVElWOXRoZllOOEJzTmczNWpxSURFa05zQnVCbjdhR0tWRDdTWGVTdmxlYXIwb0pTOU00Z3RVRFNSb2huT1JzZ9IBVEFVX3lxTE01TG1vSzNHamljOGhMaHRucEcyYlJyTjBJUnRlZWxiMG9pT2tCQ2tJcjZrMEtQSjJwX0g5UXJvbXQwckF5OGJtcFBjeUs2T2RTaWE1eQ?oc=5",
+   "source": "한국경제",
+   "date": "2026-04-06"
   }
  ],
  "State Street Tech ETF (XLK)": [
