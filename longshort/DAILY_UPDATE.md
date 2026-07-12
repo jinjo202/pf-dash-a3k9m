@@ -24,7 +24,15 @@
 6. **주간(금요일) 어트리뷰션** — `weeklyAttribution`에 알파/팩터 분해(근사: 페어 스프레드 P&L=알파, 넷 익스포저×시장수익률=팩터), 롱북/숏북 bps, hit rate(이익 페어 비율), 한 줄 메모 추가.
 7. **포지션 변경 규칙** — 신규 페어 추가/청산은 아이디어 카드에 논지와 함께 기록. 신규 진입은 `entry`=당일 종가. 청산은 `status:"CLOSED"`로 두고 그로스 합산에서 제외됨(코드가 OPEN만 합산).
 8. **검증** — 로컬에서 `python -m http.server 8787` 후 `http://127.0.0.1:8787/index.html` 열어 콘솔 에러·수치 확인.
-9. **배포(설정된 경우)** — GitHub Pages 저장소(pf-dash-a3k9m)에 커밋·푸시. 푸시 전 사용자 확인 필요 없음이 명시된 경우에만 자동 푸시.
+9. **배포** — 라이브: https://jinjo202.github.io/pf-dash-a3k9m/longshort/
+   저장소 `jinjo202/pf-dash-a3k9m`의 **`longshort/` 하위 폴더에만** 푸시한다 (루트에는 사용자의 다른 대시보드들이 있음 — 절대 건드리지 않는다):
+   ```
+   git clone --depth 1 https://github.com/jinjo202/pf-dash-a3k9m.git <임시폴더>
+   cp index.html data.js backtest_data.js fundamentals.js *.md backtest.py fetch_fundamentals.py update-prices.ps1 <임시폴더>/longshort/
+   cd <임시폴더> && git add longshort && git commit -m "롱숏포트 일일 업데이트 YYYY-MM-DD" && git push origin main
+   ```
+   (일상 업데이트는 data.js만 바뀌므로 data.js + 필요 시 fundamentals.js만 복사해도 됨)
+10. **재무 스냅샷 갱신(매일)** — `python fetch_fundamentals.py` → fundamentals.js 재생성 (종목 상세 모달 데이터). 갱신 후 배포 시 fundamentals.js도 함께 복사.
 
 ## 원칙
 
