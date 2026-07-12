@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-12T07:43:50
+// 갱신: 2026-07-12T08:54:17
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -15,16 +15,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-07"
   },
   {
+   "title": "9300에서 7400된 코스피...\"급반전 가능. 가격은 역사적 저점\" [주간 증시 전망] - 파이낸셜뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBQM0NCbDAxZ05MVkN0Vk9MeFRoVnQwMXNpeHlLZjdjZUJEWktFdlNEMlljLTE1SHdaWHNWWklwbG9oMWVRU0d5SnZ0MkVCMnRJX3dVdW9PLUtsUQ?oc=5",
+   "source": "파이낸셜뉴스",
+   "date": "2026-07-12"
+  },
+  {
    "title": "[증시전망] 코스피 반등 나서나...CPI·반도체 실적 시험대 - 디지털투데이",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1ZeU5peEJ3SnE3dl9tc1BUakpvUEJYckZ4bkdTdlN1eExXWmxXZ0V5b2ZNRWZpbnJONkRjVTNJaG13NExZMW9FelZXWnBuaUoxaTcyTEI5MGdtbjRYU2xkTzdpMVpKQTZkeFdTYWRyNl9wMW8?oc=5",
    "source": "디지털투데이",
    "date": "2026-07-11"
-  },
-  {
-   "title": "[주간 증시 전망] 반도체 조정에 숨 고른 증시…美 '어닝시즌' 개막에 주목 - 뉴스웍스",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1TS3dwMjNoNFo4OU4wWEkwZmN0enhSWDd2cDVJRkhmSFdGYklnLS1hRTU5ejJIUG5MNDBia0puMk11WFhISHNNZFJTNXdRWG1oZnpjbkE2T3ZSMkp3NjFka2NWaElESVdlMEVDOWhvY9IBc0FVX3lxTE00a0Rldmp5VWJVVXBvN0ZRT1pzbXJDdm40Y1FVR1JqeW14VTVxRGxkZTFBeEpERmdJM1VzblRMT05vVlJxWXRsajQ0WmJweVRPQkFaek9xMnN3djQ3XzZoYlJCUzNQcmcxMHhhRnZORG5zXzQ?oc=5",
-   "source": "뉴스웍스",
-   "date": "2026-07-12"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -347,10 +347,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-08"
   },
   {
-   "title": "[생생한 주식쇼 생쇼] 구리 가격 사상 최고치 경신, 원자재 슈퍼 사이클과 LS의 재평가 - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9mT0ctREk4djBUMFB0dTA4YXI5TndwZlhGeVZ0ZHphU09WNWxBalh1a0NZXzlIRlNYTW90M1pqejBLQml3ZUg3SmkxYTg3Nnc2N0E?oc=5",
+   "title": "원자재 불장 찾아왔지만…품목별 시세 등락 심해 '사이클' 잘 올라타야 - 매일경제 마켓",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1tU0xOV1RveTQ4SUstQ1BaeHpSWDdiaTFtWXZpTF9nUkhtWHdQcG5TV0VXWnRvLWkyaS1ETXNMdUFKVzllSWEycVVHci05MzFESHc?oc=5",
    "source": "매일경제 마켓",
-   "date": "2026-05-14"
+   "date": "2026-03-15"
   },
   {
    "title": "미국 기술주 독주 시대 저물고 에너지·소형주 부상… 800억달러 시스템 매물 주의보 - 아시아투데이",
