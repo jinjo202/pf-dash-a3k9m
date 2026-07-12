@@ -1,13 +1,7 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-11T23:17:04
+// 갱신: 2026-07-12T01:15:47
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
-  {
-   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
-   "source": "연합인포맥스",
-   "date": "2026-07-07"
-  },
   {
    "title": "AI 투자 우려 어떻게… 美 반도체주 실적 발표에 ‘주목’ [주간증시전망] - IT조선",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBpTkFHSHVHTUc3ODViYWdlTzlXYWVhSGo4ZGdsTnV4eGl4WDFaOW8yT1gyQ2x3OFl6aExMcjBnS3drdXJ0czFRX1N4SXdyRDNHa3lnSWJUT2RzbGVQXzJiU3FXUWpTVG9raEFOSVctLWjSAXRBVV95cUxPZGp2VW5MN1VOX1hQRzl4eE5zZ3FnY3VQUjdLcEVCTlFCTElQWEN4NEtZbFBxYkpCTndPQmhGNFgwY0YyRmQyUmYxTldOWEthZ2lhTm5pNkt1S3I4Ny1YZ3lFYnVuQVFPR01SeEEzYVdNSEwtMA?oc=5",
@@ -16,15 +10,21 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "\"TSMC·ASML 실적 주목해야\"…코스피 6900~7900 [주간 증시 전망] - 데일리안",
-   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFA5amdtTG5nbVZYLVJZbVduMjAtZXRndlZfRUFsNWQwX05ndXNDNHZNZUVRQUpoczJoaGNKcUhIWndoSWVhb2dtQmhNbHcxTGpTbl9JWmNwd9IBWEFVX3lxTE8ydWRSYWNFNjlSVy1IMlpiSHhzQ3cyZUZzMHBFeGw2VU00a2hKWDBzVndwdEdMOGo3WDREU1BBbGpPTWhLaUdMSVNwUmQxQUhWd3hxckZCSEI?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBNVF9yN3B5MkJaOHVFV19jYVNxUy1fLUNjY2I3UVBoenFMWTJxcVBOTzdjV2hndlhxYWk3ZWdwYUVlMXN2aW1RcVBENkMtR3ZoWmdZSlV30gFYQVVfeXFMTzJ1ZFJhY0U2OVJXLUgyWmJIeHNDdzJlRnMwcEV4bDZVTTRraEpYMHNWd3B0R0w4ajdYNERTUEFsak9NaEtpR0xJU3BSZDFBSFZ3eHFyRkJIQg?oc=5",
    "source": "데일리안",
    "date": "2026-07-11"
   },
   {
-   "title": "[주간증시전망] 다음주 코스피 6900~7900 전망⋯‘고점론’ 속 美 반도체 실적 시험대 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE9lMndyOThFaHpycVJIV2lNb0NZdEtjMThMaDE1RDRTYnRya1FyVEJpSU8yY2pZVmlXVmgxLWtFQjF1OGc5cFZpNHJaQQ?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-10"
+   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-07-07"
+  },
+  {
+   "title": "금융위기 때보다 싸진 코스피…반도체 고점론 판가름할 한 주[주간증시전망] - 이데일리TV",
+   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9VS1pvWWNyc1g3MUdSd1NYbThLUWh6cGd3c0tuTTdYTGdOd3UwY29EbmdIbUpQMmhzaG9KcnFWWWtyakN3RDFfZVBkRDQyLXprdUltazNhZzB4ampUa1lrOEJfYXZWYTcybHRKRHdHblpyZ0lNMjNZS0c5QQ?oc=5",
+   "source": "이데일리TV",
+   "date": "2026-07-12"
   }
  ],
  "KODEX 코스닥150 ETF": [
