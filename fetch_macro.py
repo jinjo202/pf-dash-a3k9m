@@ -257,16 +257,54 @@ def fetch_vkospi():
         return None
 
 
-def fetch_ism_pmi():
-    """ISM 제조업 PMI 자동 조회.
+def fetch_ism_pmi_te():
+    """ISM 제조업 PMI — tradingeconomics.com 경제캘린더 표에서 추출(1차 소스).
 
-    investing.com 경제캘린더 페이지(event_id=173)에 내장된 __NEXT_DATA__ JSON에서
-    최신 발표치(actual/previous/발표일)를 추출. FRED는 2016년 라이선스 문제로
-    ISM PMI 배포를 중단해 대안으로 사용. investing.com도 Cloudflare가 Python
-    TLS 지문을 막아 curl subprocess 필요(fetch_vkospi와 동일 이유).
+    tradingeconomics.com/united-states/business-confidence 페이지의 경제캘린더 표가
+    "날짜 | 이벤트명(ISM Manufacturing PMI) | 기준월 | actual | previous" 구조로 렌더링돼
+    id="actual"/id="previous" 속성 앵커로 안정적으로 파싱 가능(investing.com __NEXT_DATA__
+    보다 견고). 표에 여러 행(과거 발표들)이 있어 날짜 기준 최신 행을 선택.
+    실패 시 None.
+    """
+    import subprocess, re as _re
+    url = "https://tradingeconomics.com/united-states/business-confidence"
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "--max-time", "20"] + _INVESTING_CURL_HEADERS + [
+             "-H", "Accept: text/html,application/xhtml+xml",
+             "-H", "sec-fetch-dest: document", "-H", "sec-fetch-mode: navigate",
+             "-H", "sec-fetch-site: none", url],
+            capture_output=True, timeout=25, check=True,
+        )
+        html = r.stdout.decode("utf-8", errors="replace")
+        pat = _re.compile(
+            r'(\d{4}-\d{2}-\d{2})</td>.{0,200}?ISM Manufacturing PMI.{0,400}?'
+            r'id="reference"[^>]*>\s*(\w+).{0,200}?'
+            r'id="actual"[^>]*>\s*([\d.]+)\s*</td>\s*<td id="previous"[^>]*>\s*([\d.]+)', _re.S)
+        rows = pat.findall(html)
+        if not rows:
+            raise ValueError("캘린더 표 패턴 못 찾음")
+        d_str, _ref, actual, prev = max(rows, key=lambda r: r[0])   # 날짜 최신 행
+        return {"current": float(actual), "prev": float(prev), "as_of": d_str,
+                "source": {"name": "tradingeconomics.com (자동)",
+                           "url": "https://tradingeconomics.com/united-states/business-confidence"}}
+    except Exception as e:
+        print(f"  [err] ISM PMI(TE) 자동조회 실패: {e}")
+        return None
+
+
+def fetch_ism_pmi():
+    """ISM 제조업 PMI 자동 조회. tradingeconomics.com 우선, 실패 시 investing.com 폴백.
+
+    FRED는 2016년 라이선스 문제로 ISM PMI 배포를 중단해 두 소스 모두 대안으로 사용.
+    Cloudflare/유사 봇차단이 Python urllib/requests TLS 지문은 막지만 curl은 통과시켜
+    두 함수 모두 curl subprocess 사용(fetch_vkospi와 동일 이유).
     실패 시 None → 호출부에서 기존 시드값 유지(fail-safe).
     반환: {"current": float, "prev": float, "as_of": "YYYY-MM-DD"} 또는 None.
     """
+    r = fetch_ism_pmi_te()
+    if r:
+        return r
     import subprocess, re as _re, json as _json
     url = "https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173"
     try:
@@ -287,9 +325,11 @@ def fetch_ism_pmi():
         actual = float(_re.search(r'"actual":\s*([\d.]+)', window).group(1))
         prev = float(_re.search(r'"previous":\s*([\d.]+)', window).group(1))
         as_of = _re.search(r'"occurrence_time":\s*"([^"]{10})', window).group(1)
-        return {"current": actual, "prev": prev, "as_of": as_of}
+        return {"current": actual, "prev": prev, "as_of": as_of,
+                "source": {"name": "investing.com (자동, 폴백)",
+                           "url": "https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173"}}
     except Exception as e:
-        print(f"  [err] ISM PMI 자동조회 실패(시드값 유지): {e}")
+        print(f"  [err] ISM PMI(investing.com 폴백) 자동조회 실패(시드값 유지): {e}")
         return None
 
 
@@ -421,6 +461,40 @@ def fetch_aaii():
         return None
 
 
+def fetch_put_call():
+    """CBOE 풋/콜 비율(총) 자동 조회.
+
+    cboe.com/markets/us/options/market-statistics/daily 페이지의 Next.js 서버컴포넌트
+    페이로드에 당일 TOTAL PUT/CALL RATIO가 이스케이프된 JSON 문자열로 임베드돼 있다
+    (예: \"name\\":\\"TOTAL PUT/CALL RATIO\\",\\"value\\":\\"0.81\\"). 이스케이프 방식이
+    빌드마다 달라질 수 있어 따옴표/역슬래시 자리는 와일드카드로 매칭. 장중에는 이전
+    거래일 값이 나올 수 있어 as_of는 오늘 날짜로 기록(페이지가 명시적 날짜를 안 줌).
+    실패 시 None → 호출부에서 기존 시드값 유지(fail-safe).
+    반환: {"ratio": float, "as_of": "YYYY-MM-DD"} 또는 None.
+    """
+    import subprocess, re as _re
+    url = "https://www.cboe.com/markets/us/options/market-statistics/daily"
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "--max-time", "20"] + _INVESTING_CURL_HEADERS + [
+             "-H", "Accept: text/html,application/xhtml+xml",
+             "-H", "sec-fetch-dest: document", "-H", "sec-fetch-mode: navigate",
+             "-H", "sec-fetch-site: none", url],
+            capture_output=True, timeout=25, check=True,
+        )
+        html = r.stdout.decode("utf-8", errors="replace")
+        m = _re.search(r"TOTAL PUT/CALL RATIO.{1,10}?value.{1,10}?(\d+\.\d+)", html)
+        if not m:
+            raise ValueError("TOTAL PUT/CALL RATIO 패턴 못 찾음")
+        ratio = float(m.group(1))
+        if not (0.1 <= ratio <= 3.0):
+            raise ValueError(f"범위 밖 값 ratio={ratio}")
+        return {"ratio": ratio, "as_of": date.today().isoformat()}
+    except Exception as e:
+        print(f"  [err] CBOE Put/Call 자동조회 실패(시드값 유지): {e}")
+        return None
+
+
 def fetch_multpl(slug):
     """multpl.com 월별 테이블 → (dates[ISO], values[float]). 실패 시 ([],[])."""
     import re, html as _html
@@ -443,6 +517,28 @@ def fetch_multpl(slug):
                 continue
     pairs = sorted(zip(dates, vals))
     return [p[0] for p in pairs], [p[1] for p in pairs]
+
+
+def fred_realtime_start(series_id):
+    """FRED 시리즈 최신 관측치의 realtime_start(YYYY-MM-DD) — 값이 실제로 갱신된 시점.
+
+    GDPNow처럼 분기 1개 관측치를 그 자리에서 계속 덮어쓰는 시리즈는 observation.date가
+    분기 시작일(예: 2026-04-01)에 영원히 고정돼 as_of가 갱신되는 것처럼 안 보인다.
+    realtime_start는 그 값이 마지막으로 개정(revise)된 실제 날짜라 진짜 신선도를 반영.
+    실패 시 None.
+    """
+    import os, json as _json
+    api_key = os.environ.get("FRED_API_KEY", "")
+    if not api_key:
+        return None
+    url = (f"https://api.stlouisfed.org/fred/series/observations?series_id={series_id}"
+           f"&api_key={api_key}&file_type=json&sort_order=desc&limit=1")
+    try:
+        txt = http_get(url)
+        obs = _json.loads(txt).get("observations", [])
+        return obs[0].get("realtime_start") if obs else None
+    except Exception:
+        return None
 
 
 def fred_csv(series_id, start=START):
@@ -2411,11 +2507,18 @@ def build():
         if len(vals) >= 8:
             cd, cv = downsample_monthly(dates, vals) if transform not in ("yoy", "mom", "oilyoy", "spxmom") else (dates, [round(x, 4) for x in vals])
             hist = {"dates": cd, "values": cv}
+        as_of = dates[-1][:10]
+        if key == "gdpnow":
+            # GDPNow는 FRED가 분기 관측치 1개를 그 자리에서 계속 덮어씀 — date는 분기
+            # 시작일에 고정, realtime_start가 실제 마지막 개정일(진짜 신선도).
+            rts = fred_realtime_start("GDPNOW")
+            if rts:
+                as_of = rts
         indicators[key] = {
             "name": name, "pillar": pillar, "current": round(cur, dec if dec > 0 else 0) if dec else round(cur, 2),
             "unit": unit, "z": z, "pct": pct, "score": round(score, 2),
             "signal": lbl, "signal_cls": cls, "desc": desc,
-            "as_of": dates[-1][:10], "history": hist,
+            "as_of": as_of, "history": hist,
             "z_from": dates[0][:7] if z is not None else None,   # z-score 기준 시작월
             "z_n": len(vals) if z is not None else None,         # z-score 표본 수(월)
             "kind": "forward" if key in FORWARD_KEYS else "release",
@@ -2447,10 +2550,8 @@ def build():
     if ism:
         seed = MANUAL["ism_pmi"]
         sent_manual["ism_pmi"] = {**seed, "current": ism["current"], "prev": ism["prev"],
-                                   "as_of": ism["as_of"],
-                                   "source": {"name": "investing.com (ISM 제조업 PMI)",
-                                              "url": "https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173"}}
-        print(f"  [ok] ISM PMI {ism['current']} (직전 {ism['prev']}, {ism['as_of']})")
+                                   "as_of": ism["as_of"], "source": ism["source"]}
+        print(f"  [ok] ISM PMI {ism['current']} (직전 {ism['prev']}, {ism['as_of']}, {ism['source']['name']})")
     else:
         print("  [skip] ISM PMI 시드값 유지")
     aaii = fetch_aaii()
@@ -2465,6 +2566,16 @@ def build():
         print(f"  [ok] AAII 스프레드 {aaii['spread']:+.1f}%p (강세{aaii['bullish']}·약세{aaii['bearish']}, {aaii['as_of']})")
     else:
         print("  [skip] AAII 시드값 유지")
+    pc = fetch_put_call()
+    if pc:
+        seed = MANUAL["put_call"]
+        sent_manual["put_call"] = {**seed, "current": pc["ratio"], "prev": seed["current"],
+                                    "as_of": pc["as_of"],
+                                    "source": {"name": "cboe.com (자동)",
+                                               "url": "https://www.cboe.com/markets/us/options/market-statistics/daily"}}
+        print(f"  [ok] CBOE Put/Call {pc['ratio']} ({pc['as_of']})")
+    else:
+        print("  [skip] CBOE Put/Call 시드값 유지")
     flows_manual, kr_flows_ts = load_kr_flows()
     for key, m in {**sent_manual, **flows_manual}.items():
         score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
