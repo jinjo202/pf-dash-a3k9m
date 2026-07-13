@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-13",
-  "generated_utc": "2026-07-13T23:05:32Z",
+  "generated_utc": "2026-07-13T23:24:16Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -564,7 +564,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-13",
       "decimals": 2,
       "valuation": {
-        "pe": 7.12,
+        "pe": 7.1,
         "pb": 1.23,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1111,7 +1111,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 0,
       "valuation": {
-        "pe": 4.5,
+        "pe": 4.48,
         "pb": 1.9,
         "roe": null,
         "src": "EWY (top derived)",
@@ -2752,7 +2752,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-13",
       "decimals": 2,
       "valuation": {
-        "pe": 18.85,
+        "pe": 17.89,
         "pb": 1.99,
         "roe": null,
         "src": "QQQ (top derived)",
@@ -3299,7 +3299,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-13",
       "decimals": 2,
       "valuation": {
-        "pe": 19.41,
+        "pe": 17.99,
         "pb": 1.31,
         "roe": null,
         "src": "SOXX (top derived)",
@@ -4393,7 +4393,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-10",
       "decimals": 0,
       "valuation": {
-        "pe": 22.93,
+        "pe": 22.13,
         "pb": 1.37,
         "roe": null,
         "src": "EWJ (top derived)",
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 78.5,
+      "current": 78.84,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 36.712,
-      "mtd_pct": 12.9496,
-      "daily_pct": 9.9286,
+      "ytd_pct": 37.3041,
+      "mtd_pct": 13.4388,
+      "daily_pct": 10.4047,
       "as_of": "2026-07-13",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           73.52,
           72.08,
           71.41,
-          78.5
+          78.84
         ]
       }
     },

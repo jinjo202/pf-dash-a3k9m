@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-13T23:07:41
+// 갱신: 2026-07-13T23:29:18
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,22 +9,22 @@ window.HOLDING_NEWS = {
    "date": "2026-07-13"
   },
   {
-   "title": "미국-이란 전쟁, 코스피 하락 이유와 국내증시 전망, 반등의 기회는? - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOUTlERXRqMWlzMlloOHpZWGZpUEl3U09sajc0bG9hVTNHakRERjFUUGc2ampiOFNFSEZOMmVMLVdCZmJjU0tiWDBRTUJIVmJvT1lJakpiWXd3NzR2WVhvbm1GSmtncUhRTnR0TnNDcDFpREd6SDVLd01kOWRjcjZSczVPbw?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
+   "title": "[굿모닝 증시]뉴욕증시 일제히 하락 마감…韓, 약세 출발 전망 - 아시아경제",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5xd05kbzRzMGlad3FMcm0tVzl5YWlHMVpSNWZId0M4R25sUG54eGVFNkh2ZVVqMUVTbzlVZXNuLXBjQVcxM1B2eW81d2tDT3dmNktPalZRRkpnS05YUVoxVTlB?oc=5",
+   "source": "아시아경제",
    "date": "2026-07-13"
   },
   {
-   "title": "[하반기 증시 전망] 10대 증권사 센터장 “코스피 상단 최대 1만2600포인트” - 대한경제",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1URVk0bWMzMUVIOXhRV21mN1o1ZzJxandFeEJKM3FIWTE4Qy1DcXBaV2R5dWY5RjNjSnZLNm5HckRkdTJ6MTlNeGY1eTFSbG1uZlBfbjk2ZWpiV3VrWFVfVXg1TkhsRDE1ZmZ2Q1ZCSmJyX3NG?oc=5",
-   "source": "대한경제",
-   "date": "2026-07-12"
+   "title": "폭락 뒤 반전 오나…\"1만1450 간다\" 파격 전망 나온 이유 [분석+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFB5VVk3UEJZazZhUGIxMHl2ZW5EMGp1ZmJTN0M4WTR3TENMdHFwcXktOUF2ZTFfOTh3YlZ1amFNS1Ftd0txNFNqMklxQ2N6ejdYczU1SElqcjM5Zw?oc=5",
+   "source": "한국경제",
+   "date": "2026-07-13"
   },
   {
-   "title": "[주간증시전망] 다음주 코스피 6900~7900 전망⋯‘고점론’ 속 美 반도체 실적 시험대 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5zMlFUVkpJSDZOci1ScTRtMExLSDVIVkxfSV9YYWgwdkdPZDJqMG1yVjRCeXU4Vkk1a0dZUUpFYkpaWGNFX0E?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-10"
+   "title": "[모닝 리포트] \"유가·반도체 부담에 코스피 약세 출발 전망\" - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBJTEI2TFQ1bGlXRTNHbEZyRHFvVFhPR2p6Ty1JdWNmbUFSaVRHRWFzSzZFeC10SXBZN2hKeEJLUldDNlRfRkVpSzJKbFBTWHZWSDhxTjkyVDNxT1A2?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-07-13"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -503,12 +503,6 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
-   "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - 블루밍비트",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtd1otcWJxdzROcElqRmhLT0dEVTdfUENvSEM3eDlZYW9Xb3l4dHVEZzJrTFcyQU1CR3REOGZlM2lEVDJJMlVNcDZSc0ppV1c5?oc=5",
-   "source": "블루밍비트",
-   "date": "2026-03-02"
-  },
-  {
    "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
    "source": "연합뉴스",
@@ -519,6 +513,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
    "date": "2026-02-09"
+  },
+  {
+   "title": "유럽증시, ECB 금리인상 등 영향 일제히 올라⋯독일 0.06%-프랑스와 영국 0.48% 상승마감 - 이코노뉴스",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Mei1OZmt5LUw0dnJIZFlYVFVEVlMxMnRxcVZlOHBXMm9vVU04c1hLcE9aTkh4Ykh4ZExWSVpHNW90MzhtOUxJMUhsOUxFcmpESWFFWTl5UHVHY2JWTjRUY09rczFCWE16S0hKOXdpQQ?oc=5",
+   "source": "이코노뉴스",
+   "date": "2026-06-11"
   }
  ],
  "Fidelity European Dividend": [
