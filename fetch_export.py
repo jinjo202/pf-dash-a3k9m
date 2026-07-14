@@ -29,7 +29,10 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 HERE = Path(__file__).parent
 OUT = HERE / "export-history.js"
-API_URL = os.environ.get("TRADE_API_URL", "https://apis.data.go.kr/1220000/nitemtrade/getNitemtradeList")
+# .get(key, default)는 env var가 "존재하지만 빈 문자열"이면 기본값 대신 빈 문자열을 반환한다
+# (실제로 GitHub Actions의 ${{ vars.TRADE_API_URL }}이 미설정 상태로 빈 값 주입 → URL 깨짐이 발생했음).
+# or 사용으로 빈 문자열도 "미설정"과 동일하게 취급.
+API_URL = os.environ.get("TRADE_API_URL") or "https://apis.data.go.kr/1220000/nitemtrade/getNitemtradeList"
 KEY = os.environ.get("TRADE_API_KEY")
 
 # key: (표시명, 그룹, [HS부호들])  — 여러 코드는 합산

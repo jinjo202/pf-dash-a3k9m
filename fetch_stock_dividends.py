@@ -62,7 +62,9 @@ def load_watch() -> dict:
         key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=200_000).derive(pw.encode())
         text = AESGCM(key).decrypt(nonce, ct, None).decode("utf-8")
     m = re.search(r"window\.DIVIDEND_WATCH\s*=\s*(\{.*?\n\});", text, re.DOTALL)
-    return json.loads(m.group(1))["stocks"]
+    raw = m.group(1)
+    raw = re.sub(r"^\s*//.*$", "", raw, flags=re.MULTILINE)  # JS 라인 주석 제거(JSON은 주석 미지원)
+    return json.loads(raw)["stocks"]
 
 
 def corp_map(key: str) -> dict:
