@@ -479,7 +479,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-14T23:09:01Z",
+  "generated": "2026-07-14T23:25:15Z",
   "regime": {
     "score": 24,
     "label": "비중확대 우위",
@@ -1021,7 +1021,7 @@ window.MACRO = {
         "avg10y": 101.3,
         "dev_pct": 5.9
       },
-      "fx12m": 9.0,
+      "fx12m": 8.9,
       "cli": 101.0,
       "phase": "확장 (Expansion)",
       "mon_note": "Fed 동결·인하 지연(제약적)"
@@ -1042,7 +1042,7 @@ window.MACRO = {
         "m3": 40,
         "m12": 54
       },
-      "fx_val": 1487.59,
+      "fx_val": 1487.1,
       "fx_chg": -1.5,
       "reer": {
         "cur": 84.8,
@@ -1133,7 +1133,7 @@ window.MACRO = {
         "avg10y": 98.0,
         "dev_pct": -7.3
       },
-      "fx12m": 14.6,
+      "fx12m": 14.5,
       "cli": 98.9,
       "phase": "회복 (Recovery)",
       "mon_note": "인민은행 부양(+)"
@@ -12913,7 +12913,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "실시간 GDP 성장 추정(nowcast). 발표 전 선행 추정치",
-      "as_of": "2026-07-10",
+      "as_of": "2026-07-08",
       "history": {
         "dates": [
           "2011-07-01",
@@ -16216,7 +16216,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.569
+          1.57
         ]
       },
       "z_from": "2000-08",
