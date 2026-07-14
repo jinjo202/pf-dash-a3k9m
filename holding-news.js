@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-14T08:42:04
+// 갱신: 2026-07-14T08:58:03
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -16,7 +16,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "[하반기 증시 전망] 10대 증권사 센터장 “코스피 상단 최대 1만2600포인트” - 대한경제",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1URVk0bWMzMUVIOXhRV21mN1o1ZzJxandFeEJKM3FIWTE4Qy1DcXBaV2R5dWY5RjNjSnZLNm5HckRkdTJ6MTlNeGY1eTFSbG1uZlBfbjk2ZWpiV3VrWFVfVXg1TkhsRDE1ZmZ2Q1ZCSmJyX3NG?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9FRzlmMFE3VVBBbWJNXzRxc0hJOG85VXBBREYyU1lLRmV3YUFsOUN5bXFZbm1RUGV3dUZ2TmhZd0xMcVNEQ0pjbnFyQlV1YWRMT1ZVYlhtQjV4NFNPYXBzaHNmT09mazhodUxrdzAyRnl2YlU?oc=5",
    "source": "대한경제",
    "date": "2026-07-12"
   },
@@ -55,6 +55,12 @@ window.HOLDING_NEWS = {
  ],
  "KODEX AI전력핵심설비 ETF": [
   {
+   "title": "밀릴때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - 씽크풀 AI",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5oeGJMNldBY1ozYnNSMGU3OUloZ1dfdnlpeWt1NjRYbTNnYW5ENldGcHg1QW12OVpKQTA5c0ROTjFFY2J1a0R5c2loaWFxMmNMcE9qOUY4d0NkMUFiZGFvaFlkXzJrYS16?oc=5",
+   "source": "씽크풀 AI",
+   "date": "2026-07-13"
+  },
+  {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
    "source": "매일신문",
@@ -71,12 +77,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBJN0tLUFRWVU5rcU9Zc05Tb1MweS1QT1NSZkYyS09YSEI3TmE0ZHRJYzRzR3daeTBYa09wak0zMmNhMV9UMjNvYWJHOFZobjhXYlBF?oc=5",
    "source": "네이트",
    "date": "2026-07-11"
-  },
-  {
-   "title": "AI 전력·미 전력 수요 급증…K전력기기 3사 증권가 전망은 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9uWWRmS3pXSFRlOGhXU1lkRWdPS0JpY3FJVkoxTGFnRUxWXzJ2a3hhZ3lBQndHUmdGSGZuRmJnYVpleGtwd2pDVGVvY25uSGtJNFE?oc=5",
-   "source": "매일경제",
-   "date": "2026-04-29"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -451,16 +451,16 @@ window.HOLDING_NEWS = {
    "date": "2026-03-03"
   },
   {
-   "title": "'MSCI 이머징 왜곡 그만'…외환 개방 韓 증시, 이번엔 '선진국' 갈까 - 인베스트조선",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPWjBzRUpGOGpRWFkzVHRxbXhGZ1dha0w2cWVWb1VuVjgtc1dXeVFoYlNja2dVbHAyaHg1b1Uzc0owWWlIX0ZoeTB3b253SnNaeW92clRWSzk5MWp3N09RZ3ZNS2loWGNoVXgzSHptMUxhRGNSVW54WWkyVXZ6WnZKSlY3SQ?oc=5",
-   "source": "인베스트조선",
-   "date": "2026-06-02"
-  },
-  {
    "title": "\"한국 증시가 수익 갈랐다\"…블랙록·뱅가드 신흥국 ETF 희비 - 조세금융신문",
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9DUGJBbXJSdVBXNGdFVVZjOGpFelFicHkzVmhpNzVZNkhzN0VBV2toaElMNVhGdTMzTDhMcEdFWFFrSEVkVEdEblBoUk1NM2FzakE2bzN0ZWUzTXJ6eDJ6STd1Yw?oc=5",
    "source": "조세금융신문",
    "date": "2026-07-06"
+  },
+  {
+   "title": "'MSCI 이머징 왜곡 그만'…외환 개방 韓 증시, 이번엔 '선진국' 갈까 - 인베스트조선",
+   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPWjBzRUpGOGpRWFkzVHRxbXhGZ1dha0w2cWVWb1VuVjgtc1dXeVFoYlNja2dVbHAyaHg1b1Uzc0owWWlIX0ZoeTB3b253SnNaeW92clRWSzk5MWp3N09RZ3ZNS2loWGNoVXgzSHptMUxhRGNSVW54WWkyVXZ6WnZKSlY3SQ?oc=5",
+   "source": "인베스트조선",
+   "date": "2026-06-02"
   },
   {
    "title": "하나證 “베트남, 4월 7일 FTSE 신흥국 승격 판가름… 중동 리스크는 단기 변수” - 조선비즈 - Chosunbiz",
