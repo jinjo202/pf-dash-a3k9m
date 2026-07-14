@@ -1,6 +1,6 @@
 // 한국 수출 신속 잠정치(주요품목 10일단위) — fetch_export_flash.py 자동생성.
 window.EXPORT_FLASH = {
- "as_of": "2026-07-13",
+ "as_of": "2026-07-14",
  "month": "2026.07",
  "period_end": "01~10",
  "verified": true,
