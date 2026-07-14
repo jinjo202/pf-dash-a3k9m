@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>펀드매니저 · 종합 리밸런싱</title>
-<script>window.CODE_VERSION = "2026-07-11a";</script>
+<script>window.CODE_VERSION = "2026-07-14b";</script>
 <!-- 자동 캐시 무력화 (macro.html과 동일 패턴) -->
 <script>
   (function () {
@@ -1389,12 +1389,16 @@ function techMiniCharts(){
   return '<div class="tech-grid">'+cards.join('')+'</div>';
 }
 
-// 티커 정규화: 해외는 거래소 접미사(US/IM/GY/LX 등) 제거, 한국(KS)은 유지.
+// 티커 정규화: 해외는 거래소 접미사(US/IM/GY/LX 등) 제거, 한국은 "코드 KS"로 통일.
 // CIO 트레이드(유니버스: "XLK"/"091160 KS")와 실제 보유(PF: "XLK US"/"069500 KS")를 대조하기 위함.
+// CIO 데일리는 LLM이 생성 — 한국 티커를 "449450.KS"(점)·"449450"(맨숫자) 등으로 낼 때가 있어
+// "449450 KS"(공백, fm-data/PF 표기)만 보던 예전 버전은 매칭 실패 → 미보유로 오판했었다.
 function normTicker(t){
   t=String(t||'').trim();
-  if (/\sKS$/.test(t)) return t;                 // 한국 상장 — 그대로
-  return t.replace(/\s+[A-Z]{2,3}$/, '');        // "XLK US"→"XLK", "CSMIB IM"→"CSMIB"
+  var mKR = t.match(/^(\d{6})(?:[\s.]?(?:KS|KQ))?$/i);   // 6자리 코드 + 선택적 공백/점+KS/KQ
+  if (mKR) return mKR[1] + ' KS';                         // 전부 "코드 KS"로 통일(이 repo 표기 관례)
+  if (/\sKS$/.test(t)) return t;                          // (이미 위에서 처리되지만 방어적으로 유지)
+  return t.replace(/\s+[A-Z]{2,3}$/, '');                 // "XLK US"→"XLK", "CSMIB IM"→"CSMIB"
 }
 // 복호화된 실제 보유 → {정규화티커: {name, mkt, w}}
 function pfHeldMap(){
