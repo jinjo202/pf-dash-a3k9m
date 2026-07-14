@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-14",
-  "generated_utc": "2026-07-14T08:56:03Z",
+  "generated_utc": "2026-07-14T09:16:44Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-13",
       "decimals": 2,
       "valuation": {
-        "pe": 18.79,
+        "pe": 18.78,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -564,7 +564,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-13",
       "decimals": 2,
       "valuation": {
-        "pe": 7.29,
+        "pe": 7.24,
         "pb": 1.23,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1111,7 +1111,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-14",
       "decimals": 0,
       "valuation": {
-        "pe": 4.63,
+        "pe": 4.3,
         "pb": 1.9,
         "roe": null,
         "src": "EWY (top derived)",
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 636.34,
+      "current": 635.95,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 7.3484,
-      "mtd_pct": -0.8399,
-      "daily_pct": -0.7285,
+      "ytd_pct": 7.2826,
+      "mtd_pct": -0.9007,
+      "daily_pct": -0.7894,
       "as_of": "2026-07-14",
       "decimals": 2,
       "valuation": {
-        "pe": 15.63,
+        "pe": 15.7,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4376,7 +4376,7 @@ window.BENCHMARKS = {
           640.87,
           641.1,
           641.01,
-          636.34
+          635.95
         ]
       }
     },
@@ -4393,7 +4393,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-14",
       "decimals": 0,
       "valuation": {
-        "pe": 23.25,
+        "pe": 22.95,
         "pb": 1.37,
         "roe": null,
         "src": "EWJ (top derived)",
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-14",
       "decimals": 2,
       "valuation": {
-        "pe": 11.83,
+        "pe": 11.78,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1496.08,
+      "current": 1495.1801,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 4.0454,
-      "mtd_pct": -2.961,
-      "daily_pct": -0.1602,
+      "ytd_pct": 3.9829,
+      "mtd_pct": -3.0193,
+      "daily_pct": -0.2202,
       "as_of": "2026-07-14",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1503.35,
           1505.91,
           1498.48,
-          1496.08
+          1495.1801
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 80.59,
+      "current": 81.08,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 40.3518,
-      "mtd_pct": 15.9568,
-      "daily_pct": 3.1354,
+      "ytd_pct": 41.2052,
+      "mtd_pct": 16.6619,
+      "daily_pct": 3.7625,
       "as_of": "2026-07-14",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           72.08,
           71.41,
           78.14,
-          80.59
+          81.08
         ]
       }
     },
@@ -7119,12 +7119,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 17.28,
+      "current": 17.41,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 15.5853,
-      "mtd_pct": 5.0456,
-      "daily_pct": 0.6993,
+      "ytd_pct": 16.4548,
+      "mtd_pct": 5.8359,
+      "daily_pct": 1.4569,
       "as_of": "2026-07-14",
       "decimals": 2,
       "valuation": {
@@ -7658,7 +7658,7 @@ window.BENCHMARKS = {
           15.84,
           15.03,
           17.16,
-          17.28
+          17.41
         ]
       }
     },
