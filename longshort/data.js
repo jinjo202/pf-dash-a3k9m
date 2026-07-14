@@ -4,6 +4,7 @@
 // 구조: books[0] = 전략 A (마켓 뉴트럴, STRATEGY.md)
 //       books[1] = 전략 B (디렉셔널 L/S, STRATEGY_DIRECTIONAL.md)
 // 가격 기준: 각 시장 최근 종가 / P&L: 현지통화 수익률 (KRW 선물환 헤지 가정)
+// 주: asOfPrice는 KR 종가일(7/14) 기준. 미국 레그(TSM·INTC·WMT·TGT·^GSPC)는 직전 7/13 종가 반영(아시아 마감 시점 스냅샷).
 // ============================================================
 window.PORTFOLIO_DATA = {
   books: [
@@ -17,14 +18,32 @@ window.PORTFOLIO_DATA = {
       strategy: "Market Neutral Long/Short Equity (KR + S&P500 + Asia)",
       aumUsd: 10000000,
       inceptionDate: "2026-07-10",
-      asOfPrice: "2026-07-10",
-      lastUpdated: "2026-07-13",
-      usdkrw: 1498.96,
-      phase: "빌드업 Phase 1 — 페어 5개 / Gross 40% (목표 12~20개 / 180~200%)",
+      asOfPrice: "2026-07-14",
+      lastUpdated: "2026-07-14",
+      usdkrw: 1488.95,
+      phase: "빌드업 Phase 1 — 페어 5개 / Gross 38% (목표 12~20개 / 180~200%)",
       // grossMaxPct/netMaxPct = 정책 상한. 운용 목표 Gross 180~200% / Net 0±5% (경보 ±10%)
       limits: { grossMaxPct: 300, netMaxPct: 50, varLimitPctNav: 1.2, factorZSoft: 0.20, factorZHard: 0.30 }
     },
     ideas: [
+      {
+        date: "2026-07-14",
+        tag: "시장 뷰",
+        title: "급락장 첫 실현 — 뉴트럴 북 +0.46%, 숏이 롱보다 더 빠지며 방어 입증",
+        body: "7/14 KOSPI −8%대 폭락(6,857) 속에서 전략 A는 NAV 100.46(+0.46%)로 플러스 마감. 숏 레그(하이닉스 −12.2%·삼성전자 보통주 −7.7%·인텔 −6.1%)가 롱보다 더 빠지며 5개 페어 전부 스프레드 이익(P1 +4.5%p·P3 +3.2%p 선두). 시장 방향과 무관하게 낙폭 격차를 수확하는 마켓뉴트럴 설계가 급락장에서 검증됨."
+      },
+      {
+        date: "2026-07-14",
+        tag: "리스크",
+        title: "룰 점검 클린 — 스톱/커버/월중/일간 전부 미발동, 신규 동결 없음",
+        body: "기계 룰 일괄 점검: 페어 P&L 최저치도 +0.3%(P5)로 −8% 스톱과 거리 큼. 전 숏 레그 하락(이익)으로 +15% 역행 커버 없음. NAV +0.46%로 일간 −1.5%·월중 −3% 미해당 → 신규 진입 동결 배지 없음. USDKRW 1,489원으로 소폭 진정(전일 1,499). 선물환 헤지 가정 유지, 넷 +0.5%로 0±5% 밴드 내."
+      },
+      {
+        date: "2026-07-14",
+        tag: "시장 뷰",
+        title: "TSMC 7/16 실적 D-2 — P3 롱 레그 상방 촉매, 이벤트 변동성 대비 비중 유지",
+        body: "TSMC는 7/16 Q2 실적 발표 예정, Citi 등은 2026 매출 가이던스 상향 전망 유지(컨센 순익 +49% YoY). 반도체 셀오프에도 P3(TSM L −2.9% / INTC S −6.1%)는 스프레드 +3.2%p로 이미 기여 중. 실적 서프라이즈 시 롱 레그 추가 상방 — 다만 이벤트 갭 리스크로 레그 비중은 현행 유지, 넷 0 사수."
+      },
       {
         date: "2026-07-13",
         tag: "시장 뷰",
@@ -63,11 +82,12 @@ window.PORTFOLIO_DATA = {
       }
     ],
     navHistory: [
-      { date: "2026-07-10", nav: 100.00 }
+      { date: "2026-07-10", nav: 100.00 },
+      { date: "2026-07-14", nav: 100.46 }
     ],
     risk: {
-      grossPct: 40.0,
-      netPct: 0.0,
+      grossPct: 37.9,
+      netPct: 0.5,
       predictedBeta: 0.02,
       var1d99PctNav: 0.35,
       factors: [
@@ -80,9 +100,9 @@ window.PORTFOLIO_DATA = {
         { name: "Growth",      z: -0.10 }
       ],
       countryNets: [
-        { name: "한국", netPct: -0.5 },
+        { name: "한국", netPct: 0.3 },
         { name: "미국", netPct: 0.0 },
-        { name: "기타 아시아(대만)", netPct: 0.5 }
+        { name: "기타 아시아(대만)", netPct: 0.2 }
       ]
     },
     pairs: [
@@ -91,8 +111,8 @@ window.PORTFOLIO_DATA = {
         thesis: "하이닉스 시총 역전 이후 크라우디드 롱 언와인드 국면. 밸류에이션 갭 극단 + 외국인 매도 집중은 하이닉스 측. 삼성전자는 역대 최대 실적으로 하방 지지.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 4.5, entry: 285000,  last: 285000 },
-          { side: "SHORT", ticker: "000660.KS", label: "SK하이닉스", ccy: "KRW", weightPct: 4.5, entry: 2180000, last: 2180000 }
+          { side: "LONG",  ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 4.5, entry: 285000,  last: 263000 },
+          { side: "SHORT", ticker: "000660.KS", label: "SK하이닉스", ccy: "KRW", weightPct: 4.5, entry: 2180000, last: 1913000 }
         ]
       },
       {
@@ -100,8 +120,8 @@ window.PORTFOLIO_DATA = {
         thesis: "우선주 디스카운트 31.9% — 급락장에서 괴리 확대, 역사적 밴드 상단. 배당 캐리 + 평균회귀. 시장 방향과 무상관.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "005935.KS", label: "삼성전자우", ccy: "KRW", weightPct: 5.0, entry: 194300, last: 194300 },
-          { side: "SHORT", ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 5.0, entry: 285000, last: 285000 }
+          { side: "LONG",  ticker: "005935.KS", label: "삼성전자우", ccy: "KRW", weightPct: 5.0, entry: 194300, last: 182200 },
+          { side: "SHORT", ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 5.0, entry: 285000, last: 263000 }
         ]
       },
       {
@@ -109,8 +129,8 @@ window.PORTFOLIO_DATA = {
         thesis: "TSMC는 선단공정 실적이 뒷받침되는 반면, 인텔은 파운드리 턴어라운드 기대가 주가에 과도 선반영(연중 랠리 후 7/10 -8.7% 급반락). 기대와 실적의 갭 축소에 베팅.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "TSM",  label: "TSMC (ADR)", ccy: "USD", weightPct: 4.5, entry: 434.11, last: 434.11 },
-          { side: "SHORT", ticker: "INTC", label: "Intel",      ccy: "USD", weightPct: 4.5, entry: 109.84, last: 109.84 }
+          { side: "LONG",  ticker: "TSM",  label: "TSMC (ADR)", ccy: "USD", weightPct: 4.5, entry: 434.11, last: 421.58 },
+          { side: "SHORT", ticker: "INTC", label: "Intel",      ccy: "USD", weightPct: 4.5, entry: 109.84, last: 103.12 }
         ]
       },
       {
@@ -118,8 +138,8 @@ window.PORTFOLIO_DATA = {
         thesis: "월마트의 이커머스·광고 수익화 vs 타깃의 트래픽 점유율 이탈. 어닝 리비전 방향이 상반 — 동일 소비 사이클 내 상대 베팅.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "WMT", label: "Walmart", ccy: "USD", weightPct: 3.0, entry: 113.90, last: 113.90 },
-          { side: "SHORT", ticker: "TGT", label: "Target",  ccy: "USD", weightPct: 3.0, entry: 135.14, last: 135.14 }
+          { side: "LONG",  ticker: "WMT", label: "Walmart", ccy: "USD", weightPct: 3.0, entry: 113.90, last: 114.78 },
+          { side: "SHORT", ticker: "TGT", label: "Target",  ccy: "USD", weightPct: 3.0, entry: 135.14, last: 134.77 }
         ]
       },
       {
@@ -127,8 +147,8 @@ window.PORTFOLIO_DATA = {
         thesis: "LG에너지솔루션의 북미 캐파·수주잔고 모멘텀 vs 삼성SDI의 믹스 열위. 섹터 방향(전기차 수요)은 중립화하고 상대 실적 격차만 수확.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "373220.KS", label: "LG에너지솔루션", ccy: "KRW", weightPct: 3.0, entry: 326000, last: 326000 },
-          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI",        ccy: "KRW", weightPct: 3.0, entry: 434000, last: 434000 }
+          { side: "LONG",  ticker: "373220.KS", label: "LG에너지솔루션", ccy: "KRW", weightPct: 3.0, entry: 326000, last: 322000 },
+          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI",        ccy: "KRW", weightPct: 3.0, entry: 434000, last: 427500 }
         ]
       }
     ],
@@ -144,14 +164,32 @@ window.PORTFOLIO_DATA = {
       strategy: "Directional Long/Short Equity — 레짐 기반 넷 익스포저 (KR + S&P500 + Asia)",
       aumUsd: 10000000,
       inceptionDate: "2026-07-10",
-      asOfPrice: "2026-07-10",
-      lastUpdated: "2026-07-13",
-      usdkrw: 1498.96,
-      phase: "레짐: 중립(Neutral) — 넷 +45% / β 0.46 · 강세 복귀 시 +50~60% (일 +3%p 램프)",
+      asOfPrice: "2026-07-14",
+      lastUpdated: "2026-07-14",
+      usdkrw: 1488.95,
+      phase: "레짐: 중립(Neutral) — 넷 +43% / β 0.44 · KOSPI −8%대 급락으로 당일 신규 넷 변경 동결(±3% 룰), 익일 재판정",
       // 넷 밴드: 강세 +50~60(캡 +70) / 중립 +30~45 / 경계 +10~25 / 위기 -10~+10
       limits: { grossMaxPct: 300, netMaxPct: 70, varLimitPctNav: 1.8, factorZSoft: 0.35, factorZHard: 0.50 }
     },
     ideas: [
+      {
+        date: "2026-07-14",
+        tag: "레짐 판정",
+        title: "중립 유지·당일 넷 동결 — KOSPI −8% 급락에 디렉셔널 −1.96%(−2% 사다리 근소 미달)",
+        body: "7/14 신호: VIX 16.8(<20이나 상승), S&P500 7,515 > 50DMA 7,441 > 200DMA 6,969(강세), KOSPI 6,857 < 50DMA 7,971 이나 > 200DMA 5,548(중립 — 200DMA는 여전히 큰 폭 상회). 합성 판정 '중립' 유지. 넷 롱 +43%가 코스피 급락에 직격돼 NAV 98.04(−1.96%) — §4 일간 −2% 사다리에 0.04%p 근소 미달로 강제 인하 없음. §3 '지수 일간 ±3%' 트리거 발동 → 당일 신규 넷 변경 동결, 익일 재판정. G4 오버레이 현 상태 유지."
+      },
+      {
+        date: "2026-07-14",
+        tag: "리스크",
+        title: "−2% 사다리 임박 — 익일 재확인 시 지수선물로 넷 50% 인하 대기",
+        body: "당일 −1.96%는 −2.00% 문턱에 0.04%p 미달. 익일 재판정에서 추가 하락으로 일간 −2% 재확인 또는 KOSPI 200DMA(5,548) 이탈 시, 재량 없이 KOSPI200·ES 선물(G4)로 넷 50% 인하(5거래일 유지). VIX 30 돌파 시 당일 즉시 50% 헤지. 종목 알파(G1~G3)에는 손대지 않고 G4 오버레이만 조절 — 알파 보존 원칙."
+      },
+      {
+        date: "2026-07-14",
+        tag: "시장 뷰",
+        title: "숏북이 방어 입증 — G3 알파 숏 +0.38%p 기여, 손실은 넷 롱이 주도",
+        body: "급락장에서 G3 알파 숏(INTC −6.1%·TGT −0.3%·삼성SDI −1.5%)이 +0.38%p 기여하며 다운사이드 헤지 역할 수행. 그럼에도 넷 롱 +43%(특히 G4 KOSPI 오버레이 −0.83%p·G1 삼성전자 −0.77%p)가 손실을 주도 — 방향성 P&L이 손실 대부분. 넷 축소는 레짐 신호(KOSPI 50DMA) 회복 확인 후에만, 폭락 후 V반등 추격 매수는 규칙상 금지."
+      },
       {
         date: "2026-07-13",
         tag: "레짐 판정",
@@ -190,15 +228,16 @@ window.PORTFOLIO_DATA = {
       }
     ],
     navHistory: [
-      { date: "2026-07-10", nav: 100.00 }
+      { date: "2026-07-10", nav: 100.00 },
+      { date: "2026-07-14", nav: 98.04 }
     ],
     risk: {
-      grossPct: 71.0,
-      netPct: 45.0,
-      predictedBeta: 0.46,
-      var1d99PctNav: 1.25,   // 추정 모델: √[(Gross71×0.88bp)² + (β0.46×2.33×1.0%)²] — 알파 0.63 + 방향성 1.07
+      grossPct: 68.3,
+      netPct: 43.0,
+      predictedBeta: 0.44,
+      var1d99PctNav: 1.20,   // 추정 모델: √[(Gross68×0.88bp)² + (β0.44×2.33×1.0%)²] — 알파 0.60 + 방향성 1.03
       factors: [
-        { name: "Market Beta", z: 0.46 },
+        { name: "Market Beta", z: 0.44 },
         { name: "Size",        z: 0.10 },
         { name: "Value",       z: -0.10 },
         { name: "Momentum",    z: 0.30 },
@@ -207,9 +246,9 @@ window.PORTFOLIO_DATA = {
         { name: "Growth",      z: 0.28 }
       ],
       countryNets: [
-        { name: "한국", netPct: 28.0 },
-        { name: "미국", netPct: 8.0 },
-        { name: "기타 아시아(대만)", netPct: 9.0 }
+        { name: "한국", netPct: 26.0 },
+        { name: "미국", netPct: 8.3 },
+        { name: "기타 아시아(대만)", netPct: 8.7 }
       ]
     },
     // 디렉셔널 북은 '페어'가 아니라 포지션 그룹. stopPct: null = 그룹 스톱 없음(개별 규율 적용:
@@ -220,9 +259,9 @@ window.PORTFOLIO_DATA = {
         thesis: "구조적 성장 산업의 검증된 1등주 (β 1.1~1.4). 상승 참여 엔진. 어닝 리비전 상향 유지되는 한 보유.",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "LONG", ticker: "005930.KS", label: "삼성전자 (β1.10)",       ccy: "KRW", weightPct: 10.0, entry: 285000, last: 285000 },
-          { side: "LONG", ticker: "TSM",       label: "TSMC ADR (β1.15)",      ccy: "USD", weightPct: 9.0,  entry: 434.11, last: 434.11 },
-          { side: "LONG", ticker: "373220.KS", label: "LG에너지솔루션 (β1.40)", ccy: "KRW", weightPct: 6.0,  entry: 326000, last: 326000 }
+          { side: "LONG", ticker: "005930.KS", label: "삼성전자 (β1.10)",       ccy: "KRW", weightPct: 10.0, entry: 285000, last: 263000 },
+          { side: "LONG", ticker: "TSM",       label: "TSMC ADR (β1.15)",      ccy: "USD", weightPct: 9.0,  entry: 434.11, last: 421.58 },
+          { side: "LONG", ticker: "373220.KS", label: "LG에너지솔루션 (β1.40)", ccy: "KRW", weightPct: 6.0,  entry: 326000, last: 322000 }
         ]
       },
       {
@@ -230,8 +269,8 @@ window.PORTFOLIO_DATA = {
         thesis: "넷을 유지하면서 포트 β를 목표 밴드(0.4~0.6) 안으로 눌러주는 방어 캐리 (β 0.65~0.95).",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "LONG", ticker: "WMT",       label: "Walmart (β0.65)",    ccy: "USD", weightPct: 7.0, entry: 113.90, last: 113.90 },
-          { side: "LONG", ticker: "005935.KS", label: "삼성전자우 (β0.95)", ccy: "KRW", weightPct: 6.0, entry: 194300, last: 194300 }
+          { side: "LONG", ticker: "WMT",       label: "Walmart (β0.65)",    ccy: "USD", weightPct: 7.0, entry: 113.90, last: 114.78 },
+          { side: "LONG", ticker: "005935.KS", label: "삼성전자우 (β0.95)", ccy: "KRW", weightPct: 6.0, entry: 194300, last: 182200 }
         ]
       },
       {
@@ -239,9 +278,9 @@ window.PORTFOLIO_DATA = {
         thesis: "기대 선반영·점유율 이탈·믹스 열위 종목 (β 0.9~1.15). 하락장에서 시장보다 더 빠지며 다운사이드 헤지를 겸함.",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "SHORT", ticker: "INTC",      label: "Intel (β1.10)",    ccy: "USD", weightPct: 5.0, entry: 109.84, last: 109.84 },
-          { side: "SHORT", ticker: "TGT",       label: "Target (β0.90)",   ccy: "USD", weightPct: 4.0, entry: 135.14, last: 135.14 },
-          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI (β1.15)",  ccy: "KRW", weightPct: 4.0, entry: 434000, last: 434000 }
+          { side: "SHORT", ticker: "INTC",      label: "Intel (β1.10)",    ccy: "USD", weightPct: 5.0, entry: 109.84, last: 103.12 },
+          { side: "SHORT", ticker: "TGT",       label: "Target (β0.90)",   ccy: "USD", weightPct: 4.0, entry: 135.14, last: 134.77 },
+          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI (β1.15)",  ccy: "KRW", weightPct: 4.0, entry: 434000, last: 427500 }
         ]
       },
       {
@@ -249,8 +288,8 @@ window.PORTFOLIO_DATA = {
         thesis: "중립 레짐 넷 목표(+45%)와 종목 넷(+25%)의 갭을 선물로 충당. 레짐 전환·손실 사다리 발동 시 이 그룹만 증감 — 종목 알파에 손대지 않는다.",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "LONG", ticker: "^KS11", label: "KOSPI200 선물 (지수 프록시)", ccy: "KRW", weightPct: 10.0, entry: 7475.9, last: 7475.9 },
-          { side: "LONG", ticker: "^GSPC", label: "S&P500 E-mini (지수 프록시)", ccy: "USD", weightPct: 10.0, entry: 7575.4, last: 7575.4 }
+          { side: "LONG", ticker: "^KS11", label: "KOSPI200 선물 (지수 프록시)", ccy: "KRW", weightPct: 10.0, entry: 7475.9, last: 6856.83 },
+          { side: "LONG", ticker: "^GSPC", label: "S&P500 E-mini (지수 프록시)", ccy: "USD", weightPct: 10.0, entry: 7575.4, last: 7515.34 }
         ]
       }
     ],
