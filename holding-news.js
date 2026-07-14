@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-14T07:23:40
+// 갱신: 2026-07-14T08:42:04
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-12"
   },
   {
-   "title": "[주간증시전망] 다음주 코스피 6900~7900 전망⋯‘고점론’ 속 美 반도체 실적 시험대 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5zMlFUVkpJSDZOci1ScTRtMExLSDVIVkxfSV9YYWgwdkdPZDJqMG1yVjRCeXU4Vkk1a0dZUUpFYkpaWGNFX0E?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-10"
+   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-07-06"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -81,15 +81,15 @@ window.HOLDING_NEWS = {
  ],
  "KoAct 바이오헬스케어액티브": [
   {
-   "title": "코스닥 제약바이오 4개월 새 반토막…금리·수급·대형주 겹악재 - 메디코파마",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5BT3lGT19lbHRRUHgwZ0xpX3k5dUN4MWlaNzFSQjNCYTNuXzR4alZjX0tWVk5qbkdOLW01NmpUNE9vRWFHV21Fa2Z5ZmhpUkdwQzJEWi1rSWRwQlBlT2hUVVMtekNBWDhsQWZGUmFMQkhmUQ?oc=5",
-   "source": "메디코파마",
-   "date": "2026-07-14"
-  },
-  {
    "title": "[주식] 대통령 '미프진' 한 마디에…현대약품·대화제약 강세 - 히트뉴스",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBvY1RyRDVRSFVLZ3EtTVhFX0E4RGRMdUIzc0VuZzRGV0RXT3E4NjBCSkFLdDJxdVl5ejhiTWNiOFZaYmRGNm5XREo0STNLd3EzQ1luN3NRVkd2SE50dV9LZTVnR2UzRXhwclJJ?oc=5",
    "source": "히트뉴스",
+   "date": "2026-07-14"
+  },
+  {
+   "title": "코스닥 제약바이오 4개월 새 반토막…금리·수급·대형주 겹악재 - 메디코파마",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5BT3lGT19lbHRRUHgwZ0xpX3k5dUN4MWlaNzFSQjNCYTNuXzR4alZjX0tWVk5qbkdOLW01NmpUNE9vRWFHV21Fa2Z5ZmhpUkdwQzJEWi1rSWRwQlBlT2hUVVMtekNBWDhsQWZGUmFMQkhmUQ?oc=5",
+   "source": "메디코파마",
    "date": "2026-07-14"
   },
   {
@@ -451,16 +451,16 @@ window.HOLDING_NEWS = {
    "date": "2026-03-03"
   },
   {
-   "title": "\"한국 증시가 수익 갈랐다\"…블랙록·뱅가드 신흥국 ETF 희비 - 조세금융신문",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9DUGJBbXJSdVBXNGdFVVZjOGpFelFicHkzVmhpNzVZNkhzN0VBV2toaElMNVhGdTMzTDhMcEdFWFFrSEVkVEdEblBoUk1NM2FzakE2bzN0ZWUzTXJ6eDJ6STd1Yw?oc=5",
-   "source": "조세금융신문",
-   "date": "2026-07-06"
-  },
-  {
    "title": "'MSCI 이머징 왜곡 그만'…외환 개방 韓 증시, 이번엔 '선진국' 갈까 - 인베스트조선",
    "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPWjBzRUpGOGpRWFkzVHRxbXhGZ1dha0w2cWVWb1VuVjgtc1dXeVFoYlNja2dVbHAyaHg1b1Uzc0owWWlIX0ZoeTB3b253SnNaeW92clRWSzk5MWp3N09RZ3ZNS2loWGNoVXgzSHptMUxhRGNSVW54WWkyVXZ6WnZKSlY3SQ?oc=5",
    "source": "인베스트조선",
    "date": "2026-06-02"
+  },
+  {
+   "title": "\"한국 증시가 수익 갈랐다\"…블랙록·뱅가드 신흥국 ETF 희비 - 조세금융신문",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9DUGJBbXJSdVBXNGdFVVZjOGpFelFicHkzVmhpNzVZNkhzN0VBV2toaElMNVhGdTMzTDhMcEdFWFFrSEVkVEdEblBoUk1NM2FzakE2bzN0ZWUzTXJ6eDJ6STd1Yw?oc=5",
+   "source": "조세금융신문",
+   "date": "2026-07-06"
   },
   {
    "title": "하나證 “베트남, 4월 7일 FTSE 신흥국 승격 판가름… 중동 리스크는 단기 변수” - 조선비즈 - Chosunbiz",
