@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-15",
-  "generated_utc": "2026-07-15T09:20:41Z",
+  "generated_utc": "2026-07-15T09:28:38Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 642.19,
+      "current": 642.87,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 8.3353,
-      "mtd_pct": 0.0717,
-      "daily_pct": 0.1841,
+      "ytd_pct": 8.45,
+      "mtd_pct": 0.1776,
+      "daily_pct": 0.2902,
       "as_of": "2026-07-15",
       "decimals": 2,
       "valuation": {
-        "pe": 15.72,
+        "pe": 15.74,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4376,7 +4376,7 @@ window.BENCHMARKS = {
           640.87,
           641.1,
           641.01,
-          642.19
+          642.87
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 79.51,
+      "current": 79.82,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 38.4709,
-      "mtd_pct": 14.4029,
-      "daily_pct": 0.2143,
+      "ytd_pct": 39.0108,
+      "mtd_pct": 14.8489,
+      "daily_pct": 0.605,
       "as_of": "2026-07-15",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           71.41,
           78.14,
           79.34,
-          79.51
+          79.82
         ]
       }
     },
@@ -7119,12 +7119,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 16.21,
+      "current": 16.2,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 8.4281,
-      "mtd_pct": -1.459,
-      "daily_pct": -5.5361,
+      "ytd_pct": 8.3612,
+      "mtd_pct": -1.5198,
+      "daily_pct": -5.5944,
       "as_of": "2026-07-15",
       "decimals": 2,
       "valuation": {
@@ -7658,7 +7658,7 @@ window.BENCHMARKS = {
           15.84,
           15.03,
           17.16,
-          16.21
+          16.2
         ]
       }
     },
