@@ -478,33 +478,8 @@ window.MACRO = {
       "as_of": "2026-07-14"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-07-15",
-      "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "42.0배 → 42.2배 (2026-07-15 발표)",
-      "as_of": "2026-07-15"
-    },
-    {
-      "date": "2026-07-15",
-      "type": "revision",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "44 → 46 (수정)",
-      "as_of": "2026-07-15"
-    },
-    {
-      "date": "2026-07-15",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "109.0조원 → 111.3조원 (2026-07-14 발표)",
-      "as_of": "2026-07-14"
-    }
-  ],
-  "generated": "2026-07-15T22:39:49Z",
+  "updates_today": [],
+  "generated": "2026-07-15T23:13:44Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -522,7 +497,7 @@ window.MACRO = {
       },
       "flows": {
         "name": "수급·유동성",
-        "score": 48,
+        "score": 47,
         "n": 10
       },
       "sentiment": {
@@ -1046,7 +1021,7 @@ window.MACRO = {
         "avg10y": 101.3,
         "dev_pct": 5.9
       },
-      "fx12m": 8.9,
+      "fx12m": 8.8,
       "cli": 101.0,
       "phase": "확장 (Expansion)",
       "mon_note": "Fed 동결·인하 지연(제약적)"
@@ -1058,17 +1033,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 20,
-        "fx": -30,
+        "fx": -22,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 17,
-        "m3": 40,
+        "m1": 20,
+        "m3": 42,
         "m12": 54
       },
-      "fx_val": 1486.63,
-      "fx_chg": -1.5,
+      "fx_val": 1485.68,
+      "fx_chg": -1.1,
       "reer": {
         "cur": 84.8,
         "avg10y": 99.5,
@@ -1086,17 +1061,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": -2,
-        "fx": -46,
+        "fx": -54,
         "mon": 30,
         "cycle": -26
       },
       "horizon": {
-        "m1": -17,
-        "m3": -14,
-        "m12": -9
+        "m1": -20,
+        "m3": -15,
+        "m12": -10
       },
       "fx_val": 1.15,
-      "fx_chg": -2.3,
+      "fx_chg": -2.7,
       "reer": {
         "cur": 103.4,
         "avg10y": 99.5,
@@ -1114,23 +1089,23 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 36,
-        "fx": -38,
+        "fx": -42,
         "mon": -40,
         "cycle": 20
       },
       "horizon": {
-        "m1": -4,
+        "m1": -6,
         "m3": 0,
         "m12": 3
       },
       "fx_val": 162.11,
-      "fx_chg": -1.9,
+      "fx_chg": -2.1,
       "reer": {
         "cur": 65.9,
         "avg10y": 87.8,
         "dev_pct": -24.9
       },
-      "fx12m": -3.4,
+      "fx12m": -3.5,
       "cli": 100.3,
       "phase": "확장 (Expansion)",
       "mon_note": "BOJ 정상화(긴축, −)"
@@ -1142,23 +1117,23 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -54,
-        "fx": 18,
+        "fx": 14,
         "mon": 30,
         "cycle": -20
       },
       "horizon": {
-        "m1": -9,
-        "m3": -3,
+        "m1": -11,
+        "m3": -4,
         "m12": 4
       },
-      "fx_val": 6.76,
-      "fx_chg": 0.9,
+      "fx_val": 6.77,
+      "fx_chg": 0.7,
       "reer": {
         "cur": 90.9,
         "avg10y": 98.0,
         "dev_pct": -7.3
       },
-      "fx12m": 14.8,
+      "fx12m": 14.5,
       "cli": 98.9,
       "phase": "회복 (Recovery)",
       "mon_note": "인민은행 부양(+)"
@@ -12946,7 +12921,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "실시간 GDP 성장 추정(nowcast). 발표 전 선행 추정치",
-      "as_of": "2026-07-08",
+      "as_of": "2026-07-10",
       "history": {
         "dates": [
           "2011-07-01",
@@ -13084,7 +13059,7 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 19.9,
+      "current": 20.0,
       "unit": "%",
       "z": 0.07,
       "pct": 60.6,
@@ -19721,11 +19696,11 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1486.6,
+      "current": 1487.9,
       "unit": "원",
       "z": 2.55,
       "pct": 99.2,
-      "score": 0.43,
+      "score": 0.4,
       "signal": "호재",
       "signal_cls": "pos",
       "desc": "원화 약세는 위험회피·외인 유출",
@@ -24395,7 +24370,7 @@ window.MACRO = {
             {
               "ticker": "BAC",
               "name": "Bank of America Corporation",
-              "mktcap": 432236625920,
+              "mktcap": 437079015424,
               "fwdpe": 11.8,
               "pbr": 1.59,
               "rets": {
@@ -26581,12 +26556,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[완만한 호재 우위] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.42%p(호재)·WTI 유가 (YoY) 19.9%(악재)",
+    "macro": "[완만한 호재 우위] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.42%p(호재)·WTI 유가 (YoY) 20.0%(악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 20.1배(강한 악재)·KOSPI 12M Fwd PER 5.0배(강한 호재)·주식위험프리미엄(ERP) 0.4%p(중립)·미국 10Y 금리 4.54%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.6%p(호재)·USD/KRW 1486.6원(호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 111.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -10.7조원(중립)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.6%p(호재)·USD/KRW 1487.9원(호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 111.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -10.7조원(중립)",
     "sentiment": "[전반적으로 우호적] VIX 변동성 15.7(호재)·S&P500 12M 모멘텀 19.4%(강한 호재)·CNN 공포·탐욕 지수 46(중립)·AAII 불-베어 스프레드 -0.9%p(중립)·CBOE 풋/콜 비율(총) 0.93(중립)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.514(강한 상향)·미국 Fwd EPS 수정(1개월) 0.1%(유지)·한국 ERR(이익수정비율) 0.228(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",
-    "overall": "종합 레짐 점수 +25. 매크로 +9, 밸류 -6, 수급 +48, 센티 +26, 기업이익 +45."
+    "overall": "종합 레짐 점수 +25. 매크로 +9, 밸류 -6, 수급 +47, 센티 +26, 기업이익 +45."
   },
   "outlook": {
     "short": {
