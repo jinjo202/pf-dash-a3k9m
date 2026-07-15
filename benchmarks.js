@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-15",
-  "generated_utc": "2026-07-15T08:57:13Z",
+  "generated_utc": "2026-07-15T09:06:05Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -3837,12 +3837,12 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 642.02,
+      "current": 641.84,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 8.3066,
-      "mtd_pct": 0.0452,
-      "daily_pct": 0.1576,
+      "ytd_pct": 8.2763,
+      "mtd_pct": 0.0171,
+      "daily_pct": 0.1295,
       "as_of": "2026-07-15",
       "decimals": 2,
       "valuation": {
@@ -4376,7 +4376,7 @@ window.BENCHMARKS = {
           640.87,
           641.1,
           641.01,
-          642.02
+          641.84
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 79.74,
+      "current": 79.54,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 38.8715,
-      "mtd_pct": 14.7338,
-      "daily_pct": 0.5042,
+      "ytd_pct": 38.5232,
+      "mtd_pct": 14.446,
+      "daily_pct": 0.2521,
       "as_of": "2026-07-15",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           71.41,
           78.14,
           79.34,
-          79.74
+          79.54
         ]
       }
     },
@@ -7119,12 +7119,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 16.26,
+      "current": 16.25,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 8.7625,
-      "mtd_pct": -1.155,
-      "daily_pct": -5.2448,
+      "ytd_pct": 8.6957,
+      "mtd_pct": -1.2158,
+      "daily_pct": -5.303,
       "as_of": "2026-07-15",
       "decimals": 2,
       "valuation": {
@@ -7658,7 +7658,7 @@ window.BENCHMARKS = {
           15.84,
           15.03,
           17.16,
-          16.26
+          16.25
         ]
       }
     },
