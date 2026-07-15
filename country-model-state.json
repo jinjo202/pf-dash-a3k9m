@@ -1,11 +1,11 @@
 {
- "last_rebalance": "2026-07-14",
+ "last_rebalance": "2026-07-15",
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.301,
+   "score": 1.298,
    "factors": {
-    "value": 1.9,
+    "value": 1.89,
     "momentum": 1.88,
     "earnings": 0.29,
     "macro": 1.68,
@@ -14,9 +14,9 @@
   },
   "일본": {
    "pref": "중립",
-   "score": -0.033,
+   "score": -0.031,
    "factors": {
-    "value": -0.54,
+    "value": -0.55,
     "momentum": 0.14,
     "earnings": 1.38,
     "macro": -0.81,
@@ -24,10 +24,10 @@
    }
   },
   "미국": {
-   "pref": "중립",
-   "score": -0.248,
+   "pref": "축소",
+   "score": -0.251,
    "factors": {
-    "value": -0.77,
+    "value": -0.78,
     "momentum": -0.78,
     "earnings": 0.45,
     "macro": 0.11,
@@ -36,21 +36,21 @@
   },
   "유럽": {
    "pref": "축소",
-   "score": -0.463,
+   "score": -0.464,
    "factors": {
-    "value": -0.7,
+    "value": -0.71,
     "momentum": -0.83,
     "earnings": -0.54,
     "macro": 0.22,
-    "currency": -0.19
+    "currency": -0.18
    }
   },
   "이머징": {
    "pref": "축소",
-   "score": -0.56,
+   "score": -0.552,
    "factors": {
-    "value": 0.1,
-    "momentum": -0.41,
+    "value": 0.14,
+    "momentum": -0.42,
     "earnings": -1.58,
     "macro": -1.2,
     "currency": 0.75
@@ -58,6 +58,20 @@
   }
  },
  "changes": [
+  {
+   "date": "2026-07-15",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "미국",
+     "from_pref": "중립",
+     "to_pref": "축소",
+     "flipped": true,
+     "d_score": -0.0,
+     "driver": "밸류 z-0.8→-0.8"
+    }
+   ]
+  },
   {
    "date": "2026-07-14",
    "trigger": "이벤트(팩터 변화)",
@@ -213,28 +227,6 @@
      "flipped": true,
      "d_score": 0.06,
      "driver": "이익수정 z-0.3→-0.1"
-    }
-   ]
-  },
-  {
-   "date": "2026-06-23",
-   "trigger": "이벤트(팩터 변화)",
-   "items": [
-    {
-     "country": "미국",
-     "from_pref": "축소",
-     "to_pref": "중립",
-     "flipped": true,
-     "d_score": 0.07,
-     "driver": "밸류 z-1.1→-0.9"
-    },
-    {
-     "country": "유럽",
-     "from_pref": "중립",
-     "to_pref": "축소",
-     "flipped": true,
-     "d_score": -0.04,
-     "driver": "이익수정 z-0.2→-0.3"
     }
    ]
   }
