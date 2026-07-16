@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-16T22:23:11
+// 갱신: 2026-07-16T22:37:03
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,16 +9,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-15"
   },
   {
-   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
-   "source": "연합인포맥스",
-   "date": "2026-07-06"
-  },
-  {
    "title": "[하반기 증시 전망] 10대 증권사 센터장 “코스피 상단 최대 1만2600포인트” - 대한경제",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9FRzlmMFE3VVBBbWJNXzRxc0hJOG85VXBBREYyU1lLRmV3YUFsOUN5bXFZbm1RUGV3dUZ2TmhZd0xMcVNEQ0pjbnFyQlV1YWRMT1ZVYlhtQjV4NFNPYXBzaHNmT09mazhodUxrdzAyRnl2YlU?oc=5",
    "source": "대한경제",
    "date": "2026-07-12"
+  },
+  {
+   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-07-06"
   },
   {
    "title": "변동성 장세 속 코스피·코스닥 향방은…한투운용, 증시 전망 짚는다 - 뉴스드림",
@@ -177,10 +177,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "올해 대형 로봇주 150% 상승…'젠슨 황 효과' 주목 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9JRi1JZ2YyaG1vdUxDbklkSFB2MUk4aFpqTURSMFA0SVZiejZ2ZXdLdWF1VFZndkJHMDR1RHFPQTJFem5GWDRYT0NaM0dDVGpRLTczMGI4Q2hRRTjSAWBBVV95cUxOdkV4d2VIQ3o3VG5lY0ZVdV9KNk91SXJWM3RTalpFQjNhdEV1a2FtVVhISHVCSUxIekN0TWd0MXk0bWNYU3YwbTg1M3BXVzdJMmh6dmVJSmU0YjdHOTlfcHA?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-06-03"
+   "title": "시장이 한국의 새로운 AI 및 반도체 개발 전략을 기다리는 가운데 삼성전자와 SK하이닉스 주가가 압박을 받고 있다 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOSjNPQ3FRVWhYcEdRMzQ3R21id1pxeVJEclJKcko3MzRGWk9pbGFySXdPSDVZZHNLbG9vTGtXa3JpdHdkZGVTLUlYd25kREJ2ZUpYX1AzNWt1cDJveS1UZ1ZBT1FMVXlycGR4ZkhfUDdtWFEwYUpHcmlkODNVNFh1eHpNMXlDeFZRdzIwTU1kYmtwVHEtUFpfY1cwZTYwU0Y1eS01YUtmSUVEUVFXcHcwUUxtelNxOVlkd1NVaU1oUGRGdmZfUVJtSEQ4Zk9sb0MxRTdMZFpYcmtYX0FVdUVTOUotSFE0aTRMa2N1em1tcw?oc=5",
+   "source": "TradingKey",
+   "date": "2026-06-28"
   }
  ],
  "삼성 ESG 착한 책임투자": [
@@ -301,16 +301,16 @@ window.HOLDING_NEWS = {
    "date": "2017-01-08"
   },
   {
+   "title": "메타(Meta)의 번역 및 음성 생성 인공지능 ‘Seamless’가 의미하는 바는? – AI 오픈소스 생태계 & 온디바이스 AI - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQMVBKb1ZuZThxX2V0X3l2eFB5ZjlaeDFONDRfOEhUbXJjQlVheDU1ZnJqcGkyUHE0TG10SUp1ZTJlMzBkeER0SVZmQ2JYUzc2Rmo5NGtOVnRqVnVXbWRSZFVTVUFOSERwcDNINEc4YkIteG9wWlFya0dsVHoxdm05OG5nQjdnTWc?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2023-12-06"
+  },
+  {
    "title": "[스타트업41] 로블록스는 왜 메타버스로 주목받을까? - mobiinside.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBDYU9nQkhZaHoxa1FJNFEzNGZUaU9NdnNyZ0ZWVXFHaXRnMmIyMHpuTm9MQ3dxTkNsbUZMblA2NGItbE5JNExhNHQyRkZUWWtCTW83YTlTWEhBMmVsZmpUV0lMWVhVb05u?oc=5",
    "source": "mobiinside.co.kr",
    "date": "2021-07-15"
-  },
-  {
-   "title": "KB스타 미국 나스닥100 인덱스(H) - 브런치",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBSZlYwb2ZRWG1wV18zano4bUc4STVGR1h0UUY3eHNYVFQ4QVR4RE8ydjUzcHk4RjhIZ1NMb01uZWFFa2x0RzNxQlZHZ3dxNzBUM1lZ?oc=5",
-   "source": "브런치",
-   "date": "2024-07-04"
   }
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
@@ -321,16 +321,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-04-17"
-  },
-  {
    "title": "이번 주 미국 주식 시장 - 2026-06-22 - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNS29Qb0xjMENlanJzOVBFekdyY1VpTFY1TDhIUGRydHFfUm0wZjlMVjEtaGw2bU5IUU5yUzkycTNyODJrdlBxcWR4dG5kcnlsZy1ubkhuRGhYWXdaanpoWVpJLVdfQURCVmM0bV8zY1hLME8ydjZMQ3VUcGNKYkg1UkRyanNXSGhqSFcwZQ?oc=5",
    "source": "TradingKey",
    "date": "2026-06-22"
+  },
+  {
+   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-04-17"
   },
   {
    "title": "투자자라면 꼭 알아야 하는 경제 일정 브리핑 (26.06.15~26.06.19) - 네이버 프리미엄콘텐츠",
@@ -542,7 +542,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "고공행진 이어가는 유럽 증시…명품보다 잘나가는 배당 ETF - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5xMXdXU1JYeWtxUUFNemtwc1R0QmlDV2V0WmQ0Vm0yQzlpZTdzR3lKdjNkRmJuTm1Md0J3VmZydWRSWUI2cUVFT0xNTndiRnc3T3daMXlnZzVsUdIBVEFVX3lxTE9RM2I3THFWMGpNbTV2MDNscGxUTlFiMWd2Y3Zjbm8yMVFQbkM3VG51VmpGVnFhcHlxSHRBUzU2cnFsbWxsb29fOVFTUTQ0ZncwS0M3SQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5xMXdXU1JYeWtxUUFNemtwc1R0QmlDV2V0WmQ0Vm0yQzlpZTdzR3lKdjNkRmJuTm1Md0J3VmZydWRSWUI2cUVFT0xNTndiRnc3T3daMXlnZzVsUQ?oc=5",
    "source": "한국경제",
    "date": "2025-03-19"
   }

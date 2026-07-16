@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-16",
-  "generated_utc": "2026-07-16T22:20:49Z",
+  "generated_utc": "2026-07-16T22:34:21Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -3846,7 +3846,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-15",
       "decimals": 2,
       "valuation": {
-        "pe": 15.64,
+        "pe": 15.62,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1477.77,
+      "current": 1477.73,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 2.7721,
-      "mtd_pct": -4.1486,
-      "daily_pct": -0.6795,
+      "ytd_pct": 2.7693,
+      "mtd_pct": -4.1512,
+      "daily_pct": -0.6822,
       "as_of": "2026-07-16",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1498.48,
           1497.7,
           1487.88,
-          1477.77
+          1477.73
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 78.95,
+      "current": 78.89,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 37.4956,
-      "mtd_pct": 13.5971,
-      "daily_pct": -0.8166,
+      "ytd_pct": 37.3912,
+      "mtd_pct": 13.5108,
+      "daily_pct": -0.892,
       "as_of": "2026-07-16",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           78.14,
           79.34,
           79.6,
-          78.95
+          78.89
         ]
       }
     },
