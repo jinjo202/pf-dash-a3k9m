@@ -479,7 +479,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-16T23:10:07Z",
+  "generated": "2026-07-16T23:25:32Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -1042,7 +1042,7 @@ window.MACRO = {
         "m3": 49,
         "m12": 58
       },
-      "fx_val": 1478.38,
+      "fx_val": 1478.97,
       "fx_chg": 0.5,
       "reer": {
         "cur": 84.8,
@@ -1098,14 +1098,14 @@ window.MACRO = {
         "m3": 7,
         "m12": 9
       },
-      "fx_val": 162.36,
+      "fx_val": 162.35,
       "fx_chg": -1.9,
       "reer": {
         "cur": 65.9,
         "avg10y": 87.8,
         "dev_pct": -24.9
       },
-      "fx12m": -3.2,
+      "fx12m": -3.1,
       "cli": 100.3,
       "phase": "확장 (Expansion)",
       "mon_note": "BOJ 정상화(긴축, −)"
@@ -15693,7 +15693,7 @@ window.MACRO = {
       "current": 1.58,
       "unit": "",
       "z": -1.06,
-      "pct": 8.6,
+      "pct": 8.3,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
@@ -16234,7 +16234,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.579
+          1.578
         ]
       },
       "z_from": "2000-08",
@@ -24380,7 +24380,7 @@ window.MACRO = {
             {
               "ticker": "BAC",
               "name": "Bank of America Corporation",
-              "mktcap": 436369391616,
+              "mktcap": 431534833664,
               "fwdpe": 11.7,
               "pbr": 1.56,
               "rets": {
@@ -24412,7 +24412,7 @@ window.MACRO = {
               "name": "Goldman Sachs Group, Inc. (The)",
               "mktcap": 323168829440,
               "fwdpe": 15.2,
-              "pbr": 2.99,
+              "pbr": 3.07,
               "rets": {
                 "w1": 3.7,
                 "m1": 1.8,
@@ -24425,7 +24425,7 @@ window.MACRO = {
             {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
-              "mktcap": 269510885376,
+              "mktcap": 266721345536,
               "fwdpe": 11.2,
               "pbr": 1.66,
               "rets": {
