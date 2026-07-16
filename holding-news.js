@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-16T09:12:52
+// 갱신: 2026-07-16T09:29:49
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,6 +7,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFA3N1Z5Q2oyR3Y2THBBeXNTTDZvdjNNc0cySVZfTlhhdHBvbjhGTDlhcnJqWDFLUTFOOUhpVHVJdlNvQXJ0Q2hTcGM4UHozZE96emhRcGc5OC1uWWNW?oc=5",
    "source": "뉴스핌",
    "date": "2026-07-15"
+  },
+  {
+   "title": "변동성 장세 속 코스피·코스닥 향방은…한투운용, 증시 전망 짚는다 - 뉴스드림",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA2bGdhNnFFTFBTQmpiTHBwNGh0ZEJiQ28tb1RNVUhPSE5OVnBTcDd5dWM4UFltWkZ0cm1lUF9Ec0IxNWt0S2FLQUhVZmZjM0xZRHJwMkZrbjlwVVZ3Y19RaHNzWnA3T0RXUFQw0gFuQVVfeXFMUG9zZ0FlM3lGc2VDWlVWbFZFTUFzMmJBclRZTWoyWkJkQVI4YzExWEJCSzFuSDVCQjRuX0NfTS1PWWoyQlNvU1VqU2k4ZDI3M1RwdDZ2Y2VEeExCY055NlNad0xaTzlpOXF4YUJHX0E?oc=5",
+   "source": "뉴스드림",
+   "date": "2026-07-16"
   },
   {
    "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9FRzlmMFE3VVBBbWJNXzRxc0hJOG85VXBBREYyU1lLRmV3YUFsOUN5bXFZbm1RUGV3dUZ2TmhZd0xMcVNEQ0pjbnFyQlV1YWRMT1ZVYlhtQjV4NFNPYXBzaHNmT09mazhodUxrdzAyRnl2YlU?oc=5",
    "source": "대한경제",
    "date": "2026-07-12"
-  },
-  {
-   "title": "[주간증시전망] 7000선까지 밀린 코스피…美 물가·ASML 실적이 시험대 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5zLUtMZVBCcktRZ2lXRHFmTlpkOEdYVU5rS2VUZ2YxSE51TE1zWmN5a2FmSzVXc0ZmVkpKTzlqbHhKZldKZTNaekxBZUpPQ0U?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-10"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -177,10 +177,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "반도체 다음은 ‘피지컬 AI’…로봇, 증시 새 주도주로 부상 - 재외동포신문",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE40bmF6ZnA2TlVfUmVCeHlzMy1zQUlPLUtIU1hYLTdYT21WeXp3X2xoT3RFdVVNRlgyMXNZd1RURHUxb3ZPTE16NUI4VGNUQnRZRm1Wa05Sa3dXRkJaYzhxTTFsZThKcWMzT2JMZA?oc=5",
-   "source": "재외동포신문",
-   "date": "2026-05-13"
+   "title": "올해 대형 로봇주 150% 상승…'젠슨 황 효과' 주목 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9JRi1JZ2YyaG1vdUxDbklkSFB2MUk4aFpqTURSMFA0SVZiejZ2ZXdLdWF1VFZndkJHMDR1RHFPQTJFem5GWDRYT0NaM0dDVGpRLTczMGI4Q2hRRTjSAWBBVV95cUxOdkV4d2VIQ3o3VG5lY0ZVdV9KNk91SXJWM3RTalpFQjNhdEV1a2FtVVhISHVCSUxIekN0TWd0MXk0bWNYU3YwbTg1M3BXVzdJMmh6dmVJSmU0YjdHOTlfcHA?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-06-03"
   }
  ],
  "삼성 ESG 착한 책임투자": [
