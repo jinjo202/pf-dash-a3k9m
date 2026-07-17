@@ -1,0 +1,27 @@
+{
+  "ticker": "GOOGL",
+  "as_of": "2026-07-17",
+  "industry_overview": "알파벳은 검색광고, 디지털 광고(유튜브 포함), 클라우드 컴퓨팅, AI 모델(Gemini)을 아우르는 글로벌 인터넷·AI 플랫폼 기업이다. 생성형 AI 전환기 속에서 검색 프랜차이즈의 수익성을 방어하는 동시에 클라우드와 AI 인프라 사업으로 성장축을 확장하고 있다.",
+  "competitive_landscape": "검색·광고 부문에서는 마이크로소프트(Bing/Copilot), OpenAI(ChatGPT) 등 AI 검색 대체재와 경쟁하며, Gemini 앱은 월간활성사용자(MAU) 9억명을 넘어섰으나 ChatGPT 대비 글로벌 AI 어시스턴트 점유율은 약 27%대에 머무르고 있다. 클라우드 부문은 AWS, 마이크로소프트 애저와 3파전을 벌이는 가운데 Google Cloud 매출이 전년 대비 63% 급성장하며 입지를 확대 중이다. 미국 검색·애드테크 독점 소송은 2026년 1~2월 항소가 제기되어 규제 불확실성이 지속되고 있다.",
+  "segments": [
+    {"name": "구글서치·기타", "revenue_mix_pct": 56, "margin_desc": "검색광고 중심의 초고마진 사업으로 영업이익률 40%대 후반 추정", "outlook": "AI 오버뷰 확산에도 검색 매출 성장세(전년비 약 19%) 유지, 다만 AI 검색 대체 리스크 상존"},
+    {"name": "유튜브광고", "revenue_mix_pct": 11, "margin_desc": "광고 및 구독(프리미엄) 혼합으로 마진 개선세", "outlook": "쇼츠·커넥티드TV 광고 확대로 두 자릿수 성장 지속 전망"},
+    {"name": "구글클라우드", "revenue_mix_pct": 18, "margin_desc": "규모의 경제 효과로 영업이익률이 최근 흑자 전환 후 확대 중", "outlook": "AI 인프라·엔터프라이즈 AI 수요에 힘입어 2026년에도 50~60%대 고성장 지속 전망"},
+    {"name": "기타베팅", "revenue_mix_pct": 1, "margin_desc": "웨이모 등 신사업 투자 단계로 영업손실 지속", "outlook": "웨이모 로보택시 상업화 확대가 중장기 밸류에이션 옵션으로 부각"}
+  ],
+  "analyst": {
+    "rating": "매수(Strong Buy) 우세, 커버리지 애널리스트 90% 내외가 긍정적 의견 제시",
+    "price_target_low": 340,
+    "price_target_avg": 410,
+    "price_target_high": 515,
+    "eps_next_fy": "2027 회계연도 EPS 컨센서스 약 14.9달러",
+    "revenue_growth_est": "2026 회계연도 매출성장률 컨센서스 10%대 후반, 클라우드 고성장이 성장률을 견인할 전망"
+  },
+  "outlook": "향후 12개월은 Google Cloud의 고성장 지속 여부와 Gemini 3 기반 AI 제품의 수익화 속도가 주가 방향성을 좌우할 것으로 예상된다. 검색 광고는 AI 오버뷰 확산에도 견조한 성장을 유지하고 있으나, 대규모 AI 인프라 투자에 따른 자본적지출 부담과 미국 반독점 소송 항소 결과가 주요 변수로 남아 있다.",
+  "triggers": [
+    {"label": "2026년 2분기 실적 발표", "timing": "2026년 7월 22일", "type": "catalyst"},
+    {"label": "검색 독점 판결 항소심 진행", "timing": "2026년 하반기", "type": "catalyst"},
+    {"label": "Gemini 3 및 AI 에이전트 제품 확장", "timing": "2026년 하반기", "type": "catalyst"},
+    {"label": "웨이모 로보택시 서비스 지역 확대", "timing": "2026년 하반기~2027년", "type": "catalyst"}
+  ]
+}

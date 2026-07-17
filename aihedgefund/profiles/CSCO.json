@@ -1,0 +1,64 @@
+{
+  "ticker": "CSCO",
+  "as_of": "2026-07-17",
+  "industry_overview": "시스코는 네트워킹 장비 및 엔터프라이즈 IT 인프라 시장 최대 기업으로, AI 데이터센터 구축 붐에 따른 고성능 스위칭·라우팅과 광통신(optics) 수요 급증이 최근 실적을 견인하고 있다. 하이퍼스케일러들의 AI 클러스터 투자 확대로 네트워킹 장비 시장 자체가 구조적 성장 국면에 진입했다는 평가다.",
+  "competitive_landscape": "네트워킹 부문에서는 Arista Networks, HPE(Juniper 인수 이후)와 경쟁하며, 보안 부문에서는 Palo Alto Networks, Fortinet, CrowdStrike 등과 경합한다. 하이퍼스케일러들의 자체 개발 화이트박스 스위치 확산이 장기 리스크 요인이나, 시스코는 Silicon One 칩셋과 광학 기술력을 앞세워 AI 네트워킹 수주를 확대하며 시장 지위를 방어하고 있다.",
+  "segments": [
+    {
+      "name": "네트워킹",
+      "revenue_mix_pct": 44.5,
+      "margin_desc": "그룹 최대 수익원으로 높은 마진을 유지",
+      "outlook": "AI 데이터센터향 스위칭·광학 수요 확대로 두 자릿수 성장 지속 전망"
+    },
+    {
+      "name": "서비스",
+      "revenue_mix_pct": 34.5,
+      "margin_desc": "안정적 고마진의 반복 매출 기반",
+      "outlook": "소프트웨어·구독 전환 가속화로 완만한 성장 예상"
+    },
+    {
+      "name": "보안",
+      "revenue_mix_pct": 12.7,
+      "margin_desc": "Splunk 인수 효과로 마진 개선 중이나 온프레미스→클라우드 전환 과도기",
+      "outlook": "Splunk 통합 시너지와 AI 보안 수요로 회복세 전망"
+    },
+    {
+      "name": "협업",
+      "revenue_mix_pct": 6.5,
+      "margin_desc": "성숙 사업으로 안정적 마진 유지",
+      "outlook": "완만한 한 자릿수 성장 지속"
+    },
+    {
+      "name": "옵저버빌리티",
+      "revenue_mix_pct": 1.7,
+      "margin_desc": "규모는 작지만 고성장·고마진 부문",
+      "outlook": "ThousandEyes 중심으로 20%대 고성장 지속"
+    }
+  ],
+  "analyst": {
+    "rating": "매수(Buy) 우세 - 26명 애널리스트 중 17명 매수, 8명 보유, 1명 매도 의견",
+    "price_target_low": 85,
+    "price_target_avg": 127,
+    "price_target_high": 150,
+    "eps_next_fy": "FY2027(차기 회계연도) EPS 컨센서스 약 $4.78, 전년比 +11.6%",
+    "revenue_growth_est": "FY2027 매출 컨센서스 약 $677.5억, 전년比 +7.6% 성장 전망"
+  },
+  "outlook": "향후 12개월은 AI 데이터센터향 네트워킹·광학 수주 모멘텀이 실적 성장의 핵심 동력으로 작용할 전망이다. FY2026 4분기(8월 발표 예정) 매출 가이던스는 $167억~169억으로 기존 강세 기조를 유지하고 있으며, 하이퍼스케일러 AI 인프라 수주는 FY2026 기준 약 $90억까지 확대될 것으로 회사 측은 제시했다. 다만 Splunk의 온프레미스→클라우드 전환에 따른 매출 인식 지연과 하이퍼스케일러의 자체 화이트박스 스위치 개발 확대는 중장기 마진 압박 요인으로 잠재해 있다.",
+  "triggers": [
+    {
+      "label": "FY2026 4분기 실적 발표",
+      "timing": "2026년 8월 중순(예상)",
+      "type": "catalyst"
+    },
+    {
+      "label": "하이퍼스케일러 AI 인프라 신규 수주 확대",
+      "timing": "분기별 지속",
+      "type": "catalyst"
+    },
+    {
+      "label": "Splunk 클라우드 전환 및 신규 고객 1,000개 목표 달성 여부",
+      "timing": "FY2026 말",
+      "type": "catalyst"
+    }
+  ]
+}

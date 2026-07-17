@@ -1,0 +1,52 @@
+{
+  "ticker": "MSFT",
+  "as_of": "2026-07-17",
+  "industry_overview": "마이크로소프트는 퍼블릭 클라우드, 생성형 AI, 생산성 소프트웨어, PC·게임 등 정보기술 산업 전반에 걸쳐 사업을 영위하고 있다. 하이퍼스케일 클라우드와 AI 인프라 시장은 기업의 디지털 전환과 생성형 AI 도입 가속화에 힘입어 고성장을 지속하고 있으며, 이에 따라 데이터센터·GPU 등 설비투자(CapEx) 규모가 산업 전반의 핵심 변수로 부상했다.",
+  "competitive_landscape": "Azure는 Amazon Web Services(AWS), Google Cloud와 3강 구도를 형성하고 있으며, FY26 3분기 기준 Azure 매출은 전년동기대비 약 40% 성장해 경쟁사 대비 우위를 유지했다. 생산성 부문에서는 Copilot을 앞세워 Google Workspace·Salesforce 등과 경쟁하고 있고, OpenAI와의 전략적 파트너십을 통해 생성형 AI 생태계 주도권 강화를 추진 중이다.",
+  "segments": [
+    {
+      "name": "Intelligent Cloud",
+      "revenue_mix_pct": 42,
+      "margin_desc": "AI 인프라 투자 확대로 매출총이익률은 다소 둔화되고 있으나, 매출 규모 확대에 힘입어 영업이익 성장세는 견조하게 유지",
+      "outlook": "Azure의 고성장(약 40%대) 지속에 힘입어 두 자릿수 후반대 매출 성장 전망"
+    },
+    {
+      "name": "Productivity and Business Processes",
+      "revenue_mix_pct": 42,
+      "margin_desc": "Microsoft 365·Copilot 중심의 소프트웨어 구독 모델로 상대적으로 높은 영업마진 유지",
+      "outlook": "Copilot 시트 확산과 가격 인상 효과로 두 자릿수 초중반대 성장 지속 예상"
+    },
+    {
+      "name": "More Personal Computing",
+      "revenue_mix_pct": 16,
+      "margin_desc": "Windows·디바이스·게이밍 중심으로 타 부문 대비 낮은 마진과 성장 정체",
+      "outlook": "PC 수요 둔화와 게이밍 콘텐츠 부문 약세로 보합 내지 소폭 성장 전망"
+    }
+  ],
+  "analyst": {
+    "rating": "월가 컨센서스는 '매수(Strong Buy/Buy)' 우세로, 약 90여개 커버리지 증권사 중 대다수가 매수 의견을 제시하고 있음",
+    "price_target_low": 510,
+    "price_target_avg": 590,
+    "price_target_high": 650,
+    "eps_next_fy": "FY2027 EPS 컨센서스 약 $19.80 (범위 $17.89~$21.74)",
+    "revenue_growth_est": "FY2027 매출성장률 컨센서스 약 +16% 내외로 최근 수년 평균 대비 가속화 전망"
+  },
+  "outlook": "향후 12개월간 Azure와 AI 관련 매출이 실적 성장을 견인할 것으로 예상된다. 다만 캘린더 2026년 설비투자 가이던스가 약 $190십억 규모로 시장 예상치(약 $155십억)를 크게 상회하면서 수익성 및 잉여현금흐름 훼손 우려가 상존하며, 이는 4월 실적 발표 이후 주가 조정의 주요 배경이 되었다. 7월 29일 예정된 FY26 4분기 실적 발표에서 Azure 성장률 지속 여부와 AI 수익화 속도가 주가의 핵심 변수로 작용할 전망이다.",
+  "triggers": [
+    {
+      "label": "FY2026 4분기 실적 발표",
+      "timing": "2026-07-29",
+      "type": "catalyst"
+    },
+    {
+      "label": "캘린더 2026년 설비투자(CapEx) 집행 현황 및 추가 가이던스",
+      "timing": "2026년 하반기",
+      "type": "catalyst"
+    },
+    {
+      "label": "OpenAI 파트너십 및 Copilot 기반 AI 수익화 진전",
+      "timing": "지속",
+      "type": "catalyst"
+    }
+  ]
+}

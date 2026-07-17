@@ -1,0 +1,35 @@
+{
+  "ticker": "UNH",
+  "as_of": "2026-07-17",
+  "industry_overview": "UnitedHealth Group은 미국 최대 관리형 헬스케어(managed care) 기업으로, 보험 부문 UnitedHealthcare와 헬스서비스 부문 Optum을 양대 축으로 운영한다. 2025년 의료비 트렌드 급등과 Medicare Advantage(MA) 수익성 악화로 실적 쇼크를 겪었으나, 2026년 들어 보험료 재설계와 비용 통제 효과로 회복 국면에 진입했다. 업계 전반은 CMS의 MA 수가 압박과 규제 강화라는 구조적 역풍에 직면해 있다.",
+  "competitive_landscape": "관리형 헬스케어 시장은 UnitedHealth, Humana, CVS Health(Aetna), Elevance Health, Cigna, Centene 등 소수 대형사가 과점하는 구조다. UNH은 압도적 규모의 회원 기반(UnitedHealthcare 약 4,850만 명)과 Optum의 PBM·데이터·진료 서비스 수직계열화를 통해 경쟁사 대비 마진 방어력에서 우위를 점하고 있으나, 최근 DOJ의 MA 청구 관행 조사가 최대 리스크 요인으로 부상했다.",
+  "segments": [
+    {
+      "name": "UnitedHealthcare",
+      "revenue_mix_pct": 57,
+      "margin_desc": "2026년 2분기 영업마진 4.6%로 전년 동기 2.4% 대비 큰 폭 개선. 수익성 낮은 MA 플랜 축소 및 보험료 재산정 효과가 반영되는 중.",
+      "outlook": "회원 수 자발적 축소(약 130만~140만 명)로 매출 성장은 둔화되나 마진 우선 전략으로 수익성 개선이 지속될 전망."
+    },
+    {
+      "name": "Optum",
+      "revenue_mix_pct": 43,
+      "margin_desc": "영업이익률 약 6% 수준으로 전년 대비 약 160bp 개선. PBM·진료 서비스 효율화가 마진 확대를 견인.",
+      "outlook": "Optum Health 장기 마진 목표 6~8%를 향해 완만한 개선세가 이어지고 Optum Rx·Insight 부문이 안정적 성장을 뒷받침할 전망."
+    }
+  ],
+  "analyst": {
+    "rating": "월가 컨센서스는 '매수(Buy)' 우세(매수 비중 약 78%)로, 2025년 실적 쇼크 이후 저점 통과 기대가 반영되고 있다.",
+    "price_target_low": 255,
+    "price_target_avg": 415,
+    "price_target_high": 440,
+    "eps_next_fy": "FY2027 조정 EPS 컨센서스는 약 $20.5 수준으로, FY2026 가이던스($19.50~$20.00) 대비 완만한 성장을 반영.",
+    "revenue_growth_est": "FY2026 매출 성장률은 MA 회원 축소 영향으로 한 자릿수 초반(약 2%대)에 그칠 전망이나, FY2027에는 비용 효율화와 마진 회복을 바탕으로 성장률 개선이 예상된다."
+  },
+  "outlook": "UNH은 2026년 2분기 실적 호조와 두 차례에 걸친 가이던스 상향(조정 EPS $19.50~$20.00)으로 턴어라운드 신호를 보이고 있다. 다만 DOJ의 MA 청구 관행 조사, CMS의 2027년도 MA 수가 인상률 제한(약 0.09%), 의료비 인플레이션 압박은 여전히 하방 리스크로 남아 있다. 향후 12개월은 마진 우선 전략에 따른 수익성 회복과 규제·소송 리스크 완화 여부가 주가 방향을 좌우할 것으로 판단된다.",
+  "triggers": [
+    {"label": "DOJ Medicare Advantage 청구 관행 조사 진행 상황", "timing": "미정(진행 중)", "type": "catalyst"},
+    {"label": "3분기 실적 발표", "timing": "2026년 10월", "type": "catalyst"},
+    {"label": "CMS 2028년도 Medicare Advantage 요율 발표", "timing": "2027년 4월", "type": "catalyst"},
+    {"label": "FY2027 최초 가이던스 제시", "timing": "2027년 1월 실적 발표 시", "type": "catalyst"}
+  ]
+}

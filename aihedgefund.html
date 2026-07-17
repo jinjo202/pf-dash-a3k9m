@@ -104,6 +104,18 @@
   .rbody b { color:var(--text); }
   svg text { fill:var(--muted); font-size:11px; }
   .empty { text-align:center; color:var(--muted); padding:40px 20px; }
+  .profwrap { display:grid; grid-template-columns:1.3fr 1fr; gap:16px; }
+  @media(max-width:900px){ .profwrap{grid-template-columns:1fr;} }
+  .seg-table td, .seg-table th { font-size:12.5px; }
+  .trig { display:flex; gap:8px; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--border); }
+  .trig:last-child { border-bottom:none; }
+  .trig .dot2 { width:8px; height:8px; border-radius:50%; margin-top:5px; flex:none; }
+  .trig.catalyst .dot2 { background:var(--pos); } .trig.risk .dot2 { background:var(--neg); }
+  .trig .tl { font-size:11px; color:var(--muted); }
+  .trig .tn { font-size:13px; font-weight:600; }
+  .atiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin-top:8px; }
+  .atiles .a { background:var(--panel-soft); border:1px solid var(--border); border-radius:9px; padding:8px 10px; }
+  .atiles .a .k { font-size:10.5px; color:var(--muted); } .atiles .a .v { font-size:15px; font-weight:700; }
 </style>
 </head>
 <body>
@@ -269,6 +281,50 @@ function render(){
 
   $("content").innerHTML = h;
   if(d.paper && d.equity_curve) drawEq(d.equity_curve, d.paper.initial_capital);
+  loadProfile(d.ticker, nm);
+}
+
+async function loadProfile(tk, nm){
+  const slot = document.createElement("div");
+  slot.id = "profileSlot";
+  $("content").appendChild(slot);
+  let p;
+  try { p = await jget(`aihedgefund/profiles/${tk}.json`); }
+  catch(e){
+    slot.innerHTML = `<div class="card rbody">${nm} 기업 리서치(산업개요·경쟁구도·사업부문·애널리스트 추정치·트리거)는 아직 준비되지 않았습니다. 현재 섹터별 대표 종목부터 순차 추가 중입니다.</div>`;
+    return;
+  }
+  const fmtT = v => v>=1000 ? `$${(v/1000).toFixed(1)}K` : `$${v}`;
+  const segRows = (p.segments||[]).map(s=>
+    `<tr><td class="k">${s.name}</td><td>${s.revenue_mix_pct!=null?s.revenue_mix_pct+'%':'—'}</td><td>${s.margin_desc||'—'}</td><td>${s.outlook||'—'}</td></tr>`).join("");
+  const trigs = (p.triggers||[]).map(t=>
+    `<div class="trig ${t.type==='risk'?'risk':'catalyst'}"><div class="dot2"></div><div><div class="tn">${t.label}</div><div class="tl">${t.timing||''} · ${t.type==='risk'?'하방 리스크':'상승 촉매'}</div></div></div>`).join("");
+  const a = p.analyst || {};
+  slot.innerHTML = `
+    <div class="card"><h2>🔎 기업 리서치 — ${nm}</h2><div class="cap">기준일 ${p.as_of||''} · 웹 리서치 기반 스냅샷, 교육용</div>
+      <div class="profwrap">
+        <div>
+          <div class="ovsec"><div class="t">산업 개요</div><p>${p.industry_overview||''}</p></div>
+          <div class="ovsec"><div class="t">경쟁 구도</div><p>${p.competitive_landscape||''}</p></div>
+          <div class="ovsec"><div class="t">사업부문별 매출·마진·전망</div>
+            <table class="seg-table"><tr><th>부문</th><th>매출비중</th><th>마진</th><th>전망</th></tr>${segRows}</table>
+          </div>
+          <div class="ovsec"><div class="t">향후 12개월 전망</div><p>${p.outlook||''}</p></div>
+        </div>
+        <div>
+          <div class="ovsec"><div class="t">애널리스트 추정치</div>
+            <div class="atiles">
+              <div class="a"><div class="k">컨센서스</div><div class="v" style="font-size:12.5px">${a.rating||'—'}</div></div>
+              <div class="a"><div class="k">목표가 (저-평균-고)</div><div class="v" style="font-size:12.5px">${a.price_target_low?fmtT(a.price_target_low):'—'} / ${a.price_target_avg?fmtT(a.price_target_avg):'—'} / ${a.price_target_high?fmtT(a.price_target_high):'—'}</div></div>
+              <div class="a"><div class="k">차기 EPS 컨센서스</div><div class="v" style="font-size:13px">${a.eps_next_fy||'—'}</div></div>
+              <div class="a"><div class="k">매출성장률 추정</div><div class="v" style="font-size:12.5px">${a.revenue_growth_est||'—'}</div></div>
+            </div>
+          </div>
+          <div class="ovsec"><div class="t">주가 트리거 포인트</div>${trigs}</div>
+        </div>
+      </div>
+      <div class="note">기업 리서치는 웹 검색 기반 요약이며 투자 자문이 아닙니다. 수치는 변동될 수 있습니다.</div>
+    </div>`;
 }
 
 function row(label,key,m){

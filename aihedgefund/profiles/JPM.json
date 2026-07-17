@@ -1,0 +1,52 @@
+{
+  "ticker": "JPM",
+  "as_of": "2026-07-17",
+  "industry_overview": "JPM은 자산 기준 미국 최대 은행지주회사로, 소비자금융·투자은행·트레이딩·자산관리를 아우르는 종합금융그룹이다. 2026년 미국 금리 인하 사이클과 자본시장 활황이 맞물리며 IB 수수료와 마켓 트레이딩 매출이 동반 강세를 보이고 있다. 대형 은행 규제자본(바젤 III 엔드게임) 완화 논의도 업종 전반의 자본배치 유연성을 높이는 요인으로 작용 중이다.",
+  "competitive_landscape": "Bank of America, Citigroup, Wells Fargo, Goldman Sachs, Morgan Stanley 등과 경쟁하며, IB·트레이딩 부문에서는 골드만삭스·모건스탠리와, 소비자금융에서는 BofA·웰스파고와 직접 경쟁한다. JPM은 규모의 경제와 다각화된 사업 포트폴리오, 업계 최고 수준의 기술 투자를 바탕으로 CIB·소매금융 전 부문에서 시장점유율 선두를 유지하고 있다.",
+  "segments": [
+    {
+      "name": "소비자·커뮤니티뱅킹",
+      "revenue_mix_pct": 35,
+      "margin_desc": "카드·예금 순이자마진 중심으로 ROE 30%대의 높은 수익성을 유지하나 신용카드 대손충당금 변동성이 존재",
+      "outlook": "예금 마진 안정화와 카드 대출 성장으로 완만한 한 자릿수 매출 성장 전망"
+    },
+    {
+      "name": "기업투자은행",
+      "revenue_mix_pct": 43,
+      "margin_desc": "ROE 20% 내외, 마켓(트레이딩) 및 IB 수수료 비중이 커 실적 변동성이 상대적으로 높음",
+      "outlook": "주식 트레이딩·IB 수수료 호조로 2026년 두 자릿수 매출 성장 지속 전망"
+    },
+    {
+      "name": "자산운용",
+      "revenue_mix_pct": 12,
+      "margin_desc": "세전이익률 30%대의 수수료 기반 고마진 사업으로 AUM 증가에 연동",
+      "outlook": "AUM 확대와 순유입 지속으로 두 자릿수 매출 성장 전망"
+    }
+  ],
+  "analyst": {
+    "rating": "매수(Buy) 우위 컨센서스 (Strong Buy 4, Buy 8, Hold 12, Sell 0)",
+    "price_target_low": 295,
+    "price_target_avg": 353,
+    "price_target_high": 408,
+    "eps_next_fy": "FY2027 EPS 컨센서스 약 $23.66 (FY2026 $22.44 대비 +5.4% YoY)",
+    "revenue_growth_est": "2026회계연도 매출 가이던스 상향 조정, 2027년은 NII 안정화 속 한 자릿수 중반 성장 전망"
+  },
+  "outlook": "2026년 2분기 순이익 169억달러, ROTCE 23%로 시장 예상을 상회하는 실적을 기록했으며, 주식 트레이딩과 IB 수수료 호조가 실적을 견인했다. 향후 12개월은 금리 인하 사이클에 따른 NII 압박을 자본시장 부문 강세가 상쇄하며 완만한 이익 성장이 예상된다. 다만 밸류에이션 부담과 신용비용 정상화 가능성은 주가 상승 폭을 제한하는 요인이다.",
+  "triggers": [
+    {
+      "label": "3분기 실적 발표",
+      "timing": "2026년 10월",
+      "type": "catalyst"
+    },
+    {
+      "label": "연준 금리 정책 및 NII 가이던스 변화",
+      "timing": "2026년 하반기",
+      "type": "catalyst"
+    },
+    {
+      "label": "바젤 III 엔드게임 자본규제 최종안 확정",
+      "timing": "2026년 중",
+      "type": "catalyst"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "ticker": "LLY",
+  "as_of": "2026-07-17",
+  "industry_overview": "일라이릴리는 GLP-1 계열 당뇨·비만치료제(Mounjaro, Zepbound)를 앞세워 글로벌 제약사 중 최대 시가총액을 보유한 기업으로 부상했다. 2026년 4월 경구용 GLP-1 오르포글리프론(Foundayo)이 FDA 승인을 받으며 주사제 중심이던 비만치료 시장이 경구제로 확장되는 변곡점을 맞고 있다. 종양, 면역, 신경과학(알츠하이머) 파이프라인도 병행 성장 중이다.",
+  "competitive_landscape": "비만·당뇨 시장에서는 노보 노디스크(Ozempic/Wegovy)와 양강 구도를 형성하며, Foundayo 승인으로 편의성 측면에서 우위를 확보했다. 화이자, 암젠, 로슈 등이 후발 경구·주사 GLP-1 파이프라인을 개발 중이나 임상 진척도 및 규모의 경제에서 릴리가 앞서 있다. 종양·면역 부문은 BMS, 애브비, MSD 등과 경쟁한다.",
+  "segments": [
+    {"name": "당뇨/비만", "revenue_mix_pct": 68, "margin_desc": "매출총이익률 80%대 후반, 신제품 규모 확대에 따른 영업레버리지 개선", "outlook": "Mounjaro·Zepbound·Foundayo 3종 병행 성장으로 2026년에도 두 자릿수 후반 성장 지속 전망"},
+    {"name": "종양", "revenue_mix_pct": 9, "margin_desc": "높은 마진이나 특허 만료 및 경쟁 심화로 압박", "outlook": "Verzenio 등 기존 제품 정체 속 Jaypirca·Retevmo 신약이 완만한 성장 견인"},
+    {"name": "면역", "revenue_mix_pct": 8, "margin_desc": "신제품(Ebglyss, Omvoh) 중심 마진 개선 초기 단계", "outlook": "아토피·궤양성대장염 적응증 확대로 두 자릿수 성장 예상"},
+    {"name": "신경과학", "revenue_mix_pct": 4, "margin_desc": "Kisunla 초기 출시 비용 부담, 레거시 제품은 저마진", "outlook": "알츠하이머 치료제 Kisunla 처방 확대가 완만한 성장 견인, 레거시 제품은 감소세"}
+  ],
+  "analyst": {
+    "rating": "매수(Buy) 우세, 커버리지 애널리스트 약 80% 이상이 매수 의견을 제시하며 컨센서스는 강한 매수에 가까움",
+    "price_target_low": 830,
+    "price_target_avg": 1220,
+    "price_target_high": 1500,
+    "eps_next_fy": "FY2027 주당순이익(EPS) 컨센서스 약 $43~45 수준(범위 대략 $39~52)",
+    "revenue_growth_est": "FY2027 매출액 컨센서스는 약 $94B 내외로 FY2026 가이던스($82B~$85B) 대비 약 13~15% 성장이 예상됨"
+  },
+  "outlook": "향후 12개월은 Foundayo의 처방 확산 속도와 정부·보험자 대상 GLP-1 약가 협상 결과가 핵심 변수가 될 전망이다. 2026년 매출 가이던스는 $82B~$85B로 상향 조정되었으며, Mounjaro·Zepbound·Foundayo 3종 포트폴리오의 시장 침투가 지속되는 한 두 자릿수 후반 성장세가 이어질 것으로 예상된다. 다만 높아진 밸류에이션과 경쟁 심화, 약가 인하 압력은 하방 리스크로 작용할 수 있다.",
+  "triggers": [
+    {"label": "2분기 2026 실적 발표", "timing": "2026년 8월경", "type": "catalyst"},
+    {"label": "Foundayo(경구용 GLP-1) 처방 확대 및 매출 기여 본격화", "timing": "2026년 하반기", "type": "catalyst"},
+    {"label": "오르포글리프론 제2형 당뇨병 적응증 승인 여부", "timing": "2026년 말~2027년", "type": "catalyst"},
+    {"label": "미국 정부·보험자 대상 GLP-1 약가 협상 진행 상황", "timing": "지속", "type": "catalyst"},
+    {"label": "3분기 2026 실적 발표", "timing": "2026년 10월경", "type": "catalyst"}
+  ]
+}

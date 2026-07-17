@@ -1,0 +1,47 @@
+{
+  "ticker": "PFE",
+  "as_of": "2026-07-17",
+  "industry_overview": "글로벌 대형제약(Big Pharma) 산업은 특허 만료(Loss of Exclusivity)에 따른 매출 침식과 신약 파이프라인 경쟁력이 기업가치를 좌우하는 국면에 있다. 화이자는 코로나19 특수 소멸 이후 매출 정상화 과정에서 종양학·비만·백신을 핵심 성장축으로 재편 중이며, 2026~2028년은 다수 블록버스터 품목의 특허 절벽(patent cliff)이 집중되는 시기다.",
+  "competitive_landscape": "존슨앤드존슨, 머크, 애브비, 노보노디스크, 일라이릴리 등과 전 영역에서 경쟁한다. 급성장 중인 비만치료제 시장에서는 노보노디스크·일라이릴리 대비 후발주자로 danuglipron 등 경구제 파이프라인으로 추격하고 있으며, 종양 부문은 Seagen(2023년 인수) 편입 효과로 항체약물접합체(ADC) 경쟁력을 강화했다.",
+  "segments": [
+    {
+      "name": "종양(Oncology)",
+      "revenue_mix_pct": 25,
+      "margin_desc": "R&D·영업비용 부담에도 고마진 바이오의약품 비중이 높아 전사 평균 대비 수익성 우수",
+      "outlook": "Padcev, 바이오시밀러 등이 두 자릿수 성장을 견인하며 최대 성장 축 유지 전망"
+    },
+    {
+      "name": "백신(Vaccines)",
+      "revenue_mix_pct": 13,
+      "margin_desc": "Prevnar 계열은 고마진이나 Comirnaty·Paxlovid는 접종률 둔화로 마진 변동성 확대",
+      "outlook": "코로나19 관련 매출 축소 지속 속 완만한 감소세"
+    },
+    {
+      "name": "내과(Internal Medicine, Eliquis 등)",
+      "revenue_mix_pct": 18,
+      "margin_desc": "Eliquis 로열티 구조로 마진율 높으나 특허 만료 임박에 따른 가격 압박 시작",
+      "outlook": "유럽 특허 만료(2026년 5월) 이후 미국 만료(2028년)까지 매출 급격한 축소 예상"
+    },
+    {
+      "name": "희귀질환·전문/병원(Specialty, Rare Disease, Hospital)",
+      "revenue_mix_pct": 44,
+      "margin_desc": "품목별 편차가 크며 전반적으로 안정적 현금흐름을 제공하는 캐시카우 성격",
+      "outlook": "Ibrance·Xtandi 등 2027~2028년 특허 만료 영향권이나 신규 승인 품목이 일부 상쇄"
+    }
+  ],
+  "analyst": {
+    "rating": "매수(Buy) 우세 속 일부 Hold 혼재 — 배당 매력 대비 성장성에는 신중한 컨센서스",
+    "price_target_low": 24,
+    "price_target_avg": 29,
+    "price_target_high": 37.5,
+    "eps_next_fy": "FY2027 조정 EPS 컨센서스 약 $2.86 (전년대비 약 -4% 내외)",
+    "revenue_growth_est": "FY2027 매출 전년대비 약 -3% 내외 감소 전망(특허 만료 영향 지속)"
+  },
+  "outlook": "향후 12개월은 Eliquis·Xtandi·Ibrance 등 순차적 특허 만료(LOE)에 따른 매출 압박이 본격화되는 국면이다. 2026년 매출 가이던스는 $59.5~62.5bn, 조정 EPS $2.80~3.00으로 재확인되었으며, 2027년까지 추가 17억 달러 비용절감과 종양·비만 파이프라인이 매출 감소분을 부분적으로 상쇄할 전망이다. 배당수익률은 매력적이나 주가 재평가는 특허 절벽 극복 여부에 달려 있다.",
+  "triggers": [
+    {"label": "Eliquis 유럽 특허 만료(1차 매출 충격)", "timing": "2026년 5월(이미 발생, 잔여 영향 지속)", "type": "catalyst"},
+    {"label": "비만치료제(danuglipron 등) 임상·규제 데이터", "timing": "2026년 하반기", "type": "catalyst"},
+    {"label": "Ibrance·Xtandi 특허 만료 개시", "timing": "2027년", "type": "catalyst"},
+    {"label": "Eliquis 미국 특허 만료(최대 매출 충격)", "timing": "2028년", "type": "catalyst"}
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "ticker": "LMT",
+  "as_of": "2026-07-17",
+  "industry_overview": "글로벌 방위산업은 미국 국방예산 확대와 우크라이나·중동 분쟁 장기화, 나토 회원국 국방비 증액에 힘입어 견조한 수요 국면을 지속하고 있다. 특히 미국 정부의 '골든돔(Golden Dome)' 미사일 방어체계 추진과 F-35 생산 확대가 향후 수년간 방산 대형 프라임 업체들의 핵심 성장동력으로 부각되고 있다.",
+  "competitive_landscape": "록히드마틴은 F-35 프로그램을 기반으로 세계 최대 방산업체 지위를 유지하고 있으며, RTX·Northrop Grumman·Boeing Defense·General Dynamics 등과 경쟁한다. 미사일방어 부문에서는 Northrop Grumman·Anduril 등과 골든돔 초기 계약을 두고 경쟁 중이며, 회전익 부문은 자회사 Sikorsky를 통해 Boeing(Apache)과 경쟁 구도를 형성한다.",
+  "segments": [
+    {
+      "name": "항공(Aeronautics)",
+      "revenue_mix_pct": 39,
+      "margin_desc": "2026년 1분기 매출 전년동기 대비 1% 감소, 영업이익은 기밀프로그램 물량 축소 및 F-16·C-130 조정 영향으로 14% 감소",
+      "outlook": "F-35 생산률 확대(2026년 국방예산에서 인수물량 대폭 증액)로 하반기 반등 전망"
+    },
+    {
+      "name": "미사일·화력통제(Missiles and Fire Control)",
+      "revenue_mix_pct": 20,
+      "margin_desc": "2026년 1분기 매출 전년동기 대비 8% 증가로 전 부문 중 최고 성장, PAC-3·JASSM·LRASM·PrSM 생산 램프업이 견인",
+      "outlook": "탄약 재비축 수요와 골든돔 관련 요격체 수요 확대로 최고 성장세 지속 전망"
+    },
+    {
+      "name": "회전익항공기(Rotary and Mission Systems)",
+      "revenue_mix_pct": 22,
+      "margin_desc": "2026년 1분기 매출 8% 감소, 영업이익은 Sikorsky 관련 비용 조정과 전년 IP 라이선스 수익 재현 부재로 19% 감소",
+      "outlook": "CH-53K 등 수주잔고 증가에 힘입어 점진적 실적 안정화 전망"
+    },
+    {
+      "name": "우주(Space)",
+      "revenue_mix_pct": 19,
+      "margin_desc": "2026년 1분기 매출 7% 증가, 차세대 요격체(NGI) 및 전략핵잠수함 발사미사일(FBM) 프로그램이 성장 견인",
+      "outlook": "골든돔 및 미사일방어 투자 확대 수혜로 안정적 성장 지속 전망"
+    }
+  ],
+  "analyst": {
+    "rating": "월가 컨센서스는 중립(Hold) 우위로, 매수와 중립 의견이 혼재된 가운데 소수의 매도 의견도 존재",
+    "price_target_low": 511,
+    "price_target_avg": 625,
+    "price_target_high": 756,
+    "eps_next_fy": "2026 회계연도 컨센서스 EPS는 약 $29.9 수준(회사 가이던스 $29.35~$30.25와 부합)",
+    "revenue_growth_est": "향후 12개월 매출성장률 컨센서스는 약 7%대로, 회사 자체 가이던스(매출 $775~800억)와 유사한 수준"
+  },
+  "outlook": "향후 12개월 록히드마틴은 F-35 생산 확대, 골든돔 미사일방어 프로젝트 참여, PAC-3·JASSM 등 정밀유도무기 수요 증가에 힘입어 매출 성장세를 이어갈 전망이다. 2026년 1분기 기준 총수주잔고는 $1,864억으로 여전히 견조하나, 회전익·항공 부문의 마진 압박은 단기 리스크 요인이다. 국방예산 증액 기조와 지정학적 긴장 지속이 실적 가시성을 뒷받침하는 반면, 프로그램 지연·비용초과 이슈와 밸류에이션 부담은 유의할 필요가 있다.",
+  "triggers": [
+    {"label": "2026년 2분기 실적 발표", "timing": "2026년 7월 23일", "type": "catalyst"},
+    {"label": "골든돔 미사일방어 계약 배정 확정", "timing": "2026년 하반기~2027년", "type": "catalyst"},
+    {"label": "F-35 생산률 확대 및 2027 회계연도 국방예산 승인", "timing": "2026년 하반기", "type": "catalyst"},
+    {"label": "Sikorsky·회전익 부문 마진 정상화 여부", "timing": "상시 모니터링", "type": "catalyst"}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "ticker": "NVDA",
+  "as_of": "2026-07-17",
+  "industry_overview": "엔비디아는 AI 가속 컴퓨팅을 주도하는 GPU 및 데이터센터 인프라 기업으로, 생성형 AI 학습·추론 수요 확대의 최대 수혜주로 평가된다. 데이터센터용 GPU와 NVLink·네트워킹 솔루션이 시장을 사실상 독점하고 있으며, Blackwell 세대에 이어 2026년 2분기부터 차세대 Rubin(R200) 플랫폼 출하가 본격화되고 있다.",
+  "competitive_landscape": "데이터센터 AI 가속기 시장에서는 AMD(Instinct MI 시리즈)가 가장 근접한 경쟁자이며, 구글 TPU, 아마존 Trainium/Inferentia, 마이크로소프트 Maia 등 빅테크의 자체 칩 개발이 잠재적 위협 요인이다. 엣지 컴퓨팅(게이밍·전문 시각화·자동차) 부문에서는 AMD, 인텔이 경쟁하나, CUDA 소프트웨어 생태계의 진입장벽 덕분에 데이터센터 부문 점유율 우위는 견고하게 유지되고 있다.",
+  "segments": [
+    {
+      "name": "데이터센터",
+      "revenue_mix_pct": 92,
+      "margin_desc": "높은 GPU 가격결정력과 소프트웨어 결합으로 비GAAP 총마진 75% 내외 유지",
+      "outlook": "Blackwell 완전 가동과 Rubin 출하 개시로 2026년 하반기에도 고성장 지속 전망"
+    },
+    {
+      "name": "엣지 컴퓨팅(게이밍·전문시각화·자동차·OEM)",
+      "revenue_mix_pct": 8,
+      "margin_desc": "데이터센터 대비 낮은 마진이나 안정적 캐시플로우 기여",
+      "outlook": "신규 게이밍 GPU 사이클과 자율주행 파트너십 확대로 완만한 성장 예상"
+    }
+  ],
+  "analyst": {
+    "rating": "매수 우세 (36개 매수, 1개 보유, 매도 0개 수준의 강력한 매수 컨센서스)",
+    "price_target_low": 250,
+    "price_target_avg": 305,
+    "price_target_high": 500,
+    "eps_next_fy": "약 9.3~11달러 수준(비GAAP, FY2027~FY2028 컨센서스 상향 추세)",
+    "revenue_growth_est": "차기 회계연도 매출 성장률 컨센서스 20%대 중후반으로, AI 인프라 투자 지속을 반영"
+  },
+  "outlook": "향후 12개월은 Rubin 플랫폼 양산 램프와 하이퍼스케일러들의 지속적 AI 캐펙스 확대가 핵심 동력이 될 전망이다. 다만 대중국 수출 통제(H20 제한, H200 관세 부과 등) 관련 정책 변동성과 밸류에이션 부담은 주가 변동성 요인으로 작용할 수 있다. 데이터센터 부문의 압도적 점유율과 CUDA 생태계 경쟁우위는 중장기 실적 가시성을 뒷받침한다.",
+  "triggers": [
+    {"label": "2분기(FY2027) 실적 발표", "timing": "2026-08-26", "type": "catalyst"},
+    {"label": "Rubin(R200) 플랫폼 양산 출하 확대", "timing": "2026년 2~3분기", "type": "catalyst"},
+    {"label": "대중국 H200 수출 및 25% 관세 정책 변화", "timing": "진행중", "type": "risk"},
+    {"label": "하이퍼스케일러 AI 캐펙스 가이던스 조정", "timing": "2026년 3분기 빅테크 실적 시즌", "type": "risk"},
+    {"label": "AMD·자체개발 ASIC(TPU, Trainium 등) 경쟁 심화", "timing": "지속적", "type": "risk"}
+  ]
+}
