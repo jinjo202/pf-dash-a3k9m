@@ -27,6 +27,19 @@
    "total_return_pct": 20.35
   },
   {
+   "ticker": "AAOI",
+   "names": [
+    "어플라이드옵토일렉트로닉스",
+    "Applied Optoelectronics"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 100.24,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 48.77
+  },
+  {
    "ticker": "AAPL",
    "names": [
     "애플",
@@ -92,6 +105,19 @@
    "total_return_pct": 1.43
   },
   {
+   "ticker": "AEP",
+   "names": [
+    "아메리칸일렉트릭파워",
+    "American Electric Power"
+   ],
+   "sector": "유틸리티",
+   "last_close": 133.13,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.32
+  },
+  {
    "ticker": "AMAT",
    "names": [
     "어플라이드머티어리얼즈",
@@ -142,6 +168,32 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 6.06
+  },
+  {
+   "ticker": "ANET",
+   "names": [
+    "아리스타네트웍스",
+    "Arista Networks"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 168.56,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 9.6
+  },
+  {
+   "ticker": "APH",
+   "names": [
+    "앰피놀",
+    "Amphenol"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 153.14,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 8.13
   },
   {
    "ticker": "ARM",
@@ -197,6 +249,19 @@
    "total_return_pct": 3.55
   },
   {
+   "ticker": "BA",
+   "names": [
+    "보잉",
+    "Boeing"
+   ],
+   "sector": "산업재",
+   "last_close": 214.34,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.35
+  },
+  {
    "ticker": "BAC",
    "names": [
     "뱅크오브아메리카",
@@ -208,6 +273,32 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 6.07
+  },
+  {
+   "ticker": "BE",
+   "names": [
+    "블룸에너지",
+    "Bloom Energy"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 206.73,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 23.42
+  },
+  {
+   "ticker": "BEP",
+   "names": [
+    "브룩필드리뉴어블",
+    "Brookfield Renewable"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 31.8,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.71
   },
   {
    "ticker": "BKNG",
@@ -262,6 +353,32 @@
    "total_return_pct": 10.35
   },
   {
+   "ticker": "CAT",
+   "names": [
+    "캐터필러",
+    "Caterpillar"
+   ],
+   "sector": "산업재",
+   "last_close": 877.17,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 15.74
+  },
+  {
+   "ticker": "CIEN",
+   "names": [
+    "시에나",
+    "Ciena"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 388.81,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 33.64
+  },
+  {
    "ticker": "CL",
    "names": [
     "콜게이트",
@@ -286,6 +403,19 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -0.08
+  },
+  {
+   "ticker": "COHR",
+   "names": [
+    "코히런트",
+    "Coherent"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 276.96,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 14.39
   },
   {
    "ticker": "COP",
@@ -340,6 +470,19 @@
    "total_return_pct": 10.48
   },
   {
+   "ticker": "CSCO",
+   "names": [
+    "시스코",
+    "Cisco"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 109.66,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.09
+  },
+  {
    "ticker": "CVX",
    "names": [
     "셰브런",
@@ -351,6 +494,32 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 1.09
+  },
+  {
+   "ticker": "CWEN",
+   "names": [
+    "클리어웨이에너지",
+    "Clearway Energy"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 33.77,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.2
+  },
+  {
+   "ticker": "D",
+   "names": [
+    "도미니언에너지",
+    "Dominion Energy"
+   ],
+   "sector": "유틸리티",
+   "last_close": 71.69,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.58
   },
   {
    "ticker": "DDOG",
@@ -366,6 +535,20 @@
    "total_return_pct": 7.86
   },
   {
+   "ticker": "DE",
+   "names": [
+    "디어",
+    "존디어",
+    "Deere"
+   ],
+   "sector": "산업재",
+   "last_close": 598.97,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.79
+  },
+  {
    "ticker": "DIS",
    "names": [
     "디즈니",
@@ -379,6 +562,58 @@
    "total_return_pct": -3.22
   },
   {
+   "ticker": "DUK",
+   "names": [
+    "듀크에너지",
+    "Duke Energy"
+   ],
+   "sector": "유틸리티",
+   "last_close": 126.11,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.72
+  },
+  {
+   "ticker": "ED",
+   "names": [
+    "콘에디슨",
+    "Con Edison"
+   ],
+   "sector": "유틸리티",
+   "last_close": 112.39,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.23
+  },
+  {
+   "ticker": "EMR",
+   "names": [
+    "에머슨일렉트릭",
+    "Emerson Electric"
+   ],
+   "sector": "산업재",
+   "last_close": 139.08,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.29
+  },
+  {
+   "ticker": "ENPH",
+   "names": [
+    "엔페이즈에너지",
+    "Enphase Energy"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 41.08,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -6.66
+  },
+  {
    "ticker": "EOG",
    "names": [
     "EOG리소시스",
@@ -390,6 +625,98 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 0.79
+  },
+  {
+   "ticker": "ES",
+   "names": [
+    "에버소스",
+    "Eversource"
+   ],
+   "sector": "유틸리티",
+   "last_close": 75.04,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.02
+  },
+  {
+   "ticker": "ETN",
+   "names": [
+    "이턴",
+    "Eaton"
+   ],
+   "sector": "산업재",
+   "last_close": 396.27,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 4.82
+  },
+  {
+   "ticker": "EXC",
+   "names": [
+    "엑셀론",
+    "Exelon"
+   ],
+   "sector": "유틸리티",
+   "last_close": 46.79,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.43
+  },
+  {
+   "ticker": "FN",
+   "names": [
+    "파브리네트",
+    "Fabrinet"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 460.19,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 1.0
+  },
+  {
+   "ticker": "FSLR",
+   "names": [
+    "퍼스트솔라",
+    "First Solar"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 211.93,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.13
+  },
+  {
+   "ticker": "GD",
+   "names": [
+    "제너럴다이내믹스",
+    "General Dynamics"
+   ],
+   "sector": "산업재",
+   "last_close": 368.82,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.37
+  },
+  {
+   "ticker": "GE",
+   "names": [
+    "제너럴일렉트릭",
+    "GE에어로스페이스",
+    "General Electric"
+   ],
+   "sector": "산업재",
+   "last_close": 345.73,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 21.21
   },
   {
    "ticker": "GILD",
@@ -443,6 +770,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 2.43
+  },
+  {
+   "ticker": "HON",
+   "names": [
+    "허니웰",
+    "Honeywell"
+   ],
+   "sector": "산업재",
+   "last_close": 226.33,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -7.47
   },
   {
    "ticker": "INTC",
@@ -549,6 +889,19 @@
    "total_return_pct": 2.39
   },
   {
+   "ticker": "LITE",
+   "names": [
+    "루멘텀",
+    "Lumentum"
+   ],
+   "sector": "광통신·네트워크장비",
+   "last_close": 706.23,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 35.46
+  },
+  {
    "ticker": "LLY",
    "names": [
     "일라이릴리",
@@ -560,6 +913,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 7.75
+  },
+  {
+   "ticker": "LMT",
+   "names": [
+    "록히드마틴",
+    "Lockheed Martin"
+   ],
+   "sector": "산업재",
+   "last_close": 513.52,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.65
   },
   {
    "ticker": "LOW",
@@ -638,6 +1004,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 12.07
+  },
+  {
+   "ticker": "MMM",
+   "names": [
+    "3M",
+    "쓰리엠"
+   ],
+   "sector": "산업재",
+   "last_close": 161.77,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 5.65
   },
   {
    "ticker": "MPC",
@@ -770,6 +1149,19 @@
    "total_return_pct": -8.21
   },
   {
+   "ticker": "NOC",
+   "names": [
+    "노스롭그루먼",
+    "Northrop Grumman"
+   ],
+   "sector": "산업재",
+   "last_close": 518.65,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.3
+  },
+  {
    "ticker": "NOW",
    "names": [
     "서비스나우",
@@ -835,6 +1227,32 @@
    "total_return_pct": -6.18
   },
   {
+   "ticker": "PCG",
+   "names": [
+    "PG&E",
+    "피지이"
+   ],
+   "sector": "유틸리티",
+   "last_close": 17.53,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -0.5
+  },
+  {
+   "ticker": "PEG",
+   "names": [
+    "PSEG",
+    "피에스이지"
+   ],
+   "sector": "유틸리티",
+   "last_close": 79.53,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -3.02
+  },
+  {
    "ticker": "PEP",
    "names": [
     "펩시코",
@@ -887,6 +1305,19 @@
    "total_return_pct": 5.59
   },
   {
+   "ticker": "PLUG",
+   "names": [
+    "플러그파워",
+    "Plug Power"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 2.15,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.25
+  },
+  {
    "ticker": "PSX",
    "names": [
     "필립스66",
@@ -926,6 +1357,33 @@
    "total_return_pct": -2.34
   },
   {
+   "ticker": "RTX",
+   "names": [
+    "RTX",
+    "레이시온",
+    "Raytheon"
+   ],
+   "sector": "산업재",
+   "last_close": 194.36,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.78
+  },
+  {
+   "ticker": "RUN",
+   "names": [
+    "선런",
+    "Sunrun"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 12.14,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -21.08
+  },
+  {
    "ticker": "SBUX",
    "names": [
     "스타벅스",
@@ -950,6 +1408,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 2.79
+  },
+  {
+   "ticker": "SEDG",
+   "names": [
+    "솔라엣지",
+    "SolarEdge"
+   ],
+   "sector": "신재생에너지",
+   "last_close": 52.34,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -23.16
   },
   {
    "ticker": "SHOP",
@@ -989,6 +1460,19 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -3.35
+  },
+  {
+   "ticker": "SO",
+   "names": [
+    "서던컴퍼니",
+    "Southern Company"
+   ],
+   "sector": "유틸리티",
+   "last_close": 96.07,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 1.43
   },
   {
    "ticker": "SPGI",
@@ -1082,6 +1566,32 @@
    "total_return_pct": -3.69
   },
   {
+   "ticker": "UNP",
+   "names": [
+    "유니온퍼시픽",
+    "Union Pacific"
+   ],
+   "sector": "산업재",
+   "last_close": 299.42,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.59
+  },
+  {
+   "ticker": "UPS",
+   "names": [
+    "UPS",
+    "유피에스"
+   ],
+   "sector": "산업재",
+   "last_close": 117.18,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.79
+  },
+  {
    "ticker": "V",
    "names": [
     "비자",
@@ -1121,6 +1631,19 @@
    "total_return_pct": -1.2
   },
   {
+   "ticker": "WEC",
+   "names": [
+    "WEC에너지",
+    "WEC Energy"
+   ],
+   "sector": "유틸리티",
+   "last_close": 114.49,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -3.43
+  },
+  {
    "ticker": "WFC",
    "names": [
     "웰스파고",
@@ -1158,6 +1681,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 7.18
+  },
+  {
+   "ticker": "XEL",
+   "names": [
+    "엑셀에너지",
+    "Xcel Energy"
+   ],
+   "sector": "유틸리티",
+   "last_close": 79.98,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.41
   },
   {
    "ticker": "XOM",

@@ -1,0 +1,283 @@
+{
+ "ticker": "CWEN",
+ "names": [
+  "클리어웨이에너지",
+  "Clearway Energy"
+ ],
+ "sector": "신재생에너지",
+ "as_of": "2026-07-16",
+ "last_close": 33.77,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 2.2,
+   "annualized_return_pct": 0.44,
+   "volatility_pct": 2.79,
+   "sharpe_ratio": 0.17,
+   "sortino_ratio": 0.17,
+   "max_drawdown_pct": -5.9,
+   "win_rate_pct": 38.2,
+   "profit_factor": 1.19,
+   "avg_trade_pnl": 64.62,
+   "num_trades": 34,
+   "exposure_pct": 49.5,
+   "recovery_factor": 0.37
+  },
+  "in_sample": {
+   "total_return_pct": 2.9,
+   "annualized_return_pct": 0.72,
+   "volatility_pct": 2.72,
+   "sharpe_ratio": 0.28,
+   "sortino_ratio": 0.28,
+   "max_drawdown_pct": -5.9,
+   "win_rate_pct": 40.7,
+   "profit_factor": 1.35,
+   "avg_trade_pnl": 107.37,
+   "num_trades": 27,
+   "exposure_pct": 49.0,
+   "recovery_factor": 0.49
+  },
+  "out_of_sample": {
+   "total_return_pct": 0.58,
+   "annualized_return_pct": 0.59,
+   "volatility_pct": 2.93,
+   "sharpe_ratio": 0.21,
+   "sortino_ratio": 0.22,
+   "max_drawdown_pct": -2.87,
+   "win_rate_pct": 33.3,
+   "profit_factor": 1.26,
+   "avg_trade_pnl": 97.29,
+   "num_trades": 6,
+   "exposure_pct": 48.6,
+   "recovery_factor": 0.2
+  },
+  "benchmark": {
+   "total_return_pct": 70.21,
+   "annualized_return_pct": 11.28,
+   "volatility_pct": 30.44,
+   "sharpe_ratio": 0.5,
+   "sortino_ratio": 0.78,
+   "max_drawdown_pct": -52.09,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 1.35
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "34 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -5.9% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.19 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -1.73,
+  "final_equity": 98274.93,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   99966
+  ],
+  [
+   "03-23",
+   99466
+  ],
+  [
+   "03-25",
+   99802
+  ],
+  [
+   "03-27",
+   99783
+  ],
+  [
+   "03-31",
+   99840
+  ],
+  [
+   "04-02",
+   100179
+  ],
+  [
+   "04-07",
+   99959
+  ],
+  [
+   "04-09",
+   100305
+  ],
+  [
+   "04-13",
+   99928
+  ],
+  [
+   "04-15",
+   100148
+  ],
+  [
+   "04-17",
+   99793
+  ],
+  [
+   "04-21",
+   99359
+  ],
+  [
+   "04-23",
+   99526
+  ],
+  [
+   "04-27",
+   99526
+  ],
+  [
+   "04-29",
+   98833
+  ],
+  [
+   "05-01",
+   99483
+  ],
+  [
+   "05-05",
+   99000
+  ],
+  [
+   "05-07",
+   99000
+  ],
+  [
+   "05-11",
+   99000
+  ],
+  [
+   "05-13",
+   99000
+  ],
+  [
+   "05-15",
+   99000
+  ],
+  [
+   "05-19",
+   99000
+  ],
+  [
+   "05-21",
+   99000
+  ],
+  [
+   "05-26",
+   99000
+  ],
+  [
+   "05-28",
+   99027
+  ],
+  [
+   "06-01",
+   99084
+  ],
+  [
+   "06-03",
+   99071
+  ],
+  [
+   "06-05",
+   98895
+  ],
+  [
+   "06-09",
+   98648
+  ],
+  [
+   "06-11",
+   98262
+  ],
+  [
+   "06-15",
+   98275
+  ],
+  [
+   "06-17",
+   98275
+  ],
+  [
+   "06-22",
+   98275
+  ],
+  [
+   "06-24",
+   98275
+  ],
+  [
+   "06-26",
+   98275
+  ],
+  [
+   "06-30",
+   98275
+  ],
+  [
+   "07-02",
+   98275
+  ],
+  [
+   "07-07",
+   98275
+  ],
+  [
+   "07-09",
+   98275
+  ],
+  [
+   "07-13",
+   98275
+  ],
+  [
+   "07-15",
+   98275
+  ]
+ ],
+ "has_coverage": false
+}

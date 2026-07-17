@@ -1,0 +1,283 @@
+{
+ "ticker": "ETN",
+ "names": [
+  "이턴",
+  "Eaton"
+ ],
+ "sector": "산업재",
+ "as_of": "2026-07-16",
+ "last_close": 396.27,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 4.82,
+   "annualized_return_pct": 0.95,
+   "volatility_pct": 2.97,
+   "sharpe_ratio": 0.33,
+   "sortino_ratio": 0.3,
+   "max_drawdown_pct": -3.84,
+   "win_rate_pct": 33.3,
+   "profit_factor": 1.35,
+   "avg_trade_pnl": 133.76,
+   "num_trades": 36,
+   "exposure_pct": 55.7,
+   "recovery_factor": 1.25
+  },
+  "in_sample": {
+   "total_return_pct": 6.99,
+   "annualized_return_pct": 1.71,
+   "volatility_pct": 2.7,
+   "sharpe_ratio": 0.64,
+   "sortino_ratio": 0.59,
+   "max_drawdown_pct": -3.84,
+   "win_rate_pct": 35.7,
+   "profit_factor": 1.72,
+   "avg_trade_pnl": 249.5,
+   "num_trades": 28,
+   "exposure_pct": 56.6,
+   "recovery_factor": 1.82
+  },
+  "out_of_sample": {
+   "total_return_pct": -1.95,
+   "annualized_return_pct": -1.96,
+   "volatility_pct": 3.54,
+   "sharpe_ratio": -0.54,
+   "sortino_ratio": -0.51,
+   "max_drawdown_pct": -2.99,
+   "win_rate_pct": 25.0,
+   "profit_factor": 0.48,
+   "avg_trade_pnl": -244.06,
+   "num_trades": 8,
+   "exposure_pct": 45.8,
+   "recovery_factor": -0.65
+  },
+  "benchmark": {
+   "total_return_pct": 187.64,
+   "annualized_return_pct": 23.65,
+   "volatility_pct": 30.87,
+   "sharpe_ratio": 0.84,
+   "sortino_ratio": 1.12,
+   "max_drawdown_pct": -34.46,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 5.44
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "36 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -3.84% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.35 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -1.18,
+  "final_equity": 98823.52,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   99873
+  ],
+  [
+   "03-27",
+   99291
+  ],
+  [
+   "03-31",
+   98982
+  ],
+  [
+   "04-02",
+   98982
+  ],
+  [
+   "04-07",
+   98982
+  ],
+  [
+   "04-09",
+   99350
+  ],
+  [
+   "04-13",
+   99443
+  ],
+  [
+   "04-15",
+   99179
+  ],
+  [
+   "04-17",
+   99534
+  ],
+  [
+   "04-21",
+   99645
+  ],
+  [
+   "04-23",
+   100116
+  ],
+  [
+   "04-27",
+   99870
+  ],
+  [
+   "04-29",
+   99679
+  ],
+  [
+   "05-01",
+   100149
+  ],
+  [
+   "05-05",
+   99682
+  ],
+  [
+   "05-07",
+   99309
+  ],
+  [
+   "05-11",
+   99423
+  ],
+  [
+   "05-13",
+   99423
+  ],
+  [
+   "05-15",
+   99423
+  ],
+  [
+   "05-19",
+   99423
+  ],
+  [
+   "05-21",
+   99423
+  ],
+  [
+   "05-26",
+   99423
+  ],
+  [
+   "05-28",
+   99423
+  ],
+  [
+   "06-01",
+   99423
+  ],
+  [
+   "06-03",
+   99889
+  ],
+  [
+   "06-05",
+   99115
+  ],
+  [
+   "06-09",
+   99292
+  ],
+  [
+   "06-11",
+   99044
+  ],
+  [
+   "06-15",
+   99121
+  ],
+  [
+   "06-17",
+   99121
+  ],
+  [
+   "06-22",
+   99549
+  ],
+  [
+   "06-24",
+   98631
+  ],
+  [
+   "06-26",
+   98575
+  ],
+  [
+   "06-30",
+   99264
+  ],
+  [
+   "07-02",
+   98452
+  ],
+  [
+   "07-07",
+   98369
+  ],
+  [
+   "07-09",
+   98824
+  ],
+  [
+   "07-13",
+   98824
+  ],
+  [
+   "07-15",
+   98824
+  ]
+ ],
+ "has_coverage": false
+}

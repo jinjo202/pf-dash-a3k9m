@@ -164,7 +164,7 @@ async function init(){
   catch(e){ $("content").innerHTML = `<div class="card empty">데이터 인덱스를 불러오지 못했습니다.</div>`; return; }
   // datalist + chips (섹터별 그룹화)
   $("symbols").innerHTML = INDEX.tickers.map(t=>`<option value="${t.ticker}">${(t.names||[]).join(" · ")}</option>`).join("");
-  const order = ["반도체", "소프트웨어", "에너지", "금융", "바이오·헬스케어", "기타"];
+  const order = SECTOR_ORDER.concat(["기타"]);
   const groups = {};
   INDEX.tickers.forEach(t=>{ const s=t.sector||"기타"; (groups[s]=groups[s]||[]).push(t); });
   const secs = order.filter(s=>groups[s]).concat(Object.keys(groups).filter(s=>!order.includes(s)));
@@ -291,10 +291,13 @@ function drawEq(EQ, cap){
 }
 
 // ---- 섹터별 개요 뷰 ----
-const KEYMAP = {"반도체":"semiconductor","소프트웨어":"software","에너지":"energy","금융":"financial","바이오·헬스케어":"biohealth","소비재":"consumer"};
+const KEYMAP = {"반도체":"semiconductor","소프트웨어":"software","에너지":"energy","금융":"financial",
+  "바이오·헬스케어":"biohealth","소비재":"consumer","산업재":"industrials","유틸리티":"utilities",
+  "광통신·네트워크장비":"optical","신재생에너지":"renewable"};
+const SECTOR_ORDER = ["반도체","소프트웨어","산업재","에너지","신재생에너지","광통신·네트워크장비","유틸리티","금융","바이오·헬스케어","소비재"];
 let SECMETA = {};
 async function loadSectorMeta(){
-  const order = ["반도체","소프트웨어","에너지","금융","바이오·헬스케어","소비재"];
+  const order = SECTOR_ORDER;
   await Promise.all(order.map(async s=>{ try{ SECMETA[s] = await jget(`aihedgefund/data/../sectors/${KEYMAP[s]}.json`);}catch(e){} }));
 }
 $("tabTicker").onclick = ()=>switchView("ticker");
@@ -306,9 +309,8 @@ function switchView(v){
   if(!isT) renderSectorView();
 }
 function renderSectorView(){
-  const order = ["반도체","소프트웨어","에너지","금융","바이오·헬스케어","소비재"];
   let h = "";
-  for(const s of order){
+  for(const s of SECTOR_ORDER){
     const ts = INDEX.tickers.filter(t=>(t.sector||"기타")===s);
     if(!ts.length) continue;
     const appr = ts.filter(t=>t.gate==="APPROVE").length;

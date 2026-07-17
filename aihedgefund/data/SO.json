@@ -1,0 +1,283 @@
+{
+ "ticker": "SO",
+ "names": [
+  "서던컴퍼니",
+  "Southern Company"
+ ],
+ "sector": "유틸리티",
+ "as_of": "2026-07-16",
+ "last_close": 96.07,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 1.43,
+   "annualized_return_pct": 0.29,
+   "volatility_pct": 1.78,
+   "sharpe_ratio": 0.17,
+   "sortino_ratio": 0.21,
+   "max_drawdown_pct": -3.07,
+   "win_rate_pct": 39.5,
+   "profit_factor": 1.16,
+   "avg_trade_pnl": 37.61,
+   "num_trades": 38,
+   "exposure_pct": 58.1,
+   "recovery_factor": 0.47
+  },
+  "in_sample": {
+   "total_return_pct": 1.69,
+   "annualized_return_pct": 0.42,
+   "volatility_pct": 1.8,
+   "sharpe_ratio": 0.24,
+   "sortino_ratio": 0.29,
+   "max_drawdown_pct": -3.07,
+   "win_rate_pct": 38.7,
+   "profit_factor": 1.24,
+   "avg_trade_pnl": 54.37,
+   "num_trades": 31,
+   "exposure_pct": 58.3,
+   "recovery_factor": 0.55
+  },
+  "out_of_sample": {
+   "total_return_pct": -0.33,
+   "annualized_return_pct": -0.33,
+   "volatility_pct": 1.66,
+   "sharpe_ratio": -0.19,
+   "sortino_ratio": -0.22,
+   "max_drawdown_pct": -2.48,
+   "win_rate_pct": 42.9,
+   "profit_factor": 0.82,
+   "avg_trade_pnl": -47.55,
+   "num_trades": 7,
+   "exposure_pct": 49.8,
+   "recovery_factor": -0.13
+  },
+  "benchmark": {
+   "total_return_pct": 84.03,
+   "annualized_return_pct": 13.04,
+   "volatility_pct": 18.71,
+   "sharpe_ratio": 0.75,
+   "sortino_ratio": 1.15,
+   "max_drawdown_pct": -23.28,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 3.61
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "38 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -3.07% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.16 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -1.29,
+  "final_equity": 98709.82,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   99948
+  ],
+  [
+   "04-09",
+   100047
+  ],
+  [
+   "04-13",
+   99833
+  ],
+  [
+   "04-15",
+   99667
+  ],
+  [
+   "04-17",
+   99632
+  ],
+  [
+   "04-21",
+   99632
+  ],
+  [
+   "04-23",
+   99632
+  ],
+  [
+   "04-27",
+   99632
+  ],
+  [
+   "04-29",
+   99632
+  ],
+  [
+   "05-01",
+   99632
+  ],
+  [
+   "05-05",
+   99578
+  ],
+  [
+   "05-07",
+   99129
+  ],
+  [
+   "05-11",
+   99095
+  ],
+  [
+   "05-13",
+   99095
+  ],
+  [
+   "05-15",
+   99095
+  ],
+  [
+   "05-19",
+   99095
+  ],
+  [
+   "05-21",
+   99095
+  ],
+  [
+   "05-26",
+   99030
+  ],
+  [
+   "05-28",
+   98825
+  ],
+  [
+   "06-01",
+   98367
+  ],
+  [
+   "06-03",
+   98396
+  ],
+  [
+   "06-05",
+   98396
+  ],
+  [
+   "06-09",
+   98396
+  ],
+  [
+   "06-11",
+   98396
+  ],
+  [
+   "06-15",
+   98414
+  ],
+  [
+   "06-17",
+   98245
+  ],
+  [
+   "06-22",
+   98363
+  ],
+  [
+   "06-24",
+   98672
+  ],
+  [
+   "06-26",
+   98853
+  ],
+  [
+   "06-30",
+   98663
+  ],
+  [
+   "07-02",
+   98961
+  ],
+  [
+   "07-07",
+   98870
+  ],
+  [
+   "07-09",
+   98592
+  ],
+  [
+   "07-13",
+   98762
+  ],
+  [
+   "07-15",
+   98517
+  ]
+ ],
+ "has_coverage": false
+}

@@ -1,0 +1,283 @@
+{
+ "ticker": "FN",
+ "names": [
+  "파브리네트",
+  "Fabrinet"
+ ],
+ "sector": "광통신·네트워크장비",
+ "as_of": "2026-07-16",
+ "last_close": 460.19,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 1.0,
+   "annualized_return_pct": 0.2,
+   "volatility_pct": 4.92,
+   "sharpe_ratio": 0.07,
+   "sortino_ratio": 0.06,
+   "max_drawdown_pct": -6.92,
+   "win_rate_pct": 39.0,
+   "profit_factor": 1.05,
+   "avg_trade_pnl": 24.35,
+   "num_trades": 41,
+   "exposure_pct": 44.6,
+   "recovery_factor": 0.14
+  },
+  "in_sample": {
+   "total_return_pct": 4.72,
+   "annualized_return_pct": 1.17,
+   "volatility_pct": 4.37,
+   "sharpe_ratio": 0.29,
+   "sortino_ratio": 0.27,
+   "max_drawdown_pct": -6.92,
+   "win_rate_pct": 37.9,
+   "profit_factor": 1.32,
+   "avg_trade_pnl": 162.77,
+   "num_trades": 29,
+   "exposure_pct": 44.3,
+   "recovery_factor": 0.68
+  },
+  "out_of_sample": {
+   "total_return_pct": -2.93,
+   "annualized_return_pct": -2.94,
+   "volatility_pct": 5.83,
+   "sharpe_ratio": -0.49,
+   "sortino_ratio": -0.42,
+   "max_drawdown_pct": -5.44,
+   "win_rate_pct": 41.7,
+   "profit_factor": 0.5,
+   "avg_trade_pnl": -244.45,
+   "num_trades": 12,
+   "exposure_pct": 36.3,
+   "recovery_factor": -0.54
+  },
+  "benchmark": {
+   "total_return_pct": 412.18,
+   "annualized_return_pct": 38.86,
+   "volatility_pct": 54.5,
+   "sharpe_ratio": 0.87,
+   "sortino_ratio": 1.23,
+   "max_drawdown_pct": -38.7,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 10.65
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "41 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -6.92% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.05 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -2.25,
+  "final_equity": 97753.92,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100091
+  ],
+  [
+   "03-27",
+   98982
+  ],
+  [
+   "03-31",
+   98982
+  ],
+  [
+   "04-02",
+   98982
+  ],
+  [
+   "04-07",
+   98900
+  ],
+  [
+   "04-09",
+   99275
+  ],
+  [
+   "04-13",
+   100751
+  ],
+  [
+   "04-15",
+   100667
+  ],
+  [
+   "04-17",
+   100751
+  ],
+  [
+   "04-21",
+   100867
+  ],
+  [
+   "04-23",
+   100742
+  ],
+  [
+   "04-27",
+   100645
+  ],
+  [
+   "04-29",
+   99794
+  ],
+  [
+   "05-01",
+   101094
+  ],
+  [
+   "05-05",
+   100142
+  ],
+  [
+   "05-07",
+   99437
+  ],
+  [
+   "05-11",
+   99774
+  ],
+  [
+   "05-13",
+   99774
+  ],
+  [
+   "05-15",
+   99774
+  ],
+  [
+   "05-19",
+   98759
+  ],
+  [
+   "05-21",
+   98759
+  ],
+  [
+   "05-26",
+   98759
+  ],
+  [
+   "05-28",
+   98759
+  ],
+  [
+   "06-01",
+   98759
+  ],
+  [
+   "06-03",
+   98759
+  ],
+  [
+   "06-05",
+   97754
+  ],
+  [
+   "06-09",
+   97754
+  ],
+  [
+   "06-11",
+   97754
+  ],
+  [
+   "06-15",
+   97754
+  ],
+  [
+   "06-17",
+   97754
+  ],
+  [
+   "06-22",
+   97754
+  ],
+  [
+   "06-24",
+   97754
+  ],
+  [
+   "06-26",
+   97754
+  ],
+  [
+   "06-30",
+   97754
+  ],
+  [
+   "07-02",
+   97754
+  ],
+  [
+   "07-07",
+   97754
+  ],
+  [
+   "07-09",
+   97754
+  ],
+  [
+   "07-13",
+   97754
+  ],
+  [
+   "07-15",
+   97754
+  ]
+ ],
+ "has_coverage": false
+}

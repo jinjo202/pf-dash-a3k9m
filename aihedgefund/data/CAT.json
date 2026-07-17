@@ -1,0 +1,283 @@
+{
+ "ticker": "CAT",
+ "names": [
+  "캐터필러",
+  "Caterpillar"
+ ],
+ "sector": "산업재",
+ "as_of": "2026-07-16",
+ "last_close": 877.17,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 15.74,
+   "annualized_return_pct": 2.98,
+   "volatility_pct": 3.08,
+   "sharpe_ratio": 0.97,
+   "sortino_ratio": 1.24,
+   "max_drawdown_pct": -4.0,
+   "win_rate_pct": 42.9,
+   "profit_factor": 2.33,
+   "avg_trade_pnl": 449.76,
+   "num_trades": 35,
+   "exposure_pct": 56.2,
+   "recovery_factor": 3.94
+  },
+  "in_sample": {
+   "total_return_pct": 7.75,
+   "annualized_return_pct": 1.89,
+   "volatility_pct": 2.65,
+   "sharpe_ratio": 0.72,
+   "sortino_ratio": 0.9,
+   "max_drawdown_pct": -4.0,
+   "win_rate_pct": 39.3,
+   "profit_factor": 1.79,
+   "avg_trade_pnl": 276.7,
+   "num_trades": 28,
+   "exposure_pct": 53.6,
+   "recovery_factor": 1.94
+  },
+  "out_of_sample": {
+   "total_return_pct": 7.43,
+   "annualized_return_pct": 7.47,
+   "volatility_pct": 4.3,
+   "sharpe_ratio": 1.7,
+   "sortino_ratio": 2.32,
+   "max_drawdown_pct": -1.86,
+   "win_rate_pct": 57.1,
+   "profit_factor": 5.07,
+   "avg_trade_pnl": 1062.12,
+   "num_trades": 7,
+   "exposure_pct": 59.4,
+   "recovery_factor": 4.0
+  },
+  "benchmark": {
+   "total_return_pct": 369.85,
+   "annualized_return_pct": 36.47,
+   "volatility_pct": 31.41,
+   "sharpe_ratio": 1.15,
+   "sortino_ratio": 1.76,
+   "max_drawdown_pct": -34.05,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 10.86
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "35 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -4.0% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 2.33 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 1.58,
+  "final_equity": 101577.79,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   99580
+  ],
+  [
+   "04-02",
+   99773
+  ],
+  [
+   "04-07",
+   99901
+  ],
+  [
+   "04-09",
+   101005
+  ],
+  [
+   "04-13",
+   101087
+  ],
+  [
+   "04-15",
+   100707
+  ],
+  [
+   "04-17",
+   101139
+  ],
+  [
+   "04-21",
+   101268
+  ],
+  [
+   "04-23",
+   101882
+  ],
+  [
+   "04-27",
+   101768
+  ],
+  [
+   "04-29",
+   101437
+  ],
+  [
+   "05-01",
+   102844
+  ],
+  [
+   "05-05",
+   103107
+  ],
+  [
+   "05-07",
+   102950
+  ],
+  [
+   "05-11",
+   103500
+  ],
+  [
+   "05-13",
+   103067
+  ],
+  [
+   "05-15",
+   102820
+  ],
+  [
+   "05-19",
+   102322
+  ],
+  [
+   "05-21",
+   102425
+  ],
+  [
+   "05-26",
+   102622
+  ],
+  [
+   "05-28",
+   102622
+  ],
+  [
+   "06-01",
+   102622
+  ],
+  [
+   "06-03",
+   102622
+  ],
+  [
+   "06-05",
+   102256
+  ],
+  [
+   "06-09",
+   102399
+  ],
+  [
+   "06-11",
+   101578
+  ],
+  [
+   "06-15",
+   101578
+  ],
+  [
+   "06-17",
+   101578
+  ],
+  [
+   "06-22",
+   101578
+  ],
+  [
+   "06-24",
+   101578
+  ],
+  [
+   "06-26",
+   101578
+  ],
+  [
+   "06-30",
+   101578
+  ],
+  [
+   "07-02",
+   101578
+  ],
+  [
+   "07-07",
+   101578
+  ],
+  [
+   "07-09",
+   101578
+  ],
+  [
+   "07-13",
+   101578
+  ],
+  [
+   "07-15",
+   101578
+  ]
+ ],
+ "has_coverage": false
+}

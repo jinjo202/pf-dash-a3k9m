@@ -1,0 +1,283 @@
+{
+ "ticker": "CSCO",
+ "names": [
+  "시스코",
+  "Cisco"
+ ],
+ "sector": "광통신·네트워크장비",
+ "as_of": "2026-07-16",
+ "last_close": 109.66,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 6.09,
+   "annualized_return_pct": 1.2,
+   "volatility_pct": 2.67,
+   "sharpe_ratio": 0.46,
+   "sortino_ratio": 0.43,
+   "max_drawdown_pct": -4.39,
+   "win_rate_pct": 38.1,
+   "profit_factor": 1.49,
+   "avg_trade_pnl": 145.03,
+   "num_trades": 42,
+   "exposure_pct": 56.1,
+   "recovery_factor": 1.39
+  },
+  "in_sample": {
+   "total_return_pct": 0.93,
+   "annualized_return_pct": 0.23,
+   "volatility_pct": 2.14,
+   "sharpe_ratio": 0.12,
+   "sortino_ratio": 0.11,
+   "max_drawdown_pct": -4.39,
+   "win_rate_pct": 37.5,
+   "profit_factor": 1.09,
+   "avg_trade_pnl": 29.03,
+   "num_trades": 32,
+   "exposure_pct": 55.8,
+   "recovery_factor": 0.21
+  },
+  "out_of_sample": {
+   "total_return_pct": 5.68,
+   "annualized_return_pct": 5.7,
+   "volatility_pct": 4.11,
+   "sharpe_ratio": 1.37,
+   "sortino_ratio": 1.29,
+   "max_drawdown_pct": -2.4,
+   "win_rate_pct": 37.5,
+   "profit_factor": 4.08,
+   "avg_trade_pnl": 709.56,
+   "num_trades": 8,
+   "exposure_pct": 53.4,
+   "recovery_factor": 2.37
+  },
+  "benchmark": {
+   "total_return_pct": 137.68,
+   "annualized_return_pct": 19.0,
+   "volatility_pct": 25.31,
+   "sharpe_ratio": 0.82,
+   "sortino_ratio": 1.04,
+   "max_drawdown_pct": -36.68,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 3.75
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "42 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -4.39% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.49 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 4.23,
+  "final_equity": 104230.64,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   99660
+  ],
+  [
+   "03-31",
+   99306
+  ],
+  [
+   "04-02",
+   99588
+  ],
+  [
+   "04-07",
+   99592
+  ],
+  [
+   "04-09",
+   99709
+  ],
+  [
+   "04-13",
+   99585
+  ],
+  [
+   "04-15",
+   99587
+  ],
+  [
+   "04-17",
+   100175
+  ],
+  [
+   "04-21",
+   100696
+  ],
+  [
+   "04-23",
+   100528
+  ],
+  [
+   "04-27",
+   100479
+  ],
+  [
+   "04-29",
+   100677
+  ],
+  [
+   "05-01",
+   101021
+  ],
+  [
+   "05-05",
+   101392
+  ],
+  [
+   "05-07",
+   101068
+  ],
+  [
+   "05-11",
+   102060
+  ],
+  [
+   "05-13",
+   102536
+  ],
+  [
+   "05-15",
+   105006
+  ],
+  [
+   "05-19",
+   104578
+  ],
+  [
+   "05-21",
+   105005
+  ],
+  [
+   "05-26",
+   105024
+  ],
+  [
+   "05-28",
+   105071
+  ],
+  [
+   "06-01",
+   105478
+  ],
+  [
+   "06-03",
+   106259
+  ],
+  [
+   "06-05",
+   105525
+  ],
+  [
+   "06-09",
+   105331
+  ],
+  [
+   "06-11",
+   105553
+  ],
+  [
+   "06-15",
+   105302
+  ],
+  [
+   "06-17",
+   105302
+  ],
+  [
+   "06-22",
+   105302
+  ],
+  [
+   "06-24",
+   105302
+  ],
+  [
+   "06-26",
+   105302
+  ],
+  [
+   "06-30",
+   105302
+  ],
+  [
+   "07-02",
+   105302
+  ],
+  [
+   "07-07",
+   105302
+  ],
+  [
+   "07-09",
+   105302
+  ],
+  [
+   "07-13",
+   105302
+  ],
+  [
+   "07-15",
+   104680
+  ]
+ ],
+ "has_coverage": false
+}
