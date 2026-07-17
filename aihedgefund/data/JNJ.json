@@ -1,0 +1,283 @@
+{
+ "ticker": "JNJ",
+ "names": [
+  "존슨앤드존슨",
+  "Johnson & Johnson"
+ ],
+ "sector": "바이오·헬스케어",
+ "as_of": "2026-07-16",
+ "last_close": 249.97,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 6.28,
+   "annualized_return_pct": 1.23,
+   "volatility_pct": 1.62,
+   "sharpe_ratio": 0.77,
+   "sortino_ratio": 0.92,
+   "max_drawdown_pct": -1.42,
+   "win_rate_pct": 50.0,
+   "profit_factor": 2.22,
+   "avg_trade_pnl": 184.85,
+   "num_trades": 34,
+   "exposure_pct": 51.7,
+   "recovery_factor": 4.44
+  },
+  "in_sample": {
+   "total_return_pct": 2.27,
+   "annualized_return_pct": 0.56,
+   "volatility_pct": 1.49,
+   "sharpe_ratio": 0.39,
+   "sortino_ratio": 0.43,
+   "max_drawdown_pct": -1.42,
+   "win_rate_pct": 46.2,
+   "profit_factor": 1.54,
+   "avg_trade_pnl": 87.17,
+   "num_trades": 26,
+   "exposure_pct": 46.2,
+   "recovery_factor": 1.6
+  },
+  "out_of_sample": {
+   "total_return_pct": 2.85,
+   "annualized_return_pct": 2.86,
+   "volatility_pct": 1.9,
+   "sharpe_ratio": 1.5,
+   "sortino_ratio": 1.89,
+   "max_drawdown_pct": -1.25,
+   "win_rate_pct": 62.5,
+   "profit_factor": 4.18,
+   "avg_trade_pnl": 356.08,
+   "num_trades": 8,
+   "exposure_pct": 56.6,
+   "recovery_factor": 2.29
+  },
+  "benchmark": {
+   "total_return_pct": 72.41,
+   "annualized_return_pct": 11.57,
+   "volatility_pct": 17.32,
+   "sharpe_ratio": 0.72,
+   "sortino_ratio": 1.09,
+   "max_drawdown_pct": -18.41,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 3.93
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "34 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -1.42% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 2.22 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 0.28,
+  "final_equity": 100276.13,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   99857
+  ],
+  [
+   "04-07",
+   99622
+  ],
+  [
+   "04-09",
+   99769
+  ],
+  [
+   "04-13",
+   99599
+  ],
+  [
+   "04-15",
+   99359
+  ],
+  [
+   "04-17",
+   99282
+  ],
+  [
+   "04-21",
+   99282
+  ],
+  [
+   "04-23",
+   99282
+  ],
+  [
+   "04-27",
+   99282
+  ],
+  [
+   "04-29",
+   99282
+  ],
+  [
+   "05-01",
+   99282
+  ],
+  [
+   "05-05",
+   99282
+  ],
+  [
+   "05-07",
+   99282
+  ],
+  [
+   "05-11",
+   99282
+  ],
+  [
+   "05-13",
+   99282
+  ],
+  [
+   "05-15",
+   99282
+  ],
+  [
+   "05-19",
+   99449
+  ],
+  [
+   "05-21",
+   99544
+  ],
+  [
+   "05-26",
+   99532
+  ],
+  [
+   "05-28",
+   99566
+  ],
+  [
+   "06-01",
+   99164
+  ],
+  [
+   "06-03",
+   99150
+  ],
+  [
+   "06-05",
+   99349
+  ],
+  [
+   "06-09",
+   99583
+  ],
+  [
+   "06-11",
+   99654
+  ],
+  [
+   "06-15",
+   99512
+  ],
+  [
+   "06-17",
+   99434
+  ],
+  [
+   "06-22",
+   99278
+  ],
+  [
+   "06-24",
+   99797
+  ],
+  [
+   "06-26",
+   100527
+  ],
+  [
+   "06-30",
+   100490
+  ],
+  [
+   "07-02",
+   100974
+  ],
+  [
+   "07-07",
+   101199
+  ],
+  [
+   "07-09",
+   100764
+  ],
+  [
+   "07-13",
+   100693
+  ],
+  [
+   "07-15",
+   100119
+  ]
+ ],
+ "has_coverage": false
+}

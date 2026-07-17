@@ -1,0 +1,283 @@
+{
+ "ticker": "JPM",
+ "names": [
+  "JP모건",
+  "JPMorgan"
+ ],
+ "sector": "금융",
+ "as_of": "2026-07-16",
+ "last_close": 343.15,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 4.44,
+   "annualized_return_pct": 0.88,
+   "volatility_pct": 2.19,
+   "sharpe_ratio": 0.41,
+   "sortino_ratio": 0.42,
+   "max_drawdown_pct": -5.2,
+   "win_rate_pct": 47.2,
+   "profit_factor": 1.45,
+   "avg_trade_pnl": 123.25,
+   "num_trades": 36,
+   "exposure_pct": 59.4,
+   "recovery_factor": 0.85
+  },
+  "in_sample": {
+   "total_return_pct": 2.65,
+   "annualized_return_pct": 0.66,
+   "volatility_pct": 2.18,
+   "sharpe_ratio": 0.31,
+   "sortino_ratio": 0.32,
+   "max_drawdown_pct": -5.2,
+   "win_rate_pct": 46.4,
+   "profit_factor": 1.3,
+   "avg_trade_pnl": 94.54,
+   "num_trades": 28,
+   "exposure_pct": 59.2,
+   "recovery_factor": 0.51
+  },
+  "out_of_sample": {
+   "total_return_pct": 1.58,
+   "annualized_return_pct": 1.59,
+   "volatility_pct": 2.13,
+   "sharpe_ratio": 0.75,
+   "sortino_ratio": 0.74,
+   "max_drawdown_pct": -1.67,
+   "win_rate_pct": 50.0,
+   "profit_factor": 2.52,
+   "avg_trade_pnl": 197.84,
+   "num_trades": 8,
+   "exposure_pct": 53.8,
+   "recovery_factor": 0.95
+  },
+  "benchmark": {
+   "total_return_pct": 164.6,
+   "annualized_return_pct": 21.6,
+   "volatility_pct": 24.43,
+   "sharpe_ratio": 0.92,
+   "sortino_ratio": 1.29,
+   "max_drawdown_pct": -38.77,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 4.25
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "36 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -5.2% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.45 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 1.59,
+  "final_equity": 101586.76,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   99715
+  ],
+  [
+   "03-31",
+   99946
+  ],
+  [
+   "04-02",
+   99900
+  ],
+  [
+   "04-07",
+   100083
+  ],
+  [
+   "04-09",
+   100632
+  ],
+  [
+   "04-13",
+   100775
+  ],
+  [
+   "04-15",
+   100445
+  ],
+  [
+   "04-17",
+   100631
+  ],
+  [
+   "04-21",
+   100746
+  ],
+  [
+   "04-23",
+   100690
+  ],
+  [
+   "04-27",
+   100688
+  ],
+  [
+   "04-29",
+   100586
+  ],
+  [
+   "05-01",
+   100723
+  ],
+  [
+   "05-05",
+   100593
+  ],
+  [
+   "05-07",
+   100319
+  ],
+  [
+   "05-11",
+   100386
+  ],
+  [
+   "05-13",
+   100386
+  ],
+  [
+   "05-15",
+   100386
+  ],
+  [
+   "05-19",
+   100386
+  ],
+  [
+   "05-21",
+   100386
+  ],
+  [
+   "05-26",
+   100386
+  ],
+  [
+   "05-28",
+   100386
+  ],
+  [
+   "06-01",
+   100386
+  ],
+  [
+   "06-03",
+   100386
+  ],
+  [
+   "06-05",
+   100297
+  ],
+  [
+   "06-09",
+   100310
+  ],
+  [
+   "06-11",
+   100341
+  ],
+  [
+   "06-15",
+   100577
+  ],
+  [
+   "06-17",
+   101138
+  ],
+  [
+   "06-22",
+   101059
+  ],
+  [
+   "06-24",
+   101138
+  ],
+  [
+   "06-26",
+   100962
+  ],
+  [
+   "06-30",
+   100894
+  ],
+  [
+   "07-02",
+   101179
+  ],
+  [
+   "07-07",
+   101429
+  ],
+  [
+   "07-09",
+   101279
+  ],
+  [
+   "07-13",
+   101241
+  ],
+  [
+   "07-15",
+   101737
+  ]
+ ],
+ "has_coverage": false
+}

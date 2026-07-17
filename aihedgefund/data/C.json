@@ -1,0 +1,283 @@
+{
+ "ticker": "C",
+ "names": [
+  "씨티그룹",
+  "Citigroup"
+ ],
+ "sector": "금융",
+ "as_of": "2026-07-16",
+ "last_close": 131.71,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 10.35,
+   "annualized_return_pct": 2.0,
+   "volatility_pct": 2.5,
+   "sharpe_ratio": 0.81,
+   "sortino_ratio": 1.06,
+   "max_drawdown_pct": -4.97,
+   "win_rate_pct": 55.9,
+   "profit_factor": 2.23,
+   "avg_trade_pnl": 304.51,
+   "num_trades": 34,
+   "exposure_pct": 54.7,
+   "recovery_factor": 2.08
+  },
+  "in_sample": {
+   "total_return_pct": 5.21,
+   "annualized_return_pct": 1.28,
+   "volatility_pct": 2.36,
+   "sharpe_ratio": 0.55,
+   "sortino_ratio": 0.72,
+   "max_drawdown_pct": -4.97,
+   "win_rate_pct": 50.0,
+   "profit_factor": 1.63,
+   "avg_trade_pnl": 186.08,
+   "num_trades": 28,
+   "exposure_pct": 52.3,
+   "recovery_factor": 1.05
+  },
+  "out_of_sample": {
+   "total_return_pct": 4.41,
+   "annualized_return_pct": 4.43,
+   "volatility_pct": 2.82,
+   "sharpe_ratio": 1.56,
+   "sortino_ratio": 1.98,
+   "max_drawdown_pct": -2.14,
+   "win_rate_pct": 83.3,
+   "profit_factor": 26.22,
+   "avg_trade_pnl": 735.63,
+   "num_trades": 6,
+   "exposure_pct": 57.8,
+   "recovery_factor": 2.06
+  },
+  "benchmark": {
+   "total_return_pct": 140.62,
+   "annualized_return_pct": 19.3,
+   "volatility_pct": 29.18,
+   "sharpe_ratio": 0.75,
+   "sortino_ratio": 1.13,
+   "max_drawdown_pct": -44.31,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 3.17
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "34 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -4.97% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 2.23 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 2.74,
+  "final_equity": 102738.66,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   99932
+  ],
+  [
+   "03-27",
+   99161
+  ],
+  [
+   "03-31",
+   99816
+  ],
+  [
+   "04-02",
+   100016
+  ],
+  [
+   "04-07",
+   100220
+  ],
+  [
+   "04-09",
+   101066
+  ],
+  [
+   "04-13",
+   101214
+  ],
+  [
+   "04-15",
+   101802
+  ],
+  [
+   "04-17",
+   101855
+  ],
+  [
+   "04-21",
+   101801
+  ],
+  [
+   "04-23",
+   101456
+  ],
+  [
+   "04-27",
+   101525
+  ],
+  [
+   "04-29",
+   101359
+  ],
+  [
+   "05-01",
+   101340
+  ],
+  [
+   "05-05",
+   101269
+  ],
+  [
+   "05-07",
+   101269
+  ],
+  [
+   "05-11",
+   101269
+  ],
+  [
+   "05-13",
+   101269
+  ],
+  [
+   "05-15",
+   101269
+  ],
+  [
+   "05-19",
+   101269
+  ],
+  [
+   "05-21",
+   101269
+  ],
+  [
+   "05-26",
+   101269
+  ],
+  [
+   "05-28",
+   101269
+  ],
+  [
+   "06-01",
+   101767
+  ],
+  [
+   "06-03",
+   101852
+  ],
+  [
+   "06-05",
+   102111
+  ],
+  [
+   "06-09",
+   102342
+  ],
+  [
+   "06-11",
+   102682
+  ],
+  [
+   "06-15",
+   103003
+  ],
+  [
+   "06-17",
+   103265
+  ],
+  [
+   "06-22",
+   103457
+  ],
+  [
+   "06-24",
+   103245
+  ],
+  [
+   "06-26",
+   103059
+  ],
+  [
+   "06-30",
+   102875
+  ],
+  [
+   "07-02",
+   102876
+  ],
+  [
+   "07-07",
+   102958
+  ],
+  [
+   "07-09",
+   102739
+  ],
+  [
+   "07-13",
+   102739
+  ],
+  [
+   "07-15",
+   102739
+  ]
+ ],
+ "has_coverage": false
+}

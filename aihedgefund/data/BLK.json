@@ -1,0 +1,283 @@
+{
+ "ticker": "BLK",
+ "names": [
+  "블랙록",
+  "BlackRock"
+ ],
+ "sector": "금융",
+ "as_of": "2026-07-16",
+ "last_close": 1087.05,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 8.28,
+   "annualized_return_pct": 1.61,
+   "volatility_pct": 2.44,
+   "sharpe_ratio": 0.67,
+   "sortino_ratio": 0.72,
+   "max_drawdown_pct": -3.03,
+   "win_rate_pct": 48.5,
+   "profit_factor": 2.13,
+   "avg_trade_pnl": 250.96,
+   "num_trades": 33,
+   "exposure_pct": 52.2,
+   "recovery_factor": 2.73
+  },
+  "in_sample": {
+   "total_return_pct": 7.55,
+   "annualized_return_pct": 1.85,
+   "volatility_pct": 2.41,
+   "sharpe_ratio": 0.77,
+   "sortino_ratio": 0.81,
+   "max_drawdown_pct": -3.03,
+   "win_rate_pct": 46.2,
+   "profit_factor": 2.31,
+   "avg_trade_pnl": 290.53,
+   "num_trades": 26,
+   "exposure_pct": 50.9,
+   "recovery_factor": 2.49
+  },
+  "out_of_sample": {
+   "total_return_pct": 0.3,
+   "annualized_return_pct": 0.3,
+   "volatility_pct": 2.41,
+   "sharpe_ratio": 0.14,
+   "sortino_ratio": 0.14,
+   "max_drawdown_pct": -1.53,
+   "win_rate_pct": 57.1,
+   "profit_factor": 1.21,
+   "avg_trade_pnl": 43.29,
+   "num_trades": 7,
+   "exposure_pct": 44.2,
+   "recovery_factor": 0.2
+  },
+  "benchmark": {
+   "total_return_pct": 45.1,
+   "annualized_return_pct": 7.77,
+   "volatility_pct": 26.93,
+   "sharpe_ratio": 0.41,
+   "sortino_ratio": 0.61,
+   "max_drawdown_pct": -43.9,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 1.03
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "33 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -3.03% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 2.13 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 0.45,
+  "final_equity": 100452.99,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   99983
+  ],
+  [
+   "04-13",
+   100257
+  ],
+  [
+   "04-15",
+   100569
+  ],
+  [
+   "04-17",
+   100613
+  ],
+  [
+   "04-21",
+   100497
+  ],
+  [
+   "04-23",
+   100629
+  ],
+  [
+   "04-27",
+   100672
+  ],
+  [
+   "04-29",
+   100454
+  ],
+  [
+   "05-01",
+   100732
+  ],
+  [
+   "05-05",
+   100572
+  ],
+  [
+   "05-07",
+   100807
+  ],
+  [
+   "05-11",
+   100977
+  ],
+  [
+   "05-13",
+   101136
+  ],
+  [
+   "05-15",
+   100984
+  ],
+  [
+   "05-19",
+   100415
+  ],
+  [
+   "05-21",
+   100757
+  ],
+  [
+   "05-26",
+   100832
+  ],
+  [
+   "05-28",
+   100832
+  ],
+  [
+   "06-01",
+   100832
+  ],
+  [
+   "06-03",
+   100832
+  ],
+  [
+   "06-05",
+   100832
+  ],
+  [
+   "06-09",
+   100832
+  ],
+  [
+   "06-11",
+   100832
+  ],
+  [
+   "06-15",
+   100832
+  ],
+  [
+   "06-17",
+   100920
+  ],
+  [
+   "06-22",
+   100853
+  ],
+  [
+   "06-24",
+   100022
+  ],
+  [
+   "06-26",
+   99893
+  ],
+  [
+   "06-30",
+   99893
+  ],
+  [
+   "07-02",
+   99893
+  ],
+  [
+   "07-07",
+   99893
+  ],
+  [
+   "07-09",
+   99893
+  ],
+  [
+   "07-13",
+   99787
+  ],
+  [
+   "07-15",
+   100529
+  ]
+ ],
+ "has_coverage": false
+}

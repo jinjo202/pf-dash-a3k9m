@@ -1,0 +1,283 @@
+{
+ "ticker": "KMI",
+ "names": [
+  "킨더모건",
+  "Kinder Morgan"
+ ],
+ "sector": "에너지",
+ "as_of": "2026-07-16",
+ "last_close": 32.54,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 6.09,
+   "annualized_return_pct": 1.19,
+   "volatility_pct": 2.15,
+   "sharpe_ratio": 0.56,
+   "sortino_ratio": 0.54,
+   "max_drawdown_pct": -3.58,
+   "win_rate_pct": 42.1,
+   "profit_factor": 1.88,
+   "avg_trade_pnl": 160.18,
+   "num_trades": 38,
+   "exposure_pct": 58.1,
+   "recovery_factor": 1.7
+  },
+  "in_sample": {
+   "total_return_pct": 5.15,
+   "annualized_return_pct": 1.27,
+   "volatility_pct": 2.19,
+   "sharpe_ratio": 0.59,
+   "sortino_ratio": 0.56,
+   "max_drawdown_pct": -2.92,
+   "win_rate_pct": 51.7,
+   "profit_factor": 2.01,
+   "avg_trade_pnl": 177.47,
+   "num_trades": 29,
+   "exposure_pct": 57.8,
+   "recovery_factor": 1.76
+  },
+  "out_of_sample": {
+   "total_return_pct": 1.32,
+   "annualized_return_pct": 1.33,
+   "volatility_pct": 1.91,
+   "sharpe_ratio": 0.7,
+   "sortino_ratio": 0.78,
+   "max_drawdown_pct": -1.7,
+   "win_rate_pct": 12.5,
+   "profit_factor": 2.02,
+   "avg_trade_pnl": 165.0,
+   "num_trades": 8,
+   "exposure_pct": 57.0,
+   "recovery_factor": 0.78
+  },
+  "benchmark": {
+   "total_return_pct": 149.7,
+   "annualized_return_pct": 20.19,
+   "volatility_pct": 22.45,
+   "sharpe_ratio": 0.93,
+   "sortino_ratio": 1.29,
+   "max_drawdown_pct": -20.31,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 7.37
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "38 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -3.58% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.88 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -0.84,
+  "final_equity": 99158.76,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100021
+  ],
+  [
+   "03-31",
+   99837
+  ],
+  [
+   "04-02",
+   99630
+  ],
+  [
+   "04-07",
+   99710
+  ],
+  [
+   "04-09",
+   99710
+  ],
+  [
+   "04-13",
+   99710
+  ],
+  [
+   "04-15",
+   99710
+  ],
+  [
+   "04-17",
+   99710
+  ],
+  [
+   "04-21",
+   99710
+  ],
+  [
+   "04-23",
+   99710
+  ],
+  [
+   "04-27",
+   99710
+  ],
+  [
+   "04-29",
+   99710
+  ],
+  [
+   "05-01",
+   99710
+  ],
+  [
+   "05-05",
+   99640
+  ],
+  [
+   "05-07",
+   99344
+  ],
+  [
+   "05-11",
+   99625
+  ],
+  [
+   "05-13",
+   99840
+  ],
+  [
+   "05-15",
+   100155
+  ],
+  [
+   "05-19",
+   100416
+  ],
+  [
+   "05-21",
+   100105
+  ],
+  [
+   "05-26",
+   99863
+  ],
+  [
+   "05-28",
+   99494
+  ],
+  [
+   "06-01",
+   99156
+  ],
+  [
+   "06-03",
+   99156
+  ],
+  [
+   "06-05",
+   99156
+  ],
+  [
+   "06-09",
+   99156
+  ],
+  [
+   "06-11",
+   99156
+  ],
+  [
+   "06-15",
+   99156
+  ],
+  [
+   "06-17",
+   99156
+  ],
+  [
+   "06-22",
+   99156
+  ],
+  [
+   "06-24",
+   99178
+  ],
+  [
+   "06-26",
+   99407
+  ],
+  [
+   "06-30",
+   98941
+  ],
+  [
+   "07-02",
+   98976
+  ],
+  [
+   "07-07",
+   99140
+  ],
+  [
+   "07-09",
+   99105
+  ],
+  [
+   "07-13",
+   99044
+  ],
+  [
+   "07-15",
+   99029
+  ]
+ ],
+ "has_coverage": false
+}

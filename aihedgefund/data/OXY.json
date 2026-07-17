@@ -1,0 +1,283 @@
+{
+ "ticker": "OXY",
+ "names": [
+  "옥시덴탈",
+  "Occidental"
+ ],
+ "sector": "에너지",
+ "as_of": "2026-07-16",
+ "last_close": 53.65,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 4.28,
+   "annualized_return_pct": 0.85,
+   "volatility_pct": 3.82,
+   "sharpe_ratio": 0.24,
+   "sortino_ratio": 0.26,
+   "max_drawdown_pct": -8.37,
+   "win_rate_pct": 31.7,
+   "profit_factor": 1.27,
+   "avg_trade_pnl": 104.3,
+   "num_trades": 41,
+   "exposure_pct": 48.5,
+   "recovery_factor": 0.51
+  },
+  "in_sample": {
+   "total_return_pct": 2.57,
+   "annualized_return_pct": 0.64,
+   "volatility_pct": 3.86,
+   "sharpe_ratio": 0.18,
+   "sortino_ratio": 0.2,
+   "max_drawdown_pct": -7.18,
+   "win_rate_pct": 34.4,
+   "profit_factor": 1.2,
+   "avg_trade_pnl": 80.18,
+   "num_trades": 32,
+   "exposure_pct": 45.7,
+   "recovery_factor": 0.36
+  },
+  "out_of_sample": {
+   "total_return_pct": 1.58,
+   "annualized_return_pct": 1.58,
+   "volatility_pct": 3.54,
+   "sharpe_ratio": 0.46,
+   "sortino_ratio": 0.47,
+   "max_drawdown_pct": -4.17,
+   "win_rate_pct": 14.3,
+   "profit_factor": 1.53,
+   "avg_trade_pnl": 225.28,
+   "num_trades": 7,
+   "exposure_pct": 48.2,
+   "recovery_factor": 0.38
+  },
+  "benchmark": {
+   "total_return_pct": 131.39,
+   "annualized_return_pct": 18.36,
+   "volatility_pct": 38.98,
+   "sharpe_ratio": 0.63,
+   "sortino_ratio": 0.99,
+   "max_drawdown_pct": -50.77,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 2.59
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "41 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -8.37% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.27 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -2.1,
+  "final_equity": 97898.7,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   100000
+  ],
+  [
+   "04-13",
+   100000
+  ],
+  [
+   "04-15",
+   100000
+  ],
+  [
+   "04-17",
+   100000
+  ],
+  [
+   "04-21",
+   100000
+  ],
+  [
+   "04-23",
+   100000
+  ],
+  [
+   "04-27",
+   100000
+  ],
+  [
+   "04-29",
+   100000
+  ],
+  [
+   "05-01",
+   99711
+  ],
+  [
+   "05-05",
+   99842
+  ],
+  [
+   "05-07",
+   98982
+  ],
+  [
+   "05-11",
+   98982
+  ],
+  [
+   "05-13",
+   98982
+  ],
+  [
+   "05-15",
+   98982
+  ],
+  [
+   "05-19",
+   99087
+  ],
+  [
+   "05-21",
+   98703
+  ],
+  [
+   "05-26",
+   98421
+  ],
+  [
+   "05-28",
+   98392
+  ],
+  [
+   "06-01",
+   98508
+  ],
+  [
+   "06-03",
+   98520
+  ],
+  [
+   "06-05",
+   97960
+  ],
+  [
+   "06-09",
+   97881
+  ],
+  [
+   "06-11",
+   98011
+  ],
+  [
+   "06-15",
+   98011
+  ],
+  [
+   "06-17",
+   98011
+  ],
+  [
+   "06-22",
+   98011
+  ],
+  [
+   "06-24",
+   98011
+  ],
+  [
+   "06-26",
+   98011
+  ],
+  [
+   "06-30",
+   98011
+  ],
+  [
+   "07-02",
+   98011
+  ],
+  [
+   "07-07",
+   98011
+  ],
+  [
+   "07-09",
+   98011
+  ],
+  [
+   "07-13",
+   98161
+  ],
+  [
+   "07-15",
+   97926
+  ]
+ ],
+ "has_coverage": false
+}

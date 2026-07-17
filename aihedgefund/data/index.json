@@ -40,6 +40,32 @@
    "total_return_pct": 6.41
   },
   {
+   "ticker": "ABBV",
+   "names": [
+    "애브비",
+    "AbbVie"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 254.39,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.46
+  },
+  {
+   "ticker": "ABT",
+   "names": [
+    "애보트",
+    "Abbott"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 98.83,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.64
+  },
+  {
    "ticker": "ADBE",
    "names": [
     "어도비",
@@ -90,6 +116,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 37.45
+  },
+  {
+   "ticker": "AMGN",
+   "names": [
+    "암젠",
+    "Amgen"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 371.58,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 4.92
   },
   {
    "ticker": "AMZN",
@@ -145,6 +184,97 @@
    "total_return_pct": 12.11
   },
   {
+   "ticker": "AXP",
+   "names": [
+    "아메리칸익스프레스",
+    "American Express"
+   ],
+   "sector": "금융",
+   "last_close": 361.57,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.55
+  },
+  {
+   "ticker": "BAC",
+   "names": [
+    "뱅크오브아메리카",
+    "Bank of America"
+   ],
+   "sector": "금융",
+   "last_close": 61.49,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.07
+  },
+  {
+   "ticker": "BLK",
+   "names": [
+    "블랙록",
+    "BlackRock"
+   ],
+   "sector": "금융",
+   "last_close": 1087.05,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 8.28
+  },
+  {
+   "ticker": "BRK-B",
+   "names": [
+    "버크셔해서웨이",
+    "Berkshire Hathaway"
+   ],
+   "sector": "금융",
+   "last_close": 493.12,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.44
+  },
+  {
+   "ticker": "C",
+   "names": [
+    "씨티그룹",
+    "Citigroup"
+   ],
+   "sector": "금융",
+   "last_close": 131.71,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 10.35
+  },
+  {
+   "ticker": "COF",
+   "names": [
+    "캐피탈원",
+    "Capital One"
+   ],
+   "sector": "금융",
+   "last_close": 211.93,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -0.08
+  },
+  {
+   "ticker": "COP",
+   "names": [
+    "코노코필립스",
+    "ConocoPhillips"
+   ],
+   "sector": "에너지",
+   "last_close": 112.84,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.1
+  },
+  {
    "ticker": "CRM",
    "names": [
     "세일즈포스",
@@ -171,6 +301,19 @@
    "total_return_pct": 10.48
   },
   {
+   "ticker": "CVX",
+   "names": [
+    "셰브런",
+    "Chevron"
+   ],
+   "sector": "에너지",
+   "last_close": 183.86,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 1.09
+  },
+  {
    "ticker": "DDOG",
    "names": [
     "데이터독",
@@ -182,6 +325,32 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 7.86
+  },
+  {
+   "ticker": "EOG",
+   "names": [
+    "EOG리소시스",
+    "EOG Resources"
+   ],
+   "sector": "에너지",
+   "last_close": 138.46,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.79
+  },
+  {
+   "ticker": "GILD",
+   "names": [
+    "길리어드",
+    "Gilead"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 136.3,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.62
   },
   {
    "ticker": "GOOGL",
@@ -196,6 +365,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 5.35
+  },
+  {
+   "ticker": "GS",
+   "names": [
+    "골드만삭스",
+    "Goldman Sachs"
+   ],
+   "sector": "금융",
+   "last_close": 1095.46,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 9.71
   },
   {
    "ticker": "INTC",
@@ -224,6 +406,45 @@
    "total_return_pct": -2.58
   },
   {
+   "ticker": "ISRG",
+   "names": [
+    "인튜이티브서지컬",
+    "Intuitive Surgical"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 402.33,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.14
+  },
+  {
+   "ticker": "JNJ",
+   "names": [
+    "존슨앤드존슨",
+    "Johnson & Johnson"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 249.97,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.28
+  },
+  {
+   "ticker": "JPM",
+   "names": [
+    "JP모건",
+    "JPMorgan"
+   ],
+   "sector": "금융",
+   "last_close": 343.15,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 4.44
+  },
+  {
    "ticker": "KLAC",
    "names": [
     "KLA",
@@ -237,6 +458,32 @@
    "total_return_pct": 8.99
   },
   {
+   "ticker": "KMI",
+   "names": [
+    "킨더모건",
+    "Kinder Morgan"
+   ],
+   "sector": "에너지",
+   "last_close": 32.54,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.09
+  },
+  {
+   "ticker": "LLY",
+   "names": [
+    "일라이릴리",
+    "Eli Lilly"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 1169.17,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 7.75
+  },
+  {
    "ticker": "LRCX",
    "names": [
     "램리서치",
@@ -248,6 +495,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 8.35
+  },
+  {
+   "ticker": "MA",
+   "names": [
+    "마스터카드",
+    "Mastercard"
+   ],
+   "sector": "금융",
+   "last_close": 551.54,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.98
   },
   {
    "ticker": "MCHP",
@@ -276,6 +536,45 @@
    "total_return_pct": 12.07
   },
   {
+   "ticker": "MPC",
+   "names": [
+    "마라톤페트롤리엄",
+    "Marathon Petroleum"
+   ],
+   "sector": "에너지",
+   "last_close": 305.85,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 16.33
+  },
+  {
+   "ticker": "MRK",
+   "names": [
+    "머크",
+    "Merck"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 127.63,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.32
+  },
+  {
+   "ticker": "MRNA",
+   "names": [
+    "모더나",
+    "Moderna"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 63.15,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.51
+  },
+  {
    "ticker": "MRVL",
    "names": [
     "마벨",
@@ -287,6 +586,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 32.22
+  },
+  {
+   "ticker": "MS",
+   "names": [
+    "모건스탠리",
+    "Morgan Stanley"
+   ],
+   "sector": "금융",
+   "last_close": 218.37,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 9.72
   },
   {
    "ticker": "MSFT",
@@ -313,6 +625,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 26.32
+  },
+  {
+   "ticker": "NEE",
+   "names": [
+    "넥스트에라",
+    "NextEra Energy"
+   ],
+   "sector": "에너지",
+   "last_close": 89.35,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.34
   },
   {
    "ticker": "NFLX",
@@ -367,6 +692,19 @@
    "total_return_pct": 13.36
   },
   {
+   "ticker": "OXY",
+   "names": [
+    "옥시덴탈",
+    "Occidental"
+   ],
+   "sector": "에너지",
+   "last_close": 53.65,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 4.28
+  },
+  {
    "ticker": "PANW",
    "names": [
     "팔로알토",
@@ -378,6 +716,19 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -6.18
+  },
+  {
+   "ticker": "PFE",
+   "names": [
+    "화이자",
+    "Pfizer"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 25.14,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.25
   },
   {
    "ticker": "PLTR",
@@ -393,6 +744,19 @@
    "total_return_pct": 5.59
   },
   {
+   "ticker": "PSX",
+   "names": [
+    "필립스66",
+    "Phillips 66"
+   ],
+   "sector": "에너지",
+   "last_close": 201.32,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 9.69
+  },
+  {
    "ticker": "QCOM",
    "names": [
     "퀄컴",
@@ -404,6 +768,32 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -1.43
+  },
+  {
+   "ticker": "REGN",
+   "names": [
+    "리제네론",
+    "Regeneron"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 678.94,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.34
+  },
+  {
+   "ticker": "SCHW",
+   "names": [
+    "찰스슈왑",
+    "Charles Schwab"
+   ],
+   "sector": "금융",
+   "last_close": 102.8,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.79
   },
   {
    "ticker": "SHOP",
@@ -419,6 +809,19 @@
    "total_return_pct": 2.2
   },
   {
+   "ticker": "SLB",
+   "names": [
+    "슐럼버거",
+    "Schlumberger"
+   ],
+   "sector": "에너지",
+   "last_close": 47.08,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -8.35
+  },
+  {
    "ticker": "SNOW",
    "names": [
     "스노우플레이크",
@@ -430,6 +833,32 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -3.35
+  },
+  {
+   "ticker": "SPGI",
+   "names": [
+    "S&P글로벌",
+    "S&P Global"
+   ],
+   "sector": "금융",
+   "last_close": 457.38,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 3.14
+  },
+  {
+   "ticker": "TMO",
+   "names": [
+    "써모피셔",
+    "Thermo Fisher"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 543.19,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.38
   },
   {
    "ticker": "TSLA",
@@ -469,6 +898,97 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 8.64
+  },
+  {
+   "ticker": "UNH",
+   "names": [
+    "유나이티드헬스",
+    "UnitedHealth"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 423.38,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -3.69
+  },
+  {
+   "ticker": "V",
+   "names": [
+    "비자",
+    "Visa"
+   ],
+   "sector": "금융",
+   "last_close": 365.14,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.84
+  },
+  {
+   "ticker": "VLO",
+   "names": [
+    "발레로",
+    "Valero"
+   ],
+   "sector": "에너지",
+   "last_close": 300.26,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 12.5
+  },
+  {
+   "ticker": "VRTX",
+   "names": [
+    "버텍스",
+    "Vertex"
+   ],
+   "sector": "바이오·헬스케어",
+   "last_close": 486.03,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.2
+  },
+  {
+   "ticker": "WFC",
+   "names": [
+    "웰스파고",
+    "Wells Fargo"
+   ],
+   "sector": "금융",
+   "last_close": 88.07,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.52
+  },
+  {
+   "ticker": "WMB",
+   "names": [
+    "윌리엄스",
+    "Williams"
+   ],
+   "sector": "에너지",
+   "last_close": 74.73,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 9.25
+  },
+  {
+   "ticker": "XOM",
+   "names": [
+    "엑슨모빌",
+    "Exxon Mobil"
+   ],
+   "sector": "에너지",
+   "last_close": 145.95,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.21
   }
  ]
 }

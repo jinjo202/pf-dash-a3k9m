@@ -1,0 +1,94 @@
+{
+ "ticker": "ABT",
+ "names": [
+  "애보트",
+  "Abbott"
+ ],
+ "sector": "바이오·헬스케어",
+ "as_of": "2026-07-16",
+ "last_close": 98.83,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": -1.64,
+   "annualized_return_pct": -0.33,
+   "volatility_pct": 1.96,
+   "sharpe_ratio": -0.16,
+   "sortino_ratio": -0.17,
+   "max_drawdown_pct": -4.99,
+   "win_rate_pct": 31.7,
+   "profit_factor": 0.84,
+   "avg_trade_pnl": -39.96,
+   "num_trades": 41,
+   "exposure_pct": 50.7,
+   "recovery_factor": -0.33
+  },
+  "in_sample": {
+   "total_return_pct": -1.79,
+   "annualized_return_pct": -0.45,
+   "volatility_pct": 1.95,
+   "sharpe_ratio": -0.22,
+   "sortino_ratio": -0.23,
+   "max_drawdown_pct": -4.99,
+   "win_rate_pct": 33.3,
+   "profit_factor": 0.8,
+   "avg_trade_pnl": -54.17,
+   "num_trades": 33,
+   "exposure_pct": 51.6,
+   "recovery_factor": -0.36
+  },
+  "out_of_sample": {
+   "total_return_pct": 0.02,
+   "annualized_return_pct": 0.02,
+   "volatility_pct": 1.89,
+   "sharpe_ratio": 0.02,
+   "sortino_ratio": 0.02,
+   "max_drawdown_pct": -1.66,
+   "win_rate_pct": 14.3,
+   "profit_factor": 1.01,
+   "avg_trade_pnl": 2.27,
+   "num_trades": 7,
+   "exposure_pct": 35.9,
+   "recovery_factor": 0.01
+  },
+  "benchmark": {
+   "total_return_pct": -8.31,
+   "annualized_return_pct": -1.73,
+   "volatility_pct": 22.81,
+   "sharpe_ratio": 0.04,
+   "sortino_ratio": 0.05,
+   "max_drawdown_pct": -39.64,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": -0.21
+  }
+ },
+ "risk_gate": {
+  "decision": "BLOCK",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "41 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -4.99% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": false,
+    "detail": "profit factor 0.84 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": null,
+ "equity_curve": null,
+ "has_coverage": false
+}

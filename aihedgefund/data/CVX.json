@@ -1,0 +1,283 @@
+{
+ "ticker": "CVX",
+ "names": [
+  "셰브런",
+  "Chevron"
+ ],
+ "sector": "에너지",
+ "as_of": "2026-07-16",
+ "last_close": 183.86,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 1.09,
+   "annualized_return_pct": 0.22,
+   "volatility_pct": 2.47,
+   "sharpe_ratio": 0.1,
+   "sortino_ratio": 0.11,
+   "max_drawdown_pct": -6.9,
+   "win_rate_pct": 36.7,
+   "profit_factor": 1.08,
+   "avg_trade_pnl": 22.3,
+   "num_trades": 49,
+   "exposure_pct": 58.5,
+   "recovery_factor": 0.16
+  },
+  "in_sample": {
+   "total_return_pct": -0.23,
+   "annualized_return_pct": -0.06,
+   "volatility_pct": 2.44,
+   "sharpe_ratio": -0.01,
+   "sortino_ratio": -0.01,
+   "max_drawdown_pct": -6.9,
+   "win_rate_pct": 38.5,
+   "profit_factor": 0.98,
+   "avg_trade_pnl": -5.97,
+   "num_trades": 39,
+   "exposure_pct": 58.3,
+   "recovery_factor": -0.03
+  },
+  "out_of_sample": {
+   "total_return_pct": 0.83,
+   "annualized_return_pct": 0.84,
+   "volatility_pct": 2.43,
+   "sharpe_ratio": 0.36,
+   "sortino_ratio": 0.31,
+   "max_drawdown_pct": -3.24,
+   "win_rate_pct": 22.2,
+   "profit_factor": 1.32,
+   "avg_trade_pnl": 92.47,
+   "num_trades": 9,
+   "exposure_pct": 45.4,
+   "recovery_factor": 0.26
+  },
+  "benchmark": {
+   "total_return_pct": 135.23,
+   "annualized_return_pct": 18.76,
+   "volatility_pct": 25.15,
+   "sharpe_ratio": 0.81,
+   "sortino_ratio": 1.1,
+   "max_drawdown_pct": -24.95,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 5.42
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "49 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -6.9% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.08 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -1.54,
+  "final_equity": 98460.68,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   100000
+  ],
+  [
+   "04-13",
+   100000
+  ],
+  [
+   "04-15",
+   100000
+  ],
+  [
+   "04-17",
+   100000
+  ],
+  [
+   "04-21",
+   100000
+  ],
+  [
+   "04-23",
+   100000
+  ],
+  [
+   "04-27",
+   100000
+  ],
+  [
+   "04-29",
+   100000
+  ],
+  [
+   "05-01",
+   100000
+  ],
+  [
+   "05-05",
+   100105
+  ],
+  [
+   "05-07",
+   99441
+  ],
+  [
+   "05-11",
+   99462
+  ],
+  [
+   "05-13",
+   99462
+  ],
+  [
+   "05-15",
+   99462
+  ],
+  [
+   "05-19",
+   99597
+  ],
+  [
+   "05-21",
+   99199
+  ],
+  [
+   "05-26",
+   98798
+  ],
+  [
+   "05-28",
+   98691
+  ],
+  [
+   "06-01",
+   98659
+  ],
+  [
+   "06-03",
+   98659
+  ],
+  [
+   "06-05",
+   98659
+  ],
+  [
+   "06-09",
+   98520
+  ],
+  [
+   "06-11",
+   98459
+  ],
+  [
+   "06-15",
+   98398
+  ],
+  [
+   "06-17",
+   98398
+  ],
+  [
+   "06-22",
+   98398
+  ],
+  [
+   "06-24",
+   98398
+  ],
+  [
+   "06-26",
+   98398
+  ],
+  [
+   "06-30",
+   98398
+  ],
+  [
+   "07-02",
+   98398
+  ],
+  [
+   "07-07",
+   98398
+  ],
+  [
+   "07-09",
+   98398
+  ],
+  [
+   "07-13",
+   98398
+  ],
+  [
+   "07-15",
+   98309
+  ]
+ ],
+ "has_coverage": false
+}

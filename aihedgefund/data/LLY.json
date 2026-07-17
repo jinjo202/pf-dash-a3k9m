@@ -1,0 +1,283 @@
+{
+ "ticker": "LLY",
+ "names": [
+  "일라이릴리",
+  "Eli Lilly"
+ ],
+ "sector": "바이오·헬스케어",
+ "as_of": "2026-07-16",
+ "last_close": 1169.17,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 7.75,
+   "annualized_return_pct": 1.51,
+   "volatility_pct": 2.87,
+   "sharpe_ratio": 0.54,
+   "sortino_ratio": 0.57,
+   "max_drawdown_pct": -5.77,
+   "win_rate_pct": 38.5,
+   "profit_factor": 1.61,
+   "avg_trade_pnl": 198.61,
+   "num_trades": 39,
+   "exposure_pct": 55.6,
+   "recovery_factor": 1.34
+  },
+  "in_sample": {
+   "total_return_pct": 6.42,
+   "annualized_return_pct": 1.58,
+   "volatility_pct": 2.87,
+   "sharpe_ratio": 0.56,
+   "sortino_ratio": 0.57,
+   "max_drawdown_pct": -4.61,
+   "win_rate_pct": 41.4,
+   "profit_factor": 1.68,
+   "avg_trade_pnl": 221.38,
+   "num_trades": 29,
+   "exposure_pct": 55.3,
+   "recovery_factor": 1.39
+  },
+  "out_of_sample": {
+   "total_return_pct": 2.63,
+   "annualized_return_pct": 2.64,
+   "volatility_pct": 2.73,
+   "sharpe_ratio": 0.97,
+   "sortino_ratio": 1.39,
+   "max_drawdown_pct": -3.12,
+   "win_rate_pct": 33.3,
+   "profit_factor": 2.47,
+   "avg_trade_pnl": 292.58,
+   "num_trades": 9,
+   "exposure_pct": 54.2,
+   "recovery_factor": 0.84
+  },
+  "benchmark": {
+   "total_return_pct": 423.47,
+   "annualized_return_pct": 39.47,
+   "volatility_pct": 32.55,
+   "sharpe_ratio": 1.19,
+   "sortino_ratio": 1.76,
+   "max_drawdown_pct": -34.48,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 12.28
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "39 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -5.77% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.61 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 0.86,
+  "final_equity": 100855.26,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   100076
+  ],
+  [
+   "04-13",
+   99738
+  ],
+  [
+   "04-15",
+   99415
+  ],
+  [
+   "04-17",
+   99705
+  ],
+  [
+   "04-21",
+   99691
+  ],
+  [
+   "04-23",
+   99691
+  ],
+  [
+   "04-27",
+   99691
+  ],
+  [
+   "04-29",
+   99691
+  ],
+  [
+   "05-01",
+   99691
+  ],
+  [
+   "05-05",
+   99691
+  ],
+  [
+   "05-07",
+   99473
+  ],
+  [
+   "05-11",
+   99373
+  ],
+  [
+   "05-13",
+   99985
+  ],
+  [
+   "05-15",
+   99871
+  ],
+  [
+   "05-19",
+   100078
+  ],
+  [
+   "05-21",
+   100333
+  ],
+  [
+   "05-26",
+   100624
+  ],
+  [
+   "05-28",
+   101405
+  ],
+  [
+   "06-01",
+   100844
+  ],
+  [
+   "06-03",
+   100800
+  ],
+  [
+   "06-05",
+   101463
+  ],
+  [
+   "06-09",
+   101630
+  ],
+  [
+   "06-11",
+   101835
+  ],
+  [
+   "06-15",
+   101437
+  ],
+  [
+   "06-17",
+   101219
+  ],
+  [
+   "06-22",
+   101094
+  ],
+  [
+   "06-24",
+   101423
+  ],
+  [
+   "06-26",
+   101423
+  ],
+  [
+   "06-30",
+   101169
+  ],
+  [
+   "07-02",
+   101319
+  ],
+  [
+   "07-07",
+   101543
+  ],
+  [
+   "07-09",
+   101350
+  ],
+  [
+   "07-13",
+   100987
+  ],
+  [
+   "07-15",
+   100725
+  ]
+ ],
+ "has_coverage": false
+}

@@ -137,7 +137,7 @@ async function init(){
   catch(e){ $("content").innerHTML = `<div class="card empty">데이터 인덱스를 불러오지 못했습니다.</div>`; return; }
   // datalist + chips (섹터별 그룹화)
   $("symbols").innerHTML = INDEX.tickers.map(t=>`<option value="${t.ticker}">${(t.names||[]).join(" · ")}</option>`).join("");
-  const order = ["반도체", "소프트웨어", "기타"];
+  const order = ["반도체", "소프트웨어", "에너지", "금융", "바이오·헬스케어", "기타"];
   const groups = {};
   INDEX.tickers.forEach(t=>{ const s=t.sector||"기타"; (groups[s]=groups[s]||[]).push(t); });
   const secs = order.filter(s=>groups[s]).concat(Object.keys(groups).filter(s=>!order.includes(s)));

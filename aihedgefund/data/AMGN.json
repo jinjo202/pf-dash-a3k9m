@@ -1,0 +1,283 @@
+{
+ "ticker": "AMGN",
+ "names": [
+  "암젠",
+  "Amgen"
+ ],
+ "sector": "바이오·헬스케어",
+ "as_of": "2026-07-16",
+ "last_close": 371.58,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 4.92,
+   "annualized_return_pct": 0.97,
+   "volatility_pct": 2.33,
+   "sharpe_ratio": 0.43,
+   "sortino_ratio": 0.49,
+   "max_drawdown_pct": -3.01,
+   "win_rate_pct": 38.5,
+   "profit_factor": 1.56,
+   "avg_trade_pnl": 126.07,
+   "num_trades": 39,
+   "exposure_pct": 51.7,
+   "recovery_factor": 1.63
+  },
+  "in_sample": {
+   "total_return_pct": 3.92,
+   "annualized_return_pct": 0.97,
+   "volatility_pct": 2.24,
+   "sharpe_ratio": 0.44,
+   "sortino_ratio": 0.48,
+   "max_drawdown_pct": -2.65,
+   "win_rate_pct": 38.7,
+   "profit_factor": 1.55,
+   "avg_trade_pnl": 126.37,
+   "num_trades": 31,
+   "exposure_pct": 50.1,
+   "recovery_factor": 1.48
+  },
+  "out_of_sample": {
+   "total_return_pct": 0.89,
+   "annualized_return_pct": 0.89,
+   "volatility_pct": 2.58,
+   "sharpe_ratio": 0.36,
+   "sortino_ratio": 0.5,
+   "max_drawdown_pct": -1.44,
+   "win_rate_pct": 37.5,
+   "profit_factor": 1.55,
+   "avg_trade_pnl": 111.17,
+   "num_trades": 8,
+   "exposure_pct": 52.6,
+   "recovery_factor": 0.62
+  },
+  "benchmark": {
+   "total_return_pct": 76.28,
+   "annualized_return_pct": 12.07,
+   "volatility_pct": 24.17,
+   "sharpe_ratio": 0.59,
+   "sortino_ratio": 0.9,
+   "max_drawdown_pct": -24.86,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 3.07
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "39 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -3.01% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.56 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 0.83,
+  "final_equity": 100827.12,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   100000
+  ],
+  [
+   "04-13",
+   100000
+  ],
+  [
+   "04-15",
+   99864
+  ],
+  [
+   "04-17",
+   100115
+  ],
+  [
+   "04-21",
+   99745
+  ],
+  [
+   "04-23",
+   99705
+  ],
+  [
+   "04-27",
+   99705
+  ],
+  [
+   "04-29",
+   99705
+  ],
+  [
+   "05-01",
+   99705
+  ],
+  [
+   "05-05",
+   99705
+  ],
+  [
+   "05-07",
+   99705
+  ],
+  [
+   "05-11",
+   99705
+  ],
+  [
+   "05-13",
+   99705
+  ],
+  [
+   "05-15",
+   99705
+  ],
+  [
+   "05-19",
+   99705
+  ],
+  [
+   "05-21",
+   99705
+  ],
+  [
+   "05-26",
+   99524
+  ],
+  [
+   "05-28",
+   99543
+  ],
+  [
+   "06-01",
+   99274
+  ],
+  [
+   "06-03",
+   99607
+  ],
+  [
+   "06-05",
+   100022
+  ],
+  [
+   "06-09",
+   99839
+  ],
+  [
+   "06-11",
+   100186
+  ],
+  [
+   "06-15",
+   100057
+  ],
+  [
+   "06-17",
+   99733
+  ],
+  [
+   "06-22",
+   99845
+  ],
+  [
+   "06-24",
+   100090
+  ],
+  [
+   "06-26",
+   100342
+  ],
+  [
+   "06-30",
+   100481
+  ],
+  [
+   "07-02",
+   100921
+  ],
+  [
+   "07-07",
+   100700
+  ],
+  [
+   "07-09",
+   100536
+  ],
+  [
+   "07-13",
+   100420
+  ],
+  [
+   "07-15",
+   100342
+  ]
+ ],
+ "has_coverage": false
+}

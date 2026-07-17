@@ -1,0 +1,283 @@
+{
+ "ticker": "PSX",
+ "names": [
+  "필립스66",
+  "Phillips 66"
+ ],
+ "sector": "에너지",
+ "as_of": "2026-07-16",
+ "last_close": 201.32,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 9.69,
+   "annualized_return_pct": 1.88,
+   "volatility_pct": 3.17,
+   "sharpe_ratio": 0.6,
+   "sortino_ratio": 0.72,
+   "max_drawdown_pct": -4.16,
+   "win_rate_pct": 47.4,
+   "profit_factor": 1.91,
+   "avg_trade_pnl": 255.08,
+   "num_trades": 38,
+   "exposure_pct": 58.1,
+   "recovery_factor": 2.33
+  },
+  "in_sample": {
+   "total_return_pct": 6.19,
+   "annualized_return_pct": 1.52,
+   "volatility_pct": 3.12,
+   "sharpe_ratio": 0.5,
+   "sortino_ratio": 0.58,
+   "max_drawdown_pct": -4.16,
+   "win_rate_pct": 50.0,
+   "profit_factor": 1.7,
+   "avg_trade_pnl": 206.49,
+   "num_trades": 30,
+   "exposure_pct": 55.7,
+   "recovery_factor": 1.49
+  },
+  "out_of_sample": {
+   "total_return_pct": 3.1,
+   "annualized_return_pct": 3.11,
+   "volatility_pct": 3.32,
+   "sharpe_ratio": 0.94,
+   "sortino_ratio": 1.22,
+   "max_drawdown_pct": -2.09,
+   "win_rate_pct": 42.9,
+   "profit_factor": 2.88,
+   "avg_trade_pnl": 442.4,
+   "num_trades": 7,
+   "exposure_pct": 65.3,
+   "recovery_factor": 1.48
+  },
+  "benchmark": {
+   "total_return_pct": 244.67,
+   "annualized_return_pct": 28.23,
+   "volatility_pct": 33.1,
+   "sharpe_ratio": 0.92,
+   "sortino_ratio": 1.29,
+   "max_drawdown_pct": -44.37,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 5.51
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "38 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -4.16% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.91 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 1.2,
+  "final_equity": 101204.51,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   100000
+  ],
+  [
+   "04-13",
+   100000
+  ],
+  [
+   "04-15",
+   100000
+  ],
+  [
+   "04-17",
+   100000
+  ],
+  [
+   "04-21",
+   100000
+  ],
+  [
+   "04-23",
+   100000
+  ],
+  [
+   "04-27",
+   100000
+  ],
+  [
+   "04-29",
+   100000
+  ],
+  [
+   "05-01",
+   100249
+  ],
+  [
+   "05-05",
+   100543
+  ],
+  [
+   "05-07",
+   99678
+  ],
+  [
+   "05-11",
+   100189
+  ],
+  [
+   "05-13",
+   99932
+  ],
+  [
+   "05-15",
+   100250
+  ],
+  [
+   "05-19",
+   100793
+  ],
+  [
+   "05-21",
+   100185
+  ],
+  [
+   "05-26",
+   100173
+  ],
+  [
+   "05-28",
+   100379
+  ],
+  [
+   "06-01",
+   100637
+  ],
+  [
+   "06-03",
+   100961
+  ],
+  [
+   "06-05",
+   100844
+  ],
+  [
+   "06-09",
+   100546
+  ],
+  [
+   "06-11",
+   100481
+  ],
+  [
+   "06-15",
+   100128
+  ],
+  [
+   "06-17",
+   99925
+  ],
+  [
+   "06-22",
+   99925
+  ],
+  [
+   "06-24",
+   99925
+  ],
+  [
+   "06-26",
+   99925
+  ],
+  [
+   "06-30",
+   99925
+  ],
+  [
+   "07-02",
+   99925
+  ],
+  [
+   "07-07",
+   99925
+  ],
+  [
+   "07-09",
+   100418
+  ],
+  [
+   "07-13",
+   100997
+  ],
+  [
+   "07-15",
+   100851
+  ]
+ ],
+ "has_coverage": false
+}
