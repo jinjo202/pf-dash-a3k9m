@@ -1,0 +1,283 @@
+{
+ "ticker": "COST",
+ "names": [
+  "코스트코",
+  "Costco"
+ ],
+ "sector": "소비재",
+ "as_of": "2026-07-16",
+ "last_close": 945.57,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 8.04,
+   "annualized_return_pct": 1.57,
+   "volatility_pct": 2.13,
+   "sharpe_ratio": 0.74,
+   "sortino_ratio": 0.74,
+   "max_drawdown_pct": -3.42,
+   "win_rate_pct": 43.8,
+   "profit_factor": 2.04,
+   "avg_trade_pnl": 251.3,
+   "num_trades": 32,
+   "exposure_pct": 55.3,
+   "recovery_factor": 2.35
+  },
+  "in_sample": {
+   "total_return_pct": 9.41,
+   "annualized_return_pct": 2.29,
+   "volatility_pct": 2.2,
+   "sharpe_ratio": 1.04,
+   "sortino_ratio": 1.01,
+   "max_drawdown_pct": -2.59,
+   "win_rate_pct": 52.2,
+   "profit_factor": 2.94,
+   "avg_trade_pnl": 409.16,
+   "num_trades": 23,
+   "exposure_pct": 57.1,
+   "recovery_factor": 3.63
+  },
+  "out_of_sample": {
+   "total_return_pct": -0.79,
+   "annualized_return_pct": -0.8,
+   "volatility_pct": 1.76,
+   "sharpe_ratio": -0.45,
+   "sortino_ratio": -0.49,
+   "max_drawdown_pct": -1.36,
+   "win_rate_pct": 25.0,
+   "profit_factor": 0.64,
+   "avg_trade_pnl": -99.02,
+   "num_trades": 8,
+   "exposure_pct": 42.2,
+   "recovery_factor": -0.58
+  },
+  "benchmark": {
+   "total_return_pct": 140.99,
+   "annualized_return_pct": 19.33,
+   "volatility_pct": 22.91,
+   "sharpe_ratio": 0.89,
+   "sortino_ratio": 1.17,
+   "max_drawdown_pct": -31.4,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 4.49
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "32 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -3.42% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 2.04 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -0.9,
+  "final_equity": 99096.62,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100019
+  ],
+  [
+   "03-17",
+   99867
+  ],
+  [
+   "03-19",
+   99601
+  ],
+  [
+   "03-23",
+   99593
+  ],
+  [
+   "03-25",
+   99593
+  ],
+  [
+   "03-27",
+   99593
+  ],
+  [
+   "03-31",
+   99593
+  ],
+  [
+   "04-02",
+   99666
+  ],
+  [
+   "04-07",
+   99644
+  ],
+  [
+   "04-09",
+   99877
+  ],
+  [
+   "04-13",
+   99245
+  ],
+  [
+   "04-15",
+   99293
+  ],
+  [
+   "04-17",
+   99284
+  ],
+  [
+   "04-21",
+   99284
+  ],
+  [
+   "04-23",
+   99355
+  ],
+  [
+   "04-27",
+   99154
+  ],
+  [
+   "04-29",
+   99162
+  ],
+  [
+   "05-01",
+   99373
+  ],
+  [
+   "05-05",
+   99477
+  ],
+  [
+   "05-07",
+   99423
+  ],
+  [
+   "05-11",
+   99268
+  ],
+  [
+   "05-13",
+   99682
+  ],
+  [
+   "05-15",
+   99878
+  ],
+  [
+   "05-19",
+   100437
+  ],
+  [
+   "05-21",
+   99896
+  ],
+  [
+   "05-26",
+   99310
+  ],
+  [
+   "05-28",
+   99215
+  ],
+  [
+   "06-01",
+   99097
+  ],
+  [
+   "06-03",
+   99097
+  ],
+  [
+   "06-05",
+   99097
+  ],
+  [
+   "06-09",
+   99097
+  ],
+  [
+   "06-11",
+   99097
+  ],
+  [
+   "06-15",
+   99097
+  ],
+  [
+   "06-17",
+   99097
+  ],
+  [
+   "06-22",
+   99097
+  ],
+  [
+   "06-24",
+   99097
+  ],
+  [
+   "06-26",
+   99097
+  ],
+  [
+   "06-30",
+   99097
+  ],
+  [
+   "07-02",
+   99097
+  ],
+  [
+   "07-07",
+   99097
+  ],
+  [
+   "07-09",
+   99097
+  ],
+  [
+   "07-13",
+   99097
+  ],
+  [
+   "07-15",
+   99097
+  ]
+ ],
+ "has_coverage": false
+}

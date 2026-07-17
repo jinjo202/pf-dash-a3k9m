@@ -1,0 +1,94 @@
+{
+ "ticker": "SBUX",
+ "names": [
+  "스타벅스",
+  "Starbucks"
+ ],
+ "sector": "소비재",
+ "as_of": "2026-07-16",
+ "last_close": 108.37,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": -7.3,
+   "annualized_return_pct": -1.51,
+   "volatility_pct": 2.61,
+   "sharpe_ratio": -0.57,
+   "sortino_ratio": -0.53,
+   "max_drawdown_pct": -9.85,
+   "win_rate_pct": 31.1,
+   "profit_factor": 0.53,
+   "avg_trade_pnl": -162.3,
+   "num_trades": 45,
+   "exposure_pct": 50.0,
+   "recovery_factor": -0.74
+  },
+  "in_sample": {
+   "total_return_pct": -7.13,
+   "annualized_return_pct": -1.84,
+   "volatility_pct": 2.54,
+   "sharpe_ratio": -0.72,
+   "sortino_ratio": -0.6,
+   "max_drawdown_pct": -9.85,
+   "win_rate_pct": 25.0,
+   "profit_factor": 0.47,
+   "avg_trade_pnl": -197.94,
+   "num_trades": 36,
+   "exposure_pct": 46.7,
+   "recovery_factor": -0.72
+  },
+  "out_of_sample": {
+   "total_return_pct": 0.06,
+   "annualized_return_pct": 0.06,
+   "volatility_pct": 2.74,
+   "sharpe_ratio": 0.04,
+   "sortino_ratio": 0.05,
+   "max_drawdown_pct": -2.4,
+   "win_rate_pct": 57.1,
+   "profit_factor": 1.03,
+   "avg_trade_pnl": 8.68,
+   "num_trades": 7,
+   "exposure_pct": 58.2,
+   "recovery_factor": 0.03
+  },
+  "benchmark": {
+   "total_return_pct": 5.6,
+   "annualized_return_pct": 1.1,
+   "volatility_pct": 31.78,
+   "sharpe_ratio": 0.19,
+   "sortino_ratio": 0.28,
+   "max_drawdown_pct": -43.68,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 0.13
+  }
+ },
+ "risk_gate": {
+  "decision": "BLOCK",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "45 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -9.85% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": false,
+    "detail": "profit factor 0.53 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": null,
+ "equity_curve": null,
+ "has_coverage": false
+}

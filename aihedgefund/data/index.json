@@ -210,6 +210,19 @@
    "total_return_pct": 6.07
   },
   {
+   "ticker": "BKNG",
+   "names": [
+    "부킹홀딩스",
+    "Booking"
+   ],
+   "sector": "소비재",
+   "last_close": 184.61,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 5.54
+  },
+  {
    "ticker": "BLK",
    "names": [
     "블랙록",
@@ -249,6 +262,19 @@
    "total_return_pct": 10.35
   },
   {
+   "ticker": "CL",
+   "names": [
+    "콜게이트",
+    "Colgate"
+   ],
+   "sector": "소비재",
+   "last_close": 94.07,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.4
+  },
+  {
    "ticker": "COF",
    "names": [
     "캐피탈원",
@@ -273,6 +299,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 0.1
+  },
+  {
+   "ticker": "COST",
+   "names": [
+    "코스트코",
+    "Costco"
+   ],
+   "sector": "소비재",
+   "last_close": 945.57,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 8.04
   },
   {
    "ticker": "CRM",
@@ -327,6 +366,19 @@
    "total_return_pct": 7.86
   },
   {
+   "ticker": "DIS",
+   "names": [
+    "디즈니",
+    "Disney"
+   ],
+   "sector": "소비재",
+   "last_close": 99.71,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -3.22
+  },
+  {
    "ticker": "EOG",
    "names": [
     "EOG리소시스",
@@ -378,6 +430,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 9.71
+  },
+  {
+   "ticker": "HD",
+   "names": [
+    "홈디포",
+    "Home Depot"
+   ],
+   "sector": "소비재",
+   "last_close": 348.02,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.43
   },
   {
    "ticker": "INTC",
@@ -471,6 +536,19 @@
    "total_return_pct": 6.09
   },
   {
+   "ticker": "KO",
+   "names": [
+    "코카콜라",
+    "Coca-Cola"
+   ],
+   "sector": "소비재",
+   "last_close": 84.92,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.39
+  },
+  {
    "ticker": "LLY",
    "names": [
     "일라이릴리",
@@ -482,6 +560,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 7.75
+  },
+  {
+   "ticker": "LOW",
+   "names": [
+    "로우스",
+    "Lowe's"
+   ],
+   "sector": "소비재",
+   "last_close": 216.16,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.26
   },
   {
    "ticker": "LRCX",
@@ -508,6 +599,19 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -2.98
+  },
+  {
+   "ticker": "MCD",
+   "names": [
+    "맥도날드",
+    "McDonald's"
+   ],
+   "sector": "소비재",
+   "last_close": 273.46,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.88
   },
   {
    "ticker": "MCHP",
@@ -653,6 +757,19 @@
    "total_return_pct": 6.65
   },
   {
+   "ticker": "NKE",
+   "names": [
+    "나이키",
+    "Nike"
+   ],
+   "sector": "소비재",
+   "last_close": 44.57,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -8.21
+  },
+  {
    "ticker": "NOW",
    "names": [
     "서비스나우",
@@ -718,6 +835,19 @@
    "total_return_pct": -6.18
   },
   {
+   "ticker": "PEP",
+   "names": [
+    "펩시코",
+    "PepsiCo"
+   ],
+   "sector": "소비재",
+   "last_close": 139.43,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.11
+  },
+  {
    "ticker": "PFE",
    "names": [
     "화이자",
@@ -729,6 +859,19 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -2.25
+  },
+  {
+   "ticker": "PG",
+   "names": [
+    "프록터앤갬블",
+    "Procter & Gamble"
+   ],
+   "sector": "소비재",
+   "last_close": 151.5,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.07
   },
   {
    "ticker": "PLTR",
@@ -781,6 +924,19 @@
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -2.34
+  },
+  {
+   "ticker": "SBUX",
+   "names": [
+    "스타벅스",
+    "Starbucks"
+   ],
+   "sector": "소비재",
+   "last_close": 108.37,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -7.3
   },
   {
    "ticker": "SCHW",
@@ -846,6 +1002,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 3.14
+  },
+  {
+   "ticker": "TGT",
+   "names": [
+    "타겟",
+    "Target"
+   ],
+   "sector": "소비재",
+   "last_close": 140.21,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -7.38
   },
   {
    "ticker": "TMO",
@@ -976,6 +1145,19 @@
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 9.25
+  },
+  {
+   "ticker": "WMT",
+   "names": [
+    "월마트",
+    "Walmart"
+   ],
+   "sector": "소비재",
+   "last_close": 114.95,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 7.18
   },
   {
    "ticker": "XOM",

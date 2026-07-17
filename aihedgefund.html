@@ -44,6 +44,24 @@
   .card .cap { font-size:12px; color:var(--muted); margin-bottom:14px; }
   .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
   @media(max-width:820px){ .grid2{grid-template-columns:1fr;} }
+  .viewtoggle { display:flex; gap:6px; margin-bottom:16px; }
+  .vt { background:var(--panel); border:1px solid var(--border); color:var(--text-soft); border-radius:10px;
+    font:inherit; font-weight:700; font-size:13px; padding:9px 16px; cursor:pointer; }
+  .vt.active { background:var(--accent); color:#fff; border-color:transparent; }
+  .secov { margin-bottom:16px; }
+  .secov h2 { font-size:16px; margin:0 0 2px; }
+  .secov .hl { font-size:13px; color:var(--accent); font-weight:600; margin-bottom:10px; }
+  .secstats { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:14px; }
+  .secstats .s { background:var(--panel-soft); border:1px solid var(--border); border-radius:10px; padding:10px 12px; }
+  .secstats .s .k { font-size:11px; color:var(--muted); } .secstats .s .v { font-size:19px; font-weight:700; margin-top:2px; }
+  .ovsec { margin:10px 0; } .ovsec .t { font-size:12px; font-weight:700; color:var(--muted); margin-bottom:3px; }
+  .ovsec p { margin:4px 0; font-size:13px; color:var(--text-soft); line-height:1.65; }
+  .ovsec ul { margin:4px 0 4px 18px; font-size:13px; color:var(--text-soft); } .ovsec li { margin:2px 0; }
+  .miniticks { display:flex; gap:5px; flex-wrap:wrap; margin-top:6px; }
+  .miniticks .mt { font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; cursor:pointer;
+    background:var(--panel-soft); border:1px solid var(--border); color:var(--text-soft); }
+  .miniticks .mt:hover { border-color:var(--accent); color:var(--accent); }
+  .miniticks .mt.block { opacity:.55; }
   .searchbar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
   .searchbar input { flex:1; min-width:220px; max-width:420px; background:var(--panel); border:1px solid var(--border);
     border-radius:10px; color:var(--text); font:inherit; padding:10px 14px; }
@@ -108,13 +126,22 @@
 <main>
   <div class="disclaimer">교육용 시스템입니다. 투자 자문이 아니며, 실거래·출금은 코드 레벨에서 영구 비활성화되어 있습니다. 시뮬레이션·모델 산출값은 실제 수익을 보장하지 않습니다.</div>
 
-  <div class="searchbar">
-    <input id="q" list="symbols" placeholder="종목명 또는 티커 검색 — 예: 엔비디아, AAPL, 테슬라, 삼성전자">
-    <datalist id="symbols"></datalist>
-    <button id="go">검색</button>
+  <div class="viewtoggle">
+    <button id="tabTicker" class="vt active">🔍 종목별</button>
+    <button id="tabSector" class="vt">📋 섹터별 개요</button>
   </div>
-  <div id="chips"></div>
-  <div id="content"></div>
+
+  <div id="tickerView">
+    <div class="searchbar">
+      <input id="q" list="symbols" placeholder="종목명 또는 티커 검색 — 예: 엔비디아, AAPL, 테슬라, 삼성전자">
+      <datalist id="symbols"></datalist>
+      <button id="go">검색</button>
+    </div>
+    <div id="chips"></div>
+    <div id="content"></div>
+  </div>
+
+  <div id="sectorView" style="display:none"></div>
 </main>
 
 <script>
@@ -263,6 +290,60 @@ function drawEq(EQ, cap){
   svg.innerHTML=g;
 }
 
+// ---- 섹터별 개요 뷰 ----
+const KEYMAP = {"반도체":"semiconductor","소프트웨어":"software","에너지":"energy","금융":"financial","바이오·헬스케어":"biohealth","소비재":"consumer"};
+let SECMETA = {};
+async function loadSectorMeta(){
+  const order = ["반도체","소프트웨어","에너지","금융","바이오·헬스케어","소비재"];
+  await Promise.all(order.map(async s=>{ try{ SECMETA[s] = await jget(`aihedgefund/data/../sectors/${KEYMAP[s]}.json`);}catch(e){} }));
+}
+$("tabTicker").onclick = ()=>switchView("ticker");
+$("tabSector").onclick = ()=>switchView("sector");
+function switchView(v){
+  const isT = v==="ticker";
+  $("tabTicker").classList.toggle("active",isT); $("tabSector").classList.toggle("active",!isT);
+  $("tickerView").style.display = isT?"":"none"; $("sectorView").style.display = isT?"none":"";
+  if(!isT) renderSectorView();
+}
+function renderSectorView(){
+  const order = ["반도체","소프트웨어","에너지","금융","바이오·헬스케어","소비재"];
+  let h = "";
+  for(const s of order){
+    const ts = INDEX.tickers.filter(t=>(t.sector||"기타")===s);
+    if(!ts.length) continue;
+    const appr = ts.filter(t=>t.gate==="APPROVE").length;
+    const avg = ts.reduce((a,t)=>a+t.total_return_pct,0)/ts.length;
+    const sorted = [...ts].sort((a,b)=>b.total_return_pct-a.total_return_pct);
+    const best = sorted[0], worst = sorted[sorted.length-1];
+    const nm = t => (t.names&&t.names[0])?t.names[0]:t.ticker;
+    const m = SECMETA[s];
+    const ov = m ? `
+      <div class="ovsec"><div class="t">산업 개요</div>${(m.summary||[]).map(p=>`<p>${p}</p>`).join("")}</div>
+      <div class="ovsec"><div class="t">성장 동력</div><ul>${(m.drivers||[]).map(d=>`<li>${d}</li>`).join("")}</ul></div>
+      <div class="ovsec"><div class="t">경쟁 구도</div><p>${m.landscape||""}</p></div>
+      <div class="ovsec"><div class="t">밸류에이션</div><p>${m.valuation||""}</p></div>
+      <div class="ovsec"><div class="t">리스크</div><ul>${(m.risks||[]).map(r=>`<li>${r}</li>`).join("")}</ul></div>
+      <div class="ovsec"><div class="t">12개월 전망</div><p>${m.outlook||""}</p></div>` : `<p style="color:var(--muted);font-size:13px">섹터 개요 로딩 중…</p>`;
+    const chips = ts.map(t=>`<span class="mt ${t.gate==='APPROVE'?'':'block'}" data-t="${t.ticker}">${nm(t)} ${t.total_return_pct>=0?'+':''}${t.total_return_pct}%</span>`).join("");
+    h += `<div class="card secov">
+      <h2>${s} <span style="font-size:13px;color:var(--muted);font-weight:400">· ${ts.length}종목</span></h2>
+      <div class="hl">${m?m.headline:""}</div>
+      <div class="secstats">
+        <div class="s"><div class="k">게이트 통과율</div><div class="v">${Math.round(appr/ts.length*100)}%</div></div>
+        <div class="s"><div class="k">평균 5년 총수익</div><div class="v ${avg>=0?'':''}" style="color:${avg>=0?'var(--pos)':'var(--neg)'}">${avg>=0?'+':''}${avg.toFixed(1)}%</div></div>
+        <div class="s"><div class="k">최고 (5년)</div><div class="v" style="color:var(--pos);font-size:15px">${nm(best)} +${best.total_return_pct}%</div></div>
+        <div class="s"><div class="k">최저 (5년)</div><div class="v" style="color:var(--neg);font-size:15px">${nm(worst)} ${worst.total_return_pct}%</div></div>
+      </div>
+      ${ov}
+      <div class="ovsec"><div class="t">구성 종목 (클릭 → 종목 상세)</div><div class="miniticks">${chips}</div></div>
+    </div>`;
+  }
+  h += `<div class="card" style="font-size:12px;color:var(--muted)">섹터 개요는 교육용 리서치이며 투자 자문이 아닙니다. 수익률은 SMA 5/20 전략의 5년 백테스트 결과입니다.</div>`;
+  $("sectorView").innerHTML = h;
+  $("sectorView").querySelectorAll(".mt").forEach(c=>c.onclick=()=>{ switchView("ticker"); load(c.dataset.t); window.scrollTo(0,0); });
+}
+
+loadSectorMeta();
 init();
 </script>
 </body>

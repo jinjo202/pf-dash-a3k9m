@@ -1,0 +1,283 @@
+{
+ "ticker": "MCD",
+ "names": [
+  "맥도날드",
+  "McDonald's"
+ ],
+ "sector": "소비재",
+ "as_of": "2026-07-16",
+ "last_close": 273.46,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 2.88,
+   "annualized_return_pct": 0.57,
+   "volatility_pct": 1.61,
+   "sharpe_ratio": 0.36,
+   "sortino_ratio": 0.38,
+   "max_drawdown_pct": -2.53,
+   "win_rate_pct": 38.9,
+   "profit_factor": 1.43,
+   "avg_trade_pnl": 79.86,
+   "num_trades": 36,
+   "exposure_pct": 55.0,
+   "recovery_factor": 1.14
+  },
+  "in_sample": {
+   "total_return_pct": 3.07,
+   "annualized_return_pct": 0.76,
+   "volatility_pct": 1.64,
+   "sharpe_ratio": 0.47,
+   "sortino_ratio": 0.49,
+   "max_drawdown_pct": -2.53,
+   "win_rate_pct": 40.0,
+   "profit_factor": 1.57,
+   "avg_trade_pnl": 102.32,
+   "num_trades": 30,
+   "exposure_pct": 56.2,
+   "recovery_factor": 1.21
+  },
+  "out_of_sample": {
+   "total_return_pct": -0.62,
+   "annualized_return_pct": -0.63,
+   "volatility_pct": 1.26,
+   "sharpe_ratio": -0.5,
+   "sortino_ratio": -0.49,
+   "max_drawdown_pct": -1.45,
+   "win_rate_pct": 33.3,
+   "profit_factor": 0.53,
+   "avg_trade_pnl": -104.05,
+   "num_trades": 6,
+   "exposure_pct": 34.3,
+   "recovery_factor": -0.43
+  },
+  "benchmark": {
+   "total_return_pct": 33.8,
+   "annualized_return_pct": 6.03,
+   "volatility_pct": 17.6,
+   "sharpe_ratio": 0.42,
+   "sortino_ratio": 0.63,
+   "max_drawdown_pct": -21.47,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 1.57
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "36 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -2.53% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.43 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -0.96,
+  "final_equity": 99044.8,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   100000
+  ],
+  [
+   "04-13",
+   100000
+  ],
+  [
+   "04-15",
+   100000
+  ],
+  [
+   "04-17",
+   100000
+  ],
+  [
+   "04-21",
+   100000
+  ],
+  [
+   "04-23",
+   100000
+  ],
+  [
+   "04-27",
+   100000
+  ],
+  [
+   "04-29",
+   100000
+  ],
+  [
+   "05-01",
+   100000
+  ],
+  [
+   "05-05",
+   100000
+  ],
+  [
+   "05-07",
+   100000
+  ],
+  [
+   "05-11",
+   100000
+  ],
+  [
+   "05-13",
+   100000
+  ],
+  [
+   "05-15",
+   100000
+  ],
+  [
+   "05-19",
+   100000
+  ],
+  [
+   "05-21",
+   100000
+  ],
+  [
+   "05-26",
+   100000
+  ],
+  [
+   "05-28",
+   100000
+  ],
+  [
+   "06-01",
+   99990
+  ],
+  [
+   "06-03",
+   99990
+  ],
+  [
+   "06-05",
+   99990
+  ],
+  [
+   "06-09",
+   99990
+  ],
+  [
+   "06-11",
+   99998
+  ],
+  [
+   "06-15",
+   100057
+  ],
+  [
+   "06-17",
+   99956
+  ],
+  [
+   "06-22",
+   99353
+  ],
+  [
+   "06-24",
+   99432
+  ],
+  [
+   "06-26",
+   99432
+  ],
+  [
+   "06-30",
+   99432
+  ],
+  [
+   "07-02",
+   99432
+  ],
+  [
+   "07-07",
+   99432
+  ],
+  [
+   "07-09",
+   99439
+  ],
+  [
+   "07-13",
+   99264
+  ],
+  [
+   "07-15",
+   99045
+  ]
+ ],
+ "has_coverage": false
+}

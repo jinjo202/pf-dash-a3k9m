@@ -1,0 +1,283 @@
+{
+ "ticker": "BKNG",
+ "names": [
+  "부킹홀딩스",
+  "Booking"
+ ],
+ "sector": "소비재",
+ "as_of": "2026-07-16",
+ "last_close": 184.61,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 5.54,
+   "annualized_return_pct": 1.09,
+   "volatility_pct": 2.93,
+   "sharpe_ratio": 0.38,
+   "sortino_ratio": 0.39,
+   "max_drawdown_pct": -5.04,
+   "win_rate_pct": 41.7,
+   "profit_factor": 1.43,
+   "avg_trade_pnl": 153.78,
+   "num_trades": 36,
+   "exposure_pct": 57.6,
+   "recovery_factor": 1.1
+  },
+  "in_sample": {
+   "total_return_pct": 7.78,
+   "annualized_return_pct": 1.9,
+   "volatility_pct": 3.02,
+   "sharpe_ratio": 0.64,
+   "sortino_ratio": 0.65,
+   "max_drawdown_pct": -5.04,
+   "win_rate_pct": 46.4,
+   "profit_factor": 1.83,
+   "avg_trade_pnl": 277.78,
+   "num_trades": 28,
+   "exposure_pct": 61.4,
+   "recovery_factor": 1.54
+  },
+  "out_of_sample": {
+   "total_return_pct": -2.12,
+   "annualized_return_pct": -2.13,
+   "volatility_pct": 2.53,
+   "sharpe_ratio": -0.84,
+   "sortino_ratio": -0.92,
+   "max_drawdown_pct": -3.29,
+   "win_rate_pct": 25.0,
+   "profit_factor": 0.36,
+   "avg_trade_pnl": -265.49,
+   "num_trades": 8,
+   "exposure_pct": 39.8,
+   "recovery_factor": -0.65
+  },
+  "benchmark": {
+   "total_return_pct": 127.96,
+   "annualized_return_pct": 18.01,
+   "volatility_pct": 32.66,
+   "sharpe_ratio": 0.67,
+   "sortino_ratio": 0.94,
+   "max_drawdown_pct": -39.53,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 3.24
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "36 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -5.04% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 1.43 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": -0.74,
+  "final_equity": 99263.14,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   99749
+  ],
+  [
+   "04-13",
+   99795
+  ],
+  [
+   "04-15",
+   100380
+  ],
+  [
+   "04-17",
+   100819
+  ],
+  [
+   "04-21",
+   100739
+  ],
+  [
+   "04-23",
+   99760
+  ],
+  [
+   "04-27",
+   99813
+  ],
+  [
+   "04-29",
+   98901
+  ],
+  [
+   "05-01",
+   98901
+  ],
+  [
+   "05-05",
+   98901
+  ],
+  [
+   "05-07",
+   98901
+  ],
+  [
+   "05-11",
+   98901
+  ],
+  [
+   "05-13",
+   98901
+  ],
+  [
+   "05-15",
+   98901
+  ],
+  [
+   "05-19",
+   98901
+  ],
+  [
+   "05-21",
+   98901
+  ],
+  [
+   "05-26",
+   98901
+  ],
+  [
+   "05-28",
+   98901
+  ],
+  [
+   "06-01",
+   98813
+  ],
+  [
+   "06-03",
+   98489
+  ],
+  [
+   "06-05",
+   98596
+  ],
+  [
+   "06-09",
+   98462
+  ],
+  [
+   "06-11",
+   98432
+  ],
+  [
+   "06-15",
+   99236
+  ],
+  [
+   "06-17",
+   99017
+  ],
+  [
+   "06-22",
+   98736
+  ],
+  [
+   "06-24",
+   99717
+  ],
+  [
+   "06-26",
+   99732
+  ],
+  [
+   "06-30",
+   99498
+  ],
+  [
+   "07-02",
+   99958
+  ],
+  [
+   "07-07",
+   99768
+  ],
+  [
+   "07-09",
+   99300
+  ],
+  [
+   "07-13",
+   99321
+  ],
+  [
+   "07-15",
+   99272
+  ]
+ ],
+ "has_coverage": false
+}
