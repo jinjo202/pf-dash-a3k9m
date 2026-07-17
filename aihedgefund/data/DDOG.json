@@ -1,72 +1,71 @@
 {
- "ticker": "GOOGL",
+ "ticker": "DDOG",
  "names": [
-  "알파벳",
-  "구글",
-  "Google"
+  "데이터독",
+  "Datadog"
  ],
  "sector": "소프트웨어",
  "as_of": "2026-07-16",
- "last_close": 354.46,
+ "last_close": 262.32,
  "data_ok": true,
  "rows": 1254,
  "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
  "metrics": {
   "full": {
-   "total_return_pct": 5.35,
-   "annualized_return_pct": 1.05,
-   "volatility_pct": 3.02,
-   "sharpe_ratio": 0.36,
-   "sortino_ratio": 0.4,
-   "max_drawdown_pct": -7.12,
-   "win_rate_pct": 35.9,
-   "profit_factor": 1.43,
-   "avg_trade_pnl": 137.24,
+   "total_return_pct": 7.86,
+   "annualized_return_pct": 1.53,
+   "volatility_pct": 5.24,
+   "sharpe_ratio": 0.32,
+   "sortino_ratio": 0.32,
+   "max_drawdown_pct": -10.81,
+   "win_rate_pct": 33.3,
+   "profit_factor": 1.38,
+   "avg_trade_pnl": 201.44,
    "num_trades": 39,
-   "exposure_pct": 54.5,
-   "recovery_factor": 0.75
+   "exposure_pct": 44.3,
+   "recovery_factor": 0.73
   },
   "in_sample": {
-   "total_return_pct": -3.63,
-   "annualized_return_pct": -0.93,
-   "volatility_pct": 2.88,
-   "sharpe_ratio": -0.31,
-   "sortino_ratio": -0.3,
-   "max_drawdown_pct": -7.12,
-   "win_rate_pct": 32.4,
-   "profit_factor": 0.69,
-   "avg_trade_pnl": -106.85,
-   "num_trades": 34,
-   "exposure_pct": 51.5,
-   "recovery_factor": -0.51
+   "total_return_pct": -1.12,
+   "annualized_return_pct": -0.28,
+   "volatility_pct": 4.4,
+   "sharpe_ratio": -0.04,
+   "sortino_ratio": -0.04,
+   "max_drawdown_pct": -10.81,
+   "win_rate_pct": 31.2,
+   "profit_factor": 0.94,
+   "avg_trade_pnl": -34.91,
+   "num_trades": 32,
+   "exposure_pct": 41.9,
+   "recovery_factor": -0.1
   },
   "out_of_sample": {
-   "total_return_pct": 4.75,
-   "annualized_return_pct": 4.77,
-   "volatility_pct": 2.93,
-   "sharpe_ratio": 1.61,
-   "sortino_ratio": 2.22,
-   "max_drawdown_pct": -1.26,
-   "win_rate_pct": 60.0,
-   "profit_factor": 7.83,
-   "avg_trade_pnl": 950.63,
-   "num_trades": 5,
-   "exposure_pct": 44.6,
-   "recovery_factor": 3.78
+   "total_return_pct": 9.04,
+   "annualized_return_pct": 9.07,
+   "volatility_pct": 7.6,
+   "sharpe_ratio": 1.18,
+   "sortino_ratio": 1.84,
+   "max_drawdown_pct": -4.94,
+   "win_rate_pct": 42.9,
+   "profit_factor": 4.24,
+   "avg_trade_pnl": 1290.9,
+   "num_trades": 7,
+   "exposure_pct": 48.6,
+   "recovery_factor": 1.83
   },
   "benchmark": {
-   "total_return_pct": 187.05,
-   "annualized_return_pct": 23.6,
-   "volatility_pct": 31.66,
-   "sharpe_ratio": 0.83,
-   "sortino_ratio": 1.25,
-   "max_drawdown_pct": -44.32,
+   "total_return_pct": 150.23,
+   "annualized_return_pct": 20.24,
+   "volatility_pct": 58.52,
+   "sharpe_ratio": 0.6,
+   "sortino_ratio": 0.97,
+   "max_drawdown_pct": -68.11,
    "win_rate_pct": 0.0,
    "profit_factor": 0.0,
    "avg_trade_pnl": 0.0,
    "num_trades": 0,
    "exposure_pct": 100.0,
-   "recovery_factor": 4.22
+   "recovery_factor": 2.21
   }
  },
  "risk_gate": {
@@ -80,18 +79,18 @@
    {
     "name": "drawdown_within_limit",
     "passed": true,
-    "detail": "max drawdown -7.12% (limit 35.0%)"
+    "detail": "max drawdown -10.81% (limit 35.0%)"
    },
    {
     "name": "profit_factor",
     "passed": true,
-    "detail": "profit factor 1.43 (need >= 1.0)"
+    "detail": "profit factor 1.38 (need >= 1.0)"
    }
   ]
  },
  "paper": {
-  "return_pct": 2.1,
-  "final_equity": 102101.06,
+  "return_pct": 9.6,
+  "final_equity": 109596.54,
   "initial_capital": 100000.0,
   "days": 90,
   "kill_switch": null,
@@ -121,163 +120,163 @@
   ],
   [
    "03-23",
-   99985
+   100000
   ],
   [
    "03-25",
-   99855
+   100000
   ],
   [
    "03-27",
-   99855
+   100000
   ],
   [
    "03-31",
-   99855
+   100000
   ],
   [
    "04-02",
-   99855
+   100000
   ],
   [
    "04-07",
-   99855
+   100000
   ],
   [
    "04-09",
-   99944
+   100000
   ],
   [
    "04-13",
-   100056
+   100000
   ],
   [
    "04-15",
-   100680
+   100000
   ],
   [
    "04-17",
-   100860
+   100000
   ],
   [
    "04-21",
-   100489
+   99792
   ],
   [
    "04-23",
-   100750
+   99656
   ],
   [
    "04-27",
-   101202
+   100113
   ],
   [
    "04-29",
-   101186
+   100239
   ],
   [
    "05-01",
-   102598
+   100862
   ],
   [
    "05-05",
-   102706
+   101356
   ],
   [
    "05-07",
-   103084
+   105447
   ],
   [
    "05-11",
-   102714
+   106740
   ],
   [
    "05-13",
-   103267
+   107024
   ],
   [
    "05-15",
-   103036
+   107278
   ],
   [
    "05-19",
-   102676
+   107960
   ],
   [
    "05-21",
-   102676
+   108235
   ],
   [
    "05-26",
-   102724
+   108769
   ],
   [
    "05-28",
-   102621
+   108920
   ],
   [
    "06-01",
-   102621
+   113890
   ],
   [
    "06-03",
-   102621
+   111306
   ],
   [
    "06-05",
-   102621
+   109764
   ],
   [
    "06-09",
-   102621
+   109120
   ],
   [
    "06-11",
-   102621
+   109776
   ],
   [
    "06-15",
-   102621
+   109921
   ],
   [
    "06-17",
-   102621
+   109921
   ],
   [
    "06-22",
-   102621
+   109921
   ],
   [
    "06-24",
-   102621
+   109921
   ],
   [
    "06-26",
-   102621
+   109921
   ],
   [
    "06-30",
-   102621
+   109921
   ],
   [
    "07-02",
-   102621
+   109496
   ],
   [
    "07-07",
-   102538
+   109315
   ],
   [
    "07-09",
-   102255
+   109938
   ],
   [
    "07-13",
-   102033
+   109490
   ],
   [
    "07-15",
-   102673
+   109706
   ]
  ],
  "has_coverage": false

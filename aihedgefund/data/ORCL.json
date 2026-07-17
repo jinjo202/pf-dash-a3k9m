@@ -1,71 +1,71 @@
 {
- "ticker": "META",
+ "ticker": "ORCL",
  "names": [
-  "메타",
-  "Meta"
+  "오라클",
+  "Oracle"
  ],
  "sector": "소프트웨어",
  "as_of": "2026-07-16",
- "last_close": 664.54,
+ "last_close": 124.21,
  "data_ok": true,
  "rows": 1254,
  "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
  "metrics": {
   "full": {
-   "total_return_pct": 12.07,
-   "annualized_return_pct": 2.32,
-   "volatility_pct": 3.87,
-   "sharpe_ratio": 0.61,
-   "sortino_ratio": 0.83,
-   "max_drawdown_pct": -6.28,
-   "win_rate_pct": 38.9,
+   "total_return_pct": 13.36,
+   "annualized_return_pct": 2.55,
+   "volatility_pct": 3.78,
+   "sharpe_ratio": 0.69,
+   "sortino_ratio": 0.63,
+   "max_drawdown_pct": -6.68,
+   "win_rate_pct": 51.6,
    "profit_factor": 1.92,
-   "avg_trade_pnl": 335.29,
-   "num_trades": 36,
-   "exposure_pct": 54.9,
-   "recovery_factor": 1.92
+   "avg_trade_pnl": 431.12,
+   "num_trades": 31,
+   "exposure_pct": 47.4,
+   "recovery_factor": 2.0
   },
   "in_sample": {
-   "total_return_pct": 15.41,
-   "annualized_return_pct": 3.67,
-   "volatility_pct": 3.98,
-   "sharpe_ratio": 0.93,
-   "sortino_ratio": 1.42,
-   "max_drawdown_pct": -6.28,
-   "win_rate_pct": 44.4,
-   "profit_factor": 2.84,
-   "avg_trade_pnl": 570.81,
-   "num_trades": 27,
-   "exposure_pct": 57.8,
-   "recovery_factor": 2.45
+   "total_return_pct": 17.89,
+   "annualized_return_pct": 4.22,
+   "volatility_pct": 3.35,
+   "sharpe_ratio": 1.25,
+   "sortino_ratio": 1.34,
+   "max_drawdown_pct": -4.04,
+   "win_rate_pct": 60.0,
+   "profit_factor": 3.33,
+   "avg_trade_pnl": 715.69,
+   "num_trades": 25,
+   "exposure_pct": 51.3,
+   "recovery_factor": 4.42
   },
   "out_of_sample": {
-   "total_return_pct": -2.76,
-   "annualized_return_pct": -2.77,
-   "volatility_pct": 3.23,
-   "sharpe_ratio": -0.86,
-   "sortino_ratio": -0.68,
-   "max_drawdown_pct": -4.45,
-   "win_rate_pct": 25.0,
-   "profit_factor": 0.3,
-   "avg_trade_pnl": -345.12,
-   "num_trades": 8,
-   "exposure_pct": 36.7,
-   "recovery_factor": -0.62
+   "total_return_pct": -4.46,
+   "annualized_return_pct": -4.48,
+   "volatility_pct": 4.82,
+   "sharpe_ratio": -0.93,
+   "sortino_ratio": -0.66,
+   "max_drawdown_pct": -6.12,
+   "win_rate_pct": 16.7,
+   "profit_factor": 0.22,
+   "avg_trade_pnl": -743.9,
+   "num_trades": 6,
+   "exposure_pct": 22.3,
+   "recovery_factor": -0.73
   },
   "benchmark": {
-   "total_return_pct": 98.95,
-   "annualized_return_pct": 14.82,
-   "volatility_pct": 44.59,
-   "sharpe_ratio": 0.54,
-   "sortino_ratio": 0.7,
-   "max_drawdown_pct": -76.74,
+   "total_return_pct": 52.76,
+   "annualized_return_pct": 8.89,
+   "volatility_pct": 42.63,
+   "sharpe_ratio": 0.41,
+   "sortino_ratio": 0.62,
+   "max_drawdown_pct": -61.74,
    "win_rate_pct": 0.0,
    "profit_factor": 0.0,
    "avg_trade_pnl": 0.0,
    "num_trades": 0,
    "exposure_pct": 100.0,
-   "recovery_factor": 1.29
+   "recovery_factor": 0.85
   }
  },
  "risk_gate": {
@@ -74,12 +74,12 @@
    {
     "name": "enough_trades",
     "passed": true,
-    "detail": "36 trades (need >= 20)"
+    "detail": "31 trades (need >= 20)"
    },
    {
     "name": "drawdown_within_limit",
     "passed": true,
-    "detail": "max drawdown -6.28% (limit 35.0%)"
+    "detail": "max drawdown -6.68% (limit 35.0%)"
    },
    {
     "name": "profit_factor",
@@ -89,8 +89,8 @@
   ]
  },
  "paper": {
-  "return_pct": -0.31,
-  "final_equity": 99687.2,
+  "return_pct": 0.3,
+  "final_equity": 100298.87,
   "initial_capital": 100000.0,
   "days": 90,
   "kill_switch": null,
@@ -104,179 +104,179 @@
   ],
   [
    "03-11",
-   100000
+   99743
   ],
   [
    "03-13",
-   100000
+   99141
   ],
   [
    "03-17",
-   100000
+   99110
   ],
   [
    "03-19",
-   100000
+   98982
   ],
   [
    "03-23",
-   100000
+   98982
   ],
   [
    "03-25",
-   100000
+   98982
   ],
   [
    "03-27",
-   100000
+   98982
   ],
   [
    "03-31",
-   100000
+   98982
   ],
   [
    "04-02",
-   100000
+   98982
   ],
   [
    "04-07",
-   100000
+   98982
   ],
   [
    "04-09",
-   100000
+   98982
   ],
   [
    "04-13",
-   99989
+   98982
   ],
   [
    "04-15",
-   100718
+   99186
   ],
   [
    "04-17",
-   101052
+   99575
   ],
   [
    "04-21",
-   100664
+   100028
   ],
   [
    "04-23",
-   100473
+   99666
   ],
   [
    "04-27",
-   100857
+   99420
   ],
   [
    "04-29",
-   100670
+   98743
   ],
   [
    "05-01",
-   99481
+   99336
   ],
   [
    "05-05",
-   99559
+   100338
   ],
   [
    "05-07",
-   99559
+   101022
   ],
   [
    "05-11",
-   99559
+   100967
   ],
   [
    "05-13",
-   99559
+   100665
   ],
   [
    "05-15",
-   99559
+   100901
   ],
   [
    "05-19",
-   99559
+   100050
   ],
   [
    "05-21",
-   99559
+   100665
   ],
   [
    "05-26",
-   99559
+   100909
   ],
   [
    "05-28",
-   99464
+   101698
   ],
   [
    "06-01",
-   98787
+   104991
   ],
   [
    "06-03",
-   99225
+   103671
   ],
   [
    "06-05",
-   98546
+   102437
   ],
   [
    "06-09",
-   98546
+   101854
   ],
   [
    "06-11",
-   98546
+   100245
   ],
   [
    "06-15",
-   98546
+   100299
   ],
   [
    "06-17",
-   98546
+   100299
   ],
   [
    "06-22",
-   98546
+   100299
   ],
   [
    "06-24",
-   98546
+   100299
   ],
   [
    "06-26",
-   98546
+   100299
   ],
   [
    "06-30",
-   98546
+   100299
   ],
   [
    "07-02",
-   98546
+   100299
   ],
   [
    "07-07",
-   98695
+   100299
   ],
   [
    "07-09",
-   99017
+   100299
   ],
   [
    "07-13",
-   99529
+   100299
   ],
   [
    "07-15",
-   100027
+   100299
   ]
  ],
  "has_coverage": false

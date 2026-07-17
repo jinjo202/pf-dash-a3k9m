@@ -1,16 +1,30 @@
 {
  "tickers": [
   {
+   "ticker": "000660.KS",
+   "names": [
+    "SK하이닉스",
+    "SK hynix"
+   ],
+   "sector": "반도체",
+   "last_close": 1842000.0,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 37.55
+  },
+  {
    "ticker": "005930.KS",
    "names": [
     "삼성전자",
     "Samsung"
    ],
+   "sector": "반도체",
    "last_close": 255000.0,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
    "has_coverage": false,
-   "total_return_pct": 20.64
+   "total_return_pct": 20.35
   },
   {
    "ticker": "AAPL",
@@ -18,6 +32,7 @@
     "애플",
     "Apple"
    ],
+   "sector": "기타",
    "last_close": 333.26,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -25,11 +40,51 @@
    "total_return_pct": 6.41
   },
   {
+   "ticker": "ADBE",
+   "names": [
+    "어도비",
+    "Adobe"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 235.31,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -4.49
+  },
+  {
+   "ticker": "ADI",
+   "names": [
+    "아나로그디바이스",
+    "Analog Devices"
+   ],
+   "sector": "반도체",
+   "last_close": 380.53,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 1.43
+  },
+  {
+   "ticker": "AMAT",
+   "names": [
+    "어플라이드머티어리얼즈",
+    "Applied Materials"
+   ],
+   "sector": "반도체",
+   "last_close": 560.93,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 8.1
+  },
+  {
    "ticker": "AMD",
    "names": [
     "에이엠디",
     "AMD"
    ],
+   "sector": "반도체",
    "last_close": 500.94,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -42,6 +97,7 @@
     "아마존",
     "Amazon"
    ],
+   "sector": "기타",
    "last_close": 249.89,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -49,16 +105,83 @@
    "total_return_pct": 6.06
   },
   {
+   "ticker": "ARM",
+   "names": [
+    "암",
+    "ARM",
+    "Arm"
+   ],
+   "sector": "반도체",
+   "last_close": 262.01,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 30.01
+  },
+  {
+   "ticker": "ASML",
+   "names": [
+    "ASML",
+    "에이에스엠엘"
+   ],
+   "sector": "반도체",
+   "last_close": 1784.87,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.68
+  },
+  {
    "ticker": "AVGO",
    "names": [
     "브로드컴",
     "Broadcom"
    ],
+   "sector": "반도체",
    "last_close": 374.45,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
    "has_coverage": false,
    "total_return_pct": 12.11
+  },
+  {
+   "ticker": "CRM",
+   "names": [
+    "세일즈포스",
+    "Salesforce"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 172.68,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -7.38
+  },
+  {
+   "ticker": "CRWD",
+   "names": [
+    "크라우드스트라이크",
+    "CrowdStrike"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 203.76,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 10.48
+  },
+  {
+   "ticker": "DDOG",
+   "names": [
+    "데이터독",
+    "Datadog"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 262.32,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 7.86
   },
   {
    "ticker": "GOOGL",
@@ -67,6 +190,7 @@
     "구글",
     "Google"
    ],
+   "sector": "소프트웨어",
    "last_close": 354.46,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -74,11 +198,77 @@
    "total_return_pct": 5.35
   },
   {
+   "ticker": "INTC",
+   "names": [
+    "인텔",
+    "Intel"
+   ],
+   "sector": "반도체",
+   "last_close": 96.98,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.05
+  },
+  {
+   "ticker": "INTU",
+   "names": [
+    "인튜이트",
+    "Intuit"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 294.79,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.58
+  },
+  {
+   "ticker": "KLAC",
+   "names": [
+    "KLA",
+    "케이엘에이"
+   ],
+   "sector": "반도체",
+   "last_close": 219.37,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 8.99
+  },
+  {
+   "ticker": "LRCX",
+   "names": [
+    "램리서치",
+    "Lam Research"
+   ],
+   "sector": "반도체",
+   "last_close": 320.96,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 8.35
+  },
+  {
+   "ticker": "MCHP",
+   "names": [
+    "마이크로칩",
+    "Microchip"
+   ],
+   "sector": "반도체",
+   "last_close": 81.68,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 0.09
+  },
+  {
    "ticker": "META",
    "names": [
     "메타",
     "Meta"
    ],
+   "sector": "소프트웨어",
    "last_close": 664.54,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -86,11 +276,25 @@
    "total_return_pct": 12.07
   },
   {
+   "ticker": "MRVL",
+   "names": [
+    "마벨",
+    "Marvell"
+   ],
+   "sector": "반도체",
+   "last_close": 188.3,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 32.22
+  },
+  {
    "ticker": "MSFT",
    "names": [
     "마이크로소프트",
     "Microsoft"
    ],
+   "sector": "소프트웨어",
    "last_close": 401.1,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -98,11 +302,25 @@
    "total_return_pct": 1.62
   },
   {
+   "ticker": "MU",
+   "names": [
+    "마이크론",
+    "Micron"
+   ],
+   "sector": "반도체",
+   "last_close": 853.2,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 26.32
+  },
+  {
    "ticker": "NFLX",
    "names": [
     "넷플릭스",
     "Netflix"
    ],
+   "sector": "소프트웨어",
    "last_close": 74.35,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -110,11 +328,25 @@
    "total_return_pct": 6.65
   },
   {
+   "ticker": "NOW",
+   "names": [
+    "서비스나우",
+    "ServiceNow"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 104.01,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -10.96
+  },
+  {
    "ticker": "NVDA",
    "names": [
     "엔비디아",
     "NVIDIA"
    ],
+   "sector": "반도체",
    "last_close": 207.4,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -122,11 +354,38 @@
    "total_return_pct": 36.98
   },
   {
+   "ticker": "ORCL",
+   "names": [
+    "오라클",
+    "Oracle"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 124.21,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 13.36
+  },
+  {
+   "ticker": "PANW",
+   "names": [
+    "팔로알토",
+    "Palo Alto"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 353.99,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -6.18
+  },
+  {
    "ticker": "PLTR",
    "names": [
     "팔란티어",
     "Palantir"
    ],
+   "sector": "소프트웨어",
    "last_close": 134.44,
    "as_of": "2026-07-16",
    "gate": "APPROVE",
@@ -134,16 +393,82 @@
    "total_return_pct": 5.59
   },
   {
+   "ticker": "QCOM",
+   "names": [
+    "퀄컴",
+    "Qualcomm"
+   ],
+   "sector": "반도체",
+   "last_close": 170.61,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -1.43
+  },
+  {
+   "ticker": "SHOP",
+   "names": [
+    "쇼피파이",
+    "Shopify"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 125.06,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 2.2
+  },
+  {
+   "ticker": "SNOW",
+   "names": [
+    "스노우플레이크",
+    "Snowflake"
+   ],
+   "sector": "소프트웨어",
+   "last_close": 270.02,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -3.35
+  },
+  {
    "ticker": "TSLA",
    "names": [
     "테슬라",
     "Tesla"
    ],
+   "sector": "기타",
    "last_close": 391.06,
    "as_of": "2026-07-16",
    "gate": "BLOCK",
    "has_coverage": false,
    "total_return_pct": -2.29
+  },
+  {
+   "ticker": "TSM",
+   "names": [
+    "TSMC",
+    "티에스엠씨"
+   ],
+   "sector": "반도체",
+   "last_close": 409.74,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 15.74
+  },
+  {
+   "ticker": "TXN",
+   "names": [
+    "텍사스인스트루먼트",
+    "Texas Instruments"
+   ],
+   "sector": "반도체",
+   "last_close": 291.22,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 8.64
   }
  ]
 }

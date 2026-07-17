@@ -1,0 +1,94 @@
+{
+ "ticker": "INTU",
+ "names": [
+  "인튜이트",
+  "Intuit"
+ ],
+ "sector": "소프트웨어",
+ "as_of": "2026-07-16",
+ "last_close": 294.79,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": -2.58,
+   "annualized_return_pct": -0.52,
+   "volatility_pct": 3.1,
+   "sharpe_ratio": -0.15,
+   "sortino_ratio": -0.16,
+   "max_drawdown_pct": -6.22,
+   "win_rate_pct": 37.8,
+   "profit_factor": 0.82,
+   "avg_trade_pnl": -69.73,
+   "num_trades": 37,
+   "exposure_pct": 46.4,
+   "recovery_factor": -0.41
+  },
+  "in_sample": {
+   "total_return_pct": -0.66,
+   "annualized_return_pct": -0.17,
+   "volatility_pct": 3.22,
+   "sharpe_ratio": -0.04,
+   "sortino_ratio": -0.04,
+   "max_drawdown_pct": -4.97,
+   "win_rate_pct": 44.8,
+   "profit_factor": 0.94,
+   "avg_trade_pnl": -22.93,
+   "num_trades": 29,
+   "exposure_pct": 49.8,
+   "recovery_factor": -0.13
+  },
+  "out_of_sample": {
+   "total_return_pct": -1.35,
+   "annualized_return_pct": -1.35,
+   "volatility_pct": 2.51,
+   "sharpe_ratio": -0.53,
+   "sortino_ratio": -0.51,
+   "max_drawdown_pct": -3.17,
+   "win_rate_pct": 14.3,
+   "profit_factor": 0.54,
+   "avg_trade_pnl": -192.58,
+   "num_trades": 7,
+   "exposure_pct": 28.7,
+   "recovery_factor": -0.42
+  },
+  "benchmark": {
+   "total_return_pct": -38.7,
+   "annualized_return_pct": -9.37,
+   "volatility_pct": 38.03,
+   "sharpe_ratio": -0.07,
+   "sortino_ratio": -0.09,
+   "max_drawdown_pct": -68.19,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": -0.57
+  }
+ },
+ "risk_gate": {
+  "decision": "BLOCK",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "37 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -6.22% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": false,
+    "detail": "profit factor 0.82 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": null,
+ "equity_curve": null,
+ "has_coverage": false
+}

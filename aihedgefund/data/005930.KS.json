@@ -4,6 +4,7 @@
   "삼성전자",
   "Samsung"
  ],
+ "sector": "반도체",
  "as_of": "2026-07-16",
  "last_close": 255000.0,
  "data_ok": true,
@@ -11,32 +12,32 @@
  "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
  "metrics": {
   "full": {
-   "total_return_pct": 20.64,
-   "annualized_return_pct": 3.95,
+   "total_return_pct": 20.35,
+   "annualized_return_pct": 3.9,
    "volatility_pct": 4.81,
-   "sharpe_ratio": 0.83,
-   "sortino_ratio": 0.79,
-   "max_drawdown_pct": -5.63,
+   "sharpe_ratio": 0.82,
+   "sortino_ratio": 0.78,
+   "max_drawdown_pct": -5.82,
    "win_rate_pct": 35.0,
-   "profit_factor": 2.64,
-   "avg_trade_pnl": 516.0,
+   "profit_factor": 2.59,
+   "avg_trade_pnl": 508.75,
    "num_trades": 40,
-   "exposure_pct": 52.6,
-   "recovery_factor": 3.67
+   "exposure_pct": 52.7,
+   "recovery_factor": 3.5
   },
   "in_sample": {
-   "total_return_pct": -1.02,
-   "annualized_return_pct": -0.26,
-   "volatility_pct": 2.14,
-   "sharpe_ratio": -0.11,
-   "sortino_ratio": -0.13,
-   "max_drawdown_pct": -5.63,
+   "total_return_pct": -1.26,
+   "annualized_return_pct": -0.33,
+   "volatility_pct": 2.15,
+   "sharpe_ratio": -0.14,
+   "sortino_ratio": -0.17,
+   "max_drawdown_pct": -5.82,
    "win_rate_pct": 32.4,
-   "profit_factor": 0.89,
-   "avg_trade_pnl": -30.01,
+   "profit_factor": 0.86,
+   "avg_trade_pnl": -37.0,
    "num_trades": 34,
-   "exposure_pct": 45.9,
-   "recovery_factor": -0.18
+   "exposure_pct": 46.0,
+   "recovery_factor": -0.22
   },
   "out_of_sample": {
    "total_return_pct": 20.92,
@@ -78,12 +79,12 @@
    {
     "name": "drawdown_within_limit",
     "passed": true,
-    "detail": "max drawdown -5.63% (limit 35.0%)"
+    "detail": "max drawdown -5.82% (limit 35.0%)"
    },
    {
     "name": "profit_factor",
     "passed": true,
-    "detail": "profit factor 2.64 (need >= 1.0)"
+    "detail": "profit factor 2.59 (need >= 1.0)"
    }
   ]
  },

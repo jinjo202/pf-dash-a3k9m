@@ -1,71 +1,71 @@
 {
- "ticker": "AMZN",
+ "ticker": "TSM",
  "names": [
-  "아마존",
-  "Amazon"
+  "TSMC",
+  "티에스엠씨"
  ],
- "sector": "기타",
+ "sector": "반도체",
  "as_of": "2026-07-16",
- "last_close": 249.89,
+ "last_close": 409.74,
  "data_ok": true,
  "rows": 1254,
  "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
  "metrics": {
   "full": {
-   "total_return_pct": 6.06,
-   "annualized_return_pct": 1.19,
-   "volatility_pct": 3.07,
-   "sharpe_ratio": 0.4,
-   "sortino_ratio": 0.49,
-   "max_drawdown_pct": -3.88,
-   "win_rate_pct": 46.9,
-   "profit_factor": 1.62,
-   "avg_trade_pnl": 189.34,
-   "num_trades": 32,
-   "exposure_pct": 55.1,
-   "recovery_factor": 1.56
+   "total_return_pct": 15.74,
+   "annualized_return_pct": 2.98,
+   "volatility_pct": 3.96,
+   "sharpe_ratio": 0.76,
+   "sortino_ratio": 0.95,
+   "max_drawdown_pct": -3.87,
+   "win_rate_pct": 52.9,
+   "profit_factor": 2.39,
+   "avg_trade_pnl": 463.09,
+   "num_trades": 34,
+   "exposure_pct": 56.2,
+   "recovery_factor": 4.07
   },
   "in_sample": {
-   "total_return_pct": 7.95,
-   "annualized_return_pct": 1.94,
-   "volatility_pct": 3.06,
-   "sharpe_ratio": 0.64,
-   "sortino_ratio": 0.82,
-   "max_drawdown_pct": -3.72,
-   "win_rate_pct": 52.2,
-   "profit_factor": 2.25,
-   "avg_trade_pnl": 345.55,
-   "num_trades": 23,
-   "exposure_pct": 55.8,
-   "recovery_factor": 2.14
+   "total_return_pct": 10.76,
+   "annualized_return_pct": 2.6,
+   "volatility_pct": 3.71,
+   "sharpe_ratio": 0.71,
+   "sortino_ratio": 0.85,
+   "max_drawdown_pct": -3.87,
+   "win_rate_pct": 51.9,
+   "profit_factor": 2.18,
+   "avg_trade_pnl": 398.44,
+   "num_trades": 27,
+   "exposure_pct": 52.3,
+   "recovery_factor": 2.78
   },
   "out_of_sample": {
-   "total_return_pct": -1.09,
-   "annualized_return_pct": -1.09,
-   "volatility_pct": 2.8,
-   "sharpe_ratio": -0.38,
-   "sortino_ratio": -0.53,
-   "max_drawdown_pct": -3.56,
-   "win_rate_pct": 33.3,
-   "profit_factor": 0.66,
-   "avg_trade_pnl": -120.75,
-   "num_trades": 9,
-   "exposure_pct": 47.0,
-   "recovery_factor": -0.31
+   "total_return_pct": 4.98,
+   "annualized_return_pct": 5.0,
+   "volatility_pct": 4.56,
+   "sharpe_ratio": 1.1,
+   "sortino_ratio": 1.42,
+   "max_drawdown_pct": -2.02,
+   "win_rate_pct": 66.7,
+   "profit_factor": 5.63,
+   "avg_trade_pnl": 830.76,
+   "num_trades": 6,
+   "exposure_pct": 63.7,
+   "recovery_factor": 2.46
   },
   "benchmark": {
-   "total_return_pct": 40.8,
-   "annualized_return_pct": 7.12,
-   "volatility_pct": 35.71,
-   "sharpe_ratio": 0.37,
-   "sortino_ratio": 0.54,
-   "max_drawdown_pct": -55.77,
+   "total_return_pct": 285.35,
+   "annualized_return_pct": 31.14,
+   "volatility_pct": 38.06,
+   "sharpe_ratio": 0.9,
+   "sortino_ratio": 1.44,
+   "max_drawdown_pct": -56.47,
    "win_rate_pct": 0.0,
    "profit_factor": 0.0,
    "avg_trade_pnl": 0.0,
    "num_trades": 0,
    "exposure_pct": 100.0,
-   "recovery_factor": 0.73
+   "recovery_factor": 5.05
   }
  },
  "risk_gate": {
@@ -74,23 +74,23 @@
    {
     "name": "enough_trades",
     "passed": true,
-    "detail": "32 trades (need >= 20)"
+    "detail": "34 trades (need >= 20)"
    },
    {
     "name": "drawdown_within_limit",
     "passed": true,
-    "detail": "max drawdown -3.88% (limit 35.0%)"
+    "detail": "max drawdown -3.87% (limit 35.0%)"
    },
    {
     "name": "profit_factor",
     "passed": true,
-    "detail": "profit factor 1.62 (need >= 1.0)"
+    "detail": "profit factor 2.39 (need >= 1.0)"
    }
   ]
  },
  "paper": {
-  "return_pct": 1.33,
-  "final_equity": 101329.64,
+  "return_pct": 1.64,
+  "final_equity": 101644.32,
   "initial_capital": 100000.0,
   "days": 90,
   "kill_switch": null,
@@ -144,139 +144,139 @@
   ],
   [
    "04-09",
-   100538
+   99826
   ],
   [
    "04-13",
-   100886
+   99963
   ],
   [
    "04-15",
-   101367
+   100150
   ],
   [
    "04-17",
-   101482
+   99995
   ],
   [
    "04-21",
-   101446
+   99913
   ],
   [
    "04-23",
-   101734
+   100405
   ],
   [
    "04-27",
-   102072
+   101158
   ],
   [
    "04-29",
-   102179
+   100782
   ],
   [
    "05-01",
-   102470
+   100911
   ],
   [
    "05-05",
-   102766
+   100801
   ],
   [
    "05-07",
-   102633
+   101467
   ],
   [
    "05-11",
-   102511
+   101143
   ],
   [
    "05-13",
-   102575
+   100983
   ],
   [
    "05-15",
-   102240
+   101137
   ],
   [
    "05-19",
-   101972
+   100741
   ],
   [
    "05-21",
-   101997
+   101231
   ],
   [
    "05-26",
-   101997
+   101294
   ],
   [
    "05-28",
-   101997
+   101218
   ],
   [
    "06-01",
-   101513
+   101537
   ],
   [
    "06-03",
-   101193
+   101568
   ],
   [
    "06-05",
-   101193
+   100930
   ],
   [
    "06-09",
-   101193
+   101308
   ],
   [
    "06-11",
-   101193
+   101135
   ],
   [
    "06-15",
-   101193
+   101738
   ],
   [
    "06-17",
-   101193
+   101464
   ],
   [
    "06-22",
-   101193
+   102519
   ],
   [
    "06-24",
-   101193
+   101722
   ],
   [
    "06-26",
-   101193
+   101470
   ],
   [
    "06-30",
-   101193
+   102813
   ],
   [
    "07-02",
-   101193
+   101523
   ],
   [
    "07-07",
-   101129
+   101476
   ],
   [
    "07-09",
-   101184
+   101607
   ],
   [
    "07-13",
-   101198
+   101644
   ],
   [
    "07-15",
-   101589
+   101644
   ]
  ],
  "has_coverage": false

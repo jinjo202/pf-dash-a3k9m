@@ -1,0 +1,283 @@
+{
+ "ticker": "000660.KS",
+ "names": [
+  "SK하이닉스",
+  "SK hynix"
+ ],
+ "sector": "반도체",
+ "as_of": "2026-07-16",
+ "last_close": 1842000.0,
+ "data_ok": true,
+ "rows": 1220,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 37.55,
+   "annualized_return_pct": 6.81,
+   "volatility_pct": 7.41,
+   "sharpe_ratio": 0.93,
+   "sortino_ratio": 0.9,
+   "max_drawdown_pct": -7.23,
+   "win_rate_pct": 35.9,
+   "profit_factor": 3.05,
+   "avg_trade_pnl": 962.89,
+   "num_trades": 39,
+   "exposure_pct": 55.1,
+   "recovery_factor": 5.2
+  },
+  "in_sample": {
+   "total_return_pct": 3.89,
+   "annualized_return_pct": 0.99,
+   "volatility_pct": 3.8,
+   "sharpe_ratio": 0.28,
+   "sortino_ratio": 0.32,
+   "max_drawdown_pct": -7.1,
+   "win_rate_pct": 33.3,
+   "profit_factor": 1.26,
+   "avg_trade_pnl": 117.82,
+   "num_trades": 33,
+   "exposure_pct": 51.3,
+   "recovery_factor": 0.55
+  },
+  "out_of_sample": {
+   "total_return_pct": 35.81,
+   "annualized_return_pct": 37.36,
+   "volatility_pct": 14.56,
+   "sharpe_ratio": 2.26,
+   "sortino_ratio": 2.43,
+   "max_drawdown_pct": -7.23,
+   "win_rate_pct": 60.0,
+   "profit_factor": 15.95,
+   "avg_trade_pnl": 7162.58,
+   "num_trades": 5,
+   "exposure_pct": 67.9,
+   "recovery_factor": 4.96
+  },
+  "benchmark": {
+   "total_return_pct": 1498.89,
+   "annualized_return_pct": 77.28,
+   "volatility_pct": 51.75,
+   "sharpe_ratio": 1.37,
+   "sortino_ratio": 2.05,
+   "max_drawdown_pct": -42.86,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 34.97
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "39 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -7.23% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 3.05 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 17.25,
+  "final_equity": 117254.11,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": "2026-06-23: daily loss 3.39%",
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   99505
+  ],
+  [
+   "03-19",
+   100037
+  ],
+  [
+   "03-23",
+   98982
+  ],
+  [
+   "03-25",
+   98982
+  ],
+  [
+   "03-27",
+   98982
+  ],
+  [
+   "03-31",
+   98982
+  ],
+  [
+   "04-02",
+   98982
+  ],
+  [
+   "04-06",
+   98982
+  ],
+  [
+   "04-08",
+   98982
+  ],
+  [
+   "04-10",
+   98934
+  ],
+  [
+   "04-14",
+   99846
+  ],
+  [
+   "04-16",
+   100471
+  ],
+  [
+   "04-20",
+   100603
+  ],
+  [
+   "04-22",
+   101287
+  ],
+  [
+   "04-24",
+   101275
+  ],
+  [
+   "04-28",
+   102212
+  ],
+  [
+   "04-30",
+   102044
+  ],
+  [
+   "05-06",
+   105826
+  ],
+  [
+   "05-08",
+   106846
+  ],
+  [
+   "05-12",
+   108635
+  ],
+  [
+   "05-14",
+   110256
+  ],
+  [
+   "05-18",
+   108695
+  ],
+  [
+   "05-20",
+   107554
+  ],
+  [
+   "05-22",
+   109908
+  ],
+  [
+   "05-27",
+   113534
+  ],
+  [
+   "05-29",
+   114619
+  ],
+  [
+   "06-02",
+   114943
+  ],
+  [
+   "06-05",
+   111461
+  ],
+  [
+   "06-09",
+   113202
+  ],
+  [
+   "06-11",
+   111833
+  ],
+  [
+   "06-15",
+   114079
+  ],
+  [
+   "06-17",
+   116876
+  ],
+  [
+   "06-19",
+   119795
+  ],
+  [
+   "06-23",
+   117254
+  ],
+  [
+   "06-25",
+   117254
+  ],
+  [
+   "06-29",
+   117254
+  ],
+  [
+   "07-01",
+   117254
+  ],
+  [
+   "07-03",
+   117254
+  ],
+  [
+   "07-07",
+   117254
+  ],
+  [
+   "07-09",
+   117254
+  ],
+  [
+   "07-13",
+   117254
+  ],
+  [
+   "07-15",
+   117254
+  ]
+ ],
+ "has_coverage": false
+}
