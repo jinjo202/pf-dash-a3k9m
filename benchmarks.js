@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-17",
-  "generated_utc": "2026-07-17T22:59:50Z",
+  "generated_utc": "2026-07-17T23:14:00Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
-        "pe": 18.28,
+        "pe": 18.26,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -564,12 +564,12 @@ window.BENCHMARKS = {
       "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
-        "pe": 6.99,
-        "pb": null,
+        "pe": 6.98,
+        "pb": 1.2,
         "roe": null,
         "src": "EEM (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1111,12 +1111,12 @@ window.BENCHMARKS = {
       "as_of": "2026-07-16",
       "decimals": 0,
       "valuation": {
-        "pe": 4.45,
-        "pb": null,
+        "pe": 4.49,
+        "pb": 1.84,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -2205,7 +2205,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
-        "pe": 18.87,
+        "pe": 19.23,
         "pb": 1.73,
         "roe": null,
         "src": "SPY (top derived)",
@@ -3846,7 +3846,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-16",
       "decimals": 2,
       "valuation": {
-        "pe": 15.66,
+        "pe": 15.65,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4393,12 +4393,12 @@ window.BENCHMARKS = {
       "as_of": "2026-07-16",
       "decimals": 0,
       "valuation": {
-        "pe": 21.72,
-        "pb": null,
+        "pe": 22.32,
+        "pb": 1.34,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
