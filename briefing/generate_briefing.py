@@ -525,7 +525,13 @@ def build_request(region, daily, bench, override_as_of=None, draft=False):
             as_of = override_as_of or kst_today()
             intraday = fetch_intraday_indices()
         else:
-            as_of = override_as_of or korea.get("as_of") or daily.get("as_of")
+            # 한국 휴장(제헌절 등)에 일본·중국은 거래할 수 있으므로, 세 시장 중
+            # 가장 최근 as_of 를 기준일로 삼는다. korea 단독 의존 시 한국 휴장일에
+            # 일·중이 크게 움직여도 브리핑이 통째로 누락됨(2026-07-17 실제 발생).
+            aos = [rk[k].get("as_of") for k in ("korea", "japan", "china")
+                   if rk.get(k) and rk[k].get("as_of")]
+            as_of = override_as_of or (max(aos) if aos else None) \
+                or korea.get("as_of") or daily.get("as_of")
         regions_payload = [slim_region(rk[k]) for k in ("korea", "japan", "china")
                            if k in rk]
         # 환율·금리는 stale 하던 benchmarks(KRW=X yfinance, KR 10Y 수동 3.30%) 대신
