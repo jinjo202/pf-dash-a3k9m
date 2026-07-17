@@ -4,9 +4,12 @@ dart-mail-sender/browser_email_sender.py 의 SMTP_SSL 방식을 그대로 따름
 앱 비밀번호(16자리)는 .env 에서 주입한다.
 """
 
+import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 
 from dart_client import Disclosure
 
@@ -18,8 +21,9 @@ def send_email(
     recipients: list[str],
     subject: str,
     html_body: str,
+    attachment_path: str | None = None,
 ) -> bool:
-    """Gmail SMTP_SSL(465)로 HTML 메일 발송. 성공 시 True."""
+    """Gmail SMTP_SSL(465)로 HTML 메일 발송. attachment_path 있으면 첨부. 성공 시 True."""
     if not recipients:
         print("   ❌ [SMTP] 수신자가 비어 있음")
         return False
@@ -29,6 +33,20 @@ def send_email(
         msg["To"] = ", ".join(recipients)
         msg["Subject"] = subject
         msg.attach(MIMEText(html_body, "html", "utf-8"))
+
+        if attachment_path and os.path.exists(attachment_path):
+            try:
+                with open(attachment_path, "rb") as f:
+                    part = MIMEBase("application", "octet-stream")
+                    part.set_payload(f.read())
+                encoders.encode_base64(part)
+                fn = os.path.basename(attachment_path)
+                # 파일명 한글 → RFC2231 인코딩
+                part.add_header("Content-Disposition", "attachment", filename=fn)
+                msg.attach(part)
+                print(f"   📎 첨부: {fn}")
+            except Exception as fe:
+                print(f"   ⚠️ 첨부 실패(메일은 발송): {fe}")
 
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30)
         server.login(smtp_user, smtp_pass)

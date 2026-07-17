@@ -40,6 +40,9 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
 
+      - name: Install Korean font (PDF 첨부용)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-nanum
+
       - name: Install dependencies
         run: pip install -r kind_dividend_watch/requirements.txt
 

@@ -149,6 +149,29 @@ def find_matches(dart: DartApiClient, days: int) -> list[Disclosure]:
     return matches
 
 
+def backfill_matches(dart: DartApiClient, days: int) -> list[Disclosure]:
+    """최근 `days`일 배당결정을 종목별 corp_code로 조회(백필용, 장기간 가능)."""
+    end = _now()
+    begin_s = (end - timedelta(days=days)).strftime("%Y%m%d")
+    end_s = end.strftime("%Y%m%d")
+    out: list[Disclosure] = []
+    for sc in watchlist.get_stock_codes():
+        cc = dart.get_corp_code(sc)
+        if not cc:
+            continue
+        kws = watchlist.get_keywords(sc)
+        try:
+            page = dart.fetch_disclosures(begin_s, end_s, pblntf_ty="I", page_count=100, corp_code=cc)
+        except Exception as e:
+            print(f"   ⚠️ {watchlist.get_stock_name(sc)} 조회 실패: {e}")
+            continue
+        for d in page:
+            if any(kw in d.report_nm for kw in kws):
+                out.append(d)
+    out.sort(key=lambda d: d.rcept_dt)
+    return out
+
+
 def find_etf_matches(days: int) -> list[tuple[str, "kind_etf.EtfDisclosure"]]:
     """최근 `days`일 KIND ETF 분배 공시 중 보유 6종목 매치 → (종목코드, 공시) 리스트."""
     end = _now()
@@ -171,6 +194,54 @@ def find_etf_matches(days: int) -> list[tuple[str, "kind_etf.EtfDisclosure"]]:
                 out.append((code, d))
     print(f"   ETF 분배 매치 {len(out)}건")
     return out
+
+
+def _send_dividend(d: Disclosure, extra: dict, *, smtp_user, smtp_pass, sender, recipients) -> bool:
+    """배당 메일(PDF 첨부) 발송. 성공 시 True."""
+    pdf_path = None
+    try:
+        import pdf_gen
+        pdf_path = pdf_gen.make_dividend_pdf(d, extra)
+    except Exception as pe:
+        print(f"   ⚠️ PDF 예외(계속): {pe}")
+    ok = mailer.send_email(
+        smtp_user, smtp_pass, sender, recipients,
+        mailer.build_subject(d), mailer.build_html_body(d, extra),
+        attachment_path=pdf_path,
+    )
+    if pdf_path and os.path.exists(pdf_path):
+        try:
+            os.remove(pdf_path)
+        except OSError:
+            pass
+    return ok
+
+
+def run_backfill(dart: DartApiClient, *, smtp_user, smtp_pass, sender, recipients,
+                 days: int, dry_run: bool) -> int:
+    """최근 days일 놓친 배당결정을 소급 발송(PDF 첨부, 중복제거). 반환=발송 건수."""
+    state = _load_state()
+    already = {s["rcept_no"] for s in state["sent"] if "rcept_no" in s}
+    matches = backfill_matches(dart, days)
+    new_items = [d for d in matches if d.rcept_no not in already]
+    print(f"📋 백필 대상 {len(matches)}건 (신규 {len(new_items)}건, 최근 {days}일)")
+    sent = 0
+    for d in new_items:
+        extra = dart_doc.fetch_detail(dart.api_key, d.rcept_no)
+        subj = mailer.build_subject(d)
+        if dry_run:
+            print(f"   🧪 [DRY-RUN] {subj} | {extra.get('1주당 배당금','')}")
+            continue
+        if _send_dividend(d, extra, smtp_user=smtp_user, smtp_pass=smtp_pass, sender=sender, recipients=recipients):
+            state["sent"].append({
+                "rcept_no": d.rcept_no, "corp_name": d.corp_name, "report_nm": d.report_nm,
+                "rcept_dt": d.rcept_dt, "kind": "backfill",
+                "sent_at": _now().isoformat(timespec="seconds"),
+            })
+            sent += 1
+    if sent and not dry_run:
+        _save_state(state)
+    return sent
 
 
 def run_cycle(
@@ -206,10 +277,23 @@ def run_cycle(
             if extra:
                 print(f"       상세: {extra}")
             continue
+        # DART 원문 배당 요약 PDF 첨부(실패해도 메일은 발송)
+        pdf_path = None
+        try:
+            import pdf_gen
+            pdf_path = pdf_gen.make_dividend_pdf(d, extra)
+        except Exception as pe:
+            print(f"   ⚠️ PDF 생성 예외(계속): {pe}")
         ok = mailer.send_email(
             smtp_user, smtp_pass, sender, recipients,
             subject, mailer.build_html_body(d, extra),
+            attachment_path=pdf_path,
         )
+        if pdf_path and os.path.exists(pdf_path):
+            try:
+                os.remove(pdf_path)
+            except OSError:
+                pass
         if ok:
             state["sent"].append({
                 "rcept_no": d.rcept_no,

@@ -228,6 +228,22 @@ def cmd_test_email() -> None:
     print(f"\n✅ 테스트 메일 {sent}건 발송 → {recipients}")
 
 
+def cmd_backfill(days: int, dry_run: bool) -> None:
+    """최근 days일 놓친 배당결정을 소급 발송(PDF 첨부). 게이트 무시."""
+    recipients = _recipients()
+    if not recipients:
+        print("❌ RECIPIENT_EMAILS 미설정", file=sys.stderr)
+        sys.exit(1)
+    dart = _make_dart()
+    n = monitor.run_backfill(
+        dart, smtp_user=_require("SMTP_USER"), smtp_pass=_require("SMTP_PASS"),
+        sender=_clean(os.getenv("SENDER_EMAIL") or _require("SMTP_USER")),
+        recipients=recipients, days=days, dry_run=dry_run,
+    )
+    dart.close()
+    print(f"\n{'🧪 DRY-RUN' if dry_run else '✅'} 백필 종료 — 발송 {n}건")
+
+
 def cmd_loop(dry_run: bool) -> None:
     interval = int(os.getenv("POLL_INTERVAL_MINUTES", "5"))
     print(f"♻️  상시 모니터링 시작 (간격 {interval}분, dry_run={dry_run})")
@@ -244,6 +260,7 @@ def main() -> None:
     p.add_argument("--test", action="store_true", help="연결/매핑/매치 점검(발송 없음)")
     p.add_argument("--test-email", dest="test_email", action="store_true", help="[테스트] 메일 실제 발송(파이프라인 검증)")
     p.add_argument("--once", action="store_true", help="1회 사이클(cron용)")
+    p.add_argument("--backfill", type=int, metavar="DAYS", help="최근 N일 놓친 배당 소급발송(PDF)")
     p.add_argument("--loop", action="store_true", help="상시 데몬")
     p.add_argument("--dry-run", action="store_true", help="실제 발송 생략")
     a = p.parse_args()
@@ -252,6 +269,8 @@ def main() -> None:
         cmd_test()
     elif a.test_email:
         cmd_test_email()
+    elif a.backfill is not None:
+        cmd_backfill(a.backfill, a.dry_run)
     elif a.loop:
         cmd_loop(a.dry_run)
     elif a.once:

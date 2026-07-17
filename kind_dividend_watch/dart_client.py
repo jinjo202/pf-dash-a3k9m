@@ -92,9 +92,11 @@ class DartApiClient:
         pblntf_ty: str | None = "I",
         page_no: int = 1,
         page_count: int = 100,
+        corp_code: str | None = None,
     ) -> list[Disclosure]:
         """공시 목록 조회. pblntf_ty='I'=거래소공시(현금ㆍ현물배당결정 포함).
 
+        corp_code 지정 시 해당 기업만(백필: 3개월 기간제한 없이 장기간 가능).
         주의: 배당결정은 주요사항보고(B)가 아니라 거래소공시(I)다(실증 확인).
         """
         params: dict[str, str | int] = {
@@ -106,6 +108,8 @@ class DartApiClient:
         }
         if pblntf_ty:
             params["pblntf_ty"] = pblntf_ty
+        if corp_code:
+            params["corp_code"] = corp_code
 
         resp = self._session.get(f"{self.BASE_URL}/list.json", params=params, timeout=30)
         resp.raise_for_status()
