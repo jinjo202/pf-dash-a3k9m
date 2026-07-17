@@ -1,0 +1,126 @@
+{
+ "ticker": "INTC",
+ "as_of": "2026-07-17",
+ "currency": "USD",
+ "annual": [
+  {
+   "period": "FY2023",
+   "type": "actual",
+   "end_date": "2023-12-31",
+   "revenue": 54228000000.0,
+   "operating_income": 31000000.0,
+   "net_income": 1689000000.0,
+   "gross_margin": 40.0,
+   "operating_margin": 0.1
+  },
+  {
+   "period": "FY2024",
+   "type": "actual",
+   "end_date": "2024-12-31",
+   "revenue": 53101000000.0,
+   "operating_income": -4708000000.0,
+   "net_income": -18756000000.0,
+   "gross_margin": 32.7,
+   "operating_margin": -8.9
+  },
+  {
+   "period": "FY2025",
+   "type": "actual",
+   "end_date": "2025-12-31",
+   "revenue": 52853000000.0,
+   "operating_income": -23000000.0,
+   "net_income": -267000000.0,
+   "gross_margin": 34.8,
+   "operating_margin": -0.0
+  },
+  {
+   "period": "FY2026E",
+   "type": "estimate",
+   "revenue": 58833803300.0,
+   "operating_income": 1176676066.0,
+   "net_income": 5556494300.0,
+   "gross_margin": 35.4,
+   "operating_margin": 2.0
+  },
+  {
+   "period": "FY2027E",
+   "type": "estimate",
+   "revenue": 65965570590.0,
+   "operating_income": 1319311411.8,
+   "net_income": 8017676240.0,
+   "gross_margin": 35.4,
+   "operating_margin": 2.0
+  }
+ ],
+ "quarterly_yoy": [
+  {
+   "label": "1분기",
+   "this_year": {
+    "period": "2026-03-31",
+    "end_date": "2026-03-31",
+    "type": "actual",
+    "revenue": 13577000000.0,
+    "operating_income": 934000000.0,
+    "net_income": -3728000000.0,
+    "gross_margin": 39.4,
+    "operating_margin": 6.9
+   },
+   "last_year": {
+    "period": "2025-03-31",
+    "end_date": "2025-03-31",
+    "type": "actual",
+    "revenue": 12667000000.0,
+    "operating_income": -145000000.0,
+    "net_income": -821000000.0,
+    "gross_margin": 36.9,
+    "operating_margin": -1.1
+   }
+  },
+  {
+   "label": "2분기",
+   "this_year": {
+    "period": "2026-06-30(E)",
+    "end_date": "2026-06-30",
+    "type": "estimate",
+    "revenue": 14405716970.0,
+    "operating_income": 288114339.4,
+    "net_income": 1074307500.0,
+    "gross_margin": 35.4,
+    "operating_margin": 2.0
+   },
+   "last_year": {
+    "period": "2025-06-30",
+    "end_date": "2025-06-30",
+    "type": "actual",
+    "revenue": 12859000000.0,
+    "operating_income": -1286000000.0,
+    "net_income": -2918000000.0,
+    "gross_margin": 27.5,
+    "operating_margin": -10.0
+   }
+  },
+  {
+   "label": "3분기",
+   "this_year": {
+    "period": "2026-09-29(E)",
+    "end_date": "2026-09-29",
+    "type": "estimate",
+    "revenue": 15107260580.0,
+    "operating_income": 302145211.6,
+    "net_income": 1363503539.9999998,
+    "gross_margin": 35.4,
+    "operating_margin": 2.0
+   },
+   "last_year": {
+    "period": "2025-09-30",
+    "end_date": "2025-09-30",
+    "type": "actual",
+    "revenue": 13653000000.0,
+    "operating_income": 858000000.0,
+    "net_income": 4063000000.0,
+    "gross_margin": 38.2,
+    "operating_margin": 6.3
+   }
+  }
+ ]
+}
