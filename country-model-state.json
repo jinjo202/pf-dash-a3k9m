@@ -1,63 +1,77 @@
 {
- "last_rebalance": "2026-07-16",
+ "last_rebalance": "2026-07-17",
  "snapshot": {
   "한국": {
    "pref": "비중확대",
-   "score": 1.28,
+   "score": 1.26,
    "factors": {
-    "value": 1.9,
+    "value": 1.92,
     "momentum": 1.89,
-    "earnings": 0.16,
-    "macro": 1.68,
-    "currency": -0.37
+    "earnings": 0.03,
+    "macro": 1.72,
+    "currency": -0.41
    }
   },
   "일본": {
    "pref": "중립",
-   "score": -0.013,
+   "score": 0.005,
    "factors": {
-    "value": -0.54,
-    "momentum": 0.11,
-    "earnings": 1.51,
-    "macro": -0.81,
-    "currency": -0.47
+    "value": -0.61,
+    "momentum": 0.13,
+    "earnings": 1.52,
+    "macro": -0.68,
+    "currency": -0.43
    }
   },
   "미국": {
-   "pref": "축소",
-   "score": -0.253,
+   "pref": "중립",
+   "score": -0.236,
    "factors": {
-    "value": -0.78,
-    "momentum": -0.76,
-    "earnings": 0.4,
-    "macro": 0.11,
-    "currency": 0.28
+    "value": -0.59,
+    "momentum": -0.77,
+    "earnings": 0.41,
+    "macro": -0.02,
+    "currency": 0.26
    }
   },
   "유럽": {
    "pref": "축소",
-   "score": -0.472,
+   "score": -0.447,
    "factors": {
-    "value": -0.69,
-    "momentum": -0.82,
-    "earnings": -0.61,
+    "value": -0.77,
+    "momentum": -0.79,
+    "earnings": -0.43,
     "macro": 0.22,
-    "currency": -0.18
+    "currency": -0.16
    }
   },
   "이머징": {
    "pref": "축소",
-   "score": -0.542,
+   "score": -0.581,
    "factors": {
-    "value": 0.1,
-    "momentum": -0.42,
-    "earnings": -1.47,
-    "macro": -1.2,
-    "currency": 0.73
+    "value": 0.05,
+    "momentum": -0.45,
+    "earnings": -1.53,
+    "macro": -1.24,
+    "currency": 0.74
    }
   }
  },
  "changes": [
+  {
+   "date": "2026-07-17",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "미국",
+     "from_pref": "축소",
+     "to_pref": "중립",
+     "flipped": true,
+     "d_score": 0.02,
+     "driver": "밸류 z-0.8→-0.6"
+    }
+   ]
+  },
   {
    "date": "2026-07-16",
    "trigger": "이벤트(팩터 변화)",
@@ -213,20 +227,6 @@
      "flipped": true,
      "d_score": -0.02,
      "driver": "이익수정 z-0.1→-0.2"
-    }
-   ]
-  },
-  {
-   "date": "2026-07-07",
-   "trigger": "이벤트(팩터 변화)",
-   "items": [
-    {
-     "country": "유럽",
-     "from_pref": "축소",
-     "to_pref": "중립",
-     "flipped": true,
-     "d_score": 0.02,
-     "driver": "이익수정 z-0.1→-0.1"
     }
    ]
   }
