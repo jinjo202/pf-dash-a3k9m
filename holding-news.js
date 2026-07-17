@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-17T07:22:57
+// 갱신: 2026-07-17T08:41:10
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -93,10 +93,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-12"
   },
   {
-   "title": "[주식] TG-C(인보사) 임상3상 발표 앞두고 '긴장'...주가는 20%↓ - 히트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA4Y3NKZ3Q2QkVsMlJ5SzdHWDFsdXRKcjJSMFRxdm10ZzFleEFQa19wV1lmLUsxZGhNeEVSQUt0Rmtjd2xXbHdiTV9KWjNVU0VMUVlVSjl0MFlQSFk0d3YyTHcwd3p4SFcxcnJ3?oc=5",
+   "title": "[주식] 850선까지 내려온 코스닥, 제약바이오 오른 곳은…3곳뿐이라고? - 히트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9ZWHBRT1pCUFQ2XzdNLTRkUGk1bDNQLTBVMERZSW5pX2VwU3NRbWlJQzFtdUp1T204VmtqNnNZcm5rd2VHZ0x6SFZxT1I0MkpBa3RNTHNHZUw4T2NHSEJJNUdLTERyUXVZR2xJ?oc=5",
    "source": "히트뉴스",
-   "date": "2026-07-16"
+   "date": "2026-06-26"
   },
   {
    "title": "제약·바이오株 급등…국민성장펀드 날개 달고 다시 비상하나 - 연합뉴스",
@@ -353,16 +353,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-10"
   },
   {
-   "title": "뉴욕증시, 30% 넘게 폭락한 은값 충격파…하락 마감 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ieGJDV3QydXV4blg2OTd1ZmFKQnpjXy1jbGRydlFIakd0Sk85VnVOdUJoNkQxRldjeGhTTTUxTHppRVdFS2RzSV8teFFOQkR2dWtYUjdnNk1UNnPSAWBBVV95cUxQSU1PWTdkYTRnYktfRnJNTEV1dUpVbER0bVR5dWZCXzVnOEJJUzhxRGRfVF9mNUZWQVRxQnNSdVJUdGgzSkFQbW1hRG9IWnBvdXFiS1Q5SXFybnd4LVM0NGw?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-01-31"
-  },
-  {
    "title": "“포스코인터내셔널, 에너지·배터리 소재 사업 쏠쏠”…주가 눈높이 ‘쑥’ - v.daum.net",
    "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9BckJoY1ZPZUNTOTFWUS1LOEtKbVBtZWZjYjFFNzM4MnNNTEQ5cHpqVmZtZjlJeUJwb3dqTXpQRjBnb05DWWVQZ0IxQXpCNnc?oc=5",
    "source": "v.daum.net",
    "date": "2026-03-17"
+  },
+  {
+   "title": "뉴욕증시, 30% 넘게 폭락한 은값 충격파…하락 마감 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ieGJDV3QydXV4blg2OTd1ZmFKQnpjXy1jbGRydlFIakd0Sk85VnVOdUJoNkQxRldjeGhTTTUxTHppRVdFS2RzSV8teFFOQkR2dWtYUjdnNk1UNnPSAWBBVV95cUxQSU1PWTdkYTRnYktfRnJNTEV1dUpVbER0bVR5dWZCXzVnOEJJUzhxRGRfVF9mNUZWQVRxQnNSdVJUdGgzSkFQbW1hRG9IWnBvdXFiS1Q5SXFybnd4LVM0NGw?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-01-31"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
