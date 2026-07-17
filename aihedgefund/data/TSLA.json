@@ -1,0 +1,93 @@
+{
+ "ticker": "TSLA",
+ "names": [
+  "테슬라",
+  "Tesla"
+ ],
+ "as_of": "2026-07-16",
+ "last_close": 391.06,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": -2.29,
+   "annualized_return_pct": -0.46,
+   "volatility_pct": 4.49,
+   "sharpe_ratio": -0.08,
+   "sortino_ratio": -0.07,
+   "max_drawdown_pct": -10.9,
+   "win_rate_pct": 27.8,
+   "profit_factor": 0.9,
+   "avg_trade_pnl": -63.64,
+   "num_trades": 36,
+   "exposure_pct": 34.5,
+   "recovery_factor": -0.21
+  },
+  "in_sample": {
+   "total_return_pct": 1.56,
+   "annualized_return_pct": 0.39,
+   "volatility_pct": 4.83,
+   "sharpe_ratio": 0.1,
+   "sortino_ratio": 0.09,
+   "max_drawdown_pct": -8.01,
+   "win_rate_pct": 31.0,
+   "profit_factor": 1.08,
+   "avg_trade_pnl": 53.74,
+   "num_trades": 29,
+   "exposure_pct": 38.1,
+   "recovery_factor": 0.19
+  },
+  "out_of_sample": {
+   "total_return_pct": -1.8,
+   "annualized_return_pct": -1.81,
+   "volatility_pct": 2.54,
+   "sharpe_ratio": -0.71,
+   "sortino_ratio": -0.47,
+   "max_drawdown_pct": -3.27,
+   "win_rate_pct": 20.0,
+   "profit_factor": 0.19,
+   "avg_trade_pnl": -360.31,
+   "num_trades": 5,
+   "exposure_pct": 16.7,
+   "recovery_factor": -0.55
+  },
+  "benchmark": {
+   "total_return_pct": 81.54,
+   "annualized_return_pct": 12.73,
+   "volatility_pct": 59.32,
+   "sharpe_ratio": 0.5,
+   "sortino_ratio": 0.77,
+   "max_drawdown_pct": -73.63,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 1.11
+  }
+ },
+ "risk_gate": {
+  "decision": "BLOCK",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "36 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -10.9% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": false,
+    "detail": "profit factor 0.9 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": null,
+ "equity_curve": null,
+ "has_coverage": false
+}

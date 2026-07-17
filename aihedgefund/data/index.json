@@ -1,0 +1,149 @@
+{
+ "tickers": [
+  {
+   "ticker": "005930.KS",
+   "names": [
+    "삼성전자",
+    "Samsung"
+   ],
+   "last_close": 255000.0,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 20.64
+  },
+  {
+   "ticker": "AAPL",
+   "names": [
+    "애플",
+    "Apple"
+   ],
+   "last_close": 333.26,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.41
+  },
+  {
+   "ticker": "AMD",
+   "names": [
+    "에이엠디",
+    "AMD"
+   ],
+   "last_close": 500.94,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 37.45
+  },
+  {
+   "ticker": "AMZN",
+   "names": [
+    "아마존",
+    "Amazon"
+   ],
+   "last_close": 249.89,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.06
+  },
+  {
+   "ticker": "AVGO",
+   "names": [
+    "브로드컴",
+    "Broadcom"
+   ],
+   "last_close": 374.45,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 12.11
+  },
+  {
+   "ticker": "GOOGL",
+   "names": [
+    "알파벳",
+    "구글",
+    "Google"
+   ],
+   "last_close": 354.46,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 5.35
+  },
+  {
+   "ticker": "META",
+   "names": [
+    "메타",
+    "Meta"
+   ],
+   "last_close": 664.54,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 12.07
+  },
+  {
+   "ticker": "MSFT",
+   "names": [
+    "마이크로소프트",
+    "Microsoft"
+   ],
+   "last_close": 401.1,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 1.62
+  },
+  {
+   "ticker": "NFLX",
+   "names": [
+    "넷플릭스",
+    "Netflix"
+   ],
+   "last_close": 74.35,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 6.65
+  },
+  {
+   "ticker": "NVDA",
+   "names": [
+    "엔비디아",
+    "NVIDIA"
+   ],
+   "last_close": 207.4,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": true,
+   "total_return_pct": 36.98
+  },
+  {
+   "ticker": "PLTR",
+   "names": [
+    "팔란티어",
+    "Palantir"
+   ],
+   "last_close": 134.44,
+   "as_of": "2026-07-16",
+   "gate": "APPROVE",
+   "has_coverage": false,
+   "total_return_pct": 5.59
+  },
+  {
+   "ticker": "TSLA",
+   "names": [
+    "테슬라",
+    "Tesla"
+   ],
+   "last_close": 391.06,
+   "as_of": "2026-07-16",
+   "gate": "BLOCK",
+   "has_coverage": false,
+   "total_return_pct": -2.29
+  }
+ ]
+}

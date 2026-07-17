@@ -1,0 +1,282 @@
+{
+ "ticker": "NVDA",
+ "names": [
+  "엔비디아",
+  "NVIDIA"
+ ],
+ "as_of": "2026-07-16",
+ "last_close": 207.4,
+ "data_ok": true,
+ "rows": 1254,
+ "strategy": "SMA 5/20 롱온리 (수수료·슬리피지·손절 반영)",
+ "metrics": {
+  "full": {
+   "total_return_pct": 36.98,
+   "annualized_return_pct": 6.53,
+   "volatility_pct": 5.3,
+   "sharpe_ratio": 1.22,
+   "sortino_ratio": 1.68,
+   "max_drawdown_pct": -6.59,
+   "win_rate_pct": 38.5,
+   "profit_factor": 2.65,
+   "avg_trade_pnl": 948.25,
+   "num_trades": 39,
+   "exposure_pct": 54.8,
+   "recovery_factor": 5.61
+  },
+  "in_sample": {
+   "total_return_pct": 39.11,
+   "annualized_return_pct": 8.65,
+   "volatility_pct": 5.69,
+   "sharpe_ratio": 1.49,
+   "sortino_ratio": 2.1,
+   "max_drawdown_pct": -6.59,
+   "win_rate_pct": 41.4,
+   "profit_factor": 3.27,
+   "avg_trade_pnl": 1348.48,
+   "num_trades": 29,
+   "exposure_pct": 55.7,
+   "recovery_factor": 5.94
+  },
+  "out_of_sample": {
+   "total_return_pct": -1.66,
+   "annualized_return_pct": -1.67,
+   "volatility_pct": 2.94,
+   "sharpe_ratio": -0.56,
+   "sortino_ratio": -0.57,
+   "max_drawdown_pct": -4.1,
+   "win_rate_pct": 30.0,
+   "profit_factor": 0.55,
+   "avg_trade_pnl": -165.88,
+   "num_trades": 10,
+   "exposure_pct": 40.6,
+   "recovery_factor": -0.41
+  },
+  "benchmark": {
+   "total_return_pct": 1008.2,
+   "annualized_return_pct": 62.15,
+   "volatility_pct": 51.82,
+   "sharpe_ratio": 1.19,
+   "sortino_ratio": 1.93,
+   "max_drawdown_pct": -66.34,
+   "win_rate_pct": 0.0,
+   "profit_factor": 0.0,
+   "avg_trade_pnl": 0.0,
+   "num_trades": 0,
+   "exposure_pct": 100.0,
+   "recovery_factor": 15.2
+  }
+ },
+ "risk_gate": {
+  "decision": "APPROVE",
+  "checks": [
+   {
+    "name": "enough_trades",
+    "passed": true,
+    "detail": "39 trades (need >= 20)"
+   },
+   {
+    "name": "drawdown_within_limit",
+    "passed": true,
+    "detail": "max drawdown -6.59% (limit 35.0%)"
+   },
+   {
+    "name": "profit_factor",
+    "passed": true,
+    "detail": "profit factor 2.65 (need >= 1.0)"
+   }
+  ]
+ },
+ "paper": {
+  "return_pct": 1.85,
+  "final_equity": 101847.18,
+  "initial_capital": 100000.0,
+  "days": 90,
+  "kill_switch": null,
+  "start": "2026-03-09",
+  "end": "2026-07-16"
+ },
+ "equity_curve": [
+  [
+   "03-09",
+   100000
+  ],
+  [
+   "03-11",
+   100000
+  ],
+  [
+   "03-13",
+   100000
+  ],
+  [
+   "03-17",
+   100000
+  ],
+  [
+   "03-19",
+   100000
+  ],
+  [
+   "03-23",
+   100000
+  ],
+  [
+   "03-25",
+   100000
+  ],
+  [
+   "03-27",
+   100000
+  ],
+  [
+   "03-31",
+   100000
+  ],
+  [
+   "04-02",
+   100000
+  ],
+  [
+   "04-07",
+   100000
+  ],
+  [
+   "04-09",
+   100130
+  ],
+  [
+   "04-13",
+   100501
+  ],
+  [
+   "04-15",
+   101158
+  ],
+  [
+   "04-17",
+   101351
+  ],
+  [
+   "04-21",
+   101227
+  ],
+  [
+   "04-23",
+   101210
+  ],
+  [
+   "04-27",
+   102376
+  ],
+  [
+   "04-29",
+   101871
+  ],
+  [
+   "05-01",
+   101129
+  ],
+  [
+   "05-05",
+   100995
+  ],
+  [
+   "05-07",
+   101794
+  ],
+  [
+   "05-11",
+   102164
+  ],
+  [
+   "05-13",
+   102545
+  ],
+  [
+   "05-15",
+   102515
+  ],
+  [
+   "05-19",
+   102234
+  ],
+  [
+   "05-21",
+   102168
+  ],
+  [
+   "05-26",
+   101890
+  ],
+  [
+   "05-28",
+   101854
+  ],
+  [
+   "06-01",
+   101930
+  ],
+  [
+   "06-03",
+   101930
+  ],
+  [
+   "06-05",
+   101930
+  ],
+  [
+   "06-09",
+   101930
+  ],
+  [
+   "06-11",
+   101930
+  ],
+  [
+   "06-15",
+   101930
+  ],
+  [
+   "06-17",
+   101930
+  ],
+  [
+   "06-22",
+   101930
+  ],
+  [
+   "06-24",
+   101930
+  ],
+  [
+   "06-26",
+   101930
+  ],
+  [
+   "06-30",
+   101930
+  ],
+  [
+   "07-02",
+   101930
+  ],
+  [
+   "07-07",
+   101930
+  ],
+  [
+   "07-09",
+   101930
+  ],
+  [
+   "07-13",
+   101611
+  ],
+  [
+   "07-15",
+   102159
+  ]
+ ],
+ "has_coverage": true
+}
