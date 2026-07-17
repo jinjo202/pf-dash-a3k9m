@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-17T09:04:00
+// 갱신: 2026-07-17T09:22:50
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -67,16 +67,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-09"
   },
   {
-   "title": "전력 인프라주 투자 괜찮나 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE91T2dCazRPSnNtZlNZQnowU19uaUNZUHFaMDRzMGVWbEZ5SDNtTXhScGcxRlhyTTV4SmpudEFOMzllNzU2VVlIaUFLY1huVENtbGNlOA?oc=5",
-   "source": "매일경제",
-   "date": "2026-05-22"
-  },
-  {
    "title": "[마감분석] HD현대일렉트릭, 전력 인프라 투자 기대감에 상승 마감 : 기업주식정보 - 재경일보",
    "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9ibE1DRHEtQjV4S29sX0l4bnpEZ1FVLURWaC1JZ3lObERjTWtQWEc2VHE5QW00NHBINWFIZUozQVc4N21GcTdTMU9n?oc=5",
    "source": "재경일보",
    "date": "2026-07-15"
+  },
+  {
+   "title": "LS일렉트릭 주가 장중 7%대 상승, '메가프로젝트' 기대감에 전력기기주 강세 - 비즈니스포스트",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBQMXEzR05ueWFaSVlpdjNXVHQyTVpZT2paWGJLZzBBZTFyWWZ2M01uT1lDaFMzcXY3Vm15SWFOTGdGQVRRaVlGeVFZbVRaOVdXNHdLc3NEY0o4ZWxIbWNTaWNpSUxIRURDNEtSWHpxdlNFcGs?oc=5",
+   "source": "비즈니스포스트",
+   "date": "2026-07-01"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -529,16 +529,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-27"
   },
   {
-   "title": "배당주로 쏠리는 눈…연말 '현금 주식' 어디 담을까 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5qbUR3WWUwWFZCbkZGcFplc2wycE4yVUMxai1JZ2JhS1BhZjBXNHdOU2NBdjBQa21hM3pnYVVFc0dOYjB1eVVlZExxQzhuZGc?oc=5",
-   "source": "v.daum.net",
-   "date": "2025-10-16"
-  },
-  {
    "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
    "source": "조세일보",
    "date": "2026-01-23"
+  },
+  {
+   "title": "배당주로 쏠리는 눈…연말 '현금 주식' 어디 담을까 - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5qbUR3WWUwWFZCbkZGcFplc2wycE4yVUMxai1JZ2JhS1BhZjBXNHdOU2NBdjBQa21hM3pnYVVFc0dOYjB1eVVlZExxQzhuZGc?oc=5",
+   "source": "v.daum.net",
+   "date": "2025-10-16"
   },
   {
    "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - Investing.com 한국어",
