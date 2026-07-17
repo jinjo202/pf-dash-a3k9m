@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-16T23:25:50
+// 갱신: 2026-07-17T01:17:32
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,10 +9,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-06"
   },
   {
-   "title": "[AI MY 증시전망] 코스피, PPI 안도감에도 숨고르기…반도체 변동성 속 순환매 주목 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFA3N1Z5Q2oyR3Y2THBBeXNTTDZvdjNNc0cySVZfTlhhdHBvbjhGTDlhcnJqWDFLUTFOOUhpVHVJdlNvQXJ0Q2hTcGM4UHozZE96emhRcGc5OC1uWWNW?oc=5",
+   "title": "[AI MY 증시전망] 코스피, 美 CPI 안도감 속 강세 출발 전망…반도체 '주목' - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5GY2JkcGtQT0tPTzFoWnE1X2pFZThhNHpaN0dvcUczbG42LUVobTZ2WDFzYmhNRmd6ZlRaME8zN2l0a0ZMcUZvLUJDaHZDOTlkd2hRSGJsVGFFZVNa?oc=5",
    "source": "뉴스핌",
-   "date": "2026-07-15"
+   "date": "2026-07-14"
   },
   {
    "title": "[하반기 증시 전망] 10대 증권사 센터장 “코스피 상단 최대 1만2600포인트” - 대한경제",
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-12"
   },
   {
-   "title": "변동성 장세 속 코스피·코스닥 향방은…한투운용, 증시 전망 짚는다 - 뉴스드림",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA2bGdhNnFFTFBTQmpiTHBwNGh0ZEJiQ28tb1RNVUhPSE5OVnBTcDd5dWM4UFltWkZ0cm1lUF9Ec0IxNWt0S2FLQUhVZmZjM0xZRHJwMkZrbjlwVVZ3Y19RaHNzWnA3T0RXUFQw0gFuQVVfeXFMUG9zZ0FlM3lGc2VDWlVWbFZFTUFzMmJBclRZTWoyWkJkQVI4YzExWEJCSzFuSDVCQjRuX0NfTS1PWWoyQlNvU1VqU2k4ZDI3M1RwdDZ2Y2VEeExCY055NlNad0xaTzlpOXF4YUJHX0E?oc=5",
-   "source": "뉴스드림",
-   "date": "2026-07-16"
+   "title": "[주간증시전망] 7월 코스피 향방은...삼전닉스 이익 전망이 관건 - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1KVExYcDVvTXFhN2E0WnNsZVZ0dlF1UEJtQ2JIMkhlWVhhcmtBRm45XzRIaWVLMDZETEZsNVFnSnpHeG9peEh1V2Z3d3JoNDg?oc=5",
+   "source": "v.daum.net",
+   "date": "2026-06-29"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -237,16 +237,16 @@ window.HOLDING_NEWS = {
  ],
  "KODEX 자동차": [
   {
-   "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByWlVzOEwtaDF2SGhKa0VpT3ZLZnZvYS1SUjBRQmRmWmhodlZuRU5zVHhCc2t1cHhvdWdzdEVFSzFXNGdKNWdxT2Z0ZUktU0k2bXRXSXRoRjZ5RmgwaVZ4akY0Ny1OZlBiYzZTYVA1Yjc?oc=5",
-   "source": "연합인포맥스",
-   "date": "2026-06-09"
-  },
-  {
    "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
    "source": "조선일보",
    "date": "2026-06-26"
+  },
+  {
+   "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByWlVzOEwtaDF2SGhKa0VpT3ZLZnZvYS1SUjBRQmRmWmhodlZuRU5zVHhCc2t1cHhvdWdzdEVFSzFXNGdKNWdxT2Z0ZUktU0k2bXRXSXRoRjZ5RmgwaVZ4akY0Ny1OZlBiYzZTYVA1Yjc?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-06-09"
   },
   {
    "title": "자동차주 갈아탈 때? … \"현대차 말고 기아 사라\" 증권가 변심 - 뉴데일리",
@@ -255,10 +255,10 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "현대차·기아, AI·로봇 업고 주가 '훨훨'…'7000피' 우군되나 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9SeWF2c0tfbnpaU1BieTRYenprOTcxMnJEV3JXNnI3QktLcXBpUlMtYlNCMTI3Y1lCLUVMWjZYdWotLXhBV0dDU0pFZkZrd1U?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-02-27"
+   "title": "전쟁 터지고 20% 넘게 폭락했는데…전문가 \"반등 가능성 있다\" - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5UenVIXzRFbVVqSnF2WF9ybFJEVElWOXRoZllOOEJzTmczNWpxSURFa05zQnVCbjdhR0tWRDdTWGVTdmxlYXIwb0pTOU00Z3RVRFNSb2huT1JzZw?oc=5",
+   "source": "한국경제",
+   "date": "2026-04-06"
   }
  ],
  "State Street Tech ETF (XLK)": [
@@ -321,16 +321,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-04-17"
-  },
-  {
    "title": "이번 주 미국 주식 시장 - 2026-06-22 - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNS29Qb0xjMENlanJzOVBFekdyY1VpTFY1TDhIUGRydHFfUm0wZjlMVjEtaGw2bU5IUU5yUzkycTNyODJrdlBxcWR4dG5kcnlsZy1ubkhuRGhYWXdaanpoWVpJLVdfQURCVmM0bV8zY1hLME8ydjZMQ3VUcGNKYkg1UkRyanNXSGhqSFcwZQ?oc=5",
    "source": "TradingKey",
    "date": "2026-06-22"
+  },
+  {
+   "title": "[AI의 종목 이야기] 메디슨에어, 상장 첫날 18% 급등 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VV1g1VzZCV0dmZUJTdG9xdzJnLV9WMFZUNldWODUyM0ZtV1ItdU5hMFpTQnRwMHdUcFF1R3RNNzZrbXBMYjhBaEpwS0I4MGp5TzFzWFZib21NZjgt?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-04-17"
   },
   {
    "title": "투자자라면 꼭 알아야 하는 경제 일정 브리핑 (26.06.15~26.06.19) - 네이버 프리미엄콘텐츠",
@@ -529,6 +529,12 @@ window.HOLDING_NEWS = {
    "date": "2026-05-27"
   },
   {
+   "title": "배당주로 쏠리는 눈…연말 '현금 주식' 어디 담을까 - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5qbUR3WWUwWFZCbkZGcFplc2wycE4yVUMxai1JZ2JhS1BhZjBXNHdOU2NBdjBQa21hM3pnYVVFc0dOYjB1eVVlZExxQzhuZGc?oc=5",
+   "source": "v.daum.net",
+   "date": "2025-10-16"
+  },
+  {
    "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
    "source": "조세일보",
@@ -539,12 +545,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE00TFZNWmR2UFI2bmpzd1hMRDBVSmhkUVJuRVB0bnRkM0tVcExnZmJwRWNsekRqUldVMDhSZjEzU1Zsaks2VkoyV2pYWUhXVGhFcXJlaHdkOEJZZVQxTmppQw?oc=5",
    "source": "Investing.com 한국어",
    "date": "2024-04-05"
-  },
-  {
-   "title": "고공행진 이어가는 유럽 증시…명품보다 잘나가는 배당 ETF - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5xMXdXU1JYeWtxUUFNemtwc1R0QmlDV2V0WmQ0Vm0yQzlpZTdzR3lKdjNkRmJuTm1Md0J3VmZydWRSWUI2cUVFT0xNTndiRnc3T3daMXlnZzVsUdIBVEFVX3lxTE9RM2I3THFWMGpNbTV2MDNscGxUTlFiMWd2Y3Zjbm8yMVFQbkM3VG51VmpGVnFhcHlxSHRBUzU2cnFsbWxsb29fOVFTUTQ0ZncwS0M3SQ?oc=5",
-   "source": "한국경제",
-   "date": "2025-03-19"
   }
  ]
 };
