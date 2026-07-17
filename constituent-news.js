@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-17T22:25:36
+// 갱신: 2026-07-17T22:40:59
 // 총 88개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -30,28 +30,28 @@ window.CONSTITUENT_NEWS = {
  ],
  "SK하이닉스": [
   {
-   "title": "최태원 \"SK하이닉스 가만히 갖고 있으라\"…주가 우상향 전망 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE9oZ1E5WEtLMmQ2OXI1ME1EdFlkNDVkR1BWTXE5VGtGblk2UjhTaTR0cWNQdGNHTFVmamw1Q0VYSkhpZkp6QkE?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-17"
-  },
-  {
    "title": "SK하이닉스 ADR 이틀 새 21% 급락…고개 드는 반도체 ‘피크아웃’ 우려 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxONW5BaXhoVnVzYndVZUgtVGRBNTJxMmhYLXdSNFczdzVRNGtpMGxyZ3dHQm1JS0J2Zy1pV3JaT29yNkEzWHgwR3F2WVJvaGFsM1diaG5zZFVMaFdnZUJKc3RCcE5NeDFieEs2dDFhQzhIQmZ2X2hhSjFoRkozVkVqeGloX0V3Q01iWWFj?oc=5",
    "source": "조선일보",
    "date": "2026-07-17"
   },
   {
-   "title": "[美특징주]SK하이닉스, 국내 증시 휴장 속 저가 매수세 유입…주가 반등 성공 - edaily.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNc2FmNjczUDhPR1E2el9lUktNc2tKNWluTDJCd3N0MDZReUVEdG93c29Ya0h6RTRzMXNhQ0NNZy1XeTlUUWlpdmpkVlJmbW9ZMnlWUkR1OWNYNmVuYjFFeGdQUVpsNlQtNjJidV94YkFFdkwxYWpIRkw0ZXpESjJERA?oc=5",
-   "source": "edaily.co.kr",
+   "title": "최태원 “SK하이닉스 주식 가만히 갖고 있으면 돼…우상향할 것” - 경향신문",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE8xMmx2T2pfVHpMaDF5TDBtYlJNcGFvME55dkdDLUlxR0VLWHNkLXR2T0JvWFJKMVJUMVpfV21MSW82Q25QbDhpUnJYNS1EUGdWY1VfaEJxNl8xQdIBX0FVX3lxTE1kTlZKN014MkVRcnM0czZKMXRMQllIRVViZmRqUzRHbUswTVZZNkJ0aW5MeEFKbEwtTk1tQXZVUExHeWNveko1MzhWSlJBRGhhV0ZRSGs0M043WE8yZlNB?oc=5",
+   "source": "경향신문",
    "date": "2026-07-17"
   },
   {
-   "title": "'420만원 vs 185만원'…SK하이닉스 '극과 극' 전망 이유 있었다 [종목+] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1TU3VQQXZ4VG9mWU1ST2lrWG1lNVUzWFhmeE9vYkh3ZXdYVExjRmFwUnVTTFpMWl9UWjRrdjJ1RkUwT1I1RzZPdDdfbVJTbjUydE9SMzdlalpkZw?oc=5",
-   "source": "한국경제",
-   "date": "2026-07-16"
+   "title": "‘삼전·닉스 주식들’ 한달 새 최대 -50%…개미는 다시 미장 찾아 - 한겨레",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE04X1I2dVppcnJUYllUeG9aZzJES21BYkNVM0Q4cW15OEdrOUhMYlVMRHhRcUF6a0NsbnRxQlJLN1JpQmZreVJMNlotLWNQMzFrN3BGRmV4bE1kLURsUWRodGJOdUVoRzg?oc=5",
+   "source": "한겨레",
+   "date": "2026-07-17"
+  },
+  {
+   "title": "SK하이닉스, 150만원까지 열어둬야 합니다 - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNMGo0bzd4STR0Vko4OEI5ZUROSU9qdl9GX1lrR2J3OXd1VUR6c2lmZy1odjI0SzlvdDRYMGdCSEx3eVB3OS13N2hyajh4LTJXQ0dUNDhiOEZLcTZlbUt2Z1NBckpNY2RpRWlDRGNkSWtfTEdZVFhhM0c2NlM3SkJvNkhXNVNSaWdEVDdj?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2026-07-17"
   }
  ],
  "LG에너지솔루션": [
@@ -380,16 +380,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-14"
   },
   {
-   "title": "박지원의 밥캣 방패, 美 특허전쟁에 흔들리나 …두산에너빌리티도 긴장(2부) - 세종의소리",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9DaXNyRnBWQUNHLUFWQW90ekdRREV4aTdEUVpsdW5xbVgxeUlnR1hnVXJNby1oV2E0Q1RuaFdUUUxHOUFHcE1rdFQwSms3UmxKM1U5VlFObngtS1MyN00weVc0azUxVmc?oc=5",
-   "source": "세종의소리",
-   "date": "2026-06-29"
-  },
-  {
    "title": "두산에너빌리티(034020) - 매일경제 마켓",
    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNZDNjN0FmVVJMOWxjWlc3LWh4MW96SC10djRiamlOUm5ZRU5LWGJQc1lMUWNLMHkxempGOVBUbk11TklHQjdaY000cUFpeFpSRlo1WXFUNTVQcHJNVVdSdUxfUjNPQ3FaaHZHa0pPeHd2MUY0al9nT1g1Y0NpQjZ2U3BrZFRHckNLNlRMeTJKUlpfcUU0S3NJ?oc=5",
    "source": "매일경제 마켓",
    "date": "2026-07-11"
+  },
+  {
+   "title": "박지원의 밥캣 방패, 美 특허전쟁에 흔들리나 …두산에너빌리티도 긴장(2부) - 세종의소리",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9DaXNyRnBWQUNHLUFWQW90ekdRREV4aTdEUVpsdW5xbVgxeUlnR1hnVXJNby1oV2E0Q1RuaFdUUUxHOUFHcE1rdFQwSms3UmxKM1U5VlFObngtS1MyN00weVc0azUxVmc?oc=5",
+   "source": "세종의소리",
+   "date": "2026-06-29"
   }
  ],
  "기아": [
@@ -562,10 +562,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-23"
   },
   {
-   "title": "한국전력 주가 상승 중 - 아시아뉴스통신",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5Cdk5qVDVpZHVNRWYxSXNXbUFyZFRObm5pcHoxeU5HdGNmVEFBc0k3UGR0dzNpc1YtTGNrTmVKenVKdlJOVndURHJjOU1WVzFRbElOSnh4X284RktVVEJNTEdrV29PVTNCVWNjZ0NNelpFaVp5?oc=5",
-   "source": "아시아뉴스통신",
-   "date": "2026-07-16"
+   "title": "\"역대급 불장에서 혼자 폭락\"…한전 담은 개미들 '눈물' [종목+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5KcHhXQ1ZleTNSeUVMS3dEU1c4Zll5cE9jSy1IdnFHdkZVSjBWVTlBU0s3a3o1TnF2QW1ObU1KR3NpLVRQMmhIWmYtdjZuTjJnT1o5UTZXU3lmQQ?oc=5",
+   "source": "한국경제",
+   "date": "2026-05-15"
   },
   {
    "title": "KB證 “한국전력, 목표주가 5만4000원 하향…전쟁 여파 지연 반영 불가피” - v.daum.net",
@@ -698,10 +698,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-16"
   },
   {
-   "title": "현대로템 주가, 7월 16일 장중 159,400원 4.95% 하락 - 중앙이코노미뉴스",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBrbjZjdlR3T00zNFZiZ1ZQYjFwZHNSSXRfV3FQcE1vdTM3WmU2VmlvcnMxT2J6Q3h0TVlpMHBneGRnM05aSUFBRVJVVF85dFE4cTEtSGpTdExVbEhzUHJPUjgzN0k0c0c5RGw4akpCOGN4QQ?oc=5",
-   "source": "중앙이코노미뉴스",
-   "date": "2026-07-16"
+   "title": "“현대로템, 방산 5사 중 가장 낮은 밸류에이션…2분기 실적 기대치 부합” - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBmT2pidExTRUpEVGlDYmM2QlJxTzc4dGtsNldwVXFwNWhobzdJQTFkR0F6eXZCMVNaaWFsZ0NwNW5qd0otUGlYYlR1UGFMOGV0Tnc?oc=5",
+   "source": "매일경제",
+   "date": "2026-06-29"
   }
  ],
  "LIG넥스원": [
@@ -823,7 +823,7 @@ window.CONSTITUENT_NEWS = {
   },
   {
    "title": "엔비디아(NVDA) 아시아 AI 칩 화이트리스트 축소 이후 주가는 아직 저평가 상태일까? - simplywall.st",
-   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQMXBNZEJVUVk2X3BaZEdwVmtfT1U2VWpPVHZJaU9JY001S2NpS0NKaTFIVXJGRmF0bHlHaFFmVjh5X0JpZENEV1AyYmlFR2szbWdHSlZpQXpQVVQ3dC0yZGdzOWctai1YdEJ2Q25YQUdBZTg5QlhKWC04QWZPenZ2MWJKMWRBUi05ZzRQRXlBcms4UmMxOGFtNG5n0gGaAUFVX3lxTFAxcE1kQlVRWTZfcFpkR3BWa19PVTZVak9UdklpT0ljTTVLY2lLQ0ppMUhVckZGYXRseUdoUWZWOHlfQmlkQ0RXUDJiaUVHazNtZ0dKVmlBelBVVDd0LTJkZ3M5Zy1qLVh0QnZDblhBR0FlODlCWEpYLThBZk96dnYxYkoxZEFSLTlnNFBFeUFyazhSYzE4YW00bmc?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPSDlTZWtUenN5RjNremJpYVd0dW1YNVVJaU5PMDRWR1hUNFpwc2IyU3pYai1xR3BXbUR2UlBNbVpGc1hRVHJKNDNzd2IyV0w3NnMwUmxHQlZQOEd3MGhVOEczR2wyWkF3bGlScFltMnRubXJ5UGEyNHVkNUV4VTBFVnc2SGZ6QzRBVnVZYXZJOXRMSXly0gGaAUFVX3lxTFAxcE1kQlVRWTZfcFpkR3BWa19PVTZVak9UdklpT0ljTTVLY2lLQ0ppMUhVckZGYXRseUdoUWZWOHlfQmlkQ0RXUDJiaUVHazNtZ0dKVmlBelBVVDd0LTJkZ3M5Zy1qLVh0QnZDblhBR0FlODlCWEpYLThBZk96dnYxYkoxZEFSLTlnNFBFeUFyazhSYzE4YW00bmc?oc=5",
    "source": "simplywall.st",
    "date": "2026-07-15"
   },
