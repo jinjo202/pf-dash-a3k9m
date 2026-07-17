@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-17",
-  "generated_utc": "2026-07-17T03:30:01Z",
+  "generated_utc": "2026-07-17T06:01:04Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -2743,7 +2743,7 @@ window.BENCHMARKS = {
       "name": "NASDAQ",
       "ticker": "^IXIC",
       "category": "미국",
-      "current": 25881.9473,
+      "current": 25881.9492,
       "baseline": 23241.9902,
       "mtd_baseline": 26213.7207,
       "ytd_pct": 11.3586,
@@ -3282,7 +3282,7 @@ window.BENCHMARKS = {
           25873.1797,
           26107.0098,
           26269.2305,
-          25881.9473
+          25881.9492
         ]
       }
     },
@@ -3290,7 +3290,7 @@ window.BENCHMARKS = {
       "name": "필라델피아 반도체",
       "ticker": "^SOX",
       "category": "미국",
-      "current": 11867.5029,
+      "current": 11867.5,
       "baseline": 7083.1299,
       "mtd_baseline": 14246.96,
       "ytd_pct": 67.546,
@@ -3829,7 +3829,7 @@ window.BENCHMARKS = {
           12347.7803,
           12661.9297,
           12398.8896,
-          11867.5029
+          11867.5
         ]
       }
     },
@@ -4384,12 +4384,12 @@ window.BENCHMARKS = {
       "name": "니케이 225",
       "ticker": "^N225",
       "category": "아시아",
-      "current": 63896.4805,
+      "current": 63248.7188,
       "baseline": 50339.4805,
       "mtd_baseline": 70062.3203,
-      "ytd_pct": 26.9311,
-      "mtd_pct": -8.8005,
-      "daily_pct": -4.3974,
+      "ytd_pct": 25.6444,
+      "mtd_pct": -9.7251,
+      "daily_pct": -5.3666,
       "as_of": "2026-07-17",
       "decimals": 0,
       "valuation": {
@@ -4923,7 +4923,7 @@ window.BENCHMARKS = {
           67743.5,
           68751.5078,
           66835.5391,
-          63896.4805
+          63248.7188
         ]
       }
     },
@@ -4931,12 +4931,12 @@ window.BENCHMARKS = {
       "name": "상해종합",
       "ticker": "000001.SS",
       "category": "아시아",
-      "current": 3827.3291,
+      "current": 3752.0876,
       "baseline": 3968.8401,
       "mtd_baseline": 4094.397,
-      "ytd_pct": -3.5656,
-      "mtd_pct": -6.5228,
-      "daily_pct": -1.4188,
+      "ytd_pct": -5.4614,
+      "mtd_pct": -8.3604,
+      "daily_pct": -3.3568,
       "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
@@ -5470,7 +5470,7 @@ window.BENCHMARKS = {
           3967.126,
           3955.5779,
           3882.4131,
-          3827.3291
+          3752.0876
         ]
       }
     },
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1480.71,
+      "current": 1478.13,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 2.9765,
-      "mtd_pct": -3.9579,
-      "daily_pct": -0.3694,
+      "ytd_pct": 2.7971,
+      "mtd_pct": -4.1252,
+      "daily_pct": -0.543,
       "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1497.7,
           1487.88,
           1486.2,
-          1480.71
+          1478.13
         ]
       }
     },
@@ -6572,13 +6572,13 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 78.89,
+      "current": 78.35,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 37.3912,
-      "mtd_pct": 13.5108,
-      "daily_pct": -0.892,
-      "as_of": "2026-07-16",
+      "ytd_pct": 36.4507,
+      "mtd_pct": 12.7338,
+      "daily_pct": -0.76,
+      "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -6590,7 +6590,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-04",
           "2025-07-07",
           "2025-07-08",
           "2025-07-09",
@@ -6849,10 +6848,10 @@ window.BENCHMARKS = {
           "2026-07-13",
           "2026-07-14",
           "2026-07-15",
-          "2026-07-16"
+          "2026-07-16",
+          "2026-07-17"
         ],
         "values": [
-          66.5,
           67.93,
           68.33,
           68.38,
@@ -7111,7 +7110,8 @@ window.BENCHMARKS = {
           78.14,
           79.34,
           79.6,
-          78.89
+          78.95,
+          78.35
         ]
       }
     },
