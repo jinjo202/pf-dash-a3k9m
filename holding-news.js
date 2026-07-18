@@ -1,17 +1,11 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-18T23:04:30
+// 갱신: 2026-07-18T23:18:23
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "하이닉스 실적 앞둔 코스피… 반등 계기 찾을까 [주간증시전망] - IT조선",
    "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE03bk5YOTJub0QxdlJvWGJ5dUp6S1ZDeHpLWnVRQWpwMVMzazVaY0UzbUN1dDhwNG9pY2VhZURzdW9LRTRIY0ZSTUNjV0k1NV9vLVlQQVBGakhPVTFqc09uU0RBNE50NUpKOHlhdklWYTdwUTR00gF0QVVfeXFMTTduTlg5Mm5vRDF2Um9YYnl1SnpLVkN4ektadVFBanAxUzNrNVpjRTNtQ3V0OHA0b2ljZWFlRHN1b0tFNEhjRlJNQ2NXSTU1X28tWVBBUEZqSE9VMWpzT25TREE0TnQ1Sko4eWF2SVZhN3BRNHQ?oc=5",
    "source": "IT조선",
-   "date": "2026-07-18"
-  },
-  {
-   "title": "7000선 붕괴된 코스피…반등 신호 나올까 [주간 증시 전망] - 데일리안",
-   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE9JclQydVViOS1MMXJQb1JwYU1hUzJ1MFhwNWlyNnAzVTlpSGw5TXRlYjEtb1dUUEpFQ2ZDMjlQcElsR3RjQlBXLWNJUFJVR21mNnBGb0NYMA?oc=5",
-   "source": "데일리안",
    "date": "2026-07-18"
   },
   {
@@ -24,6 +18,12 @@ window.HOLDING_NEWS = {
    "title": "[주간증시전망] 코스피 지수, 빅테크 실적이 반등 분수령…“알파벳 AI 투자계획 주목” - v.daum.net",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQi1qNy1KNWxqWGdZU3lfNlZZalFKX2lBMm5qaHFudXlOWkNPZmoxRGhyWnJpMXpzU2hOUlFNU0tVVU9ZUzJXM0dvSDRXYjRsTVB2Tg?oc=5",
    "source": "v.daum.net",
+   "date": "2026-07-17"
+  },
+  {
+   "title": "[주간증시전망] 6800선까지 밀린 코스피…빅테크 실적이 반등 가를 분수령 - 아주경제",
+   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5CdUJfRm03S203Zm5fSmF6aEZuMVBnVE5RcTFuR2Jya0I1bGpxSFk1eTFHSE91V1AybDJkcEhPZjBmT05veS1rS3pxRUJvWEFYRl9DZXNNY3HSAVhBVV95cUxOQnVCX0ZtN0ttN2ZuX0phemhGbjFQZ1ROUXExbkdicmtCNWxqcUhZNXkxR0hPdVdQMmwyZHBIT2YwZk9Ob3kta0t6cUVCb1hBWEZfQ2VzTWNx?oc=5",
+   "source": "아주경제",
    "date": "2026-07-17"
   }
  ],
@@ -230,7 +230,7 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "2021 대한민국 펀드대상 주식부문 '3관왕' 휩쓴 마이다스 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1rU1lWQUtiSzFQRFJMWXJPRmhqMUpLUThuNE45akttSUwxNFdzZ2QwRjUtVkF0aVYyaHZ1c1VpcjhMTV9PbGRaVVRtdkFiaC1rMVJINjg4Nzd1Z9IBVEFVX3lxTFBwdjRCTmFnRm9FRExfb0dOcG5pVy1XWldTZXZhLUpQQm1ZZXRaYy05c19LcU1HYkpTVVlHOEYzcTJ0MUxqVC00S3pja0VpMHk0elFMbw?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1rU1lWQUtiSzFQRFJMWXJPRmhqMUpLUThuNE45akttSUwxNFdzZ2QwRjUtVkF0aVYyaHZ1c1VpcjhMTV9PbGRaVVRtdkFiaC1rMVJINjg4Nzd1Zw?oc=5",
    "source": "한국경제",
    "date": "2021-02-01"
   }
@@ -373,16 +373,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-06"
   },
   {
-   "title": "“랠리 계속될까 꺾일까”…미국 증시, 이번 주가 분수령 - 시사저널",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5udzRpVVdzMnhBOVVzVlR2SE1IdmxGRTY2cV9Kb0RITFQtNng2UFN1WnZkeF9reHlESnBveWVYLWRWdm9FMmhOdVhHeTNtNENSZGRyXzFJakpXVWplZ25iY3diNzBwUnhlTzlLRTJrUdIBc0FVX3lxTFBSbFM4eTYwZ0dyeXBVbkFleTRTR0pyUE5FY1FYcWpmZVludWQ4Mml0bXNFQlJVX3g4b3dhem0wX1pWbXVTWndsX2J3dzZOQ1hScUNUWm85eDNFU3JoWUNrVl9YckcxVFZtVnNick1IWUF0bnc?oc=5",
-   "source": "시사저널",
-   "date": "2026-07-13"
-  },
-  {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
    "date": "2026-05-12"
+  },
+  {
+   "title": "“랠리 계속될까 꺾일까”…미국 증시, 이번 주가 분수령 - 시사저널",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5udzRpVVdzMnhBOVVzVlR2SE1IdmxGRTY2cV9Kb0RITFQtNng2UFN1WnZkeF9reHlESnBveWVYLWRWdm9FMmhOdVhHeTNtNENSZGRyXzFJakpXVWplZ25iY3diNzBwUnhlTzlLRTJrUdIBc0FVX3lxTFBSbFM4eTYwZ0dyeXBVbkFleTRTR0pyUE5FY1FYcWpmZVludWQ4Mml0bXNFQlJVX3g4b3dhem0wX1pWbXVTWndsX2J3dzZOQ1hScUNUWm85eDNFU3JoWUNrVl9YckcxVFZtVnNick1IWUF0bnc?oc=5",
+   "source": "시사저널",
+   "date": "2026-07-13"
   },
   {
    "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
