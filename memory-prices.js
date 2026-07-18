@@ -1,7 +1,7 @@
 // 메모리(DRAM·NAND) 고정거래가 월별 시계열 — fetch_memory_prices.py 생성(Meritz 엑셀).
 window.MEMORY_PRICES = {
- "as_of": 202606,
- "as_of_month": "2026.06",
+ "as_of": 202607,
+ "as_of_month": "2026.07",
  "source": "Meritz 장기 메모리 가격 (DRAMeXchange 고정거래가 기반, 월말값)",
  "labels": {
   "dram_ddr5_16gb": "DDR5 16Gb 고정가",
@@ -87,7 +87,8 @@ window.MEMORY_PRICES = {
   "2026.03",
   "2026.04",
   "2026.05",
-  "2026.06"
+  "2026.06",
+  "2026.07"
  ],
  "series": {
   "dram_ddr5_16gb": [
@@ -168,7 +169,8 @@ window.MEMORY_PRICES = {
    31.0,
    35.0,
    37.5,
-   37.5
+   40.0,
+   40.0
   ],
   "dram_ddr4_8gb": [
    2.84,
@@ -248,7 +250,8 @@ window.MEMORY_PRICES = {
    13.0,
    16.0,
    20.0,
-   20.0
+   21.0,
+   21.0
   ],
   "dram_server_ddr5": [
    null,
@@ -328,7 +331,8 @@ window.MEMORY_PRICES = {
    285.0,
    409.0,
    422.0,
-   422.0
+   460.0,
+   460.0
   ],
   "nand_128g_mlc": [
    4.42,
@@ -408,33 +412,34 @@ window.MEMORY_PRICES = {
    17.73,
    24.16,
    26.51,
-   26.51
+   28.82,
+   28.82
   ]
  },
  "latest": {
   "dram_ddr5_16gb": {
-   "month": "2026.06",
-   "val": 37.5,
+   "month": "2026.07",
+   "val": 40.0,
    "mom": 0.0,
-   "yoy": 635.3
+   "yoy": 661.9
   },
   "dram_ddr4_8gb": {
-   "month": "2026.06",
-   "val": 20.0,
+   "month": "2026.07",
+   "val": 21.0,
    "mom": 0.0,
-   "yoy": 669.2
+   "yoy": 438.5
   },
   "dram_server_ddr5": {
-   "month": "2026.06",
-   "val": 422.0,
+   "month": "2026.07",
+   "val": 460.0,
    "mom": 0.0,
-   "yoy": 396.5
+   "yoy": 411.1
   },
   "nand_128g_mlc": {
-   "month": "2026.06",
-   "val": 26.51,
+   "month": "2026.07",
+   "val": 28.82,
    "mom": 0.0,
-   "yoy": 749.7
+   "yoy": 750.1
   }
  }
 };

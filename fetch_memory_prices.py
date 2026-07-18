@@ -27,7 +27,7 @@ except ImportError:
 
 HERE = Path(__file__).parent
 OUT = HERE / "memory-prices.js"
-DEFAULT_XLSX = r"C:\Users\ocarr\OneDrive\dev\research\반도체\[Meritz] 장기 메모리 가격(1) (1).xlsx"
+DEFAULT_XLSX = r"C:\Users\ocarr\OneDrive\dev\dram price\[Meritz] 장기 메모리 가격(1) (2).xlsx"
 XLSX = os.environ.get("MEMORY_XLSX", DEFAULT_XLSX)
 
 START_YM = (2020, 1)   # 공통 월축 시작
