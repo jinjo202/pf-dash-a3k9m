@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-18T22:25:16
+// 갱신: 2026-07-18T22:39:40
 // 총 88개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -166,16 +166,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-18"
   },
   {
+   "title": "알테오젠 주가 출렁 삼바에피스 \"SC 특허 상업화 계획없다\" - 메디칼타임즈",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1MaTlwQkVTbjczZEFZVzlXTEJHREJVZW16c25BZm1ycVB1Nml2OVduTDNiQTVmM0tXUEpyM0QtVzZsckhNTzk4Yi1zLUdwZWtBNDI4bVVNU2puY0REcElHRHNaMEdtZVBGTUVSNnY4MnItZWM?oc=5",
+   "source": "메디칼타임즈",
+   "date": "2026-07-15"
+  },
+  {
    "title": "[특징주] 삼바에피스 SC기술 확보 소식에 코스닥 대장주 '알테오젠' 10%대 급락 - 이투데이",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5YR1I3NGd0ZUsyLWxIQ1JOdHpDMDd2aXI1UEg0Z1c0TGVCLWo1WXFRa0xOSi0xMk1Kb2hENGtBbUdCanlPZmcwRDY3UWpXczVnSjIzVw?oc=5",
    "source": "이투데이",
    "date": "2026-07-14"
-  },
-  {
-   "title": "삼바에피스 \"SC특허 상업화 계획없다…목표 키트루다IV 선점\" - 메디칼타임즈",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBuYWFLcWNVbjF1NWI2TDFjeXQwM3BPUkRQU2VJWjRRODRFaVNOSno4TW5VbHdvQXZZVEVkdFJCSV9IcUxGc01EZVpNMXBQQVpjMXNqOTFscm9BLUZLd1BmdFlEMHNTNkVwdmRRWFd1Q2Q?oc=5",
-   "source": "메디칼타임즈",
-   "date": "2026-07-15"
   },
   {
    "title": "하나證 “알테오젠, 경쟁력 훼손 우려 과도…삼성에피스 SC 시밀러 나와도 ‘특허 장벽’ 유효\" - 조선비즈 - Chosunbiz",
@@ -290,16 +290,16 @@ window.CONSTITUENT_NEWS = {
  ],
  "LS ELECTRIC": [
   {
-   "title": "7월 3주차 LS ELECTRIC 주가 19만원대 마감 - 톱스타뉴스",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1pVGtBSWFyTG5mUk1XNXdqTEQxekQ5OGVPWlVnbFpnQmFGeDVnT3Zkbkh3dzBUTURObUtHNkRBYXduMU50ZzB0ekVTeHhWYUFKWkNhaEQ2YXNIWUxpUGNEOU5oTC1tdjZkOWg3SkxfclJvQQ?oc=5",
-   "source": "톱스타뉴스",
-   "date": "2026-07-18"
-  },
-  {
    "title": "LS일렉트릭 목표주가 33만원으로 상향…한국투자證 “데이터센터 수주 확대” - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQYUtVQjBwWVhKd0t2LUE1OGdhS0M5ZDJadWVjazdkcjZiYTVHOWpja1FuN1NoTU1uUU80NlRhR1pwbnpXNHR0MFFiSTc4blB6M0NIeU1GX2tuTnFPWURHbFI0eUlzVzBhLXQ0N01DMTJFVU1HS1MtZl9tZVdFMzlYaDV2X1lUSU5l0gGcAUFVX3lxTE8yb0xveG00eFVJeWZyMG9EZkpNd1Fibnc5QWtqejhueVZVOGVmUXhkdkl2T01ZWVduV1p5S2lQU3JZekQ2Ym9LV3haMFFueGt0REJzNFp1cS1vYkhBSjY2aVZaSXcwbVg0d2xnR1lQcjNsUlNZMWZuRy1YeTZ3ZzcyUENubkVhSHVRNGRHaXB5M0w2RmdRdVAzRW9PUg?oc=5",
    "source": "Chosunbiz",
    "date": "2026-07-03"
+  },
+  {
+   "title": "7월 3주차 LS ELECTRIC 주가 19만원대 마감 - 톱스타뉴스",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1pVGtBSWFyTG5mUk1XNXdqTEQxekQ5OGVPWlVnbFpnQmFGeDVnT3Zkbkh3dzBUTURObUtHNkRBYXduMU50ZzB0ekVTeHhWYUFKWkNhaEQ2YXNIWUxpUGNEOU5oTC1tdjZkOWg3SkxfclJvQQ?oc=5",
+   "source": "톱스타뉴스",
+   "date": "2026-07-18"
   },
   {
    "title": "LS·LS일렉트릭 주식에 '번지수 틀린 투매'…1.5조 오타가 부른 해프닝 - 연합인포맥스",
@@ -317,7 +317,7 @@ window.CONSTITUENT_NEWS = {
  "효성중공업": [
   {
    "title": "효성중공업, 주가 흔들려도 실적은 탄탄…북미가 이끈다 - 핀포인트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1DSUpQaVRxb1lZbWFDSVkxQi1KMU5fWnFURWJpNjNxMUVzU2dQNUdWUTFJQWF4S1BjUWxzeUVTNWxnOW5mTTg4eXAybWZMWVZDMjBnRWExVGFRN1JVWkVKTU5ZU3VqeVlXVWpmQkNOck5zSWvSAXdBVV95cUxQRVZQb0xyTE9Yck1acU1MWjdLTXdlQm5hWHpFVmZzcmxiZ0RpY2V2dk1JbmVTamg4amVJQnFfOWtPVDJCdmdERmhZX0lZSDVMWTVuRTB1ZElqZkdOWlBLOHB0NFgzS1RTbzZELUJfekM1ZExfU2NXVQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBFVlBvTHJMT1hyTVpxTUxaN0tNd2VCbmFYekVWZnNybGJnRGljZXZ2TUluZVNqaDhqZUlCcV85a09UMkJ2Z0RGaFlfSVlINUxZNW5FMHVkSWpmR05aUEs4cHQ0WDNLVFNvNkQtQl96QzVkTF9TY1dV0gF3QVVfeXFMUEVWUG9MckxPWHJNWnFNTFo3S013ZUJuYVh6RVZmc3JsYmdEaWNldnZNSW5lU2poOGplSUJxXzlrT1QyQnZnREZoWV9JWUg1TFk1bkUwdWRJamZHTlpQSzhwdDRYM0tUU282RC1CX3pDNWRMX1NjV1U?oc=5",
    "source": "핀포인트뉴스",
    "date": "2026-07-18"
   },
@@ -672,10 +672,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-13"
   },
   {
-   "title": "한국항공우주, 1분기 영업익 호조에...목표가 '상향 또는 유지' [주가동향] - 조세일보",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE8xb3M4ckVsOGhud0pFV3Etbkl0VFFlNFMxd3laU095cjIzc2hxaE1hcnpwaWtMTGg0ai04V3VUSl9XcHdCZlFPSm1OU3FhS0Z0NU4xMkJ4aXRNeWZWUnF3?oc=5",
-   "source": "조세일보",
-   "date": "2026-05-08"
+   "title": "[특징주] 한국항공우주, 미·이란 긴장 재고조 영향 '상승' - 전국매일신문",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9GTDVSRmxVR3UweklOV1hRQzhfcnRmMFRNcjluMEZZenpBaUNJUGZVSHRQOEwwWkZkV3E5RzllcXhkZ3ZCVnZOcDBGRlNlMEpWTFVKNzlWbXBUMkxuOWxSd1ZWdWQzOTcyR29iTVJR?oc=5",
+   "source": "전국매일신문",
+   "date": "2026-07-13"
   }
  ],
  "현대로템": [
@@ -1290,16 +1290,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-14"
   },
   {
-   "title": "美 \"中, 보잉 200대 살 것\"…기대치 밑돌자 주가 급락 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1TeGZINkR2Rm5qYkk4d1BpajcwaXFTTDktenBlUEk2R2NJaVloakl0NEFiSC1XR1J4Q3pZVTY2RVJ0WjhDaXBtUW82ai1OT0d6dFg0T0ZDOHltQ1HSAWBBVV95cUxQYW90eTJXMkM0SWVrYi1Gc0daU003MjBqMTFFQVB6YXgxTHhob3NGM3RiX1UzcUcwU0RHdUVuWUZTT1RyOEthOTZjNE5SeEpDRVVqX1VRZHIxd05sc1puMm8?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-05-15"
-  },
-  {
    "title": "Boeing Co (BA) 주식 움직였습니다 하락 3.10%에 7월8일: 어떤 신호인가요? - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQVXhxLV9BaE9CcjhxRjl6NDVES2x4VjBDSW1Kb1hGS25KdnRWUjk2WkFyUVotN01jSG9JSmp2MW9zVmFHX2J1WTFlTUI4cG1PSEhmUDFaZjlXTDhEelNnTDAzNlpocU1XaXZHLTZIRThqNUtUVGNIS1ExbHJtYlEzQUJoclIzaTJmRHB0cg?oc=5",
    "source": "TradingKey",
    "date": "2026-07-08"
+  },
+  {
+   "title": "보잉, 상반기 견조한 인도량에 주가 상승…하반기 모멘텀 주목 : 해외증시 - 재경일보",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFA0ejhqemRsQjZEZHZVVjZ0andfWGp3WFhZTUh6NHFlbm9LbU55U1RtamJ6YnV6dlRtcVp5aUhrRWYxdGQxVEhlcl9B?oc=5",
+   "source": "재경일보",
+   "date": "2026-07-15"
   }
  ],
  "Linde PLC": [
@@ -1651,7 +1651,7 @@ window.CONSTITUENT_NEWS = {
  "Siemens AG": [
   {
    "title": "지멘스와의 전력망 협력 발표 후 퓨얼셀 에너지(FCEL) 주가 12.1% 하락 - 강세 전망에 변화가 생겼을까? - simplywall.st",
-   "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPRFl1bm8wRnhzVGlSbG1XMkN0LS1HVC1LUmtDMWNDNUFEam9VZURqXzhJOXdTZGRwU3NicnpnNHdUamswLWN0QVoxM0lLMUJ4OGNZOWpDb0cwN0JzSVZ1dmhuVkRmdVJKc1AxY3JWVTV0c1luLVltYmNLZVcxc3psMjN0Wm1KWlAwRjYtVnhydWdGMThGU0l2MHFscThZdzTSAaQBQVVfeXFMTVI3cDJjQzlieC1sQ3hVOFZRSWN3UHVlQk5Db3p3bG1wdUtLeDd1TFZMSXNzb28tT2o4OHhhbTJoUjBhV19DUTVUd3Nwdm9vY2hiNzR5VWo1YVhTaGtqRkotWFFhcHFjam4tZ1Z3SWhIUE1YeXZZd2ppaExVendKQmlPMlIwdnNBQUZDamMyYkdWLVF6OVJMaXl4RXVpLU03emxIT3k?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNUjdwMmNDOWJ4LWxDeFU4VlFJY3dQdWVCTkNvendsbXB1S0t4N3VMVkxJc3Nvby1Pajg4eGFtMmhSMGFXX0NRNVR3c3B2b29jaGI3NHlVajVhWFNoa2pGSi1YUWFwcWNqbi1nVndJaEhQTVh5dll3amloTFV6d0pCaU8yUjB2c0FBRkNqYzJiR1YtUXo5UkxpeXhFdWktTTd6bEhPedIBpAFBVV95cUxNUjdwMmNDOWJ4LWxDeFU4VlFJY3dQdWVCTkNvendsbXB1S0t4N3VMVkxJc3Nvby1Pajg4eGFtMmhSMGFXX0NRNVR3c3B2b29jaGI3NHlVajVhWFNoa2pGSi1YUWFwcWNqbi1nVndJaEhQTVh5dll3amloTFV6d0pCaU8yUjB2c0FBRkNqYzJiR1YtUXo5UkxpeXhFdWktTTd6bEhPeQ?oc=5",
    "source": "simplywall.st",
    "date": "2026-07-18"
   },
@@ -2010,16 +2010,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-10"
   },
   {
-   "title": "HSBC Holdings PLC (HSBC) 주식 움직였습니다 상승 4.47%에 6월11일: 변동 원인 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPQlh0M2ZCYVlaaXhqanBCZUxWMVR6dTgzNko4dXFfQUtxQzYwRHpRTm1VUGxxemZNaTkwVXc3MGNlcEVjVXJsdFNmcU5KSGZUWERUdFpfQlNqSVNIVXVPeDNXVllLMzhHRzhDQ1ByV1dZRmlfRktCTkxpeEJYVmVtVTJ0MlNKcFdEQ1c5eWpkZw?oc=5",
-   "source": "TradingKey",
-   "date": "2026-06-11"
+   "title": "글로벌 주식, 미국 달러... ADR헤지드 ETF가 해외 투자의 가장 간과된 리스크를 해결하는 방법,암 홀딩스(ADR),Arm Holdings PLC ADRhedged,BP p.l",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5KSVBwVjVBbnBSQU04VmN1aElzbEJJTWVlT1Q5UWFZTjF2OHdrOXNLVjNNb2pnUVpZeHBEODZETFluVExNNzBVUHQzWW1QNHU5U2NQWDJoTlRhYWlkeERnZzgxLWkzenByZ0lyVVJybE1nNG8?oc=5",
+   "source": "wowglobal.co.kr",
+   "date": "2026-05-13"
   },
   {
-   "title": "HSBC Holdings PLC (HSBC) 주식 움직였습니다 하락 3.08%에 6월10일: 변동을 뒷받침하는 사실 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOM1ZYa0dVY1hEZk1pTkY1WThxS0N1LUF6VlJwSVZhNUo2R0lNZW1LaktCMWsxY3dZa1hpV0x2SUF5aGlfd3VlLUluSHNOSEM1NVZCWFkwci1pOUFGMnJPbG1obENKV2tya3RBYmxYdWxMekJkd1BKQ1h5WjJ1MDRqb25YdmgzWTRnWHo4Ymdldw?oc=5",
+   "title": "Arm Holdings PLC (ARM) 주식 움직였습니다 상승 3.79%에 3월23일: 전체 분석 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNX2JZaGhsQXdDYUswa0ZVNnpRVkdiY0VmQkxLUEV2OFpfTU0xalpaYzhVUTYzcVM1UnU4Q2wwR1hkQlpwZGVrMjhram9qZkJQNS1MYjg2ODVqb0JkS0Fab25paDI4X2ZsUGdKRElIMWpSTE9iQm9lSk9menU0NEtVMUxIa1lRNW00emw4TkdB?oc=5",
    "source": "TradingKey",
-   "date": "2026-06-10"
+   "date": "2026-03-23"
   }
  ],
  "ASML Holding NV ADR": [

@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-18T22:23:37Z",
+  "generated": "2026-07-18T22:38:12Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -24127,26 +24127,26 @@ window.MACRO = {
               "note": "맞춤형 AI칩(ASIC)·네트워킹"
             },
             {
-              "ticker": "ASML",
-              "name": "ASML Holding N.V. - New York Re",
-              "mktcap": 671245467648,
-              "fwdpe": 30.3,
-              "pbr": null,
+              "ticker": "MU",
+              "name": "MU",
+              "mktcap": 958798299136,
+              "fwdpe": 5.6,
+              "pbr": 13.22,
               "rets": {
-                "w1": -2.8,
-                "m1": -3.1,
-                "m3": 24.1,
-                "ytd": 63.9
+                "w1": -13.3,
+                "m1": -16.8,
+                "m3": 85.7,
+                "ytd": 197.6
               },
-              "rev30": 20.217563599882492,
-              "note": "EUV 노광 독점"
+              "rev30": 21.877591703758025,
+              "note": "HBM·메모리 업사이클"
             },
             {
               "ticker": "AMD",
               "name": "AMD",
-              "mktcap": null,
+              "mktcap": 808386560000,
               "fwdpe": 36.8,
-              "pbr": null,
+              "pbr": 12.54,
               "rets": {
                 "w1": -11.1,
                 "m1": -2.3,
@@ -24764,7 +24764,7 @@ window.MACRO = {
               "name": "GE",
               "mktcap": 361932914688,
               "fwdpe": 39.3,
-              "pbr": null,
+              "pbr": 20.16,
               "rets": {
                 "w1": -2.9,
                 "m1": -0.7,
@@ -24807,7 +24807,7 @@ window.MACRO = {
             {
               "ticker": "HON",
               "name": "HON",
-              "mktcap": null,
+              "mktcap": 71292313600,
               "fwdpe": 23.0,
               "pbr": 5.25,
               "rets": {
@@ -25284,6 +25284,21 @@ window.MACRO = {
               "note": "K팝 신인·투어"
             },
             {
+              "ticker": "041510.KQ",
+              "name": "041510.KQ",
+              "mktcap": 1582023049216,
+              "fwdpe": 10.2,
+              "pbr": null,
+              "rets": {
+                "w1": -7.4,
+                "m1": -15.9,
+                "m3": -21.5,
+                "ytd": -48.8
+              },
+              "rev30": -2.401467322930073,
+              "note": "신인·일본"
+            },
+            {
               "ticker": "035900.KQ",
               "name": "JYP Ent.",
               "mktcap": 1545657253888,
@@ -25297,21 +25312,6 @@ window.MACRO = {
               },
               "rev30": -1.2263119157127522,
               "note": "아티스트 IP"
-            },
-            {
-              "ticker": "041510.KQ",
-              "name": "041510.KQ",
-              "mktcap": null,
-              "fwdpe": null,
-              "pbr": null,
-              "rets": {
-                "w1": -7.4,
-                "m1": -15.9,
-                "m3": -21.5,
-                "ytd": -48.8
-              },
-              "rev30": -2.401467322930073,
-              "note": "신인·일본"
             }
           ]
         },
