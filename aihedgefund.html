@@ -223,7 +223,7 @@ async function load(tk){
   let d; try { d = await jget(`aihedgefund/data/${tk}.json`); } catch(e){ search(); return; }
   CUR = d; render();
 }
-window._render = () => { if(CUR) render(); };
+window._render = () => { if(CUR) render(); if($("sectorView").style.display!=="none") renderSectorView(); };
 
 function render(){
   const d = CUR, m = d.metrics, gate = d.risk_gate.decision, nm = (d.names&&d.names[0])?d.names[0]:d.ticker;
@@ -465,6 +465,7 @@ function renderSectorView(){
       <div class="ovsec"><div class="t">리스크</div><ul>${(m.risks||[]).map(r=>`<li>${r}</li>`).join("")}</ul></div>
       <div class="ovsec"><div class="t">12개월 전망</div><p>${m.outlook||""}</p></div>` : `<p style="color:var(--muted);font-size:13px">섹터 개요 로딩 중…</p>`;
     const chips = ts.map(t=>`<span class="mt ${t.gate==='APPROVE'?'':'block'}" data-t="${t.ticker}">${nm(t)} ${t.total_return_pct>=0?'+':''}${t.total_return_pct}%</span>`).join("");
+    const key = KEYMAP[s];
     h += `<div class="card secov">
       <h2>${s} <span style="font-size:13px;color:var(--muted);font-weight:400">· ${ts.length}종목</span></h2>
       <div class="hl">${m?m.headline:""}</div>
@@ -474,13 +475,92 @@ function renderSectorView(){
         <div class="s"><div class="k">최고 (5년)</div><div class="v" style="color:var(--pos);font-size:15px">${nm(best)} +${best.total_return_pct}%</div></div>
         <div class="s"><div class="k">최저 (5년)</div><div class="v" style="color:var(--neg);font-size:15px">${nm(worst)} ${worst.total_return_pct}%</div></div>
       </div>
+      <div class="ovsec"><div class="t">종목별 5년 백테스트 수익률</div>
+        <svg id="secbar-${key}" width="100%" role="img" aria-label="${s} 구성 종목 5년 백테스트 수익률"></svg>
+      </div>
       ${ov}
+      <div class="ovsec"><div class="t">매출성장률(YoY) vs 영업이익률</div>
+        <svg id="secscatter-${key}" width="100%" role="img" aria-label="${s} 구성 종목 매출성장률과 영업이익률 산점도"></svg>
+        <div class="note" style="margin-top:2px">최근 발표 연간 실적 기준. 매출총이익·영업이익 미공시 업종(금융 등)은 제외됩니다.</div>
+      </div>
       <div class="ovsec"><div class="t">구성 종목 (클릭 → 종목 상세)</div><div class="miniticks">${chips}</div></div>
     </div>`;
   }
   h += `<div class="card" style="font-size:12px;color:var(--muted)">섹터 개요는 교육용 리서치이며 투자 자문이 아닙니다. 수익률은 SMA 5/20 전략의 5년 백테스트 결과입니다.</div>`;
   $("sectorView").innerHTML = h;
   $("sectorView").querySelectorAll(".mt").forEach(c=>c.onclick=()=>{ switchView("ticker"); load(c.dataset.t); window.scrollTo(0,0); });
+  for(const s of SECTOR_ORDER){
+    const ts = INDEX.tickers.filter(t=>(t.sector||"기타")===s);
+    if(!ts.length) continue;
+    const key = KEYMAP[s];
+    drawSectorBar(`secbar-${key}`, ts);
+    drawSectorScatter(`secscatter-${key}`, ts);
+  }
+}
+
+// ---- 섹터 차트: 5년 수익률 막대 + 성장률·마진 산점도 ----
+const FINCACHE = {};
+async function getFin(tk){
+  if(tk in FINCACHE) return FINCACHE[tk];
+  try { const f = await jget(`aihedgefund/financials/${tk}.json`); FINCACHE[tk] = f; return f; }
+  catch(e){ FINCACHE[tk] = null; return null; }
+}
+function drawSectorBar(svgId, tickers){
+  const svg = document.getElementById(svgId); if(!svg) return;
+  const nm = t => (t.names&&t.names[0])?t.names[0]:t.ticker;
+  const sorted = [...tickers].sort((a,b)=>b.total_return_pct-a.total_return_pct);
+  const n = sorted.length, W = 640, rowH = 22, L = 108, R = 50, T = 6, B = 6;
+  const H = n*rowH + T + B;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const maxAbs = Math.max(10, ...sorted.map(t=>Math.abs(t.total_return_pct)));
+  const mid = L + (W-L-R)/2, half = (W-L-R)/2;
+  let g = `<line x1="${mid}" x2="${mid}" y1="${T}" y2="${H-B}" stroke="${css('--border')}"/>`;
+  sorted.forEach((t,i)=>{
+    const y = T + i*rowH, v = t.total_return_pct;
+    const bw = Math.min(half, Math.abs(v)/maxAbs*half);
+    const bx = v>=0 ? mid : mid-bw;
+    const col = v>=0 ? css("--pos") : css("--neg");
+    g += `<text x="${L-6}" y="${y+rowH/2+3.5}" text-anchor="end" font-size="10.5" fill="${css('--text-soft')}">${nm(t)}</text>`;
+    g += `<rect x="${bx.toFixed(1)}" y="${y+5}" width="${Math.max(bw,1).toFixed(1)}" height="${rowH-11}" rx="3" fill="${col}"/>`;
+    g += `<text x="${(v>=0? mid+bw+4 : mid-bw-4).toFixed(1)}" y="${y+rowH/2+3.5}" text-anchor="${v>=0?'start':'end'}" font-size="10.5" fill="${col}">${v>=0?'+':''}${v.toFixed(0)}%</text>`;
+  });
+  svg.innerHTML = g;
+}
+async function drawSectorScatter(svgId, tickers){
+  const svg = document.getElementById(svgId); if(!svg) return;
+  svg.setAttribute("viewBox", "0 0 640 60");
+  svg.innerHTML = `<text x="8" y="30" font-size="11" fill="${css('--muted')}">불러오는 중…</text>`;
+  const fins = await Promise.all(tickers.map(t=>getFin(t.ticker)));
+  const pts = [];
+  tickers.forEach((t,i)=>{
+    const f = fins[i]; if(!f) return;
+    const act = (f.annual||[]).filter(a=>a.type==="actual");
+    if(act.length<2) return;
+    const last = act[act.length-1], prev = act[act.length-2];
+    if(last.revenue==null || !prev.revenue || last.operating_margin==null) return;
+    const nm = (t.names&&t.names[0])?t.names[0]:t.ticker;
+    pts.push({ nm, growth:(last.revenue/prev.revenue-1)*100, margin:last.operating_margin });
+  });
+  if(!pts.length){ svg.innerHTML = `<text x="8" y="30" font-size="11" fill="${css('--muted')}">표시할 데이터가 부족합니다.</text>`; return; }
+  const W=640,H=Math.max(180,Math.min(260,60+pts.length*6)),L=42,R=18,T=12,B=26;
+  const gx=pts.map(p=>p.growth), gy=pts.map(p=>p.margin);
+  const gxMin=Math.min(0,...gx)-8, gxMax=Math.max(...gx)+8;
+  const gyMin=Math.min(0,...gy)-8, gyMax=Math.max(...gy)+8;
+  const xs = v => L+(v-gxMin)/(gxMax-gxMin)*(W-L-R);
+  const ys = v => T+(1-(v-gyMin)/(gyMax-gyMin))*(H-T-B);
+  let g = "";
+  [0,25,50,75].forEach(v=>{ if(v>gyMin && v<gyMax){ const y=ys(v);
+    g += `<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="${css('--border')}"/><text x="${L-6}" y="${y+3}" text-anchor="end" font-size="10" fill="${css('--muted')}">${v}%</text>`; }});
+  g += `<line x1="${xs(0)}" x2="${xs(0)}" y1="${T}" y2="${H-B}" stroke="${css('--muted')}" stroke-dasharray="2 3"/>`;
+  pts.forEach(p=>{
+    const x=xs(p.growth), y=ys(p.margin);
+    g += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${css('--accent')}" stroke="${css('--panel')}" stroke-width="1.5"/>`;
+    g += `<text x="${(x+7).toFixed(1)}" y="${(y+3).toFixed(1)}" font-size="9.5" fill="${css('--text-soft')}">${p.nm}</text>`;
+  });
+  g += `<text x="${L}" y="${H-6}" font-size="10" fill="${css('--muted')}">← 매출 감소</text><text x="${W-R}" y="${H-6}" text-anchor="end" font-size="10" fill="${css('--muted')}">매출성장 →</text>`;
+  g += `<text x="10" y="${T+9}" font-size="10" fill="${css('--muted')}" transform="rotate(-90 10 ${T+9})" text-anchor="end">영업이익률 ↑</text>`;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.innerHTML = g;
 }
 
 loadSectorMeta();
