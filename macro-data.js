@@ -1,16 +1,8 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-07-17",
+  "as_of": "2026-07-18",
   "update_log": [
-    {
-      "date": "2026-07-09",
-      "type": "revision",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "42 → 47 (수정)",
-      "as_of": "2026-07-09"
-    },
     {
       "date": "2026-07-09",
       "type": "release",
@@ -477,10 +469,27 @@ window.MACRO = {
       "title": "CNN 공포·탐욕 지수",
       "detail": "43 → 37 (수정)",
       "as_of": "2026-07-17"
+    },
+    {
+      "date": "2026-07-18",
+      "type": "release",
+      "key": "put_call",
+      "title": "CBOE 풋/콜 비율(총)",
+      "detail": "0.87 → 0.87 (2026-07-18 발표)",
+      "as_of": "2026-07-18"
     }
   ],
-  "updates_today": [],
-  "generated": "2026-07-17T23:16:53Z",
+  "updates_today": [
+    {
+      "date": "2026-07-18",
+      "type": "release",
+      "key": "put_call",
+      "title": "CBOE 풋/콜 비율(총)",
+      "detail": "0.87 → 0.87 (2026-07-18 발표)",
+      "as_of": "2026-07-18"
+    }
+  ],
+  "generated": "2026-07-18T01:09:58Z",
   "regime": {
     "score": 23,
     "label": "비중확대 우위",
@@ -6414,7 +6423,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-07-17",
+    "as_of": "2026-07-18",
     "month": "2026.07",
     "unit": "조원",
     "ytd_total": {
@@ -16257,7 +16266,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -16944,7 +16953,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -16965,7 +16974,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "S&P 어닝일드 − 미 10Y. 높을수록 주식 매력",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -21838,7 +21847,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "옵션 시장 심리(주식 P/C 0.39·SPX 0.88 동반). 역발상 — 높을수록(공포) 강세, 0.7 아래는 낙관·과열. ※요청의 '풋콜 패리티'는 심리지표인 풋/콜 비율로 해석. cboe.com 일간.",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -21997,7 +22006,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "2026.07 KOSPI 누적(조원): 외국인 -12.1·기관 +1.3·개인 +10.3(12일). 최근 26.07.16: 외국인 -1.37·기관 -2.38·개인 +3.66. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -22017,7 +22026,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null
     },
     "eps_rev_us": {
@@ -22031,7 +22040,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.1%·90일 +3.8%. 그래프=90일 경로.",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": {
         "dates": [
           "90일전",
@@ -22060,7 +22069,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null
     },
     "eps_rev_kr": {
@@ -22074,7 +22083,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.0%·90일 +1.5%. 그래프=90일 경로.",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": {
         "dates": [
           "90일전",
@@ -22103,7 +22112,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 19.23 / EPS성장 18%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-07-17",
+      "as_of": "2026-07-18",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
@@ -23648,7 +23657,7 @@ window.MACRO = {
     }
   },
   "earnings": {
-    "as_of": "2026-07-17",
+    "as_of": "2026-07-18",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -23674,10 +23683,10 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "FactSet Earnings Insight · EPS 기준 07/17 (0일 경과)",
+          "source": "FactSet Earnings Insight · EPS 기준 07/17 (1일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-07-17",
-          "days_old": 0,
+          "days_old": 1,
           "stale": false,
           "note": "FactSet Earnings Insight(07/17 발간) 기준 — CY2026 EPS 성장 +24.5%, CY2027 +17.5% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $371.1(forward P/E 20.3·지수 7,533.77). 매주 금요일 자동 갱신.",
           "years": [
@@ -23755,10 +23764,10 @@ window.MACRO = {
         "n": 29,
         "annual": {
           "unit": "지수(2020=100, 컨센서스)",
-          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (47일 경과)",
+          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (48일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 47,
+          "days_old": 48,
           "stale": true,
           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. ※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
           "years": [
@@ -23836,10 +23845,10 @@ window.MACRO = {
         "n": 6,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (47일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (48일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 47,
+          "days_old": 48,
           "stale": true,
           "note": null,
           "years": [
@@ -23917,10 +23926,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (47일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (48일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 47,
+          "days_old": 48,
           "stale": true,
           "note": null,
           "years": [
@@ -23998,10 +24007,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (47일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (48일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 47,
+          "days_old": 48,
           "stale": true,
           "note": null,
           "years": [
@@ -24762,7 +24771,7 @@ window.MACRO = {
             {
               "ticker": "GE",
               "name": "GE Aerospace",
-              "mktcap": 364467912704,
+              "mktcap": 361932914688,
               "fwdpe": 39.9,
               "pbr": 20.16,
               "rets": {
