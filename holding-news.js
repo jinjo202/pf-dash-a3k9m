@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-19T22:22:58
+// 갱신: 2026-07-19T22:34:48
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -159,6 +159,12 @@ window.HOLDING_NEWS = {
  ],
  "KoAct 글로벌AI&로봇액티브 ETF": [
   {
+   "title": "SK하이닉스, 반도체, 로봇, 실적발표 - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQSEhnel8ycXlPZ3dwS1VuUWJBNkVZalVWX1JOR05lR2dqSDVPWlJUWFJ5YjZVTzd3Z1cyYnUtNTgyMW85elFhYXdad1RfT2xuSmwtVDJkOXlhU2xqOG5TbG1QZnp4RzVfY09LQnp1X3Rzdm5zTGJhd2piMmFPSWk2WExxNlVRTjl6SHJZ?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2026-07-19"
+  },
+  {
    "title": "반도체서 광통신·우주·로봇까지…차세대 AI ETF 격돌 - 더구루",
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFB6TUR6UldwVGtoZkpydm5UdjhYdDgzN0RwTE1wajRmbFdlcEdNbDdnNm9RRHhTemRZMllZOFFvdVBnZjlzWDg0V1ZWZ1dZc0tPa3VFSlVpQWVrZDBHd05mTnlqdw?oc=5",
    "source": "더구루",
@@ -175,12 +181,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBHRUNmVjE2bDRMWVlJbmpzUklvWXdncFNVV1ZfamNjems3cVdfRkRqcE9CNkdoZnBkZUpNTzB3ZmREUW9wb3V1LXAyVkRfSno1UzdxbHlFS1BwX1BaWnFlTkNvYmU1bmNuTG14ZEpreU5uZ1U?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-07-14"
-  },
-  {
-   "title": "반도체 주식 미래는? 79% 상승 가능한 주식, 로봇 주식 - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPbWpHeWl5cEhtZ0NpMUlwekQ1bTE5NmowWjMyNUFjUk02LTNfU1d2NXZTQVdqOFhHeTZfanJzNlktZlU0RDlhRTk1STcyWWlqdlA1UDZBckw4LXF0a1Z0a0RzSHFZWmUyclZQQk9CLWJQNVVyaUJwNjBtZWsweXRqQVNhWE1oUmdxTzFJ?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
-   "date": "2026-07-12"
   }
  ],
  "삼성 ESG 착한 책임투자": [
@@ -465,16 +465,16 @@ window.HOLDING_NEWS = {
  ],
  "Dimensional International Value (DFIV)": [
   {
-   "title": "‘칩플레이션’ 공포에 기술주 조정…글로벌 증시는 균형잡기 중 [글로벌 레이더] - 에너지경제신문",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5yWG90ZHotSEpNR3ZkbE0zNS1HSExxNzdlLVVHZzRtWm9PeHlSVHdvbjJnbUlUNjJaQ0NsUVpNWWtYQU41dVZQampKRzJaVzJzRXExOFVrM3MwdVk?oc=5",
-   "source": "에너지경제신문",
-   "date": "2026-06-30"
-  },
-  {
    "title": "워런 버핏 \"모두가 증시서 도박 선호. 가치주 찾기 어렵다\" - 미디어펜",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE14WlAwaUYzemVYRlEyckE2TzM4d0VpS0djRDU4dDBSdno3cGZ1VGRiMDhXTHFfNWFXbDgwS1U5cWFZcnVwaHVybXVkanB4NTNXdnhWTdIBWEFVX3lxTE80dFprbkl4dHJCNWx4LUdzclk0M2NDN0s3ZjFLRC0zdHAwcWRReF8xSllyVkJnQWVVclNRTFJ3ODg5QjY1M0J6cWVsUWdMbERiV0FtYW1oUEc?oc=5",
    "source": "미디어펜",
    "date": "2026-07-15"
+  },
+  {
+   "title": "‘칩플레이션’ 공포에 기술주 조정…글로벌 증시는 균형잡기 중 [글로벌 레이더] - 에너지경제신문",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5yWG90ZHotSEpNR3ZkbE0zNS1HSExxNzdlLVVHZzRtWm9PeHlSVHdvbjJnbUlUNjJaQ0NsUVpNWWtYQU41dVZQampKRzJaVzJzRXExOFVrM3MwdVk?oc=5",
+   "source": "에너지경제신문",
+   "date": "2026-06-30"
   },
   {
    "title": "\"AI만 쫓다간 놓친다\"···로베코 \"하반기 증시 랠리 지속, 다음 기회는 아시아·가치주\" - 스마트비즈",

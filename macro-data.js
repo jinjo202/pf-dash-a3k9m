@@ -476,7 +476,7 @@ window.MACRO = {
       "type": "release",
       "key": "oil_yoy",
       "title": "WTI 유가 (YoY)",
-      "detail": "20.4% → 22.6% (2026-07-19 발표)",
+      "detail": "20.4% → 23.1% (2026-07-19 발표)",
       "as_of": "2026-07-19"
     }
   ],
@@ -486,11 +486,11 @@ window.MACRO = {
       "type": "release",
       "key": "oil_yoy",
       "title": "WTI 유가 (YoY)",
-      "detail": "20.4% → 22.6% (2026-07-19 발표)",
+      "detail": "20.4% → 23.1% (2026-07-19 발표)",
       "as_of": "2026-07-19"
     }
   ],
-  "generated": "2026-07-19T22:22:41Z",
+  "generated": "2026-07-19T22:34:30Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -1088,7 +1088,7 @@ window.MACRO = {
         "avg10y": 99.5,
         "dev_pct": 4.0
       },
-      "fx12m": 8.6,
+      "fx12m": 8.7,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -5379,7 +5379,6 @@ window.MACRO = {
   "kr_flows_ts": {
     "deposit": {
       "dates": [
-        "2024-05-24",
         "2024-05-27",
         "2024-05-28",
         "2024-05-29",
@@ -5901,7 +5900,6 @@ window.MACRO = {
         "2026-07-14"
       ],
       "values": [
-        55.4,
         56.8,
         56.3,
         55.1,
@@ -13080,11 +13078,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 22.6,
+      "current": 23.1,
       "unit": "%",
       "z": 0.07,
       "pct": 60.6,
-      "score": -0.57,
+      "score": -0.58,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
@@ -16245,7 +16243,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.563
+          1.564
         ]
       },
       "z_from": "2000-08",
@@ -24391,7 +24389,7 @@ window.MACRO = {
             {
               "ticker": "BAC",
               "name": "Bank of America Corporation",
-              "mktcap": 434808127488,
+              "mktcap": 429990871040,
               "fwdpe": 11.7,
               "pbr": 1.56,
               "rets": {
@@ -24436,7 +24434,7 @@ window.MACRO = {
             {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
-              "mktcap": 267797184512,
+              "mktcap": 265025388544,
               "fwdpe": 11.1,
               "pbr": 1.65,
               "rets": {
@@ -24773,7 +24771,7 @@ window.MACRO = {
               "ticker": "GE",
               "name": "GE Aerospace",
               "mktcap": 361932914688,
-              "fwdpe": 39.3,
+              "fwdpe": 39.9,
               "pbr": 20.16,
               "rets": {
                 "w1": -2.9,
@@ -26577,7 +26575,7 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[완만한 호재 우위] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.37%p(호재)·WTI 유가 (YoY) 22.6%(강한 악재)",
+    "macro": "[완만한 호재 우위] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.37%p(호재)·WTI 유가 (YoY) 23.1%(강한 악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.2배(악재)·KOSPI 12M Fwd PER 4.5배(강한 호재)·주식위험프리미엄(ERP) 0.63%p(중립)·미국 10Y 금리 4.54%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.59%p(호재)·USD/KRW 1486.7원(호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 111.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -12.1조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 18.8(중립)·S&P500 12M 모멘텀 17.6%(강한 호재)·CNN 공포·탐욕 지수 37(악재)·AAII 불-베어 스프레드 12.0%p(악재)·CBOE 풋/콜 비율(총) 0.97(중립)",

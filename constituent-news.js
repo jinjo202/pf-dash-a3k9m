@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-19T22:24:07
+// 갱신: 2026-07-19T22:35:59
 // 총 88개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -30,12 +30,6 @@ window.CONSTITUENT_NEWS = {
  ],
  "SK하이닉스": [
   {
-   "title": "\"전 세계 모두 코스피만 쳐다본다\"…삼전닉스 주가 향방은 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE0zaDBWTThPVlF5R3RlTURBaldGalRPQTdpQmQyTjd2YmF4Z3pJZXVpZm9NWTNMaFgycTNVTmZXSTYxLW1kQVo2OGQtWUtGbkpNa1BXZkFoTEcxQQ?oc=5",
-   "source": "한국경제",
-   "date": "2026-07-19"
-  },
-  {
    "title": "최태원 “SK하이닉스 주식 가만히 갖고 있으면 돼…우상향할 것” - 경향신문",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE8xMmx2T2pfVHpMaDF5TDBtYlJNcGFvME55dkdDLUlxR0VLWHNkLXR2T0JvWFJKMVJUMVpfV21MSW82Q25QbDhpUnJYNS1EUGdWY1VfaEJxNl8xQdIBX0FVX3lxTE1kTlZKN014MkVRcnM0czZKMXRMQllIRVViZmRqUzRHbUswTVZZNkJ0aW5MeEFKbEwtTk1tQXZVUExHeWNveko1MzhWSlJBRGhhV0ZRSGs0M043WE8yZlNB?oc=5",
    "source": "경향신문",
@@ -49,8 +43,14 @@ window.CONSTITUENT_NEWS = {
   },
   {
    "title": "SK하이닉스(000660) - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNSTRqb2F4RlVtb01zOEV2RzQwdW5ZRDRNcGpNZjlTc0NHcHduRzFkRklPLTA5TzNUV21YM0ZibWxsZ1p6Mm5Bektob0FYZENGTTFDSEhaMmRrWEhDWkxGMU1QTktReXJNVmFqMnlJNkVHVEd2Q2x5TXVsYl95eHl2ME50ZkRlV1dJcHYwcWdrUVhoeUYwekVV?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOS0xfMExmUzlmcGJiRlFFWTFxaUtNbmU0RnRpamhtRS1zLUY5anU4Ung1LTQwTTVFbTBEa2JSRnp5bTE1QUxoNnVBNk8tWWoxellCSE9DVE9QOE5aZVdTbV8wbnZXTktIZE95STRiTTV4azBqTEhPNEpERkdpQzk2MGdUaF9neHpyTWhzRWNOUTNwaUN0N0tB?oc=5",
    "source": "매일경제 마켓",
+   "date": "2026-07-19"
+  },
+  {
+   "title": "\"SK하이닉스 -30%부터 안 본다\"…'1억 손실' 미자, 투자 근황 - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE40NFVEN29vaXRYYlMwZkNTQzhVTHE1V21RMDhndjN6LWZWYjNXX3N4cWV6UkZuOWZLSXpqYjNnSjEzRWNwOThRdkhhX25HRVMzOHV3M2RSUnExQQ?oc=5",
+   "source": "한국경제",
    "date": "2026-07-19"
   }
  ],
@@ -308,10 +308,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-05-29"
   },
   {
-   "title": "\"해외 직원도 주식 준다\"…LS일렉트릭, 전 직원 보상 전격 확대 - 머니투데이 - 머니투데이",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9HS3dvOE4zdWlmTG01WTJBX2FLLUdrNWVwNURTbE9EUWItUXFHMUMwaG1mMUdQQXVhUlVEX21NS2FHaVhlV0R5Zkk1UkRtSkROSHRNc2xmeU82TndTU1VXcFZUQWl3S3hwTkZvZ9IBckFVX3lxTFBjYXk3OXFnZC0tc2ZVcHdwY01UR2FyalZqb1BwQlJCX2RwcFNkX2VJSkR4dlJhd0FjeG9reG5INmxxTTV5cTNNUHBjUFFmd2tVZDVGSDFRMi1BMG5zRTZ4QU03Vm1BUVFQTmNLbzJkN2I0Zw?oc=5",
-   "source": "머니투데이",
-   "date": "2026-07-16"
+   "title": "한투증권, LS ELECTRIC 목표가 15.8%↑…\"수주 실적 예상 상회\" - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1nUlhaYTY4aTJIb3Uxd3dBNm9USUN2dW54RWdiUzRyRmlSMlJsc2QxSDR2bkI1MHZOdGNpTUxBaWFPdFdmSkJPNGlQUldlQVpucmlicGFMOUgwb1nSAWBBVV95cUxOc0dWTWVTMExKU3lPTG9nRnVVaTVNZFJFM0FrX1V2VXo1SFJaRHRocHM3RUxZQkZjTXNFMmllUkppSzFvZFdad3JmVm9zaWdZeWZXS3NRN1QzbWZ2Y3VYUDA?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-07-03"
   }
  ],
  "효성중공업": [
@@ -718,10 +718,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-05-11"
   },
   {
-   "title": "LIG넥스원, 천궁-II 수요증가 전망에 주가 '급등' - thecommoditiesnews.com",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB5SXhfM3FwUnZPVDFraHBnSTFfUks1WEVCUjF6SS1fTHB0c0Fwd1FfZXdFWEF2YkhKZW16RVUtT1FaOU9LWkNOU0I3eGtDS1l5Q3FvOGdjM1RnbzNuWkVhY1EyZzVPVE45bkJqUXVrd19GZEZPRzNF?oc=5",
+   "title": "유도무기 명가 LIG D&A, 라인메탈과 맞손...주가 18% 폭등 - thecommoditiesnews.com",
+   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1jUG1OaGJHanNmZEVfWVdQdXh0OEpEeHpoYmlHWHhNSmZwUTdmWVllLXhUVkZlOHMzTjhhRFd3dDExc1RUMElLTXRfWDhqTnJKd09lN2V3d1UzQ3VZUUlBWkRRSEhRRnY0T09Vb2dLc1FqRzAtc2dn?oc=5",
    "source": "thecommoditiesnews.com",
-   "date": "2026-03-06"
+   "date": "2026-06-16"
   },
   {
    "title": "“천당과 지옥 오갔어요”…주가 요동친 LIG넥스원 [오늘, 이 종목] - 매일경제TV",
@@ -1604,8 +1604,8 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-16"
   },
   {
-   "title": "ABB, 로토크 인수 소식에 주가 하락... 실적 개선 무색 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1ZOVJKUlNJODFOVHZBdndMLW5XNElGeVBLZkZfWXN4OWtLbFJ3emtuSzRfd1FoUmlYVVZzWGVhc01NdWJKWTJ2S0REdkwyY2lfRFdTeWp0QzdwWGZsQ2NhR0dqY3M?oc=5",
+   "title": "로토크 주가 67% 급등, ABB 55억 달러 인수 합의 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1BaEhtQjA0YlJXaFdDbE1LWHk3QkRsbnBsVWVjcURlemN4MnN6cDZEclA1MEZ4MU9yd2RjdlI2YmRfQXlrUEtlMEFBSEVGSkRSSWNoLXU3ak8wcG5zUjgwSEZVQVpXcnBNVlQ5WTROWWo?oc=5",
    "source": "Investing.com 한국어",
    "date": "2026-07-16"
   },
@@ -1842,12 +1842,6 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1tcGs2MmdBYTRuU3FyWXlyRGhXZ3hyVFQ1VmVRNllnZWdmXzFlQVk3Z29oWXkyVHBYVHdUTTVKZHQ0ZmlHZTVwcmVPX1NSYlZXejNHTTZIdjlOcTh4VVRrZFZtUE5CaUZRenc?oc=5",
    "source": "Investing.com 한국어",
    "date": "2026-03-16"
-  },
-  {
-   "title": "뮌헨리 요율상승·클레임 감소‘효과’ - 보험신보",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE85bU5xTU55UTI2VXB1aEgyTFd6bWRTNlBZcEU5dTNwOHM0dEV3Mks5OXo4UWZ5M0JXX1Zhc1JuWUxuV2N4SjBzZWR6RXBmSmZMajVHTU45ZHlkVzd1OFc2MUg0R0t0TWtiNndV?oc=5",
-   "source": "보험신보",
-   "date": "2006-05-22"
   }
  ],
  "Intesa Sanpaolo": [
@@ -1990,6 +1984,12 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-06"
   },
   {
+   "title": "하이브리드 주도권과 신기술 투자로 질주하는 Toyota Motor : 해외증시 - 재경일보",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9URHY1LWt4cGVkT3p2TmxndlBnY3poV3lzTXdJa25OVzFRYUR2dkhsV2h4QlgxRzVrYi1nYXBEUlFhR2FDSGczS0lR?oc=5",
+   "source": "재경일보",
+   "date": "2026-07-17"
+  },
+  {
    "title": "토요타 주가, 36억 달러 텍사스 공장 확장 발표에 하락 - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5lV3BZTmNoSnlSTlNYLWVFU2Rfakh5NHkyRXFBRkdIRVVaMXctSmRsc0dic3Z4d1Q2NDlLOXFjYkVBSUpmUkRvY1lVZU9JTUNSdWNqMWM5d192Y3BSYy0wSWVJRE52d3pNcmhxenQ5S3VEdXVXT1dB?oc=5",
    "source": "Investing.com 한국어",
@@ -2000,12 +2000,6 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOVHd1dDhfaWlkVHhwaGpERVFSaml5SGloeEZuX2Q0NnpTLUJfT1BneFhMeEVNYmNFaG1qMGNMYzRHRVNFZEFfMlFsVmltaHZEdGVXc0VjaWZjVnAtR2ZxaXRGb2h6OFZ6SHYxcnlqTnZpTTdnMVJ3OTl2c1NrOTZuVFFmM08zcFR1MFJnRQ?oc=5",
    "source": "TradingKey",
    "date": "2026-06-17"
-  },
-  {
-   "title": "Joby Aviation 주가가 오늘 급등하는 이유는? - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE12TlhTY0dLNGt3T3hadTY1RzVPTEtPVXg3bkpTbEp5SzZDVlR1ZlprMEZlQzJOaDFEZXlyNmhOU2s5S0tET3VhU00xVFY2SXZCZUp6ZF9fTlo4YUp1VEFMQmZiY1hzT3ZZOTBRazI2TTFOeHV5eHVB?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-06-30"
   }
  ],
  "HSBC Holdings PLC ADR": [
