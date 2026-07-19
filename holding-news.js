@@ -1,7 +1,13 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-19T07:23:27
+// 갱신: 2026-07-19T08:58:21
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
+  {
+   "title": "7000 깨진 코스피…美 알파벳 실적에 쏠리는 눈[주간증시전망] - 이데일리TV",
+   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE50ZjdzcS1SREtEY2x4Y2I1UVlaeEFwdVJ5T2RrTDg3NEJUMGMyX3BieXpGNE5qX29uQTZxSUx6MHR2anBURW9uRmxUV3ZKSEhZcm5Va3Itcl9waHlkVHhkU2MyV1YxRTlEWE1odFVvcEE4RDE5RTJnZ1VjTQ?oc=5",
+   "source": "이데일리TV",
+   "date": "2026-07-19"
+  },
   {
    "title": "[주간증시전망] 알파벳 실적에 쏠린 눈…반도체주 반등 이끌까 - 매일경제 마켓",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9QenFQV01aejBZUDNjX0dRQk0tbllhaFRyWUphbWRLMEF3TkhnZG5GS0V5SXpWWTZtTVgxVHpRa0JGNEdvZXNyUmtWRmlSOXVpeXdwT1VTY0dnYXFMbTdYSw?oc=5",
@@ -15,16 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-18"
   },
   {
-   "title": "7000 깨진 코스피…美 알파벳 실적에 쏠리는 눈[주간증시전망] - edaily.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOa2gxNUZLRU9idmhTbE5ER0FlOGwzU0RuZzUzWnotbnVVakR2OEhWVml2RjI1SndkeVNfRU5xLW1FbkNGUkxuaEVCb2JBcGZWZS1LWThLbmlOSlhtSFV4WVZ5VTlJNDc0OVlkZzl0QVIwcnhXZHR2UnJKZ2JZZ3lMOA?oc=5",
-   "source": "edaily.co.kr",
-   "date": "2026-07-19"
-  },
-  {
-   "title": "코스피 '금융위기'급 저평가…\"분할 매수 유효\"[주간증시전망] - 뉴시스",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE82aUEwMFNJMk1ZUzZBZGhWSWg3ZlFyYjNlSC1uUmt0cTRwbWpVLV9zbUdUeDJFM0kyUE0zUU9JTm9waGt2ZzB2S1dhOWtfNjJkT29MNG9UR0pfRHNrWlRvR9IBeEFVX3lxTE84dzZzYjhudGdRbUw0LWZyRGJDZnUxQzN6bmxOWFQ3al92OUE5M1RaOWJtTVBXamF0MjRicFZwQU9jNThIQ1NpSkUzbS1IVTFkbUF5STUySXA4a0w2LUZVYS1yQkkxWVNTV0FVQ1REdktvQ0k1QjdweQ?oc=5",
-   "source": "뉴시스",
-   "date": "2026-07-19"
+   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-07-07"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -171,16 +171,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "반도체 주식 미래는? 79% 상승 가능한 주식, 로봇 주식 - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPbWpHeWl5cEhtZ0NpMUlwekQ1bTE5NmowWjMyNUFjUk02LTNfU1d2NXZTQVdqOFhHeTZfanJzNlktZlU0RDlhRTk1STcyWWlqdlA1UDZBckw4LXF0a1Z0a0RzSHFZWmUyclZQQk9CLWJQNVVyaUJwNjBtZWsweXRqQVNhWE1oUmdxTzFJ?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
-   "date": "2026-07-12"
-  },
-  {
    "title": "중국 하드테크 주가 '해외 자금' 유입에 올라, 반도체 배터리 로봇으로 투자 중심축 이동 - 비즈니스포스트",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBHRUNmVjE2bDRMWVlJbmpzUklvWXdncFNVV1ZfamNjems3cVdfRkRqcE9CNkdoZnBkZUpNTzB3ZmREUW9wb3V1LXAyVkRfSno1UzdxbHlFS1BwX1BaWnFlTkNvYmU1bmNuTG14ZEpreU5uZ1U?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-07-14"
+  },
+  {
+   "title": "반도체 주식 미래는? 79% 상승 가능한 주식, 로봇 주식 - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPbWpHeWl5cEhtZ0NpMUlwekQ1bTE5NmowWjMyNUFjUk02LTNfU1d2NXZTQVdqOFhHeTZfanJzNlktZlU0RDlhRTk1STcyWWlqdlA1UDZBckw4LXF0a1Z0a0RzSHFZWmUyclZQQk9CLWJQNVVyaUJwNjBtZWsweXRqQVNhWE1oUmdxTzFJ?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2026-07-12"
   }
  ],
  "삼성 ESG 착한 책임투자": [
@@ -367,6 +367,12 @@ window.HOLDING_NEWS = {
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
   {
+   "title": "S&P 500 지수 전망: 메타, 마이크로소프트, 알파벳 및 기타 기업들의 AI 투자 지속 확대, 2026년 하반기 지수 8,000 돌파 지지 가능성 - Trad",
+   "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQWU5wZk1yTVJMa1NsaVJ0Qm1iLUU0ZWtraHRsQWxtUnpqWmdkekdlcWFsQ1BVN1pVTmtnNjVTckFfM0xqU2J0MHZMOXhZTm5YZ2Q1bm5wbDdrQl9jdHlVUC1rbTNsZGluU2JZLWVVSHJoMWxxM3RsRF94OUlCcFB6V2xFZUVIQ21FbmpsRUFsVHAyVlAtX3NvSDRNNWVxNzUwaWVGS3hvamlhT2lRQWlMVWhpY0U1MEE0U0xwTk5kRGl2WjY4NDUtVFJhWWhhaklWYWJ5cXFHQVRmckd0NU05eUFWV0dvYVlEUEFEQg?oc=5",
+   "source": "TradingKey",
+   "date": "2026-07-17"
+  },
+  {
    "title": "골드만 \"S&P500 연평균 7% 성장 전망\" - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9ZQ21hejhtUTJYQUJXeFR1MFYtNnpTQkN0MFFRNGk5WmczcVpJaTZFRU1EdkFvQnZnbTNISnJCTFBCeWtKTjFGRy1XM1hKZlFRbTIwbTFNWjdxQUQzODc5STNyX0dVV285eFI3MDk3MHE?oc=5",
    "source": "연합인포맥스",
@@ -383,12 +389,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5udzRpVVdzMnhBOVVzVlR2SE1IdmxGRTY2cV9Kb0RITFQtNng2UFN1WnZkeF9reHlESnBveWVYLWRWdm9FMmhOdVhHeTNtNENSZGRyXzFJakpXVWplZ25iY3diNzBwUnhlTzlLRTJrUdIBc0FVX3lxTFBSbFM4eTYwZ0dyeXBVbkFleTRTR0pyUE5FY1FYcWpmZVludWQ4Mml0bXNFQlJVX3g4b3dhem0wX1pWbXVTWndsX2J3dzZOQ1hScUNUWm85eDNFU3JoWUNrVl9YckcxVFZtVnNick1IWUF0bnc?oc=5",
    "source": "시사저널",
    "date": "2026-07-13"
-  },
-  {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
-   "source": "YTN",
-   "date": "2026-06-07"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
@@ -419,6 +419,12 @@ window.HOLDING_NEWS = {
  ],
  "KODEX S&P500(H)": [
   {
+   "title": "S&P 500 지수 전망: 메타, 마이크로소프트, 알파벳 및 기타 기업들의 AI 투자 지속 확대, 2026년 하반기 지수 8,000 돌파 지지 가능성 - Trad",
+   "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQWU5wZk1yTVJMa1NsaVJ0Qm1iLUU0ZWtraHRsQWxtUnpqWmdkekdlcWFsQ1BVN1pVTmtnNjVTckFfM0xqU2J0MHZMOXhZTm5YZ2Q1bm5wbDdrQl9jdHlVUC1rbTNsZGluU2JZLWVVSHJoMWxxM3RsRF94OUlCcFB6V2xFZUVIQ21FbmpsRUFsVHAyVlAtX3NvSDRNNWVxNzUwaWVGS3hvamlhT2lRQWlMVWhpY0U1MEE0U0xwTk5kRGl2WjY4NDUtVFJhWWhhaklWYWJ5cXFHQVRmckd0NU05eUFWV0dvYVlEUEFEQg?oc=5",
+   "source": "TradingKey",
+   "date": "2026-07-17"
+  },
+  {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
@@ -429,12 +435,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
    "source": "YTN",
    "date": "2026-06-07"
-  },
-  {
-   "title": "\"美 주식 시장 '잃어버린 10년' 온다\"…월가서 비관 전망 확산 - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE53TEFmRmwwWmUxZUJlZlBka0N4b0dXclJzSVhlcUdhb1dENzFXTUlldzdIYThtMEJJZ21zZkRXWUlzTDY2YzQ3SFdPSjBnOFpmUVN1bGhDV2ZzTHV5WkxUWVRxYkhZdkVEU0c3bG93eVg?oc=5",
-   "source": "연합인포맥스",
-   "date": "2025-12-12"
   },
   {
    "title": "미·이란 재협상 기대에 기술주 강세…S&P500·나스닥 또 최고치(종합) - 연합뉴스",
@@ -529,22 +529,22 @@ window.HOLDING_NEWS = {
    "date": "2026-05-27"
   },
   {
-   "title": "배당 ETF 수익률 55% 돌파…S&P500 세 배 초과 달성 - 글로벌이코노믹",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNll5N1BHRTJLMWNJN1g5dkxEVG9IVFQ1dUE4M0d3S0dJa0Jac3hPYzNSREtaWjdXMnJVS2F3Tk5COXo2SUxxXzJ0TTVid2hHSVcwWHdJR25wV2NqaGhWVFJsZ0V3aXVzWE55VjMyTWJVYmxtSXdGSHdFaTlsZ1pfdDdaSlBFNklt?oc=5",
-   "source": "글로벌이코노믹",
-   "date": "2025-12-12"
-  },
-  {
    "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
    "source": "조세일보",
    "date": "2026-01-23"
   },
   {
-   "title": "높은 수익률에 배당까지…\"强달러 리스크, 유럽 ETF로 피하라\" - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBvYm83TmZGTEhxSzZXRjBVY05pOV9Rd2xSdVhIZmQzMkktVFd3UDMzcWdGNHdnMEJWcFFOd2V3WnpCN09QYWFUY1luZ0xJWVFRRkVabm9tREpCUdIBVEFVX3lxTE55eVVBX05vUzVxRWxGV0JUNlRBdEVlNVQtMkZGajRFdGZmVF9ZSGQyN0hEa2hRMml1OVY0VDVMTHhhRnNVVG9EbUV2WjZ1Q2I3dDFLUA?oc=5",
-   "source": "한국경제",
-   "date": "2023-03-12"
+   "title": "[마켓 인사이트] 코스피, 3.9% 급락 뒤 5100선 숨 고르기…“성장주 피로, 가치·배당주 순환매 주목” - 한국면세뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9aRWdMaHI5WVNrVmhsaGR0Q01kTG5EUUc3bGZnMkZ1U2lTRVJyUkZKdXpnS180LVJ3SUc1TUR6WW9xN2FIWGtaaWsweHV2NWdtck5HeDFnZ0VMT3ZCRzdCS2dObnRIUFF6dEE?oc=5",
+   "source": "한국면세뉴스",
+   "date": "2026-02-06"
+  },
+  {
+   "title": "배당 ETF 수익률 55% 돌파…S&P500 세 배 초과 달성 - 글로벌이코노믹",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNll5N1BHRTJLMWNJN1g5dkxEVG9IVFQ1dUE4M0d3S0dJa0Jac3hPYzNSREtaWjdXMnJVS2F3Tk5COXo2SUxxXzJ0TTVid2hHSVcwWHdJR25wV2NqaGhWVFJsZ0V3aXVzWE55VjMyTWJVYmxtSXdGSHdFaTlsZ1pfdDdaSlBFNklt?oc=5",
+   "source": "글로벌이코노믹",
+   "date": "2025-12-12"
   }
  ]
 };
