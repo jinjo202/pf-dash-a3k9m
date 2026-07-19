@@ -1,13 +1,7 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-19T09:06:40
+// 갱신: 2026-07-19T09:19:38
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
-  {
-   "title": "7000 깨진 코스피…美 알파벳 실적에 쏠리는 눈[주간증시전망] - 이데일리TV",
-   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE50ZjdzcS1SREtEY2x4Y2I1UVlaeEFwdVJ5T2RrTDg3NEJUMGMyX3BieXpGNE5qX29uQTZxSUx6MHR2anBURW9uRmxUV3ZKSEhZcm5Va3Itcl9waHlkVHhkU2MyV1YxRTlEWE1odFVvcEE4RDE5RTJnZ1VjTQ?oc=5",
-   "source": "이데일리TV",
-   "date": "2026-07-19"
-  },
   {
    "title": "[주간증시전망] 알파벳 실적에 쏠린 눈…반도체주 반등 이끌까 - 매일경제 마켓",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9QenFQV01aejBZUDNjX0dRQk0tbllhaFRyWUphbWRLMEF3TkhnZG5GS0V5SXpWWTZtTVgxVHpRa0JGNEdvZXNyUmtWRmlSOXVpeXdwT1VTY0dnYXFMbTdYSw?oc=5",
@@ -19,6 +13,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9LOV8xc2d3WW1VYkJBLU9qMFQ2Q3BKQ3pCZ0l0Nkx0X0FiU3NIdlExUGhQMk9QUG1jSjFxdjV3SVJGTkdCZHlSR3pScFo4dG41MzhkZlU4X0dFZno1V1d2UTFjMGJzQXp6NXB3YnhKNkjSAXRBVV95cUxNN25OWDkybm9EMXZSb1hieXVKektWQ3h6S1p1UUFqcDFTM2s1WmNFM21DdXQ4cDRvaWNlYWVEc3VvS0U0SGNGUk1DY1dJNTVfby1ZUEFQRmpIT1UxanNPblNEQTROdDVKSjh5YXZJVmE3cFE0dA?oc=5",
    "source": "IT조선",
    "date": "2026-07-18"
+  },
+  {
+   "title": "7000 깨진 코스피…美 알파벳 실적에 쏠리는 눈[주간증시전망] - edaily.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOa2gxNUZLRU9idmhTbE5ER0FlOGwzU0RuZzUzWnotbnVVakR2OEhWVml2RjI1SndkeVNfRU5xLW1FbkNGUkxuaEVCb2JBcGZWZS1LWThLbmlOSlhtSFV4WVZ5VTlJNDc0OVlkZzl0QVIwcnhXZHR2UnJKZ2JZZ3lMOA?oc=5",
+   "source": "edaily.co.kr",
+   "date": "2026-07-19"
   },
   {
    "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
@@ -293,6 +293,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE93elBwajZtZlRUbGxCY0VpcjIyM3BfQ3F2bC1PRWJEellkZTEwWWh6TE1wMmpFTEtzU3FHaUNWY0JtaVFOT1FtMTNsQ19Vc3Q4M0ppVF9B?oc=5",
    "source": "중앙일보",
    "date": "2025-02-16"
+  },
+  {
+   "title": "알파벳 주식 | GOOGL - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5DVFloQ0pYbW84T2xwMkxjT1k3VFpmLXlxbE5wdnEzWlY1TDlaSWVqUlBPb25ZaHRvRVkzTXQzMmgwR256OHI1WjZqNXE5a3BYU3JQcTRaWQ?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2017-01-08"
   },
   {
    "title": "[스타트업41] 로블록스는 왜 메타버스로 주목받을까? - mobiinside.co.kr",
