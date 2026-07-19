@@ -235,7 +235,7 @@ function render(){
     <div><div style="font-size:13px;color:var(--muted)">${nm} · ${d.ticker}</div>
       <div class="px">${fmt$(d.last_close)}</div>
       <div style="margin-top:8px"><span class="badge ${gate}">리스크 게이트 ${gate}</span>
-      ${cov?`<span class="badge hold" style="margin-left:6px">커버리지: 중립(HOLD) $208</span>`:``}</div></div>
+      <span id="covBadge"></span></div></div>
     <div style="font-size:13px;color:var(--text-soft);max-width:520px">
       전략 <b>${d.strategy}</b> · 데이터 ${d.rows}봉(기준일 ${d.as_of}).
       ${gate==="APPROVE"?"리스크 게이트 통과 → 페이퍼 트레이딩 실행됨.":"리스크 게이트 <b>차단</b> — 거래 표본/수익성 기준 미달로 페이퍼 미실행(나쁜 전략을 걸러낸 정상 동작)."}
@@ -247,7 +247,7 @@ function render(){
     ["리스크 게이트 "+(gate==="APPROVE"?"✓":"✕"), gate==="APPROVE"?1:2],
     ["페이퍼 트레이드", gate==="APPROVE"?1:0],["성과 리뷰", gate==="APPROVE"?1:0],["인간 승인",3]];
   h += `<div class="card"><h2>정량 파이프라인</h2>
-    <div class="cap">데이터 → 검증 → 백테스트 → 리스크 게이트 → 페이퍼 트레이딩. ${cov?"리서치·토론·밸류에이션 등 에이전트 단계는 아래 커버리지 참조.":"에이전트 리서치·토론·밸류에이션(정식 커버리지)은 현재 NVDA에서 제공됩니다."}</div>
+    <div class="cap">데이터 → 검증 → 백테스트 → 리스크 게이트 → 페이퍼 트레이딩. ${cov?"리서치·토론·밸류에이션 등 에이전트 단계는 아래 커버리지 참조.":"에이전트 리서치·밸류에이션(정식 커버리지)은 현재 NVDA·GOOGL에서 제공됩니다."}</div>
     <div class="pipe">${P.map(([l,s])=>`<span class="step ${s===1?'done':s===2?'stop':s===3?'wait':'pending'}"><span class="dot"></span>${l}</span>`).join("")}</div></div>`;
 
   // backtest tiles + equity
@@ -276,23 +276,12 @@ function render(){
       </div></div>`;
   }
 
-  // coverage (NVDA only)
-  if(cov){
-    h += `<div class="card"><h2>정식 커버리지 — 리포트·모델·목표가</h2>
-      <div class="cap">equity-research 5단계 산출 · 목표주가 $208 중립(HOLD) · DCF $157 vs Comps $271</div>
-      <div class="tiles">
-        <a class="tile dl" href="aihedgefund/NVIDIA_Coverage_Report_KR_2026-07-17.docx" download><div class="k">📄 최종 리포트 (한글)</div><div class="v" style="font-size:15px">DOCX</div><div class="s">28차트·16표</div></a>
-        <a class="tile dl" href="aihedgefund/NVIDIA_Financial_Model_2026-07-17.xlsx" download><div class="k">📊 재무 모델</div><div class="v" style="font-size:15px">XLSX</div><div class="s">10탭·DCF·Comps</div></a>
-        <a class="tile dl" href="aihedgefund/NVIDIA_Research_KR_2026-07-17.md" target="_blank"><div class="k">🔎 리서치 (한글)</div><div class="v" style="font-size:15px">MD</div><div class="s">사업·경쟁·리스크</div></a>
-        <a class="tile dl" href="aihedgefund/NVIDIA_Valuation_KR_2026-07-17.md" target="_blank"><div class="k">🧮 밸류에이션 (한글)</div><div class="v" style="font-size:15px">MD</div><div class="s">목표가 산출</div></a>
-        <a class="tile dl" href="aihedgefund/NVIDIA_Charts_2026-07-17.zip" download><div class="k">📈 차트 팩</div><div class="v" style="font-size:15px">ZIP·28종</div><div class="s">300 DPI</div></a>
-      </div></div>`;
-  } else {
-    h += `<div class="card rbody"><b>${nm}</b> 정식 커버리지(리서치·토론·밸류에이션·목표주가·리포트)는 아직 없습니다. 위 정량 파이프라인(백테스트·리스크·페이퍼)만 자동 실행된 결과입니다. 전체 위원회를 돌리려면 로컬에서 <code>/ai-hedgefund ${d.ticker}</code> 를 실행하세요.</div>`;
-  }
+  // 커버리지 카드 자리 — 매니페스트를 비동기로 채운다
+  h += `<div id="covSlot"></div>`;
 
   $("content").innerHTML = h;
   if(d.paper && d.equity_curve) drawEq(d.equity_curve, d.paper.initial_capital);
+  loadCoverage(d.ticker, nm, cov);
   loadProfile(d.ticker, nm);
   loadFinancials(d.ticker, nm);
 }
@@ -364,6 +353,33 @@ async function loadFinancials(tk, nm){
       <div class="ovsec"><div class="t">분기별 YoY 비교 (올해 1·2·3분기 vs 작년 동기)</div><div class="qyoy-grid">${qHtml}</div></div>
       <div class="note">회색 "추정" 열/분기는 아직 발표되지 않아 애널리스트 컨센서스(매출·EPS)로 채운 값이며, 영업이익·마진은 최근 4개 분기 평균 마진을 적용한 모델 추정치입니다. 금융업종 등 일부 업종은 매출총이익·영업이익 항목이 보고되지 않아 "—"로 표시됩니다.</div>
     </div>`;
+}
+
+// ---- 정식 커버리지: 목표주가 배지 + 산출물 다운로드 (종목별 매니페스트 기반) ----
+async function loadCoverage(tk, nm, hasCov){
+  const slot = $("covSlot"), badge = $("covBadge");
+  if(!hasCov){
+    if(slot) slot.innerHTML = `<div class="card rbody"><b>${nm}</b> 정식 커버리지(리서치·밸류에이션·목표주가·리포트)는 아직 없습니다. 위 정량 파이프라인(백테스트·리스크·페이퍼)만 자동 실행된 결과입니다. 전체 위원회를 돌리려면 로컬에서 <code>/ai-hedgefund ${tk}</code> 를 실행하세요.</div>`;
+    return;
+  }
+  let c;
+  try { c = await jget(`aihedgefund/coverage/${tk}.json`); }
+  catch(e){ if(slot) slot.innerHTML = ""; return; }
+  const t = c.target || {};
+  const cls = (t.recommendation||"").includes("매수") ? "APPROVE" : (t.recommendation||"").includes("매도") ? "BLOCK" : "hold";
+  if(badge) badge.innerHTML = `<span class="badge ${cls}" style="margin-left:6px">커버리지: ${t.recommendation||""} $${Math.round(t.price_target||0)}</span>`;
+  const tiles = (c.files||[]).map(f=>{
+    const isDoc = /\.(docx|xlsx|zip)$/i.test(f.f);
+    return `<a class="tile dl" href="aihedgefund/${f.f}" ${isDoc?'download':'target="_blank"'}>
+      <div class="k">${f.k}</div><div class="v" style="font-size:15px">${f.v}</div><div class="s">${f.s}</div></a>`;
+  }).join("");
+  const up = t.upside_pct;
+  const street = t.street_consensus_pt ? ` · 셀사이드 컨센서스 $${t.street_consensus_pt}` : "";
+  const warn = t.caveat ? `<div class="note" style="color:var(--neg)">※ ${t.caveat}</div>` : "";
+  slot.innerHTML = `<div class="card"><h2>정식 커버리지 — 리포트·모델·목표가</h2>
+    <div class="cap">equity-research 5단계 산출 · 목표주가 $${Math.round(t.price_target||0)} ${t.recommendation||""}
+      (${up>=0?'+':''}${up}%) · ${t.method||""}${street}</div>
+    <div class="tiles">${tiles}</div>${warn}</div>`;
 }
 
 async function loadProfile(tk, nm){

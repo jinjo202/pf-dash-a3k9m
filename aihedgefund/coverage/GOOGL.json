@@ -1,0 +1,59 @@
+{
+ "ticker": "GOOGL",
+ "name": "Alphabet",
+ "target": {
+  "ticker": "GOOGL",
+  "price_target": 225.33,
+  "recommendation": "매도(SELL)",
+  "upside_pct": -36.4,
+  "method": "DCF 55% ($193) + Comps 45% ($265)",
+  "as_of": "2026-07-18",
+  "current_price": 354.46,
+  "components": {
+   "dcf": {
+    "low": 146.57,
+    "base": 192.76,
+    "high": 244.94
+   },
+   "comps": {
+    "low": 177.2,
+    "base": 265.13,
+    "high": 338.62
+   }
+  },
+  "street_consensus_pt": 410,
+  "caveat": "교육용 모델 산출값. 셀사이드 컨센서스(약 $410)와 크게 상이하며 WACC·영구성장률·CapEx 가정에 매우 민감."
+ },
+ "files": [
+  {
+   "f": "Alphabet_Coverage_Report_KR_2026-07-18.docx",
+   "k": "📄 최종 리포트 (한글)",
+   "v": "DOCX",
+   "s": "12차트·14표"
+  },
+  {
+   "f": "Alphabet_Financial_Model_2026-07-18.xlsx",
+   "k": "📊 재무 모델",
+   "v": "XLSX",
+   "s": "10탭·DCF·Comps"
+  },
+  {
+   "f": "Alphabet_Research_KR_2026-07-18.md",
+   "k": "🔎 리서치 (한글)",
+   "v": "MD",
+   "s": "사업·경쟁·리스크"
+  },
+  {
+   "f": "Alphabet_Valuation_KR_2026-07-18.md",
+   "k": "🧮 밸류에이션 (한글)",
+   "v": "MD",
+   "s": "목표가 산출"
+  },
+  {
+   "f": "Alphabet_Charts_2026-07-18.zip",
+   "k": "📈 차트 팩",
+   "v": "ZIP·12종",
+   "s": "300 DPI"
+  }
+ ]
+}
