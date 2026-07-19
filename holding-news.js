@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-19T09:19:38
+// 갱신: 2026-07-19T09:28:32
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -87,12 +87,6 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "제약·바이오株 급등…국민성장펀드 날개 달고 다시 비상하나 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE4wR3kydWllclBINTRQTzFfOUJZR3gxM0lHMzhfZ3JRWEItMkQ2b0tIMFlJdURmQzA1clBCYU4tbmxEdXkyOFdsbUwzY3lXM0JhakJxWl8tcExPX1nSAWBBVV95cUxOcTgzR2RkMDI3WmJOeDZxR2puU2V3TGNaX0tGdmFkVTR4YjVDQnYtcWNxWEFyZmF4SW1lazZkYkZtU3AyOG9aeElpV1dLU1ZFYjhYX1phYTQ1TC1iekdfbDk?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-06-29"
-  },
-  {
    "title": "코스닥 제약바이오 4개월 새 반토막…금리·수급·대형주 겹악재 - 메디코파마",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5BT3lGT19lbHRRUHgwZ0xpX3k5dUN4MWlaNzFSQjNCYTNuXzR4alZjX0tWVk5qbkdOLW01NmpUNE9vRWFHV21Fa2Z5ZmhpUkdwQzJEWi1rSWRwQlBlT2hUVVMtekNBWDhsQWZGUmFMQkhmUQ?oc=5",
    "source": "메디코파마",
@@ -103,6 +97,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ORVVmUkhRZHZ2QzFSMERwczdqQUV6SGNYdl9nclBiQ0pEZ1hLVi1GdER1QmdfZlI4cG5taDJDVlRvd09wQnJHcklkd0N0d3J4YWltQ1ptLVBfUlMyRHJocDY2MWNFdWFKSHZuSzhYQQ?oc=5",
    "source": "비즈워치",
    "date": "2026-07-12"
+  },
+  {
+   "title": "제약·바이오株 급등…국민성장펀드 날개 달고 다시 비상하나 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE4wR3kydWllclBINTRQTzFfOUJZR3gxM0lHMzhfZ3JRWEItMkQ2b0tIMFlJdURmQzA1clBCYU4tbmxEdXkyOFdsbUwzY3lXM0JhakJxWl8tcExPX1nSAWBBVV95cUxOcTgzR2RkMDI3WmJOeDZxR2puU2V3TGNaX0tGdmFkVTR4YjVDQnYtcWNxWEFyZmF4SW1lazZkYkZtU3AyOG9aeElpV1dLU1ZFYjhYX1phYTQ1TC1iekdfbDk?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-06-29"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -191,22 +191,22 @@ window.HOLDING_NEWS = {
    "date": "2026-03-26"
   },
   {
+   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
+   "source": "ESG경제",
+   "date": "2026-03-23"
+  },
+  {
    "title": "[2026 ESG Awards] ‘국내 최초 SRI 펀드’ 신한자산운용, “ESG 투자 저변 확대” - 한스경제",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE03QjZES2NCZjFoUDlyNnpFNVBkNlp6cWhyQllrX21aSGxGOF85MmRpUmhRUkFOejJIdUpPbjlKaURjMEE4YUVha2VUQVk0ZG5Qa054X2xmNEtFMWZxeWRLanlOTXNibFQ2MTlJ0gFvQVVfeXFMTXNoQ0RBcVhpWE5ISUdSYzB4aXg4RmFvYWZBT1pTUGJFSEV5QlRGQ1lkWjloZFJKZklaWmNEZmF2VGRNcnR4QWVWa3hoTmZkV3BBak9uQURlWWJvYzJUOElpUUhPUDh1Sy1pMTl3RWw0?oc=5",
    "source": "한스경제",
    "date": "2026-06-22"
   },
   {
-   "title": "SFDR 2.0 전환펀드 기준 논쟁…PRI \"석탄 매출 1% 기준 없애야\" - 임팩트온",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE16a3BjcGRwLURYVmdXdkhiQUVRUnBhTTZLR1JVRkcwZDZ3eTJacldVUGtfc2wwM1VzWXJDeDlTUzNQaldmTnVzNTktaGhHVWQ0dlFsV0lOWW55Q2RiUC1WcHdhR2tZNUZU?oc=5",
+   "title": "\"1600조 굴리면서 기후엔 침묵\"...국민연금 기후책임투자, 논쟁 뜨거워 - 임팩트온",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5ZVWJsRy1heHRPR0llMnV3MHJKX0FaZzM2Q0pJX0ptQk1rcHVrNVBBYlJ5ZkpNZEdQdDkwOUNaTWs3VFVqamJxc0RsVkd1ODdaWEE5V3lDdV9MNWstZDQteVZVUENXZ1VR?oc=5",
    "source": "임팩트온",
-   "date": "2026-07-10"
-  },
-  {
-   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
-   "source": "ESG경제",
-   "date": "2026-03-23"
+   "date": "2026-05-28"
   }
  ],
  "마이다스 책임투자": [
@@ -425,6 +425,12 @@ window.HOLDING_NEWS = {
    "date": "2026-07-17"
   },
   {
+   "title": "골드만 \"S&P500 연평균 7% 성장 전망\" - KB Think",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5xYXFKVlQtdEVBd3FWV1JwWHprbjFHQ0xGeGNkZ1JKUzZGQWlmc29IZmMtN3hsU3kxWnNKV0hrRThtY3RFN3ZMRUdsZUFNc01TVDdIN0Y4WmZZUzl0bDBrUWFKUDRMQnRpWlFQbkdJTWFCUQ?oc=5",
+   "source": "KB Think",
+   "date": "2026-07-05"
+  },
+  {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
@@ -435,12 +441,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
    "source": "YTN",
    "date": "2026-06-07"
-  },
-  {
-   "title": "미·이란 재협상 기대에 기술주 강세…S&P500·나스닥 또 최고치(종합) - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBhZ1M4ZmJVRWx6SVVPV0NXaTl2cW1NTUgtVndaTTlXcDUzOW5Tc2RSbXFxX2xudEY0WXl3cWVLZHZ6TG1XZ21BNEliaEJMMXltU1J3T2Q2M05MZlnSAWBBVV95cUxQX0Z6MHZVQlNXOW5GTURVaDhfZEpDVXRiQnlHbU94WF9mNEk1eF9qYzZ2NUhRM0NheTh4TmFTY3dPUFpkd195Szc4SDE3Z0Q2b1R2TnBESUxLX1djZXdkTDc?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-04-25"
   }
  ],
  "iShares MSCI Emerging (EEM)": [

@@ -481,7 +481,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-19T09:19:22Z",
+  "generated": "2026-07-19T09:28:14Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -24129,7 +24129,7 @@ window.MACRO = {
             },
             {
               "ticker": "MU",
-              "name": "Micron Technology, Inc.",
+              "name": "MU",
               "mktcap": 958798299136,
               "fwdpe": 5.6,
               "pbr": 13.22,
@@ -24144,7 +24144,7 @@ window.MACRO = {
             },
             {
               "ticker": "AMD",
-              "name": "Advanced Micro Devices, Inc.",
+              "name": "AMD",
               "mktcap": 808386560000,
               "fwdpe": 36.8,
               "pbr": 12.54,
@@ -24243,7 +24243,7 @@ window.MACRO = {
             },
             {
               "ticker": "CRM",
-              "name": "Salesforce, Inc.",
+              "name": "CRM",
               "mktcap": 139860639744,
               "fwdpe": 11.0,
               "pbr": 4.09,
@@ -24327,7 +24327,7 @@ window.MACRO = {
             },
             {
               "ticker": "DIS",
-              "name": "Walt Disney Company (The)",
+              "name": "DIS",
               "mktcap": 169605070848,
               "fwdpe": 13.1,
               "pbr": 1.57,
@@ -24366,7 +24366,7 @@ window.MACRO = {
           "holdings": [
             {
               "ticker": "JPM",
-              "name": "JP Morgan Chase & Co.",
+              "name": "JPM",
               "mktcap": 906712055808,
               "fwdpe": 13.9,
               "pbr": 2.56,
@@ -24381,8 +24381,8 @@ window.MACRO = {
             },
             {
               "ticker": "BAC",
-              "name": "Bank of America Corporation",
-              "mktcap": 429990871040,
+              "name": "BAC",
+              "mktcap": 434808127488,
               "fwdpe": 11.7,
               "pbr": 1.56,
               "rets": {
@@ -24411,7 +24411,7 @@ window.MACRO = {
             },
             {
               "ticker": "GS",
-              "name": "Goldman Sachs Group, Inc. (The)",
+              "name": "GS",
               "mktcap": 314247806976,
               "fwdpe": 14.8,
               "pbr": 2.91,
@@ -24427,7 +24427,7 @@ window.MACRO = {
             {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
-              "mktcap": 265025388544,
+              "mktcap": 267797184512,
               "fwdpe": 11.1,
               "pbr": 1.65,
               "rets": {
@@ -24465,7 +24465,7 @@ window.MACRO = {
           "holdings": [
             {
               "ticker": "LLY",
-              "name": "Eli Lilly and Company",
+              "name": "LLY",
               "mktcap": 1051461156864,
               "fwdpe": 26.3,
               "pbr": 33.77,
@@ -24525,7 +24525,7 @@ window.MACRO = {
             },
             {
               "ticker": "MRK",
-              "name": "Merck & Company, Inc.",
+              "name": "MRK",
               "mktcap": 314902609920,
               "fwdpe": 13.2,
               "pbr": 6.86,
@@ -24594,7 +24594,7 @@ window.MACRO = {
             },
             {
               "ticker": "HD",
-              "name": "Home Depot, Inc. (The)",
+              "name": "HD",
               "mktcap": 337892933632,
               "fwdpe": 21.1,
               "pbr": 24.35,
@@ -24609,7 +24609,7 @@ window.MACRO = {
             },
             {
               "ticker": "MCD",
-              "name": "McDonald's Corporation",
+              "name": "MCD",
               "mktcap": 190209523712,
               "fwdpe": 18.9,
               "pbr": null,
@@ -24663,7 +24663,7 @@ window.MACRO = {
           "holdings": [
             {
               "ticker": "XOM",
-              "name": "ExxonMobil Holdings Corporation",
+              "name": "XOM",
               "mktcap": 610799452160,
               "fwdpe": 13.9,
               "pbr": 2.4,
@@ -24747,7 +24747,7 @@ window.MACRO = {
           "holdings": [
             {
               "ticker": "CAT",
-              "name": "Caterpillar, Inc.",
+              "name": "CAT",
               "mktcap": 405449900032,
               "fwdpe": 28.9,
               "pbr": 21.73,
@@ -24762,9 +24762,9 @@ window.MACRO = {
             },
             {
               "ticker": "GE",
-              "name": "GE Aerospace",
+              "name": "GE",
               "mktcap": 361932914688,
-              "fwdpe": 39.9,
+              "fwdpe": 39.3,
               "pbr": 20.16,
               "rets": {
                 "w1": -2.9,
@@ -24807,7 +24807,7 @@ window.MACRO = {
             },
             {
               "ticker": "HON",
-              "name": "Honeywell International Inc.",
+              "name": "HON",
               "mktcap": 71292313600,
               "fwdpe": 23.0,
               "pbr": 5.25,
@@ -25286,7 +25286,7 @@ window.MACRO = {
             },
             {
               "ticker": "041510.KQ",
-              "name": "SME",
+              "name": "041510.KQ",
               "mktcap": 1582023049216,
               "fwdpe": 10.2,
               "pbr": null,
@@ -25439,7 +25439,7 @@ window.MACRO = {
             },
             {
               "ticker": "032640.KS",
-              "name": "LG Uplus",
+              "name": "032640.KS",
               "mktcap": 6205133553664,
               "fwdpe": 7.6,
               "pbr": null,
