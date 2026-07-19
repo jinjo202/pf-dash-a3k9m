@@ -1,11 +1,23 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-18T23:18:23
+// 갱신: 2026-07-19T01:14:02
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
    "title": "하이닉스 실적 앞둔 코스피… 반등 계기 찾을까 [주간증시전망] - IT조선",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE03bk5YOTJub0QxdlJvWGJ5dUp6S1ZDeHpLWnVRQWpwMVMzazVaY0UzbUN1dDhwNG9pY2VhZURzdW9LRTRIY0ZSTUNjV0k1NV9vLVlQQVBGakhPVTFqc09uU0RBNE50NUpKOHlhdklWYTdwUTR00gF0QVVfeXFMTTduTlg5Mm5vRDF2Um9YYnl1SnpLVkN4ektadVFBanAxUzNrNVpjRTNtQ3V0OHA0b2ljZWFlRHN1b0tFNEhjRlJNQ2NXSTU1X28tWVBBUEZqSE9VMWpzT25TREE0TnQ1Sko4eWF2SVZhN3BRNHQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9LOV8xc2d3WW1VYkJBLU9qMFQ2Q3BKQ3pCZ0l0Nkx0X0FiU3NIdlExUGhQMk9QUG1jSjFxdjV3SVJGTkdCZHlSR3pScFo4dG41MzhkZlU4X0dFZno1V1d2UTFjMGJzQXp6NXB3YnhKNkjSAXRBVV95cUxNN25OWDkybm9EMXZSb1hieXVKektWQ3h6S1p1UUFqcDFTM2s1WmNFM21DdXQ4cDRvaWNlYWVEc3VvS0U0SGNGUk1DY1dJNTVfby1ZUEFQRmpIT1UxanNPblNEQTROdDVKSjh5YXZJVmE3cFE0dA?oc=5",
    "source": "IT조선",
+   "date": "2026-07-18"
+  },
+  {
+   "title": "코스피 '금융위기'급 저평가…\"분할 매수 유효\"[주간증시전망] - 뉴시스",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE82aUEwMFNJMk1ZUzZBZGhWSWg3ZlFyYjNlSC1uUmt0cTRwbWpVLV9zbUdUeDJFM0kyUE0zUU9JTm9waGt2ZzB2S1dhOWtfNjJkT29MNG9UR0pfRHNrWlRvRw?oc=5",
+   "source": "뉴시스",
+   "date": "2026-07-19"
+  },
+  {
+   "title": "7000선 붕괴된 코스피…반등 신호 나올까 [주간 증시 전망] - 데일리안",
+   "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNMlFaWW05S0pYMEhxTFJBREpWU0xNZm5HMzlYTEx5cHJpalFMZGx4MXBPeTdvVkNVeEtMR3NDdzdzNjVFT0VqaVJYOTF4S3IyMzVPUHQ1UE9oSDFhN1hMTjl2aV95YXI3Zy1CaEEwR2JnbU5tMlFaTVFRYnZxNWhNQXlmMjBKczNVSVRvOENfVS03YW9fdVp5bkF6ajlnbm5iRHdtRVMySXY3M3ZWS3lYa3JEdUtoV1Q2MUV4eERZNmJrUG5wNnRnTXRNWUh0alFNM0NadDR6X0VZOGVQbldnM2t5RXh4dkxQd1BkQ3BzTHlzMlp0bDFwNA?oc=5",
+   "source": "데일리안",
    "date": "2026-07-18"
   },
   {
@@ -13,18 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
    "source": "연합인포맥스",
    "date": "2026-07-07"
-  },
-  {
-   "title": "[주간증시전망] 코스피 지수, 빅테크 실적이 반등 분수령…“알파벳 AI 투자계획 주목” - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQi1qNy1KNWxqWGdZU3lfNlZZalFKX2lBMm5qaHFudXlOWkNPZmoxRGhyWnJpMXpzU2hOUlFNU0tVVU9ZUzJXM0dvSDRXYjRsTVB2Tg?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-17"
-  },
-  {
-   "title": "[주간증시전망] 6800선까지 밀린 코스피…빅테크 실적이 반등 가를 분수령 - 아주경제",
-   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5CdUJfRm03S203Zm5fSmF6aEZuMVBnVE5RcTFuR2Jya0I1bGpxSFk1eTFHSE91V1AybDJkcEhPZjBmT05veS1rS3pxRUJvWEFYRl9DZXNNY3HSAVhBVV95cUxOQnVCX0ZtN0ttN2ZuX0phemhGbjFQZ1ROUXExbkdicmtCNWxqcUhZNXkxR0hPdVdQMmwyZHBIT2YwZk9Ob3kta0t6cUVCb1hBWEZfQ2VzTWNx?oc=5",
-   "source": "아주경제",
-   "date": "2026-07-17"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -55,18 +55,6 @@ window.HOLDING_NEWS = {
  ],
  "KODEX AI전력핵심설비 ETF": [
   {
-   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
-   "source": "매일신문",
-   "date": "2026-06-09"
-  },
-  {
-   "title": "전력 인프라주 투자 괜찮나 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE91T2dCazRPSnNtZlNZQnowU19uaUNZUHFaMDRzMGVWbEZ5SDNtTXhScGcxRlhyTTV4SmpudEFOMzllNzU2VVlIaUFLY1huVENtbGNlOA?oc=5",
-   "source": "매일경제",
-   "date": "2026-05-22"
-  },
-  {
    "title": "“목표가 괴리율 평균 86%”... 미래에셋, 전력주 일제히 ‘비중확대’ - theconnectmoney.com",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE52cF82cndyNEVvSjRqWjBxV2lKSk1rQlZHNHgxWE05Z0ZBd2tpYndpT3lUY0UxeDk0V0VRcnZqUHhKOUZqejlXY2FXZjBlRHRmVmVpeHhINlJaaHpraDZncw?oc=5",
    "source": "theconnectmoney.com",
@@ -77,6 +65,18 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBQMXEzR05ueWFaSVlpdjNXVHQyTVpZT2paWGJLZzBBZTFyWWZ2M01uT1lDaFMzcXY3Vm15SWFOTGdGQVRRaVlGeVFZbVRaOVdXNHdLc3NEY0o4ZWxIbWNTaWNpSUxIRURDNEtSWHpxdlNFcGs?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-07-01"
+  },
+  {
+   "title": "밀릴때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - ThinkPool",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5oeGJMNldBY1ozYnNSMGU3OUloZ1dfdnlpeWt1NjRYbTNnYW5ENldGcHg1QW12OVpKQTA5c0ROTjFFY2J1a0R5c2loaWFxMmNMcE9qOUY4d0NkMUFiZGFvaFlkXzJrYS16?oc=5",
+   "source": "ThinkPool",
+   "date": "2026-07-13"
+  },
+  {
+   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
+   "source": "매일신문",
+   "date": "2026-06-09"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -229,10 +229,10 @@ window.HOLDING_NEWS = {
    "date": "2022-04-12"
   },
   {
-   "title": "2021 대한민국 펀드대상 주식부문 '3관왕' 휩쓴 마이다스 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1rU1lWQUtiSzFQRFJMWXJPRmhqMUpLUThuNE45akttSUwxNFdzZ2QwRjUtVkF0aVYyaHZ1c1VpcjhMTV9PbGRaVVRtdkFiaC1rMVJINjg4Nzd1Zw?oc=5",
-   "source": "한국경제",
-   "date": "2021-02-01"
+   "title": "마이다스에셋, 액티브ETF 출시 '카운트다운' - 딜사이트",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE56MWppUEhXdFBmZ2hSVmtxZE9laTdVTkExQ1pkd1d6c1ZMdVVyenBGTmNabjR4SGxTd210UVMyVy1sT21KWjZKYk9HWVNfbEU?oc=5",
+   "source": "딜사이트",
+   "date": "2021-06-22"
   }
  ],
  "KODEX 자동차": [
@@ -523,6 +523,12 @@ window.HOLDING_NEWS = {
  ],
  "Fidelity European Dividend": [
   {
+   "title": "UBS, 유럽 주식 투자의견 상향…EuroStoxx 목표가도 올려 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBmdjJVYk5OdWY2RHUyTWNjX2d1cHd0cmw4ZFF1blhQeC1XYnlUeUdKN0VIQ2l0Qk5JeEVWMlhvM3pUQWZkSXRfY3lPaHhaVl9pZnVjY1NnaHNWUklBbThiUDd5UHlQNEF2RWV3UGhnV3A?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2026-07-17"
+  },
+  {
    "title": "JP모건 \"코카콜라·P&G 등 외면받던 배당주 주목…진입 매력 최고조\" - KB Think",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE42ZTd4RTJqMG9uT0NVdXJtb0djOVBjamRpY2k2c19NSXplMEdTcEJHYmxSZHAtazdnT1B6WGNaeFJqTnlVLUtaZVh5RmZVcXo4Q1dQNFFNaE5tbVozS0JJSkRUcTR1UzBudFB0VjU5b3J4Zw?oc=5",
    "source": "KB Think",
@@ -539,12 +545,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
    "source": "조세일보",
    "date": "2026-01-23"
-  },
-  {
-   "title": "높은 수익률에 배당까지…\"强달러 리스크, 유럽 ETF로 피하라\" - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBvYm83TmZGTEhxSzZXRjBVY05pOV9Rd2xSdVhIZmQzMkktVFd3UDMzcWdGNHdnMEJWcFFOd2V3WnpCN09QYWFUY1luZ0xJWVFRRkVabm9tREpCUdIBVEFVX3lxTE55eVVBX05vUzVxRWxGV0JUNlRBdEVlNVQtMkZGajRFdGZmVF9ZSGQyN0hEa2hRMml1OVY0VDVMTHhhRnNVVG9EbUV2WjZ1Q2I3dDFLUA?oc=5",
-   "source": "한국경제",
-   "date": "2023-03-12"
   }
  ]
 };
