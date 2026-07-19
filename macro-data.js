@@ -481,7 +481,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-19T08:58:04Z",
+  "generated": "2026-07-19T09:06:23Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -24128,6 +24128,21 @@ window.MACRO = {
               "note": "맞춤형 AI칩(ASIC)·네트워킹"
             },
             {
+              "ticker": "MU",
+              "name": "MU",
+              "mktcap": 958798299136,
+              "fwdpe": 5.6,
+              "pbr": 13.22,
+              "rets": {
+                "w1": -13.3,
+                "m1": -16.8,
+                "m3": 85.7,
+                "ytd": 197.6
+              },
+              "rev30": 21.877591703758025,
+              "note": "HBM·메모리 업사이클"
+            },
+            {
               "ticker": "ASML",
               "name": "ASML Holding N.V. - New York Re",
               "mktcap": 671245467648,
@@ -24141,21 +24156,6 @@ window.MACRO = {
               },
               "rev30": 20.217563599882492,
               "note": "EUV 노광 독점"
-            },
-            {
-              "ticker": "AMD",
-              "name": "AMD",
-              "mktcap": null,
-              "fwdpe": 36.8,
-              "pbr": null,
-              "rets": {
-                "w1": -11.1,
-                "m1": -2.3,
-                "m3": 78.2,
-                "ytd": 131.5
-              },
-              "rev30": 0.8961342165273001,
-              "note": "AI GPU 추격·MI 시리즈"
             }
           ]
         },
@@ -24242,19 +24242,19 @@ window.MACRO = {
               "note": "AIP 정부·기업 수요"
             },
             {
-              "ticker": "ADBE",
-              "name": "Adobe Inc.",
-              "mktcap": 94306877440,
-              "fwdpe": 8.6,
-              "pbr": 8.22,
+              "ticker": "CRM",
+              "name": "CRM",
+              "mktcap": 139860639744,
+              "fwdpe": 11.0,
+              "pbr": 4.09,
               "rets": {
-                "w1": 6.1,
-                "m1": 14.4,
-                "m3": -4.4,
-                "ytd": -32.2
+                "w1": 4.6,
+                "m1": 5.6,
+                "m3": -5.5,
+                "ytd": -35.2
               },
-              "rev30": 3.661963461016038,
-              "note": "생성형 AI 크리에이티브"
+              "rev30": -0.13783373434702595,
+              "note": "에이전트포스 AI"
             }
           ]
         },
@@ -24365,36 +24365,6 @@ window.MACRO = {
           "indicators": "순이자마진(NIM), 대손충당금, 예대율, IB 수수료",
           "holdings": [
             {
-              "ticker": "JPM",
-              "name": "JPM",
-              "mktcap": 906712055808,
-              "fwdpe": 13.9,
-              "pbr": 2.56,
-              "rets": {
-                "w1": 1.4,
-                "m1": 3.5,
-                "m3": 10.5,
-                "ytd": 7.4
-              },
-              "rev30": 6.952673491893835,
-              "note": "NIM·IB 회복"
-            },
-            {
-              "ticker": "BAC",
-              "name": "BAC",
-              "mktcap": 434808127488,
-              "fwdpe": 11.7,
-              "pbr": 1.56,
-              "rets": {
-                "w1": 2.7,
-                "m1": 7.8,
-                "m3": 15.1,
-                "ytd": 12.6
-              },
-              "rev30": 4.350099201029556,
-              "note": "예금·금리 레버리지"
-            },
-            {
               "ticker": "MS",
               "name": "Morgan Stanley",
               "mktcap": 338766004224,
@@ -24438,6 +24408,36 @@ window.MACRO = {
               },
               "rev30": 3.270200649984867,
               "note": "자산상한 해제 기대"
+            },
+            {
+              "ticker": "JPM",
+              "name": "JPM",
+              "mktcap": null,
+              "fwdpe": 13.9,
+              "pbr": null,
+              "rets": {
+                "w1": 1.4,
+                "m1": 3.5,
+                "m3": 10.5,
+                "ytd": 7.4
+              },
+              "rev30": 6.952673491893835,
+              "note": "NIM·IB 회복"
+            },
+            {
+              "ticker": "BAC",
+              "name": "BAC",
+              "mktcap": null,
+              "fwdpe": 11.7,
+              "pbr": null,
+              "rets": {
+                "w1": 2.7,
+                "m1": 7.8,
+                "m3": 15.1,
+                "ytd": 12.6
+              },
+              "rev30": 4.350099201029556,
+              "note": "예금·금리 레버리지"
             }
           ]
         },
@@ -24463,6 +24463,21 @@ window.MACRO = {
           "issue": "GLP-1(비만) 수요 강세, 약가 정책 리스크. 파이프라인 모멘텀.",
           "indicators": "GLP-1 처방량, 약가규제, 임상 성공률, 특허 만료",
           "holdings": [
+            {
+              "ticker": "LLY",
+              "name": "LLY",
+              "mktcap": 1051461156864,
+              "fwdpe": 26.3,
+              "pbr": 33.77,
+              "rets": {
+                "w1": -0.8,
+                "m1": 5.0,
+                "m3": 30.7,
+                "ytd": 10.1
+              },
+              "rev30": -3.7500169159782826,
+              "note": "GLP-1 비만치료 선두"
+            },
             {
               "ticker": "JNJ",
               "name": "Johnson & Johnson",
@@ -24509,24 +24524,9 @@ window.MACRO = {
               "note": "관리의료 마진"
             },
             {
-              "ticker": "LLY",
-              "name": "LLY",
-              "mktcap": null,
-              "fwdpe": 26.3,
-              "pbr": null,
-              "rets": {
-                "w1": -0.8,
-                "m1": 5.0,
-                "m3": 30.7,
-                "ytd": 10.1
-              },
-              "rev30": -3.7500169159782826,
-              "note": "GLP-1 비만치료 선두"
-            },
-            {
               "ticker": "MRK",
               "name": "MRK",
-              "mktcap": null,
+              "mktcap": 314902609920,
               "fwdpe": 13.2,
               "pbr": 6.86,
               "rets": {
@@ -24593,21 +24593,6 @@ window.MACRO = {
               "note": "FSD·로보택시 기대"
             },
             {
-              "ticker": "MCD",
-              "name": "MCD",
-              "mktcap": 190209523712,
-              "fwdpe": 18.9,
-              "pbr": null,
-              "rets": {
-                "w1": -2.5,
-                "m1": -7.0,
-                "m3": -12.2,
-                "ytd": -11.3
-              },
-              "rev30": -0.35735300007085913,
-              "note": "가성비 메뉴"
-            },
-            {
               "ticker": "NKE",
               "name": "Nike, Inc.",
               "mktcap": 64917901312,
@@ -24636,6 +24621,21 @@ window.MACRO = {
               },
               "rev30": -0.07096117648551781,
               "note": "주택수리"
+            },
+            {
+              "ticker": "MCD",
+              "name": "MCD",
+              "mktcap": null,
+              "fwdpe": 18.9,
+              "pbr": null,
+              "rets": {
+                "w1": -2.5,
+                "m1": -7.0,
+                "m3": -12.2,
+                "ytd": -11.3
+              },
+              "rev30": -0.35735300007085913,
+              "note": "가성비 메뉴"
             }
           ]
         },
@@ -24791,6 +24791,21 @@ window.MACRO = {
               "note": "생산정상화"
             },
             {
+              "ticker": "HON",
+              "name": "HON",
+              "mktcap": 71292313600,
+              "fwdpe": 23.0,
+              "pbr": 5.25,
+              "rets": {
+                "w1": -0.6,
+                "m1": -6.5,
+                "m3": -5.9,
+                "ytd": 11.1
+              },
+              "rev30": -60.92445961103401,
+              "note": "자동화·항공"
+            },
+            {
               "ticker": "CAT",
               "name": "CAT",
               "mktcap": null,
@@ -24804,21 +24819,6 @@ window.MACRO = {
               },
               "rev30": 0.5323314825824266,
               "note": "인프라·전력장비"
-            },
-            {
-              "ticker": "HON",
-              "name": "HON",
-              "mktcap": null,
-              "fwdpe": 23.0,
-              "pbr": 5.25,
-              "rets": {
-                "w1": -0.6,
-                "m1": -6.5,
-                "m3": -5.9,
-                "ytd": 11.1
-              },
-              "rev30": -60.92445961103401,
-              "note": "자동화·항공"
             }
           ]
         }
@@ -25249,23 +25249,23 @@ window.MACRO = {
         },
         {
           "name": "엔터·미디어",
-          "err": -0.086,
-          "err_label": "중립",
-          "err_cls": "neu",
-          "rev7": -0.5,
-          "rev30": -2.4,
-          "rev90": -2.8,
+          "err": 0.176,
+          "err_label": "상향 우위",
+          "err_cls": "pos",
+          "rev7": -0.0,
+          "rev30": -2.8,
+          "rev90": -19.0,
           "momentum": "유지",
-          "growth_cy": -19.9,
-          "growth_ny": 13.1,
+          "growth_cy": 89.9,
+          "growth_ny": 41.6,
           "trend": [
             100.0,
-            99.84,
-            99.61,
-            99.92,
-            97.22
+            83.72,
+            82.9,
+            81.08,
+            80.95
           ],
-          "n": 3,
+          "n": 2,
           "issue": "K팝 글로벌 확장·앨범/투어 회복, 신인 IP 모멘텀. 중국 한한령 완화 기대 vs 아티스트 리스크.",
           "indicators": "앨범 판매, 콘서트 동원, 일본·미국 매출, 신인 데뷔",
           "holdings": [
@@ -25283,21 +25283,6 @@ window.MACRO = {
               },
               "rev30": -4.278271949583212,
               "note": "K팝 신인·투어"
-            },
-            {
-              "ticker": "041510.KQ",
-              "name": "041510.KQ",
-              "mktcap": 1582023049216,
-              "fwdpe": 10.2,
-              "pbr": null,
-              "rets": {
-                "w1": -7.4,
-                "m1": -15.9,
-                "m3": -21.5,
-                "ytd": -48.8
-              },
-              "rev30": -2.401467322930073,
-              "note": "신인·일본"
             },
             {
               "ticker": "035900.KQ",
