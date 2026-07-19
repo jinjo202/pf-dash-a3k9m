@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-19",
-  "generated_utc": "2026-07-19T22:32:16Z",
+  "generated_utc": "2026-07-19T23:02:57Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5478,13 +5478,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1486.67,
+      "current": 1478.85,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 3.391,
-      "mtd_pct": -3.5713,
-      "daily_pct": 0.5288,
-      "as_of": "2026-07-19",
+      "ytd_pct": 2.8472,
+      "mtd_pct": -4.0785,
+      "daily_pct": -0.4945,
+      "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5496,6 +5496,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-07-17",
           "2025-07-18",
           "2025-07-21",
           "2025-07-22",
@@ -5754,10 +5755,10 @@ window.BENCHMARKS = {
           "2026-07-14",
           "2026-07-15",
           "2026-07-16",
-          "2026-07-17",
-          "2026-07-19"
+          "2026-07-17"
         ],
         "values": [
+          1384.92,
           1391.58,
           1390.5699,
           1381.8199,
@@ -6016,8 +6017,7 @@ window.BENCHMARKS = {
           1497.7,
           1487.88,
           1486.2,
-          1478.85,
-          1486.67
+          1478.85
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 84.13,
+      "current": 84.08,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 46.5169,
-      "mtd_pct": 21.0504,
-      "daily_pct": 1.9881,
+      "ytd_pct": 46.4298,
+      "mtd_pct": 20.9784,
+      "daily_pct": 1.9275,
       "as_of": "2026-07-19",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           79.6,
           78.95,
           82.49,
-          84.13
+          84.08
         ]
       }
     },
