@@ -3,7 +3,7 @@ window.WEEKLY = {
   "meeting": "2026-07-20",
   "meeting_weekday": "Mon",
   "target": "2026-07-17",
-  "generated_utc": "2026-07-18T13:27:39Z",
+  "generated_utc": "2026-07-19T22:17:57Z",
   "xlsx_name": "주간회의자료_20260717.xlsx",
   "xlsx_folder": "20260720",
   "title": "주식 시황회의 (7월 4주차)",
@@ -102,9 +102,9 @@ window.WEEKLY = {
     "주요 이벤트": [
       "  · 7/27 CXMT 상하이 STAR 상장($85B) — 중국 메모리 자립 서사의 실체 확인",
       "  · 7월말 하이퍼스케일러 실적·capex 가이던스(알파벳·테슬라 → MSFT·META·아마존·애플) — 'AI 투자 지속 vs 둔화' 판별선이자 모멘텀 청산 종료 여부",
-      "  · TSMC(capex 상향)·ASML(가이던스 상향) 후속 — 공급측 수요확인이 Kimi發 효율우려를 상쇄할지",
-      "  · 미 7/29 FOMC(동결 86~88% 선반영)·국내 한은 금통위·유가/중동 정세(WTI $82)",
-      "  · 미 대중 반도체 수출통제 동향 — CXMT 첨단화 제약 여부가 한국 HBM 절연의 핵심 변수"
+      "  · [메모리 특허전쟁 — 신규 리스크 채널] 키옥시아, Viasat 특허(NAND 오류정정) 침해 평결로 $229M 배상(7/16 텍사스서부지법)→7/17 −16% 하한가·시총 한 달 새 반토막 / 미 ITC, Netlist 제소로 삼성전자 등 7개사 337조 조사 개시(7/15) — HBM·DDR5 DIMM의 미국 수입금지 청구 / DRAM 담합 집단소송(삼성·하이닉스·마이크론)도 계류 — 'HBM 절연' 논지의 법률 측 구멍, 수출통제·경쟁과 별개 채널",
+      "  · TSMC(capex 상향 7/16)·ASML(가이던스 €43~45B 상향 7/15) 후속 — 공급측 수요확인이 Kimi發 효율우려를 상쇄할지",
+      "  · 미 7/29 FOMC(동결 86~88%)·한은 금통위·유가/중동(WTI $82)·미 대중 수출통제 동향(CXMT 제약 여부)"
     ],
     "센티먼트": [
       " - Goldman Korea Equity Risk Barometer △2.7로 더 깊은 위험회피권 진입(직전 △1.5) — 큰 조정 후 나타나는 <역발상 매수신호>가 더 강해진 상태",
@@ -151,17 +151,17 @@ window.WEEKLY = {
   "regional": {
     "dm_em": {
       "pref": "EM 선호",
-      "text": "중국발 악재(Kimi·CXMT) 국면에선 단기 DM(미국) 방어력 우위 — 미국은 빅테크·금융 대안 보유, 한국(반도체·중국인접)은 직격. 단 한국 밸류(Fwd PER 5.8배·2004년래 최저)·HBM 절연은 중기 회복 근거. 오일·중국 정세 확인 전까지 DM 방어, 진정 시 한국(HBM) 재확대 / [모델] EM 평균 +0.34 vs DM 평균 -0.23"
+      "text": "중국발 악재(Kimi·CXMT) 국면에선 단기 DM(미국) 방어력 우위 — 미국은 빅테크·금융 대안 보유, 한국(반도체·중국인접)은 직격. 단 한국 밸류(Fwd PER 5.8배·2004년래 최저)·HBM 절연은 중기 회복 근거. 오일·중국 정세 확인 전까지 DM 방어, 진정 시 한국(HBM) 재확대 / [모델] EM 평균 +0.33 vs DM 평균 -0.22"
     },
     "countries": [
       {
         "name": "한국",
         "pref": "비중확대",
-        "score": 1.259,
+        "score": 1.267,
         "factors": {
           "value": 1.92,
           "momentum": 1.88,
-          "earnings": 0.04,
+          "earnings": 0.07,
           "macro": 1.72,
           "currency": -0.41
         },
@@ -172,11 +172,11 @@ window.WEEKLY = {
       {
         "name": "일본",
         "pref": "중립",
-        "score": 0.015,
+        "score": 0.004,
         "factors": {
           "value": -0.59,
           "momentum": 0.15,
-          "earnings": 1.53,
+          "earnings": 1.47,
           "macro": -0.68,
           "currency": -0.43
         },
@@ -187,11 +187,11 @@ window.WEEKLY = {
       {
         "name": "미국",
         "pref": "축소",
-        "score": -0.255,
+        "score": -0.271,
         "factors": {
           "value": -0.64,
           "momentum": -0.78,
-          "earnings": 0.38,
+          "earnings": 0.31,
           "macro": -0.02,
           "currency": 0.26
         },
@@ -202,26 +202,26 @@ window.WEEKLY = {
       {
         "name": "유럽",
         "pref": "축소",
-        "score": -0.439,
+        "score": -0.397,
         "factors": {
           "value": -0.75,
           "momentum": -0.79,
-          "earnings": -0.41,
+          "earnings": -0.2,
           "macro": 0.22,
           "currency": -0.16
         },
         "ytd": 8.224,
         "mtd": -0.0312,
-        "text": "부담 모멘텀·밸류·이익수정 → 축소"
+        "text": "부담 모멘텀·밸류 → 축소"
       },
       {
         "name": "이머징",
         "pref": "축소",
-        "score": -0.579,
+        "score": -0.602,
         "factors": {
           "value": 0.06,
           "momentum": -0.46,
-          "earnings": -1.53,
+          "earnings": -1.64,
           "macro": -1.24,
           "currency": 0.74
         },
