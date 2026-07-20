@@ -1,7 +1,19 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-19T23:28:15
+// 갱신: 2026-07-20T01:17:34
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
+  {
+   "title": "[AI MY 증시전망] AI 조정 vs 펀더멘털…코스피, 반도체 반등 여부 주목 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFByNkR4SEdvN3FwVHVBbl9HWXpOdzQtNHl3Y3R4bkFXdU1TcDFGOHlsbzNIc0RMcW9qcEpaWTEyTE04dlBBekZjUHJDWVFUckI0QVZnZ0stcVBTcGhF?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-07-19"
+  },
+  {
+   "title": "[주간증시전망] 코스피, 반등할까…구글·인텔 실적이 ‘분수령’ - 글로벌이코노믹",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOekpEcG5pZkoyb2ZzNnZ2MHFsNjZaRmYxeDl4cWlIdDZFZGoycHNuZ2tjYW1PT01XdndDY2J6NjFwWmtrS3Q4NzB0bGlWQU01MFJrVXEyUEFZbjZWUzNVNzVMWEtlTW50ZmJQZ1MwWmtDYWo0SzVSZHBSSVYwaUlZTDdIVTB3alY2?oc=5",
+   "source": "글로벌이코노믹",
+   "date": "2026-07-19"
+  },
   {
    "title": "[주간 증시전망] SK하이닉스 실적 발표, 코스피 방향성 결정 - 전북일보 인터넷신문",
    "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFB2YVF0V1RUdFQ5eXIwSDN0eE1vVUlFbm5FczFFY1dwS0xqTjlJb3hqSXhqQmV1VWtiMDRKOXZ5S0tDVTZ1NlRVQTd0Y3U3S1JIdkdnbTJyYTLSAVhBVV95cUxQdmFRdFdUVHRUOXlyMEgzdHhNb1VJRW5uRXMxRWNXcEtMak45SW94akl4akJldVVrYjA0Sjl2eUtLQ1U2dTZUVUE3dGN1N0tSSHZHZ20ycmEy?oc=5",
@@ -9,22 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-19"
   },
   {
-   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
-   "source": "연합인포맥스",
-   "date": "2026-07-07"
-  },
-  {
-   "title": "[주간증시전망] 알파벳 실적에 쏠린 눈…반도체주 반등 이끌까 - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9QenFQV01aejBZUDNjX0dRQk0tbllhaFRyWUphbWRLMEF3TkhnZG5GS0V5SXpWWTZtTVgxVHpRa0JGNEdvZXNyUmtWRmlSOXVpeXdwT1VTY0dnYXFMbTdYSw?oc=5",
-   "source": "매일경제 마켓",
+   "title": "“코스피 연말까지 박스권 탐색…전고점 탈환보다 변동성 장세 전망” - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQMVR5eEJrbHVoY1FlOWJfTlhuZUp3a0o3aEtkOUZ0OXVMeEdlY0N0bzhMYTdVekM1alRDSVM3VU9ka0x0VkVNcGJJVjMwVjhaUjlEMEZJN21oTnRWSXpoRmtqOWY2al9wOGdtemZaUlMxOC13azlHV1RqQVFlV3JxYXRTU0t1QjNQ0gGcAUFVX3lxTE5UdHRRUWdYX1RBLThUZWFIMTFMNlN3QThPTm5rTVozY3V0bXR5blVCU3JPQkQ4SENKa3FucXY5ZFhhZkRmVXRZNjVDVGZaN0dNdjkzNjJaN2hzenVnd2xTZ1FQWTV0YV9pUGpLNTRoT1NiSWVVNmgyemdJU2VrMlhqeWw2M0pfSUlPd3NKUno3R1REWXd1Wk9NVy1WNw?oc=5",
+   "source": "Chosunbiz",
    "date": "2026-07-19"
-  },
-  {
-   "title": "[주간증시전망] 6800선까지 밀린 코스피…빅테크 실적이 반등 가를 분수령 - 아주경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1hX1ZmRl81YUFOb0l0ZVRkNWJ4NTRQLVJZZUFYOXVNU3ZiUzVQeXpMYUx4V3BsZEl4cThWRnZVUEpQOXZqcHVhamY0cUc1bzFySGYtNDhQOWhBQdIBWEFVX3lxTE5CdUJfRm03S203Zm5fSmF6aEZuMVBnVE5RcTFuR2Jya0I1bGpxSFk1eTFHSE91V1AybDJkcEhPZjBmT05veS1rS3pxRUJvWEFYRl9DZXNNY3E?oc=5",
-   "source": "아주경제",
-   "date": "2026-07-17"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -229,10 +229,10 @@ window.HOLDING_NEWS = {
    "date": "2022-04-12"
   },
   {
-   "title": "'26년 무패 흑자' 자랑은 생략한다…마이다스가 찍은 유망섹터 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE82YnRfMU5tZUZlZHYwNXRzWmJSRFlaSkJwaE01TG1zSW1uaTBLMFVIemZ1VlllU3lUSUxCS2ZVXzktN25peS1wZ3FGOA?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-02-27"
+   "title": "마이다스에셋, 액티브ETF 출시 '카운트다운' - 딜사이트",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE56MWppUEhXdFBmZ2hSVmtxZE9laTdVTkExQ1pkd1d6c1ZMdVVyenBGTmNabjR4SGxTd210UVMyVy1sT21KWjZKYk9HWVNfbEU?oc=5",
+   "source": "딜사이트",
+   "date": "2021-06-22"
   }
  ],
  "KODEX 자동차": [
@@ -497,25 +497,31 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
-   "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
-   "source": "글로벌이코노믹",
-   "date": "2026-02-09"
-  },
-  {
    "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - 블루밍비트",
    "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtd1otcWJxdzROcElqRmhLT0dEVTdfUENvSEM3eDlZYW9Xb3l4dHVEZzJrTFcyQU1CR3REOGZlM2lEVDJJMlVNcDZSc0ppV1c5?oc=5",
    "source": "블루밍비트",
    "date": "2026-03-02"
   },
   {
-   "title": "트럼프발 관세 공포에 유럽 증시 출렁…아시아 증시는 \"상대적 안전지대\" - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQS0NiM0ZlMXQtYS1MOGJva2lfMFEyeHhLeEwyeHRrZkJzdUhtUGgzcW9FS1FDenlXTHYtVXlGWV9NeWIwRnF3SVY3N1M2c2RLMWhZZTYzZHN5T2tzS0pJc3E2RHFsb0J0Mjk2T2ZEUnkyb2JPZ2xNdGUxblM2ODF1UA?oc=5",
-   "source": "조선일보",
-   "date": "2026-01-20"
+   "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
+   "source": "글로벌이코노믹",
+   "date": "2026-02-09"
+  },
+  {
+   "title": "유럽증시, ECB 금리인상 등 영향 일제히 올라⋯독일 0.06%-프랑스와 영국 0.48% 상승마감 - 이코노뉴스",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Mei1OZmt5LUw0dnJIZFlYVFVEVlMxMnRxcVZlOHBXMm9vVU04c1hLcE9aTkh4Ykh4ZExWSVpHNW90MzhtOUxJMUhsOUxFcmpESWFFWTl5UHVHY2JWTjRUY09rczFCWE16S0hKOXdpQQ?oc=5",
+   "source": "이코노뉴스",
+   "date": "2026-06-11"
   }
  ],
  "Fidelity European Dividend": [
+  {
+   "title": "UBS, 유럽 주식 투자의견 상향…EuroStoxx 목표가도 올려 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBmdjJVYk5OdWY2RHUyTWNjX2d1cHd0cmw4ZFF1blhQeC1XYnlUeUdKN0VIQ2l0Qk5JeEVWMlhvM3pUQWZkSXRfY3lPaHhaVl9pZnVjY1NnaHNWUklBbThiUDd5UHlQNEF2RWV3UGhnV3A?oc=5",
+   "source": "Investing.com 한국어",
+   "date": "2026-07-17"
+  },
   {
    "title": "JP모건 \"코카콜라·P&G 등 외면받던 배당주 주목…진입 매력 최고조\" - KB Think",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE42ZTd4RTJqMG9uT0NVdXJtb0djOVBjamRpY2k2c19NSXplMEdTcEJHYmxSZHAtazdnT1B6WGNaeFJqTnlVLUtaZVh5RmZVcXo4Q1dQNFFNaE5tbVozS0JJSkRUcTR1UzBudFB0VjU5b3J4Zw?oc=5",
@@ -533,12 +539,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
    "source": "조세일보",
    "date": "2026-01-23"
-  },
-  {
-   "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE00TFZNWmR2UFI2bmpzd1hMRDBVSmhkUVJuRVB0bnRkM0tVcExnZmJwRWNsekRqUldVMDhSZjEzU1Zsaks2VkoyV2pYWUhXVGhFcXJlaHdkOEJZZVQxTmppQw?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2024-04-05"
   }
  ]
 };
