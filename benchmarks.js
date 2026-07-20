@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-20",
-  "generated_utc": "2026-07-20T21:17:41Z",
+  "generated_utc": "2026-07-20T22:20:47Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
-        "pe": 18.27,
+        "pe": 18.4,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -1111,12 +1111,12 @@ window.BENCHMARKS = {
       "as_of": "2026-07-16",
       "decimals": 0,
       "valuation": {
-        "pe": 4.3,
-        "pb": null,
+        "pe": 4.04,
+        "pb": 1.85,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -2205,7 +2205,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
-        "pe": 19.23,
+        "pe": 19.38,
         "pb": 1.73,
         "roe": null,
         "src": "SPY (top derived)",
@@ -2752,8 +2752,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
-        "pe": 18.0,
-        "pb": 1.94,
+        "pe": 18.19,
+        "pb": 1.95,
         "roe": null,
         "src": "QQQ (top derived)",
         "pe_kind": "fwd",
@@ -3299,8 +3299,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
-        "pe": 17.88,
-        "pb": 1.23,
+        "pe": 18.1,
+        "pb": 1.24,
         "roe": null,
         "src": "SOXX (top derived)",
         "pe_kind": "fwd",
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 639.6,
+      "current": 641.53,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 7.8984,
-      "mtd_pct": -0.3319,
-      "daily_pct": -0.3009,
-      "as_of": "2026-07-20",
+      "ytd_pct": 8.224,
+      "mtd_pct": -0.0312,
+      "daily_pct": -0.3418,
+      "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
-        "pe": 15.59,
+        "pe": 15.48,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -3855,6 +3855,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-07-03",
           "2025-07-04",
           "2025-07-07",
           "2025-07-08",
@@ -4113,10 +4114,10 @@ window.BENCHMARKS = {
           "2026-07-14",
           "2026-07-15",
           "2026-07-16",
-          "2026-07-17",
-          "2026-07-20"
+          "2026-07-17"
         ],
         "values": [
+          543.76,
           541.13,
           543.5,
           545.71,
@@ -4375,8 +4376,7 @@ window.BENCHMARKS = {
           642.1,
           642.71,
           643.73,
-          641.53,
-          639.6
+          641.53
         ]
       }
     },
@@ -4394,11 +4394,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 22.32,
-        "pb": null,
+        "pb": 1.34,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-17",
       "decimals": 2,
       "valuation": {
-        "pe": 12.39,
+        "pe": 12.42,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1475.4301,
+      "current": 1475.33,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 2.6093,
-      "mtd_pct": -4.3004,
-      "daily_pct": -0.2313,
+      "ytd_pct": 2.6024,
+      "mtd_pct": -4.3069,
+      "daily_pct": -0.238,
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1487.88,
           1486.2,
           1478.85,
-          1475.4301
+          1475.33
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 82.42,
+      "current": 82.57,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 43.5388,
-      "mtd_pct": 18.5899,
-      "daily_pct": -0.0849,
+      "ytd_pct": 43.8001,
+      "mtd_pct": 18.8058,
+      "daily_pct": 0.097,
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           79.6,
           78.95,
           82.49,
-          82.42
+          82.57
         ]
       }
     },
