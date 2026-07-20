@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-20",
-  "generated_utc": "2026-07-20T22:20:47Z",
+  "generated_utc": "2026-07-20T22:38:19Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -565,11 +565,11 @@ window.BENCHMARKS = {
       "decimals": 2,
       "valuation": {
         "pe": 6.78,
-        "pb": null,
+        "pb": 1.21,
         "roe": null,
         "src": "EEM (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1111,7 +1111,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-16",
       "decimals": 0,
       "valuation": {
-        "pe": 4.04,
+        "pe": 4.3,
         "pb": 1.85,
         "roe": null,
         "src": "EWY (top derived)",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1475.33,
+      "current": 1475.22,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 2.6024,
-      "mtd_pct": -4.3069,
-      "daily_pct": -0.238,
+      "ytd_pct": 2.5947,
+      "mtd_pct": -4.314,
+      "daily_pct": -0.2455,
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1487.88,
           1486.2,
           1478.85,
-          1475.33
+          1475.22
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 82.57,
+      "current": 82.56,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 43.8001,
-      "mtd_pct": 18.8058,
-      "daily_pct": 0.097,
+      "ytd_pct": 43.7827,
+      "mtd_pct": 18.7914,
+      "daily_pct": 0.0849,
       "as_of": "2026-07-20",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           79.6,
           78.95,
           82.49,
-          82.57
+          82.56
         ]
       }
     },
