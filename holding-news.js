@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-21T09:24:27
+// 갱신: 2026-07-21T09:41:00
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {

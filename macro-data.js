@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-21T09:24:11Z",
+  "generated": "2026-07-21T09:40:44Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -488,7 +488,7 @@ window.MACRO = {
     "pillars": {
       "macro": {
         "name": "매크로",
-        "score": 9,
+        "score": 8,
         "n": 17
       },
       "valuation": {
@@ -1043,7 +1043,7 @@ window.MACRO = {
         "m3": 48,
         "m12": 57
       },
-      "fx_val": 1476.27,
+      "fx_val": 1476.33,
       "fx_chg": 0.2,
       "reer": {
         "cur": 84.8,
@@ -13086,12 +13086,12 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 20.0,
+      "current": 20.9,
       "unit": "%",
       "z": 0.07,
       "pct": 60.6,
-      "score": -0.5,
-      "signal": "악재",
+      "score": -0.52,
+      "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
       "as_of": "2026-07-21",
@@ -16251,7 +16251,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.603
+          1.604
         ]
       },
       "z_from": "2000-08",
@@ -19723,7 +19723,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1476.3,
+      "current": 1476.5,
       "unit": "원",
       "z": 2.45,
       "pct": 98.8,
@@ -20388,11 +20388,11 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 17.5,
+      "current": 17.4,
       "unit": "",
       "z": -0.13,
       "pct": 55.7,
-      "score": 0.05,
+      "score": 0.06,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "공포 게이지. 낮을수록 안정",
@@ -24482,7 +24482,7 @@ window.MACRO = {
               "ticker": "LLY",
               "name": "Eli Lilly and Company",
               "mktcap": 1022738235392,
-              "fwdpe": 25.5,
+              "fwdpe": 25.6,
               "pbr": 32.85,
               "rets": {
                 "w1": -3.0,
@@ -24528,7 +24528,7 @@ window.MACRO = {
               "name": "UnitedHealth Group Incorporated",
               "mktcap": 382828249088,
               "fwdpe": 18.8,
-              "pbr": 3.91,
+              "pbr": 3.65,
               "rets": {
                 "w1": -1.8,
                 "m1": 5.5,
@@ -26583,12 +26583,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[완만한 호재 우위] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.39%p(호재)·WTI 유가 (YoY) 20.0%(악재)",
+    "macro": "[완만한 호재 우위] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.39%p(호재)·WTI 유가 (YoY) 20.9%(강한 악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.4배(악재)·KOSPI 12M Fwd PER 4.5배(강한 호재)·주식위험프리미엄(ERP) 0.61%p(중립)·미국 10Y 금리 4.6%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.59%p(호재)·USD/KRW 1476.3원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 108.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -11.3조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 17.5(중립)·S&P500 12M 모멘텀 17.4%(강한 호재)·CNN 공포·탐욕 지수 37(악재)·AAII 불-베어 스프레드 12.0%p(악재)·CBOE 풋/콜 비율(총) 1.0(중립)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.59%p(호재)·USD/KRW 1476.5원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 108.1조원(강한 호재)·한국 투자자별 수급(외국인, 월) -11.3조원(중립)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 17.4(중립)·S&P500 12M 모멘텀 17.4%(강한 호재)·CNN 공포·탐욕 지수 37(악재)·AAII 불-베어 스프레드 12.0%p(악재)·CBOE 풋/콜 비율(총) 1.0(중립)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(유지)",
-    "overall": "종합 레짐 점수 +25. 매크로 +9, 밸류 +1, 수급 +47, 센티 +11, 기업이익 +52."
+    "overall": "종합 레짐 점수 +25. 매크로 +8, 밸류 +1, 수급 +47, 센티 +11, 기업이익 +52."
   },
   "outlook": {
     "short": {
