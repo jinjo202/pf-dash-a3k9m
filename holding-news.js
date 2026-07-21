@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-21T22:24:29
+// 갱신: 2026-07-21T22:41:21
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-19"
   },
   {
-   "title": "JP모건 “韓 증시 청산 상당 부분 진행…코스피 1만2500 전망” - 스트레이트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE16QjZRaVZnSkRzQ2YwcEtuSXNjdzRNV0M3dEhFS3dQWTVnSDlBNmtpenJiZ0NtanJ0WDBIZmY5Qi1EY1pJRmFmS2UxQW10NnFqSDVtMkdCV2pQbC1qZGdiUDJGa1BhMWdwOG1jRjdJU0kxQWPSAXdBVV95cUxOcnU2Z2VIU2d1aVJwdEkwX3htaWlENkg1emJzcGtQWVEtWVFMYktTcDQ2Q2pxV21kMTN0WGlJYkdMY3AwVXZ3TGxjMVZQTWRyLUxLUjJFWGlDa2M3Qjg5cndZTXJrRFVxNUlIX1BYOE1OV3JhdzJYMA?oc=5",
-   "source": "스트레이트뉴스",
-   "date": "2026-07-21"
+   "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-07-07"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -73,9 +73,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-16"
   },
   {
-   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - 씽크풀 AI",
+   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - ThinkPool",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5QaUVBM01ETmdoanRXSGthaEY2eEE0b0UwY0NpZFhDRTV3UzlpYk9PMmpGV201MlJwckpIcElEQUFRTG9hV0g4RkVUYkxWN2VfNEloRnFuSF9KSmEz?oc=5",
-   "source": "씽크풀 AI",
+   "source": "ThinkPool",
    "date": "2026-07-21"
   }
  ],
