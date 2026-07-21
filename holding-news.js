@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-21T22:41:21
+// 갱신: 2026-07-21T23:09:27
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -73,9 +73,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-16"
   },
   {
-   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - ThinkPool",
+   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - 씽크풀 AI",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5QaUVBM01ETmdoanRXSGthaEY2eEE0b0UwY0NpZFhDRTV3UzlpYk9PMmpGV201MlJwckpIcElEQUFRTG9hV0g4RkVUYkxWN2VfNEloRnFuSF9KSmEz?oc=5",
-   "source": "ThinkPool",
+   "source": "씽크풀 AI",
    "date": "2026-07-21"
   }
  ],
@@ -93,16 +93,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-29"
   },
   {
+   "title": "올해 신규 상장 제약바이오기업 성적표는 - 의학신문",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFB2SlpxdnVQcERjQ25PVDhqLVBnT09yMWd1NzlBTHJ6VUFzZzFMOTI2bjBlZmdyS2VGY0NFQmR3Z0ZMb25BNk41WVNGV2NjMEdUNURjNkhWOEgwR2pZTFM4dWthOUVYamRMaHc?oc=5",
+   "source": "의학신문",
+   "date": "2026-07-02"
+  },
+  {
    "title": "코스닥 바이오 주가 급락에…커지는 '전환사채 리스크' - 비즈워치",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ORVVmUkhRZHZ2QzFSMERwczdqQUV6SGNYdl9nclBiQ0pEZ1hLVi1GdER1QmdfZlI4cG5taDJDVlRvd09wQnJHcklkd0N0d3J4YWltQ1ptLVBfUlMyRHJocDY2MWNFdWFKSHZuSzhYQQ?oc=5",
    "source": "비즈워치",
    "date": "2026-07-12"
-  },
-  {
-   "title": "코스닥 제약바이오 4개월 새 반토막…금리·수급·대형주 겹악재 - 메디코파마",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5BT3lGT19lbHRRUHgwZ0xpX3k5dUN4MWlaNzFSQjNCYTNuXzR4alZjX0tWVk5qbkdOLW01NmpUNE9vRWFHV21Fa2Z5ZmhpUkdwQzJEWi1rSWRwQlBlT2hUVVMtekNBWDhsQWZGUmFMQkhmUQ?oc=5",
-   "source": "메디코파마",
-   "date": "2026-07-14"
   }
  ],
  "Hanaro 원자력 iSelect": [
