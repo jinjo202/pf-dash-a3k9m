@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-22T23:15:01
+// 갱신: 2026-07-22T23:31:11
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,12 +7,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQR2pfdU9QQXNqNkp0QzhFaDV0WTloQXlLa2JwNVdycGRsSTNtalJsN0t3RHhIa1NDUFdNWjE3V3RkTWJvWTNTUGR1YW9za0dmUnhhQjZBVV9TT0dJeW9PS1hSR3l5ZVBBMG43ck96NXpoclI4aGJoWHotamRieXJhcEFhOFVyWDBmWV9n?oc=5",
    "source": "조선일보",
    "date": "2026-07-21"
-  },
-  {
-   "title": "[굿모닝 증시]코스피, 변동성 장세 전망…실적에 따른 업종 차별화 예상 - 아시아경제",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE85c3ZsRGhud2MwYXhqa1laM2dPZ25FMy1NSVIwMjE3YzVoR2VPY05NRlIwRXk2cjFublM5aEpCa0NvTFFkSTR6ZnhtWVc0VktFMkxZYmtmb0dDOVJLeTA1LUhn?oc=5",
-   "source": "아시아경제",
-   "date": "2026-07-22"
   },
   {
    "title": "한 달 사이 28% 급락한 코스피, ‘포모’ 대신 ‘조모’가 뜬다고? (feat. 증시 전망) 😵‍💫💰 - 뉴닉",
@@ -25,6 +19,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
    "source": "연합인포맥스",
    "date": "2026-07-07"
+  },
+  {
+   "title": "\"코스피, 바닥은 6천피…내주 빅테크 실적 확인후 안정화 전망\" - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB1SC0xRklkT1ZjMDE5VlB3d0xCbDYxM2MyRGdaSmxFRzJycC1aZVpvZDNHRWFoU3pPU0pOQ1VhYS1JeEdwdG5leU4xQW9Kck50R2pHQTVERDZ4aHPSAWBBVV95cUxNakp1eWhDa0Q0TFZNR1NNTEpBMFR4Y3I5ZjRMbmtsa3dEVG01TUpISXhHV0Y5R0xiMEZqM0x6M1VjazRtaEdTZ0FBc0Q3YUtCN3NadkxvN2ZRVGpuLTVBcVc?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-07-20"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -497,16 +497,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
+   "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-01-20"
+  },
+  {
    "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
    "date": "2026-02-09"
-  },
-  {
-   "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - 블루밍비트",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtd1otcWJxdzROcElqRmhLT0dEVTdfUENvSEM3eDlZYW9Xb3l4dHVEZzJrTFcyQU1CR3REOGZlM2lEVDJJMlVNcDZSc0ppV1c5?oc=5",
-   "source": "블루밍비트",
-   "date": "2026-03-02"
   }
  ],
  "Fidelity European Dividend": [

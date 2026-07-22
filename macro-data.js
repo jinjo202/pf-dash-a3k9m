@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-22T23:14:45Z",
+  "generated": "2026-07-22T23:30:53Z",
   "regime": {
     "score": 24,
     "label": "비중확대 우위",
@@ -1043,7 +1043,7 @@ window.MACRO = {
         "m3": 46,
         "m12": 56
       },
-      "fx_val": 1476.25,
+      "fx_val": 1476.2,
       "fx_chg": -0.2,
       "reer": {
         "cur": 84.8,
@@ -1099,7 +1099,7 @@ window.MACRO = {
         "m3": 5,
         "m12": 8
       },
-      "fx_val": 163.11,
+      "fx_val": 163.12,
       "fx_chg": -2.4,
       "reer": {
         "cur": 65.9,
@@ -16259,7 +16259,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.571
+          1.57
         ]
       },
       "z_from": "2000-08",
