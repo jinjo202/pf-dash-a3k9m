@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-22T22:41:19
+// 갱신: 2026-07-22T23:15:01
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -7,6 +7,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQR2pfdU9QQXNqNkp0QzhFaDV0WTloQXlLa2JwNVdycGRsSTNtalJsN0t3RHhIa1NDUFdNWjE3V3RkTWJvWTNTUGR1YW9za0dmUnhhQjZBVV9TT0dJeW9PS1hSR3l5ZVBBMG43ck96NXpoclI4aGJoWHotamRieXJhcEFhOFVyWDBmWV9n?oc=5",
    "source": "조선일보",
    "date": "2026-07-21"
+  },
+  {
+   "title": "[굿모닝 증시]코스피, 변동성 장세 전망…실적에 따른 업종 차별화 예상 - 아시아경제",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE85c3ZsRGhud2MwYXhqa1laM2dPZ25FMy1NSVIwMjE3YzVoR2VPY05NRlIwRXk2cjFublM5aEpCa0NvTFFkSTR6ZnhtWVc0VktFMkxZYmtmb0dDOVJLeTA1LUhn?oc=5",
+   "source": "아시아경제",
+   "date": "2026-07-22"
   },
   {
    "title": "한 달 사이 28% 급락한 코스피, ‘포모’ 대신 ‘조모’가 뜬다고? (feat. 증시 전망) 😵‍💫💰 - 뉴닉",
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
    "source": "연합인포맥스",
    "date": "2026-07-07"
-  },
-  {
-   "title": "\"코스피, 바닥은 6천피…내주 빅테크 실적 확인후 안정화 전망\" - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB1SC0xRklkT1ZjMDE5VlB3d0xCbDYxM2MyRGdaSmxFRzJycC1aZVpvZDNHRWFoU3pPU0pOQ1VhYS1JeEdwdG5leU4xQW9Kck50R2pHQTVERDZ4aHPSAWBBVV95cUxNakp1eWhDa0Q0TFZNR1NNTEpBMFR4Y3I5ZjRMbmtsa3dEVG01TUpISXhHV0Y5R0xiMEZqM0x6M1VjazRtaEdTZ0FBc0Q3YUtCN3NadkxvN2ZRVGpuLTVBcVc?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-07-20"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -61,16 +61,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-22"
   },
   {
-   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - ThinkPool",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1id0FjeGFMZF9CMExLYlpPTV8xSURQRE96MXNrekJqQjlVeHl4bC14MjZpOWI2aWxiNC1WNmxLcDNyZDAxRy0xb3lkN3BDdi1sT2FxQk5VMlpDQzJ2?oc=5",
-   "source": "ThinkPool",
-   "date": "2026-07-22"
-  },
-  {
    "title": "효성중공업 주가 장중 5%대 내려, 미국 데이터센터 건설 위축 가능성에 전력기기주 약세 - 비즈니스포스트",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9rQ2xBbFRQUlRrMWlLWENEZnl3OGx4N3ZIWC1zcHlBYk0wR292MFJiWWZqRlVSeEJSMy05dVZaLUNpa3RCM3htQW5ycTJsQ2UyY21CSXFzQ2xISWpKMGJ5Wm80SkgyWFNIMEJkUEJFWTNvcXM?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-07-20"
+  },
+  {
+   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - ThinkPool",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1id0FjeGFMZF9CMExLYlpPTV8xSURQRE96MXNrekJqQjlVeHl4bC14MjZpOWI2aWxiNC1WNmxLcDNyZDAxRy0xb3lkN3BDdi1sT2FxQk5VMlpDQzJ2?oc=5",
+   "source": "ThinkPool",
+   "date": "2026-07-22"
   },
   {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
