@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-22T09:15:24
+// 갱신: 2026-07-22T09:23:49
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -523,6 +523,12 @@ window.HOLDING_NEWS = {
    "date": "2026-07-17"
   },
   {
+   "title": "JP모건 \"코카콜라·P&G 등 외면받던 배당주 주목…진입 매력 최고조\" - KB Think",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE42ZTd4RTJqMG9uT0NVdXJtb0djOVBjamRpY2k2c19NSXplMEdTcEJHYmxSZHAtazdnT1B6WGNaeFJqTnlVLUtaZVh5RmZVcXo4Q1dQNFFNaE5tbVozS0JJSkRUcTR1UzBudFB0VjU5b3J4Zw?oc=5",
+   "source": "KB Think",
+   "date": "2026-05-27"
+  },
+  {
    "title": "배당 ETF 수익률 55% 돌파…S&P500 세 배 초과 달성 - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNll5N1BHRTJLMWNJN1g5dkxEVG9IVFQ1dUE4M0d3S0dJa0Jac3hPYzNSREtaWjdXMnJVS2F3Tk5COXo2SUxxXzJ0TTVid2hHSVcwWHdJR25wV2NqaGhWVFJsZ0V3aXVzWE55VjMyTWJVYmxtSXdGSHdFaTlsZ1pfdDdaSlBFNklt?oc=5",
    "source": "글로벌이코노믹",
@@ -533,12 +539,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
    "source": "조세일보",
    "date": "2026-01-23"
-  },
-  {
-   "title": "KB증권, 브랜드 광고 캠페인 송출…한국투자증권, 美 배당주 투자 서비스 개편 [증권오늘] - sisaon.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1XaVZ1NW9mNWZBVVBTbjhnTTYzZEJBZDRlX093eGUyUHhvZmo1eTRicGkxNzVwa3hvZXpBNzdKcHBlcldSeFNWd3Y1TnlFd0VjUFp4V29NZl9HUVFlVE5IbW0wanRyNzdXQWRv?oc=5",
-   "source": "sisaon.co.kr",
-   "date": "2025-09-18"
   }
  ]
 };
