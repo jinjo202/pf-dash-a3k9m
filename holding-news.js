@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-21T23:29:09
+// 갱신: 2026-07-22T01:13:08
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,22 +9,22 @@ window.HOLDING_NEWS = {
    "date": "2026-07-21"
   },
   {
-   "title": "씨티, 韓 증시 '1만포인트' 전망 유지...\"코스피 50% 더 오른다\" - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE45UDZRM2Y5QzNnOHJSWTZrOFVzd1l3a2xjZndGYkcySkRsVFIzWmtvZ3E0OUtJQ3Q5Rkk0QXRDZEJmcnFnOGhVMnhYWk9QcGh0akhQQjI0cjF1Y0JR?oc=5",
+   "title": "[AI MY 증시전망] 미국 반도체주 강세에 투자심리 회복 전망 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9uaTRPdldBeDVRT1hSaUFIMnhHS0tTT0EzQ251VllKbS1NRkZMRVdBemdlQlBUVnVqbHd0N2lFSW4xbWZBRHhaWkJSTTZrTGNRZXlQRFpDS2N5WHhN?oc=5",
    "source": "뉴스핌",
    "date": "2026-07-21"
-  },
-  {
-   "title": "[주간 증시전망] SK하이닉스 실적 발표, 코스피 방향성 결정 - 전북일보 인터넷신문",
-   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFB2YVF0V1RUdFQ5eXIwSDN0eE1vVUlFbm5FczFFY1dwS0xqTjlJb3hqSXhqQmV1VWtiMDRKOXZ5S0tDVTZ1NlRVQTd0Y3U3S1JIdkdnbTJyYTLSAVhBVV95cUxQdmFRdFdUVHRUOXlyMEgzdHhNb1VJRW5uRXMxRWNXcEtMak45SW94akl4akJldVVrYjA0Sjl2eUtLQ1U2dTZUVUE3dGN1N0tSSHZHZ20ycmEy?oc=5",
-   "source": "전북일보 인터넷신문",
-   "date": "2026-07-19"
   },
   {
    "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ycTYzMllBYTkyenVpMGd6VGM4ZTB5M2tUbjFHMGo3WmJrRmlUU0lZbEFTd2x3YWdyTm40WVdiSXpWZmRYOExJaUlBNFJqTnR1U1VNLUZzWG9WX3Q0YWpxT2ROelIxcnc2TGV2X3lGa28?oc=5",
    "source": "연합인포맥스",
    "date": "2026-07-07"
+  },
+  {
+   "title": "JP모건 “韓 증시 청산 상당 부분 진행…코스피 1만2500 전망” - 스트레이트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE16QjZRaVZnSkRzQ2YwcEtuSXNjdzRNV0M3dEhFS3dQWTVnSDlBNmtpenJiZ0NtanJ0WDBIZmY5Qi1EY1pJRmFmS2UxQW10NnFqSDVtMkdCV2pQbC1qZGdiUDJGa1BhMWdwOG1jRjdJU0kxQWPSAXdBVV95cUxOcnU2Z2VIU2d1aVJwdEkwX3htaWlENkg1emJzcGtQWVEtWVFMYktTcDQ2Q2pxV21kMTN0WGlJYkdMY3AwVXZ3TGxjMVZQTWRyLUxLUjJFWGlDa2M3Qjg5cndZTXJrRFVxNUlIX1BYOE1OV3JhdzJYMA?oc=5",
+   "source": "스트레이트뉴스",
+   "date": "2026-07-21"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -237,16 +237,16 @@ window.HOLDING_NEWS = {
  ],
  "KODEX 자동차": [
   {
-   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
-   "source": "조선일보",
-   "date": "2026-06-26"
-  },
-  {
    "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByWlVzOEwtaDF2SGhKa0VpT3ZLZnZvYS1SUjBRQmRmWmhodlZuRU5zVHhCc2t1cHhvdWdzdEVFSzFXNGdKNWdxT2Z0ZUktU0k2bXRXSXRoRjZ5RmgwaVZ4akY0Ny1OZlBiYzZTYVA1Yjc?oc=5",
    "source": "연합인포맥스",
    "date": "2026-06-09"
+  },
+  {
+   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
+   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
+   "source": "조선일보",
+   "date": "2026-06-26"
   },
   {
    "title": "자동차주 갈아탈 때? … \"현대차 말고 기아 사라\" 증권가 변심 - 뉴데일리",
@@ -255,10 +255,10 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "전쟁 터지고 20% 넘게 폭락했는데…전문가 \"반등 가능성 있다\" - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5UenVIXzRFbVVqSnF2WF9ybFJEVElWOXRoZllOOEJzTmczNWpxSURFa05zQnVCbjdhR0tWRDdTWGVTdmxlYXIwb0pTOU00Z3RVRFNSb2huT1JzZw?oc=5",
-   "source": "한국경제",
-   "date": "2026-04-06"
+   "title": "[특징주] 기아, 장 초반 급등해 52주 신고가…현대차도 상승 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5oREIxcG1kRUFsdU5FY0NncWhyRFhoTG9CR2llVVpuakg2c1o1Q01yeENvUTJ0REc5ZmpfUjZzcEdGQlJLbXdNQmdMMWRDZVgyWmtlREkta1pKNjDSAWBBVV95cUxQeWZQel94VnhrVGVnV2hwUWg5aVc5Zjl3UENiaWsxQUZIbmJKM2REelhLdEd3eGR1T0xFVzFlSEk1Sk5ORldvcWNsZFhoeTdKSnN0V1RhZS1XZ04yOVh0VDg?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-02-25"
   }
  ],
  "State Street Tech ETF (XLK)": [
@@ -327,10 +327,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-14"
   },
   {
-   "title": "이번 주 미국 주식 시장 - 2026-06-22 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNS29Qb0xjMENlanJzOVBFekdyY1VpTFY1TDhIUGRydHFfUm0wZjlMVjEtaGw2bU5IUU5yUzkycTNyODJrdlBxcWR4dG5kcnlsZy1ubkhuRGhYWXdaanpoWVpJLVdfQURCVmM0bV8zY1hLME8ydjZMQ3VUcGNKYkg1UkRyanNXSGhqSFcwZQ?oc=5",
-   "source": "TradingKey",
-   "date": "2026-06-22"
+   "title": "코스피, 최고치 랠리 이어갈까…\"美 경제지표·AI 이벤트 변수\" [주간전망] - 블루밍비트",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE55WUdMQVhiWVJsWm9uTno3Z2ZUaEpyRFhoU3VmcFQ4aG9neU5jOVdxdVp5LUN3YWRMTHVCeVFkZEctVkRFQnBNR2MwWTRaQTRE?oc=5",
+   "source": "블루밍비트",
+   "date": "2026-05-30"
   }
  ],
  "SS Materials Select SPDR ETF (XLB)": [
