@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-22T09:23:49
+// 갱신: 2026-07-22T09:40:36
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -67,16 +67,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-20"
   },
   {
-   "title": "폭염 테마주 완벽 분석: 에어컨·전력·빙과까지 섹터별 수혜주 총정리 🔥 - 뉴닉",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1idGNtNVN0SmJvS0tES2tzVXJ1bEpiSWpscVBDamFJUzhyQ1hzSTRqWjJUNU9hT1Aza2tiOXlJVmJyUzJiWEZhRDJTTXJZLTB0NVJqSGNn?oc=5",
-   "source": "뉴닉",
-   "date": "2026-07-16"
-  },
-  {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
    "source": "매일신문",
    "date": "2026-06-09"
+  },
+  {
+   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - ThinkPool",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5QaUVBM01ETmdoanRXSGthaEY2eEE0b0UwY0NpZFhDRTV3UzlpYk9PMmpGV201MlJwckpIcElEQUFRTG9hV0g4RkVUYkxWN2VfNEloRnFuSF9KSmEz?oc=5",
+   "source": "ThinkPool",
+   "date": "2026-07-21"
   }
  ],
  "KoAct 바이오헬스케어액티브": [

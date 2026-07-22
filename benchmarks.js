@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-22",
-  "generated_utc": "2026-07-22T09:21:17Z",
+  "generated_utc": "2026-07-22T09:38:08Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -3837,12 +3837,12 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 646.95,
+      "current": 647.27,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 9.1383,
-      "mtd_pct": 0.8134,
-      "daily_pct": 0.5846,
+      "ytd_pct": 9.1923,
+      "mtd_pct": 0.8633,
+      "daily_pct": 0.6343,
       "as_of": "2026-07-22",
       "decimals": 2,
       "valuation": {
@@ -4376,7 +4376,7 @@ window.BENCHMARKS = {
           641.53,
           639.6,
           643.19,
-          646.95
+          647.27
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 87.73,
+      "current": 87.92,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 52.7865,
-      "mtd_pct": 26.2302,
-      "daily_pct": 3.3212,
+      "ytd_pct": 53.1174,
+      "mtd_pct": 26.5036,
+      "daily_pct": 3.5449,
       "as_of": "2026-07-22",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           82.49,
           83.23,
           84.91,
-          87.73
+          87.92
         ]
       }
     },
@@ -7119,12 +7119,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 17.36,
+      "current": 17.34,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 16.1204,
-      "mtd_pct": 5.5319,
-      "daily_pct": 1.8182,
+      "ytd_pct": 15.9866,
+      "mtd_pct": 5.4103,
+      "daily_pct": 1.7009,
       "as_of": "2026-07-22",
       "decimals": 2,
       "valuation": {
@@ -7658,7 +7658,7 @@ window.BENCHMARKS = {
           18.77,
           18.65,
           17.05,
-          17.36
+          17.34
         ]
       }
     },
@@ -7671,7 +7671,7 @@ window.BENCHMARKS = {
       "mtd_baseline": null,
       "ytd_pct": 50.3846,
       "mtd_pct": null,
-      "daily_pct": 0.7732,
+      "daily_pct": 0.0,
       "as_of": "2026-07-22",
       "decimals": 2,
       "valuation": {
