@@ -4,14 +4,6 @@ window.MACRO = {
   "as_of": "2026-07-23",
   "update_log": [
     {
-      "date": "2026-07-15",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "109.0조원 → 111.3조원 (2026-07-14 발표)",
-      "as_of": "2026-07-14"
-    },
-    {
       "date": "2026-07-16",
       "type": "revision",
       "key": "oil_yoy",
@@ -477,27 +469,27 @@ window.MACRO = {
       "title": "CNN 공포·탐욕 지수",
       "detail": "43 → 40 (수정)",
       "as_of": "2026-07-23"
+    },
+    {
+      "date": "2026-07-23",
+      "type": "release",
+      "key": "kr_deposit",
+      "title": "한국 투자자예탁금",
+      "detail": "106.7조원 → 103.9조원 (2026-07-22 발표)",
+      "as_of": "2026-07-22"
     }
   ],
   "updates_today": [
     {
       "date": "2026-07-23",
       "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "40.9배 → 40.4배 (2026-07-23 발표)",
-      "as_of": "2026-07-23"
-    },
-    {
-      "date": "2026-07-23",
-      "type": "revision",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "43 → 40 (수정)",
-      "as_of": "2026-07-23"
+      "key": "kr_deposit",
+      "title": "한국 투자자예탁금",
+      "detail": "106.7조원 → 103.9조원 (2026-07-22 발표)",
+      "as_of": "2026-07-22"
     }
   ],
-  "generated": "2026-07-23T22:22:49Z",
+  "generated": "2026-07-23T22:38:32Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -1060,7 +1052,7 @@ window.MACRO = {
         "m3": 46,
         "m12": 57
       },
-      "fx_val": 1474.12,
+      "fx_val": 1474.14,
       "fx_chg": -0.1,
       "reer": {
         "cur": 83.1,
@@ -1095,7 +1087,7 @@ window.MACRO = {
         "avg10y": 99.5,
         "dev_pct": 3.2
       },
-      "fx12m": 6.1,
+      "fx12m": 6.2,
       "cli": null,
       "phase": "둔화 (Slowdown)*",
       "mon_note": "ECB 완화 사이클(+)"
@@ -5386,7 +5378,6 @@ window.MACRO = {
   "kr_flows_ts": {
     "deposit": {
       "dates": [
-        "2024-05-30",
         "2024-05-31",
         "2024-06-03",
         "2024-06-04",
@@ -5905,10 +5896,10 @@ window.MACRO = {
         "2026-07-15",
         "2026-07-16",
         "2026-07-20",
-        "2026-07-21"
+        "2026-07-21",
+        "2026-07-22"
       ],
       "values": [
-        56.4,
         54.4,
         54.2,
         53.0,
@@ -6427,7 +6418,8 @@ window.MACRO = {
         109.9,
         108.1,
         112.5,
-        106.7
+        106.7,
+        103.9
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
@@ -7139,7 +7131,7 @@ window.MACRO = {
       35.2,
       37.4,
       36.7,
-      33.1
+      32.6
     ],
     "kospi_credit": [
       11.0,
@@ -7168,7 +7160,7 @@ window.MACRO = {
       20.1,
       21.5,
       21.1,
-      19.1
+      18.8
     ],
     "kosdaq_credit": [
       8.7,
@@ -7197,7 +7189,7 @@ window.MACRO = {
       15.1,
       15.9,
       15.6,
-      14.0
+      13.8
     ],
     "kospi_idx": [
       2636.5,
@@ -7260,18 +7252,17 @@ window.MACRO = {
     "unit": "조원",
     "realtime": true,
     "current": {
-      "total": 33.1,
-      "deposit": 106.7,
-      "as_of": "2026-07-21",
-      "kospi": 19.1,
-      "kosdaq": 14.0
+      "total": 32.6,
+      "deposit": 103.9,
+      "as_of": "2026-07-22",
+      "kospi": 18.8,
+      "kosdaq": 13.8
     },
     "source": "네이버 증시자금추이(실측·시장별은 시드비율 분해)",
     "source_url": "https://finance.naver.com/sise/sise_deposit.naver"
   },
   "kr_credit_daily": {
     "dates": [
-      "2026-03-11",
       "2026-03-12",
       "2026-03-13",
       "2026-03-16",
@@ -7360,10 +7351,10 @@ window.MACRO = {
       "2026-07-15",
       "2026-07-16",
       "2026-07-20",
-      "2026-07-21"
+      "2026-07-21",
+      "2026-07-22"
     ],
     "kospi_credit": [
-      17.85,
       18.08,
       18.36,
       18.65,
@@ -7452,10 +7443,10 @@ window.MACRO = {
       19.53,
       18.95,
       18.89,
-      19.06
+      19.06,
+      18.78
     ],
     "kosdaq_credit": [
-      13.45,
       13.62,
       13.84,
       14.05,
@@ -7544,10 +7535,10 @@ window.MACRO = {
       14.37,
       13.95,
       13.91,
-      14.04
+      14.04,
+      13.82
     ],
     "kospi_idx": [
-      5609.95,
       5583.25,
       5487.24,
       5549.85,
@@ -7636,10 +7627,10 @@ window.MACRO = {
       7284.41,
       6820.6,
       6516.27,
-      6747.95
+      6747.95,
+      6797.7
     ],
     "kosdaq_idx": [
-      1136.83,
       1148.4,
       1152.96,
       1138.29,
@@ -7728,7 +7719,8 @@ window.MACRO = {
       829.43,
       791.84,
       749.64,
-      753.34
+      753.34,
+      751.09
     ],
     "unit": "조원"
   },
@@ -13119,7 +13111,7 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 34.8,
+      "current": 34.7,
       "unit": "%",
       "z": 0.27,
       "pct": 68.7,
@@ -16286,7 +16278,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.562
+          1.563
         ]
       },
       "z_from": "2000-08",
@@ -21961,15 +21953,15 @@ window.MACRO = {
     "kr_deposit": {
       "name": "한국 투자자예탁금",
       "pillar": "flows",
-      "current": 106.7,
+      "current": 103.9,
       "unit": "조원",
       "z": null,
       "pct": null,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
-      "desc": "증시 대기자금(고객예탁금). 신용잔고 33.1조 동반. 자동수집(네이버 증시자금추이). 예탁금 증가=매수 여력 확대. 카드 클릭→누적 추이.",
-      "as_of": "2026-07-21",
+      "desc": "증시 대기자금(고객예탁금). 신용잔고 32.6조 동반. 자동수집(네이버 증시자금추이). 예탁금 증가=매수 여력 확대. 카드 클릭→누적 추이.",
+      "as_of": "2026-07-22",
       "history": {
         "dates": [
           "2024-05-01",
@@ -22027,7 +22019,7 @@ window.MACRO = {
           124.8,
           131.6,
           121.6,
-          106.7
+          103.9
         ]
       },
       "manual": true,
@@ -24178,21 +24170,6 @@ window.MACRO = {
               "note": "맞춤형 AI칩(ASIC)·네트워킹"
             },
             {
-              "ticker": "MU",
-              "name": "Micron Technology, Inc.",
-              "mktcap": 1118336450560,
-              "fwdpe": 6.4,
-              "pbr": 11.1,
-              "rets": {
-                "w1": 16.1,
-                "m1": -5.8,
-                "m3": 103.2,
-                "ytd": 247.1
-              },
-              "rev30": 20.40101633603286,
-              "note": "HBM·메모리 업사이클"
-            },
-            {
               "ticker": "AMD",
               "name": "Advanced Micro Devices, Inc.",
               "mktcap": 880018849792,
@@ -24206,6 +24183,21 @@ window.MACRO = {
               },
               "rev30": 0.8872330462753819,
               "note": "AI GPU 추격·MI 시리즈"
+            },
+            {
+              "ticker": "ASML",
+              "name": "ASML Holding N.V. - New York Re",
+              "mktcap": 692532281344,
+              "fwdpe": 31.1,
+              "pbr": null,
+              "rets": {
+                "w1": 1.0,
+                "m1": 1.4,
+                "m3": 25.2,
+                "ytd": 69.1
+              },
+              "rev30": 17.48516121523702,
+              "note": "EUV 노광 독점"
             }
           ]
         },
@@ -24292,19 +24284,19 @@ window.MACRO = {
               "note": "AIP 정부·기업 수요"
             },
             {
-              "ticker": "CRM",
-              "name": "Salesforce, Inc.",
-              "mktcap": 128525664256,
-              "fwdpe": 10.1,
-              "pbr": 3.75,
+              "ticker": "ADBE",
+              "name": "Adobe Inc.",
+              "mktcap": 84337573888,
+              "fwdpe": 7.7,
+              "pbr": 7.35,
               "rets": {
-                "w1": -9.1,
-                "m1": 2.3,
+                "w1": -9.8,
+                "m1": 7.5,
                 "m3": -17.1,
-                "ytd": -40.5
+                "ytd": -39.4
               },
-              "rev30": 0.03390303166712627,
-              "note": "에이전트포스 AI"
+              "rev30": -0.06959304036846525,
+              "note": "생성형 AI 크리에이티브"
             }
           ]
         },
@@ -24415,36 +24407,6 @@ window.MACRO = {
           "indicators": "순이자마진(NIM), 대손충당금, 예대율, IB 수수료",
           "holdings": [
             {
-              "ticker": "JPM",
-              "name": "JP Morgan Chase & Co.",
-              "mktcap": 930104213504,
-              "fwdpe": 14.1,
-              "pbr": 2.63,
-              "rets": {
-                "w1": 2.0,
-                "m1": 5.2,
-                "m3": 12.3,
-                "ytd": 10.1
-              },
-              "rev30": 7.5467963745068145,
-              "note": "NIM·IB 회복"
-            },
-            {
-              "ticker": "BAC",
-              "name": "Bank of America Corporation",
-              "mktcap": 434879070208,
-              "fwdpe": 11.7,
-              "pbr": 1.56,
-              "rets": {
-                "w1": -0.3,
-                "m1": 5.8,
-                "m3": 16.0,
-                "ytd": 12.6
-              },
-              "rev30": 4.323064686220879,
-              "note": "예금·금리 레버리지"
-            },
-            {
               "ticker": "MS",
               "name": "Morgan Stanley",
               "mktcap": 338262949888,
@@ -24460,21 +24422,6 @@ window.MACRO = {
               "note": "WM·IB"
             },
             {
-              "ticker": "GS",
-              "name": "Goldman Sachs Group, Inc. (The)",
-              "mktcap": 317050355712,
-              "fwdpe": 14.7,
-              "pbr": 2.93,
-              "rets": {
-                "w1": -1.9,
-                "m1": -1.8,
-                "m3": 15.5,
-                "ytd": 23.5
-              },
-              "rev30": 18.993379785727704,
-              "note": "IB·트레이딩"
-            },
-            {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
               "mktcap": 263757742080,
@@ -24488,6 +24435,51 @@ window.MACRO = {
               },
               "rev30": 3.6985738029826187,
               "note": "자산상한 해제 기대"
+            },
+            {
+              "ticker": "JPM",
+              "name": "JP Morgan Chase & Co.",
+              "mktcap": null,
+              "fwdpe": 14.1,
+              "pbr": 2.63,
+              "rets": {
+                "w1": 2.0,
+                "m1": 5.2,
+                "m3": 12.3,
+                "ytd": 10.1
+              },
+              "rev30": 7.5467963745068145,
+              "note": "NIM·IB 회복"
+            },
+            {
+              "ticker": "BAC",
+              "name": "Bank of America Corporation",
+              "mktcap": null,
+              "fwdpe": 11.7,
+              "pbr": 1.56,
+              "rets": {
+                "w1": -0.3,
+                "m1": 5.8,
+                "m3": 16.0,
+                "ytd": 12.6
+              },
+              "rev30": 4.323064686220879,
+              "note": "예금·금리 레버리지"
+            },
+            {
+              "ticker": "GS",
+              "name": "Goldman Sachs Group, Inc. (The)",
+              "mktcap": null,
+              "fwdpe": 14.7,
+              "pbr": 2.93,
+              "rets": {
+                "w1": -1.9,
+                "m1": -1.8,
+                "m3": 15.5,
+                "ytd": 23.5
+              },
+              "rev30": 18.993379785727704,
+              "note": "IB·트레이딩"
             }
           ]
         },
@@ -24658,21 +24650,6 @@ window.MACRO = {
               "note": "주택수리"
             },
             {
-              "ticker": "MCD",
-              "name": "McDonald's Corporation",
-              "mktcap": 186720927744,
-              "fwdpe": 18.6,
-              "pbr": null,
-              "rets": {
-                "w1": -3.9,
-                "m1": -3.3,
-                "m3": -11.8,
-                "ytd": -12.9
-              },
-              "rev30": -0.3600485507179507,
-              "note": "가성비 메뉴"
-            },
-            {
               "ticker": "NKE",
               "name": "Nike, Inc.",
               "mktcap": 60808617984,
@@ -24686,6 +24663,21 @@ window.MACRO = {
               },
               "rev30": -6.019007967215629,
               "note": "리브랜딩·중국"
+            },
+            {
+              "ticker": "MCD",
+              "name": "McDonald's Corporation",
+              "mktcap": null,
+              "fwdpe": 18.6,
+              "pbr": null,
+              "rets": {
+                "w1": -3.9,
+                "m1": -3.3,
+                "m3": -11.8,
+                "ytd": -12.9
+              },
+              "rev30": -0.3600485507179507,
+              "note": "가성비 메뉴"
             }
           ]
         },
@@ -24815,7 +24807,7 @@ window.MACRO = {
               "name": "GE Aerospace",
               "mktcap": 362109304832,
               "fwdpe": 38.5,
-              "pbr": 20.17,
+              "pbr": null,
               "rets": {
                 "w1": 0.9,
                 "m1": -2.0,
@@ -25490,7 +25482,7 @@ window.MACRO = {
             {
               "ticker": "032640.KS",
               "name": "LG Uplus",
-              "mktcap": 6277286592512,
+              "mktcap": null,
               "fwdpe": 7.7,
               "pbr": null,
               "rets": {
@@ -26618,9 +26610,9 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.34%p(호재)·WTI 유가 (YoY) 34.8%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.34%p(호재)·WTI 유가 (YoY) 34.7%(강한 악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.3배(악재)·KOSPI 12M Fwd PER 4.7배(강한 호재)·주식위험프리미엄(ERP) 0.51%p(중립)·미국 10Y 금리 4.7%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1474.1원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 106.7조원(강한 호재)·한국 투자자별 수급(외국인, 월) -6.5조원(중립)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1474.1원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 103.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -6.5조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 18.7(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 40(악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 1.01(중립)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(둔화)",
     "overall": "종합 레짐 점수 +25. 매크로 +5, 밸류 +1, 수급 +49, 센티 +23, 기업이익 +48."
