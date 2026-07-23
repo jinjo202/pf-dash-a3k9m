@@ -138,7 +138,7 @@ def build_plain(brief):
 
 def build_message(brief, sender, test=False):
     md = md_from(brief.get("as_of"))
-    subject = "글로벌 증시 동향(%s)" % md
+    subject = "글로벌 증시 동향(%s) (클로드)" % md
     if test:
         subject = "[테스트] " + subject
 

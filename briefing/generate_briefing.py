@@ -149,7 +149,8 @@ def load_latest_export(as_of, max_age_days=3):
 # 섹션 RSS(뉴스구독 CMS S1N{n}). asia/us 별로 시장 주도 뉴스 섹션만 선별.
 EINFOMAX_RSS = "https://news.einfomax.co.kr/rss/S1N%d.xml"
 EINFOMAX_SECTIONS = {
-    "asia": [(2, "증권"), (16, "채권/외환"), (15, "정책/금융")],
+    # 아시아장 핵심 동인은 간밤 미국·글로벌 이슈(알파벳 CAPEX 등)인 경우가 많아 국제(23) 포함.
+    "asia": [(2, "증권"), (23, "국제"), (16, "채권/외환"), (15, "정책/금융")],
     "us":   [(23, "국제"), (21, "해외주식"), (16, "채권/외환")],
 }
 # 시황과 무관한 노이즈 머리말([...]) — 헤드라인 앞부분에 오면 제외.
@@ -173,11 +174,13 @@ def _rss_items(url, limit):
         blk = m.group(1)
         tm = re.search(r"<title>(.*?)</title>", blk, re.S)
         dm = re.search(r"<description>(.*?)</description>", blk, re.S)
+        pm = re.search(r"<pubDate>(.*?)</pubDate>", blk, re.S)
         title = _strip_tags(tm.group(1)) if tm else ""
         if not title:
             continue
         out.append({"title": title[:140],
-                    "desc": (_strip_tags(dm.group(1)) if dm else "")[:180]})
+                    "desc": (_strip_tags(dm.group(1)) if dm else "")[:180],
+                    "pub": (_strip_tags(pm.group(1))[:16] if pm else "")})  # YYYY-MM-DD HH:MM
         if len(out) >= limit:
             break
     return out
@@ -190,9 +193,13 @@ def _is_noise(title):
     return False
 
 
-def fetch_einfomax_news(region, per_section=7, cap=12):
+def fetch_einfomax_news(region, per_section=8, cap=14, max_age_days=2):
     """region(asia|us) 별 인포맥스 섹션 RSS에서 시장 주도 헤드라인을 큐레이션.
-    실패·네트워크 문제 시 빈 리스트(생성은 계속). 수치 근거로는 쓰지 않는다."""
+    발행시각(pub) 포함, 최근 max_age_days 일 이내만, 최신순 정렬 — 며칠 지난
+    뉴스를 '오늘의 이유'로 쓰는 것을 방지. 실패 시 빈 리스트(생성은 계속)."""
+    from datetime import timedelta
+    cutoff = (datetime.now(timezone.utc) + timedelta(hours=9)
+              - timedelta(days=max_age_days)).strftime("%Y-%m-%d")
     sections = EINFOMAX_SECTIONS.get(region) or []
     seen, out = set(), []
     for num, label in sections:
@@ -204,11 +211,15 @@ def fetch_einfomax_news(region, per_section=7, cap=12):
             t = it["title"]
             if _is_noise(t):
                 continue
+            pub = it.get("pub", "")
+            if pub and pub[:10] < cutoff:  # 최근 max_age_days 일 이전 뉴스는 제외
+                continue
             key = re.sub(r"\s+", "", t)[:40]
             if key in seen:
                 continue
             seen.add(key)
-            out.append({"title": t, "desc": it["desc"], "section": label})
+            out.append({"pub": pub, "title": t, "desc": it["desc"], "section": label})
+    out.sort(key=lambda x: x.get("pub", ""), reverse=True)  # 최신순
     return out[:cap]
 
 
@@ -402,7 +413,8 @@ RULES_CORE = """[핵심 우선 — 매우 중요]
 그날 시장을 움직인 '단 하나의 핵심 스토리'를 먼저 파악해 총평·본문 첫머리에 명확히 제시한다. 섹터·종목 수치를 기계적으로 나열하지 말고, 핵심 동인(왜 그렇게 움직였나)을 중심으로 엮는다.
 - **장중 흐름의 반전이 그날의 핵심이면 반드시 담는다.** 예: "반도체 강세로 오전 급등했으나, 오후 차익실현·실적 경계에 상승분을 대부분 반납하며 반락". 판단 근거: ① [지수 실시간 스냅샷]의 open/high/low/close — 장중 고점(high)이 종가(close)보다 크게 높으면 '오전(장중) 상승 후 반락'이다. ② 연합인포맥스 [증시-마감]·[종합]·[도쿄증시-마감] 기사(headline·desc)에 장중 흐름·핵심 동인이 그대로 서술돼 있으니 최대한 활용.
 - 그날의 성격을 한마디로 규정하라(예: "장중 반락", "반도체 쏠림", "외국인 매도 지속"). 핵심과 무관한 지엽 종목·업종은 과감히 생략.
-- 총평(2번 문단)은 '오늘의 핵심'을 담은 한 문장이어야 한다. 단순 등락 나열 금지."""
+- 총평(2번 문단)은 '오늘의 핵심'을 담은 한 문장이어야 한다. 단순 등락 나열 금지.
+- **핵심 동인(오늘 오른/내린 이유)은 반드시 오늘(또는 전일 밤)의 최신 뉴스에서 찾는다.** [연합인포맥스 주요 뉴스]에서 pub(발행시각)이 가장 최근인 기사를 근거로 삼아라. **며칠 지난 뉴스나 daily-data 의 movers reason·events(daily-data 의 as_of 가 기준일보다 이전이면 그 reason 은 과거 것)를 '오늘의 이유'로 절대 쓰지 말 것.** 예: 오늘 반도체가 올랐는데 최신 뉴스가 '알파벳/구글 자본지출(CAPEX) 상향'이면 그게 이유다. 3일 전 '정부 AI칩' 같은 낡은 뉴스를 오늘 이유로 붙이지 말 것."""
 
 RULES_OUTLOOK = """[outlook — "이번주 관전 포인트" (앞을 내다보는 진짜 전망 — 이메일·대시보드에 노출)]
 이번주(또는 다음 거래일~이번주) 시장이 눈여겨볼 관전 포인트 3~4개를 문자열 배열로 작성한다.
@@ -611,8 +623,10 @@ def build_request(region, daily, bench, override_as_of=None, draft=False):
     einfo = fetch_einfomax_news(region)
     if einfo:
         news_block = (
-            "[연합인포맥스 주요 뉴스 헤드라인 — 시장 주도 이벤트 파악·정성적 인용에만 사용, "
-            "구체 수치는 반드시 위 데이터에서만]\n%s\n\n"
+            "[연합인포맥스 주요 뉴스 (최신순, pub=발행시각) — 오늘 시장을 움직인 '핵심 동인'은 "
+            "여기 pub 이 가장 최근인 [증시-마감]·[종합] 기사에서 찾는다. daily-data 의 movers "
+            "reason·events 는 며칠 지난 것일 수 있으니 오늘 이유로 쓰지 말 것. 수치는 위 실시간 "
+            "데이터에서만]\n%s\n\n"
             % json.dumps(einfo, ensure_ascii=False))
     user_payload = (
         "작성 기준일(as_of): %s (= %d월 %d일)\n\n"
