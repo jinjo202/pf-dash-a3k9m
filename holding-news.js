@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-23T07:24:04
+// 갱신: 2026-07-23T09:14:30
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -55,16 +55,16 @@ window.HOLDING_NEWS = {
  ],
  "KODEX AI전력핵심설비 ETF": [
   {
-   "title": "하나증권 \"AI 데이터센터 투자 확대에 전력기기주 부각, 관련주 HD현대일렉트릭 효성중공업\" - 비즈니스포스트",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5BbkxMQUkzYmhhWGtMQjB5dGpFSHdiUC0wbl95VkdNOU15MExLeWdqV2FnNVVHSzU4MERsVXJzb0lBOFd3dzI5WldEVW5uZnpFcmZwQTBoM1ZQR2xkMXhVMXoyd3RMNkkwQjNBR1RTMlVfQmc?oc=5",
-   "source": "비즈니스포스트",
-   "date": "2026-07-22"
-  },
-  {
    "title": "HD현대일렉트릭, 전력 인프라 투자 기대감 속 강세 : 기업주식정보 - 재경일보",
    "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE5uajJlSU9sclFOUVRSVW45X3JqMkRiamRaUFhOWHpENW53bzBJbHhqUlVuZTlrZVRBd3FKVHNySDZUa1V4ZThYMkJn?oc=5",
    "source": "재경일보",
    "date": "2026-07-23"
+  },
+  {
+   "title": "효성중공업 주가 장중 5%대 내려, 미국 데이터센터 건설 위축 가능성에 전력기기주 약세 - 비즈니스포스트",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9rQ2xBbFRQUlRrMWlLWENEZnl3OGx4N3ZIWC1zcHlBYk0wR292MFJiWWZqRlVSeEJSMy05dVZaLUNpa3RCM3htQW5ycTJsQ2UyY21CSXFzQ2xISWpKMGJ5Wm80SkgyWFNIMEJkUEJFWTNvcXM?oc=5",
+   "source": "비즈니스포스트",
+   "date": "2026-07-20"
   },
   {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
@@ -73,10 +73,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-09"
   },
   {
-   "title": "대원전선(006340)저점을 줄때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략. - ThinkPool",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1id0FjeGFMZF9CMExLYlpPTV8xSURQRE96MXNrekJqQjlVeHl4bC14MjZpOWI2aWxiNC1WNmxLcDNyZDAxRy0xb3lkN3BDdi1sT2FxQk5VMlpDQzJ2?oc=5",
-   "source": "ThinkPool",
-   "date": "2026-07-22"
+   "title": "전력 인프라주 투자 괜찮나 - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE91T2dCazRPSnNtZlNZQnowU19uaUNZUHFaMDRzMGVWbEZ5SDNtTXhScGcxRlhyTTV4SmpudEFOMzllNzU2VVlIaUFLY1huVENtbGNlOA?oc=5",
+   "source": "매일경제",
+   "date": "2026-05-22"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -99,10 +99,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-22"
   },
   {
-   "title": "상한가→하한가에 모·자회사 '동반 下'‥제약·바이오 '단기 주가 비명' - 뉴스맥",
-   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTE9rTjB1enkwVnp2MDFjY0dWbEM4TWFpa0xuVnNDZThadU9pNHEydXRpZzFzN3NzOVdlXzRaRnJpamFjMGd2?oc=5",
-   "source": "뉴스맥",
-   "date": "2026-07-21"
+   "title": "제약·바이오株 급등…국민성장펀드 날개 달고 다시 비상하나 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE4wR3kydWllclBINTRQTzFfOUJZR3gxM0lHMzhfZ3JRWEItMkQ2b0tIMFlJdURmQzA1clBCYU4tbmxEdXkyOFdsbUwzY3lXM0JhakJxWl8tcExPX1nSAWBBVV95cUxOcTgzR2RkMDI3WmJOeDZxR2puU2V3TGNaX0tGdmFkVTR4YjVDQnYtcWNxWEFyZmF4SW1lazZkYkZtU3AyOG9aeElpV1dLU1ZFYjhYX1phYTQ1TC1iekdfbDk?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-06-29"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -347,10 +347,10 @@ window.HOLDING_NEWS = {
    "date": "2026-05-14"
   },
   {
-   "title": "LG엔솔·中야화, 모로코 리튬 투자 속도 높이나…美 관세 변수 상존 - 더구루",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5zQm5KbHZIbGRHZWcxZk5JRzlnd1dMakxtTGo3MWFwMF9kS001akY3U1pEaUNkY25mMkVXdHpST09TVGs2dmdDR2F6MmpyeHA5VTJabld5ZDBYUzZCYmFtS0VWaw?oc=5",
-   "source": "더구루",
-   "date": "2026-06-25"
+   "title": "희토류 ETF란? 원자재 ETF로 보는 희토류 관련주와 투자 전략, REMX 분석 - EBC Financial Group",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE53YmJENVFSa1RtMDNpSTdCdVAxRUlmaXhLX2JmYThxVkM3T2dhNllpMWlaWG9oX1pabWV4MTJaaktSSHpqOVhmZ0psb1lMYWpBWGc?oc=5",
+   "source": "EBC Financial Group",
+   "date": "2026-05-15"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -393,16 +393,16 @@ window.HOLDING_NEWS = {
    "date": "2026-04-16"
   },
   {
-   "title": "배재규 \"버블 피하니 돈 못버는 것, 겁내지 말고 나스닥 100 사라\" - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPcEpIMENQTFk1NjZLdnlPc1MtUzNKVWRta1J6V1pMaGFPVGhrbndyYlI0LXJPMkxGVzlrWDdrTXpjM2pwRWMzdnZ4NURVMWd0czZrWEItOTZWcFZuajdZellZZ05rVWZqYm9pbTR4bHVTQWRoR2NXWXBsQ0lPSXpVWg?oc=5",
-   "source": "조선일보",
-   "date": "2026-03-23"
-  },
-  {
    "title": "\"스페이스X 상장땐 빅테크서 950억弗 이탈\"…K반도체株도 비상 - 매일경제",
    "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9ZTXdkb2xmc1dJd2RhT0w5c2k4Sko5dFgzcUJOb0p6T1k2VDNmWVJ3N3kwRkhzdVJfTTExenFOaEZFSjF6SEV4N3ZGbHd4Zw?oc=5",
    "source": "매일경제",
    "date": "2026-06-05"
+  },
+  {
+   "title": "나스닥 8% 오를 때 액티브 ETF는 30~40%…M7 줄이고 무엇 담았나 - 조선일보",
+   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPS1ROQkZGamt4Q3pYWGpKbklYUmV3SXB0WWZZYUlNcEZNb2JvQ1daYi0yVExibmdrQlhXVnRlRFBLQUNqR3ZsTzh0YW5HVzlPV0h3TzZBcUxLd3BMY3h6a2JMZVBqWHR2YWlmbnF2Y2JlQTFQRTdRUG5kdms0eG9BWg?oc=5",
+   "source": "조선일보",
+   "date": "2026-04-27"
   }
  ],
  "KODEX S&P500(H)": [
@@ -491,16 +491,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
+   "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-01-20"
+  },
+  {
    "title": "유럽증시, ECB 금리인상 등 영향 일제히 올라⋯독일 0.06%-프랑스와 영국 0.48% 상승마감 - 이코노뉴스",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Mei1OZmt5LUw0dnJIZFlYVFVEVlMxMnRxcVZlOHBXMm9vVU04c1hLcE9aTkh4Ykh4ZExWSVpHNW90MzhtOUxJMUhsOUxFcmpESWFFWTl5UHVHY2JWTjRUY09rczFCWE16S0hKOXdpQQ?oc=5",
    "source": "이코노뉴스",
    "date": "2026-06-11"
-  },
-  {
-   "title": "유럽증시, 기술주가 상승세 주도하며 일제히 올라… 5년 반 만에 최고 분기 수익률 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE0tcDZ5YjExYnp5di1WYmZ5MUFCWWlJWU9HTC1PX2FuUHdCbzBYeDBSSjl4Zlh2VENfWWc3TWFxMUJoU0x6Sl9xVkZZTEQ0U1Nud1pqRmZBRDg2akFE?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-07-01"
   },
   {
    "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - 블루밍비트",
