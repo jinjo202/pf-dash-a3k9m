@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-24T09:35:36Z",
+  "generated": "2026-07-24T09:46:21Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -1043,7 +1043,7 @@ window.MACRO = {
         "m3": 49,
         "m12": 58
       },
-      "fx_val": 1462.48,
+      "fx_val": 1462.5,
       "fx_chg": 0.6,
       "reer": {
         "cur": 83.1,
@@ -1118,17 +1118,17 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -59,
-        "fx": 18,
+        "fx": 20,
         "mon": 30,
         "cycle": -69
       },
       "horizon": {
-        "m1": -21,
+        "m1": -20,
         "m3": -16,
         "m12": -7
       },
       "fx_val": 6.77,
-      "fx_chg": 0.9,
+      "fx_chg": 1.0,
       "reer": {
         "cur": 92.2,
         "avg10y": 98.0,
@@ -12972,7 +12972,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "실시간 GDP 성장 추정(nowcast). 발표 전 선행 추정치",
-      "as_of": "2026-07-21",
+      "as_of": "2026-07-17",
       "history": {
         "dates": [
           "2011-07-01",
@@ -13110,7 +13110,7 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 32.7,
+      "current": 32.6,
       "unit": "%",
       "z": 0.27,
       "pct": 68.7,
@@ -16277,7 +16277,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.567
+          1.566
         ]
       },
       "z_from": "2000-08",
@@ -19749,7 +19749,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1462.7,
+      "current": 1462.3,
       "unit": "원",
       "z": 2.45,
       "pct": 98.8,
@@ -20414,11 +20414,11 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 18.8,
+      "current": 18.7,
       "unit": "",
       "z": -0.38,
       "pct": 42.9,
-      "score": -0.08,
+      "score": -0.07,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "공포 게이지. 낮을수록 안정",
@@ -24173,7 +24173,7 @@ window.MACRO = {
               "name": "Micron Technology, Inc.",
               "mktcap": 1118336450560,
               "fwdpe": 6.4,
-              "pbr": 11.1,
+              "pbr": 15.41,
               "rets": {
                 "w1": 16.1,
                 "m1": -5.8,
@@ -24283,19 +24283,19 @@ window.MACRO = {
               "note": "AIP 정부·기업 수요"
             },
             {
-              "ticker": "ADBE",
-              "name": "Adobe Inc.",
-              "mktcap": 84337573888,
-              "fwdpe": 7.7,
-              "pbr": 7.35,
+              "ticker": "CRM",
+              "name": "Salesforce, Inc.",
+              "mktcap": 128525664256,
+              "fwdpe": 10.1,
+              "pbr": 3.75,
               "rets": {
-                "w1": -9.8,
-                "m1": 7.5,
+                "w1": -9.1,
+                "m1": 2.3,
                 "m3": -17.1,
-                "ytd": -39.4
+                "ytd": -40.5
               },
-              "rev30": -0.06959304036846525,
-              "note": "생성형 AI 크리에이티브"
+              "rev30": 0.03390303166712627,
+              "note": "에이전트포스 AI"
             }
           ]
         },
@@ -24423,7 +24423,7 @@ window.MACRO = {
             {
               "ticker": "BAC",
               "name": "Bank of America Corporation",
-              "mktcap": 434879070208,
+              "mktcap": 430061060096,
               "fwdpe": 11.7,
               "pbr": 1.56,
               "rets": {
@@ -24468,7 +24468,7 @@ window.MACRO = {
             {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
-              "mktcap": 263757742080,
+              "mktcap": 261027741696,
               "fwdpe": 10.9,
               "pbr": 1.62,
               "rets": {
@@ -24623,7 +24623,7 @@ window.MACRO = {
               "name": "Tesla, Inc.",
               "mktcap": 1262630862848,
               "fwdpe": 142.7,
-              "pbr": 14.27,
+              "pbr": 14.6,
               "rets": {
                 "w1": -18.3,
                 "m1": -16.2,
@@ -24787,11 +24787,26 @@ window.MACRO = {
           "indicators": "ISM 신규주문, 자본재 수주, 전력 capex, 방산 예산",
           "holdings": [
             {
+              "ticker": "CAT",
+              "name": "Caterpillar, Inc.",
+              "mktcap": 412017917952,
+              "fwdpe": 29.4,
+              "pbr": 22.08,
+              "rets": {
+                "w1": 2.2,
+                "m1": -8.9,
+                "m3": 10.8,
+                "ytd": 57.1
+              },
+              "rev30": 0.5323314825824266,
+              "note": "인프라·전력장비"
+            },
+            {
               "ticker": "GE",
               "name": "GE Aerospace",
               "mktcap": 362109304832,
               "fwdpe": 38.5,
-              "pbr": null,
+              "pbr": 20.17,
               "rets": {
                 "w1": 0.9,
                 "m1": -2.0,
@@ -24845,21 +24860,6 @@ window.MACRO = {
               },
               "rev30": -60.86723636432768,
               "note": "자동화·항공"
-            },
-            {
-              "ticker": "CAT",
-              "name": "Caterpillar, Inc.",
-              "mktcap": null,
-              "fwdpe": 29.4,
-              "pbr": 22.08,
-              "rets": {
-                "w1": 2.2,
-                "m1": -8.9,
-                "m3": 10.8,
-                "ytd": 57.1
-              },
-              "rev30": 0.5323314825824266,
-              "note": "인프라·전력장비"
             }
           ]
         }
@@ -26609,10 +26609,10 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.34%p(호재)·WTI 유가 (YoY) 32.7%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.34%p(호재)·WTI 유가 (YoY) 32.6%(강한 악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.3배(악재)·KOSPI 12M Fwd PER 4.3배(강한 호재)·주식위험프리미엄(ERP) 0.51%p(중립)·미국 10Y 금리 4.7%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1462.7원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 103.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -9.8조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 18.8(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 39(악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 0.88(중립)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1462.3원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 103.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -9.8조원(중립)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 18.7(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 39(악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 0.88(중립)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(둔화)",
     "overall": "종합 레짐 점수 +25. 매크로 +5, 밸류 +1, 수급 +51, 센티 +21, 기업이익 +48."
   },
