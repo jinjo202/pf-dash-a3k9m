@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-24T22:42:02
+// 갱신: 2026-07-24T23:14:24
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -67,10 +67,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-20"
   },
   {
-   "title": "기판·원전·전력기기株의 배신…추격매수 개미들 울상 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBMUFgtdExWY1Q2Ul9DZUF1RWdxTTc3M1llUzJvYVNKdG5CdFFRcnRpOUN2WTNTZzh3cEtnNnV4SGxNdWJ1UjBFLVpPYVRDRmxjVEE?oc=5",
+   "title": "전력 인프라주 투자 괜찮나 - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE91T2dCazRPSnNtZlNZQnowU19uaUNZUHFaMDRzMGVWbEZ5SDNtTXhScGcxRlhyTTV4SmpudEFOMzllNzU2VVlIaUFLY1huVENtbGNlOA?oc=5",
    "source": "매일경제",
-   "date": "2026-07-09"
+   "date": "2026-05-22"
   },
   {
    "title": "일진전기, 전력설비주 강세 속 5만9300원 마감 : 기업주식정보 - 재경일보",
