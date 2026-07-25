@@ -1,24 +1,8 @@
 // 매크로·시장 레짐 모니터 데이터 (공개 데이터, 평문). fetch_macro.py로 갱신.
 // 소스: FRED(키 불필요 CSV) + yfinance + benchmarks.js
 window.MACRO = {
-  "as_of": "2026-07-24",
+  "as_of": "2026-07-25",
   "update_log": [
-    {
-      "date": "2026-07-16",
-      "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "42.2배 → 41.9배 (2026-07-16 발표)",
-      "as_of": "2026-07-16"
-    },
-    {
-      "date": "2026-07-16",
-      "type": "revision",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "47 → 42 (수정)",
-      "as_of": "2026-07-16"
-    },
     {
       "date": "2026-07-17",
       "type": "revision",
@@ -477,12 +461,45 @@ window.MACRO = {
       "title": "S&P500 CAPE(실러 PE)",
       "detail": "40.4배 → 40.5배 (2026-07-24 발표)",
       "as_of": "2026-07-24"
+    },
+    {
+      "date": "2026-07-25",
+      "type": "release",
+      "key": "aaii_spread",
+      "title": "AAII 불-베어 스프레드",
+      "detail": "-12.7%p → -6.3%p (2026-05-28 발표)",
+      "as_of": "2026-05-28"
+    },
+    {
+      "date": "2026-07-25",
+      "type": "release",
+      "key": "put_call",
+      "title": "CBOE 풋/콜 비율(총)",
+      "detail": "0.88 → 0.88 (2026-07-25 발표)",
+      "as_of": "2026-07-25"
     }
   ],
-  "updates_today": [],
-  "generated": "2026-07-24T23:32:17Z",
+  "updates_today": [
+    {
+      "date": "2026-07-25",
+      "type": "release",
+      "key": "aaii_spread",
+      "title": "AAII 불-베어 스프레드",
+      "detail": "-12.7%p → -6.3%p (2026-05-28 발표)",
+      "as_of": "2026-05-28"
+    },
+    {
+      "date": "2026-07-25",
+      "type": "release",
+      "key": "put_call",
+      "title": "CBOE 풋/콜 비율(총)",
+      "detail": "0.88 → 0.88 (2026-07-25 발표)",
+      "as_of": "2026-07-25"
+    }
+  ],
+  "generated": "2026-07-25T01:15:56Z",
   "regime": {
-    "score": 25,
+    "score": 24,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
@@ -503,7 +520,7 @@ window.MACRO = {
       },
       "sentiment": {
         "name": "센티먼트",
-        "score": 17,
+        "score": 14,
         "n": 8
       },
       "earnings": {
@@ -6414,7 +6431,7 @@ window.MACRO = {
       ]
     },
     "deposit_source": "네이버 증시자금추이(실측)",
-    "as_of": "2026-07-24",
+    "as_of": "2026-07-25",
     "month": "2026.07",
     "unit": "조원",
     "ytd_total": {
@@ -16299,7 +16316,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -16986,7 +17003,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "한국 밸류에이션",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -17007,7 +17024,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "S&P 어닝일드 − 미 10Y. 높을수록 주식 매력",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null,
       "z_from": null,
       "z_n": null,
@@ -21852,20 +21869,20 @@ window.MACRO = {
     "aaii_spread": {
       "name": "AAII 불-베어 스프레드",
       "pillar": "sentiment",
-      "current": -12.7,
+      "current": -6.3,
       "unit": "%p",
       "z": null,
       "pct": null,
-      "score": 0.51,
-      "signal": "강한 호재",
+      "score": 0.25,
+      "signal": "호재",
       "signal_cls": "pos",
-      "desc": "AAII 개인투자자 설문: 강세 29.6%·중립 28.1%·약세 42.3%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
-      "as_of": "2026-07-22",
+      "desc": "AAII 개인투자자 설문: 강세 35.6%·중립 22.6%·약세 41.9%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
+      "as_of": "2026-05-28",
       "history": null,
       "manual": true,
       "kind": "release",
       "source": {
-        "name": "aaii.com (자동)",
+        "name": "원본 데이터",
         "url": "https://www.aaii.com/sentimentsurvey"
       }
     },
@@ -21880,7 +21897,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "옵션 시장 심리(주식 P/C 0.39·SPX 0.88 동반). 역발상 — 높을수록(공포) 강세, 0.7 아래는 낙관·과열. ※요청의 '풋콜 패리티'는 심리지표인 풋/콜 비율로 해석. cboe.com 일간.",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -22039,7 +22056,7 @@ window.MACRO = {
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "2026.07 KOSPI 누적(조원): 외국인 -9.8·기관 -1.5·개인 +10.8(17일). 최근 26.07.24: 외국인 -3.27·기관 -1.95·개인 +5.18. 외인 순매도를 개인·기관(연기금·ETF)이 흡수하는 구조. 자동수집(네이버 금융).",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null,
       "manual": true,
       "kind": "release",
@@ -22059,7 +22076,7 @@ window.MACRO = {
       "signal": "강한 상향",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null
     },
     "eps_rev_us": {
@@ -22073,7 +22090,7 @@ window.MACRO = {
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.1%·90일 +4.5%. 그래프=90일 경로.",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": {
         "dates": [
           "90일전",
@@ -22102,7 +22119,7 @@ window.MACRO = {
       "signal": "상향 우위",
       "signal_cls": "pos",
       "desc": "최근 30일 상향-하향 추정 비율. +면 상향 우세(이익 모멘텀).",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null
     },
     "eps_rev_kr": {
@@ -22116,7 +22133,7 @@ window.MACRO = {
       "signal": "둔화",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 둔화). 7일 -0.0%·90일 +1.1%. 그래프=90일 경로.",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": {
         "dates": [
           "90일전",
@@ -22145,7 +22162,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "Fwd PER 19.04 / EPS성장 18%. 1 미만 저평가, 2+ 부담",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": null,
       "source": {
         "name": "yfinance/FactSet",
@@ -23690,7 +23707,7 @@ window.MACRO = {
     }
   },
   "earnings": {
-    "as_of": "2026-07-24",
+    "as_of": "2026-07-25",
     "issues_as_of": "2026-05-31",
     "countries": {
       "US": {
@@ -23716,10 +23733,10 @@ window.MACRO = {
         "n": 40,
         "annual": {
           "unit": "$ (S&P500 Bottom-Up, FactSet)",
-          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 07/10 (14일 경과)",
+          "source": "⚠️ 갱신 필요 · FactSet Earnings Insight · EPS 기준 07/10 (15일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-07-10",
-          "days_old": 14,
+          "days_old": 15,
           "stale": true,
           "note": "FactSet Earnings Insight(7/10 발간) 기준 — CY2026 EPS 성장 +24.2%, CY2027 +17.4% 컨센서스. S&P500 bottom-up EPS, forward 12M ≈ $368.0(forward P/E 20.5·지수 7,543.64). 매주 금요일 갱신.",
           "years": [
@@ -23797,10 +23814,10 @@ window.MACRO = {
         "n": 29,
         "annual": {
           "unit": "지수(2020=100, 컨센서스)",
-          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (54일 경과)",
+          "source": "⚠️ 갱신 필요 · Goldman Sachs/MSCI · EPS 기준 05/31 (55일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 54,
+          "days_old": 55,
           "stale": true,
           "note": "2026 컨센서스 EPS 성장 전체 +265%(반도체 제외 +42%) — 메모리 슈퍼사이클. 연초 +48% → 5월 +265%로 지속 상향(Goldman Sachs). 2026 급증은 삼성·하이닉스 cap-weight 효과. ※ DataGuide(FnGuide)·퀀티와이즈에서 최신 컨센서스로 갱신 필요(수동).",
           "years": [
@@ -23878,10 +23895,10 @@ window.MACRO = {
         "n": 6,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (54일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (55일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 54,
+          "days_old": 55,
           "stale": true,
           "note": null,
           "years": [
@@ -23959,10 +23976,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (54일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (55일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 54,
+          "days_old": 55,
           "stale": true,
           "note": null,
           "years": [
@@ -24040,10 +24057,10 @@ window.MACRO = {
         "n": 5,
         "annual": {
           "unit": "지수(2020=100, 근사)",
-          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (54일 경과)",
+          "source": "⚠️ 갱신 필요 · 추정·편집 가능 · EPS 기준 05/31 (55일 경과)",
           "actual_through": 2025,
           "eps_as_of": "2026-05-31",
-          "days_old": 54,
+          "days_old": 55,
           "stale": true,
           "note": null,
           "years": [
@@ -24522,7 +24539,7 @@ window.MACRO = {
             {
               "ticker": "JNJ",
               "name": "Johnson & Johnson",
-              "mktcap": 634060931072,
+              "mktcap": 634767278080,
               "fwdpe": 20.5,
               "pbr": 7.81,
               "rets": {
@@ -24750,7 +24767,7 @@ window.MACRO = {
             {
               "ticker": "SLB",
               "name": "SLB Limited",
-              "mktcap": 78370922496,
+              "mktcap": 77791281152,
               "fwdpe": 15.9,
               "pbr": 2.99,
               "rets": {
@@ -24819,7 +24836,7 @@ window.MACRO = {
             {
               "ticker": "UNP",
               "name": "Union Pacific Corporation",
-              "mktcap": 182459957248,
+              "mktcap": 182571286528,
               "fwdpe": 22.1,
               "pbr": 9.4,
               "rets": {
@@ -24849,7 +24866,7 @@ window.MACRO = {
             {
               "ticker": "HON",
               "name": "Honeywell International Inc.",
-              "mktcap": 77036380160,
+              "mktcap": 77063962624,
               "fwdpe": 24.7,
               "pbr": 5.67,
               "rets": {
@@ -26612,9 +26629,9 @@ window.MACRO = {
     "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.36%p(호재)·WTI 유가 (YoY) 35.1%(강한 악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.0배(악재)·KOSPI 12M Fwd PER 4.3배(강한 호재)·주식위험프리미엄(ERP) 0.54%p(중립)·미국 10Y 금리 4.68%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1459.4원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 103.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -9.8조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 18.6(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 39(악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 0.88(중립)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 18.6(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 39(악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.88(중립)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(둔화)",
-    "overall": "종합 레짐 점수 +25. 매크로 +5, 밸류 +2, 수급 +50, 센티 +17, 기업이익 +48."
+    "overall": "종합 레짐 점수 +24. 매크로 +5, 밸류 +2, 수급 +50, 센티 +14, 기업이익 +48."
   },
   "outlook": {
     "short": {
