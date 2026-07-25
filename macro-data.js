@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-25T23:06:05Z",
+  "generated": "2026-07-25T23:29:07Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
