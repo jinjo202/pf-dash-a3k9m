@@ -5,22 +5,6 @@ window.MACRO = {
   "update_log": [
     {
       "date": "2026-07-17",
-      "type": "revision",
-      "key": "oil_yoy",
-      "title": "WTI 유가 (YoY)",
-      "detail": "18.8% → 19.1% (수정)",
-      "as_of": "2026-07-16"
-    },
-    {
-      "date": "2026-07-17",
-      "type": "release",
-      "key": "put_call",
-      "title": "CBOE 풋/콜 비율(총)",
-      "detail": "0.93 → 0.93 (2026-07-17 발표)",
-      "as_of": "2026-07-17"
-    },
-    {
-      "date": "2026-07-17",
       "type": "release",
       "key": "oil_yoy",
       "title": "WTI 유가 (YoY)",
@@ -477,29 +461,45 @@ window.MACRO = {
       "title": "CBOE 풋/콜 비율(총)",
       "detail": "0.88 → 0.88 (2026-07-25 발표)",
       "as_of": "2026-07-25"
+    },
+    {
+      "date": "2026-07-25",
+      "type": "revision",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "35.1% → 33.3% (수정)",
+      "as_of": "2026-07-24"
+    },
+    {
+      "date": "2026-07-25",
+      "type": "revision",
+      "key": "put_call",
+      "title": "CBOE 풋/콜 비율(총)",
+      "detail": "0.88 → 0.99 (수정)",
+      "as_of": "2026-07-25"
     }
   ],
   "updates_today": [
     {
       "date": "2026-07-25",
-      "type": "release",
-      "key": "aaii_spread",
-      "title": "AAII 불-베어 스프레드",
-      "detail": "-12.7%p → -6.3%p (2026-05-28 발표)",
-      "as_of": "2026-05-28"
+      "type": "revision",
+      "key": "oil_yoy",
+      "title": "WTI 유가 (YoY)",
+      "detail": "35.1% → 33.3% (수정)",
+      "as_of": "2026-07-24"
     },
     {
       "date": "2026-07-25",
-      "type": "release",
+      "type": "revision",
       "key": "put_call",
       "title": "CBOE 풋/콜 비율(총)",
-      "detail": "0.88 → 0.88 (2026-07-25 발표)",
+      "detail": "0.88 → 0.99 (수정)",
       "as_of": "2026-07-25"
     }
   ],
-  "generated": "2026-07-25T01:15:56Z",
+  "generated": "2026-07-25T07:22:44Z",
   "regime": {
-    "score": 24,
+    "score": 26,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
@@ -520,7 +520,7 @@ window.MACRO = {
       },
       "sentiment": {
         "name": "센티먼트",
-        "score": 14,
+        "score": 23,
         "n": 8
       },
       "earnings": {
@@ -1039,7 +1039,7 @@ window.MACRO = {
         "avg10y": 101.4,
         "dev_pct": 6.4
       },
-      "fx12m": 7.2,
+      "fx12m": 7.4,
       "cli": 100.8,
       "phase": "확장 (Expansion)",
       "mon_note": "Fed 동결·인하 지연(제약적)"
@@ -1051,17 +1051,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 21,
-        "fx": 18,
+        "fx": 34,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 34,
-        "m3": 50,
-        "m12": 59
+        "m1": 40,
+        "m3": 54,
+        "m12": 60
       },
-      "fx_val": 1459.42,
-      "fx_chg": 0.9,
+      "fx_val": 1462.1,
+      "fx_chg": 1.7,
       "reer": {
         "cur": 83.1,
         "avg10y": 99.4,
@@ -1151,7 +1151,7 @@ window.MACRO = {
         "avg10y": 98.0,
         "dev_pct": -5.8
       },
-      "fx12m": 12.9,
+      "fx12m": 13.1,
       "cli": 98.6,
       "phase": "수축 (Contraction)",
       "mon_note": "인민은행 부양(+)"
@@ -13127,11 +13127,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 35.1,
+      "current": 33.3,
       "unit": "%",
       "z": 0.27,
       "pct": 68.7,
-      "score": -0.88,
+      "score": -0.83,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
@@ -16294,7 +16294,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.563
+          1.562
         ]
       },
       "z_from": "2000-08",
@@ -19766,7 +19766,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1459.4,
+      "current": 1462.1,
       "unit": "원",
       "z": 2.45,
       "pct": 98.8,
@@ -19774,7 +19774,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "원화 약세는 위험회피·외인 유출",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-25",
       "history": {
         "dates": [
           "2000-01-01",
@@ -21096,15 +21096,15 @@ window.MACRO = {
     "move": {
       "name": "MOVE (채권 변동성)",
       "pillar": "sentiment",
-      "current": 76.8,
+      "current": 70.9,
       "unit": "",
-      "z": -0.6,
-      "pct": 32.9,
-      "score": 0.45,
-      "signal": "호재",
+      "z": -0.93,
+      "pct": 21.5,
+      "score": 0.6,
+      "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "미 국채 옵션 내재변동성(ICE BofA). 금리 불확실성 게이지 — 80 미만 안정, 120+ 스트레스",
-      "as_of": "2026-07-24",
+      "as_of": "2026-07-17",
       "history": {
         "dates": [
           "2024-07-01",
@@ -21158,11 +21158,11 @@ window.MACRO = {
           72.07,
           70.22,
           71.96,
-          76.8175
+          70.88
         ]
       },
       "z_from": "2024-07",
-      "z_n": 493,
+      "z_n": 492,
       "kind": "release",
       "source": {
         "name": "yfinance (^MOVE)",
@@ -21869,31 +21869,31 @@ window.MACRO = {
     "aaii_spread": {
       "name": "AAII 불-베어 스프레드",
       "pillar": "sentiment",
-      "current": -6.3,
+      "current": -12.7,
       "unit": "%p",
       "z": null,
       "pct": null,
-      "score": 0.25,
-      "signal": "호재",
+      "score": 0.51,
+      "signal": "강한 호재",
       "signal_cls": "pos",
-      "desc": "AAII 개인투자자 설문: 강세 35.6%·중립 22.6%·약세 41.9%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
-      "as_of": "2026-05-28",
+      "desc": "AAII 개인투자자 설문: 강세 29.6%·중립 28.1%·약세 42.3%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
+      "as_of": "2026-07-22",
       "history": null,
       "manual": true,
       "kind": "release",
       "source": {
-        "name": "원본 데이터",
+        "name": "aaii.com (자동)",
         "url": "https://www.aaii.com/sentimentsurvey"
       }
     },
     "put_call": {
       "name": "CBOE 풋/콜 비율(총)",
       "pillar": "sentiment",
-      "current": 0.88,
+      "current": 0.99,
       "unit": "",
       "z": null,
       "pct": null,
-      "score": -0.2,
+      "score": 0.11,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "옵션 시장 심리(주식 P/C 0.39·SPX 0.88 동반). 역발상 — 높을수록(공포) 강세, 0.7 아래는 낙관·과열. ※요청의 '풋콜 패리티'는 심리지표인 풋/콜 비율로 해석. cboe.com 일간.",
@@ -24837,7 +24837,7 @@ window.MACRO = {
               "ticker": "UNP",
               "name": "Union Pacific Corporation",
               "mktcap": 182571286528,
-              "fwdpe": 22.1,
+              "fwdpe": 21.8,
               "pbr": 9.4,
               "rets": {
                 "w1": 1.8,
@@ -26626,12 +26626,12 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.36%p(호재)·WTI 유가 (YoY) 35.1%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.36%p(호재)·WTI 유가 (YoY) 33.3%(강한 악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.0배(악재)·KOSPI 12M Fwd PER 4.3배(강한 호재)·주식위험프리미엄(ERP) 0.54%p(중립)·미국 10Y 금리 4.68%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1459.4원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 103.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -9.8조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 18.6(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 39(악재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.88(중립)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1462.1원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 103.9조원(강한 호재)·한국 투자자별 수급(외국인, 월) -9.8조원(중립)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 18.6(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 39(악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 0.99(중립)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 0.5%(둔화)",
-    "overall": "종합 레짐 점수 +24. 매크로 +5, 밸류 +2, 수급 +50, 센티 +14, 기업이익 +48."
+    "overall": "종합 레짐 점수 +26. 매크로 +5, 밸류 +2, 수급 +50, 센티 +23, 기업이익 +48."
   },
   "outlook": {
     "short": {
