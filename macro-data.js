@@ -479,17 +479,8 @@ window.MACRO = {
       "as_of": "2026-07-26"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-07-26",
-      "type": "release",
-      "key": "put_call",
-      "title": "CBOE 풋/콜 비율(총)",
-      "detail": "0.99 → 0.99 (2026-07-26 발표)",
-      "as_of": "2026-07-26"
-    }
-  ],
-  "generated": "2026-07-26T01:18:19Z",
+  "updates_today": [],
+  "generated": "2026-07-26T07:22:28Z",
   "regime": {
     "score": 25,
     "label": "비중확대 우위",
@@ -1127,23 +1118,23 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -59,
-        "fx": 22,
+        "fx": 20,
         "mon": 30,
         "cycle": -69
       },
       "horizon": {
-        "m1": -19,
-        "m3": -15,
+        "m1": -20,
+        "m3": -16,
         "m12": -7
       },
-      "fx_val": 6.76,
-      "fx_chg": 1.1,
+      "fx_val": 6.77,
+      "fx_chg": 1.0,
       "reer": {
         "cur": 92.2,
         "avg10y": 98.0,
         "dev_pct": -5.8
       },
-      "fx12m": 13.2,
+      "fx12m": 13.1,
       "cli": 98.6,
       "phase": "수축 (Contraction)",
       "mon_note": "인민은행 부양(+)"
@@ -19766,7 +19757,7 @@ window.MACRO = {
       "signal": "강한 호재",
       "signal_cls": "pos",
       "desc": "원화 약세는 위험회피·외인 유출",
-      "as_of": "2026-07-25",
+      "as_of": "2026-07-26",
       "history": {
         "dates": [
           "2000-01-01",
