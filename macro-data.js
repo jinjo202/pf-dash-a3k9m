@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-26T23:10:40Z",
+  "generated": "2026-07-26T23:28:39Z",
   "regime": {
     "score": 26,
     "label": "비중확대 우위",
@@ -1099,7 +1099,7 @@ window.MACRO = {
         "m3": 5,
         "m12": 8
       },
-      "fx_val": 163.68,
+      "fx_val": 163.67,
       "fx_chg": -2.2,
       "reer": {
         "cur": 65.3,
@@ -13104,7 +13104,7 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 27.5,
+      "current": 27.7,
       "unit": "%",
       "z": 0.27,
       "pct": 68.7,
@@ -15727,9 +15727,9 @@ window.MACRO = {
     "copper_gold": {
       "name": "구리/금 비율",
       "pillar": "macro",
-      "current": 1.55,
+      "current": 1.56,
       "unit": "",
-      "z": -1.09,
+      "z": -1.08,
       "pct": 7.5,
       "score": 1.0,
       "signal": "강한 호재",
@@ -16271,7 +16271,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.554
+          1.556
         ]
       },
       "z_from": "2000-08",
@@ -24165,7 +24165,7 @@ window.MACRO = {
               "name": "Micron Technology, Inc.",
               "mktcap": 1040114647040,
               "fwdpe": 6.0,
-              "pbr": 14.34,
+              "pbr": 10.32,
               "rets": {
                 "w1": 8.5,
                 "m1": -12.2,
@@ -24460,7 +24460,7 @@ window.MACRO = {
             {
               "ticker": "WFC",
               "name": "Wells Fargo & Company",
-              "mktcap": 261391155200,
+              "mktcap": 264124940288,
               "fwdpe": 11.0,
               "pbr": 1.62,
               "rets": {
@@ -24798,7 +24798,7 @@ window.MACRO = {
               "name": "GE Aerospace",
               "mktcap": 367017000960,
               "fwdpe": 39.0,
-              "pbr": 20.44,
+              "pbr": 20.81,
               "rets": {
                 "w1": 1.4,
                 "m1": -3.2,
@@ -26601,7 +26601,7 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.36%p(호재)·WTI 유가 (YoY) 27.5%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.36%p(호재)·WTI 유가 (YoY) 27.7%(강한 악재)",
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 19.0배(악재)·KOSPI 12M Fwd PER 4.3배(강한 호재)·주식위험프리미엄(ERP) 0.54%p(중립)·미국 10Y 금리 4.68%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.6%(강한 호재)·신용 스프레드(Baa-10Y) 1.58%p(호재)·USD/KRW 1459.4원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 104.3조원(강한 호재)·한국 투자자별 수급(외국인, 월) -9.8조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 18.6(중립)·S&P500 12M 모멘텀 16.9%(강한 호재)·CNN 공포·탐욕 지수 39(악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 0.99(중립)",
