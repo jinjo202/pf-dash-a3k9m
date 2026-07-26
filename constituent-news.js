@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-26T09:12:59
+// 갱신: 2026-07-26T09:26:07
 // 총 87개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -48,10 +48,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-26"
   },
   {
-   "title": "美전문가도 혀 찼다...SK하이닉스 ADR 사는 서학개미에 대해 “자멸적 매수” 일침 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNc2lMZDhIYVJZVk9LeG1NanBFZ2ZQRW9UWDhnWGRGdGZqU2l6N3pWeUJ0VjBLdV9lM1lJUThFUWZJRWFYZzhOZ21zLUtJbWNJcUZFYTEyZC1RZEUtcDZ0cXFtdTFaa0lyc1NpRDdweG8ySUdOS3FSMEFQMlU2ZlVnbndkYTJDU1U40gGcAUFVX3lxTE92V1RUU3hxeTNtYTRxYUJNWXdtaVFFdFFkb053T1ljcjBZLVZoVUs3eHlMcGVHS29SQWRDUE91QzZMMjhPLWJfQ0JyYld6UnRyeTV1eFZGM0RrUkJKUnJIVXZPbWFucGVjX21wM3ltc3J1MTVCNExlVEtNcjFOWFoxNjAyY1ZWNVpNVzhKaUpiUU5ON2xrNTFGRlR2aw?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-07-24"
+   "title": "삼전닉스 들어가 말아?…주식 전문가 \"다음주 정말 무서울 것\" - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1lRVk2Mk1VX3NBM0trMXNKazloRGQyN0Nralo0YkNUejk2X0xlQXBvNXBJY2JVdHpMd3p6V3BhTUhPOFVvTUZCdm8xWk9wT0I4LV93dU4xMmlxdw?oc=5",
+   "source": "한국경제",
+   "date": "2026-07-26"
   }
  ],
  "LG에너지솔루션": [
@@ -256,10 +256,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-22"
   },
   {
-   "title": "반도체주 랠리인데… ‘박스권 횡보’ 리노공업 주가 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1OYnNLbHVacjcxbTZON1l3SGN3R05ia0gyRmRGdlppYkFCOHZaUXR0c3VUTndvUEpVeXZteUxSclRmSW1qSFlNLXI0WmVNaUE?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-05-11"
+   "title": "26년만에 1,200대 코스닥…리노공업 8천600억 블록딜에 '환호 속 한숨' - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA2cmw0QzBrb1VkVHRXejJXNEVybTl4ckM1czlKMGMxd2Y1WV94eHVxNS1sX3NkcTNxUDVFOF8tc0Rzem5aWDVKbnRQSW5MUkdnNDdvbVRLaEo0LVl5MmRGeDFoRU9PWDFWQXk4QmdYNDQ?oc=5",
+   "source": "연합인포맥스",
+   "date": "2026-04-27"
   }
  ],
  "HD현대일렉트릭": [
@@ -432,16 +432,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-23"
   },
   {
-   "title": "현대차그룹 지배구조의 정점, 글로벌 전동화 부품 제국의 절대 강자 - 현대모비스 - 네이버 프리미엄콘텐츠",
-   "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQWl85dU1Nczk0SzF0MzlyR1BUbUtZSlNLd0tEMmE5LThxdTRZRm5tZklJYlJNQXhpaE1xUG5PVlNkdGhqcEpTdWpVbU1jRF90RnI2ek01U1RFa2RJNlhYUl9iNXBTbUtHNlBNelA3ZjZvU19QS3F6TkJ2MTRiWVY2WlBsQTMtQQ?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
-   "date": "2026-07-21"
-  },
-  {
    "title": "\"27만원 주식이 212만원\"…'현대차도 제쳤다' 개미들 깜짝 - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1KRzNsXzhrSXduVW8tNkFzTVV0RDk1UFBNMFRIeE5aZ3lUMk1vTENYaTR2d19iZHJUSlpPZVdkbWZTWVBNUXNNVFJ0bkhYdDJZSTV1a3cxYWdMQQ?oc=5",
    "source": "한국경제",
    "date": "2026-05-29"
+  },
+  {
+   "title": "현대차그룹 지배구조의 정점, 글로벌 전동화 부품 제국의 절대 강자 - 현대모비스 - 네이버 프리미엄콘텐츠",
+   "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQWl85dU1Nczk0SzF0MzlyR1BUbUtZSlNLd0tEMmE5LThxdTRZRm5tZklJYlJNQXhpaE1xUG5PVlNkdGhqcEpTdWpVbU1jRF90RnI2ek01U1RFa2RJNlhYUl9iNXBTbUtHNlBNelA3ZjZvU19QS3F6TkJ2MTRiWVY2WlBsQTMtQQ?oc=5",
+   "source": "네이버 프리미엄콘텐츠",
+   "date": "2026-07-21"
   }
  ],
  "한온시스템": [
@@ -602,6 +602,12 @@ window.CONSTITUENT_NEWS = {
  ],
  "우리기술": [
   {
+   "title": "우리기술 투자분석 - 주달",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5Dc1hHZWZ4WHhUV3MxWk9YSk9sN1BPdlpJWFZvYkhMelNObzFnVmVqb2sySDRFeHd2Ulo2MEp5MHJiUG1ydThENGtlWmszTGtRdHhPSWhMSm9SWWF1SlJUdE9zNnFJUTQ0d05HU1B5Wl9xdTQ?oc=5",
+   "source": "주달",
+   "date": "2026-07-22"
+  },
+  {
    "title": "7월 4주차 우리기술 주가 1만1천원대 돌파 후 하락 - 톱스타뉴스",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1wZzBLYWU5VkVIUHVaLWtaWHRIby1aelp4VXNDTEN5SkV5aXBTUW9vZXRnOE5WN2g0d1djY0RRbG5jQVAzWlhYZHRuV18zSDR5eGZqdE04UXgtQlNHMGxGNlBIY2d2S21KXzc2bGs1RXoyQQ?oc=5",
    "source": "톱스타뉴스",
@@ -618,12 +624,6 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE4wTWpWLVB4TFFWdFVDa3BmVTZfX3ZfTHhnSTNxNUNpbmxUVmM3OERTNmE4d3REU0hibktuck82MzlUNW1DYXp4b0Y0V0Jja1F5djYyV0ljdTVoYUJs?oc=5",
    "source": "뉴스핌",
    "date": "2026-07-22"
-  },
-  {
-   "title": "우리기술 투자분석 2026. 07. 22 - 주달",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9mM3hOVkJQUXFRRmxlbjlXenl0OU5TNmdCdG1XQWhDOWpfd3JPcVNQanFCTVR6dEdLTXhIOE9ldkRPXzZGY3Y3ZF9GQ1h4eEl3TXUwdnY4Mk15ZkwzRFVwdVY4RExsdExHVEVjOENGSEtSTlk?oc=5",
-   "source": "주달",
-   "date": "2026-07-21"
   }
  ],
  "한화에어로스페이스": [
@@ -692,16 +692,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-24"
   },
   {
-   "title": "“현대로템, 방산 5사 중 가장 낮은 밸류에이션…2분기 실적 기대치 부합” - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBmT2pidExTRUpEVGlDYmM2QlJxTzc4dGtsNldwVXFwNWhobzdJQTFkR0F6eXZCMVNaaWFsZ0NwNW5qd0otUGlYYlR1UGFMOGV0Tnc?oc=5",
-   "source": "매일경제",
-   "date": "2026-06-29"
-  },
-  {
    "title": "현대로템, 2Q 사상 최대 영업익 노린다…수익성 높인 턴어라운드 - KB Think",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9lQURuMHFtVEE0S1lJRk92WXgzcmk5czVPTnlWR09aR3JPQmdVLTVlbGdLTVRHSThnOHZHbGduTjRIYTRXcjRDWk81UUtoaWZaUTkxNDdqRkJvODdyY3p5bE1CaFVneU5NZndRR0FQb184Zw?oc=5",
    "source": "KB Think",
    "date": "2026-07-10"
+  },
+  {
+   "title": "“현대로템, 방산 5사 중 가장 낮은 밸류에이션…2분기 실적 기대치 부합” - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBmT2pidExTRUpEVGlDYmM2QlJxTzc4dGtsNldwVXFwNWhobzdJQTFkR0F6eXZCMVNaaWFsZ0NwNW5qd0otUGlYYlR1UGFMOGV0Tnc?oc=5",
+   "source": "매일경제",
+   "date": "2026-06-29"
   }
  ],
  "LIG넥스원": [
@@ -1050,12 +1050,6 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-24"
   },
   {
-   "title": "Alphabet Inc Class C(GOOG) 실적 예측: 미래 EPS 및 수익 성장 추정치 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE91RXpOclpwMlVuTTlDZFdzc1Y0QkN1Y0pwUHNuM2NHRjRiaTY2c1lUS2tqd0NKSjRRenhFbUtWTkFMRUpCbzg0WUVSZ1ZHRGZrODVqaDFJM3g2c1V0eW1pQ1JMbmVSZTNueEE?oc=5",
-   "source": "TradingKey",
-   "date": "2026-07-25"
-  },
-  {
    "title": "GOOGL|Alphabet Inc Class A|가격:319.740|Chg%:+2.050 - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFB6OVMxWGwxYl81M0J0S0c5bjBaOUpzalIxSXV1MXNsSHV5Mnh0Z1lldUNrVFFONFZkc1EybzAxT05XRzJ3RndOOUFQdjJfRjFzMWVUNDV6QlVySWhTYW5r?oc=5",
    "source": "TradingKey",
@@ -1066,6 +1060,12 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQZXdVSkE5WlZTaUp5enY2czR1WWw2ZDFyTVRaRld6UXhnNk1VNENfbW9oR1lwS3dEOWtPNjhlLWtyUXc4U1NhUWdaTjAxcllCa01GMGgySVF0em95ck9CQlFiOGhPdGVfanQtclNwZzBPcnkyRk94NzY5OFBHVHBIcTg0YUNyY3UyVVh6bHRZOA?oc=5",
    "source": "TradingKey",
    "date": "2026-07-23"
+  },
+  {
+   "title": "Alphabet Inc Class C (GOOG) 주식 움직였습니다 상승 3.50%에 7월20일: 투자자가 알아야 할 정보 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPVDZJVDYtamZhcE15cGVBQWNQMkVGYWdqYU80Q3pydl9TMm4tWDFWUjVhRUtNb3AyOUJvUjBsZ2YzWGVXUjliTE8wYXBDY1VzNnhOaFpiWWV0ZWFPMnJCYnU3MnFISFJyNzlOMmhPYk1aUngtbHBaT0k3Z2hXbnludzR1dWFlYjFnMFhSQ2tTMA?oc=5",
+   "source": "TradingKey",
+   "date": "2026-07-20"
   }
  ],
  "Take-Two Interactive Software Inc": [
@@ -1310,12 +1310,6 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-01"
   },
   {
-   "title": "대한민국 NO1 가치투자포털 - 아이투자",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTFBPcThmU1lOSlFVUzBzSHI4M1FxY2dfd193WW16TENwNzFXaloxZXVmUUdUelhCOXV0STZyR3lRRDh5b2ExTWc?oc=5",
-   "source": "아이투자",
-   "date": "2026-07-13"
-  },
-  {
    "title": "Linde Is Up 17% YTD. Here’s Where the Stock Could Go in 2026 - TIKR.com",
    "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOT2tGZ2wzLS1IRHhGNjNqN2RmLVplVnMxbVhIN3g3ZlVaMGctQ0xwekFhRmt3dFRDakxtRWZxeWY0UEtnSTVjZEtlMUU2YmRzRGJkZ3NzQ0xCUXJrXzBzRXNGekZJVlNyVDI0RVI3dEhNSmlsUzd0aWlNRXNDdWloV1g1WmJaY0ZjaWc?oc=5",
    "source": "TIKR.com",
@@ -1326,6 +1320,12 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1PakFDVEFBNm5CcTI4Wm5OSk1SbEhwS1ozQ01DSUFMeTNPam0yc2x5RC1DakIzSXEwcHNxdWwyUkZIY3c3QXdiaGlTV1Q3NG9JbjJmcGxCcFVYR1JpSkVkLXVVZjhwRG1MTzFF?oc=5",
    "source": "Investing.com 한국어",
    "date": "2026-02-05"
+  },
+  {
+   "title": "Linde PLC (LIN) 주식 움직였습니다 상승 3.08%에 6월3일: 변동 원인 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNWDlXUHNyVTJRamtIbWlBRnhyMlVrOVduYlJqR2VYdHBHVGJqZ3QtQlVWV2Q3WUFPTmlBYnVOUTZTcXI5M1dtNjhMWUZmNXJCay1xUHQtRVlmeUMyRkRWRnJ1T1c3VFJTbVhDVU5tdnFYcXZld0JHQUl1WFZCSTFaQjlER0V6RDlFQ1h0bTNB?oc=5",
+   "source": "TradingKey",
+   "date": "2026-06-03"
   }
  ],
  "Newmont Corp": [
@@ -1584,27 +1584,27 @@ window.CONSTITUENT_NEWS = {
  ],
  "Alphabet": [
   {
-   "title": "시티즌스, AI 성장 잠재력으로 알파벳 주식 등급 재확인 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE44UC02cURlSjhlNzJPSk9BTHQwTUxTMnJuN1kzb1JqUDhRNUJhZkNZb2ktbkJaY0xOMGk4b2M5eGxWV09TVjVPZnphcTBrWXlkUlhBVlJBaHJna3pWZnNQLW5qak5RbGxEcFMxWU1VUGFJY0Jy?oc=5",
+   "title": "바클레이즈, AI 강점 기반 Alphabet 목표 주가 $425로 상향 - Investing.com 한국어",
+   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBXX3N0dDRLSzYtaS1KYjAwWEtQSm81NE1CblJCRm9Ud0hJazFzbXZNMjZiQ0RPcGM2QzhONnBFeUtjcVRaMGtONlpLS0t0YVZKZnVKOS1kNURaczBaM3MzeHlOd3JwSHZ6SEJJMnp0TjQtd1NX?oc=5",
    "source": "Investing.com 한국어",
+   "date": "2026-07-23"
+  },
+  {
+   "title": "세르게이 브린, 알파벳 급락에도 세계 부자 3위 복귀 - 초이스스탁US",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBsc0VpNEJRY3dCQXcwSlBsek9JTzRJVy1sQW9qOHdWMXMySWdjTWdYeXJSZGlSZkpBMklzcWIyTkdUZ0tOTEV1aXBkcnNFNzlocEM4WjlmWTNiVEljekx5T0JrQ0swX0k?oc=5",
+   "source": "초이스스탁US",
+   "date": "2026-07-25"
+  },
+  {
+   "title": "GOOGL|Alphabet Inc Class A|가격:319.740|Chg%:+2.050 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFB6OVMxWGwxYl81M0J0S0c5bjBaOUpzalIxSXV1MXNsSHV5Mnh0Z1lldUNrVFFONFZkc1EybzAxT05XRzJ3RndOOUFQdjJfRjFzMWVUNDV6QlVySWhTYW5r?oc=5",
+   "source": "TradingKey",
    "date": "2026-07-24"
   },
   {
-   "title": "[특징주] 알파벳(구글), 유가·금리·과징금 ‘삼중고’…3거래일 연속 하락 : 네이버 블로그 - Naver Blog",
-   "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxORjUtYklOQ2NBcTFVYThLX25zUGVXZkcyRWViajlPdWt4WVkySS1zVDZabm1KNFFTXzhJeFdlc1RUd29xZjlTQm02MC1saUlheUpRRlJhcXh4UXhMcTh1R1ZmRTE2RnVrMXNPbVdjdGNabGhIWGZFM2IwdkpMSjltakw3M29MSWxjR1p0T1owTQ?oc=5",
-   "source": "Naver Blog",
-   "date": "2026-07-24"
-  },
-  {
-   "title": "알파벳 2분기 실적, AI 거품론에 `절반의 반박`…주가는 하락 - 디지털데일리",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE54M21rU002YzFrcUU0NWpjaWk4X2lvNGZ6bV9HY2RYUFpwRWZBR2E4ZURJVkZkOGxzVEVpLWx5MFNhNm94RG5EYkVkaHdoSFp4MkJSZHdndjdxYVJkLXFLX3dR?oc=5",
-   "source": "디지털데일리",
-   "date": "2026-07-22"
-  },
-  {
-   "title": "“역대급 실적이긴 한데 돈을 너무 썼네”…알파벳, AI 투자부담에 시간외 4%↓ - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5qOWMxUTAzRmhGWlVtWHhrYTVwVmJRV1AwQWttaVNtelJWc1RLV1VMOURCNXg4dFpPS01ncXFqTEp1T1lEem1WaVVvLXA4UQ?oc=5",
-   "source": "매일경제",
+   "title": "알파벳, 매출 예상 상회 속 CAPEX 상향…시간외서 주가 급락(종합) - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBoOFlUUWl0dV9sWlMxbXAxa0NrOHkzQUJqNW9yN003NW1jVUtNbmJtTTFZU1ROSzA4TGgyaFdMVzlCVzhPd3BzOS1wYU1ZaENIWHNBbFQxY0RrYUd5c1VYUl9kYUtVclhTZ0g3bi1tczM?oc=5",
+   "source": "연합인포맥스",
    "date": "2026-07-22"
   }
  ],
@@ -1648,15 +1648,15 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-24"
   },
   {
-   "title": "SAP, 목요일 주가 5% 이상 오르는 이유는? - Benzinga",
-   "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxNSUZwaEMwOFZqZW90Y3lLOUxLWFl1WXFWOFJ5NUtuajVERXNWd1JLTzYxQm5YeGRBM042YjZfUmVIdG1yTkJLbE1EVUhOM0FFalJfTm0tZ2hWZ08tTS1QMlBSX29zZy1LQ1lDV1ZDU0JjMTgzS3RGZU4zZU44VVc4MDJzTFI2Uk16dXhSZThadDkyWGtTS0FOQ0FFMURETEVDWVQ4Z3lkdW94VnhFRlIyNmgyZ2lYY1JoemdjV2RVbFI1LS14My02ajA0azlPVUVBaThaVWZpU05YY0QzNDQ2UDNld1QzaC1DdGIxdDdteS00MWZaQ2ZVM0pfWmJ1Zw?oc=5",
-   "source": "Benzinga",
+   "title": "SAP, 테넷헬스케어, 맥스리니어 - 마켓인",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE95VThNZi02WUJGSENDVmMzdDNncnNqMmlHNEpnZEhNWGFtVnlWZmx1emxRXzRtejVSQ3NWUThNaFNTTmMzQmo5VE5YSjJtQmZ2RERQUXAwZXhqODBYUXF4YlBwdXlCbzNyTmFKcmtPdlFlWHc?oc=5",
+   "source": "마켓인",
    "date": "2026-07-24"
   },
   {
-   "title": "KeyBanc, 섹터 등급 하향 조정에 SAP 주가 목표치 하향 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBUanhjcl9la29OZHZWbm51V0xaekN5NWhBTGlTcm9sbk04TldMUm9jNmtqb1dpdjc1UTdUV2lvcE15cFJVbnZLRHMzckRkZlJodXNiekFfWHVsTXpDX2d5RUttUDhWTWZ6SmJKRENwUXAyWG9S?oc=5",
-   "source": "Investing.com 한국어",
+   "title": "SAP, 목요일 주가 5% 이상 오르는 이유는? - Benzinga",
+   "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxNSUZwaEMwOFZqZW90Y3lLOUxLWFl1WXFWOFJ5NUtuajVERXNWd1JLTzYxQm5YeGRBM042YjZfUmVIdG1yTkJLbE1EVUhOM0FFalJfTm0tZ2hWZ08tTS1QMlBSX29zZy1LQ1lDV1ZDU0JjMTgzS3RGZU4zZU44VVc4MDJzTFI2Uk16dXhSZThadDkyWGtTS0FOQ0FFMURETEVDWVQ4Z3lkdW94VnhFRlIyNmgyZ2lYY1JoemdjV2RVbFI1LS14My02ajA0azlPVUVBaThaVWZpU05YY0QzNDQ2UDNld1QzaC1DdGIxdDdteS00MWZaQ2ZVM0pfWmJ1Zw?oc=5",
+   "source": "Benzinga",
    "date": "2026-07-24"
   }
  ],
@@ -2026,10 +2026,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-05-13"
   },
   {
-   "title": "HSBC 실적 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1CMU1SWnBmbUtleVBSRWxlUnBUVV9rV0ltQ1RFWE56bFBadWF6d1JTQThha1hWYWZPM0lUR0N3WlVoSElIYjRORDZrM255QTI2LUVHMTdOZ2RUYS1vcjdMWXlrTDdzOVU?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2017-01-12"
+   "title": "Arm Holdings PLC (ARM) 주식 움직였습니다 상승 3.79%에 3월23일: 전체 분석 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNX2JZaGhsQXdDYUswa0ZVNnpRVkdiY0VmQkxLUEV2OFpfTU0xalpaYzhVUTYzcVM1UnU4Q2wwR1hkQlpwZGVrMjhram9qZkJQNS1MYjg2ODVqb0JkS0Fab25paDI4X2ZsUGdKRElIMWpSTE9iQm9lSk9menU0NEtVMUxIa1lRNW00emw4TkdB?oc=5",
+   "source": "TradingKey",
+   "date": "2026-03-23"
   }
  ],
  "ASML Holding NV ADR": [
