@@ -1,18 +1,18 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-27T22:41:06
+// 갱신: 2026-07-27T23:17:50
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
+  {
+   "title": "[AI MY 증시전망] 中 반도체발 쇼크…코스피 '숨 고르기' - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1FM0xHcDN3SXR5c3NMZmtjTklJVV9KZVJlb2FKSWt1V1VFQ0Q1OTdpd2t6S1RyZGhKcU80NDcyOHBiZFVEcWgyUlhXb0ZySDBJVUx4YnFUS3NQQTNI?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-07-27"
+  },
   {
    "title": "7000 깨진 코스피...빅테크·SK하닉 실적 ‘주목’ [주간증시전망] - v.daum.net",
    "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE9zY3VFUXhqbk5tcjVqWS11WnZtZmdLYVFoWnpwZklDTF83VkxaN2lkZm9MMXBvbmhXaGR2Y1lxS2JjaHhNbGc?oc=5",
    "source": "v.daum.net",
    "date": "2026-07-25"
-  },
-  {
-   "title": "[AI MY 증시전망] 美 FOMC 앞두고, 코스피 7000선 회복 시도 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1IVF9hX1RfU3EyMmlFOEJXUHBRSnVIQkR1a09UTVg4N28wSDQxMmZtakVOR1dwOUdieDlPRG5kaVVIQVJCaHJNMHZnS0tZeEZjWXNNOGx6SmNSUGox?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-07-26"
   },
   {
    "title": "\"국내증시 떨어진 이유는 레버리지\"...코스피 1만2500 전망 나온 이유는 - 조세일보",
@@ -361,12 +361,6 @@ window.HOLDING_NEWS = {
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
   {
-   "title": "JP모건 \"S&P500 지수 상당한 상승 여력\"…증시 강세 전망 - 연합뉴스 한민족센터",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFA2bG5nMW5mMlI5TUlwRHRfLXNPVmR6UkJ0YTVjWmkyNXpMcjlhZ0x5bHRKMDNUbEpVdUJHOThXMTJyX0FUYkJjYlFjOEtYRnhKVTlPdUxxOUktN01nYWpiODJya1hXcEZTNTRDdjBvRnNvYTVm?oc=5",
-   "source": "연합뉴스 한민족센터",
-   "date": "2026-07-27"
-  },
-  {
    "title": "다우존스, 나스닥, S&P 500 전망: AI 대형주, 2분기 최대 실적 발표 주 주도 - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE41RVcwdElhbkFFZlpBTDhVZVlveTdPdlRnTmdpSVBRR2toOGs0dDJEY0JaNGxJd3R0bzhSV0EtQ00tMVBrZlc0aEVRTVI0cVE4MHpmeGtqOUs3UWRxQXhsMkZmWXVCeDYzdFpUbnZUZUI?oc=5",
    "source": "Investing.com 한국어",
@@ -383,6 +377,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5odlRFR3JTS2NBN2pKREVmQng3YUlHOE1QNHgzdGJzbGNDcnMyb0trSHJkUnU5Z1Z2TG1hTC1nQ0x0NWhQeVhvYmpWRWpHb3lKSGFpSWJDY25kdG1UcEJnTtIBeEFVX3lxTE1lblYzRVcwQU40aDBCamlxa2JqeHU4bEFiOVFVNVhoUFVOa1FhVHJPOVZrUE41VE5TQVM2OFNlRHJVbWhmbkhWVmJzQTNFZFN3MjhkbHFVWGsxcF9tZGlCVmRmZGlaT0JKOTBsazdTVS1vME9YOEhGQQ?oc=5",
    "source": "뉴시스",
    "date": "2026-07-27"
+  },
+  {
+   "title": "JP모건 “S&P500 지수 상당한 상승 여력”…증시 강세 전망 - 미주한국일보",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5yRVY5bFo1bDlCV21kR21CSDh6Nld2X1hwelZOQXBYMzEwdEdDWVBwSXZLTldDdkNxWHBOYmp0c21sOVZxQU0wWTJPYmU4UU9PNGFQeUNtaHJrT2gwbWpV?oc=5",
+   "source": "미주한국일보",
+   "date": "2026-07-26"
   }
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
