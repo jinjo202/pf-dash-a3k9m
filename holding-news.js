@@ -1,13 +1,7 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-27T07:23:03
+// 갱신: 2026-07-27T10:30:49
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
-  {
-   "title": "\"코스피, 한 달새 28% 밀렸는데\"…증권가 전망에 개미 '한숨' [분석+] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5FNm5ZaHptNWI4Vnk4NlNiRUVIejhNbEt4MW11d2J5WHE1LW9FOHFsTnNkdnNEaHVsa3J5OFpLT3dYTHpkZXdTTUhmeENpU0JwMGNJQ2lWbHZpZw?oc=5",
-   "source": "한국경제",
-   "date": "2026-07-26"
-  },
   {
    "title": "[AI MY 증시전망] 美 FOMC 앞두고, 코스피 7000선 회복 시도 - 뉴스핌",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1IVF9hX1RfU3EyMmlFOEJXUHBRSnVIQkR1a09UTVg4N28wSDQxMmZtakVOR1dwOUdieDlPRG5kaVVIQVJCaHJNMHZnS0tZeEZjWXNNOGx6SmNSUGox?oc=5",
@@ -18,6 +12,12 @@ window.HOLDING_NEWS = {
    "title": "[주간증시전망] 美FOMC·빅테크 실적 '주목'···코스피 '검증 주간' - 서울파이낸스",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9FeWN3N3RYdGpDYkZ0THB3QXpVa25EdzFIRnVkX3otU1hhRGVndDE0bXFjWWw0YmxxLVdxelNScDdBb1VpVFhBVnhMV2g1VzJOSGc5ZFp1VmZnQzlsZVktRjhTdm14N05SYUE?oc=5",
    "source": "서울파이낸스",
+   "date": "2026-07-26"
+  },
+  {
+   "title": "\"코스피, 한 달새 28% 밀렸는데\"…증권가 전망에 개미 '한숨' [분석+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5FNm5ZaHptNWI4Vnk4NlNiRUVIejhNbEt4MW11d2J5WHE1LW9FOHFsTnNkdnNEaHVsa3J5OFpLT3dYTHpkZXdTTUhmeENpU0JwMGNJQ2lWbHZpZw?oc=5",
+   "source": "한국경제",
    "date": "2026-07-26"
   },
   {
@@ -81,28 +81,28 @@ window.HOLDING_NEWS = {
  ],
  "KoAct 바이오헬스케어액티브": [
   {
+   "title": "[주식] 아이센스·동아쏘시오 실적따라 주가도 상승세 - 히트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBCUGIzQXNnRHRMM2xZaHg0SWxmSW1nR1JXV0hKYWwwRHpNQXlldUFBT25CQnBYei1rNjl1eXRtRkNRWlBkNy1jQ09yV09naXhoNEdKenN5VXRhV0J6VXZwcjZ2SEpDMG5URFJr?oc=5",
+   "source": "히트뉴스",
+   "date": "2026-07-27"
+  },
+  {
+   "title": "“살아야 한다”…제약·바이오·헬스 ‘동전주’ 퇴출 피하려 릴레이 액면병합 - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1wUVk0MGx3SkZQOFpuX2otYjlGQjNwZUVyZmJoNEpSTFZpRVhwbld4TmkxWnpRaDBlRDFFc2tLbnBTeHBtRE52NmNPNjg5Unc?oc=5",
+   "source": "v.daum.net",
+   "date": "2026-07-27"
+  },
+  {
    "title": "코스닥 제약업종 톱50 시총 전년비 27조원↓ - 의학신문",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1CdTljOTVIdm5sV0hRZFV4YUQwYWwxTFJqUU8zdUZBU3djSVctVzdWSkdtcDBWWWhaVUVaQ0hodHNjRGlacnJMZFh1TW9EU09mdkYwWG1KbjdpU3liTDVYaEhpWE1jbHRqQ0E?oc=5",
    "source": "의학신문",
    "date": "2026-07-22"
   },
   {
-   "title": "[주식] ADC 기술이전 소식에 '인투셀' 15%↑ - 히트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9JUnBmY21sbDdDX1VuRndJQ1o2UExoWmc1dXdTeWROUXZVNmU4VVo3NUdFVFJDR2czVy1UanZpSThXOXg4NTNaVUpBTnVISFhTZDhWT3hXa0ZsdmgwR2V3djl3c3lHdks1dWNz?oc=5",
-   "source": "히트뉴스",
-   "date": "2026-07-23"
-  },
-  {
    "title": "‘반토막’ 코스닥 바이오株, 기사회생···‘삼전닉스·임상·금리’ 3중고 넘을까 - 시사저널e",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1jQTl1TkNrcFlabTQ0emFjNHgyaHljczRJbkVHS181Q3RkOE1mYktTaExGRDRQT0RNNmN4cjB1RFpvUmUxSGJQM2FLUk9kZXZsVl9XZzh6UGVtdm9UdF9BWUlmbDlDNjRlR2lzYU8xNkZrZ9IBdkFVX3lxTE1RZVVHOGNFN1hDWnZTRXRhR25pMFBqd2tNbXZwa0J4eXFHSURKVVdxdUE0T1BrZ1d1RmRiRERmcXplSU9rb2d6OTMyOTVzakRuWTgzVFl4WldNMDd5N2xwQkZiOWlwZkY4NWlYOXViUTJkRzJQcnc?oc=5",
    "source": "시사저널e",
    "date": "2026-07-23"
-  },
-  {
-   "title": "코스닥 힘 못 쓰니 제약·바이오株도 무너졌다…반등 열쇠는 `이것` - 매일신문",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBmMTdRQUMzR1BDdE9EWjdEOVNpRWR2aWxib09LLUlOY3JOTW5wRDlBQ0hzQjViVkEtNnRyUHdRX0ZYUnl2bEUtSlU3bzhCUDdWcnF3UmMwWGtrWmpQckpaakxn?oc=5",
-   "source": "매일신문",
-   "date": "2026-07-22"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -362,7 +362,7 @@ window.HOLDING_NEWS = {
  "T.Rowe Capital Appreciation ETF (TCAF)": [
   {
    "title": "S&P500 기업 93%가 어닝 서프라이즈인데…꿈쩍 않는 美 증시 - 뉴시스",
-   "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1lblYzRVcwQU40aDBCamlxa2JqeHU4bEFiOVFVNVhoUFVOa1FhVHJPOVZrUE41VE5TQVM2OFNlRHJVbWhmbkhWVmJzQTNFZFN3MjhkbHFVWGsxcF9tZGlCVmRmZGlaT0JKOTBsazdTVS1vME9YOEhGQdIBeEFVX3lxTE1lblYzRVcwQU40aDBCamlxa2JqeHU4bEFiOVFVNVhoUFVOa1FhVHJPOVZrUE41VE5TQVM2OFNlRHJVbWhmbkhWVmJzQTNFZFN3MjhkbHFVWGsxcF9tZGlCVmRmZGlaT0JKOTBsazdTVS1vME9YOEhGQQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5odlRFR3JTS2NBN2pKREVmQng3YUlHOE1QNHgzdGJzbGNDcnMyb0trSHJkUnU5Z1Z2TG1hTC1nQ0x0NWhQeVhvYmpWRWpHb3lKSGFpSWJDY25kdG1UcEJnTtIBeEFVX3lxTE1lblYzRVcwQU40aDBCamlxa2JqeHU4bEFiOVFVNVhoUFVOa1FhVHJPOVZrUE41VE5TQVM2OFNlRHJVbWhmbkhWVmJzQTNFZFN3MjhkbHFVWGsxcF9tZGlCVmRmZGlaT0JKOTBsazdTVS1vME9YOEhGQQ?oc=5",
    "source": "뉴시스",
    "date": "2026-07-27"
   },
@@ -413,6 +413,12 @@ window.HOLDING_NEWS = {
  ],
  "KODEX S&P500(H)": [
   {
+   "title": "S&P500 기업 93%가 어닝 서프라이즈인데…꿈쩍 않는 美 증시 - 뉴시스",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5odlRFR3JTS2NBN2pKREVmQng3YUlHOE1QNHgzdGJzbGNDcnMyb0trSHJkUnU5Z1Z2TG1hTC1nQ0x0NWhQeVhvYmpWRWpHb3lKSGFpSWJDY25kdG1UcEJnTtIBeEFVX3lxTE1lblYzRVcwQU40aDBCamlxa2JqeHU4bEFiOVFVNVhoUFVOa1FhVHJPOVZrUE41VE5TQVM2OFNlRHJVbWhmbkhWVmJzQTNFZFN3MjhkbHFVWGsxcF9tZGlCVmRmZGlaT0JKOTBsazdTVS1vME9YOEhGQQ?oc=5",
+   "source": "뉴시스",
+   "date": "2026-07-27"
+  },
+  {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
    "source": "뉴닉",
@@ -429,12 +435,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
    "source": "YTN",
    "date": "2026-06-07"
-  },
-  {
-   "title": "다우존스·나스닥·S&P 500 전망: 인플레이션 데이터 주목, 1분기 실적 시즌 마무리 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1qbEE2N3ZTZmhSZ290aHNXSVVGdlhSZHZHSV9TNERCdWQzZVFzTUpwQXhUenhPcUl5ZGZsRFdGeC1vZF9RUFFMWjBwRVpKLXV1anFGUV9wWl93N0FxWHRrT292b2U3RU11TzVuaTJMOUE?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-05-11"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
@@ -497,12 +497,6 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
-   "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-01-20"
-  },
-  {
    "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
@@ -513,6 +507,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
    "source": "Chosunbiz",
    "date": "2026-02-24"
+  },
+  {
+   "title": "유럽증시, ECB 금리인상 등 영향 일제히 올라⋯독일 0.06%-프랑스와 영국 0.48% 상승마감 - 이코노뉴스",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Mei1OZmt5LUw0dnJIZFlYVFVEVlMxMnRxcVZlOHBXMm9vVU04c1hLcE9aTkh4Ykh4ZExWSVpHNW90MzhtOUxJMUhsOUxFcmpESWFFWTl5UHVHY2JWTjRUY09rczFCWE16S0hKOXdpQQ?oc=5",
+   "source": "이코노뉴스",
+   "date": "2026-06-11"
   }
  ],
  "Fidelity European Dividend": [
