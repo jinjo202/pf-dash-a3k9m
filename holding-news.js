@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-27T10:52:46
+// 갱신: 2026-07-27T11:02:32
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -61,16 +61,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-09"
   },
   {
+   "title": "기판·원전·전력기기株의 배신…추격매수 개미들 울상 - 매일경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBMUFgtdExWY1Q2Ul9DZUF1RWdxTTc3M1llUzJvYVNKdG5CdFFRcnRpOUN2WTNTZzh3cEtnNnV4SGxNdWJ1UjBFLVpPYVRDRmxjVEE?oc=5",
+   "source": "매일경제",
+   "date": "2026-07-09"
+  },
+  {
    "title": "LS일렉트릭 주가 장중 7%대 상승, '메가프로젝트' 기대감에 전력기기주 강세 - 비즈니스포스트",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBQMXEzR05ueWFaSVlpdjNXVHQyTVpZT2paWGJLZzBBZTFyWWZ2M01uT1lDaFMzcXY3Vm15SWFOTGdGQVRRaVlGeVFZbVRaOVdXNHdLc3NEY0o4ZWxIbWNTaWNpSUxIRURDNEtSWHpxdlNFcGs?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-07-01"
-  },
-  {
-   "title": "전력 인프라주 투자 괜찮나 - 매일경제",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE91T2dCazRPSnNtZlNZQnowU19uaUNZUHFaMDRzMGVWbEZ5SDNtTXhScGcxRlhyTTV4SmpudEFOMzllNzU2VVlIaUFLY1huVENtbGNlOA?oc=5",
-   "source": "매일경제",
-   "date": "2026-05-22"
   },
   {
    "title": "폭염 테마주 완벽 분석: 에어컨·전력·빙과까지 섹터별 수혜주 총정리 🔥 - 뉴닉",
@@ -249,16 +249,16 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "[특징주] 기아, 장 초반 급등해 52주 신고가…현대차도 상승 - 연합뉴스",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5oREIxcG1kRUFsdU5FY0NncWhyRFhoTG9CR2llVVpuakg2c1o1Q01yeENvUTJ0REc5ZmpfUjZzcEdGQlJLbXdNQmdMMWRDZVgyWmtlREkta1pKNjDSAWBBVV95cUxQeWZQel94VnhrVGVnV2hwUWg5aVc5Zjl3UENiaWsxQUZIbmJKM2REelhLdEd3eGR1T0xFVzFlSEk1Sk5ORldvcWNsZFhoeTdKSnN0V1RhZS1XZ04yOVh0VDg?oc=5",
-   "source": "연합뉴스",
-   "date": "2026-02-25"
-  },
-  {
    "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
    "source": "조선일보",
    "date": "2026-06-26"
+  },
+  {
+   "title": "[특징주] 기아, 장 초반 급등해 52주 신고가…현대차도 상승 - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5oREIxcG1kRUFsdU5FY0NncWhyRFhoTG9CR2llVVpuakg2c1o1Q01yeENvUTJ0REc5ZmpfUjZzcEdGQlJLbXdNQmdMMWRDZVgyWmtlREkta1pKNjDSAWBBVV95cUxQeWZQel94VnhrVGVnV2hwUWg5aVc5Zjl3UENiaWsxQUZIbmJKM2REelhLdEd3eGR1T0xFVzFlSEk1Sk5ORldvcWNsZFhoeTdKSnN0V1RhZS1XZ04yOVh0VDg?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-02-25"
   }
  ],
  "State Street Tech ETF (XLK)": [
@@ -315,16 +315,16 @@ window.HOLDING_NEWS = {
    "date": "2026-07-27"
   },
   {
-   "title": "AI 호황보다 오래 간다…산업 인프라 건설 붐에 주목하라[오미주] - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1KTm9TMldHMC1GUm41LW9WVF9GbU0yVWJNM0M3ZGJ4cDB4OU9qcTd1VFlsUXBZQjZqeTV3bjNqYXVtdmZQWktTWXNsUWw0Tm1QcURoNlQyX2UwcHJVN1hOTA?oc=5",
-   "source": "네이트",
-   "date": "2026-07-24"
-  },
-  {
    "title": "'애플의 충격'…美 반도체·산업재 순환매 주목 - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE95cXdMajQwZTVxM1k2X1k0MU1TLVBJdU9jMkU4VTd1OFFPWXd1azIwaUxLM0o2NHlYQlBoWnpLMDg0RGJnTFNJNmJYT1N2QnFRVGFsSkZBbHRjdw?oc=5",
    "source": "한국경제",
    "date": "2026-06-26"
+  },
+  {
+   "title": "AI 호황보다 오래 간다…산업 인프라 건설 붐에 주목하라[오미주] - 네이트",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1KTm9TMldHMC1GUm41LW9WVF9GbU0yVWJNM0M3ZGJ4cDB4OU9qcTd1VFlsUXBZQjZqeTV3bjNqYXVtdmZQWktTWXNsUWw0Tm1QcURoNlQyX2UwcHJVN1hOTA?oc=5",
+   "source": "네이트",
+   "date": "2026-07-24"
   },
   {
    "title": "이번 주 미국 주식 시장 - 2026-06-22 - TradingKey",
