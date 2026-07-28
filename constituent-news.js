@@ -1,8 +1,14 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-07-28T22:25:08
+// 갱신: 2026-07-28T22:42:59
 // 총 87개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
+  {
+   "title": "\"삼전닉스 오늘 또 왜 이래요?\" 반도체에 대한 끝없는 '의심들' - YTN",
+   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFAzSXdBMW54SUF0NXA2SVJXOXlwcnk0dmhGbDNYSWx1eXZvaHpzVnFDTTZKRjZpdkZYbW5ncnlocU93bXo4YmJ4aDJLaS15NlRMbnFzUk5jTXpsSUNpQ3c?oc=5",
+   "source": "YTN",
+   "date": "2026-07-28"
+  },
   {
    "title": "삼전닉스 주가 녹아내렸다…美·中 연타석 폭탄에 패닉 [종목+] - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFAzSEFVbEp5Qkc3TlItcVViYmhxTVd3c1JNNXF3NlZFVklob2tjYU1yRVJXa1hTTVNhSWNVcWxSV1RQT1ZxWWdXOG1mV2tmcjM4T3BVa3ltdy16Zw?oc=5",
@@ -14,12 +20,6 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1TU3owMjBTTUxhN1Rpdm5WNlI2bk5PRnNtd195MXAtTkhNRU9kREJEZ0NzR2tyRnY2RlphQTJWeXA1WHAtYUhZM2QwVVU5UXNCd0FIbE5B?oc=5",
    "source": "중앙일보",
    "date": "2026-07-27"
-  },
-  {
-   "title": "\"삼전닉스 오늘 또 왜 이래요?\" 반도체에 대한 끝없는 '의심들' - YTN",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFAzSXdBMW54SUF0NXA2SVJXOXlwcnk0dmhGbDNYSWx1eXZvaHpzVnFDTTZKRjZpdkZYbW5ncnlocU93bXo4YmJ4aDJLaS15NlRMbnFzUk5jTXpsSUNpQ3c?oc=5",
-   "source": "YTN",
-   "date": "2026-07-28"
   },
   {
    "title": "급락한 삼전닉스 두고...증권가는 56만원·370만원 목표주가 유지 - v.daum.net",
@@ -264,6 +264,12 @@ window.CONSTITUENT_NEWS = {
  ],
  "HD현대일렉트릭": [
   {
+   "title": "\"HD현대일렉트릭, 최근 조정은 과매도…이익 규모 계속 증가\"-삼성 - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBBZUE2a2QybUdUQ2pDNHN3eUZMQVlsb2tlQzlCN1ZwUF9IVlZIMUpsUjd1akhSdURGYVIxUS1RZmw1SHl4YmVxNHBMZkJNSHl5ZUtfOGMwd09QUQ?oc=5",
+   "source": "한국경제",
+   "date": "2026-07-28"
+  },
+  {
    "title": "HD현대일렉트릭 10%이상주주 에이치디현대, 소유 주식 수량 6629주 감소…소유 지분율 0.02%p 하락 - 디지털투데이",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1fWC1iZjR2YVNOQk44TTlVWmtDYU1aSHFpUC1qQkU4enpEMC1qRlc5TWg4MkVxSy1RVWgxS2E3RHpVX3lWVTEyX0RvZ1J0MEwtOTVVS2R2V0ViaDFUUmw1YWppeWN3aklsRWRWOS1BUGNtX2M?oc=5",
    "source": "디지털투데이",
@@ -280,12 +286,6 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBSWGpjZWJKd1JNM2hoV3ZIUXNxY1psVUFqQllFOUtlcFptbXQ1blRrVy16N0pYSHF4a25OYXVnYk9VNzFNRjduNFpNQ1F1dmZvQVRfbQ?oc=5",
    "source": "ThinkPool",
    "date": "2026-07-28"
-  },
-  {
-   "title": "HD현대일렉트릭, 펀더멘털 강화에도 수급 손상…SK證, 목표가 '↓' [주가동향] - 조세일보",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9EeDNzVFZEMVRUU1A0WW9yYlFoYWxGck1nSDlXZG45dWJqUTJtMkhXemtYY3lWNTk4YTZDc3lhQ2xGTG5LN0NMa0lVeU4wRm93OVBMeDlkQmtNNmNiZjgw?oc=5",
-   "source": "조세일보",
-   "date": "2026-07-13"
   }
  ],
  "LS ELECTRIC": [
@@ -368,9 +368,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "두산에너빌리티": [
   {
-   "title": "“두산, 에너빌리티·로보틱스 주가 부진에 증권가 눈높이도 하락” - 매일경제 마켓",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9UQ1Q2NXc1TWlvMExnOUdTSG9qYVJ3WUpvRDZWR3lHckp6WTh0azkyVmg0bUlSMlRrUW9Uai1TcHJvaDN3aWxTMTVFVTlKRVZRZ3c?oc=5",
-   "source": "매일경제 마켓",
+   "title": "IBK증권, 두산에너빌리티 목표가↓…\"시장 밸류에이션 하락반영\" - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5pczU1YUh4Zjh1dy1xNkpwMXp1MDB2eFBuckVzMHN0VlAwM2puVHJ5WWxkdTBabk5vSnUtSlFLOVA3U3phWjBiTnhsVklocy1kZ0M0Z2pBTWZJUk3SAWBBVV95cUxPZXB3aURNclg5c0NSdzloR0N4djQ4SVNVaTJhZU9xMEdiRk96Q1haZmpOdzEzdHRZcW5KbzZ6OThoeFRVd3dubGVDVngwVEhUek5zNmJqWTRjNHczZk0wNUc?oc=5",
+   "source": "연합뉴스",
    "date": "2026-07-27"
   },
   {
@@ -464,10 +464,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-01-16"
   },
   {
-   "title": "[모닝 리포트] \"한온시스템, 손익은 개선·재무는 부담…목표가 4200원\" - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8xT1dJWEdfc2xKcHZXdS1VNGlTRkJVNXV2bUJyS2wxTWhPU2hPNi04eEUtRVRWbE02NDR3TERYZERtaDhPbVdxNWwxMVVxSzcwak5SSUkxcWk3cUdk?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-06-05"
+   "title": "실적 살아나는데 주가는 왜 못 가나… 한온시스템의 숨은 변수 - 핀포인트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE40WTBqbEtCMmIzWFpnQmtPMGthOUZjSl9MUWhiaVhxdlRfOHJkUUdxeEdENUVkSXlWb3J1c2hjWlNNNHU1MnU0cEZycXU4ajZBRTNVbWZUUnJKTXZYMTl1V3ZfLWhoLWlNa0JRVkF6cUVBTUXSAXdBVV95cUxQemZSNFBkMnM5Y2ExQVgxbTVKWHRmYmhhUGRUWDB5TnhpOWJaazl0RWRfRk5nSTBYenFIcmV1TXhnR2o0bEp2cHFvN0E2RGtvVDVVX0gwVDdmMTNKaFo3bVdqOEtHVXM1VHBxQXhXRmNORF8zOWhUOA?oc=5",
+   "source": "핀포인트뉴스",
+   "date": "2026-06-06"
   }
  ],
  "한국타이어앤테크놀로지": [
@@ -1192,10 +1192,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-28"
   },
   {
-   "title": "Caterpillar Inc (CAT) 주식 움직였습니다 하락 3.90%에 7월27일: 어떤 신호인가요? - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQYTRHSWgzV1dmQ2dnNk12SXJlSlJ1aHVjMFZ0MGJXaWVLZDdQRXdYZUoxV0dlZzFBdmtGUEoxSU9EWndNQi1DQ2RGUWxDRVk2ZWF6eHFReTZyY3RMd0x0VUpaSGR4bnBDOW5VeTRZdHV4RXNYMnFNdWxFNVFsemVia1UyeUQybGdiSVk1Rk9B?oc=5",
-   "source": "TradingKey",
-   "date": "2026-07-27"
+   "title": "캐터필러, 고평가 논란 속 실적 발표 앞두고 3%대 하락 : 해외증시 - 재경일보",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBfM0QzWUE0TktOckRtR01fY3dqOURIaF9RSmxOcFZvX1Q1ai12Z2pSZXRzUUg3OFJvSU5rSk53b05KV3l6c1lxbU9B?oc=5",
+   "source": "재경일보",
+   "date": "2026-07-28"
   }
  ],
  "GE Aerospace": [
@@ -1994,10 +1994,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-06-17"
   },
   {
-   "title": "SEV|Aptera Motors Ord Shs Class B|가격:1.685|Chg%:+0.065 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBiVFI1WnFhNXJ0ckJoQkl4WEVUd2gyMzhSUjR4VUNaU21qNGZCRE9ta1JacUJKR2dIOXZ1cVhkS0FlV3pXdmtuQjBrT2VhZEFyLXMwcVhqSnRFeVlu?oc=5",
+   "title": "Toyota Motor Corp (TM) 주식 움직였습니다 상승 3.35%에 6월15일: 전체 분석 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQcjlneG11ZVRZdVJMNjh3cmplWElhcm5nM3hDbTBmQ0ozd0tER2cyNm9YYnZUWllpQUdaTGJkRzlTTDVrOUNJLWN6OVhBMk9abkxld05FYkpSZDZFSlFxVnF6VWVZOU5aLTBHUWlISEJwZ0RRUDdXaEtIVmtNWExmNjVSV0YzUEx2WUFhVQ?oc=5",
    "source": "TradingKey",
-   "date": "2026-07-28"
+   "date": "2026-06-15"
   }
  ],
  "HSBC Holdings PLC ADR": [
@@ -2202,10 +2202,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-26"
   },
   {
-   "title": "[주식시황]왜 떨어지나…삼성전자·SK하이닉스 급락 배경은 - 남도일보",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1EaE96Nm9YLUtEU2RySXV3eUpReTU2NlBCS1BYcW9QVTV2SThGWHdJOVhzS1BlVnpCNWlxSzBadEhOU1lTV2dJbl94aFlQY3dvV0Rka3BaQkphZnZLMlh5eGI1UElrY1lyV28yStIBcEFVX3lxTE4tWUhUTVpFUUlmWkg1emowYm9iSjB3WmtTQ0tyOFVQTXJCZG5wek93THVlWXpWUjlkVkZOYjA5QTZPdlR0bjFnYlZBaWIwLURDTF9LNjZZMnpxa1IwUnFpNDU2dDZmM0NaVXdmYjBmbU4?oc=5",
-   "source": "남도일보",
-   "date": "2026-07-28"
+   "title": "'SK하이닉스' 실적발표일 D-3, 예상 성적표와 주가 전망은? - gukjenews.com",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE15STNpZVVQY1NfZ1VrN3RVcWlUY2ZhNXdGUHg0NmhnSUs5TmR5dGlqUWdtTFhFaXNmV18xeHVfRlNXT1E1ejhUUnVUY1R2eWpKaVpVZ2kzbzRackJRdTFsMjlmc2c3SGZZbUJTd1pR?oc=5",
+   "source": "gukjenews.com",
+   "date": "2026-07-26"
   }
  ],
  "Tencent Holdings Ltd": [
