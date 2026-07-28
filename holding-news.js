@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-28T09:48:52
+// 갱신: 2026-07-28T10:06:58
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -81,10 +81,10 @@ window.HOLDING_NEWS = {
  ],
  "KoAct 바이오헬스케어액티브": [
   {
-   "title": "[주식] 아이센스·동아쏘시오 실적따라 주가도 상승세 - 히트뉴스",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBCUGIzQXNnRHRMM2xZaHg0SWxmSW1nR1JXV0hKYWwwRHpNQXlldUFBT25CQnBYei1rNjl1eXRtRkNRWlBkNy1jQ09yV09naXhoNEdKenN5VXRhV0J6VXZwcjZ2SEpDMG5URFJr?oc=5",
+   "title": "[주식] '언더 6000' 코스피 불안에도, 메드팩토는 상한가 찍어 - 히트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5UYXBFdHllelRQY2oxc1hzaTRfX0FzZERLal81M0loa0xPYnJsSG5vMnQ0aEFLWVd6dFByZTlBSVRYeG5aWmNtT2NyOGNWQzRuNWE1c0F2UVV0Q3FkU1hoOVdRbTdjWTV1SE5V?oc=5",
    "source": "히트뉴스",
-   "date": "2026-07-27"
+   "date": "2026-07-28"
   },
   {
    "title": "코스닥 제약업종 톱50 시총 전년비 27조원↓ - 의학신문",
