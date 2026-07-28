@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-28T07:23:08
+// 갱신: 2026-07-28T09:22:58
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -119,9 +119,9 @@ window.HOLDING_NEWS = {
    "date": "2026-01-12"
   },
   {
-   "title": "원전주 널뛰기 뒤에는 ETF 리밸런싱… 대규모 매수 주문 영향 - 조선비즈 - biz.chosun.com",
+   "title": "원전주 널뛰기 뒤에는 ETF 리밸런싱… 대규모 매수 주문 영향 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPWjRVRHFqdVZvTnJhYjNFUTJrajdZd01ZcFdDbmxiXzVQZzJMSUQ1N0VRTnZRWVZIWGdLcW40Z2lYWWVFRmdqTWdMZXQ1OFcwWk1DR3NZUHE0TzM3LW9mbm9vZV93U1VDZVNDN3VlbW8wTEFkOVVOcDlXRjJMRkJqZzJ2N0VVSV9u0gGcAUFVX3lxTE8xalJzajA4akllQmx1WDJtRW1ySnVZNnNwVkdfZkhtbG9hOUo0R2lJQjhJOFNxVnBpWk45VklqQ2NfYUpDZUttY19peUNBdmV0enVlV1cyb1Z1R0lOczgxT2o4dWtRU05BejV5QTZGaVMyazh3azFZVFltN3M1dG5HYl83ZXJJLUlXNjM5WDV1Zm1EYnM2S0ozMGhZZA?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2026-06-15"
   },
   {
@@ -133,22 +133,22 @@ window.HOLDING_NEWS = {
  ],
  "Plus K-방산 ETF": [
   {
-   "title": "“전쟁 끝나도 30년은 오른다” ‘K방산 ETF 아버지’ 계좌 깠다 - 중앙일보",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA5WVFIR0JNMlppdHVPS1ZMaGotTHpyS2w3TDlpbnJHbVlmZnY0elp1RWtoVTlWNU1xTFNHUHFrZmIzRWVqWlNRNjNoVG0xRkJWZzlMOVVR?oc=5",
-   "source": "중앙일보",
-   "date": "2026-04-08"
-  },
-  {
    "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
    "source": "뉴스1",
    "date": "2026-06-05"
   },
   {
-   "title": "\"올해 역대 최대수출…K방산 다시 주목할 때\" - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE93MmpyeW1JZHY0N3B0VnhWMkE5TTRjOFY3ZTRxazE5Q2p6N0ItSkk2b19laExiZDFSZ29Iekp6LUZvdlo0Vmx3YllvLW1mZ3BkWTVFQ1QzQUVlQQ?oc=5",
+   "title": "\"종전 합의했는데 왜 이래?\"…K방산주 무섭게 치솟는 이유 [종목+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE8tZjBHekhCTktzVlZnWkgxVUpLR3gwZFp5VjBaZ1JxMTRvWUR0WjF3ZFcxTVJjMk9wRk91Z3Y0R1ZZdEl1THBYeVctQXVsRnBMb2YwVjBpWlc5dw?oc=5",
    "source": "한국경제",
-   "date": "2026-03-26"
+   "date": "2026-06-16"
+  },
+  {
+   "title": "“전쟁 끝나도 30년은 오른다” ‘K방산 ETF 아버지’ 계좌 깠다 - 중앙일보",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA5WVFIR0JNMlppdHVPS1ZMaGotTHpyS2w3TDlpbnJHbVlmZnY0elp1RWtoVTlWNU1xTFNHUHFrZmIzRWVqWlNRNjNoVG0xRkJWZzlMOVVR?oc=5",
+   "source": "중앙일보",
+   "date": "2026-04-08"
   },
   {
    "title": "지금이 저점매수 기회일까?…“앞으로 주가 오를 일만 남았다”는 K방산주 - 서울경제",
@@ -361,12 +361,6 @@ window.HOLDING_NEWS = {
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
   {
-   "title": "JP모건 \"S&P500 지수 상당한 상승 여력\"…증시 강세 전망 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFA3R2JXemlYOWtyU1gwR0x2aDdjUkhRMzhIdTd4d1BOME5mb1JxM0w4dXp0Y2lmckpMVmNMcUFyOGVLaWxhWEFWQkhJZGtpbUE?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-27"
-  },
-  {
    "title": "다우존스, 나스닥, S&P 500 전망: AI 대형주, 2분기 최대 실적 발표 주 주도 - Investing.com 한국어",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE41RVcwdElhbkFFZlpBTDhVZVlveTdPdlRnTmdpSVBRR2toOGs0dDJEY0JaNGxJd3R0bzhSV0EtQ00tMVBrZlc0aEVRTVI0cVE4MHpmeGtqOUs3UWRxQXhsMkZmWXVCeDYzdFpUbnZUZUI?oc=5",
    "source": "Investing.com 한국어",
@@ -377,6 +371,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE83SUNUS3NPdVdLWEFTMUMxM1YwVTJGaGxoZmNIZndtQzZQOGMzOFc4a1ZRN2gyUERISk5pTzNQOXVHNTY0Z3dtdjZiemlVRDhQUk9fSk12OUhmejJVSG9WZDBKTk54ZnlvMEE?oc=5",
    "source": "news.sbs.co.kr",
    "date": "2026-07-27"
+  },
+  {
+   "title": "JP모건 “S&P500 지수 상당한 상승 여력”…증시 강세 전망 - 미주한국일보",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5yRVY5bFo1bDlCV21kR21CSDh6Nld2X1hwelZOQXBYMzEwdEdDWVBwSXZLTldDdkNxWHBOYmp0c21sOVZxQU0wWTJPYmU4UU9PNGFQeUNtaHJrT2gwbWpV?oc=5",
+   "source": "미주한국일보",
+   "date": "2026-07-26"
   },
   {
    "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
@@ -419,10 +419,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-27"
   },
   {
-   "title": "S&P500 기업 93%가 어닝 서프라이즈인데…꿈쩍 않는 美 증시 - 뉴시스",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5odlRFR3JTS2NBN2pKREVmQng3YUlHOE1QNHgzdGJzbGNDcnMyb0trSHJkUnU5Z1Z2TG1hTC1nQ0x0NWhQeVhvYmpWRWpHb3lKSGFpSWJDY25kdG1UcEJnTtIBeEFVX3lxTE1lblYzRVcwQU40aDBCamlxa2JqeHU4bEFiOVFVNVhoUFVOa1FhVHJPOVZrUE41VE5TQVM2OFNlRHJVbWhmbkhWVmJzQTNFZFN3MjhkbHFVWGsxcF9tZGlCVmRmZGlaT0JKOTBsazdTVS1vME9YOEhGQQ?oc=5",
-   "source": "뉴시스",
-   "date": "2026-07-27"
+   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
+   "source": "뉴닉",
+   "date": "2026-05-11"
   },
   {
    "title": "골드만 \"S&P500 연평균 7% 성장 전망\" - 연합인포맥스",
@@ -431,10 +431,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-06"
   },
   {
-   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
-   "source": "뉴닉",
-   "date": "2026-05-11"
+   "title": "S&P500 기업 93%가 어닝 서프라이즈인데…꿈쩍 않는 美 증시 - 뉴시스",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5odlRFR3JTS2NBN2pKREVmQng3YUlHOE1QNHgzdGJzbGNDcnMyb0trSHJkUnU5Z1Z2TG1hTC1nQ0x0NWhQeVhvYmpWRWpHb3lKSGFpSWJDY25kdG1UcEJnTtIBeEFVX3lxTE1lblYzRVcwQU40aDBCamlxa2JqeHU4bEFiOVFVNVhoUFVOa1FhVHJPOVZrUE41VE5TQVM2OFNlRHJVbWhmbkhWVmJzQTNFZFN3MjhkbHFVWGsxcF9tZGlCVmRmZGlaT0JKOTBsazdTVS1vME9YOEhGQQ?oc=5",
+   "source": "뉴시스",
+   "date": "2026-07-27"
   }
  ],
  "iShares MSCI Emerging (EEM)": [
@@ -451,9 +451,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-02"
   },
   {
-   "title": "하나證 “베트남, 4월 7일 FTSE 신흥국 승격 판가름… 중동 리스크는 단기 변수” - 조선비즈 - biz.chosun.com",
+   "title": "하나證 “베트남, 4월 7일 FTSE 신흥국 승격 판가름… 중동 리스크는 단기 변수” - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTXd6VnNYcktUMzZHcVFzbGFaUDZOVDUtWHdLTmZtUGtlSDVaWEpwRkt4TXFrSFN2OEtHelQ0OS1KN3Nmak50aUxDdWVtYmx4Ny1ONWFQNkJLQ09xNWloT1l6WlM5X0ZNamxHeWFnRFI1VU5VV19uck1LakhPbmNEdFgxZDlDRldo0gGcAUFVX3lxTE5UUzlqT3FzSEtNYXFnaU9vd3RHcnZ1S3lDVkY2YkY3bjVGMGpITG5aN19zanNody1wQUNyeFZLczY0QWZPa1FkM0xZZ1YySXFCaDlmSWlYVFJ1SzRRMFpTLVBLVnZfenRzSHhKYllKenlXNVJ1RVA1Unc1b3E4ZlM1LUYwcktKLWRBc1VvYlBvbmJpSHdVa3M0SDB2ag?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2026-03-24"
   },
   {
@@ -509,9 +509,9 @@ window.HOLDING_NEWS = {
    "date": "2026-02-09"
   },
   {
-   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - biz.chosun.com",
+   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2026-02-24"
   }
  ],
