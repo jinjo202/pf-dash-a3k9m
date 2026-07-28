@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-27T23:34:05
+// 갱신: 2026-07-28T01:09:44
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -10,15 +10,15 @@ window.HOLDING_NEWS = {
   },
   {
    "title": "7000 깨진 코스피...빅테크·SK하닉 실적 ‘주목’ [주간증시전망] - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE9zY3VFUXhqbk5tcjVqWS11WnZtZmdLYVFoWnpwZklDTF83VkxaN2lkZm9MMXBvbmhXaGR2Y1lxS2JjaHhNbGc?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1Hd0dyelVnelMyMGIzcHVKTDBXZ1ZER1dRRUc4TU14SXBSYlFPZmNGZlJYcTNCbGRESTRXTHl4NzlMT182ZnJYZE9UVU1kT0U?oc=5",
    "source": "v.daum.net",
    "date": "2026-07-25"
   },
   {
-   "title": "\"국내증시 떨어진 이유는 레버리지\"...코스피 1만2500 전망 나온 이유는 - 조세일보",
-   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE42enJlOE53cHd4Vmpwbmo3UGVhTDZBWjh4UXh1T3EwVlRqMm1FNUcwaEhkVnZNREFYclg5bFBDVWpGUGwtalRaM2tUTEllNnJ6SVZnQklaZmg0LUZoNWtN?oc=5",
-   "source": "조세일보",
-   "date": "2026-07-22"
+   "title": "\"코스피, 한 달새 28% 밀렸는데\"…증권가 전망에 개미 '한숨' [분석+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5FNm5ZaHptNWI4Vnk4NlNiRUVIejhNbEt4MW11d2J5WHE1LW9FOHFsTnNkdnNEaHVsa3J5OFpLT3dYTHpkZXdTTUhmeENpU0JwMGNJQ2lWbHZpZw?oc=5",
+   "source": "한국경제",
+   "date": "2026-07-26"
   },
   {
    "title": "골드만 \"韓증시 강세 전망 유지…코스피 1년내 12,000\" - 연합인포맥스",
@@ -87,12 +87,6 @@ window.HOLDING_NEWS = {
    "date": "2026-07-27"
   },
   {
-   "title": "“살아야 한다”…제약·바이오·헬스 ‘동전주’ 퇴출 피하려 릴레이 액면병합 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1wUVk0MGx3SkZQOFpuX2otYjlGQjNwZUVyZmJoNEpSTFZpRVhwbld4TmkxWnpRaDBlRDFFc2tLbnBTeHBtRE52NmNPNjg5Unc?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-07-27"
-  },
-  {
    "title": "코스닥 제약업종 톱50 시총 전년비 27조원↓ - 의학신문",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1CdTljOTVIdm5sV0hRZFV4YUQwYWwxTFJqUU8zdUZBU3djSVctVzdWSkdtcDBWWWhaVUVaQ0hodHNjRGlacnJMZFh1TW9EU09mdkYwWG1KbjdpU3liTDVYaEhpWE1jbHRqQ0E?oc=5",
    "source": "의학신문",
@@ -103,6 +97,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1jQTl1TkNrcFlabTQ0emFjNHgyaHljczRJbkVHS181Q3RkOE1mYktTaExGRDRQT0RNNmN4cjB1RFpvUmUxSGJQM2FLUk9kZXZsVl9XZzh6UGVtdm9UdF9BWUlmbDlDNjRlR2lzYU8xNkZrZ9IBdkFVX3lxTE1RZVVHOGNFN1hDWnZTRXRhR25pMFBqd2tNbXZwa0J4eXFHSURKVVdxdUE0T1BrZ1d1RmRiRERmcXplSU9rb2d6OTMyOTVzakRuWTgzVFl4WldNMDd5N2xwQkZiOWlwZkY4NWlYOXViUTJkRzJQcnc?oc=5",
    "source": "시사저널e",
    "date": "2026-07-23"
+  },
+  {
+   "title": "코스닥 힘 못 쓰니 제약·바이오株도 무너졌다…반등 열쇠는 `이것` - 매일신문",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBmMTdRQUMzR1BDdE9EWjdEOVNpRWR2aWxib09LLUlOY3JOTW5wRDlBQ0hzQjViVkEtNnRyUHdRX0ZYUnl2bEUtSlU3bzhCUDdWcnF3UmMwWGtrWmpQckpaakxn?oc=5",
+   "source": "매일신문",
+   "date": "2026-07-22"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -113,16 +113,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-12"
   },
   {
-   "title": "\"더 오르기 전에 지금 사두자\"…국내 원전주 줄줄이 급등 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE01MVBvNk1LbkNxVmZBQzRQcXE1d0xsYloxakxKZElTNFhCTTU2N0pBcTZvNFB5b2UzZ1AtOHdDR3h1RmdtSHJTTDNYb2VWVWU5QlF4TklHQzVldw?oc=5",
-   "source": "한국경제",
-   "date": "2026-01-12"
-  },
-  {
    "title": "원전주 널뛰기 뒤에는 ETF 리밸런싱… 대규모 매수 주문 영향 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPWjRVRHFqdVZvTnJhYjNFUTJrajdZd01ZcFdDbmxiXzVQZzJMSUQ1N0VRTnZRWVZIWGdLcW40Z2lYWWVFRmdqTWdMZXQ1OFcwWk1DR3NZUHE0TzM3LW9mbm9vZV93U1VDZVNDN3VlbW8wTEFkOVVOcDlXRjJMRkJqZzJ2N0VVSV9u0gGcAUFVX3lxTE8xalJzajA4akllQmx1WDJtRW1ySnVZNnNwVkdfZkhtbG9hOUo0R2lJQjhJOFNxVnBpWk45VklqQ2NfYUpDZUttY19peUNBdmV0enVlV1cyb1Z1R0lOczgxT2o4dWtRU05BejV5QTZGaVMyazh3azFZVFltN3M1dG5HYl83ZXJJLUlXNjM5WDV1Zm1EYnM2S0ozMGhZZA?oc=5",
    "source": "Chosunbiz",
    "date": "2026-06-15"
+  },
+  {
+   "title": "\"나도 원전주\" 선언…중동 전쟁 와중에 50% 치솟았다 [종목+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5PQ2xPdThQYzd6QlZidko5cFhCU1lYUTdheFJjdF9XcEhwTDl5UVBzQ0tmWVdWbkRRMm9YZThPSWh5aExoZV9Bb3NXNlBOTFVKdU5KV1hFMmRldw?oc=5",
+   "source": "한국경제",
+   "date": "2026-03-20"
   },
   {
    "title": "유가 급등에 '에너지 안보' 원전주 들썩일까, 외국인도 삼성중공업 두산 현대건설 베팅 - 비즈니스포스트",
@@ -497,22 +497,22 @@ window.HOLDING_NEWS = {
    "date": "2026-07-03"
   },
   {
+   "title": "유럽증시, 무역전쟁 재점화에 급락…덴마크 2.7％↓(종합) - 연합뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1CdTBkV2pJbzJxcHNzRHgwRTRDcFA5OGxIeHB0bUJqWnJzek44eGxTTGwxeGhfMWwzOHVqSWdScUxVbFZaOVFFTDJsS2ZJRWFSMElOYXM5SU5NZG_SAWBBVV95cUxPNUlwNFI4U1pxbV9MY0YtNWF5S1l2S0FhdEVYQWdYOTBCSkFLNnBuRksyZUN3Z3R1VFNlUGdQQ0daR254NkxyaExva1ZPN3dTZG1VQml3aWpObHdYYzJWbjk?oc=5",
+   "source": "연합뉴스",
+   "date": "2026-01-20"
+  },
+  {
    "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
    "source": "글로벌이코노믹",
    "date": "2026-02-09"
   },
   {
-   "title": "트럼프발 관세 공포에 유럽 증시 출렁…아시아 증시는 \"상대적 안전지대\" - 조선일보",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQS0NiM0ZlMXQtYS1MOGJva2lfMFEyeHhLeEwyeHRrZkJzdUhtUGgzcW9FS1FDenlXTHYtVXlGWV9NeWIwRnF3SVY3N1M2c2RLMWhZZTYzZHN5T2tzS0pJc3E2RHFsb0J0Mjk2T2ZEUnkyb2JPZ2xNdGUxblM2ODF1UA?oc=5",
-   "source": "조선일보",
-   "date": "2026-01-20"
-  },
-  {
-   "title": "유럽증시, ECB 금리인상 등 영향 일제히 올라⋯독일 0.06%-프랑스와 영국 0.48% 상승마감 - 이코노뉴스",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Mei1OZmt5LUw0dnJIZFlYVFVEVlMxMnRxcVZlOHBXMm9vVU04c1hLcE9aTkh4Ykh4ZExWSVpHNW90MzhtOUxJMUhsOUxFcmpESWFFWTl5UHVHY2JWTjRUY09rczFCWE16S0hKOXdpQQ?oc=5",
-   "source": "이코노뉴스",
-   "date": "2026-06-11"
+   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
+   "source": "Chosunbiz",
+   "date": "2026-02-24"
   }
  ],
  "Fidelity European Dividend": [
