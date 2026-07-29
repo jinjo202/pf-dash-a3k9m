@@ -478,17 +478,8 @@ window.MACRO = {
       "as_of": "2026-07-28"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-07-29",
-      "type": "release",
-      "key": "kr_deposit",
-      "title": "한국 투자자예탁금",
-      "detail": "109.2조원 → 107.2조원 (2026-07-28 발표)",
-      "as_of": "2026-07-28"
-    }
-  ],
-  "generated": "2026-07-29T22:38:16Z",
+  "updates_today": [],
+  "generated": "2026-07-29T23:10:15Z",
   "regime": {
     "score": 27,
     "label": "비중확대 우위",
@@ -1042,17 +1033,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 21,
-        "fx": 38,
+        "fx": 44,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 41,
-        "m3": 54,
+        "m1": 43,
+        "m3": 56,
         "m12": 61
       },
-      "fx_val": 1443.94,
-      "fx_chg": 1.9,
+      "fx_val": 1443.59,
+      "fx_chg": 2.2,
       "reer": {
         "cur": 83.1,
         "avg10y": 99.4,
@@ -1070,17 +1061,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 2,
-        "fx": -44,
+        "fx": -36,
         "mon": 30,
         "cycle": -27
       },
       "horizon": {
-        "m1": -16,
-        "m3": -12,
+        "m1": -13,
+        "m3": -11,
         "m12": -8
       },
       "fx_val": 1.15,
-      "fx_chg": -2.2,
+      "fx_chg": -1.8,
       "reer": {
         "cur": 102.7,
         "avg10y": 99.5,
@@ -1098,23 +1089,23 @@ window.MACRO = {
       "components": {
         "val": 0,
         "earn": 52,
-        "fx": -84,
+        "fx": -78,
         "mon": -40,
         "cycle": 26
       },
       "horizon": {
-        "m1": -15,
-        "m3": -3,
+        "m1": -12,
+        "m3": -2,
         "m12": 4
       },
-      "fx_val": 163.41,
-      "fx_chg": -4.2,
+      "fx_val": 163.3,
+      "fx_chg": -3.9,
       "reer": {
         "cur": 65.3,
         "avg10y": 87.7,
         "dev_pct": -25.5
       },
-      "fx12m": -6.6,
+      "fx12m": -6.5,
       "cli": 100.3,
       "phase": "확장 (Expansion)",
       "mon_note": "BOJ 정상화(긴축, −)"
@@ -1126,23 +1117,23 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -54,
-        "fx": 18,
+        "fx": 16,
         "mon": 30,
         "cycle": -69
       },
       "horizon": {
-        "m1": -19,
+        "m1": -20,
         "m3": -15,
         "m12": -6
       },
       "fx_val": 6.77,
-      "fx_chg": 0.9,
+      "fx_chg": 0.8,
       "reer": {
         "cur": 92.2,
         "avg10y": 98.0,
         "dev_pct": -5.8
       },
-      "fx12m": 11.6,
+      "fx12m": 11.5,
       "cli": 98.6,
       "phase": "수축 (Contraction)",
       "mon_note": "인민은행 부양(+)"
@@ -15762,7 +15753,7 @@ window.MACRO = {
       "current": 1.54,
       "unit": "",
       "z": -1.1,
-      "pct": 7.1,
+      "pct": 6.8,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
@@ -16303,7 +16294,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.541
+          1.538
         ]
       },
       "z_from": "2000-08",
@@ -19777,7 +19768,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1444.0,
+      "current": 1453.2,
       "unit": "원",
       "z": 2.23,
       "pct": 97.2,
@@ -24395,7 +24386,7 @@ window.MACRO = {
             {
               "ticker": "DIS",
               "name": "Walt Disney Company (The)",
-              "mktcap": 171011653632,
+              "mktcap": null,
               "fwdpe": 13.2,
               "pbr": 1.58,
               "rets": {
@@ -24828,21 +24819,6 @@ window.MACRO = {
               "note": "항공엔진 수주"
             },
             {
-              "ticker": "CAT",
-              "name": "Caterpillar, Inc.",
-              "mktcap": 360509964288,
-              "fwdpe": 25.7,
-              "pbr": 19.32,
-              "rets": {
-                "w1": -12.0,
-                "m1": -24.1,
-                "m3": -4.1,
-                "ytd": 37.5
-              },
-              "rev30": 0.5323314825824266,
-              "note": "인프라·전력장비"
-            },
-            {
               "ticker": "UNP",
               "name": "Union Pacific Corporation",
               "mktcap": 173582925824,
@@ -24886,6 +24862,21 @@ window.MACRO = {
               },
               "rev30": -60.600056743628585,
               "note": "자동화·항공"
+            },
+            {
+              "ticker": "CAT",
+              "name": "Caterpillar, Inc.",
+              "mktcap": null,
+              "fwdpe": 25.7,
+              "pbr": 19.32,
+              "rets": {
+                "w1": -12.0,
+                "m1": -24.1,
+                "m3": -4.1,
+                "ytd": 37.5
+              },
+              "rev30": 0.5323314825824266,
+              "note": "인프라·전력장비"
             }
           ]
         }
@@ -26637,7 +26628,7 @@ window.MACRO = {
   "commentary": {
     "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.45%p(호재)·WTI 유가 (YoY) 25.0%(강한 악재)",
     "valuation": "[완만한 호재 우위] S&P500 12M Fwd PER 18.0배(중립)·KOSPI 12M Fwd PER 3.5배(강한 호재)·주식위험프리미엄(ERP) 0.95%p(중립)·미국 10Y 금리 4.62%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.5%(강한 호재)·신용 스프레드(Baa-10Y) 1.62%p(호재)·USD/KRW 1444.0원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 107.2조원(강한 호재)·한국 투자자별 수급(외국인, 월) -18.4조원(악재)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.5%(강한 호재)·신용 스프레드(Baa-10Y) 1.62%p(호재)·USD/KRW 1453.2원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 107.2조원(강한 호재)·한국 투자자별 수급(외국인, 월) -18.4조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 20.7(악재)·S&P500 12M 모멘텀 15.4%(강한 호재)·CNN 공포·탐욕 지수 32(강한 악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 0.96(중립)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 0.4%(유지)",
     "overall": "종합 레짐 점수 +27. 매크로 +7, 밸류 +10, 수급 +53, 센티 +16, 기업이익 +48."
