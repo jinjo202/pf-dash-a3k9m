@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-29T23:10:33
+// 갱신: 2026-07-29T23:31:23
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
-   "title": "\"지금 팔면 후회한다\"…고수들 '역대급 반등' 전망한 이유 - 한국경제",
+   "title": "[AI MY 증시전망] 美 FOMC는 넘겼지만 금리 쇼크…코스피 변동성 '확대' - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE90WDZlS2x4dkVhZzZMbWNkbGNEY2FOYkF1U25mSXNPaDJjUFhWRkVJVWpFSVQyTnlVcHF5bTVhMnJJQ2UzVlNnUWd6dk1US0M4Z3VEcEwwTzFjSU1F?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-07-29"
+  },
+  {
+   "title": "\"지금 팔면 후회한다\"…고수들 '역대급 반등' 전망한 이유 - hankyung.com",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1XVzBhN2x1dmhRQU14X3dfbl9ONXhia0Vfd1lXLUZKcnlqaHVheTFuMDVTdGhLV2JndmlHc185YXRnSWpjRnRwc3BwZDJRT0lDdnNlMlRjUUIzUQ?oc=5",
-   "source": "한국경제",
+   "source": "hankyung.com",
    "date": "2026-07-29"
   },
   {
@@ -19,12 +25,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBnNmtIRjNKTWFzRGxBLVFkMXBkSkZ0LV9JSlpodXpsb010Q1owT2xyc29mZDk3aGdlTjlMVlpLSkhmeHhuOWF4Z0cyeUFVaVpf?oc=5",
    "source": "문화일보",
    "date": "2026-07-28"
-  },
-  {
-   "title": "[AI MY 증시전망] 中 반도체발 쇼크…코스피 '숨 고르기' - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1FM0xHcDN3SXR5c3NMZmtjTklJVV9KZVJlb2FKSWt1V1VFQ0Q1OTdpd2t6S1RyZGhKcU80NDcyOHBiZFVEcWgyUlhXb0ZySDBJVUx4YnFUS3NQQTNI?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-07-27"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -61,9 +61,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-29"
   },
   {
-   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
+   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - imaeil.com",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
-   "source": "매일신문",
+   "source": "imaeil.com",
    "date": "2026-06-09"
   },
   {
@@ -113,9 +113,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-12"
   },
   {
-   "title": "\"더 오르기 전에 지금 사두자\"…국내 원전주 줄줄이 급등 - 한국경제",
+   "title": "\"더 오르기 전에 지금 사두자\"…국내 원전주 줄줄이 급등 - hankyung.com",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE01MVBvNk1LbkNxVmZBQzRQcXE1d0xsYloxakxKZElTNFhCTTU2N0pBcTZvNFB5b2UzZ1AtOHdDR3h1RmdtSHJTTDNYb2VWVWU5QlF4TklHQzVldw?oc=5",
-   "source": "한국경제",
+   "source": "hankyung.com",
    "date": "2026-01-12"
   },
   {
@@ -139,15 +139,15 @@ window.HOLDING_NEWS = {
    "date": "2026-04-08"
   },
   {
-   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
+   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - news1.kr",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
-   "source": "뉴스1",
+   "source": "news1.kr",
    "date": "2026-06-05"
   },
   {
-   "title": "\"올해 역대 최대수출…K방산 다시 주목할 때\" - 한국경제",
+   "title": "\"올해 역대 최대수출…K방산 다시 주목할 때\" - hankyung.com",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE93MmpyeW1JZHY0N3B0VnhWMkE5TTRjOFY3ZTRxazE5Q2p6N0ItSkk2b19laExiZDFSZ29Iekp6LUZvdlo0Vmx3YllvLW1mZ3BkWTVFQ1QzQUVlQQ?oc=5",
-   "source": "한국경제",
+   "source": "hankyung.com",
    "date": "2026-03-26"
   },
   {
@@ -217,15 +217,15 @@ window.HOLDING_NEWS = {
    "date": "2026-06-11"
   },
   {
-   "title": "올 1분기 신규 ESG 펀드 '0'…투자 난도 높아졌다 - 한국경제",
+   "title": "올 1분기 신규 ESG 펀드 '0'…투자 난도 높아졌다 - hankyung.com",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5tVGhBNEZybVdMaXBUMzBnVG50VExwTklNYU4xSlc5eURCWDM1NjRGQXJnc0c1ME12dTgzME12MWdMV2ZtVHVZMGFwRWdHWno3T0tmVzFVeTg0QQ?oc=5",
-   "source": "한국경제",
+   "source": "hankyung.com",
    "date": "2025-09-03"
   },
   {
-   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
+   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - biz.heraldcorp.com",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
-   "source": "헤럴드경제",
+   "source": "biz.heraldcorp.com",
    "date": "2022-04-12"
   },
   {
@@ -281,9 +281,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "미국 뉴욕증시, 도매물가 둔화·빅테크 강세에 상승…다우존스·S&P500·나스닥지수 상승 마감 - lecturernews.com",
+   "title": "미국 뉴욕증시, 도매물가 둔화·빅테크 강세에 상승…다우존스·S&P500·나스닥지수 상승 마감 - 한국강사신문",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBnZ2RmNEFqQkNhcGE0RG9rel9MdXVYa3pzcWRXTllzZVBuWUVhRGxsUklKLWgyR2ZKZGcyV2xQR205cHlISnVjdEhpZXFieUVUaUNPR2h1bVZkNk9UdlVHZGRVeEgtbXRkczY3RTYwZ3Y?oc=5",
-   "source": "lecturernews.com",
+   "source": "한국강사신문",
    "date": "2026-07-15"
   }
  ],
@@ -321,9 +321,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-24"
   },
   {
-   "title": "'애플의 충격'…美 반도체·산업재 순환매 주목 - 한국경제",
+   "title": "'애플의 충격'…美 반도체·산업재 순환매 주목 - hankyung.com",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE95cXdMajQwZTVxM1k2X1k0MU1TLVBJdU9jMkU4VTd1OFFPWXd1azIwaUxLM0o2NHlYQlBoWnpLMDg0RGJnTFNJNmJYT1N2QnFRVGFsSkZBbHRjdw?oc=5",
-   "source": "한국경제",
+   "source": "hankyung.com",
    "date": "2026-06-26"
   },
   {
@@ -359,9 +359,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-18"
   },
   {
-   "title": "과열 신호가 깜빡인다?…증시 조정에 대비하는 법 [빈난새의 빈틈없이월가] - 한국경제",
+   "title": "과열 신호가 깜빡인다?…증시 조정에 대비하는 법 [빈난새의 빈틈없이월가] - hankyung.com",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBrNFVGX29CVU1DbXpfME5Ob3hlQ3JaZ1J0QllNT0kyOFNtbkpyc0hXNTcyRjlhMlY1dmVxei1oMHlIYjJWLW1Wem5zU3VWV2JTdW5IS2RXNm9xUQ?oc=5",
-   "source": "한국경제",
+   "source": "hankyung.com",
    "date": "2026-01-13"
   }
  ],

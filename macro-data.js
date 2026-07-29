@@ -479,7 +479,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-07-29T23:10:15Z",
+  "generated": "2026-07-29T23:31:02Z",
   "regime": {
     "score": 27,
     "label": "비중확대 우위",
@@ -1042,7 +1042,7 @@ window.MACRO = {
         "m3": 56,
         "m12": 61
       },
-      "fx_val": 1443.59,
+      "fx_val": 1443.85,
       "fx_chg": 2.2,
       "reer": {
         "cur": 83.1,
@@ -1061,17 +1061,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 2,
-        "fx": -36,
+        "fx": -38,
         "mon": 30,
         "cycle": -27
       },
       "horizon": {
-        "m1": -13,
+        "m1": -14,
         "m3": -11,
         "m12": -8
       },
       "fx_val": 1.15,
-      "fx_chg": -1.8,
+      "fx_chg": -1.9,
       "reer": {
         "cur": 102.7,
         "avg10y": 99.5,
@@ -1098,7 +1098,7 @@ window.MACRO = {
         "m3": -2,
         "m12": 4
       },
-      "fx_val": 163.3,
+      "fx_val": 163.37,
       "fx_chg": -3.9,
       "reer": {
         "cur": 65.3,
@@ -12989,7 +12989,7 @@ window.MACRO = {
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "실시간 GDP 성장 추정(nowcast). 발표 전 선행 추정치",
-      "as_of": "2026-07-28",
+      "as_of": "2026-07-29",
       "history": {
         "dates": [
           "2011-07-01",
@@ -13127,11 +13127,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 25.0,
+      "current": 25.3,
       "unit": "%",
       "z": 0.26,
       "pct": 68.4,
-      "score": -0.62,
+      "score": -0.63,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
@@ -26626,7 +26626,7 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.45%p(호재)·WTI 유가 (YoY) 25.0%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.45%p(호재)·WTI 유가 (YoY) 25.3%(강한 악재)",
     "valuation": "[완만한 호재 우위] S&P500 12M Fwd PER 18.0배(중립)·KOSPI 12M Fwd PER 3.5배(강한 호재)·주식위험프리미엄(ERP) 0.95%p(중립)·미국 10Y 금리 4.62%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.5%(강한 호재)·신용 스프레드(Baa-10Y) 1.62%p(호재)·USD/KRW 1453.2원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 107.2조원(강한 호재)·한국 투자자별 수급(외국인, 월) -18.4조원(악재)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 20.7(악재)·S&P500 12M 모멘텀 15.4%(강한 호재)·CNN 공포·탐욕 지수 32(강한 악재)·AAII 불-베어 스프레드 -12.7%p(강한 호재)·CBOE 풋/콜 비율(총) 0.96(중립)",
