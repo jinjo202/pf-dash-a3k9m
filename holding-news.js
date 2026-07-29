@@ -1,18 +1,18 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-29T07:23:23
+// 갱신: 2026-07-29T09:25:59
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
+  {
+   "title": "“코스피 바닥 안 보여” 증권사 전망도 무색…최악엔 4800선 갈 수도 - 중앙일보",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9uZkE1dmJjNHNtcmhrWGNmOG5MblZ4SkltQTdCX1l5cW1DcHpOOVd3cE9kZXJ2cW0ta1pCMFZHM1ZsWUozS3lRakhmZ1ExSTZlZ0RHaHdn?oc=5",
+   "source": "중앙일보",
+   "date": "2026-07-29"
+  },
   {
    "title": "\"지금 팔면 후회한다\"…고수들 '역대급 반등' 전망한 이유 - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1XVzBhN2x1dmhRQU14X3dfbl9ONXhia0Vfd1lXLUZKcnlqaHVheTFuMDVTdGhLV2JndmlHc185YXRnSWpjRnRwc3BwZDJRT0lDdnNlMlRjUUIzUQ?oc=5",
    "source": "한국경제",
    "date": "2026-07-29"
-  },
-  {
-   "title": "[AI MY 증시전망] SK하이닉스 실적 주목…반도체株 반등 시험대 - 뉴스핌",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5jTTVuVnk2elFIS1drQXhabHhBODNJakxvRTFickNidUhxbUJuUTBpZ25zMUoxSzBHcjhqekFwaVRsSlZWcGxucTRmUmttakVVQVV6YTBvdFY5LXhr?oc=5",
-   "source": "뉴스핌",
-   "date": "2026-07-28"
   },
   {
    "title": "“코스피 V자 회복 어렵다” L자형 박스피 전망 이유 - 문화일보",
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-28"
   },
   {
-   "title": "8월 증시는 괜찮을까…이틀 연속 폭락 코스피, 향후 전망에 쏠리는 눈 - 아주경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE15b3Z0Q25JYmtzckVnS0tPRG50U3ppbnpxRlBwTGpxV0MwMGN5M1FTUGNRekpfdFIzVmVCUHJsMzY0bVB4OFI5MzNrYjdGQ1RUZ2E0MDI3QjQ2Z9IBWEFVX3lxTFBKNGdRcllHbzdWWVd0dDY4bEE3ZkJ0X2VCVVNmYzVtMHBiYzhSN3JqVnlqYXBSdEFQMjRRdy0yZTRsSTV3MHpUM18zQVVPejlUcFptWjRwYTQ?oc=5",
-   "source": "아주경제",
-   "date": "2026-07-29"
+   "title": "[AI MY 증시전망] SK하이닉스 실적 주목…반도체株 반등 시험대 - 뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5jTTVuVnk2elFIS1drQXhabHhBODNJakxvRTFickNidUhxbUJuUTBpZ25zMUoxSzBHcjhqekFwaVRsSlZWcGxucTRmUmttakVVQVV6YTBvdFY5LXhr?oc=5",
+   "source": "뉴스핌",
+   "date": "2026-07-28"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -47,13 +47,19 @@ window.HOLDING_NEWS = {
    "date": "2026-05-19"
   },
   {
-   "title": "[코스닥 활성화-上] 지지부진 코스닥, 하반기부터 달라질까 - 시사저널e",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9jOV9aaGZOTzJqenEwVVFPTXJkc3I0QjlidnE2eVpoeGZVZWl0SG96V3VRaFNiLXpUS3VtaXFCX1pQODBEUjZ6Y0U3Nl8zT1NURmJ0LWV2NFM1clVONEV6ejJkMTNuODcwR2NaTjQ5SW9NZ9IBdkFVX3lxTE11THFnZ29fNjR3YWZ1c1NiLVlaQW5UbnlKejJRay13dFhPU3BVMGtuVUlyMnMwUTJQY2xMMkR1dE4zTHEzNm9iV0VRUXdSZzNyQ0Q0ZFlPMng2d2NyaTk1bXY3SWZ4U1phdU9ZVERLcGp1c0hoVlE?oc=5",
-   "source": "시사저널e",
-   "date": "2026-05-12"
+   "title": "코스피는 ‘8000’ 가는데… ‘1200’선에서 헤매는 코스닥 - 부산일보",
+   "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPY1NVUXdfeld3S3ZvMHVvMmlpN1dja2dadmtVNjlnUVUybWZNNVUySmd1MEppS1BnT0cteEVTdFhGTXRiZ2UwSU1UcXRXWnJ4TEZxQllKVUlYWWxjbDh0SGk0ZDBsWURIZWlRU0c0d1d0NnFPcC0zcm9iM01TdE1hN3NLUzZrUQ?oc=5",
+   "source": "부산일보",
+   "date": "2026-05-25"
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
+  {
+   "title": "산일전기, 반도체주 조정 이틀째 급락…AI 데이터센터 전력기기도 주가 흔들 - CBC뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5TalM4VF9BbXZGeFVXTWJ3T0s2cFVXeUR6bldVUm5YNGxobkE1a2JCcUhPaUVELVVFN2VZWmxzUW5TaE5YXzl0NURMYVVkMTFIazE5cUVWd0pZWWdLOVVhbHhIYUtvdTJV?oc=5",
+   "source": "CBC뉴스",
+   "date": "2026-07-29"
+  },
   {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
@@ -71,12 +77,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBQMXEzR05ueWFaSVlpdjNXVHQyTVpZT2paWGJLZzBBZTFyWWZ2M01uT1lDaFMzcXY3Vm15SWFOTGdGQVRRaVlGeVFZbVRaOVdXNHdLc3NEY0o4ZWxIbWNTaWNpSUxIRURDNEtSWHpxdlNFcGs?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-07-01"
-  },
-  {
-   "title": "주춤했던 ‘AI전력 ETF’ 재점화…수주 기대에 10% 반등 - 서울경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1VajlRazJjRlZHN3NwS0xHV0wzTmhSNjVLa2kybWlQU1l6eDBoV2JnNFRCY0pXcHlRQjkzOTA0UDlrbDJIME5jWEQyQ2Z2NlZNcGfSAVNBVV95cUxPSnZOcVExbHJvLWZQWUZuc3ktZ19zbFdOem9BeEhYaUVsZ216NTAxUi1pUzcxYmFIVTUtUkx5RDZTYWFQRERYUllveVFmbEN4LUNfcw?oc=5",
-   "source": "서울경제",
-   "date": "2026-06-16"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -99,10 +99,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-22"
   },
   {
-   "title": "‘반토막’ 코스닥 바이오株, 기사회생···‘삼전닉스·임상·금리’ 3중고 넘을까 - 시사저널e",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1jQTl1TkNrcFlabTQ0emFjNHgyaHljczRJbkVHS181Q3RkOE1mYktTaExGRDRQT0RNNmN4cjB1RFpvUmUxSGJQM2FLUk9kZXZsVl9XZzh6UGVtdm9UdF9BWUlmbDlDNjRlR2lzYU8xNkZrZ9IBdkFVX3lxTE1RZVVHOGNFN1hDWnZTRXRhR25pMFBqd2tNbXZwa0J4eXFHSURKVVdxdUE0T1BrZ1d1RmRiRERmcXplSU9rb2d6OTMyOTVzakRuWTgzVFl4WldNMDd5N2xwQkZiOWlwZkY4NWlYOXViUTJkRzJQcnc?oc=5",
-   "source": "시사저널e",
-   "date": "2026-07-23"
+   "title": "코스닥 퇴출기준 강화…제약·바이오 상장 체력 시험대 - 메디파나뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE43ZFJQdkppRUZuazVyTXpoVGlaTDJNbUtscG1hODN1WDVWNjlxRnFDT0k5cmpEUXRyOC1OUGkxZWNmSUQ4TWtmZHBQeThjQng5S0I5OWpCOG16dVFFSFk4a2tQcUk3ZEJZc0k4?oc=5",
+   "source": "메디파나뉴스",
+   "date": "2026-07-01"
   }
  ],
  "Hanaro 원자력 iSelect": [
