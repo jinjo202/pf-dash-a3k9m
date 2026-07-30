@@ -488,7 +488,7 @@ window.MACRO = {
       "as_of": "2026-07-30"
     }
   ],
-  "generated": "2026-07-30T09:17:52Z",
+  "generated": "2026-07-30T09:27:09Z",
   "regime": {
     "score": 28,
     "label": "비중확대 우위",
@@ -1030,7 +1030,7 @@ window.MACRO = {
         "avg10y": 101.4,
         "dev_pct": 6.4
       },
-      "fx12m": 5.4,
+      "fx12m": 5.3,
       "cli": 100.8,
       "phase": "확장 (Expansion)",
       "mon_note": "Fed 동결·인하 지연(제약적)"
@@ -1042,17 +1042,17 @@ window.MACRO = {
       "components": {
         "val": 100,
         "earn": 21,
-        "fx": 52,
+        "fx": 54,
         "mon": 10,
         "cycle": 100
       },
       "horizon": {
-        "m1": 46,
-        "m3": 57,
+        "m1": 47,
+        "m3": 58,
         "m12": 62
       },
-      "fx_val": 1437.72,
-      "fx_chg": 2.6,
+      "fx_val": 1436.43,
+      "fx_chg": 2.7,
       "reer": {
         "cur": 83.1,
         "avg10y": 99.4,
@@ -1070,17 +1070,17 @@ window.MACRO = {
       "components": {
         "val": -12,
         "earn": 2,
-        "fx": -40,
+        "fx": -38,
         "mon": 30,
         "cycle": -27
       },
       "horizon": {
         "m1": -14,
-        "m3": -12,
+        "m3": -11,
         "m12": -8
       },
       "fx_val": 1.15,
-      "fx_chg": -2.0,
+      "fx_chg": -1.9,
       "reer": {
         "cur": 102.7,
         "avg10y": 99.5,
@@ -1107,7 +1107,7 @@ window.MACRO = {
         "m3": -2,
         "m12": 4
       },
-      "fx_val": 163.49,
+      "fx_val": 163.47,
       "fx_chg": -4.0,
       "reer": {
         "cur": 65.3,
@@ -1135,14 +1135,14 @@ window.MACRO = {
         "m3": -14,
         "m12": -5
       },
-      "fx_val": 6.76,
+      "fx_val": 6.75,
       "fx_chg": 1.1,
       "reer": {
         "cur": 92.2,
         "avg10y": 98.0,
         "dev_pct": -5.8
       },
-      "fx12m": 11.2,
+      "fx12m": 11.1,
       "cli": 98.6,
       "phase": "수축 (Contraction)",
       "mon_note": "인민은행 부양(+)"
@@ -13140,11 +13140,11 @@ window.MACRO = {
     "oil_yoy": {
       "name": "WTI 유가 (YoY)",
       "pillar": "macro",
-      "current": 25.7,
+      "current": 25.3,
       "unit": "%",
       "z": 0.26,
       "pct": 68.4,
-      "score": -0.64,
+      "score": -0.63,
       "signal": "강한 악재",
       "signal_cls": "neg",
       "desc": "급등 시 인플레·비용 압력",
@@ -16307,7 +16307,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.561
+          1.56
         ]
       },
       "z_from": "2000-08",
@@ -19781,7 +19781,7 @@ window.MACRO = {
     "usdkrw": {
       "name": "USD/KRW",
       "pillar": "flows",
-      "current": 1437.9,
+      "current": 1437.1,
       "unit": "원",
       "z": 2.23,
       "pct": 97.2,
@@ -20446,11 +20446,11 @@ window.MACRO = {
     "vix": {
       "name": "VIX 변동성",
       "pillar": "sentiment",
-      "current": 19.8,
+      "current": 19.7,
       "unit": "",
       "z": -0.19,
       "pct": 52.5,
-      "score": -0.18,
+      "score": -0.17,
       "signal": "중립",
       "signal_cls": "neu",
       "desc": "공포 게이지. 낮을수록 안정",
@@ -24199,24 +24199,24 @@ window.MACRO = {
               "note": "맞춤형 AI칩(ASIC)·네트워킹"
             },
             {
-              "ticker": "ASML",
-              "name": "ASML Holding N.V. - New York Re",
-              "mktcap": 595620003840,
-              "fwdpe": 26.8,
-              "pbr": null,
+              "ticker": "MU",
+              "name": "Micron Technology, Inc.",
+              "mktcap": 834621538304,
+              "fwdpe": 4.8,
+              "pbr": 8.28,
               "rets": {
-                "w1": -13.8,
-                "m1": -17.5,
-                "m3": 12.1,
-                "ytd": 45.6
+                "w1": -23.0,
+                "m1": -35.5,
+                "m3": 46.6,
+                "ytd": 159.1
               },
-              "rev30": 19.833743935814496,
-              "note": "EUV 노광 독점"
+              "rev30": 20.40101633603286,
+              "note": "HBM·메모리 업사이클"
             },
             {
               "ticker": "AMD",
               "name": "Advanced Micro Devices, Inc.",
-              "mktcap": null,
+              "mktcap": 700440772608,
               "fwdpe": 31.2,
               "pbr": 10.86,
               "rets": {
@@ -24313,19 +24313,19 @@ window.MACRO = {
               "note": "AIP 정부·기업 수요"
             },
             {
-              "ticker": "ADBE",
-              "name": "Adobe Inc.",
-              "mktcap": 104713420800,
-              "fwdpe": 9.6,
-              "pbr": 9.13,
+              "ticker": "CRM",
+              "name": "Salesforce, Inc.",
+              "mktcap": 154283229184,
+              "fwdpe": 12.1,
+              "pbr": 4.51,
               "rets": {
-                "w1": 20.6,
-                "m1": 27.6,
-                "m3": 8.3,
-                "ytd": -24.7
+                "w1": 15.6,
+                "m1": 19.3,
+                "m3": 4.2,
+                "ytd": -28.5
               },
-              "rev30": -0.06959304036846525,
-              "note": "생성형 AI 크리에이티브"
+              "rev30": 0.03390303166712627,
+              "note": "에이전트포스 AI"
             }
           ]
         },
@@ -24399,7 +24399,7 @@ window.MACRO = {
             {
               "ticker": "DIS",
               "name": "Walt Disney Company (The)",
-              "mktcap": null,
+              "mktcap": 171011653632,
               "fwdpe": 13.2,
               "pbr": 1.58,
               "rets": {
@@ -24435,6 +24435,36 @@ window.MACRO = {
           "issue": "금리 동결·가파른 커브로 NIM 우호. 신용비용 정상화. IB 수수료 회복.",
           "indicators": "순이자마진(NIM), 대손충당금, 예대율, IB 수수료",
           "holdings": [
+            {
+              "ticker": "JPM",
+              "name": "JP Morgan Chase & Co.",
+              "mktcap": 916308099072,
+              "fwdpe": 13.9,
+              "pbr": 2.59,
+              "rets": {
+                "w1": -1.0,
+                "m1": 5.1,
+                "m3": 11.2,
+                "ytd": 8.5
+              },
+              "rev30": 6.988922331874914,
+              "note": "NIM·IB 회복"
+            },
+            {
+              "ticker": "BAC",
+              "name": "Bank of America Corporation",
+              "mktcap": 433388814336,
+              "fwdpe": 11.6,
+              "pbr": 1.55,
+              "rets": {
+                "w1": -0.9,
+                "m1": 5.5,
+                "m3": 16.6,
+                "ytd": 12.2
+              },
+              "rev30": 4.26658271485858,
+              "note": "예금·금리 레버리지"
+            },
             {
               "ticker": "MS",
               "name": "Morgan Stanley",
@@ -24479,36 +24509,6 @@ window.MACRO = {
               },
               "rev30": 3.849250650273972,
               "note": "자산상한 해제 기대"
-            },
-            {
-              "ticker": "JPM",
-              "name": "JP Morgan Chase & Co.",
-              "mktcap": null,
-              "fwdpe": 13.9,
-              "pbr": 2.59,
-              "rets": {
-                "w1": -1.0,
-                "m1": 5.1,
-                "m3": 11.2,
-                "ytd": 8.5
-              },
-              "rev30": 6.988922331874914,
-              "note": "NIM·IB 회복"
-            },
-            {
-              "ticker": "BAC",
-              "name": "Bank of America Corporation",
-              "mktcap": null,
-              "fwdpe": 11.6,
-              "pbr": 1.55,
-              "rets": {
-                "w1": -0.9,
-                "m1": 5.5,
-                "m3": 16.6,
-                "ytd": 12.2
-              },
-              "rev30": 4.26658271485858,
-              "note": "예금·금리 레버리지"
             }
           ]
         },
@@ -24534,6 +24534,21 @@ window.MACRO = {
           "issue": "GLP-1(비만) 수요 강세, 약가 정책 리스크. 파이프라인 모멘텀.",
           "indicators": "GLP-1 처방량, 약가규제, 임상 성공률, 특허 만료",
           "holdings": [
+            {
+              "ticker": "LLY",
+              "name": "Eli Lilly and Company",
+              "mktcap": 1079024943104,
+              "fwdpe": 26.9,
+              "pbr": 34.65,
+              "rets": {
+                "w1": 4.0,
+                "m1": -1.6,
+                "m3": 38.7,
+                "ytd": 13.0
+              },
+              "rev30": -4.730188470345076,
+              "note": "GLP-1 비만치료 선두"
+            },
             {
               "ticker": "JNJ",
               "name": "Johnson & Johnson",
@@ -24580,24 +24595,9 @@ window.MACRO = {
               "note": "관리의료 마진"
             },
             {
-              "ticker": "LLY",
-              "name": "Eli Lilly and Company",
-              "mktcap": null,
-              "fwdpe": 26.9,
-              "pbr": 34.65,
-              "rets": {
-                "w1": 4.0,
-                "m1": -1.6,
-                "m3": 38.7,
-                "ytd": 13.0
-              },
-              "rev30": -4.730188470345076,
-              "note": "GLP-1 비만치료 선두"
-            },
-            {
               "ticker": "MRK",
               "name": "Merck & Company, Inc.",
-              "mktcap": null,
+              "mktcap": 321966309376,
               "fwdpe": 13.5,
               "pbr": 7.02,
               "rets": {
@@ -24832,6 +24832,21 @@ window.MACRO = {
               "note": "항공엔진 수주"
             },
             {
+              "ticker": "CAT",
+              "name": "Caterpillar, Inc.",
+              "mktcap": 360509964288,
+              "fwdpe": 25.7,
+              "pbr": 19.32,
+              "rets": {
+                "w1": -12.0,
+                "m1": -24.1,
+                "m3": -4.1,
+                "ytd": 37.5
+              },
+              "rev30": 0.5323314825824266,
+              "note": "인프라·전력장비"
+            },
+            {
               "ticker": "UNP",
               "name": "Union Pacific Corporation",
               "mktcap": 173582925824,
@@ -24875,21 +24890,6 @@ window.MACRO = {
               },
               "rev30": -60.600056743628585,
               "note": "자동화·항공"
-            },
-            {
-              "ticker": "CAT",
-              "name": "Caterpillar, Inc.",
-              "mktcap": null,
-              "fwdpe": 25.7,
-              "pbr": 19.32,
-              "rets": {
-                "w1": -12.0,
-                "m1": -24.1,
-                "m3": -4.1,
-                "ytd": 37.5
-              },
-              "rev30": 0.5323314825824266,
-              "note": "인프라·전력장비"
             }
           ]
         }
@@ -25511,7 +25511,7 @@ window.MACRO = {
             {
               "ticker": "032640.KS",
               "name": "LG Uplus",
-              "mktcap": null,
+              "mktcap": 6519210377216,
               "fwdpe": 8.0,
               "pbr": null,
               "rets": {
@@ -26639,10 +26639,10 @@ window.MACRO = {
     "capex_source": "https://ir.aboutamazon.com (각사 IR) · 2026 컨센서스 GS"
   },
   "commentary": {
-    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.45%p(호재)·WTI 유가 (YoY) 25.7%(강한 악재)",
+    "macro": "[혼조/중립] ISM 제조업 PMI 53.3(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.2%(중립)·비농업 고용 (전월비) 57.0천명(악재)·장단기 금리차(10Y-2Y) 0.45%p(호재)·WTI 유가 (YoY) 25.3%(강한 악재)",
     "valuation": "[완만한 호재 우위] S&P500 12M Fwd PER 17.7배(중립)·KOSPI 12M Fwd PER 3.4배(강한 호재)·주식위험프리미엄(ERP) 1.05%p(중립)·미국 10Y 금리 4.62%(중립)",
-    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.5%(강한 호재)·신용 스프레드(Baa-10Y) 1.62%p(호재)·USD/KRW 1437.9원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 107.2조원(강한 호재)·한국 투자자별 수급(외국인, 월) -17.1조원(악재)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 19.8(중립)·S&P500 12M 모멘텀 15.4%(강한 호재)·CNN 공포·탐욕 지수 34(강한 악재)·AAII 불-베어 스프레드 -11.1%p(호재)·CBOE 풋/콜 비율(총) 1.05(호재)",
+    "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.5%(강한 호재)·신용 스프레드(Baa-10Y) 1.62%p(호재)·USD/KRW 1437.1원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 107.2조원(강한 호재)·한국 투자자별 수급(외국인, 월) -17.1조원(악재)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 19.7(중립)·S&P500 12M 모멘텀 15.4%(강한 호재)·CNN 공포·탐욕 지수 34(강한 악재)·AAII 불-베어 스프레드 -11.1%p(호재)·CBOE 풋/콜 비율(총) 1.05(호재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 0.4%(유지)",
     "overall": "종합 레짐 점수 +28. 매크로 +7, 밸류 +12, 수급 +53, 센티 +21, 기업이익 +48."
   },
