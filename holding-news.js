@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-30T23:17:27
+// 갱신: 2026-07-30T23:33:08
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -119,9 +119,9 @@ window.HOLDING_NEWS = {
    "date": "2026-01-12"
   },
   {
-   "title": "원전주 널뛰기 뒤에는 ETF 리밸런싱… 대규모 매수 주문 영향 - 조선비즈 - Chosunbiz",
+   "title": "원전주 널뛰기 뒤에는 ETF 리밸런싱… 대규모 매수 주문 영향 - 조선비즈 - biz.chosun.com",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPWjRVRHFqdVZvTnJhYjNFUTJrajdZd01ZcFdDbmxiXzVQZzJMSUQ1N0VRTnZRWVZIWGdLcW40Z2lYWWVFRmdqTWdMZXQ1OFcwWk1DR3NZUHE0TzM3LW9mbm9vZV93U1VDZVNDN3VlbW8wTEFkOVVOcDlXRjJMRkJqZzJ2N0VVSV9u0gGcAUFVX3lxTE8xalJzajA4akllQmx1WDJtRW1ySnVZNnNwVkdfZkhtbG9hOUo0R2lJQjhJOFNxVnBpWk45VklqQ2NfYUpDZUttY19peUNBdmV0enVlV1cyb1Z1R0lOczgxT2o4dWtRU05BejV5QTZGaVMyazh3azFZVFltN3M1dG5HYl83ZXJJLUlXNjM5WDV1Zm1EYnM2S0ozMGhZZA?oc=5",
-   "source": "Chosunbiz",
+   "source": "biz.chosun.com",
    "date": "2026-06-15"
   },
   {
@@ -223,15 +223,15 @@ window.HOLDING_NEWS = {
    "date": "2025-09-03"
   },
   {
-   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - biz.heraldcorp.com",
+   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
-   "source": "biz.heraldcorp.com",
+   "source": "헤럴드경제",
    "date": "2022-04-12"
   },
   {
-   "title": "마이다스에셋, 액티브ETF 출시 '카운트다운' - 딜사이트",
+   "title": "마이다스에셋, 액티브ETF 출시 '카운트다운' - dealsite.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE03RW85TkxMU2lfaGptd0Uwb01WQ0hKUExNTXJWeWdQSl9EdnhVMkM0LTAtOUl0dS03VzIteHJfMzc2U0ltVDkwRm1vdjRzZw?oc=5",
-   "source": "딜사이트",
+   "source": "dealsite.co.kr",
    "date": "2021-06-22"
   }
  ],
@@ -249,9 +249,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - chosun.com",
+   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
-   "source": "chosun.com",
+   "source": "조선일보",
    "date": "2026-06-26"
   },
   {
@@ -411,9 +411,9 @@ window.HOLDING_NEWS = {
    "date": "2026-04-16"
   },
   {
-   "title": "배재규 \"버블 피하니 돈 못버는 것, 겁내지 말고 나스닥 100 사라\" - chosun.com",
+   "title": "배재규 \"버블 피하니 돈 못버는 것, 겁내지 말고 나스닥 100 사라\" - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPcEpIMENQTFk1NjZLdnlPc1MtUzNKVWRta1J6V1pMaGFPVGhrbndyYlI0LXJPMkxGVzlrWDdrTXpjM2pwRWMzdnZ4NURVMWd0czZrWEItOTZWcFZuajdZellZZ05rVWZqYm9pbTR4bHVTQWRoR2NXWXBsQ0lPSXpVWg?oc=5",
-   "source": "chosun.com",
+   "source": "조선일보",
    "date": "2026-03-23"
   }
  ],
@@ -457,9 +457,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-24"
   },
   {
-   "title": "MSCI 선진국 지수 편입, 이번엔 해낼까? - 소년한국일보",
+   "title": "MSCI 선진국 지수 편입, 이번엔 해낼까? - 한국금융경제신문",
    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5PbVhPaEpVbGNKTmVoRlBleWJ5dUI3aFVtRFpZWFRVdk9FTldpNklkaXQyQ01rNnRacnhQempZMVZUaHRMQ1ZYQng1bHpXTktURk5YUHJFVk51WkpjQktJeWVVMUVFSTlHVnRuWdIBcEFVX3lxTFBDajV3Q3ZWZklaVzBJc2FTTDNVTGJFU0YwN1FnckkwanFadVNTa2NSTkpHWDFOVVdIZXZOckZSRk5LZjd1NE9RZDNmM2p5U0lKcFdKU3U2SjNJdzJ0UnprbmdaT3lrTnNpS2pJQ0ZYeXk?oc=5",
-   "source": "소년한국일보",
+   "source": "한국금융경제신문",
    "date": "2026-05-07"
   },
   {
@@ -509,16 +509,16 @@ window.HOLDING_NEWS = {
    "date": "2026-01-20"
   },
   {
-   "title": "[유럽증시] 유럽 주요 3개국 '혼조세'…독일 DAX 0.37%↑ - 글로벌이코노믹",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZVRCbllUYnNaWUhzc25FVzZiNXFqb1p1alJqNFB1dENWd2dOZWFlYm5vd2E4eFMtaDBnNVB4S2VXZGdIbkRlQWc5Mndwb0VkbDl0NHRQdTVRM05QYVAtSFZTdWItQVZlS3JINlozbkRnYVhpQU0xcGtQSlFpdTZpdVZ5dFB5TlpM?oc=5",
-   "source": "글로벌이코노믹",
-   "date": "2026-02-09"
-  },
-  {
    "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - biz.chosun.com",
    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
    "source": "biz.chosun.com",
    "date": "2026-02-24"
+  },
+  {
+   "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - 블루밍비트",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtd1otcWJxdzROcElqRmhLT0dEVTdfUENvSEM3eDlZYW9Xb3l4dHVEZzJrTFcyQU1CR3REOGZlM2lEVDJJMlVNcDZSc0ppV1c5?oc=5",
+   "source": "블루밍비트",
+   "date": "2026-03-02"
   }
  ],
  "Fidelity European Dividend": [
