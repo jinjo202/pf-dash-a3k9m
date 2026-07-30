@@ -495,7 +495,17 @@ def _call_claude_cli(system_prompt, user_payload):
         sys.stderr.write("claude CLI 없음. 설치: npm i -g @anthropic-ai/claude-code\n")
         sys.exit(2)
     if proc.returncode != 0:
-        sys.stderr.write(f"claude -p 실패 ({proc.returncode}): {(proc.stderr or '')[:600]}\n")
+        # --output-format json 은 인증/API 오류 시 stderr가 아니라 stdout에
+        # {"is_error":true,"result":"<메시지>", ...}로 담아 보낸다(stderr는 빈 문자열).
+        # stderr만 찍으면 "claude -p 실패 (1): "처럼 원인이 사라져 보이므로 stdout도 함께 남긴다.
+        detail = (proc.stderr or "").strip()
+        if not detail and proc.stdout:
+            try:
+                env_out = json.loads(proc.stdout)
+                detail = env_out.get("result") or proc.stdout
+            except Exception:
+                detail = proc.stdout
+        sys.stderr.write(f"claude -p 실패 ({proc.returncode}): {detail[:600]}\n")
         sys.exit(2)
     # --output-format json → {"type":"result","result":"<text>", ...}
     text = proc.stdout
