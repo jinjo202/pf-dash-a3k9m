@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-07-31T09:59:48
+// 갱신: 2026-07-31T10:09:36
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -249,9 +249,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
+   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - chosun.com",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
-   "source": "조선일보",
+   "source": "chosun.com",
    "date": "2026-06-26"
   },
   {
@@ -275,9 +275,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-23"
   },
   {
-   "title": "뉴욕증시, 마이크론 급등에도 빅테크 약세…나스닥 하락 마감 - sankyungtoday.com",
+   "title": "뉴욕증시, 마이크론 급등에도 빅테크 약세…나스닥 하락 마감 - 산경투데이",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5kdXMtelEwZ21sSk9MQmJld3pjYWhJSzIzMTliUmtqSEM2OVdTX2x1ZXhjSk0zVW1qbUlqbXJjQkdXc1dCd3JQNE5wTkdhdU8yTGdmNE5Uem9sU1MwWGhrUlBqN2FGTDlSMVd0bUpnT2fSAXRBVV95cUxQajUyd0o4TW11NUhNT1VZekQzRVdGRzBXTFgxcnpSaHdvdl9YWGh5SnZudHdpS1ZlblJXTWp6RjVmNm1lMTgwczRBLThCeHFpVFVvSXloOGNqOW5jN0ZuU3k1QUhjenZxNEZ5UXpJWnF3a0lpTw?oc=5",
-   "source": "sankyungtoday.com",
+   "source": "산경투데이",
    "date": "2026-06-26"
   },
   {
@@ -289,9 +289,9 @@ window.HOLDING_NEWS = {
  ],
  "SPDR Communication ETF (XLC)": [
   {
-   "title": "이번주 주목 4개 미국주, AI 투자 결실낼까 - kr.beincrypto.com",
+   "title": "이번주 주목 4개 미국주, AI 투자 결실낼까 - BeInCrypto",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5MMkdoMDJaU1d0Sm9BRmdKLW5rYnFRSzFfWkxzUk5La3JFQWM2Q1d3VW9waVU4bENhVHV5ck9jbnQ1M3ZWc2tmZ1VNb3pnY3owaTRkUUJ6ZGFkdzJVVE1VLXUxMFZDZUc4cjR3OFdfemw?oc=5",
-   "source": "kr.beincrypto.com",
+   "source": "BeInCrypto",
    "date": "2026-07-28"
   },
   {
@@ -373,9 +373,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-06"
   },
   {
-   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - newneek.co",
+   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
-   "source": "newneek.co",
+   "source": "뉴닉",
    "date": "2026-05-11"
   },
   {
@@ -425,9 +425,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-27"
   },
   {
-   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - newneek.co",
+   "title": "사상 최고치 기록한 S&P500 “미국증시, 더 오를 거야!” vs. “버블이야!” 전망 엇갈리는 이유 🇺🇸📈 - 뉴닉",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1NRGVyZ2g3UHZJb0tGUS1oazFxdWNQeHNqelBkZmE3Y09XU044Z2F0TFdmakRJLTJ3UzNGWlRPSlZWT0lJY1NhRUxfWjJzVnYtTEVn?oc=5",
-   "source": "newneek.co",
+   "source": "뉴닉",
    "date": "2026-05-11"
   },
   {
@@ -515,9 +515,9 @@ window.HOLDING_NEWS = {
    "date": "2026-02-24"
   },
   {
-   "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - 블루밍비트",
+   "title": "중동 긴장 고조에 유럽 증시 급락 출발…독일·유로존 2%대 하락 - bloomingbit.io",
    "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtd1otcWJxdzROcElqRmhLT0dEVTdfUENvSEM3eDlZYW9Xb3l4dHVEZzJrTFcyQU1CR3REOGZlM2lEVDJJMlVNcDZSc0ppV1c5?oc=5",
-   "source": "블루밍비트",
+   "source": "bloomingbit.io",
    "date": "2026-03-02"
   }
  ],
