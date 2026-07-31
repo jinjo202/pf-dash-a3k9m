@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-31",
-  "generated_utc": "2026-07-31T21:14:19Z",
+  "generated_utc": "2026-07-31T22:20:45Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 17.79,
+        "pe": 18.0,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2205,8 +2205,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 18.63,
-        "pb": 1.73,
+        "pe": 18.87,
+        "pb": 1.74,
         "roe": null,
         "src": "SPY (top derived)",
         "pe_kind": "fwd",
@@ -2752,8 +2752,8 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 17.55,
-        "pb": 1.91,
+        "pe": 17.4,
+        "pb": 1.92,
         "roe": null,
         "src": "QQQ (top derived)",
         "pe_kind": "fwd",
@@ -3299,7 +3299,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 16.99,
+        "pe": 16.62,
         "pb": 1.19,
         "roe": null,
         "src": "SOXX (top derived)",
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 649.19,
+      "current": 649.95,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 9.5162,
-      "mtd_pct": 1.1625,
-      "daily_pct": -0.1169,
-      "as_of": "2026-07-31",
+      "ytd_pct": 9.6444,
+      "mtd_pct": 1.2809,
+      "daily_pct": 0.7659,
+      "as_of": "2026-07-30",
       "decimals": 2,
       "valuation": {
-        "pe": 15.85,
+        "pe": 15.72,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -3855,6 +3855,7 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
+          "2025-07-16",
           "2025-07-17",
           "2025-07-18",
           "2025-07-21",
@@ -4113,10 +4114,10 @@ window.BENCHMARKS = {
           "2026-07-27",
           "2026-07-28",
           "2026-07-29",
-          "2026-07-30",
-          "2026-07-31"
+          "2026-07-30"
         ],
         "values": [
+          541.84,
           547.03,
           547.0,
           546.58,
@@ -4375,8 +4376,7 @@ window.BENCHMARKS = {
           644.62,
           646.89,
           645.01,
-          649.95,
-          649.19
+          649.95
         ]
       }
     },
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-30",
       "decimals": 2,
       "valuation": {
-        "pe": 12.5,
+        "pe": 12.51,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
