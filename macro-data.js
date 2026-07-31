@@ -478,33 +478,8 @@ window.MACRO = {
       "as_of": "2026-07-31"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-07-31",
-      "type": "release",
-      "key": "consumer_sent",
-      "title": "소비자심리(미시간)",
-      "detail": "44.8 → 49.5 (2026-06-01 발표)",
-      "as_of": "2026-06-01"
-    },
-    {
-      "date": "2026-07-31",
-      "type": "release",
-      "key": "cape",
-      "title": "S&P500 CAPE(실러 PE)",
-      "detail": "40.6배 → 40.9배 (2026-07-31 발표)",
-      "as_of": "2026-07-31"
-    },
-    {
-      "date": "2026-07-31",
-      "type": "revision",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "39 → 42 (수정)",
-      "as_of": "2026-07-31"
-    }
-  ],
-  "generated": "2026-07-31T22:23:06Z",
+  "updates_today": [],
+  "generated": "2026-07-31T22:41:48Z",
   "regime": {
     "score": 28,
     "label": "비중확대 우위",
