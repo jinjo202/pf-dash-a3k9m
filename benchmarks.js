@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-31",
-  "generated_utc": "2026-07-31T20:05:23Z",
+  "generated_utc": "2026-07-31T21:14:19Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1442.67,
+      "current": 1442.0699,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": 0.331,
-      "mtd_pct": -6.4252,
-      "daily_pct": 0.027,
+      "ytd_pct": 0.2893,
+      "mtd_pct": -6.4642,
+      "daily_pct": -0.0146,
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1464.4399,
           1453.16,
           1442.28,
-          1442.67
+          1442.0699
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 84.8,
+      "current": 86.8,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 47.6837,
-      "mtd_pct": 22.0144,
-      "daily_pct": 1.4475,
+      "ytd_pct": 51.1669,
+      "mtd_pct": 24.8921,
+      "daily_pct": 3.8402,
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           79.26,
           84.46,
           83.59,
-          84.8
+          86.8
         ]
       }
     },
@@ -7119,12 +7119,12 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 15.82,
+      "current": 15.99,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 5.8194,
-      "mtd_pct": -3.8298,
-      "daily_pct": -7.4312,
+      "ytd_pct": 6.9565,
+      "mtd_pct": -2.7964,
+      "daily_pct": -6.4365,
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
@@ -7658,7 +7658,7 @@ window.BENCHMARKS = {
           18.21,
           20.66,
           17.09,
-          15.82
+          15.99
         ]
       }
     },
