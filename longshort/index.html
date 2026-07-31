@@ -283,7 +283,9 @@ function renderBook(D) {
       return { ...l, ret, navContrib: l.weightPct * ret / 100 * 100 }; // %p of NAV
     });
     const grossPct = legs.reduce((s, l) => s + l.weightPct, 0);
-    const navContrib = legs.reduce((s, l) => s + l.weightPct * l.ret, 0) / 100; // %p of NAV
+    // l.ret는 소수(예: -0.2737)이고 weightPct는 %이므로 곱만으로 이미 NAV 대비 %p다.
+    // (종전 /100이 한 번 더 나눠 페어 P&L·스톱 거리가 100배 작게 표시되던 버그 수정 2026-07-31)
+    const navContrib = legs.reduce((s, l) => s + l.weightPct * l.ret, 0); // %p of NAV
     const pnlOnGross = grossPct ? navContrib / grossPct * 100 : 0;              // % of pair gross
     const stopDist = p.stopPct == null ? null : pnlOnGross - p.stopPct;         // %p to stop (null = 그룹 스톱 없음)
     if (p.status === "OPEN") totalNavPnlPct += navContrib;

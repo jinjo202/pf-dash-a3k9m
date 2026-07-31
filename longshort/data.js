@@ -4,7 +4,11 @@
 // 구조: books[0] = 전략 A (마켓 뉴트럴, STRATEGY.md)
 //       books[1] = 전략 B (디렉셔널 L/S, STRATEGY_DIRECTIONAL.md)
 // 가격 기준: 각 시장 최근 종가 / P&L: 현지통화 수익률 (KRW 선물환 헤지 가정)
-// 주: asOfPrice는 KR 종가일(7/16) 기준 (7/17 제헌절 휴장 + 7/18 토요일 = KR 무세션 지속, NAV·가격 불변). 미국 레그(TSM·INTC·WMT·TGT·^GSPC)는 7/15 종가 반영(아시아 마감 스냅샷) — 7/17 US 종가(TSM 398.37·INTC 95.04·WMT 114.24·TGT 139.60·^GSPC 7457.69)는 다음 KR 세션(7/20 월)에 마킹 대기.
+// 주: asOfPrice = 2026-07-30 (KR·US 양 시장 확정 종가). 7/17~7/30 업데이트 공백(9거래일)이 발생해 7/20~7/30 NAV 경로를
+//     실제 종가로 산출해 navHistory에 **추가**했다(기존 항목 수정 없음 = 소급 수정 아님).
+//     마킹 컨벤션 정정: 종전 미국 레그는 '아시아 마감 스냅샷'으로 1일 지연 마킹했으나, 일일 배치가 KST 오전(=US 전일 종가 확정 후)에
+//     돌므로 이번 회차부터 KR·US 모두 동일 날짜 종가로 정렬한다. 이번 1회에 한해 US 레그가 7/15→7/30(11세션)으로 지연분을 소화했다.
+//     2026-07-31 KR 세션은 집계 시점(11:10 KST)에 장중이므로 마킹 제외 — 장중 +13%대 급반등은 다음 회차(8/3) 반영.
 // ============================================================
 window.PORTFOLIO_DATA = {
   books: [
@@ -18,14 +22,32 @@ window.PORTFOLIO_DATA = {
       strategy: "Market Neutral Long/Short Equity (KR + S&P500 + Asia)",
       aumUsd: 10000000,
       inceptionDate: "2026-07-10",
-      asOfPrice: "2026-07-16",
-      lastUpdated: "2026-07-18",
-      usdkrw: 1487.46,
-      phase: "빌드업 Phase 1 — 페어 5개 / Gross 37% (목표 12~20개 / 180~200%) · 7/17 제헌절 휴장·7/18 토요일로 KR 무세션 지속, NAV 100.23 불변 (US 7/17 마크 +0.14%p는 7/20 반영 대기)",
+      asOfPrice: "2026-07-30",
+      lastUpdated: "2026-07-31",
+      usdkrw: 1421.62,
+      phase: "빌드업 Phase 1 — 페어 5개 / Gross 33% (목표 12~20개 / 180~200%) · 7/17~7/30 공백 재마킹 완료. KOSPI 2주 −18% 붕괴(7/28 −10.8% 서킷브레이커) 구간에서 NAV 101.70(+1.47%) — 방향 노출 0 설계가 재검증, 기계 룰 전부 미발동",
       // grossMaxPct/netMaxPct = 정책 상한. 운용 목표 Gross 180~200% / Net 0±5% (경보 ±10%)
       limits: { grossMaxPct: 300, netMaxPct: 50, varLimitPctNav: 1.2, factorZSoft: 0.20, factorZHard: 0.30 }
     },
     ideas: [
+      {
+        date: "2026-07-31",
+        tag: "시장 뷰",
+        title: "KOSPI 2주 −18% 붕괴(7/28 −10.84% 서킷브레이커·7/29 −5.98%)에서 뉴트럴 북 +1.47% — 사상 최악의 급락 구간이 오히려 최대 수확기",
+        body: "7/17~7/30 업데이트 공백 9거래일을 실제 종가로 재마킹했다. 이 구간 KOSPI는 6,820.60 → 5,593.56(−18.0%)으로 붕괴 — 7/28 −10.84%(6,023.66, 매도 사이드카 + 1단계 서킷브레이커 발동), 7/29 −5.98%(5,663.24), 7/30 −1.23%. 방아쇠는 ① 중국 CXMT 상장으로 중국 메모리 추격 가시화, ② 엔비디아·AI 기업 순환출자(circular financing) 의혹 확산, ③ 7/29 SK하이닉스 컨콜에서 사상 최대 실적(2Q 매출 79.3조·영업익 60.5조, YoY +257%/+557%)에도 주주환원 규모·가이던스가 시장 기대에 못 미치며 실망 매물, ④ 7/29 Fed 금리 동결. 삼성전자+하이닉스 합산 시총이 코스피의 50.02%를 차지하는 쏠림 구조가 하락을 증폭시켰다. 그럼에도 전략 A는 NAV 100.23 → 101.70(+1.47%) — 5개 페어 중 4개가 이익이고 일간 최대 손실이 −0.15%에 그쳤다. '방향이 아니라 낙폭 격차를 수확한다'는 설계가 지수 −18% 국면에서 검증됨."
+      },
+      {
+        date: "2026-07-31",
+        tag: "시장 뷰",
+        title: "페어별 해부 — P5(LGES/SDI) +7.78%·P1(삼성전자/하이닉스) +5.99%·P3(TSM/INTC) +4.97% 견인, P4(WMT/TGT)만 −4.70% 유일 손실",
+        body: "그로스 대비 누적 스프레드(진입가 기준): P5 +7.78%(LG엔솔 −1.8% vs 삼성SDI −17.4% — 2차전지 급락장에서 믹스 열위 종목이 두 배 이상 빠지며 논지 정면 검증), P1 +5.99%(삼성전자 −27.4% vs 하이닉스 −39.4% — 크라우디드 롱 언와인드가 하이닉스에 집중, 컨콜 실망까지 겹쳐 스프레드 최대폭), P3 +4.97%(TSMC −7.1% vs 인텔 −17.0%), P2 +2.54%(우선주 −22.3% vs 보통주 −27.4% — 급락장에서 오히려 디스카운트 축소, 평균회귀 논지 작동). 유일 손실은 P4 −4.70%(월마트 −2.5% vs 타깃 +6.9%) — 타깃 숏이 방어주 로테이션 수혜로 역행 중이며 5개 페어 중 최악이나 −8% 스톱까지 3.3%p 여유. 리테일 실행력 격차 논지는 유지하되 다음 실적(8월 하순)까지 비중 동결."
+      },
+      {
+        date: "2026-07-31",
+        tag: "리스크",
+        title: "룰 일괄 점검 전부 미발동 — Gross 37.4→33.0% 자연 축소, 넷 +1.4%로 드리프트. US 마킹 1일 지연은 이번 회차에 해소",
+        body: "기계 룰 점검 클린: ① 페어 −8% 스톱 — 최저 P4 −4.70%(여유 3.3%p), ② 숏 +15% 커버 — 유일 역행은 TGT +6.93%(135.14→144.51)로 8.1%p 여유, 나머지 숏 전부 큰 폭 이익(하이닉스 −39.4%·삼성SDI −17.4%·인텔 −17.0%·삼성전자 −27.4%), ③ 월중 −3% — 7월 MTD +1.70%, ④ 일간 −1.5% — 공백 9거래일 중 최대 손실 −0.15%(7/21). 노출: 가격 급락으로 Gross 37.4%→33.0% 자연 축소, Net +0.3%→+1.4%(0±5% 밴드 내, 롱 레그가 숏보다 덜 빠진 드리프트 결과)로 리밸런싱 불요. VaR(1d99) 0.33%→0.29%. USDKRW 1,421.6(7/30)으로 7/16 1,487.5 대비 4.4% 절상 — 선물환 헤지 가정으로 통화중립. 재무 스냅샷 갱신 완료(삼성전자 fwd PER 3.2·GPM 47.7%, 하이닉스 fwd PER 2.9·GPM 68.3%, TSMC fwd PER 18.7, 인텔 fwd PER 44.7). 운영 정정: 종전 미국 레그의 '아시아 마감 스냅샷 1일 지연' 마킹을 폐지하고 이번 회차부터 KR·US 동일 날짜 종가로 정렬한다(배치가 KST 오전에 돌아 US 전일 종가가 이미 확정이므로 지연 사유 소멸). 이번 1회에 한해 US 레그는 7/15→7/30 종가로 11세션분을 소화했다."
+      },
       {
         date: "2026-07-18",
         tag: "시장 뷰",
@@ -157,13 +179,22 @@ window.PORTFOLIO_DATA = {
       { date: "2026-07-10", nav: 100.00 },
       { date: "2026-07-14", nav: 100.46 },
       { date: "2026-07-15", nav: 100.01 },
-      { date: "2026-07-16", nav: 100.23 }
+      { date: "2026-07-16", nav: 100.23 },
+      { date: "2026-07-20", nav: 100.48 },
+      { date: "2026-07-21", nav: 100.33 },
+      { date: "2026-07-22", nav: 100.54 },
+      { date: "2026-07-23", nav: 100.47 },
+      { date: "2026-07-24", nav: 100.81 },
+      { date: "2026-07-27", nav: 100.71 },
+      { date: "2026-07-28", nav: 101.15 },
+      { date: "2026-07-29", nav: 101.50 },
+      { date: "2026-07-30", nav: 101.70 }
     ],
     risk: {
-      grossPct: 37.4,
-      netPct: 0.3,
+      grossPct: 33.0,
+      netPct: 1.4,
       predictedBeta: 0.02,
-      var1d99PctNav: 0.33,
+      var1d99PctNav: 0.29,
       factors: [
         { name: "Market Beta", z: 0.02 },
         { name: "Size",        z: -0.05 },
@@ -174,7 +205,7 @@ window.PORTFOLIO_DATA = {
         { name: "Growth",      z: -0.10 }
       ],
       countryNets: [
-        { name: "한국", netPct: 0.2 },
+        { name: "한국", netPct: 1.3 },
         { name: "미국", netPct: 0.1 },
         { name: "기타 아시아(대만)", netPct: 0.0 }
       ]
@@ -185,8 +216,8 @@ window.PORTFOLIO_DATA = {
         thesis: "하이닉스 시총 역전 이후 크라우디드 롱 언와인드 국면. 밸류에이션 갭 극단 + 외국인 매도 집중은 하이닉스 측. 삼성전자는 역대 최대 실적으로 하방 지지.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 4.5, entry: 285000,  last: 255000 },
-          { side: "SHORT", ticker: "000660.KS", label: "SK하이닉스", ccy: "KRW", weightPct: 4.5, entry: 2180000, last: 1842000 }
+          { side: "LONG",  ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 4.5, entry: 285000,  last: 207000 },
+          { side: "SHORT", ticker: "000660.KS", label: "SK하이닉스", ccy: "KRW", weightPct: 4.5, entry: 2180000, last: 1322000 }
         ]
       },
       {
@@ -194,8 +225,8 @@ window.PORTFOLIO_DATA = {
         thesis: "우선주 디스카운트 31.9% — 급락장에서 괴리 확대, 역사적 밴드 상단. 배당 캐리 + 평균회귀. 시장 방향과 무상관.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "005935.KS", label: "삼성전자우", ccy: "KRW", weightPct: 5.0, entry: 194300, last: 172000 },
-          { side: "SHORT", ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 5.0, entry: 285000, last: 255000 }
+          { side: "LONG",  ticker: "005935.KS", label: "삼성전자우", ccy: "KRW", weightPct: 5.0, entry: 194300, last: 151000 },
+          { side: "SHORT", ticker: "005930.KS", label: "삼성전자",   ccy: "KRW", weightPct: 5.0, entry: 285000, last: 207000 }
         ]
       },
       {
@@ -203,8 +234,8 @@ window.PORTFOLIO_DATA = {
         thesis: "TSMC는 선단공정 실적이 뒷받침되는 반면, 인텔은 파운드리 턴어라운드 기대가 주가에 과도 선반영(연중 랠리 후 7/10 -8.7% 급반락). 기대와 실적의 갭 축소에 베팅.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "TSM",  label: "TSMC (ADR)", ccy: "USD", weightPct: 4.5, entry: 434.11, last: 419.48 },
-          { side: "SHORT", ticker: "INTC", label: "Intel",      ccy: "USD", weightPct: 4.5, entry: 109.84, last: 102.99 }
+          { side: "LONG",  ticker: "TSM",  label: "TSMC (ADR)", ccy: "USD", weightPct: 4.5, entry: 434.11, last: 403.31 },
+          { side: "SHORT", ticker: "INTC", label: "Intel",      ccy: "USD", weightPct: 4.5, entry: 109.84, last: 91.13 }
         ]
       },
       {
@@ -212,8 +243,8 @@ window.PORTFOLIO_DATA = {
         thesis: "월마트의 이커머스·광고 수익화 vs 타깃의 트래픽 점유율 이탈. 어닝 리비전 방향이 상반 — 동일 소비 사이클 내 상대 베팅.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "WMT", label: "Walmart", ccy: "USD", weightPct: 3.0, entry: 113.90, last: 112.53 },
-          { side: "SHORT", ticker: "TGT", label: "Target",  ccy: "USD", weightPct: 3.0, entry: 135.14, last: 138.29 }
+          { side: "LONG",  ticker: "WMT", label: "Walmart", ccy: "USD", weightPct: 3.0, entry: 113.90, last: 111.10 },
+          { side: "SHORT", ticker: "TGT", label: "Target",  ccy: "USD", weightPct: 3.0, entry: 135.14, last: 144.51 }
         ]
       },
       {
@@ -221,12 +252,22 @@ window.PORTFOLIO_DATA = {
         thesis: "LG에너지솔루션의 북미 캐파·수주잔고 모멘텀 vs 삼성SDI의 믹스 열위. 섹터 방향(전기차 수요)은 중립화하고 상대 실적 격차만 수확.",
         stopPct: -8, status: "OPEN",
         legs: [
-          { side: "LONG",  ticker: "373220.KS", label: "LG에너지솔루션", ccy: "KRW", weightPct: 3.0, entry: 326000, last: 334000 },
-          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI",        ccy: "KRW", weightPct: 3.0, entry: 434000, last: 434500 }
+          { side: "LONG",  ticker: "373220.KS", label: "LG에너지솔루션", ccy: "KRW", weightPct: 3.0, entry: 326000, last: 320000 },
+          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI",        ccy: "KRW", weightPct: 3.0, entry: 434000, last: 358500 }
         ]
       }
     ],
     weeklyAttribution: [
+      {
+        weekEnding: "2026-07-31",
+        alphaPnlBps: 109, factorPnlBps: -21, longBps: -155, shortBps: 243, hitRate: 0.80,
+        note: "7/27~7/30 4거래일: KOSPI −16.4% 붕괴(7/28 −10.84% 서킷브레이커·7/29 −5.98%)에서 NAV 100.81→101.70(+88bps). 넷 +1.4%의 팩터 손실 −21bps를 종목 알파 +109bps가 압도. 숏북 +243bps(하이닉스 +120bps·삼성전자 +88bps·삼성SDI +51bps)가 롱북 −155bps를 상쇄 — 급락 증폭 국면에서 숏 레그가 전부 롱보다 더 빠지는 구조 재확인. 유일 손실 P4(WMT/TGT) −17bps(타깃 방어주 로테이션 수혜). Hit 4/5."
+      },
+      {
+        weekEnding: "2026-07-24",
+        alphaPnlBps: 60, factorPnlBps: -2, longBps: -16, shortBps: 74, hitRate: 0.80,
+        note: "7/20~7/24 5거래일: KOSPI −1.9%의 롤러코스터(7/20 −4.5% → 7/23 +4.4% → 7/24 −5.7%)에서 NAV 100.23→100.81(+58bps). 인텔 숏 +45bps(102.99→92.32, 7/23 실적 실망)가 단독 견인, 하이닉스 숏 +18bps·삼성전자우 롱 +18bps 가세. TSMC 롱 −16bps가 최대 역풍. 넷 ~+1%로 팩터 기여 −2bps에 그쳐 사실상 전액 알파. Hit 4/5."
+      },
       {
         weekEnding: "2026-07-17",
         alphaPnlBps: 23, factorPnlBps: 0, longBps: -165, shortBps: 188, hitRate: 0.60,
@@ -244,14 +285,32 @@ window.PORTFOLIO_DATA = {
       strategy: "Directional Long/Short Equity — 레짐 기반 넷 익스포저 (KR + S&P500 + Asia)",
       aumUsd: 10000000,
       inceptionDate: "2026-07-10",
-      asOfPrice: "2026-07-16",
-      lastUpdated: "2026-07-18",
-      usdkrw: 1487.46,
-      phase: "레짐: 중립(Neutral) — 넷 +42% / β 0.43 · KR 무세션 지속(7/17 제헌절·7/18 토)으로 NAV 97.40 불변, 7/20 재판정. 신호 약화(VIX 18.8·S&P 7,458이 50DMA 7,465 근소 이탈→중립 강등·KOSPI 중립)이나 합성 판정 중립 불변, 하방 트리거 전부 미발동",
+      asOfPrice: "2026-07-30",
+      lastUpdated: "2026-07-31",
+      usdkrw: 1421.62,
+      phase: "레짐: 경계(Caution) 강등 — KOSPI 7/29 200DMA 하향 이탈. 월중 −6% 사다리 발동으로 넷 +42% → 0% (마켓 뉴트럴 전환, 잔여 7월 + 20거래일). 삼성전자·삼성전자우 롱은 −15% 손절 기계 집행(G5 청산). NAV 93.34(7월 −6.66%) / β 0.01 / Gross 42.2%",
       // 넷 밴드: 강세 +50~60(캡 +70) / 중립 +30~45 / 경계 +10~25 / 위기 -10~+10
       limits: { grossMaxPct: 300, netMaxPct: 70, varLimitPctNav: 1.8, factorZSoft: 0.35, factorZHard: 0.50 }
     },
     ideas: [
+      {
+        date: "2026-07-31",
+        tag: "레짐 판정",
+        title: "중립 → 경계(Caution) 강등 — KOSPI가 7/29 200DMA(5,708)를 종가 이탈, 7/30에도 5,593.56 < 5,718.52로 이탈 확정",
+        body: "7/30 종가 신호: ① KOSPI 5,593.56 < 200DMA 5,718.52(−2.19%) 이면서 50DMA 7,766.86 대비 −28.0% — §1 매트릭스 '지수 < 200DMA' = 경계. 이탈은 7/29 종가(5,663.24 < 200DMA 5,707.68)에 최초 발생했고 7/30 재확인. ② S&P500 7,437.63 < 50DMA 7,468.79(−0.42%)이나 > 200DMA 7,019.93(+5.95%) = 중립. ③ VIX 17.09로 여전히 <20(강세 축) — 공백 구간 최고치도 7/29 20.66에 그쳐 30·40 트리거와 '일중 +5pt' 모두 미발동. 자본가중 합성은 KR 넷이 지배적이므로 **경계(Caution)** 확정 → 밴드 +10~25%. 데드크로스는 아직 미발생(50DMA 7,767 > 200DMA 5,719)이라 '위기' 강등은 아니나 50DMA 급락 중이라 8월 중 발생 가능 — 발생 시 §3에 따라 강세 복귀 요건이 '200DMA 회복 + 골든크로스'로 상향된다. 참고: §3 '지수 일간 ±3%' 트리거가 공백 구간에 5회(7/20 −4.5%·7/21 +3.6%·7/23 +4.4%·7/24 −5.7%·7/28 −10.8%·7/29 −6.0%) 발동됐다."
+      },
+      {
+        date: "2026-07-31",
+        tag: "청산",
+        title: "월중 −6% 사다리 발동 → 넷 +42% → 0% 마켓 뉴트럴 전환. 삼성전자(−27.4%)·삼성전자우(−22.3%) 롱은 −15% 손절 기계 집행",
+        body: "§4 손실 사다리를 기계적으로 집행한다. 7월 MTD NAV −6.66%(100.00 → 93.34)로 **월중 −6% = 넷 0(마켓 뉴트럴 전환), 잔여 월 + 20거래일** 발동. 하위 트리거인 월중 −4%, 일간 −2%(7/28 −2.89%), 200DMA 이탈에 따른 '차하위 밴드 상단(+25%) 인하'는 모두 이 최강 조치에 흡수된다. 고점 대비 −10%(플랫폼 cut)는 최저 −6.94%(7/29)로 미발동. 동시에 개별 종목 규율(롱 −15% 손절)이 두 건 발동: 삼성전자 285,000→207,000(−27.4%)·삼성전자우 194,300→151,000(−22.3%) — 두 레그를 G5로 이관해 CLOSED 처리(합계에서 제외). 손절선은 공백 구간(7/28~7/29) 중 이미 관통됐으나 이력 소급 수정 금지 원칙에 따라 **7/30 종가로 청산 마킹**한다(가격을 유리하게 되돌리지 않는다). 넷 0 구현은 §1 헤징 절차대로 개별 롱 청산이 아니라 지수 선물 우선: 잔여 종목 넷 +9.35%(TSMC 8.36·LG엔솔 5.89·월마트 6.83 롱 vs 인텔 4.15·타깃 4.28·삼성SDI 3.30 숏)에 대해 G4 오버레이를 **롱 20% → 숏 9.4%로 반전**(KOSPI200 −2.6% / ES −6.8%, 진입가 = 7/30 종가). 결과 넷 −0.05%≒0.0, β 0.43→0.01, Gross 67.9→42.2%. 재출발은 §4대로 20거래일 경과 후 경계 밴드(+10~25%)부터, 주 +15%p 램프 상한 준수."
+      },
+      {
+        date: "2026-07-31",
+        tag: "리스크",
+        title: "손실 해부 — −383bps 중 팩터가 −412bps, 알파는 +29bps 방어. '방향성이 월간 손실의 70% 초과' 조항의 교과서적 사례",
+        body: "7/27~7/30 NAV 97.06 → 93.34(−383bps). 분해하면 팩터(넷 익스포저 × 지수) −412bps로 손실의 100% 이상을 설명하고 종목 알파는 +29bps 플러스 — §4 마지막 조항 '방향성 P&L이 월간 손실의 70% 초과 = 넷이 문제라는 신호'에 정확히 해당하며, 이는 알파북 보존·오버레이만 조정이라는 이번 조치의 근거이기도 하다. 레그별로 삼성전자 롱 −175bps·KOSPI 오버레이 −171bps·삼성전자우 롱 −91bps가 손실 전부를 만든 반면 삼성SDI 숏 +68bps·월마트 +11bps가 방어. 공백 2주 전체로는 97.40 → 93.34(−4.17%)인데 같은 기간 KOSPI는 −18.0%로, 하락 참여율(downside capture) 23%는 목표 50% 이하를 크게 밑돌아 숏북·밸러스트의 방어 기능 자체는 설계대로 작동했다. 남은 리스크: 넷 0 전환 후에도 국가별 잔차가 미국 −8.4% / 대만 +8.4%로 남는다(TSMC ADR을 ES 오버레이로 헤지한 결과 — 대만 직접 헤지 수단 부재). 반도체 대만/미국 상대강도가 벌어지면 손실 가능하므로 모니터링 대상. 숏 +15% 커버 룰은 타깃 +6.93%가 최대 역행으로 미발동. 참고: 7/31 KR 장중 KOSPI +13%대·삼성전자 +20%대 급반등이 진행 중이나(MS 실적 서프라이즈 +15.5%·미 반도체 반등) 확정 종가가 아니므로 마킹하지 않으며, §3 '폭락 후 V반등 추격 매수 금지'에 따라 넷 증액 근거도 되지 않는다."
+      },
       {
         date: "2026-07-18",
         tag: "레짐 판정",
@@ -389,26 +448,36 @@ window.PORTFOLIO_DATA = {
       { date: "2026-07-10", nav: 100.00 },
       { date: "2026-07-14", nav: 98.04 },
       { date: "2026-07-15", nav: 99.33 },
-      { date: "2026-07-16", nav: 97.40 }
+      { date: "2026-07-16", nav: 97.40 },
+      { date: "2026-07-20", nav: 96.16 },
+      { date: "2026-07-21", nav: 97.41 },
+      { date: "2026-07-22", nav: 97.72 },
+      { date: "2026-07-23", nav: 98.66 },
+      { date: "2026-07-24", nav: 97.06 },
+      { date: "2026-07-27", nav: 97.44 },
+      { date: "2026-07-28", nav: 94.62 },
+      { date: "2026-07-29", nav: 93.06 },
+      { date: "2026-07-30", nav: 93.34 }
     ],
     risk: {
-      grossPct: 67.9,
-      netPct: 42.4,
-      predictedBeta: 0.43,
-      var1d99PctNav: 1.17,   // 추정 모델: √[(Gross68×0.88bp)² + (β0.43×2.33×1.0%)²] — 알파 0.60 + 방향성 1.00
+      grossPct: 42.2,
+      netPct: 0.0,
+      predictedBeta: 0.01,
+      var1d99PctNav: 0.37,   // 추정 모델: √[(Gross42×0.88bp)² + (β0.01×2.33×1.0%)²] — 알파 0.37 + 방향성 0.02 (넷 0 전환으로 방향성 예산 소멸)
       factors: [
-        { name: "Market Beta", z: 0.43 },
-        { name: "Size",        z: 0.10 },
-        { name: "Value",       z: -0.10 },
-        { name: "Momentum",    z: 0.30 },
-        { name: "Quality",     z: 0.25 },
-        { name: "Volatility",  z: -0.12 },
-        { name: "Growth",      z: 0.28 }
+        { name: "Market Beta", z: 0.01 },
+        { name: "Size",        z: 0.05 },
+        { name: "Value",       z: -0.25 },
+        { name: "Momentum",    z: 0.15 },
+        { name: "Quality",     z: 0.20 },
+        { name: "Volatility",  z: -0.05 },
+        { name: "Growth",      z: 0.30 }
       ],
+      // 넷 0 전환 후 잔차: TSMC ADR(대만)을 ES 오버레이로 헤지한 결과 미국/대만이 상계 구조로 남음
       countryNets: [
-        { name: "한국", netPct: 25.5 },
-        { name: "미국", netPct: 8.1 },
-        { name: "기타 아시아(대만)", netPct: 8.7 }
+        { name: "한국", netPct: 0.0 },
+        { name: "미국", netPct: -8.4 },
+        { name: "기타 아시아(대만)", netPct: 8.4 }
       ]
     },
     // 디렉셔널 북은 '페어'가 아니라 포지션 그룹. stopPct: null = 그룹 스톱 없음(개별 규율 적용:
@@ -416,21 +485,19 @@ window.PORTFOLIO_DATA = {
     pairs: [
       {
         id: "G1", name: "코어 롱 — 고β 리더", tier: 1, type: "롱북",
-        thesis: "구조적 성장 산업의 검증된 1등주 (β 1.1~1.4). 상승 참여 엔진. 어닝 리비전 상향 유지되는 한 보유.",
+        thesis: "구조적 성장 산업의 검증된 1등주 (β 1.1~1.4). 상승 참여 엔진. 어닝 리비전 상향 유지되는 한 보유. 2026-07-30: 삼성전자 롱은 −15% 손절 룰로 청산(G5 이관).",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "LONG", ticker: "005930.KS", label: "삼성전자 (β1.10)",       ccy: "KRW", weightPct: 10.0, entry: 285000, last: 255000 },
-          { side: "LONG", ticker: "TSM",       label: "TSMC ADR (β1.15)",      ccy: "USD", weightPct: 9.0,  entry: 434.11, last: 419.48 },
-          { side: "LONG", ticker: "373220.KS", label: "LG에너지솔루션 (β1.40)", ccy: "KRW", weightPct: 6.0,  entry: 326000, last: 334000 }
+          { side: "LONG", ticker: "TSM",       label: "TSMC ADR (β1.15)",      ccy: "USD", weightPct: 9.0,  entry: 434.11, last: 403.31 },
+          { side: "LONG", ticker: "373220.KS", label: "LG에너지솔루션 (β1.40)", ccy: "KRW", weightPct: 6.0,  entry: 326000, last: 320000 }
         ]
       },
       {
         id: "G2", name: "밸러스트 롱 — 저β 캐리", tier: 2, type: "롱북",
-        thesis: "넷을 유지하면서 포트 β를 목표 밴드(0.4~0.6) 안으로 눌러주는 방어 캐리 (β 0.65~0.95).",
+        thesis: "넷을 유지하면서 포트 β를 목표 밴드(0.4~0.6) 안으로 눌러주는 방어 캐리 (β 0.65~0.95). 2026-07-30: 삼성전자우 롱은 −15% 손절 룰로 청산(G5 이관).",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "LONG", ticker: "WMT",       label: "Walmart (β0.65)",    ccy: "USD", weightPct: 7.0, entry: 113.90, last: 112.53 },
-          { side: "LONG", ticker: "005935.KS", label: "삼성전자우 (β0.95)", ccy: "KRW", weightPct: 6.0, entry: 194300, last: 172000 }
+          { side: "LONG", ticker: "WMT",       label: "Walmart (β0.65)",    ccy: "USD", weightPct: 7.0, entry: 113.90, last: 111.10 }
         ]
       },
       {
@@ -438,22 +505,41 @@ window.PORTFOLIO_DATA = {
         thesis: "기대 선반영·점유율 이탈·믹스 열위 종목 (β 0.9~1.15). 하락장에서 시장보다 더 빠지며 다운사이드 헤지를 겸함.",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "SHORT", ticker: "INTC",      label: "Intel (β1.10)",    ccy: "USD", weightPct: 5.0, entry: 109.84, last: 102.99 },
-          { side: "SHORT", ticker: "TGT",       label: "Target (β0.90)",   ccy: "USD", weightPct: 4.0, entry: 135.14, last: 138.29 },
-          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI (β1.15)",  ccy: "KRW", weightPct: 4.0, entry: 434000, last: 434500 }
+          { side: "SHORT", ticker: "INTC",      label: "Intel (β1.10)",    ccy: "USD", weightPct: 5.0, entry: 109.84, last: 91.13 },
+          { side: "SHORT", ticker: "TGT",       label: "Target (β0.90)",   ccy: "USD", weightPct: 4.0, entry: 135.14, last: 144.51 },
+          { side: "SHORT", ticker: "006400.KS", label: "삼성SDI (β1.15)",  ccy: "KRW", weightPct: 4.0, entry: 434000, last: 358500 }
         ]
       },
       {
         id: "G4", name: "지수 오버레이 — 레짐 스케일링 전용", tier: 1, type: "오버레이",
-        thesis: "중립 레짐 넷 목표(+45%)와 종목 넷(+25%)의 갭을 선물로 충당. 레짐 전환·손실 사다리 발동 시 이 그룹만 증감 — 종목 알파에 손대지 않는다.",
+        thesis: "2026-07-30 월중 −6% 사다리 발동으로 롱 +20% → 숏 9.4%로 반전. 잔여 종목 넷 +9.35%를 상쇄해 북 전체 넷을 0으로 만든다(KOSPI200 −2.6% = KR 종목 넷 상쇄 / ES −6.8% = 미국·대만 ADR 종목 넷 상쇄). 진입가는 7/30 종가. 재출발(20거래일 후 경계 밴드)까지 이 그룹만 증감 — 종목 알파에 손대지 않는다.",
         stopPct: null, status: "OPEN",
         legs: [
-          { side: "LONG", ticker: "^KS11", label: "KOSPI200 선물 (지수 프록시)", ccy: "KRW", weightPct: 10.0, entry: 7475.9, last: 6820.60 },
-          { side: "LONG", ticker: "^GSPC", label: "S&P500 E-mini (지수 프록시)", ccy: "USD", weightPct: 10.0, entry: 7575.4, last: 7572.40 }
+          { side: "SHORT", ticker: "^KS11", label: "KOSPI200 선물 (지수 프록시)", ccy: "KRW", weightPct: 2.6, entry: 5593.56, last: 5593.56 },
+          { side: "SHORT", ticker: "^GSPC", label: "S&P500 E-mini (지수 프록시)", ccy: "USD", weightPct: 6.8, entry: 7437.63, last: 7437.63 }
+        ]
+      },
+      {
+        id: "G5", name: "손절 청산 — 개별 롱 −15% 룰 (2026-07-30)", tier: 1, type: "청산",
+        thesis: "§4 개별 종목 규율(롱 −15% 손절)의 기계적 집행. 두 레그 모두 7/28~7/29 급락 중 손절선을 관통했으나 이력 소급 수정 금지 원칙에 따라 7/30 종가로 청산 마킹(가격을 유리하게 되돌리지 않음). 그로스·넷 합계에서 제외.",
+        stopPct: null, status: "CLOSED",   // 이미 청산됨 — 스톱 거리 표시는 무의미
+        legs: [
+          { side: "LONG", ticker: "005930.KS", label: "삼성전자 (β1.10) · 손절",  ccy: "KRW", weightPct: 10.0, entry: 285000, last: 207000 },
+          { side: "LONG", ticker: "005935.KS", label: "삼성전자우 (β0.95) · 손절", ccy: "KRW", weightPct: 6.0,  entry: 194300, last: 151000 }
         ]
       }
     ],
     weeklyAttribution: [
+      {
+        weekEnding: "2026-07-31",
+        alphaPnlBps: 29, factorPnlBps: -412, longBps: -433, shortBps: 47, hitRate: 0.25,
+        note: "7/27~7/30 4거래일 −383bps. 팩터(넷 +42% × KOSPI −16.4%) −412bps가 손실 전부이고 종목 알파는 +29bps 플러스 — §4 '방향성 P&L이 월간 손실의 70% 초과' 조항 정면 해당. 레그별 삼성전자 롱 −175bps·KOSPI 오버레이 −171bps·삼성전자우 −91bps 손실, 삼성SDI 숏 +68bps 방어. 월중 −6.66%로 넷 0 전환 + 삼성전자·삼성전자우 −15% 손절 집행. Hit(그룹) 1/4."
+      },
+      {
+        weekEnding: "2026-07-24",
+        alphaPnlBps: 41, factorPnlBps: -76, longBps: -86, shortBps: 55, hitRate: 0.50,
+        note: "7/20~7/24 5거래일 −35bps. KOSPI −1.9%·S&P −1.6%의 팩터 −76bps를 종목 알파 +41bps가 절반 이상 흡수. 인텔 숏 +50bps(7/23 실적 실망)가 최대 기여, TSMC 롱 −33bps·ES 오버레이 −21bps·월마트 −19bps 손실. 이 시점까지는 월중 −2.9%로 −4% 사다리 미발동이었다. Hit(그룹) 2/4."
+      },
       {
         weekEnding: "2026-07-17",
         alphaPnlBps: 35, factorPnlBps: -295, longBps: -395, shortBps: 135, hitRate: 0.25,
