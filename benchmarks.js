@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-07-31",
-  "generated_utc": "2026-07-31T07:20:42Z",
+  "generated_utc": "2026-07-31T09:26:40Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 653.85,
+      "current": 655.04,
       "baseline": 592.78,
       "mtd_baseline": 641.73,
-      "ytd_pct": 10.3023,
-      "mtd_pct": 1.8886,
-      "daily_pct": 0.6,
+      "ytd_pct": 10.503,
+      "mtd_pct": 2.0741,
+      "daily_pct": 0.7831,
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 15.82,
+        "pe": 15.87,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4376,7 +4376,7 @@ window.BENCHMARKS = {
           646.89,
           645.01,
           649.95,
-          653.85
+          655.04
         ]
       }
     },
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 12.48,
+        "pe": 12.5,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1429.8,
+      "current": 1431.4,
       "baseline": 1437.91,
       "mtd_baseline": 1541.73,
-      "ytd_pct": -0.564,
-      "mtd_pct": -7.26,
-      "daily_pct": -0.8653,
+      "ytd_pct": -0.4527,
+      "mtd_pct": -7.1562,
+      "daily_pct": -0.7544,
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1464.4399,
           1453.16,
           1442.28,
-          1429.8
+          1431.4
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 82.27,
+      "current": 83.05,
       "baseline": 57.42,
       "mtd_baseline": 69.5,
-      "ytd_pct": 43.2776,
-      "mtd_pct": 18.3741,
-      "daily_pct": -1.5791,
+      "ytd_pct": 44.636,
+      "mtd_pct": 19.4964,
+      "daily_pct": -0.646,
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           79.26,
           84.46,
           83.59,
-          82.27
+          83.05
         ]
       }
     },
@@ -7119,13 +7119,13 @@ window.BENCHMARKS = {
       "name": "VIX",
       "ticker": "^VIX",
       "category": "변동성",
-      "current": 17.09,
+      "current": 16.65,
       "baseline": 14.95,
       "mtd_baseline": 16.45,
-      "ytd_pct": 14.3144,
-      "mtd_pct": 3.8906,
-      "daily_pct": -17.2798,
-      "as_of": "2026-07-30",
+      "ytd_pct": 11.3712,
+      "mtd_pct": 1.2158,
+      "daily_pct": -2.5746,
+      "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -7137,7 +7137,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-21",
           "2025-07-22",
           "2025-07-23",
           "2025-07-24",
@@ -7396,10 +7395,10 @@ window.BENCHMARKS = {
           "2026-07-27",
           "2026-07-28",
           "2026-07-29",
-          "2026-07-30"
+          "2026-07-30",
+          "2026-07-31"
         ],
         "values": [
-          16.65,
           16.5,
           15.37,
           15.39,
@@ -7658,7 +7657,8 @@ window.BENCHMARKS = {
           18.67,
           18.21,
           20.66,
-          17.09
+          17.09,
+          16.65
         ]
       }
     },
@@ -7666,12 +7666,12 @@ window.BENCHMARKS = {
       "name": "KR 3Y",
       "ticker": "KR 3Y",
       "category": "금리",
-      "current": 3.83,
+      "current": 3.75,
       "baseline": 2.6,
       "mtd_baseline": null,
-      "ytd_pct": 47.3077,
+      "ytd_pct": 44.2308,
       "mtd_pct": null,
-      "daily_pct": 0.0,
+      "daily_pct": -2.0888,
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
