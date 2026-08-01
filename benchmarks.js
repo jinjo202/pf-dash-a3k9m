@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-08-01",
-  "generated_utc": "2026-08-01T09:36:19Z",
+  "generated_utc": "2026-08-01T22:20:53Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 18.0,
+        "pe": 17.99,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -2205,7 +2205,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 18.87,
+        "pe": 18.86,
         "pb": 1.74,
         "roe": null,
         "src": "SPY (top derived)",
@@ -2752,7 +2752,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 17.4,
+        "pe": 17.39,
         "pb": 1.92,
         "roe": null,
         "src": "QQQ (top derived)",
@@ -3846,7 +3846,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 15.77,
+        "pe": 15.76,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 12.5,
+        "pe": 12.49,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",

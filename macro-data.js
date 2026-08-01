@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-08-01T09:38:07Z",
+  "generated": "2026-08-01T22:23:17Z",
   "regime": {
     "score": 28,
     "label": "비중확대 우위",
@@ -493,7 +493,7 @@ window.MACRO = {
       },
       "valuation": {
         "name": "밸류에이션",
-        "score": 3,
+        "score": 4,
         "n": 6
       },
       "flows": {
@@ -588,7 +588,7 @@ window.MACRO = {
       },
       {
         "ym": "2026-07",
-        "g": 0.08,
+        "g": 0.09,
         "i": -0.66
       }
     ],
@@ -1015,14 +1015,14 @@ window.MACRO = {
       "fair_pe": 19.0,
       "components": {
         "val": 2,
-        "earn": 43,
+        "earn": 42,
         "fx": 0,
         "mon": -10,
         "cycle": 48
       },
       "horizon": {
         "m1": 21,
-        "m3": 22,
+        "m3": 21,
         "m12": 19
       },
       "fx_val": null,
@@ -1071,15 +1071,15 @@ window.MACRO = {
       "fair_pe": 14.0,
       "components": {
         "val": -12,
-        "earn": 2,
+        "earn": 6,
         "fx": -32,
         "mon": 30,
         "cycle": -28
       },
       "horizon": {
-        "m1": -12,
-        "m3": -10,
-        "m12": -7
+        "m1": -10,
+        "m3": -9,
+        "m12": -6
       },
       "fx_val": 1.15,
       "fx_chg": -1.6,
@@ -1128,23 +1128,23 @@ window.MACRO = {
       "components": {
         "val": 51,
         "earn": -55,
-        "fx": 18,
+        "fx": 20,
         "mon": 30,
         "cycle": -69
       },
       "horizon": {
-        "m1": -20,
+        "m1": -19,
         "m3": -15,
         "m12": -6
       },
-      "fx_val": 6.75,
-      "fx_chg": 0.9,
+      "fx_val": 6.74,
+      "fx_chg": 1.0,
       "reer": {
         "cur": 92.2,
         "avg10y": 98.0,
         "dev_pct": -5.8
       },
-      "fx12m": 11.3,
+      "fx12m": 11.4,
       "cli": 98.6,
       "phase": "수축 (Contraction)",
       "mon_note": "인민은행 부양(+)"
@@ -15773,10 +15773,10 @@ window.MACRO = {
     "copper_gold": {
       "name": "구리/금 비율",
       "pillar": "macro",
-      "current": 1.57,
+      "current": 1.59,
       "unit": "",
-      "z": -1.07,
-      "pct": 7.5,
+      "z": -1.05,
+      "pct": 9.0,
       "score": 1.0,
       "signal": "강한 호재",
       "signal_cls": "pos",
@@ -16317,7 +16317,7 @@ window.MACRO = {
           1.284,
           1.394,
           1.539,
-          1.572
+          1.589
         ]
       },
       "z_from": "2000-08",
@@ -16335,7 +16335,7 @@ window.MACRO = {
       "unit": "배",
       "z": null,
       "pct": null,
-      "score": -0.22,
+      "score": -0.21,
       "signal": "악재",
       "signal_cls": "neg",
       "desc": "이익 대비 가격. 높을수록 기대수익 낮음",
@@ -22519,11 +22519,11 @@ window.MACRO = {
     "eps_rev_us": {
       "name": "미국 Fwd EPS 수정(1개월)",
       "pillar": "earnings",
-      "current": 0.3,
+      "current": 0.2,
       "unit": "%",
       "z": null,
       "pct": null,
-      "score": 0.06,
+      "score": 0.04,
       "signal": "유지",
       "signal_cls": "neu",
       "desc": "올해 컨센서스 EPS의 최근 30일 변화율(단기 모멘텀 유지). 7일 +0.1%·90일 +4.5%. 그래프=90일 경로.",
@@ -22540,7 +22540,7 @@ window.MACRO = {
           100.0,
           100.18,
           101.55,
-          104.11,
+          104.05,
           104.5
         ]
       }
@@ -22591,14 +22591,14 @@ window.MACRO = {
     "peg": {
       "name": "S&P500 PEG",
       "pillar": "valuation",
-      "current": 1.05,
+      "current": 1.04,
       "unit": "",
       "z": null,
       "pct": null,
-      "score": 0.55,
+      "score": 0.56,
       "signal": "강한 호재",
       "signal_cls": "pos",
-      "desc": "Fwd PER 18.87 / EPS성장 18%. 1 미만 저평가, 2+ 부담",
+      "desc": "Fwd PER 18.86 / EPS성장 18%. 1 미만 저평가, 2+ 부담",
       "as_of": "2026-08-01",
       "history": null,
       "source": {
@@ -24153,18 +24153,18 @@ window.MACRO = {
         "err_label": "강한 상향",
         "err_cls": "pos",
         "rev7": 0.1,
-        "rev30": 0.3,
+        "rev30": 0.2,
         "rev90": 4.5,
         "momentum": "유지",
         "rev30_ny": 0.8,
-        "rev90_ny": 4.2,
+        "rev90_ny": 4.0,
         "growth_cy": 22.4,
         "growth_ny": 13.7,
         "trend": [
           100.0,
           100.18,
           101.55,
-          104.11,
+          104.05,
           104.5
         ],
         "n": 40,
@@ -24314,20 +24314,20 @@ window.MACRO = {
         "err": 0.0,
         "err_label": "중립",
         "err_cls": "neu",
-        "rev7": -0.1,
-        "rev30": 0.5,
-        "rev90": -0.1,
-        "momentum": "둔화",
-        "rev30_ny": -0.5,
+        "rev7": 0.2,
+        "rev30": 1.1,
+        "rev90": 0.2,
+        "momentum": "유지",
+        "rev30_ny": 0.1,
         "rev90_ny": -1.7,
         "growth_cy": 7.0,
         "growth_ny": 13.7,
         "trend": [
           100.0,
           100.86,
-          100.59,
-          99.65,
-          99.91
+          100.69,
+          99.51,
+          100.22
         ],
         "n": 6,
         "annual": {
@@ -24560,18 +24560,18 @@ window.MACRO = {
           "err": 0.793,
           "err_label": "강한 상향",
           "err_cls": "pos",
-          "rev7": 0.1,
-          "rev30": 3.6,
-          "rev90": 9.8,
-          "momentum": "둔화",
-          "growth_cy": 74.5,
-          "growth_ny": 55.4,
+          "rev7": 0.2,
+          "rev30": 0.6,
+          "rev90": 9.9,
+          "momentum": "유지",
+          "growth_cy": 74.7,
+          "growth_ny": 55.5,
           "trend": [
             100.0,
-            100.92,
-            103.94,
+            101.18,
+            105.0,
             109.35,
-            109.8
+            109.89
           ],
           "n": 6,
           "issue": "AI 인프라 capex 지속 상향, HBM·가속기 공급부족. 하이퍼스케일러 capex 가이던스 추가 상향이 EPS 견인.",
@@ -24589,7 +24589,7 @@ window.MACRO = {
                 "m3": 0.7,
                 "ytd": 7.8
               },
-              "rev30": 0.2964749937792721,
+              "rev30": 0.25633195657066565,
               "note": "AI 가속기 사실상 독점·데이터센터 폭증"
             },
             {
@@ -24634,7 +24634,7 @@ window.MACRO = {
                 "m3": 59.2,
                 "ytd": 188.5
               },
-              "rev30": 20.40101633603286,
+              "rev30": 0.14851740353936105,
               "note": "HBM·메모리 업사이클"
             },
             {
@@ -24649,7 +24649,7 @@ window.MACRO = {
                 "m3": 34.3,
                 "ytd": 122.3
               },
-              "rev30": 0.856773753229656,
+              "rev30": 1.0191369158853103,
               "note": "AI GPU 추격·MI 시리즈"
             }
           ]
@@ -24663,11 +24663,11 @@ window.MACRO = {
           "rev30": 0.1,
           "rev90": 3.2,
           "momentum": "유지",
-          "growth_cy": 14.7,
-          "growth_ny": 15.5,
+          "growth_cy": 15.0,
+          "growth_ny": 15.7,
           "trend": [
             100.0,
-            100.16,
+            100.17,
             103.27,
             103.28,
             103.24
@@ -24680,7 +24680,7 @@ window.MACRO = {
               "ticker": "AAPL",
               "name": "Apple Inc.",
               "mktcap": 4537070911488,
-              "fwdpe": 32.3,
+              "fwdpe": 32.5,
               "pbr": 42.55,
               "rets": {
                 "w1": -7.2,
@@ -24703,7 +24703,7 @@ window.MACRO = {
                 "m3": 14.2,
                 "ytd": -3.5
               },
-              "rev30": 0.504037143160585,
+              "rev30": 1.0551940519802239,
               "note": "Azure·코파일럿 AI 수익화"
             },
             {
@@ -24943,16 +24943,16 @@ window.MACRO = {
           "err_cls": "pos",
           "rev7": -0.2,
           "rev30": -0.0,
-          "rev90": 0.6,
+          "rev90": -1.2,
           "momentum": "둔화",
           "growth_cy": 21.2,
-          "growth_ny": 15.3,
+          "growth_ny": 15.6,
           "trend": [
             100.0,
             99.99,
             99.98,
-            100.79,
-            100.63
+            99.05,
+            98.81
           ],
           "n": 5,
           "issue": "GLP-1(비만) 수요 강세, 약가 정책 리스크. 파이프라인 모멘텀.",
@@ -24970,7 +24970,7 @@ window.MACRO = {
                 "m3": 23.1,
                 "ytd": 7.3
               },
-              "rev30": -4.730188470345076,
+              "rev30": -4.647341151572581,
               "note": "GLP-1 비만치료 선두"
             },
             {
@@ -25000,7 +25000,7 @@ window.MACRO = {
                 "m3": 19.6,
                 "ytd": 12.4
               },
-              "rev30": -0.917832382580841,
+              "rev30": -1.0670388040288081,
               "note": "면역질환 후속"
             },
             {
@@ -25050,7 +25050,7 @@ window.MACRO = {
             100.0,
             98.7,
             99.36,
-            99.35,
+            97.99,
             97.82
           ],
           "n": 5,
@@ -25061,7 +25061,7 @@ window.MACRO = {
               "ticker": "AMZN",
               "name": "Amazon.com, Inc.",
               "mktcap": 2921415835648,
-              "fwdpe": 26.7,
+              "fwdpe": 26.4,
               "pbr": 6.61,
               "rets": {
                 "w1": 17.0,
@@ -25076,7 +25076,7 @@ window.MACRO = {
               "ticker": "TSLA",
               "name": "Tesla, Inc.",
               "mktcap": 1229138690048,
-              "fwdpe": 139.9,
+              "fwdpe": 140.2,
               "pbr": 14.21,
               "rets": {
                 "w1": -0.6,
@@ -25084,7 +25084,7 @@ window.MACRO = {
                 "m3": -18.5,
                 "ytd": -30.8
               },
-              "rev30": -13.163940743486801,
+              "rev30": -12.670786851180683,
               "note": "FSD·로보택시 기대"
             },
             {
@@ -25147,9 +25147,9 @@ window.MACRO = {
           "growth_ny": -5.3,
           "trend": [
             100.0,
-            114.37,
-            113.84,
-            111.5,
+            110.06,
+            109.41,
+            109.37,
             112.32
           ],
           "n": 4,
@@ -25161,7 +25161,7 @@ window.MACRO = {
               "name": "ExxonMobil Holdings Corporation",
               "mktcap": 644290576384,
               "fwdpe": 14.7,
-              "pbr": 2.53,
+              "pbr": 2.5,
               "rets": {
                 "w1": -1.0,
                 "m1": 14.1,
@@ -25175,15 +25175,15 @@ window.MACRO = {
               "ticker": "CVX",
               "name": "Chevron Corporation",
               "mktcap": 392006172672,
-              "fwdpe": 15.5,
-              "pbr": 2.12,
+              "fwdpe": 15.4,
+              "pbr": 2.09,
               "rets": {
                 "w1": 1.0,
                 "m1": 18.8,
                 "m3": 2.8,
                 "ytd": 31.6
               },
-              "rev30": 2.6979251874633237,
+              "rev30": 11.156454716857557,
               "note": "배당·가이아나"
             },
             {
@@ -27067,8 +27067,8 @@ window.MACRO = {
     "valuation": "[혼조/중립] S&P500 12M Fwd PER 18.9배(악재)·KOSPI 12M Fwd PER 4.3배(강한 호재)·주식위험프리미엄(ERP) 0.62%p(중립)·미국 10Y 금리 4.75%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.5%(강한 호재)·신용 스프레드(Baa-10Y) 1.64%p(호재)·USD/KRW 1436.6원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 109.6조원(강한 호재)·한국 투자자별 수급(외국인, 월) -9.9조원(중립)",
     "sentiment": "[완만한 호재 우위] VIX 변동성 16.0(호재)·S&P500 12M 모멘텀 18.1%(강한 호재)·CNN 공포·탐욕 지수 42(악재)·AAII 불-베어 스프레드 -11.1%p(호재)·CBOE 풋/콜 비율(총) 0.91(중립)",
-    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.3%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 1.0%(유지)",
-    "overall": "종합 레짐 점수 +28. 매크로 +14, 밸류 +3, 수급 +54, 센티 +15, 기업이익 +49."
+    "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.53(강한 상향)·미국 Fwd EPS 수정(1개월) 0.2%(유지)·한국 ERR(이익수정비율) 0.238(상향 우위)·한국 Fwd EPS 수정(1개월) 1.0%(유지)",
+    "overall": "종합 레짐 점수 +28. 매크로 +14, 밸류 +4, 수급 +54, 센티 +15, 기업이익 +49."
   },
   "outlook": {
     "short": {
