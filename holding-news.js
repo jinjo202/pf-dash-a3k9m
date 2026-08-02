@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-02T22:24:05
+// 갱신: 2026-08-02T22:36:18
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -15,15 +15,15 @@ window.HOLDING_NEWS = {
    "date": "2026-08-02"
   },
   {
-   "title": "[주간증시전망] 코스피 6500선까지 반등했지만… 널뛰는 증시에 웃지 못하는 개미들 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUk1TMC02NFJkRDB6WGFGaHpOTWZZZUZHWUo1aFFHLVpYX3o4bXFyM3ZTU00xb1F5aWp0QWN5TjZEcFNKNjF0b3VzdjRPZE5Yem9PREdweGlvQkVzN3p2THQ2dXJuS1F1Vzc1MTRaWXE3aDBoaUhiSHpxdVJ4UllkaFFoOUdDZlZC0gGcAUFVX3lxTE5zTjVvME5SbFhUSEhVYklrdzRxZFZrck52b0xnTU9KaUVGTGhvSnF5STF4ak5KSWx5T2tob1VpRWN6RzV1Z2pab3dQeHVZWnJqX0ZuMnJCS0ZMNDV3bzhxTVdJZHE3eE1XOVpvWF9FbzdzNFZ6cWpsLXlvM1V6WTZCa09GS29MTkhIeEJodi1uUHFoQWdvZ3NPUWZfUg?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-08-02"
-  },
-  {
    "title": "[주간증시전망] 기업 실적은 확인, 금리가 부담···코스피 '조건부 반등' - 서울파이낸스",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBfQjZtZWJqV1lENWNQQkhxb2lhWWtaVHlaYURBRlU1VFhrWldJajVTY0RTS2xFRXZlVkxBR2pUNGpxdk05NTViUGk0Y1VIVlRncU42SzJ0MWRnQnhKSHNxWUlxdjk2TjZGYXc?oc=5",
    "source": "서울파이낸스",
+   "date": "2026-08-02"
+  },
+  {
+   "title": "[주간증시전망] 코스피 6500선까지 반등했지만… 널뛰는 증시에 웃지 못하는 개미들 - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUk1TMC02NFJkRDB6WGFGaHpOTWZZZUZHWUo1aFFHLVpYX3o4bXFyM3ZTU00xb1F5aWp0QWN5TjZEcFNKNjF0b3VzdjRPZE5Yem9PREdweGlvQkVzN3p2THQ2dXJuS1F1Vzc1MTRaWXE3aDBoaUhiSHpxdVJ4UllkaFFoOUdDZlZC0gGcAUFVX3lxTE5zTjVvME5SbFhUSEhVYklrdzRxZFZrck52b0xnTU9KaUVGTGhvSnF5STF4ak5KSWx5T2tob1VpRWN6RzV1Z2pab3dQeHVZWnJqX0ZuMnJCS0ZMNDV3bzhxTVdJZHE3eE1XOVpvWF9FbzdzNFZ6cWpsLXlvM1V6WTZCa09GS29MTkhIeEJodi1uUHFoQWdvZ3NPUWZfUg?oc=5",
+   "source": "Chosunbiz",
    "date": "2026-08-02"
   }
  ],
@@ -67,9 +67,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-22"
   },
   {
-   "title": "주춤했던 ‘AI전력 ETF’ 재점화…수주 기대에 10% 반등 - 서울경제",
+   "title": "주춤했던 ‘AI전력 ETF’ 재점화…수주 기대에 10% 반등 - sedaily.com",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1VajlRazJjRlZHN3NwS0xHV0wzTmhSNjVLa2kybWlQU1l6eDBoV2JnNFRCY0pXcHlRQjkzOTA0UDlrbDJIME5jWEQyQ2Z2NlZNcGfSAVNBVV95cUxPSnZOcVExbHJvLWZQWUZuc3ktZ19zbFdOem9BeEhYaUVsZ216NTAxUi1pUzcxYmFIVTUtUkx5RDZTYWFQRERYUllveVFmbEN4LUNfcw?oc=5",
-   "source": "서울경제",
+   "source": "sedaily.com",
    "date": "2026-06-16"
   },
   {
@@ -177,9 +177,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-17"
   },
   {
-   "title": "고영, AI 서버·의료로봇 성장 기대…실적 회복이 주가 향방 좌우 - 증권일보",
+   "title": "고영, AI 서버·의료로봇 성장 기대…실적 회복이 주가 향방 좌우 - s-d.kr",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9zNWlBbFU2ZjE4aGVrM2xmbUk4TVRYRkNPWjROLUh0eGhIUXpXUlR5RGhCQ2tYVGZHckRVN2lrVjFscVFRazEwZ0Zzb3FQSFVJWkxfVExfZm5rYWo3Wk5abg?oc=5",
-   "source": "증권일보",
+   "source": "s-d.kr",
    "date": "2026-07-28"
   }
  ],
@@ -191,9 +191,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-26"
   },
   {
-   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
+   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - esgeconomy.com",
    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
-   "source": "ESG경제",
+   "source": "esgeconomy.com",
    "date": "2026-03-23"
   },
   {
@@ -255,9 +255,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
+   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - chosun.com",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
-   "source": "조선일보",
+   "source": "chosun.com",
    "date": "2026-06-26"
   }
  ],
@@ -307,9 +307,9 @@ window.HOLDING_NEWS = {
    "date": "2025-02-16"
   },
   {
-   "title": "KB스타 미국 나스닥100 인덱스(H) - 브런치",
+   "title": "KB스타 미국 나스닥100 인덱스(H) - brunch.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBSZlYwb2ZRWG1wV18zano4bUc4STVGR1h0UUY3eHNYVFQ4QVR4RE8ydjUzcHk4RjhIZ1NMb01uZWFFa2x0RzNxQlZHZ3dxNzBUM1lZ?oc=5",
-   "source": "브런치",
+   "source": "brunch.co.kr",
    "date": "2024-07-04"
   }
  ],
@@ -535,9 +535,9 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
+   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - joseilbo.com",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
-   "source": "조세일보",
+   "source": "joseilbo.com",
    "date": "2026-01-23"
   },
   {
