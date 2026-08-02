@@ -2172,11 +2172,24 @@ def build_stress(indicators, kospi_vals, kosdaq_vals):
 
     vk = cur("vkospi")
     if vk is not None:
-        st = "safe" if vk < 30 else ("watch" if vk < 45 else "alert")
-        stale = (indicators.get("vkospi") or {}).get("as_of", "")
-        add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "30 주의 · 45 경보",
-            f"한국 공포지수. VIX(미국)로는 한국 국지적 급락이 잡히지 않는다. 기준일 {stale}. "
-            "로컬 실행에서만 갱신되므로 날짜가 오래됐으면 값을 신뢰하지 말 것.")
+        vk_as_of = str((indicators.get("vkospi") or {}).get("as_of", ""))[:10]
+        vk_age = None
+        try:
+            vk_age = (date.today() - date.fromisoformat(vk_as_of)).days
+        except Exception:
+            pass
+        # VKOSPI는 investing.com이 GH Actions IP를 막아 cron에선 시드가 유지된다.
+        # 값이 낡았는데 "정상"으로 띄우면 가장 중요한 한국 신호에 거짓 안전 신호를 주게 되므로
+        # 7일 초과면 판정을 보류(watch)하고 라벨에 명시.
+        if vk_age is not None and vk_age > 7:
+            add("vkospi", "VKOSPI (한국 변동성)", vk, "", "watch", "데이터 낡음 — 판정 보류",
+                f"기준일 {vk_as_of} ({vk_age}일 경과). investing.com이 GitHub Actions IP를 차단해 "
+                "cron에선 갱신되지 않고 로컬 스케줄러(하루 2회)에서만 갱신된다. "
+                "이 값으로 한국 변동성을 판단하지 말 것 — 실제 급등 국면에도 낮게 보일 수 있다.")
+        else:
+            st = "safe" if vk < 30 else ("watch" if vk < 45 else "alert")
+            add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "30 주의 · 45 경보",
+                f"한국 공포지수(기준일 {vk_as_of}). VIX(미국)로는 한국 국지적 급락이 잡히지 않는다.")
 
     hy = cur("hy_oas")
     if hy is not None:
