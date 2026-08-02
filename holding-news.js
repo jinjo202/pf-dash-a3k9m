@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-02T22:36:18
+// 갱신: 2026-08-02T23:05:56
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -67,9 +67,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-22"
   },
   {
-   "title": "주춤했던 ‘AI전력 ETF’ 재점화…수주 기대에 10% 반등 - sedaily.com",
+   "title": "주춤했던 ‘AI전력 ETF’ 재점화…수주 기대에 10% 반등 - 서울경제",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1VajlRazJjRlZHN3NwS0xHV0wzTmhSNjVLa2kybWlQU1l6eDBoV2JnNFRCY0pXcHlRQjkzOTA0UDlrbDJIME5jWEQyQ2Z2NlZNcGfSAVNBVV95cUxPSnZOcVExbHJvLWZQWUZuc3ktZ19zbFdOem9BeEhYaUVsZ216NTAxUi1pUzcxYmFIVTUtUkx5RDZTYWFQRERYUllveVFmbEN4LUNfcw?oc=5",
-   "source": "sedaily.com",
+   "source": "서울경제",
    "date": "2026-06-16"
   },
   {
@@ -177,9 +177,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-17"
   },
   {
-   "title": "고영, AI 서버·의료로봇 성장 기대…실적 회복이 주가 향방 좌우 - s-d.kr",
+   "title": "고영, AI 서버·의료로봇 성장 기대…실적 회복이 주가 향방 좌우 - 증권일보",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9zNWlBbFU2ZjE4aGVrM2xmbUk4TVRYRkNPWjROLUh0eGhIUXpXUlR5RGhCQ2tYVGZHckRVN2lrVjFscVFRazEwZ0Zzb3FQSFVJWkxfVExfZm5rYWo3Wk5abg?oc=5",
-   "source": "s-d.kr",
+   "source": "증권일보",
    "date": "2026-07-28"
   }
  ],
@@ -191,9 +191,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-26"
   },
   {
-   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - esgeconomy.com",
+   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
-   "source": "esgeconomy.com",
+   "source": "ESG경제",
    "date": "2026-03-23"
   },
   {
@@ -255,9 +255,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - chosun.com",
+   "title": "75만원에서 50만원으로… 현대차, 지금이 바닥일까 - 조선일보",
    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPWDdGbWV3Q3JySW9KQWlZa2hZVGpHcG1FS0Yyd1NEajlUV21TYUxDZG8tenl4VjRwc1B3MTI5WXRqQXhZLTd4WTMyeGxlUUpXXy01VjVkVHIxc19vTy1NYUpmbTk5QVFMdWp0UldYb3pEQ2dQbDF0WENwM0k2RGZScw?oc=5",
-   "source": "chosun.com",
+   "source": "조선일보",
    "date": "2026-06-26"
   }
  ],
@@ -307,9 +307,9 @@ window.HOLDING_NEWS = {
    "date": "2025-02-16"
   },
   {
-   "title": "KB스타 미국 나스닥100 인덱스(H) - brunch.co.kr",
+   "title": "KB스타 미국 나스닥100 인덱스(H) - 브런치",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBSZlYwb2ZRWG1wV18zano4bUc4STVGR1h0UUY3eHNYVFQ4QVR4RE8ydjUzcHk4RjhIZ1NMb01uZWFFa2x0RzNxQlZHZ3dxNzBUM1lZ?oc=5",
-   "source": "brunch.co.kr",
+   "source": "브런치",
    "date": "2024-07-04"
   }
  ],
@@ -359,9 +359,9 @@ window.HOLDING_NEWS = {
    "date": "2026-01-13"
   },
   {
-   "title": "희토류 ETF란? 원자재 ETF로 보는 희토류 관련주와 투자 전략, REMX 분석 - EBC Financial Group",
+   "title": "희토류 ETF란? 원자재 ETF로 보는 희토류 관련주와 투자 전략, REMX 분석 - ebc.com",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE53YmJENVFSa1RtMDNpSTdCdVAxRUlmaXhLX2JmYThxVkM3T2dhNllpMWlaWG9oX1pabWV4MTJaaktSSHpqOVhmZ0psb1lMYWpBWGc?oc=5",
-   "source": "EBC Financial Group",
+   "source": "ebc.com",
    "date": "2026-05-15"
   }
  ],
@@ -471,9 +471,9 @@ window.HOLDING_NEWS = {
  ],
  "Dimensional International Value (DFIV)": [
   {
-   "title": "\"글로벌은 가치주인데…\" 한국 증시 '대형주 쏠림' 심화 - 프라임경제",
+   "title": "\"글로벌은 가치주인데…\" 한국 증시 '대형주 쏠림' 심화 - newsprime.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1SSkVxS19nVko3eXNYalVvRVBRc29GU2w0VkRYUmFzbVZJbXBnZ09UVld6ME5DVXZQR3RsZzRocWRtMWZ2NzRFOTdwZHVHblFKczlRWWZtTDFfeFRnSmpLendCbw?oc=5",
-   "source": "프라임경제",
+   "source": "newsprime.co.kr",
    "date": "2026-03-03"
   },
   {
@@ -535,9 +535,9 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - joseilbo.com",
+   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
-   "source": "joseilbo.com",
+   "source": "조세일보",
    "date": "2026-01-23"
   },
   {
