@@ -786,7 +786,16 @@ def score_indicator(key, cur, hist_vals, ctx):
         # S&P 트레일링 EPS YoY. 성장 가속=호재 (과거 이익 모멘텀 프록시)
         return clamp(cur / 12.0)
     if key == "kospi_fwd_pe":
-        return clamp((11.0 - cur) / 4.0)
+        v = clamp((11.0 - cur) / 4.0)
+        # 모멘텀 게이트: 급락 중엔 '싸다'는 신호를 그대로 믿지 않는다.
+        # 가격이 먼저 빠지고 추정이익은 나중에 깎이므로, 폭락 직후 PER은 기계적으로
+        # 낮아진다(2026-07 코스피 −22%에 PER 4.3 → 만점 +1.00이 나온 사례).
+        # 특히 메모리 피크 이익 기준 PER은 원래 낮다(peak earnings = low PER = 실제론 비쌈).
+        # 낙폭 −10%까지 원점수, −25%에서 0으로 체감. 싼 게 악재는 아니므로 하한은 0(음수 전환 안 함).
+        dd = ctx.get("kospi_dd")
+        if v > 0 and dd is not None:
+            v *= clamp((dd + 25.0) / 15.0, 0.0, 1.0)
+        return v
     # ── 수동 지표 (센티먼트/수급) ──
     if key == "cnn_fng":
         return clamp((cur - 50) / 30.0)
@@ -2658,7 +2667,8 @@ def build():
         dates, vals = raw[key]
         cur = vals[-1]
         z, pct = zscore(vals) if len(vals) >= 8 else (None, None)
-        ctx = {"z": z, "real_rate": real_rate, "above_200d": above_200d}
+        ctx = {"z": z, "real_rate": real_rate, "above_200d": above_200d,
+               "kospi_dd": (kospi_dd_v[-1] if kospi_dd_v else None)}
         score = score_indicator(key, cur, vals, ctx)
         lbl, cls = signal_label(score)
         pillar_scores[pillar].append(score)
