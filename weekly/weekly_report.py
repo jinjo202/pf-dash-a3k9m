@@ -353,13 +353,18 @@ def build_factor_lines(macro, kr):
     mtd = (kr or {}).get("mtd") or {}
     ytd = (kr or {}).get("ytd_total") or {}
     unit = (kr or {}).get("unit", "조원")
+    # 월 라벨·방향은 데이터에서 파생 (하드코딩 시 매월 틀림)
+    mlabel = ((kr or {}).get("month") or "").split(".")[-1].lstrip("0") or "당월"
+    mlabel = mlabel + "월" if mlabel.isdigit() else mlabel
+    fmtd = mtd.get("foreign")
+    trend = "매도세 지속" if (fmtd or 0) < 0 else "순매수 전환" if (fmtd or 0) > 0 else "보합"
     수급 = [
-        " - (국내) 외국인 6월 %s%s(YTD %s%s) — 매도세 지속" % (
-            _fnum(mtd.get("foreign"), plus=True), unit,
-            _fnum(ytd.get("foreign"), plus=True), unit),
-        " - 개인 %s%s, 기관 %s%s (6월 %s거래일)" % (
+        " - (국내) 외국인 %s %s%s(YTD %s%s) — %s" % (
+            mlabel, _fnum(fmtd, plus=True), unit,
+            _fnum(ytd.get("foreign"), plus=True), unit, trend),
+        " - 개인 %s%s, 기관 %s%s (%s %s거래일)" % (
             _fnum(mtd.get("retail"), plus=True), unit,
-            _fnum(mtd.get("inst"), plus=True), unit, mtd.get("days", "-")),
+            _fnum(mtd.get("inst"), plus=True), unit, mlabel, mtd.get("days", "-")),
     ]
     수급 += _supply_lines(load_json("kr_supply.json"))
     수급.append(" ※ 해석: %s" % comm.get("flows", ""))
