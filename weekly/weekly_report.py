@@ -54,9 +54,9 @@ def load_macro():
         return {}
 
 
-def load_kr_flows():
+def load_json(name):
     try:
-        with open(os.path.join(REPO, "kr_flows.json"), "r", encoding="utf-8") as f:
+        with open(os.path.join(REPO, name), "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
         return {}
@@ -298,6 +298,26 @@ def _fnum(v, suf="", plus=False):
     return s + suf
 
 
+def _supply_lines(sup):
+    """kr_supply.json → 기계적 수급 2줄(레버리지ETF·반대매매/숏커버). 데이터 없으면 []."""
+    if not sup:
+        return []
+    etf, cr, sc = sup.get("leverage_etf") or {}, sup.get("credit") or {}, sup.get("short_cover") or {}
+    out = []
+    if etf.get("롱숏_거래대금비율"):
+        out.append(" - (기계적) 레버리지/인버스 거래대금비율 %s (평시 %s) · %s 기준" % (
+            etf["롱숏_거래대금비율"], etf.get("롱숏_거래대금비율_평시", "-"), etf.get("trade_date", "-")))
+    bits = []
+    if cr.get("신용잔고_조") is not None:
+        bits.append("신용잔고 %s조(1M %s조, %s 공시)" % (
+            cr["신용잔고_조"], _fnum(cr.get("신용잔고_1개월변화_조"), plus=True), cr.get("as_of", "-")))
+    if sc.get("정황"):
+        bits.append(sc["정황"] if sc["정황"].startswith("숏커버") else "숏커버: " + sc["정황"])
+    if bits:
+        out.append(" - " + " · ".join(bits))
+    return out
+
+
 def build_factor_lines(macro, kr):
     comm = (macro or {}).get("commentary") or {}
     earn = ((macro or {}).get("earnings") or {}).get("countries") or {}
@@ -340,8 +360,9 @@ def build_factor_lines(macro, kr):
         " - 개인 %s%s, 기관 %s%s (6월 %s거래일)" % (
             _fnum(mtd.get("retail"), plus=True), unit,
             _fnum(mtd.get("inst"), plus=True), unit, mtd.get("days", "-")),
-        " ※ 해석: %s" % comm.get("flows", ""),
     ]
+    수급 += _supply_lines(load_json("kr_supply.json"))
+    수급.append(" ※ 해석: %s" % comm.get("flows", ""))
     events = ((macro or {}).get("monthly_factors") or {}).get("events") or []
     주요이벤트 = []
     for e in events[:5]:
@@ -920,7 +941,7 @@ def main():
 
     bench = load_benchmarks()
     macro = load_macro()
-    kr = load_kr_flows()
+    kr = load_json("kr_flows.json")
     pdata = load_portfolio()
     daily = load_daily()
     sentiment = get_sentiment(not args.no_sentiment)
