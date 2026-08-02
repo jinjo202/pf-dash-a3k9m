@@ -241,7 +241,14 @@ def fetch_vkospi():
              "-H", "Referer: https://kr.investing.com/indices/kospi-volatility", url],
             capture_output=True, timeout=25, check=True,
         )
-        data = _json.loads(r.stdout.decode("utf-8", errors="replace"))
+        body = r.stdout.decode("utf-8", errors="replace").strip()
+        # 차단 시 본문이 그냥 "403" 같은 스칼라로 오기도 한다(2026-08 확인).
+        # 그대로 json.loads하면 int가 나와 'int has no attribute get'이라는 엉뚱한 에러가 뜬다.
+        if body in ("403", "401", "429") or not body:
+            raise ValueError(f"차단 또는 빈 응답 (body={body!r})")
+        data = _json.loads(body)
+        if not isinstance(data, dict):
+            raise ValueError(f"예상 밖 응답 타입 {type(data).__name__} (body 앞부분={body[:60]!r})")
         rows = data.get("data") or []
         if len(rows) < 2:
             raise ValueError("데이터 부족")
