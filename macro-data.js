@@ -5,14 +5,6 @@ window.MACRO = {
   "update_log": [
     {
       "date": "2026-07-24",
-      "type": "release",
-      "key": "cnn_fng",
-      "title": "CNN 공포·탐욕 지수",
-      "detail": "40 → 39 (2026-07-24 발표)",
-      "as_of": "2026-07-24"
-    },
-    {
-      "date": "2026-07-24",
       "type": "revision",
       "key": "put_call",
       "title": "CBOE 풋/콜 비율(총)",
@@ -477,10 +469,18 @@ window.MACRO = {
       "title": "CBOE 풋/콜 비율(총)",
       "detail": "0.91 → 0.91 (2026-08-02 발표)",
       "as_of": "2026-08-02"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "release",
+      "key": "put_call",
+      "title": "CBOE 풋/콜 비율(총)",
+      "detail": "0.91 → 0.91 (2026-08-03 발표)",
+      "as_of": "2026-08-03"
     }
   ],
   "updates_today": [],
-  "generated": "2026-08-02T15:51:11Z",
+  "generated": "2026-08-02T16:05:06Z",
   "regime": {
     "score": 26,
     "label": "비중확대 우위",
@@ -711,10 +711,10 @@ window.MACRO = {
         "name": "VKOSPI (한국 변동성)",
         "value": 21.0,
         "unit": "",
-        "status": "safe",
-        "status_ko": "정상",
-        "threshold": "30 주의 · 45 경보",
-        "desc": "한국 공포지수. VIX(미국)로는 한국 국지적 급락이 잡히지 않는다. 기준일 2026-06-03. 로컬 실행에서만 갱신되므로 날짜가 오래됐으면 값을 신뢰하지 말 것."
+        "status": "watch",
+        "status_ko": "주의",
+        "threshold": "데이터 낡음 — 판정 보류",
+        "desc": "기준일 2026-06-03 (60일 경과). investing.com이 GitHub Actions IP를 차단해 cron에선 갱신되지 않고 로컬 스케줄러(하루 2회)에서만 갱신된다. 이 값으로 한국 변동성을 판단하지 말 것 — 실제 급등 국면에도 낮게 보일 수 있다."
       },
       {
         "key": "hy_oas",
