@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-07-10b";</script>
+<script>window.CODE_VERSION = "2026-08-03a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -976,6 +976,24 @@ function renderRecession(M) {
     '<p class="disclaimer">' + r.note + '</p></div>';
 }
 
+// 시장 스트레스 경보 — 레짐 평균에 희석되지 않는 임계 경보. 침체 패널과 카드 스타일 공유.
+function renderStress(M) {
+  if (!M.stress) return '';
+  var r = M.stress, v = r.verdict;
+  var cards = r.signals.map(function (s) {
+    var cls = s.status === 'safe' ? 'pos' : (s.status === 'watch' ? 'neu' : 'neg');
+    return '<div class="rec-card ' + cls + '"><div class="l">' + s.name + '</div>' +
+      '<div class="v">' + s.value + '<span>' + s.unit + '</span></div>' +
+      '<div class="st ' + cls + '">' + s.status_ko + '</div>' +
+      '<div class="thr">기준: ' + s.threshold + '</div>' +
+      '<div class="s">' + s.desc + '</div></div>';
+  }).join('');
+  return '<div class="panel"><h2>⚡ 시장 스트레스 경보 <span class="rec-verdict ' + v.cls + '">' + v.label + '</span></h2>' +
+    '<p class="hint">' + v.desc + '</p>' +
+    '<div class="rec-grid">' + cards + '</div>' +
+    '<p class="disclaimer">' + r.note + '</p></div>';
+}
+
 function renderCountryPref(M) {
   if (!M.country_pref) return '';
   var order = ['US', 'KR', 'EU', 'JP', 'CN'];
@@ -1337,6 +1355,7 @@ function render(M) {
   /* ── Cycle phase + Quadrant + Recession + Monthly factors + Updates + Time machine ── */
   html += renderCycle(M);
   html += renderQuadrant(M);
+  html += renderStress(M);
   html += renderRecession(M);
   html += renderMonthly(M);
   html += renderUpdates(M);

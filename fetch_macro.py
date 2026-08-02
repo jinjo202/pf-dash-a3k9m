@@ -759,12 +759,6 @@ def score_indicator(key, cur, hist_vals, ctx):
         if above is not None:
             m = clamp(m + (0.3 if above else -0.4))
         return clamp(m)
-    if key == "kospi_mom":
-        m = clamp(cur / 15.0)
-        above = ctx.get("kospi_above_200d")
-        if above is not None:
-            m = clamp(m + (0.3 if above else -0.4))
-        return clamp(m)
     if key == "kospi_dd":
         # 비대칭: 고점(0%)은 +0.5까지만(고점=무위험 아님), -10% 조정 0, -20% 약세장 -1.
         # 낙폭에 훨씬 가파르게 벌점 — 리스크 지표의 목적은 상승 자축이 아니라 손실 경보.
@@ -863,7 +857,6 @@ INDICATORS = [
     ("vix",          "VIX 변동성",           "sentiment", "VIXCLS", "daily", 1, "",  "공포 게이지. 낮을수록 안정"),
     ("move",         "MOVE (채권 변동성)",   "sentiment", "^MOVE",  "yfmo",  1, "",  "미 국채 옵션 내재변동성(ICE BofA). 금리 불확실성 게이지 — 80 미만 안정, 120+ 스트레스"),
     ("spx_mom",      "S&P500 12M 모멘텀",    "sentiment", "spxmom", "spxmom",1, "%",  "추세. 200일선 상회 여부 포함"),
-    ("kospi_mom",    "KOSPI 12M 모멘텀",     "sentiment", "kospimom","kospimom",1,"%", "한국 주가 추세. 200일선 상회 여부 포함 — 미국(VIX·S&P)에 안 잡히는 한국 국지적 조정 포착"),
     ("kospi_dd",     "KOSPI 52주 고점대비",  "sentiment", "kospidd","kospidd",1, "%",  "52주 고점 대비 낙폭. −10% 조정, −20% 약세장 — 급락을 12M 모멘텀보다 빠르게 감지"),
 ]
 
@@ -2140,6 +2133,84 @@ def build_quadrant(monthly):
                     "인플레=근원/헤드라인CPI·유가. 각 축은 z-컴포지트의 3개월 변화."}
 
 
+def build_stress(indicators, kospi_vals, kosdaq_vals):
+    """시장 스트레스 경보 — 하드 임계 기반 독립 신호.
+
+    레짐 점수(42개 지표 가중평균)는 설계상 어떤 단일 경보도 평균에 희석된다.
+    실제로 2026-07 코스피 −22% 급락 때 드로다운 지표 하나를 넣어도 총점은 2.6점밖에
+    안 움직였다. 그래서 '평균'이 아니라 '임계 돌파'를 별도로 병렬 표시한다.
+    build_recession과 같은 출력 형태 — 프런트 카드 렌더러를 그대로 재사용.
+    """
+    def dd(vals):
+        if len(vals) < 13:
+            return None
+        peak = max(vals[-13:])
+        return round((vals[-1] / peak - 1) * 100, 1) if peak else None
+
+    def cur(key):
+        v = (indicators.get(key) or {}).get("current")
+        return v if isinstance(v, (int, float)) else None
+
+    sig = []
+
+    def add(key, name, val, unit, status, thr, desc):
+        sig.append({"key": key, "name": name, "value": val, "unit": unit, "status": status,
+                    "status_ko": {"safe": "정상", "watch": "주의", "alert": "경보"}[status],
+                    "threshold": thr, "desc": desc})
+
+    kdd = dd(kospi_vals)
+    if kdd is not None:
+        st = "safe" if kdd > -10 else ("watch" if kdd > -20 else "alert")
+        add("kospi_dd", "KOSPI 52주 고점대비", kdd, "%", st, "−10% 조정 · −20% 약세장",
+            "지수 낙폭. 레짐 점수는 42개 지표 평균이라 급락을 희석하지만, 낙폭 자체는 "
+            "포지션에 즉시 반영되는 실현 리스크다.")
+    qdd = dd(kosdaq_vals)
+    if qdd is not None:
+        st = "safe" if qdd > -10 else ("watch" if qdd > -20 else "alert")
+        add("kosdaq_dd", "KOSDAQ 52주 고점대비", qdd, "%", st, "−10% 조정 · −20% 약세장",
+            "중소형·성장주 낙폭. 코스피보다 먼저·깊게 빠지는 경향이라 위험선호 이탈의 선행 신호.")
+
+    vk = cur("vkospi")
+    if vk is not None:
+        st = "safe" if vk < 30 else ("watch" if vk < 45 else "alert")
+        stale = (indicators.get("vkospi") or {}).get("as_of", "")
+        add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "30 주의 · 45 경보",
+            f"한국 공포지수. VIX(미국)로는 한국 국지적 급락이 잡히지 않는다. 기준일 {stale}. "
+            "로컬 실행에서만 갱신되므로 날짜가 오래됐으면 값을 신뢰하지 말 것.")
+
+    hy = cur("hy_oas")
+    if hy is not None:
+        st = "safe" if hy < 4.5 else ("watch" if hy < 6.0 else "alert")
+        add("hy_oas", "하이일드 스프레드", hy, "%p", st, "4.5%p 주의 · 6.0%p 경보",
+            "신용시장 스트레스. 주가 급락이 신용으로 번지면 실물 위기, 안 번지면 수급 이벤트 — "
+            "급락의 성격을 가르는 핵심 교차검증.")
+
+    vix = cur("vix")
+    if vix is not None:
+        st = "safe" if vix < 25 else ("watch" if vix < 35 else "alert")
+        add("vix", "VIX (미국 변동성)", vix, "", st, "25 주의 · 35 경보",
+            "미국 공포지수. 한국만 빠지고 VIX가 잠잠하면 글로벌 위기가 아니라 한국 국지 이슈.")
+
+    if not sig:
+        return None
+    n_alert = sum(1 for x in sig if x["status"] == "alert")
+    n_watch = sum(1 for x in sig if x["status"] == "watch")
+    if n_alert >= 1:
+        verdict = {"label": "스트레스 경보", "cls": "neg",
+                   "desc": f"{n_alert}개 지표가 경보 임계 돌파 — 레짐 점수와 무관하게 포지션·레버리지 점검 필요."}
+    elif n_watch >= 2:
+        verdict = {"label": "주의 관찰", "cls": "neu",
+                   "desc": f"{n_watch}개 지표 주의 구간 — 추가 악화 시 경보 전환. 신규 레버리지 자제."}
+    elif n_watch == 1:
+        verdict = {"label": "부분 주의", "cls": "neu", "desc": "1개 지표만 주의 구간 — 국지적 이슈일 가능성."}
+    else:
+        verdict = {"label": "스트레스 없음", "cls": "pos", "desc": "전 지표 정상 구간."}
+    return {"signals": sig, "verdict": verdict,
+            "note": "레짐 점수(가중평균)와 별개로 운용되는 임계 경보. 평균은 단일 급락을 희석하지만 "
+                    "이 패널은 임계를 넘는 순간 바로 켜진다. 한국(드로다운·VKOSPI)과 "
+                    "글로벌(HY·VIX)을 나란히 봐서 급락이 국지적인지 시스템적인지 판별."}
+
+
 def build_recession(monthly):
     """침체확률 대시보드 — 독립 4신호 병렬.
 
@@ -2430,17 +2501,10 @@ def build():
         ma10 = sum(spx_vals[-10:]) / 10  # 월간 10개월 ≈ 200일선
         above_200d = spx_vals[-1] > ma10
 
-    # KOSPI 12개월 모멘텀 + 200일선 (spx_mom 미러) — 한국 주가 추세를 레짐에 직접 투입.
-    # 이게 없으면 KOSPI가 -20% 빠져도 5개 축 어디에도 반영 경로가 없다(2026-07 한국장 급락 실증).
-    kospi_mom_d, kospi_mom_v = [], []
-    if len(kospi_vals) >= 13:
-        for i in range(12, len(kospi_vals)):
-            kospi_mom_d.append(kospi_dates[i])
-            kospi_mom_v.append((kospi_vals[i] / kospi_vals[i - 12] - 1) * 100)
-    kospi_above_200d = None
-    if len(kospi_vals) >= 10:
-        kospi_above_200d = kospi_vals[-1] > sum(kospi_vals[-10:]) / 10
-    # 52주 고점 대비 낙폭(%) — 급락은 12M 모멘텀보다 드로다운에 훨씬 빨리 잡힌다.
+    # KOSPI 52주 고점 대비 낙폭(%) — 한국 주가 리스크를 레짐에 직접 투입.
+    # 이게 없으면 KOSPI가 -20% 빠져도 5개 축 어디에도 반영 경로가 없다(2026-07 실증).
+    # ※ 12M 모멘텀은 일부러 안 쓴다: 2026-07 급락 때도 전년비 +103%라 +1.00(만점 강세)이 나와
+    #   드로다운 신호를 정확히 상쇄했다. 파라볼릭 장세에서 모멘텀은 리스크 게이지로 무용.
     kospi_dd_d, kospi_dd_v = [], []
     if len(kospi_vals) >= 13:
         for i in range(12, len(kospi_vals)):
@@ -2525,8 +2589,6 @@ def build():
                 dates, vals = fetch_multpl(src)
             elif transform == "spxmom":
                 dates, vals = spx_mom_d, spx_mom_v
-            elif transform == "kospimom":
-                dates, vals = kospi_mom_d, kospi_mom_v
             elif transform == "kospidd":
                 dates, vals = kospi_dd_d, kospi_dd_v
             elif transform == "bench":
@@ -2567,8 +2629,7 @@ def build():
         dates, vals = raw[key]
         cur = vals[-1]
         z, pct = zscore(vals) if len(vals) >= 8 else (None, None)
-        ctx = {"z": z, "real_rate": real_rate, "above_200d": above_200d,
-               "kospi_above_200d": kospi_above_200d}
+        ctx = {"z": z, "real_rate": real_rate, "above_200d": above_200d}
         score = score_indicator(key, cur, vals, ctx)
         lbl, cls = signal_label(score)
         pillar_scores[pillar].append(score)
@@ -2807,6 +2868,10 @@ def build():
         print(f"  [quadrant] {quadrant['phase']['name']} (성장Δ {quadrant['trail'][-1]['g']:+.2f}, "
               f"인플레Δ {quadrant['trail'][-1]['i']:+.2f})")
     recession = build_recession(monthly)
+    stress = build_stress(indicators, kospi_vals, kosdaq_vals)
+    if stress:
+        print(f"  [stress] {stress['verdict']['label']} — " +
+              ", ".join(f"{x['name']} {x['value']}{x['unit']}({x['status_ko']})" for x in stress["signals"]))
     if recession:
         print(f"  [recession] {recession['verdict']['label']} — " +
               ", ".join(f"{s['name']} {s['value']}{s['unit']}({s['status_ko']})" for s in recession["signals"]))
@@ -2830,6 +2895,7 @@ def build():
         "cycle": cycle,
         "quadrant": quadrant,
         "recession": recession,
+        "stress": stress,
         "monthly_factors": build_monthly(today),
         "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,
