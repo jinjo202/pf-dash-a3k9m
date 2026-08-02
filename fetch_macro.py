@@ -759,6 +759,16 @@ def score_indicator(key, cur, hist_vals, ctx):
         if above is not None:
             m = clamp(m + (0.3 if above else -0.4))
         return clamp(m)
+    if key == "kospi_mom":
+        m = clamp(cur / 15.0)
+        above = ctx.get("kospi_above_200d")
+        if above is not None:
+            m = clamp(m + (0.3 if above else -0.4))
+        return clamp(m)
+    if key == "kospi_dd":
+        # 비대칭: 고점(0%)은 +0.5까지만(고점=무위험 아님), -10% 조정 0, -20% 약세장 -1.
+        # 낙폭에 훨씬 가파르게 벌점 — 리스크 지표의 목적은 상승 자축이 아니라 손실 경보.
+        return clamp((cur + 10.0) / 20.0 if cur >= -10 else (cur + 10.0) / 10.0)
     if key == "erp":
         # 주식위험프리미엄(어닝일드-10Y). 높으면 주식 매력(호재)
         return clamp((cur - 1.0) / 3.0)
@@ -853,6 +863,8 @@ INDICATORS = [
     ("vix",          "VIX 변동성",           "sentiment", "VIXCLS", "daily", 1, "",  "공포 게이지. 낮을수록 안정"),
     ("move",         "MOVE (채권 변동성)",   "sentiment", "^MOVE",  "yfmo",  1, "",  "미 국채 옵션 내재변동성(ICE BofA). 금리 불확실성 게이지 — 80 미만 안정, 120+ 스트레스"),
     ("spx_mom",      "S&P500 12M 모멘텀",    "sentiment", "spxmom", "spxmom",1, "%",  "추세. 200일선 상회 여부 포함"),
+    ("kospi_mom",    "KOSPI 12M 모멘텀",     "sentiment", "kospimom","kospimom",1,"%", "한국 주가 추세. 200일선 상회 여부 포함 — 미국(VIX·S&P)에 안 잡히는 한국 국지적 조정 포착"),
+    ("kospi_dd",     "KOSPI 52주 고점대비",  "sentiment", "kospidd","kospidd",1, "%",  "52주 고점 대비 낙폭. −10% 조정, −20% 약세장 — 급락을 12M 모멘텀보다 빠르게 감지"),
 ]
 
 PILLARS = {
@@ -2383,6 +2395,24 @@ def build():
         ma10 = sum(spx_vals[-10:]) / 10  # 월간 10개월 ≈ 200일선
         above_200d = spx_vals[-1] > ma10
 
+    # KOSPI 12개월 모멘텀 + 200일선 (spx_mom 미러) — 한국 주가 추세를 레짐에 직접 투입.
+    # 이게 없으면 KOSPI가 -20% 빠져도 5개 축 어디에도 반영 경로가 없다(2026-07 한국장 급락 실증).
+    kospi_mom_d, kospi_mom_v = [], []
+    if len(kospi_vals) >= 13:
+        for i in range(12, len(kospi_vals)):
+            kospi_mom_d.append(kospi_dates[i])
+            kospi_mom_v.append((kospi_vals[i] / kospi_vals[i - 12] - 1) * 100)
+    kospi_above_200d = None
+    if len(kospi_vals) >= 10:
+        kospi_above_200d = kospi_vals[-1] > sum(kospi_vals[-10:]) / 10
+    # 52주 고점 대비 낙폭(%) — 급락은 12M 모멘텀보다 드로다운에 훨씬 빨리 잡힌다.
+    kospi_dd_d, kospi_dd_v = [], []
+    if len(kospi_vals) >= 13:
+        for i in range(12, len(kospi_vals)):
+            peak = max(kospi_vals[i - 12:i + 1])
+            kospi_dd_d.append(kospi_dates[i])
+            kospi_dd_v.append((kospi_vals[i] / peak - 1) * 100 if peak else 0.0)
+
     # ERP 계산용 fwd earnings yield (benchmarks fwd PE) + 10Y
     spx_fwd_pe = (bench.get("S&P 500", {}).get("valuation") or {}).get("pe")
     kospi_fwd_pe = (bench.get("KOSPI", {}).get("valuation") or {}).get("pe")
@@ -2460,6 +2490,10 @@ def build():
                 dates, vals = fetch_multpl(src)
             elif transform == "spxmom":
                 dates, vals = spx_mom_d, spx_mom_v
+            elif transform == "kospimom":
+                dates, vals = kospi_mom_d, kospi_mom_v
+            elif transform == "kospidd":
+                dates, vals = kospi_dd_d, kospi_dd_v
             elif transform == "bench":
                 cur = spx_fwd_pe if key == "spx_fwd_pe" else kospi_fwd_pe
                 if cur:
@@ -2498,7 +2532,8 @@ def build():
         dates, vals = raw[key]
         cur = vals[-1]
         z, pct = zscore(vals) if len(vals) >= 8 else (None, None)
-        ctx = {"z": z, "real_rate": real_rate, "above_200d": above_200d}
+        ctx = {"z": z, "real_rate": real_rate, "above_200d": above_200d,
+               "kospi_above_200d": kospi_above_200d}
         score = score_indicator(key, cur, vals, ctx)
         lbl, cls = signal_label(score)
         pillar_scores[pillar].append(score)
@@ -2612,17 +2647,32 @@ def build():
 
     # --- Carry-forward: 이번에 못 받은 지표는 직전 macro-data.js 값 사용 ---
     # (FRED/yfinance transient 실패로 지표가 누락돼도 출력이 항상 완전하게 유지)
+    # 단 CARRY_MAX_DAYS 초과분은 버린다 — 무기한 carry-forward하면 소스가 영구히
+    # 깨진 지표가 4년 전 값을 "현재"로 계속 공급한다(2026-08 MOVE=2022-03 좀비 사례).
+    # 월간 지표의 정상 발표 지연(CLI·CPI 최대 ~2개월)은 통과시키는 넉넉한 상한.
+    CARRY_MAX_DAYS = 180
     prev = load_prev()
-    carried = 0
+    carried, dropped = 0, []
     for k, pdv in prev.get("indicators", {}).items():
-        if k not in indicators and pdv.get("pillar") in pillar_scores:
-            indicators[k] = {**pdv, "stale": True}
-            sc = pdv.get("score")
-            if sc is not None:
-                pillar_scores[pdv["pillar"]].append(sc)
-            carried += 1
+        if k in indicators or pdv.get("pillar") not in pillar_scores:
+            continue
+        age = None
+        try:
+            age = (today - date.fromisoformat(str(pdv.get("as_of"))[:10])).days
+        except Exception:
+            pass
+        if age is not None and age > CARRY_MAX_DAYS:
+            dropped.append(f"{k}({age}일)")
+            continue
+        indicators[k] = {**pdv, "stale": True}
+        sc = pdv.get("score")
+        if sc is not None:
+            pillar_scores[pdv["pillar"]].append(sc)
+        carried += 1
     if carried:
         print(f"  [carry-forward] 직전값 사용 지표 {carried}개(이번 실패분)")
+    if dropped:
+        print(f"  [carry-forward] {CARRY_MAX_DAYS}일 초과로 폐기: {', '.join(dropped)}")
 
     # 현재값을 benchmarks.js(yfinance)로 보정 — FRED 차단/지연 시 헤드라인 stale 방지.
     # (히스토리·z·레짐은 FRED 장기시계열 유지, 카드 현재값만 최신으로)
