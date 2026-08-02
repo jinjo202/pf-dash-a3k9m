@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-08-02",
-  "generated_utc": "2026-08-02T01:16:39Z",
+  "generated_utc": "2026-08-02T07:20:46Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -564,12 +564,12 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 6.89,
-        "pb": null,
+        "pe": 6.86,
+        "pb": 1.22,
         "roe": null,
         "src": "EEM (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1111,12 +1111,12 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 0,
       "valuation": {
-        "pe": 4.31,
-        "pb": null,
+        "pe": 4.29,
+        "pb": 1.78,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -4394,11 +4394,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 22.87,
-        "pb": null,
+        "pb": 1.37,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -5484,7 +5484,7 @@ window.BENCHMARKS = {
       "ytd_pct": -0.0911,
       "mtd_pct": 1.1263,
       "daily_pct": 1.1263,
-      "as_of": "2026-08-01",
+      "as_of": "2026-08-02",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5755,7 +5755,7 @@ window.BENCHMARKS = {
           "2026-07-29",
           "2026-07-30",
           "2026-07-31",
-          "2026-08-01"
+          "2026-08-02"
         ],
         "values": [
           1391.51,
