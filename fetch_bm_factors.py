@@ -16,9 +16,9 @@ cron 비용 절감: 기존 bm-factors.js가 3일 이내면 스킵(--force로 무
 """
 import json
 import os
+import re
 import sys
-import time
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bm-factors.js")
 
@@ -33,10 +33,17 @@ FRESH_DAYS = 3
 
 
 def fresh_enough(path: str) -> bool:
+    """파일 내용의 as_of 기준 신선도. mtime을 쓰면 안 된다 — CI는 매 실행 repo를
+    새로 clone해서 모든 파일 mtime이 '방금'이 되므로 영원히 스킵된다(실제로
+    2026-07-12~08-02 3주간 갱신이 멈춰 있었다)."""
     try:
-        age = time.time() - os.path.getmtime(path)
-        return age < FRESH_DAYS * 86400
-    except OSError:
+        with open(path, encoding="utf-8") as f:
+            m = re.search(r'"as_of"\s*:\s*"(\d{4}-\d{2}-\d{2})"', f.read())
+        if not m:
+            return False
+        age_days = (datetime.now(timezone.utc).date() - date.fromisoformat(m.group(1))).days
+        return age_days < FRESH_DAYS
+    except (OSError, ValueError):
         return False
 
 

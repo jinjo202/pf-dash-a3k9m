@@ -1,7 +1,7 @@
 // 벤치마크 팩터 집계 (자동생성: fetch_bm_factors.py — 수동편집 금지)
 // 프록시 ETF의 Morningstar 집계지표. ROE=(E/P)/(B/P) 도출.
 window.BM_FACTORS = {
-  "as_of": "2026-07-12",
+  "as_of": "2026-08-02",
   "source": "Morningstar fund aggregates via yfinance funds_data (proxy ETF)",
   "indices": {
     "MSCI ACWI": {
