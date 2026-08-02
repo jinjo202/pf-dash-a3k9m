@@ -42,6 +42,7 @@ FM_ETF_JS = os.path.join(REPO, "fm-etf.js")
 MACRO_JS = os.path.join(REPO, "macro-data.js")
 KR_FLOWS = os.path.join(REPO, "kr_flows.json")
 KR_DEPOSIT = os.path.join(REPO, "kr_deposit.json")
+KR_SUPPLY = os.path.join(REPO, "kr_supply.json")
 KST = timezone(timedelta(hours=9))
 MAX_KEEP = 30
 
@@ -244,6 +245,23 @@ def flows_liquidity():
                 out["liquidity_조원"]["신용잔고_1M변화"] = round(vals[-1] - vals[-21], 1)
             except Exception:
                 pass
+    # 기계적 수급(레버리지·인버스 ETF, 반대매매 압력, 숏커버 프록시) — fetch_kr_supply.py
+    sp = _load_json(KR_SUPPLY)
+    if sp:
+        etf = sp.get("leverage_etf") or {}
+        out["기계적수급"] = {
+            "기준일": etf.get("trade_date"),
+            "레버리지_거래대금_억": etf.get("레버리지_거래대금_억"),
+            "인버스_거래대금_억": etf.get("인버스_거래대금_억"),
+            "롱숏_거래대금비율": etf.get("롱숏_거래대금비율"),
+            "롱숏_거래대금비율_평시": etf.get("롱숏_거래대금비율_평시"),
+            "ETF별": [{k: i.get(k) for k in
+                      ("name", "direction", "aum_억", "turnover_억",
+                       "turnover_대비기준선_배", "r_1d", "r_5d")}
+                     for i in (etf.get("items") or [])],
+            "반대매매압력": sp.get("credit"),
+            "숏커버": sp.get("short_cover"),
+        }
     return out or None
 
 
@@ -312,8 +330,18 @@ SYSTEM = """당신은 한국 기관의 고유자금(약 5,250억원) 멀티에�
 3) 특히 다음 5개 축은 매일 반드시 점검한다: ① 반도체(메모리) 마진·가격 ② 칩플레이션(원가의 전방 전가와 수요 반작용)
    ③ 빅테크 FCF·capex 부담 ④ AI 밸류에이션·유동성 이벤트(IPO 등)
    ⑤ **기술적·수급·유동성**: [technicals]의 이평선 이격·60일 고점 대비 낙폭·RSI, [flows_liquidity]의
-   외인/기관/개인 수급과 신용잔고·예탁금 추이, 그리고 뉴스상의 레버리지 ETF·패시브 자금, 국민연금 등
+   외인/기관/개인 수급과 신용잔고·예탁금 추이, 그리고 뉴스상의 패시브 자금, 국민연금 등
    연기금 리밸런싱, 옵션 만기·프로그램 매매 같은 기계적 수급 이벤트. 이 축이 chain의 technical 판정 근거다.
+   ⑤-1 **기계적 수급은 [flows_liquidity].기계적수급의 실수치로 판단한다**(뉴스 인상 말고 숫자로):
+   · 롱숏_거래대금비율(레버리지÷인버스)을 '평시'값과 비교 — 당일만 보면 안 되고 평시 대비 쏠림이 핵심.
+     양쪽 거래대금이 동시에 폭증했다면 일방 쏠림이 아니라 '양방향 변동성 폭발'로 읽어라.
+   · turnover_대비기준선_배 = 당일 거래대금 ÷ 평시(직전 20거래일). 1.5배↑면 기계적 수급 이벤트 진행 중.
+   · 반대매매압력: 신용잔고 감소 + KOSPI 낙폭 확대가 겹치면 이미 강제청산이 터진 것.
+     단 **신용잔고는 T+2 지연 공시** — 급락 당일·직후는 아직 안 잡힌다. 잔고가 안 줄었다고
+     '청산 없음'으로 단정하지 마라(공시시차_주의 필드를 반드시 반영).
+   · 숏커버: KRX 공매도 잔고는 수집 불가(2025-12-27 로그인 전환)라 인버스 ETF 기반 **간접 추정**이다.
+     '정황' 필드를 단정이 아니라 정황으로 서술하고, 한계를 알면서 쓴다.
+   · 기계적 수급이 주도한 급등락은 chain에서 technical로 판정하라 — 펀더멘털 훼손과 혼동 금지.
 4) 종합해 오늘의 포지셔닝 결론을 내린다. 막연한 양비론 금지 — 결정 지향. 판단을 바꿀 트리거를 명시.
 5) **매매는 ETF 단위로 실행된다.** 이 계정은 개별 섹터 미세조정이 어렵고 실제 매매는 ETF로 이뤄진다.
    positioning.country/sector에는 큰 방향성을 쓰되, trades는 반드시 [etf_universe] 안의 구체 티커로 쓴다.
