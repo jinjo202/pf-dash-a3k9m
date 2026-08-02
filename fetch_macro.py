@@ -2592,7 +2592,16 @@ def build():
                 # yfinance 월간 종가. 월간 히스토리 미지원 티커(^MOVE 등)는 일별 2y 폴백
                 # (조기 downsample 금지 — as_of가 매달 1일에 멈추는 버그 방지, daily 케이스와 동일 이유)
                 dates, vals = yf_monthly(src)
-                if len(vals) < 3:
+                # 행 수뿐 아니라 '최신성'도 확인 — GH Actions에서 yfinance가 ^MOVE 월간을
+                # 2022-03에서 끊긴 시리즈로 돌려줘 as_of가 4년째 2022로 굳었던 사례(2026-08).
+                # 행 수만 보면 정상처럼 통과하므로 마지막 날짜가 오래되면 일별로 폴백.
+                _stale = True
+                if dates:
+                    try:
+                        _stale = (today - date.fromisoformat(dates[-1][:10])).days > 60
+                    except Exception:
+                        _stale = False
+                if len(vals) < 3 or _stale:
                     import yfinance as yf
                     h = yf.Ticker(src).history(period="2y")["Close"].dropna()
                     if len(h):
