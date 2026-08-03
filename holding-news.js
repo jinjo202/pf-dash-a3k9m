@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-02T23:28:44
+// 갱신: 2026-08-03T01:19:26
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -15,9 +15,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-02"
   },
   {
-   "title": "코스피 폭락에도 \"역대급 저평가\"…'8월' 파격 전망의 근거 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1uZkpPZndBeXJrRGJOcGstZXdKQkhsLVFTMHp2bl94NFRpa3d2YnFUQVZvZUhwZXVjTjdVSHl6eTNtcFR4SWhMbDhOYjRhOUJzLVRkNmVuOWRQZw?oc=5",
-   "source": "한국경제",
+   "title": "[주간증시전망] 7월 수출 62.8% 늘었는데 지수는 제자리…금리가 코스피 발목 - 자본시장뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBVeHdmaVRtVUNtNl9xVHB6TjlGVGQ4V3pwVVhjeURRUHpMT1V4cGpwS0t6eUMzbEZfV1FsNmZ4QVBqLXFXZ0tkVmtLSHR3OUE5eWItRHowa25CYTNmaVM4elFUeENBbHc?oc=5",
+   "source": "자본시장뉴스",
    "date": "2026-08-02"
   },
   {
@@ -55,9 +55,9 @@ window.HOLDING_NEWS = {
  ],
  "KODEX AI전력핵심설비 ETF": [
   {
-   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - imaeil.com",
+   "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
-   "source": "imaeil.com",
+   "source": "매일신문",
    "date": "2026-06-09"
   },
   {
@@ -133,9 +133,9 @@ window.HOLDING_NEWS = {
  ],
  "Plus K-방산 ETF": [
   {
-   "title": "“전쟁 끝나도 30년은 오른다” ‘K방산 ETF 아버지’ 계좌 깠다 - 중앙일보",
+   "title": "“전쟁 끝나도 30년은 오른다” ‘K방산 ETF 아버지’ 계좌 깠다 - joongang.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA5WVFIR0JNMlppdHVPS1ZMaGotTHpyS2w3TDlpbnJHbVlmZnY0elp1RWtoVTlWNU1xTFNHUHFrZmIzRWVqWlNRNjNoVG0xRkJWZzlMOVVR?oc=5",
-   "source": "중앙일보",
+   "source": "joongang.co.kr",
    "date": "2026-04-08"
   },
   {
@@ -191,16 +191,16 @@ window.HOLDING_NEWS = {
    "date": "2026-03-26"
   },
   {
-   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
-   "source": "ESG경제",
-   "date": "2026-03-23"
-  },
-  {
    "title": "\"1600조 굴리면서 기후엔 침묵\"...국민연금 기후책임투자, 논쟁 뜨거워 - 임팩트온",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5ZVWJsRy1heHRPR0llMnV3MHJKX0FaZzM2Q0pJX0ptQk1rcHVrNVBBYlJ5ZkpNZEdQdDkwOUNaTWs3VFVqamJxc0RsVkd1ODdaWEE5V3lDdV9MNWstZDQteVZVUENXZ1VR?oc=5",
    "source": "임팩트온",
    "date": "2026-05-28"
+  },
+  {
+   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
+   "source": "ESG경제",
+   "date": "2026-03-23"
   },
   {
    "title": "[현장] \"제2의 홈플러스 사태 방지 위해 사모펀드에 ESG 투자 시스템 필요\" - 비즈니스포스트",
@@ -223,9 +223,9 @@ window.HOLDING_NEWS = {
    "date": "2025-09-03"
   },
   {
-   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - biz.heraldcorp.com",
+   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
-   "source": "biz.heraldcorp.com",
+   "source": "헤럴드경제",
    "date": "2022-04-12"
   },
   {
@@ -263,6 +263,12 @@ window.HOLDING_NEWS = {
  ],
  "State Street Tech ETF (XLK)": [
   {
+   "title": "빅테크 실적 쇼크와 유가 급등에 짓눌린 미국증시…나스닥 2.2% 급락 [뉴욕증시] - citytimes.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1aRWwxdWRZNXJUdTlFQzR0Zkc1ZlJ5a3pLdExTaHlGMzB4MjdROHB1amxnci1xNmRvd015Z3ljQmdSczIxblhrVmNIOTE1MHJELTU3TXBTUlkwM0ZnWlkxU0FaU20yVUpLRnNDSlFB0gFyQVVfeXFMT0J3TnhfSktNTURKUjdBVThJRHFibW9VNWw4SktCLTNDZVBRaVlDdjg3SFFiQmlsS2ZGM1ZTNzRncW9QYXV2WXByU29zaHNLelJBdmFNVkJyZXdpazdfZmZabzVmVU5ybElQSkRnVTc5M0J3?oc=5",
+   "source": "citytimes.co.kr",
+   "date": "2026-07-23"
+  },
+  {
    "title": "美S&P500·나스닥 빅테크 실적앞두고 최고치마감…나스닥 0.2%↑(종합) - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBOU0k0LXAtTHUzUDgzcjBKdGFnQTlwbFFTSUQxSloycnVENFBqcjQ3N2djMnhyQ2M3bGlubGtQa0VxM1VKbmVrWk1TclUzSjc2dWdUUk9aNWRUcnPSAWBBVV95cUxQUFVDekRQUElmeGo3dHlBSHpWOVMzVVpSWktYcWMxUVpQM3A3eEUyZllNT1hNNV82eFdUemhKVm1jVHppdlBuY1dpQTdwajF1U0RzR25qYUkxUnNuRk8zbW4?oc=5",
    "source": "연합뉴스",
@@ -275,16 +281,10 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "빅테크 실적 쇼크와 유가 급등에 짓눌린 미국증시…나스닥 2.2% 급락 [뉴욕증시] - citytimes.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1aRWwxdWRZNXJUdTlFQzR0Zkc1ZlJ5a3pLdExTaHlGMzB4MjdROHB1amxnci1xNmRvd015Z3ljQmdSczIxblhrVmNIOTE1MHJELTU3TXBTUlkwM0ZnWlkxU0FaU20yVUpLRnNDSlFB0gFyQVVfeXFMT0J3TnhfSktNTURKUjdBVThJRHFibW9VNWw4SktCLTNDZVBRaVlDdjg3SFFiQmlsS2ZGM1ZTNzRncW9QYXV2WXByU29zaHNLelJBdmFNVkJyZXdpazdfZmZabzVmVU5ybElQSkRnVTc5M0J3?oc=5",
-   "source": "citytimes.co.kr",
-   "date": "2026-07-23"
-  },
-  {
-   "title": "S&P500·나스닥, 사상 최고치···빅테크 실적 기대감 - 경향신문",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5vaTNHMXBwQnJ1SmVaLTBnbmRvQ0FRUXZqdTdFVjZzaDhGRkx6VUwtVGtSMkFHVDVMMVN3ODhpWDIySDJsc0Y0anVOcFdIZTl0bXp0TTctSUY5QdIBX0FVX3lxTE51SnVhSkVGZVNZbXJmdDByRzFiOEdaSXNKa3czb0tkVlpBRFdzXzBfcWJoY2V5Q25XNmdRX1N0R25DT2kydWs4MmNCa1NITW1zWUR3bXh6OFI4OHpicHQ4?oc=5",
-   "source": "경향신문",
-   "date": "2026-04-28"
+   "title": "미국 뉴욕증시, 도매물가 둔화·빅테크 강세에 상승…다우존스·S&P500·나스닥지수 상승 마감 - 한국강사신문",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBnZ2RmNEFqQkNhcGE0RG9rel9MdXVYa3pzcWRXTllzZVBuWUVhRGxsUklKLWgyR2ZKZGcyV2xQR205cHlISnVjdEhpZXFieUVUaUNPR2h1bVZkNk9UdlVHZGRVeEgtbXRkczY3RTYwZ3Y?oc=5",
+   "source": "한국강사신문",
+   "date": "2026-07-15"
   }
  ],
  "SPDR Communication ETF (XLC)": [
@@ -301,9 +301,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-02"
   },
   {
-   "title": "당장 1000만원으로 뭘 살까, 트럼프빨 받을 '상반기 종목' - 중앙일보",
+   "title": "당장 1000만원으로 뭘 살까, 트럼프빨 받을 '상반기 종목' - joongang.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE93elBwajZtZlRUbGxCY0VpcjIyM3BfQ3F2bC1PRWJEellkZTEwWWh6TE1wMmpFTEtzU3FHaUNWY0JtaVFOT1FtMTNsQ19Vc3Q4M0ppVF9B?oc=5",
-   "source": "중앙일보",
+   "source": "joongang.co.kr",
    "date": "2025-02-16"
   },
   {
@@ -315,9 +315,9 @@ window.HOLDING_NEWS = {
  ],
  "SS Industrial Select SPDR ETF (XLI)": [
   {
-   "title": "투자자라면 꼭 알아야 하는 경제 일정 브리핑 (26.08.03~26.08.07) - 네이버 프리미엄콘텐츠",
+   "title": "투자자라면 꼭 알아야 하는 경제 일정 브리핑 (26.08.03~26.08.07) - contents.premium.naver.com",
    "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNTVdiWU5kV2dDVV9fSGsteHhnTllKM3MzU1c2SDBMR1NvUFFhM3VfT0xRVFhrcFEyUTZQSVlGZ2dRUEtHLXlrUkptZHAxTUIzLTdHdEY0NGlSdWZGNlRoT1JUUlMwQ0xncF9oQ2pEYXV0YjhlY1ZuNGpSYWtvb1lRb3hMT05LR2RETEE?oc=5",
-   "source": "네이버 프리미엄콘텐츠",
+   "source": "contents.premium.nav",
    "date": "2026-08-01"
   },
   {
@@ -359,10 +359,10 @@ window.HOLDING_NEWS = {
    "date": "2026-01-13"
   },
   {
-   "title": "희토류 ETF란? 원자재 ETF로 보는 희토류 관련주와 투자 전략, REMX 분석 - ebc.com",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE53YmJENVFSa1RtMDNpSTdCdVAxRUlmaXhLX2JmYThxVkM3T2dhNllpMWlaWG9oX1pabWV4MTJaaktSSHpqOVhmZ0psb1lMYWpBWGc?oc=5",
-   "source": "ebc.com",
-   "date": "2026-05-15"
+   "title": "2026년 원자재 ETF TOP 8: 무엇을 사야 하고, 왜 사야 하나 - EBC Financial Group",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE16dDlQWkdmOGNfWEppQmMyZm4yMm1ReFJlN0t1cWhxODJfVEhkWjFsRlljME5udU1fMVhHMnpkamNIT2d6OEtRSE9hZTJzTHQ2Mmc?oc=5",
+   "source": "EBC Financial Group",
+   "date": "2026-03-03"
   }
  ],
  "T.Rowe Capital Appreciation ETF (TCAF)": [
@@ -535,9 +535,9 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
+   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - joseilbo.com",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
-   "source": "조세일보",
+   "source": "joseilbo.com",
    "date": "2026-01-23"
   },
   {

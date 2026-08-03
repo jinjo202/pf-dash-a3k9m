@@ -1,8 +1,8 @@
 // 시장 지수 YTD/일일 수익률 (공개 데이터, 평문). fetch_benchmarks.py로 갱신.
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
-  "as_of": "2026-08-02",
-  "generated_utc": "2026-08-02T23:26:14Z",
+  "as_of": "2026-08-03",
+  "generated_utc": "2026-08-03T01:16:45Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -564,7 +564,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 6.86,
+        "pe": 6.58,
         "pb": null,
         "roe": null,
         "src": "EEM (top derived)",
@@ -1102,16 +1102,16 @@ window.BENCHMARKS = {
       "name": "KOSPI",
       "ticker": "^KS11",
       "category": "한국",
-      "current": 6595.4502,
+      "current": 6356.2002,
       "baseline": 4214.1699,
-      "mtd_baseline": null,
-      "ytd_pct": 56.5065,
-      "mtd_pct": null,
-      "daily_pct": 17.9115,
-      "as_of": "2026-07-31",
+      "mtd_baseline": 6595.4502,
+      "ytd_pct": 50.8292,
+      "mtd_pct": -3.6275,
+      "daily_pct": -3.6275,
+      "as_of": "2026-08-03",
       "decimals": 0,
       "valuation": {
-        "pe": 4.29,
+        "pe": 4.07,
         "pb": null,
         "roe": null,
         "src": "EWY (top derived)",
@@ -1120,7 +1120,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-09",
           "2025-07-10",
           "2025-07-11",
           "2025-07-14",
@@ -1379,10 +1378,10 @@ window.BENCHMARKS = {
           "2026-07-28",
           "2026-07-29",
           "2026-07-30",
-          "2026-07-31"
+          "2026-07-31",
+          "2026-08-03"
         ],
         "values": [
-          3133.74,
           3183.23,
           3175.77,
           3202.03,
@@ -1641,7 +1640,8 @@ window.BENCHMARKS = {
           6023.6602,
           5663.2402,
           5593.5601,
-          6595.4502
+          6595.4502,
+          6356.2002
         ]
       }
     },
@@ -1649,13 +1649,13 @@ window.BENCHMARKS = {
       "name": "KOSDAQ",
       "ticker": "^KQ11",
       "category": "한국",
-      "current": 719.76,
+      "current": 737.29,
       "baseline": 925.47,
-      "mtd_baseline": null,
-      "ytd_pct": -22.2276,
-      "mtd_pct": null,
-      "daily_pct": 11.6288,
-      "as_of": "2026-07-31",
+      "mtd_baseline": 719.76,
+      "ytd_pct": -20.3335,
+      "mtd_pct": 2.4355,
+      "daily_pct": 2.4355,
+      "as_of": "2026-08-03",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -1667,7 +1667,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-09",
           "2025-07-10",
           "2025-07-11",
           "2025-07-14",
@@ -1926,10 +1925,10 @@ window.BENCHMARKS = {
           "2026-07-28",
           "2026-07-29",
           "2026-07-30",
-          "2026-07-31"
+          "2026-07-31",
+          "2026-08-03"
         ],
         "values": [
-          790.36,
           797.7,
           800.47,
           799.37,
@@ -2188,7 +2187,8 @@ window.BENCHMARKS = {
           705.85,
           662.68,
           644.78,
-          719.76
+          719.76,
+          737.29
         ]
       }
     },
@@ -4384,16 +4384,16 @@ window.BENCHMARKS = {
       "name": "니케이 225",
       "ticker": "^N225",
       "category": "아시아",
-      "current": 64362.0195,
+      "current": 62904.4883,
       "baseline": 50339.4805,
-      "mtd_baseline": null,
-      "ytd_pct": 27.8559,
-      "mtd_pct": null,
-      "daily_pct": 4.0322,
-      "as_of": "2026-07-31",
+      "mtd_baseline": 64362.0195,
+      "ytd_pct": 24.9605,
+      "mtd_pct": -2.2646,
+      "daily_pct": -2.2646,
+      "as_of": "2026-08-03",
       "decimals": 0,
       "valuation": {
-        "pe": 22.87,
+        "pe": 22.04,
         "pb": null,
         "roe": null,
         "src": "EWJ (top derived)",
@@ -4402,7 +4402,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-08",
           "2025-07-09",
           "2025-07-10",
           "2025-07-11",
@@ -4661,10 +4660,10 @@ window.BENCHMARKS = {
           "2026-07-28",
           "2026-07-29",
           "2026-07-30",
-          "2026-07-31"
+          "2026-07-31",
+          "2026-08-03"
         ],
         "values": [
-          39688.8086,
           39821.2812,
           39646.3594,
           39569.6797,
@@ -4923,7 +4922,8 @@ window.BENCHMARKS = {
           62364.9219,
           61434.1914,
           61867.4297,
-          64362.0195
+          64362.0195,
+          62904.4883
         ]
       }
     },
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-07-31",
       "decimals": 2,
       "valuation": {
-        "pe": 12.48,
+        "pe": 12.77,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5478,13 +5478,13 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1420.6,
+      "current": 1438.26,
       "baseline": 1437.91,
-      "mtd_baseline": null,
-      "ytd_pct": -1.2038,
-      "mtd_pct": null,
-      "daily_pct": -1.5032,
-      "as_of": "2026-07-31",
+      "mtd_baseline": 1420.6,
+      "ytd_pct": 0.0243,
+      "mtd_pct": 1.2431,
+      "daily_pct": 1.2431,
+      "as_of": "2026-08-03",
       "decimals": 2,
       "valuation": {
         "pe": null,
@@ -5496,7 +5496,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-31",
           "2025-08-01",
           "2025-08-04",
           "2025-08-05",
@@ -5755,10 +5754,10 @@ window.BENCHMARKS = {
           "2026-07-28",
           "2026-07-29",
           "2026-07-30",
-          "2026-07-31"
+          "2026-07-31",
+          "2026-08-03"
         ],
         "values": [
-          1392.52,
           1391.51,
           1390.1801,
           1383.59,
@@ -6017,7 +6016,8 @@ window.BENCHMARKS = {
           1464.4399,
           1453.16,
           1442.28,
-          1420.6
+          1420.6,
+          1438.26
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 80.96,
+      "current": 80.52,
       "baseline": 57.42,
       "mtd_baseline": 84.67,
-      "ytd_pct": 40.9962,
-      "mtd_pct": -4.3817,
-      "daily_pct": -4.3817,
+      "ytd_pct": 40.2299,
+      "mtd_pct": -4.9014,
+      "daily_pct": -4.9014,
       "as_of": "2026-08-02",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           84.46,
           83.59,
           84.67,
-          80.96
+          80.52
         ]
       }
     },
@@ -7672,7 +7672,7 @@ window.BENCHMARKS = {
       "ytd_pct": 44.2308,
       "mtd_pct": null,
       "daily_pct": 0.0,
-      "as_of": "2026-08-02",
+      "as_of": "2026-08-03",
       "decimals": 2,
       "valuation": {
         "pe": null,
