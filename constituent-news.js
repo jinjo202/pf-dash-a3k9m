@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-08-03T10:54:21
+// 갱신: 2026-08-03T11:00:49
 // 총 89개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -48,9 +48,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-01"
   },
   {
-   "title": "“SK하이닉스 흔든 진범 잡혔다”…다시 ‘300만닉스’ 갈까? [잇슈 머니] - news.kbs.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE51WXM1RWkxZXg0U2tCNEtVWV9faU5xV0NHWkxTN2E2YXJTYlczTFp0cUg3cHFJeDQwZGhwc1BXQXA4RnoySmhZZ04xNzFRd3VkSEdKYmJaR2tKZkh2OGNhVlhSY2l1QQ?oc=5",
-   "source": "news.kbs.co.kr",
+   "title": "목표주가 148만원? 470만원?…SK하이닉스 놓고 증권가 '극과 극', 왜 - 주간조선",
+   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5HMjRyWjNhS09iTW5RSXJVRGdmRFRETFlWLXJnZ0s3TWdCTGZLX2RIbW5xT0ZoOVZZTmZzNFRWSVNGUlZnWHVBTnJnbkVHTzFhOV9QWmsxdFp2ZVhPdUJmU2l5SHhhQWFMcFHSAW5BVV95cUxPTElOQW1SaUpXSVdWeXcwZi1mYXg4QmpVSFI2UEllanhFc2ZnWDdXTEJJRE9kV2pMN3hpWjVJQUx5Unk2cVRhc0twbnpNWmZqazVRb0RZQ21mMDVlTmZONDB2THhUM1VYazFiVzZMdw?oc=5",
+   "source": "주간조선",
    "date": "2026-08-02"
   }
  ],
@@ -94,9 +94,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "삼성바이오로직스, 최대주주 삼성물산 등 주식 2726주 증가…계열사 삼성생명보험 특별계정 장내매수 영향 - 디지털투데이",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE0zc1JzMzU2cm55NUhNUmFIZEcwMzIteEZxUHl6ckhJZWpmTk40X2RIc1pfQjVLT1g2c1FWWXJRQVFiUTdFcHl2QWgzY0llNVZuWUx2azVVeGwzMDFpWDdwbzdaQjNGMGFfVmR6OHdrcmhHNWM?oc=5",
-   "source": "디지털투데이",
+   "title": "삼성바이오로직스, 최대주주 삼성물산 등 2726주 증가 - 코메디닷컴",
+   "url": "https://news.google.com/rss/articles/CBMiQkFVX3lxTE9jbWhqcW8yemVERDk3VzJBVFF4dzAyU0pLc3B0RXYxTmVTRng4S2dBWkFSajJ5d0hMeVhSN1U0d05xZw?oc=5",
+   "source": "코메디닷컴",
    "date": "2026-08-03"
   },
   {
@@ -152,9 +152,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "HLB제약 1200억 유증 흔들…최대주주 절반만 청약 - news.dealsitetv.com",
+   "title": "HLB제약 1200억 유증 흔들…최대주주 절반만 청약 - DealSite경제TV",
    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1BcUZhbGxjbkdZX09YbWhKN01MNDlvcDFVZDMtVllzbVpJV0lIVWFxQmJLZ013WllkUlpvTDY5NWM5Qzh6TjJHTTVuS2pPbFhZaDNnNGhB?oc=5",
-   "source": "news.dealsitetv.com",
+   "source": "DealSite경제TV",
    "date": "2026-07-29"
   }
  ],
@@ -192,6 +192,12 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-03"
   },
   {
+   "title": "“도대체 바닥이 어디일까”…에코프로비엠 목표가 줄하향 [오늘, 이 종목] - mk.co.kr",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5GdkoyME5ONjVXMzFDTkU2MFRCaWwxR2V2WnI1UmZOckx0bUptZGN0eEpBS1dkb0psLWpQZEEyZktXMW5GNG1WckVueHF1b0xrTXZlRQ?oc=5",
+   "source": "mk.co.kr",
+   "date": "2026-08-03"
+  },
+  {
    "title": "IBK증권, 에코프로비엠 목표가↓…\"2분기 실적 컨센서스 하회\" - 연합뉴스",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE16dUZhRWFNZk53bDVaNFJpeC1JdjZxaEpLdEJCQk0zS0VHUFZKVFRuRnNKbDVNZUtQM0J5M1QzYzJzSWZ0OThQRTU1MXVUZ00xR0dqSVpNXzZ4c1p0a2Y5WNIBYEFVX3lxTE16dUZhRWFNZk53bDVaNFJpeC1JdjZxaEpLdEJCQk0zS0VHUFZKVFRuRnNKbDVNZUtQM0J5M1QzYzJzSWZ0OThQRTU1MXVUZ00xR0dqSVpNXzZ4c1p0a2Y5WA?oc=5",
    "source": "연합뉴스",
@@ -202,12 +208,6 @@ window.CONSTITUENT_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQbmtZZkk0Vy1aZE95LXJWNzRmd3VWYU5oeTgyZ21NQzFaeE5NMzl2bGZGM193N3dPWnFGQ21uWWMzVjY1UGoxSWRiSlBkUHBXblk1eXlaaUF2ak4tZ1A3VndaTEFLUlctVEkyOE5DS2szLXh0bHZ3bEk3T0hBdzdlbUlhODJjaFFSenMyZnNpSEtocVVhd0JNR3lTT3bSAZwBQVVfeXFMUG5rWWZJNFctWmRPeS1yVjc0Znd1VmFOaHk4MmdtTUMxWnhOTTM5dmxmRjNfdzd3T1pxRkNtblljM1Y2NVBqMUlkYkpQZFBwV25ZNXl5WmlBdmpOLWdQN1Z3WkxBS1JXLVRJMjhOQ0trMy14dGx2d2xJN09IQXc3ZW1JYTgyY2hRUnpzMmZzaUhLaHFVYXdCTUd5U092?oc=5",
    "source": "biz.chosun.com",
    "date": "2026-08-02"
-  },
-  {
-   "title": "“도대체 바닥이 어디일까”…에코프로비엠 목표가 줄하향 [오늘, 이 종목] - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1qZVRzZEVfUTRnUF9jYS1IaTBFcmxaRHAyQWRycnpCNHJfTDdZZk9XR3NXNlBFR3drQlFmS05oVng4aHNrdW40UlVRR3VuT1l6b0Jibg?oc=5",
-   "source": "v.daum.net",
-   "date": "2026-08-03"
   }
  ],
  "에코프로": [
@@ -290,16 +290,16 @@ window.CONSTITUENT_NEWS = {
  ],
  "LS ELECTRIC": [
   {
-   "title": "LS ELECTRIC 주가, 8월 3일 188,400원 1.95% 상승 마감 - 톱스타뉴스",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBEc2tPaGRBTHpCT3J0X2RUangyUmozQzJFQXVGelFDNHhyekdYS0NpNlotSXp5VUgzd24xSTNpWmVqTnhLVU1BRlpCSVg1UmZFdDFwZldITXliSDBqQ0RmM3FUeWZRT0cwRC1kS0l2Z3FRdw?oc=5",
-   "source": "톱스타뉴스",
-   "date": "2026-08-03"
-  },
-  {
    "title": "고점서 49% 빠졌는데…목표주가 앞다퉈 올린 LS일렉트릭 - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE12eE96SlZuOHdFMEFKcmdubEhaeEg1VzNCYUFBRnR4LUhjbzUzLTg5a2hTXy1BM0xhVk51V3E0aXBPYU8zZnphbzZra3laU3d1OFl3U1dBYmU2QQ?oc=5",
    "source": "한국경제",
    "date": "2026-07-30"
+  },
+  {
+   "title": "LS ELECTRIC 주가, 8월 3일 188,400원 1.95% 상승 마감 - 톱스타뉴스",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBEc2tPaGRBTHpCT3J0X2RUangyUmozQzJFQXVGelFDNHhyekdYS0NpNlotSXp5VUgzd24xSTNpWmVqTnhLVU1BRlpCSVg1UmZFdDFwZldITXliSDBqQ0RmM3FUeWZRT0cwRC1kS0l2Z3FRdw?oc=5",
+   "source": "톱스타뉴스",
+   "date": "2026-08-03"
   },
   {
    "title": "[특징주] LS일렉트릭, 2분기 사상 최대 실적에 15%대 급등 - 연합뉴스",
@@ -322,9 +322,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "[특징주] 효성중공업, \"신규 수주 기대\".. 6%대 '강세' - 글로벌이코노믹",
+   "title": "[특징주] 효성중공업, \"신규 수주 기대\".. 6%대 '강세' - g-enews.com",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPakE2VE0wZnE1TVRBV1B6OU41VkFVZ2hYSUU1S0xBZVltM3AxOGxlM3Y1ZmhiRnlHcDd6Y2o3SmVEWFlyUXRHU1hPRDYwMFRha0F3Z2YwZTVBc0tvTE1CdEs5cFpxb2l6Q2RoVVY0SVY5MXZiZDhxSHo3VnVycEZvNjQzYTFONHFZ?oc=5",
-   "source": "글로벌이코노믹",
+   "source": "g-enews.com",
    "date": "2026-08-03"
   },
   {
@@ -978,9 +978,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-02"
   },
   {
-   "title": "마이크론 주가 급락… 연준 긴축 우려가 AI 호재 삼켰다 - 글로벌이코노믹",
+   "title": "마이크론 주가 급락… 연준 긴축 우려가 AI 호재 삼켰다 - g-enews.com",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPeS12M0dxMHNwZC1UTnNESzVqcHZTd0I5b0huOUdlTGZsUVNfTW02amhpdlZfZ0FXOE5sNHlpU1pYaUxrdTQteGJ1NEZVVWh4YklCcXdXT0Zra2FINVZZZUFKRDFRR1RwOVp5MVpIM3VsaDlXTVFEeUNBcXhHODhmVl9IUUxFWkoz?oc=5",
-   "source": "글로벌이코노믹",
+   "source": "g-enews.com",
    "date": "2026-08-01"
   },
   {
@@ -1764,9 +1764,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-09"
   },
   {
-   "title": "벤츠가 당긴 ‘K-배터리’ 방아쇠…2차전지, 바닥 찍고 다시 달릴까 - 뉴스투데이",
+   "title": "벤츠가 당긴 ‘K-배터리’ 방아쇠…2차전지, 바닥 찍고 다시 달릴까 - news2day.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBWYThEZmlEQktSaFZqLXVfNlV5UURiR3ZaVmQxRmtuYUpLdkdMcXRReW4wODRYenBDaTRWNDFCTEdjYkh1WEFKS0ktTzNHQXYtdGlXY1BrZF8zQTJkTXc?oc=5",
-   "source": "뉴스투데이",
+   "source": "news2day.co.kr",
    "date": "2026-04-21"
   }
  ],

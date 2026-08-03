@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-03T10:53:19
+// 갱신: 2026-08-03T10:59:46
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -217,16 +217,16 @@ window.HOLDING_NEWS = {
    "date": "2026-06-11"
   },
   {
-   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
-   "source": "헤럴드경제",
-   "date": "2022-04-12"
-  },
-  {
    "title": "올 1분기 신규 ESG 펀드 '0'…투자 난도 높아졌다 - 한국경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5tVGhBNEZybVdMaXBUMzBnVG50VExwTklNYU4xSlc5eURCWDM1NjRGQXJnc0c1ME12dTgzME12MWdMV2ZtVHVZMGFwRWdHWno3T0tmVzFVeTg0QQ?oc=5",
    "source": "한국경제",
    "date": "2025-09-03"
+  },
+  {
+   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
+   "source": "헤럴드경제",
+   "date": "2022-04-12"
   },
   {
    "title": "10년간 코스피보다 수익률 높았던 '알짜' 펀드는 - 조선비즈 - biz.chosun.com",
@@ -393,9 +393,9 @@ window.HOLDING_NEWS = {
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
   {
-   "title": "빅테크 AI 투자 회수 시험대…나스닥100 조정권 - 글로벌이코노믹",
+   "title": "빅테크 AI 투자 회수 시험대…나스닥100 조정권 - g-enews.com",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNaHB3MGlkVkZSLS12dlBHWkpLMDduWWJUQXBWSTRxOE41SEtRVEQxbkF3S3RTZ2xEeWhuTm9JNTZibGhEVFdzT3dFRTZJTndDY1N6RE9iYXpvQTdGbmRKZFhOOUhiX0ZKZjRIRXdObm10RE9hMlRNekhiV1g4dE52VzVBaHp6UmtY?oc=5",
-   "source": "글로벌이코노믹",
+   "source": "g-enews.com",
    "date": "2026-07-29"
   },
   {
@@ -477,9 +477,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-03"
   },
   {
-   "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - 글로벌이코노믹",
+   "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - g-enews.com",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZVJXYXF5Qmg5SGNFQjhjZ3pZdkhSQzlYWHk0LTQ5akxrWFpYZGlZTGpZNkVWWm5Qd0JiMXMzajdVYXpRdHBOZ0F4dlM0eF9QMFhuaTFOQ1laSjljZV8zeDhxMlE4ZXRCLXJmTkZZRjZBUjlkcmxHdUl6aXFia1E5Zm5CcU9EeHRP?oc=5",
-   "source": "글로벌이코노믹",
+   "source": "g-enews.com",
    "date": "2026-05-21"
   },
   {
@@ -529,9 +529,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-27"
   },
   {
-   "title": "배당 ETF 수익률 55% 돌파…S&P500 세 배 초과 달성 - 글로벌이코노믹",
+   "title": "배당 ETF 수익률 55% 돌파…S&P500 세 배 초과 달성 - g-enews.com",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNll5N1BHRTJLMWNJN1g5dkxEVG9IVFQ1dUE4M0d3S0dJa0Jac3hPYzNSREtaWjdXMnJVS2F3Tk5COXo2SUxxXzJ0TTVid2hHSVcwWHdJR25wV2NqaGhWVFJsZ0V3aXVzWE55VjMyTWJVYmxtSXdGSHdFaTlsZ1pfdDdaSlBFNklt?oc=5",
-   "source": "글로벌이코노믹",
+   "source": "g-enews.com",
    "date": "2025-12-12"
   },
   {
