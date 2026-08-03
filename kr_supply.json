@@ -1,6 +1,6 @@
 {
   "as_of": "2026-08-03",
-  "generated_utc": "2026-08-03T10:35:02Z",
+  "generated_utc": "2026-08-03T10:52:01Z",
   "source": "naver ETF API(순자산) + yfinance(가격·거래량) + kr_deposit.json(신용)",
   "설명": "레버리지·인버스 ETF와 신용융자로 본 기계적 수급(디레버리징·숏커버) 지표",
   "leverage_etf": {
