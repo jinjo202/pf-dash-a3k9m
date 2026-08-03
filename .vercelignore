@@ -1,0 +1,6 @@
+*.py
+*.ps1
+weekly/
+briefing/
+__pycache__/
+requirements.txt
