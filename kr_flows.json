@@ -6,7 +6,7 @@
   "mtd": {
     "retail": 4.7,
     "foreign": -2.8,
-    "inst": -1.9,
+    "inst": -2.0,
     "days": 1
   },
   "ytd_total": {
@@ -17,7 +17,7 @@
   "latest": {
     "date": "26.08.03",
     "retail": 4.65,
-    "foreign": -2.83,
+    "foreign": -2.82,
     "inst": -1.95
   },
   "ytd_cum": {
@@ -598,7 +598,7 @@
       4.65
     ],
     "foreign": [
-      -2.83
+      -2.82
     ],
     "inst": [
       -1.95
