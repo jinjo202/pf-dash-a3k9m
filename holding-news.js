@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-03T22:40:05
+// 갱신: 2026-08-03T23:16:48
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -9,9 +9,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-01"
   },
   {
-   "title": "[주간증시전망] 코스피 6500선까지 반등했지만… 널뛰는 증시에 웃지 못하는 개미들 - 조선비즈 - biz.chosun.com",
+   "title": "[주간증시전망] 코스피 6500선까지 반등했지만… 널뛰는 증시에 웃지 못하는 개미들 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUk1TMC02NFJkRDB6WGFGaHpOTWZZZUZHWUo1aFFHLVpYX3o4bXFyM3ZTU00xb1F5aWp0QWN5TjZEcFNKNjF0b3VzdjRPZE5Yem9PREdweGlvQkVzN3p2THQ2dXJuS1F1Vzc1MTRaWXE3aDBoaUhiSHpxdVJ4UllkaFFoOUdDZlZC0gGcAUFVX3lxTE5zTjVvME5SbFhUSEhVYklrdzRxZFZrck52b0xnTU9KaUVGTGhvSnF5STF4ak5KSWx5T2tob1VpRWN6RzV1Z2pab3dQeHVZWnJqX0ZuMnJCS0ZMNDV3bzhxTVdJZHE3eE1XOVpvWF9FbzdzNFZ6cWpsLXlvM1V6WTZCa09GS29MTkhIeEJodi1uUHFoQWdvZ3NPUWZfUg?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2026-08-02"
   },
   {
@@ -21,10 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-07-29"
   },
   {
-   "title": "폭락장 마무리됐나...이번 주 코스피 전망은? [자막뉴스] - ytn.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE8wWk9Ta3JJX1hGT1NhckpqUkMwYUtYN2RpVE84U1cxWDZlVkk1c240bUZoRW04TjhKOW8zWENHTDR6SHZibzJyV3JyemNCeWpJUHNlRnZxdldrZ050dFE?oc=5",
-   "source": "ytn.co.kr",
-   "date": "2026-08-02"
+   "title": "코스피, 18% 폭등 하루 만에 5% 급락 - 스트레이트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1wOGt0NWszWmk4aWwxMnE4Tnl2MDM3NllkWmpWU2hqWnJPNnV6U1l5VHFBYndUQjVYR01yb3ZXZDQ2X3EwNVF0ektZeENYdVYtTmptRE1uZkNXa3Z4c3JFNmd0Ykp1WmJFbXVIV2w0aE5pOXPSAXdBVV95cUxObXV1U1Z3YWtIdUJFZzlkRDA5Z2w5ZHhHcFM3S0MyNGdCdjJHaHVOWldfMElhSnlPdTc1dmpIeWdoMDdBSWZCcXZPc3YwM2x1MUFNUnBXaGhiR0Yxc0hKNzlNaG5SZkZGWVlTdHRTYWNYOHZfeWJ5dw?oc=5",
+   "source": "스트레이트뉴스",
+   "date": "2026-08-03"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -41,9 +41,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "코스피 오를 때 코스닥은 하락…올해 '시장 간 엇갈림' 역대 최고조 - goodnews1.com",
+   "title": "코스피 오를 때 코스닥은 하락…올해 '시장 간 엇갈림' 역대 최고조 - 데일리굿뉴스",
    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9jUHU2czAtUzNlUGhUV0x5X1lUTUNQSUQxZVA3N0QwRllQLTZDa3pfUTF3VHE3bVZkWHNKRVhoVXp3Vng3STg5MHZIN3J3UUhmWlBPcGo0bThmV0xKTFRpSHgzdlZDUDFKWEFMNNIBcEFVX3lxTE5QLXY1eGVqd1MyTzR4Mk5INzIyN0hkLVY3R1c4Zl9PQXZRUVFhSXVHT3hwMVhBdmtLUm9FeU9ncm91OG5XOUZ6MmNETGVidkRrRXN3QVI3VjBTSVNvcW9qaDFudG1vTUI0STJFaDNBNWY?oc=5",
-   "source": "goodnews1.com",
+   "source": "데일리굿뉴스",
    "date": "2026-07-18"
   },
   {
@@ -54,6 +54,12 @@ window.HOLDING_NEWS = {
   }
  ],
  "KODEX AI전력핵심설비 ETF": [
+  {
+   "title": "잘나가던 AI 전력설비주, 이달 20%대 급락…고금리·고환율에 차익실현 ‘직격탄’ - v.daum.net",
+   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE82c05oQ2t6OWt1VmZ1TjhGS1BIT0ZuVE9CMWRVWlNZdzdsNmp6T19HQXByZ3ktcWpFVVlUcEprci1Rd0FPYmpFMkRhWFllQkE?oc=5",
+   "source": "v.daum.net",
+   "date": "2026-05-20"
+  },
   {
    "title": "숨고르기 길어지는 전력기기株…하반기에는 다시 달릴 수 있나 - 매일신문",
    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRjNQOEpCdnpuZFp0cmVQaFNRU0lqNE53WEtfbGxFWVI4aGZERmZNbjhoNHFONHlnd3F3ZTR4by1NVWhESFhiNTM0dVoxN2oxeEZyWHlqUHRHcU1ZUlpvaW1R?oc=5",
@@ -71,12 +77,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE94Q3VYQTBIdmhjOUYwRHN5MTFQYlZQVzhjNHA0NmNMS20wX25LM3pONTZiNUhlSUZiZjZZR1QtZUZjeUpIUnN2cFZB?oc=5",
    "source": "재경일보",
    "date": "2026-08-03"
-  },
-  {
-   "title": "주춤했던 ‘AI전력 ETF’ 재점화…수주 기대에 10% 반등 - 서울경제",
-   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1VajlRazJjRlZHN3NwS0xHV0wzTmhSNjVLa2kybWlQU1l6eDBoV2JnNFRCY0pXcHlRQjkzOTA0UDlrbDJIME5jWEQyQ2Z2NlZNcGfSAVNBVV95cUxPSnZOcVExbHJvLWZQWUZuc3ktZ19zbFdOem9BeEhYaUVsZ216NTAxUi1pUzcxYmFIVTUtUkx5RDZTYWFQRERYUllveVFmbEN4LUNfcw?oc=5",
-   "source": "서울경제",
-   "date": "2026-06-16"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
@@ -119,9 +119,9 @@ window.HOLDING_NEWS = {
    "date": "2026-01-12"
   },
   {
-   "title": "원전주 널뛰기 뒤에는 ETF 리밸런싱… 대규모 매수 주문 영향 - 조선비즈 - biz.chosun.com",
+   "title": "원전주 널뛰기 뒤에는 ETF 리밸런싱… 대규모 매수 주문 영향 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPWjRVRHFqdVZvTnJhYjNFUTJrajdZd01ZcFdDbmxiXzVQZzJMSUQ1N0VRTnZRWVZIWGdLcW40Z2lYWWVFRmdqTWdMZXQ1OFcwWk1DR3NZUHE0TzM3LW9mbm9vZV93U1VDZVNDN3VlbW8wTEFkOVVOcDlXRjJMRkJqZzJ2N0VVSV9u0gGcAUFVX3lxTE8xalJzajA4akllQmx1WDJtRW1ySnVZNnNwVkdfZkhtbG9hOUo0R2lJQjhJOFNxVnBpWk45VklqQ2NfYUpDZUttY19peUNBdmV0enVlV1cyb1Z1R0lOczgxT2o4dWtRU05BejV5QTZGaVMyazh3azFZVFltN3M1dG5HYl83ZXJJLUlXNjM5WDV1Zm1EYnM2S0ozMGhZZA?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2026-06-15"
   },
   {
@@ -229,9 +229,9 @@ window.HOLDING_NEWS = {
    "date": "2022-04-12"
   },
   {
-   "title": "10년간 코스피보다 수익률 높았던 '알짜' 펀드는 - 조선비즈 - biz.chosun.com",
+   "title": "10년간 코스피보다 수익률 높았던 '알짜' 펀드는 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE00UTdDYVJibncwVlNObkYxN3g0UDMybVhjLUZYSW0wbUw4cTRSQ0JQS29hMzhmRXFJYnM0RVNBcjJfVVdBOUNfWXNlQmNia2gxQXpnNVRXU1NoZGZKeDBqRm5jQ01zTEtKY0h5dnREZmcxdzJWNnVJZnZzVdIBjwFBVV95cUxOalpmWmdIZzhnSGZHZ0ZXbVpfY1pZdk5hNkdpazBoYkd4bXlyWFNRYjdlV2NuZkpFM3QwUWozaXJMcVdRUnRFZDlHZGtwS2dxTnFoNG5kZnpJa1FGZ0pLVllTc09uX2NtNFZqZ1RwZW05LVBwSjR2eU5NVmktNW5VRGl1ZjZsaHZDOU43UjVkTQ?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2020-02-13"
   }
  ],
@@ -281,9 +281,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-23"
   },
   {
-   "title": "S&P500·나스닥, 사상 최고치···빅테크 실적 기대감 - khan.co.kr",
+   "title": "S&P500·나스닥, 사상 최고치···빅테크 실적 기대감 - 경향신문",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5vaTNHMXBwQnJ1SmVaLTBnbmRvQ0FRUXZqdTdFVjZzaDhGRkx6VUwtVGtSMkFHVDVMMVN3ODhpWDIySDJsc0Y0anVOcFdIZTl0bXp0TTctSUY5QdIBX0FVX3lxTE51SnVhSkVGZVNZbXJmdDByRzFiOEdaSXNKa3czb0tkVlpBRFdzXzBfcWJoY2V5Q25XNmdRX1N0R25DT2kydWs4MmNCa1NITW1zWUR3bXh6OFI4OHpicHQ4?oc=5",
-   "source": "khan.co.kr",
+   "source": "경향신문",
    "date": "2026-04-28"
   }
  ],
@@ -393,9 +393,9 @@ window.HOLDING_NEWS = {
  ],
  "Invesco NASDAQ-100 ETF (QQQM)": [
   {
-   "title": "빅테크 AI 투자 회수 시험대…나스닥100 조정권 - g-enews.com",
+   "title": "빅테크 AI 투자 회수 시험대…나스닥100 조정권 - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNaHB3MGlkVkZSLS12dlBHWkpLMDduWWJUQXBWSTRxOE41SEtRVEQxbkF3S3RTZ2xEeWhuTm9JNTZibGhEVFdzT3dFRTZJTndDY1N6RE9iYXpvQTdGbmRKZFhOOUhiX0ZKZjRIRXdObm10RE9hMlRNekhiV1g4dE52VzVBaHp6UmtY?oc=5",
-   "source": "g-enews.com",
+   "source": "글로벌이코노믹",
    "date": "2026-07-29"
   },
   {
@@ -431,9 +431,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-27"
   },
   {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - ytn.co.kr",
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
-   "source": "ytn.co.kr",
+   "source": "YTN",
    "date": "2026-06-07"
   },
   {
@@ -457,9 +457,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-07"
   },
   {
-   "title": "하나證 “베트남, 4월 7일 FTSE 신흥국 승격 판가름… 중동 리스크는 단기 변수” - 조선비즈 - biz.chosun.com",
+   "title": "하나證 “베트남, 4월 7일 FTSE 신흥국 승격 판가름… 중동 리스크는 단기 변수” - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTXd6VnNYcktUMzZHcVFzbGFaUDZOVDUtWHdLTmZtUGtlSDVaWEpwRkt4TXFrSFN2OEtHelQ0OS1KN3Nmak50aUxDdWVtYmx4Ny1ONWFQNkJLQ09xNWloT1l6WlM5X0ZNamxHeWFnRFI1VU5VV19uck1LakhPbmNEdFgxZDlDRldo0gGcAUFVX3lxTE5UUzlqT3FzSEtNYXFnaU9vd3RHcnZ1S3lDVkY2YkY3bjVGMGpITG5aN19zanNody1wQUNyeFZLczY0QWZPa1FkM0xZZ1YySXFCaDlmSWlYVFJ1SzRRMFpTLVBLVnZfenRzSHhKYllKenlXNVJ1RVA1Unc1b3E4ZlM1LUYwcktKLWRBc1VvYlBvbmJpSHdVa3M0SDB2ag?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2026-03-24"
   },
   {
@@ -477,9 +477,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-03"
   },
   {
-   "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - g-enews.com",
+   "title": "“AI 말고도 답 있다”…가치주 전략, 26년간 수익률 3471% - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZVJXYXF5Qmg5SGNFQjhjZ3pZdkhSQzlYWHk0LTQ5akxrWFpYZGlZTGpZNkVWWm5Qd0JiMXMzajdVYXpRdHBOZ0F4dlM0eF9QMFhuaTFOQ1laSjljZV8zeDhxMlE4ZXRCLXJmTkZZRjZBUjlkcmxHdUl6aXFia1E5Zm5CcU9EeHRP?oc=5",
-   "source": "g-enews.com",
+   "source": "글로벌이코노믹",
    "date": "2026-05-21"
   },
   {
@@ -498,7 +498,7 @@ window.HOLDING_NEWS = {
  "Xtrackers DAX ETF (XDAX)": [
   {
    "title": "독일 DAX 지수, 중동 군사갈등 완화 기대감에 ‘사상 최고’ - 이투데이",
-   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1EeVVJT1RQeGJ2amQ3WFBHVFhDQlNDd0liaktQanVlSnZIZGtKQXEwbWt0MFNvUWFNVnFmR3NvQjFFTWt5V2lHb0VZb3hYczdnUEpsNXNnakNTd3Nnd19jaG8tdHQxaE84SUNHamp3?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBFWnJZc3VRUzg3TE90Q1BET3NzdlhuLXhXU24zcTRNTDhHSGw5T09GR2hoWThWdVBQb0FGQjRacVRYNTNwYmNlQ0VfMVNzSEpWenBrZQ?oc=5",
    "source": "이투데이",
    "date": "2026-08-03"
   },
@@ -515,9 +515,9 @@ window.HOLDING_NEWS = {
    "date": "2026-01-20"
   },
   {
-   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - biz.chosun.com",
+   "title": "“美 기술주 너무 비싸”… 유럽 증시에 몰리는 글로벌 자금 - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQXNpa1F0eXF3eFJvc0s2VDNmOHYwREhsMUd4YTJ2eWdvVjJ4LUFCX3hFR0NWTzNWRWh6SS1OYkNTMUl5TWJQcnFrYlhoWnFOVXU1a3hNWDVLcldtYlNnZWFMYlZjYVF0c2Q4S2g1enk1OEhwZlNQa3NlZTRDWEJ2VG1UTWZ2Q0ctYjd3M2p3VkpVRnZzYlJxS3Rpa01wd9IBsgFBVV95cUxOQllFY0ZXa2dXN214YUw4cVVmYzdtRHNuVVZBVjFqdzdKLXVKdE83LTB0b3NheDFjenJEQnhQaVpGTkR1RkE5cnNseVZ4dDNEYUlRc3FaVzJSTHp3cXNvUGZHUmRaWUxwXzlhSTVvRjl5UkhlNmdEcjl4RkktNlZaNVgwM2F3UU9wa00wYkxXWGoydzItX0ZsT25SUUJBM0Nsa0tvTExkbXROX2VWMFk1cnJR?oc=5",
-   "source": "biz.chosun.com",
+   "source": "Chosunbiz",
    "date": "2026-02-24"
   }
  ],
@@ -529,9 +529,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-27"
   },
   {
-   "title": "배당 ETF 수익률 55% 돌파…S&P500 세 배 초과 달성 - g-enews.com",
+   "title": "배당 ETF 수익률 55% 돌파…S&P500 세 배 초과 달성 - 글로벌이코노믹",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNll5N1BHRTJLMWNJN1g5dkxEVG9IVFQ1dUE4M0d3S0dJa0Jac3hPYzNSREtaWjdXMnJVS2F3Tk5COXo2SUxxXzJ0TTVid2hHSVcwWHdJR25wV2NqaGhWVFJsZ0V3aXVzWE55VjMyTWJVYmxtSXdGSHdFaTlsZ1pfdDdaSlBFNklt?oc=5",
-   "source": "g-enews.com",
+   "source": "글로벌이코노믹",
    "date": "2025-12-12"
   },
   {
