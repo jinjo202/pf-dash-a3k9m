@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-04T22:23:47
+// 갱신: 2026-08-04T22:43:27
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -35,9 +35,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "비싼 보수에도 수익률 부진…코스닥 액티브 ETF 6개 중 5개 지수 밑돌아 - MTN 머니투데이방송",
+   "title": "비싼 보수에도 수익률 부진…코스닥 액티브 ETF 6개 중 5개 지수 밑돌아 - news.mtn.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE84NDBKVnBacnZ1bFhfRnZia3RHRTRJbDBQMlotY0Q0dXBEbDd1QThPZkI2WlpSTVoyMmdXRFNqVzEzWHFnU3FvMVlxdkFTXzNlWXNjZlV5b1FwWVVOVllCcUQtNVo?oc=5",
-   "source": "MTN 머니투데이방송",
+   "source": "news.mtn.co.kr",
    "date": "2026-08-03"
   },
   {
@@ -87,9 +87,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-04"
   },
   {
-   "title": "코스닥 제약지수 7.46% 급등, 유가증권 제약지수도 반등 - 의약뉴스",
+   "title": "코스닥 제약지수 7.46% 급등, 유가증권 제약지수도 반등 - newsmp.com",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5CM3RrdXZlVFl6M1YzNDVuSnNRQ05WYzhkanJZS0FpUThDbTdoN00wTmVkY2djcTB6andRZk1LcFBLNW9xMDNVdWc3YWhpcDhtQXBETVRsd1JrMXRGbTRxQmRuSDVEMjdF?oc=5",
-   "source": "의약뉴스",
+   "source": "newsmp.com",
    "date": "2026-08-04"
   },
   {
@@ -99,17 +99,17 @@ window.HOLDING_NEWS = {
    "date": "2026-07-30"
   },
   {
-   "title": "[주식] 코스닥 5% 하락했는데...삼천당제약 홀로 30%↑ - 히트뉴스",
+   "title": "[주식] 코스닥 5% 하락했는데...삼천당제약 홀로 30%↑ - hitnews.co.kr",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5YbGhBUEE5NGZUS2F4Q0tweEIzNkRQenNlZE1aMGJ4MTRjQXd3RWk2dmFmVHRzWHVVSXZDZ09LWF9yR2RSaHdpbVFqMV8xZHNfTEtDMThHamtuYk15SEFkVlZjRTlCck1IdlBz?oc=5",
-   "source": "히트뉴스",
+   "source": "hitnews.co.kr",
    "date": "2026-07-20"
   }
  ],
  "Hanaro 원자력 iSelect": [
   {
-   "title": "장 막판 원전주 무더기 상한가…배후는 '원자력 ETF' 리밸런싱 - news.einfomax.co.kr",
+   "title": "장 막판 원전주 무더기 상한가…배후는 '원자력 ETF' 리밸런싱 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBndnBsZXBiaDNzUlB5QUYzcU9LZW5hX25UY21LdzJRUFZDemU2b0ZyUUVCb1M4V2JlTjNsZDB2eWxzYnA5RUpQNEttODVSdUprd3c5MVk5RjdYZ0pkRldrYTE5dGMydjQzWWhlMFB6a04?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-06-12"
   },
   {
@@ -129,6 +129,32 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE45Rjc3MEI3X1NJQmsxbkxpYWRFYklzMVBUTi1NUFZyVTJPOFBEWFlpSnNoLUJ1ZlJPQ09vdWVyVm9HZnpVTkdSLUpqdk1PY1k4TEw1NkhLeEJFWl9ib2w3b1FSbEdPUXBsZk9mWjFxSng5VkE?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-03-10"
+  }
+ ],
+ "Plus K-방산 ETF": [
+  {
+   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
+   "source": "뉴스1",
+   "date": "2026-06-05"
+  },
+  {
+   "title": "“전쟁 끝나도 30년은 오른다” ‘K방산 ETF 아버지’ 계좌 깠다 - 중앙일보",
+   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA5WVFIR0JNMlppdHVPS1ZMaGotTHpyS2w3TDlpbnJHbVlmZnY0elp1RWtoVTlWNU1xTFNHUHFrZmIzRWVqWlNRNjNoVG0xRkJWZzlMOVVR?oc=5",
+   "source": "중앙일보",
+   "date": "2026-04-08"
+  },
+  {
+   "title": "\"올해 역대 최대수출…K방산 다시 주목할 때\" - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE93MmpyeW1JZHY0N3B0VnhWMkE5TTRjOFY3ZTRxazE5Q2p6N0ItSkk2b19laExiZDFSZ29Iekp6LUZvdlo0Vmx3YllvLW1mZ3BkWTVFQ1QzQUVlQQ?oc=5",
+   "source": "한국경제",
+   "date": "2026-03-26"
+  },
+  {
+   "title": "방산주, 종전 임박에 조정받나···증권가 “오히려 K-방산기업에 기회” - 증권일보",
+   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBsTkdiX1hfdUxrQVJCRkhHZ1hVaWNMYmxPVlQ2V1MxUFY1V3Jod1I3OXhMYWI4bFNtQ0xlWVpvMUw5Unh0RDlnR2xmMnVfazI4MjBRVF9zcS15WU9vQm1WRA?oc=5",
+   "source": "증권일보",
+   "date": "2026-06-16"
   }
  ],
  "KoAct 글로벌AI&로봇액티브 ETF": [
@@ -217,9 +243,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-30"
   },
   {
-   "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - news.einfomax.co.kr",
+   "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByWlVzOEwtaDF2SGhKa0VpT3ZLZnZvYS1SUjBRQmRmWmhodlZuRU5zVHhCc2t1cHhvdWdzdEVFSzFXNGdKNWdxT2Z0ZUktU0k2bXRXSXRoRjZ5RmgwaVZ4akY0Ny1OZlBiYzZTYVA1Yjc?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-06-09"
   },
   {
@@ -243,9 +269,9 @@ window.HOLDING_NEWS = {
    "date": "2026-04-28"
   },
   {
-   "title": "뉴욕증시, 마이크론 급등에도 빅테크 약세…나스닥 하락 마감 - 산경투데이",
+   "title": "뉴욕증시, 마이크론 급등에도 빅테크 약세…나스닥 하락 마감 - sankyungtoday.com",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5kdXMtelEwZ21sSk9MQmJld3pjYWhJSzIzMTliUmtqSEM2OVdTX2x1ZXhjSk0zVW1qbUlqbXJjQkdXc1dCd3JQNE5wTkdhdU8yTGdmNE5Uem9sU1MwWGhrUlBqN2FGTDlSMVd0bUpnT2fSAXRBVV95cUxQajUyd0o4TW11NUhNT1VZekQzRVdGRzBXTFgxcnpSaHdvdl9YWGh5SnZudHdpS1ZlblJXTWp6RjVmNm1lMTgwczRBLThCeHFpVFVvSXloOGNqOW5jN0ZuU3k1QUhjenZxNEZ5UXpJWnF3a0lpTw?oc=5",
-   "source": "산경투데이",
+   "source": "sankyungtoday.com",
    "date": "2026-06-26"
   },
   {
@@ -315,9 +341,9 @@ window.HOLDING_NEWS = {
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "월가 전문가 \"美증시, 잃어버린 10년 올수도…원자재 투자해야\" - news.einfomax.co.kr",
+   "title": "월가 전문가 \"美증시, 잃어버린 10년 올수도…원자재 투자해야\" - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5aSGw0OTJmMmRFd1pSR25UcGNJMEQyZENySm82REpWRzBmRUNQUno3V0s3TGlXcTdKRGxGOEx6b3NJRlhZdmh6NFFIV3FjOGRYN0l0MVZNV2QySExmVzI3bDZxblpNLVg3eTJ3bHVRRjk?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-06-08"
   },
   {
@@ -411,9 +437,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-07"
   },
   {
-   "title": "골드만 \"S&P500 연평균 7% 성장 전망\" - news.einfomax.co.kr",
+   "title": "골드만 \"S&P500 연평균 7% 성장 전망\" - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9ZQ21hejhtUTJYQUJXeFR1MFYtNnpTQkN0MFFRNGk5WmczcVpJaTZFRU1EdkFvQnZnbTNISnJCTFBCeWtKTjFGRy1XM1hKZlFRbTIwbTFNWjdxQUQzODc5STNyX0dVV285eFI3MDk3MHE?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-07-06"
   }
  ],
@@ -509,9 +535,9 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - joseilbo.com",
+   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
-   "source": "joseilbo.com",
+   "source": "조세일보",
    "date": "2026-01-23"
   },
   {

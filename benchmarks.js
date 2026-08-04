@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-08-04",
-  "generated_utc": "2026-08-04T22:21:11Z",
+  "generated_utc": "2026-08-04T22:40:47Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -564,12 +564,12 @@ window.BENCHMARKS = {
       "as_of": "2026-08-04",
       "decimals": 2,
       "valuation": {
-        "pe": 6.41,
-        "pb": 1.26,
+        "pe": 6.42,
+        "pb": null,
         "roe": null,
         "src": "EEM (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -1112,11 +1112,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 3.98,
-        "pb": 1.94,
+        "pb": null,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -4394,11 +4394,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 22.18,
-        "pb": 1.4,
+        "pb": null,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1428.72,
+      "current": 1429.45,
       "baseline": 1437.91,
       "mtd_baseline": 1420.6,
-      "ytd_pct": -0.6391,
-      "mtd_pct": 0.5716,
-      "daily_pct": -0.4862,
+      "ytd_pct": -0.5884,
+      "mtd_pct": 0.623,
+      "daily_pct": -0.4353,
       "as_of": "2026-08-04",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1442.28,
           1420.6,
           1435.7,
-          1428.72
+          1429.45
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 75.28,
+      "current": 75.3,
       "baseline": 57.42,
       "mtd_baseline": 84.67,
-      "ytd_pct": 31.1041,
-      "mtd_pct": -11.0901,
-      "daily_pct": -6.2982,
+      "ytd_pct": 31.139,
+      "mtd_pct": -11.0665,
+      "daily_pct": -6.2733,
       "as_of": "2026-08-04",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           83.59,
           84.67,
           80.34,
-          75.28
+          75.3
         ]
       }
     },
