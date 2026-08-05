@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-08-05T09:25:18
+// 갱신: 2026-08-05T09:34:39
 // 총 89개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -30,9 +30,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "SK하이닉스": [
   {
-   "title": "월가 증권사들 \"SK하이닉스 저평가\"…ADR 주가 급등세 - v.daum.net",
-   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE9Lem9BSE9sQUNRSXItV1BtSldWOTc0SGNvUC01WjRqbWhIQjRVT2xrRFBWNWhHb0JSSzVkSjRWT3Y2NEZKRWc?oc=5",
-   "source": "v.daum.net",
+   "title": "\"185만원 → 148만원\" 반도체주 급락에 '삼전·닉스' 목표주가 줄하향 - 파이낸셜뉴스",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1BMHVfZ3JfdHVsbjNjZnd3SVN1U3kwX3pyX2c1RmNtSlQtSlhrbDFWbzRpY08zSEExcDh1SXJYbk5wcmhPdFR0Qmc4b1hpUWFCa2tWdjg3Wlc4QQ?oc=5",
+   "source": "파이낸셜뉴스",
    "date": "2026-08-04"
   },
   {
@@ -308,9 +308,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-23"
   },
   {
-   "title": "LS·LS일렉트릭 주식에 '번지수 틀린 투매'…1.5조 오타가 부른 해프닝 - news.einfomax.co.kr",
+   "title": "LS·LS일렉트릭 주식에 '번지수 틀린 투매'…1.5조 오타가 부른 해프닝 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBPNk5QWkRMWjNBUmZ5eHN6LXRCbjhjei1Ic0dxTl9ER3IyM1NuY1Z5VElBS0dVeXlPNmxsc0xtUUV6dVJMTEFCUUJBOGFCZVZ6YlBzVERUX2hGb3EwYnhvdVpCblhJUWtNUkFrM3pxYmM?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-05-29"
   }
  ],
@@ -550,9 +550,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "한국전력": [
   {
-   "title": "[유창범의 브레인스토밍] 주가 밸류업에 대한 단상 - news.einfomax.co.kr",
+   "title": "[유창범의 브레인스토밍] 주가 밸류업에 대한 단상 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBaUDNpcUo5U0JCdTlBY1dxSFR4enJWd2pWamowS0dJM01EUEpnR2J1VU1vSWxIcGZ3NTNOT2RLVUdiWm1DZ3RkTE1NeTVweE1zd3pMRmp6aTNyYkpmLTZ1eTA5bTVzRWpvNGx0dk5IbzdNM2lV0gF0QVVfeXFMUFpQM2lxSjlTQkJ1OUFjV3FIVHh6clZ3alZqajBLR0kzTURQSmdHYnVVTW9JbEhwZnc1M05PZEtVR2JabUNndGRMTU15NXB4TXN3ekxGanppM3JiSmYtNnV5MDltNXNFam80bHR2TkhvN00zaVU?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-08-05"
   },
   {
@@ -698,9 +698,9 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-27"
   },
   {
-   "title": "현대로템, 2Q 영업익 컨센서스 하회…발표 후 주가 5%대 급락(종합) - news.einfomax.co.kr",
+   "title": "현대로템, 2Q 영업익 컨센서스 하회…발표 후 주가 5%대 급락(종합) - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1JZXNJWWRFYzBhZFJUX1N5THNJeG9WQmlBb2ZPYUtkRnlUOUMwYzItd1NWMElBblFfUG1EUWhpSWJ6TFBTWGdEdWJseWdrS1RuOXZGYTNfNkFZLUZPU1ZSZDNidXNZeU1Nc1E1RzlKbVQ?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-07-24"
   }
  ],
@@ -836,9 +836,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "Amazon": [
   {
-   "title": "아마존 창업자 베이조스, 41억달러 지분 매각…주가 2% 하락 - news.einfomax.co.kr",
+   "title": "아마존 창업자 베이조스, 41억달러 지분 매각…주가 2% 하락 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5wQ295RjFUemF0SnRrSXFpVTE5ZXcwN2I2enJnT0J6elFrcldYX2IydWNqQXBsUnVCNXplY1FoWEkweVJidktVSVlOaUFKN1pTUzFiSS1seDlJbTUzQ2otNTZiQU9LWXJHS2o0Z0dZdW_SAXRBVV95cUxOa192OGMzVVNNYjJKRVlhanVzOS14dnlOVlJHSVh2MzUtSnYwMnQyNVVMNkRlZ0RlaVJPd1VONHU4ejQzNXg2dnpfc1dEdHR1Y1NPNGxNMUxocmhfajcxdkQ3SW5Fc0tDV1NzbWM4bDFPTE84Ug?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-08-04"
   },
   {
@@ -863,7 +863,7 @@ window.CONSTITUENT_NEWS = {
  "Meta Platforms": [
   {
    "title": "메타 플랫폼스(META) 실적 발표 후 42% 저평가 가능성은 남아 있을까## - simplywall.st",
-   "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQSUZVRGtCQWRESkNjZU51OWEwa0xvZDJjWjR5UGdYejZ2QVhXV3l6YWFsTklXcEtnd29tckdlMG5PM0kwaTI1bzRsd2VERDNsbW5OVTZZNGJickxpTEVsMTNaUmRjSmVVXzVJbWxOaUg3QU93SnVLdGlZaWFFaDJBSkhuMWtxQW9rakhFNGZudjE0QzjSAZgBQVVfeXFMUGNlLVJLX1habWhWd3JMN0o4YjVnMFdBVm5DTWhvWkJzV3l1bHZKVFNvNVhUNkR2ekNwOWNvSG9HZGRLYnZDUklERjJ2OXMyWV95M0VoR0xaWHdNSmRRZ1d4N1owdG9fc1gydlhiX1kzRExxS2Qxam5KZ3R5cWxVWHhDUkJuYzNBSnFzQWo2Mm9pRi1DYUdkd3c?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQY2UtUktfWFptaFZ3ckw3SjhiNWcwV0FWbkNNaG9aQnNXeXVsdkpUU281WFQ2RHZ6Q3A5Y29Ib0dkZEtidkNSSURGMnY5czJZX3kzRWhHTFpYd01KZFFnV3g3WjB0b19zWDJ2WGJfWTNETHFLZDFqbkpndHlxbFVYeENSQm5jM0FKcXNBajYyb2lGLUNhR2R3d9IBmAFBVV95cUxQY2UtUktfWFptaFZ3ckw3SjhiNWcwV0FWbkNNaG9aQnNXeXVsdkpUU281WFQ2RHZ6Q3A5Y29Ib0dkZEtidkNSSURGMnY5czJZX3kzRWhHTFpYd01KZFFnV3g3WjB0b19zWDJ2WGJfWTNETHFLZDFqbkpndHlxbFVYeENSQm5jM0FKcXNBajYyb2lGLUNhR2R3dw?oc=5",
    "source": "simplywall.st",
    "date": "2026-08-05"
   },
@@ -881,7 +881,7 @@ window.CONSTITUENT_NEWS = {
   },
   {
    "title": "메타(META), AI 지출 부담에도 월가 '매수' 의견 유지...목표가 '843달러' - 코인리더스",
-   "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE9iR2VaVHRIU3lOT1hKUVRoVVdLWlowOE9rR0g2d3JrS2ZKU0FlcE9rNW1SejROOXhMRU00WnV3UUs2bEo0TkQzWQ?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBtdkhVdG9tZEhuQ1QybXVVQU9BRDBUTVdKaElKT2xKQmtZdFFQWTJwcDN4RmRnZUZxbktpQW1CdlZaTEpYcHN2MnhB?oc=5",
    "source": "코인리더스",
    "date": "2026-08-04"
   }
@@ -1238,16 +1238,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-01"
   },
   {
-   "title": "GE 버노바 주가, CEO 데이터센터 신중론에 하락 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE42YXFMaU9UMEJzUlpocktESzVEOEZkdDFINzVQa2pEMDJIVE4ydENyN3JxSmVZdmYydFRPa2Y2Y1JSMnJvcV9uZU1hSTZNcDVKRmk2THVWdkphbm9EN0tSQ08yQ2JHazV4WnBHSnN2VHZGQnpNNkV3?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-05-28"
-  },
-  {
    "title": "Ge Vernova Inc (GEV) 주식 움직였습니다 하락 4.13%에 7월29일: 전체 분석 - TradingKey",
    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOVXdEUmRnM2hDbXByc1JncFllUHl4X09oMlRCUFFKR1NPVDA2dEF4OGxaQVctT0tNZzVzU00xZzBYS0NfRWFFZjUyVkhldmJUZFJpQjBEX0Ezc2VVbmNwWE50VVlxakZNeE9ZS3p4ZDI1Vy14LV91dFE1SF9seFhWSDJMYTVrRnB6cU9VV2RB?oc=5",
    "source": "TradingKey",
    "date": "2026-07-29"
+  },
+  {
+   "title": "GE 베르노바(GEV) 주가는 58% 급등한 후 공정가치보다 높을 수 있다 - simplywall.st",
+   "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQRVNheUpnSDd1eW9jMTFSaHRxMmMtZGhwVG8ySmRRY01zVEJuSHRZZ2YxTHVJQVBBUGR4MERUc09WQk53Y3BpcGxrd1A4d1hVRDZncmFjS2Z1QV9JWmszQTg0bks4NWJGdUdsa0I1MHpvMkNzWVl3UDE5T0lva0JrVnUzdDZPZ2hBczlPZnBrenFuQTRB0gGaAUFVX3lxTFA3ekt1WGd5aHItYWxlU2R4cUVrSUdOV2FqX1BheWFsdnlETHkwWlNscHFQclNtUnpmRGNaMGowTnNEeFFZVVpBVmtweHc0cURVNVY2Z2pEZS0zdHZJNHdyMnlVREV2b3YyU0xUSTlna3NLUTc1dTFJcTZhamF3eGdJMHV3WGNHMHBsSHdGZll2LUZrVTFnRXlEV0E?oc=5",
+   "source": "simplywall.st",
+   "date": "2026-07-26"
   }
  ],
  "RTX Corp": [
@@ -1694,9 +1694,9 @@ window.CONSTITUENT_NEWS = {
  ],
  "Allianz": [
   {
-   "title": "국민연금·알리안츠GI, 주식·채권·대체투자 관련 정보 교류키로 - news.einfomax.co.kr",
+   "title": "국민연금·알리안츠GI, 주식·채권·대체투자 관련 정보 교류키로 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9DSk5Sekp0aURKTjgxQVVZZ3o0S29TMFA4eWlVMGdTWWQteW85dTJWdXlWNTBIR285VW1hSFlPVVpqUzVjd1pGQTA1RlZBbzd3dER0YzJ6WTBYUWdjOHJKVmRvZUlZQUlqRUhDWjJGN3rSAXRBVV95cUxOM0M5bmlOM1JYbUFhVEhvRHJrOTFERkROOEhYUXlqZDZzZHc0cXl0SVBzaG5IcGxKX0cwLWl3Zm1oNjlGck9sS2VVRVQweWJsOG51aXNUeWxkU25IM1dvRGZPbmtWLVZGRFFTSDl0V0lNU3FGRA?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-03-13"
   },
   {
@@ -1734,7 +1734,7 @@ window.CONSTITUENT_NEWS = {
   {
    "title": "[노키아, MWC 2026서 AI 파트너십 공개하며 주가 7% 급등] 키아가 엔비디아(NVIDIA)와의 제휴를 심화하며 추진해 온 AI 인프라 전략이 시장에서 신뢰를 얻고 있음을 ",
    "url": "https://news.google.com/rss/articles/CBMiQEFVX3lxTFBiRGhxU0J5Z3lQSXhBRkI5QXVKZGVsOGlhX1d3RU1XMW0wSEptNG5LRnVqQTN3NkRFdWZuT1FLMjk?oc=5",
-   "source": "AI넷",
+   "source": "ainet.link",
    "date": "2026-03-05"
   },
   {
@@ -1982,14 +1982,14 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-07-30"
   },
   {
-   "title": "SAN|Banco Santander SA|가격:14.100|Chg%:-0.015 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ub05XRDJLZWdWZE5hN1REaFRaUlVwSXhnUUNHZnpSU1R2ckp4VEYwZVdFY1UtTVk1Y3RJV293cDN0emp6YTN6Ym14M2Ftazk4cE4tMUdrcGJsdjZFVTJmeUVibGMtMUdwQ2U0U2lCX3k?oc=5",
-   "source": "TradingKey",
+   "title": "방코 산탄데르, 자회사 방코 산탄데르 브라질 지분 10% 인수 추진…19억 유로 규모 - 데이터투자",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1DcE5WYmRXY0ZqZE9adjhZRmJicGMyZkdYZ0lyY0hLY2ZQOFVvRElLSTluRXZtdG1uRV9idE5tRlhXUDFtVUd4RWhUQWtYeUZib3Q0XzF5MUtmaWNQc2Y4ay1PY2F5S0dpc0hpbm9Kck9Fdw?oc=5",
+   "source": "데이터투자",
    "date": "2026-07-31"
   },
   {
-   "title": "BSBR|Banco Santander Brasil SA|가격:5.670|Chg%:+0.625 - TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE41eHpkSmVOVFB4SnBIT2sxSTVva2YtZnNHcEpxUlp2bDNGdFZ1clF0Q3FUT3Ricm1VNThpNkFnOHNSRmxCX1docW1MYml1dXNGNk1XZUk5NWFPSnNYaGc?oc=5",
+   "title": "SAN|Banco Santander SA|가격:14.100|Chg%:-0.015 - TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ub05XRDJLZWdWZE5hN1REaFRaUlVwSXhnUUNHZnpSU1R2ckp4VEYwZVdFY1UtTVk1Y3RJV293cDN0emp6YTN6Ym14M2Ftazk4cE4tMUdrcGJsdjZFVTJmeUVibGMtMUdwQ2U0U2lCX3k?oc=5",
    "source": "TradingKey",
    "date": "2026-07-31"
   }

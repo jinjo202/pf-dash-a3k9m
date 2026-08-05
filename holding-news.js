@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-05T09:24:10
+// 갱신: 2026-08-05T09:33:33
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -107,9 +107,9 @@ window.HOLDING_NEWS = {
  ],
  "Hanaro 원자력 iSelect": [
   {
-   "title": "장 막판 원전주 무더기 상한가…배후는 '원자력 ETF' 리밸런싱 - news.einfomax.co.kr",
+   "title": "장 막판 원전주 무더기 상한가…배후는 '원자력 ETF' 리밸런싱 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBndnBsZXBiaDNzUlB5QUYzcU9LZW5hX25UY21LdzJRUFZDemU2b0ZyUUVCb1M4V2JlTjNsZDB2eWxzYnA5RUpQNEttODVSdUprd3c5MVk5RjdYZ0pkRldrYTE5dGMydjQzWWhlMFB6a04?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-06-12"
   },
   {
@@ -133,9 +133,9 @@ window.HOLDING_NEWS = {
  ],
  "Plus K-방산 ETF": [
   {
-   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - news1.kr",
+   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
-   "source": "news1.kr",
+   "source": "뉴스1",
    "date": "2026-06-05"
   },
   {
@@ -243,9 +243,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-30"
   },
   {
-   "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - news.einfomax.co.kr",
+   "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByWlVzOEwtaDF2SGhKa0VpT3ZLZnZvYS1SUjBRQmRmWmhodlZuRU5zVHhCc2t1cHhvdWdzdEVFSzFXNGdKNWdxT2Z0ZUktU0k2bXRXSXRoRjZ5RmgwaVZ4akY0Ny1OZlBiYzZTYVA1Yjc?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-06-09"
   },
   {
@@ -281,9 +281,9 @@ window.HOLDING_NEWS = {
    "date": "2026-07-23"
   },
   {
-   "title": "S&P500·나스닥, 사상 최고치···빅테크 실적 기대감 - 경향신문",
+   "title": "S&P500·나스닥, 사상 최고치···빅테크 실적 기대감 - khan.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5vaTNHMXBwQnJ1SmVaLTBnbmRvQ0FRUXZqdTdFVjZzaDhGRkx6VUwtVGtSMkFHVDVMMVN3ODhpWDIySDJsc0Y0anVOcFdIZTl0bXp0TTctSUY5QdIBX0FVX3lxTE51SnVhSkVGZVNZbXJmdDByRzFiOEdaSXNKa3czb0tkVlpBRFdzXzBfcWJoY2V5Q25XNmdRX1N0R25DT2kydWs4MmNCa1NITW1zWUR3bXh6OFI4OHpicHQ4?oc=5",
-   "source": "경향신문",
+   "source": "khan.co.kr",
    "date": "2026-04-28"
   }
  ],
@@ -341,9 +341,9 @@ window.HOLDING_NEWS = {
  ],
  "SS Materials Select SPDR ETF (XLB)": [
   {
-   "title": "월가 전문가 \"美증시, 잃어버린 10년 올수도…원자재 투자해야\" - news.einfomax.co.kr",
+   "title": "월가 전문가 \"美증시, 잃어버린 10년 올수도…원자재 투자해야\" - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5aSGw0OTJmMmRFd1pSR25UcGNJMEQyZENySm82REpWRzBmRUNQUno3V0s3TGlXcTdKRGxGOEx6b3NJRlhZdmh6NFFIV3FjOGRYN0l0MVZNV2QySExmVzI3bDZxblpNLVg3eTJ3bHVRRjk?oc=5",
-   "source": "news.einfomax.co.kr",
+   "source": "연합인포맥스",
    "date": "2026-06-08"
   },
   {
@@ -379,9 +379,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "JP모건 \"S&P500 지수 상당한 상승 여력\"…증시 강세 전망 - 연합뉴스 한민족센터",
+   "title": "JP모건 \"S&P500 지수 상당한 상승 여력\"…증시 강세 전망 - koreancenter.or.kr",
    "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFA2bG5nMW5mMlI5TUlwRHRfLXNPVmR6UkJ0YTVjWmkyNXpMcjlhZ0x5bHRKMDNUbEpVdUJHOThXMTJyX0FUYkJjYlFjOEtYRnhKVTlPdUxxOUktN01nYWpiODJya1hXcEZTNTRDdjBvRnNvYTVm?oc=5",
-   "source": "연합뉴스 한민족센터",
+   "source": "koreancenter.or.kr",
    "date": "2026-07-27"
   },
   {
@@ -437,9 +437,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-07"
   },
   {
-   "title": "JP모건 \"S&P500 지수 상당한 상승 여력\"…증시 강세 전망 - 연합뉴스 한민족센터",
+   "title": "JP모건 \"S&P500 지수 상당한 상승 여력\"…증시 강세 전망 - koreancenter.or.kr",
    "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFA2bG5nMW5mMlI5TUlwRHRfLXNPVmR6UkJ0YTVjWmkyNXpMcjlhZ0x5bHRKMDNUbEpVdUJHOThXMTJyX0FUYkJjYlFjOEtYRnhKVTlPdUxxOUktN01nYWpiODJya1hXcEZTNTRDdjBvRnNvYTVm?oc=5",
-   "source": "연합뉴스 한민족센터",
+   "source": "koreancenter.or.kr",
    "date": "2026-07-27"
   }
  ],
