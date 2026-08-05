@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-05T22:23:22
+// 갱신: 2026-08-05T22:41:57
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -73,13 +73,19 @@ window.HOLDING_NEWS = {
    "date": "2026-06-09"
   },
   {
-   "title": "전력 인프라주 투자 괜찮나 - mk.co.kr",
+   "title": "전력 인프라주 투자 괜찮나 - 매일경제",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE91T2dCazRPSnNtZlNZQnowU19uaUNZUHFaMDRzMGVWbEZ5SDNtTXhScGcxRlhyTTV4SmpudEFOMzllNzU2VVlIaUFLY1huVENtbGNlOA?oc=5",
-   "source": "mk.co.kr",
+   "source": "매일경제",
    "date": "2026-05-22"
   }
  ],
  "KoAct 바이오헬스케어액티브": [
+  {
+   "title": "상반기 제약바이오 IPO 8곳 모두 공모가 하회...하반기 상장도 ‘빨간불’ - 조선비즈 - Chosunbiz",
+   "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPdmJDbVd4SEpKRkYzd20zSnhpT2dUdmpENWxnaEdtc1VMbEFMaFNiNjBLdnVHczEzZXR2LVJGOXVZN0dnQVRSQnVLZjAtR19nMGVpczhjalJfMkV2b05RbnpEaWlKRGRLM29ia01lb0tfTmQ0NTZNUkJhMzJNT0JIbEtzR2pEbWpyNlNkeWFiS0ZvYkc3a1luSjV0QdIBmwFBVV95cUxPdmJDbVd4SEpKRkYzd20zSnhpT2dUdmpENWxnaEdtc1VMbEFMaFNiNjBLdnVHczEzZXR2LVJGOXVZN0dnQVRSQnVLZjAtR19nMGVpczhjalJfMkV2b05RbnpEaWlKRGRLM29ia01lb0tfTmQ0NTZNUkJhMzJNT0JIbEtzR2pEbWpyNlNkeWFiS0ZvYkc3a1luSjV0QQ?oc=5",
+   "source": "Chosunbiz",
+   "date": "2026-08-05"
+  },
   {
    "title": "코스닥 제약지수 7.46% 급등, 유가증권 제약지수도 반등 - 의약뉴스",
    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5CM3RrdXZlVFl6M1YzNDVuSnNRQ05WYzhkanJZS0FpUThDbTdoN00wTmVkY2djcTB6andRZk1LcFBLNW9xMDNVdWc3YWhpcDhtQXBETVRsd1JrMXRGbTRxQmRuSDVEMjdF?oc=5",
@@ -87,22 +93,16 @@ window.HOLDING_NEWS = {
    "date": "2026-08-04"
   },
   {
-   "title": "상반기 제약바이오 IPO 8곳 모두 공모가 하회…하반기 상장도 '빨간불' - 네이트",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5Ndlg3cUtqZHF5Y2ZzYmVzV1Q3R0tEN1NIVk11QXlQRVFCZ3VKWFI1dTJHTklySm9wQkVQTXRoRmt2QnFNckt1ci12dm5tZmJSQ2h2UU50WDEyWXJrVXh3dg?oc=5",
-   "source": "네이트",
-   "date": "2026-08-05"
-  },
-  {
-   "title": "[주식] 코스닥 5% 하락했는데...삼천당제약 홀로 30%↑ - hitnews.co.kr",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5YbGhBUEE5NGZUS2F4Q0tweEIzNkRQenNlZE1aMGJ4MTRjQXd3RWk2dmFmVHRzWHVVSXZDZ09LWF9yR2RSaHdpbVFqMV8xZHNfTEtDMThHamtuYk15SEFkVlZjRTlCck1IdlBz?oc=5",
-   "source": "hitnews.co.kr",
-   "date": "2026-07-20"
-  },
-  {
-   "title": "코스닥 제약업종 톱50 외국인 주식 보유액 전년비 1.9조원↓ - bosa.co.kr",
+   "title": "코스닥 제약업종 톱50 외국인 주식 보유액 전년비 1.9조원↓ - 의학신문",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1fMFhFcm8yYTFOYXBsMEljdU9YcmFLcW1rZUIzMGwweTk2dnVkT0lvc2lVbktVMU4xbWVQQy1ITWo2V0RDUHkzZUFHOGxRZjl1VnEtYWFOdnh1SG44d21Fa0Y5U1duNG5KdFE?oc=5",
-   "source": "bosa.co.kr",
+   "source": "의학신문",
    "date": "2026-07-23"
+  },
+  {
+   "title": "[주식] 코스닥 5% 하락했는데...삼천당제약 홀로 30%↑ - 히트뉴스",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5YbGhBUEE5NGZUS2F4Q0tweEIzNkRQenNlZE1aMGJ4MTRjQXd3RWk2dmFmVHRzWHVVSXZDZ09LWF9yR2RSaHdpbVFqMV8xZHNfTEtDMThHamtuYk15SEFkVlZjRTlCck1IdlBz?oc=5",
+   "source": "히트뉴스",
+   "date": "2026-07-20"
   }
  ],
  "Hanaro 원자력 iSelect": [
@@ -151,10 +151,10 @@ window.HOLDING_NEWS = {
    "date": "2026-03-26"
   },
   {
-   "title": "방산주, 종전 임박에 조정받나···증권가 “오히려 K-방산기업에 기회” - 증권일보",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBsTkdiX1hfdUxrQVJCRkhHZ1hVaWNMYmxPVlQ2V1MxUFY1V3Jod1I3OXhMYWI4bFNtQ0xlWVpvMUw5Unh0RDlnR2xmMnVfazI4MjBRVF9zcS15WU9vQm1WRA?oc=5",
-   "source": "증권일보",
-   "date": "2026-06-16"
+   "title": "지금이 저점매수 기회일까?…“앞으로 주가 오를 일만 남았다”는 K방산주 - sedaily.com",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5IMVpYSk1rSk9raE1OVTlkMURsbEV2b3oxbFkwZG9xWUJTVkNoUUFhaHpCMXhFSGRnVkx3ZjBRUU16c090MENMVEhON2ZpVGVtWVHSAVNBVV95cUxQOGdtdjliQ3NxTXFTeHROVFBqMzY0Y0wxV0ZPNTRIQ2Vic2VBZjU3TWhPLWUzNWtrTEtRUFphUlpxeWRmTU5ra0tVWHFXUjZKb2M4bw?oc=5",
+   "source": "sedaily.com",
+   "date": "2026-06-10"
   }
  ],
  "KoAct 글로벌AI&로봇액티브 ETF": [
@@ -165,9 +165,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "AI·반도체·로봇…中 기술주 올라탈까 - mk.co.kr",
+   "title": "AI·반도체·로봇…中 기술주 올라탈까 - 매일경제",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAwOEw2UUwzQ0N1WWFkTjg3Y0JpNUw4QzkybWRLbjV5RnVKMUNUZlI1Ykhic3pPVFh3azhOSEtDdGc2MmJKSnpLcWd4WGM1ZlVEVGtNZQ?oc=5",
-   "source": "mk.co.kr",
+   "source": "매일경제",
    "date": "2026-06-26"
   },
   {
@@ -191,9 +191,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-05"
   },
   {
-   "title": "[김태문 칼럼] ‘착한 펀드’ 확대하는 신한자산운용의 투자 철학 - 투데이코리아",
+   "title": "[김태문 칼럼] ‘착한 펀드’ 확대하는 신한자산운용의 투자 철학 - todaykorea.co.kr",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE8wMlBQd2dyekZ1SnZvaWc2OE1VWHVlUmJsbXZiQ0V1Z2ZyTnh3WTZvaUhQWUZvVXRUODdqazBSMWtNVlIwQ0w2VWdTb21BOWtScWpxRXY4U3VxTV9TRlR2bzZOT0VjeVU2VnNtZFR0Sm4?oc=5",
-   "source": "투데이코리아",
+   "source": "todaykorea.co.kr",
    "date": "2026-08-02"
   },
   {
@@ -229,24 +229,24 @@ window.HOLDING_NEWS = {
    "date": "2020-02-13"
   },
   {
-   "title": "\"펀드매니저는 홈런타자 말고 3할타자 돼라\"…대표 맡고도 직접 펀드 굴리며 기업탐방 - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9uQWdBZUxlMmUzV0FwNWF2VERtTUVkNnBCSDFUZUFsLWEzajEzNWljZVZPZ2Q3MUh1ajQwU1BkejhJdWMxM2dSd1FhZ2YySk5XLWVlbGlwN09Hdw?oc=5",
+   "title": "[고수 인터뷰] \"3월 이후 상승장 끝나…3분기 중 조정 주의\" - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9vSENzeDUxTWNObTM5Qm1NUExFYTJJOGhnTTBPM2JpcktuRnpfdUpERWRiX1dkWlRGNVhqWjhoenhmVTkzSHBELUFSdWtwSHozMGp5ZTVvd0djQQ?oc=5",
    "source": "한국경제",
-   "date": "2021-08-10"
+   "date": "2020-07-29"
   }
  ],
  "KODEX 자동차": [
-  {
-   "title": "6천대 무너진 코스피…자동차주 눈높이 줄하향 - KB Think",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1yVHI1RElSWHVwZFpsZEk1LTlES19DbUtGODNoVnZDdlFaS1lESHNFQlRXaXJlRU5ZQ2tvbW82bm10MHUxSHVqd3RtUUh2bk1ud2E4dDlKdlQ4cDdfVVpOeWhxbzExbWd1S2dxdDNfb2JxQQ?oc=5",
-   "source": "KB Think",
-   "date": "2026-07-30"
-  },
   {
    "title": "\"고환율 수혜 본다더니\"…자동차주 주가는 하락 - 연합인포맥스",
    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByWlVzOEwtaDF2SGhKa0VpT3ZLZnZvYS1SUjBRQmRmWmhodlZuRU5zVHhCc2t1cHhvdWdzdEVFSzFXNGdKNWdxT2Z0ZUktU0k2bXRXSXRoRjZ5RmgwaVZ4akY0Ny1OZlBiYzZTYVA1Yjc?oc=5",
    "source": "연합인포맥스",
    "date": "2026-06-09"
+  },
+  {
+   "title": "6천대 무너진 코스피…자동차주 눈높이 줄하향 - KB Think",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1yVHI1RElSWHVwZFpsZEk1LTlES19DbUtGODNoVnZDdlFaS1lESHNFQlRXaXJlRU5ZQ2tvbW82bm10MHUxSHVqd3RtUUh2bk1ud2E4dDlKdlQ4cDdfVVpOeWhxbzExbWd1S2dxdDNfb2JxQQ?oc=5",
+   "source": "KB Think",
+   "date": "2026-07-30"
   },
   {
    "title": "자동차주 갈아탈 때? … \"현대차 말고 기아 사라\" 증권가 변심 - 뉴데일리",
@@ -359,9 +359,9 @@ window.HOLDING_NEWS = {
    "date": "2026-01-13"
   },
   {
-   "title": "희토류 ETF란? 원자재 ETF로 보는 희토류 관련주와 투자 전략, REMX 분석 - ebc.com",
+   "title": "희토류 ETF란? 원자재 ETF로 보는 희토류 관련주와 투자 전략, REMX 분석 - EBC Financial Group",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE53YmJENVFSa1RtMDNpSTdCdVAxRUlmaXhLX2JmYThxVkM3T2dhNllpMWlaWG9oX1pabWV4MTJaaktSSHpqOVhmZ0psb1lMYWpBWGc?oc=5",
-   "source": "ebc.com",
+   "source": "EBC Financial Group",
    "date": "2026-05-15"
   }
  ],
@@ -373,9 +373,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-04"
   },
   {
-   "title": "이번 주 미국 증시의 향방···S&P 500·다우존스 지수 ‘3대 관전 포인트’ - kr.benzinga.com",
+   "title": "이번 주 미국 증시의 향방···S&P 500·다우존스 지수 ‘3대 관전 포인트’ - Benzinga",
    "url": "https://news.google.com/rss/articles/CBMisgJBVV95cUxQa2hMaGFKNHRfeHVyYWxWZUV1SnR1N1JEbG9kYW1oSFhqRGtHM1M5dldqMi1tT1ZSek9oZ2JHb1Y5Ul8tV05yZGlLY1ZrZVFzNDgweUFJNS1DSXNIaXFuUDhtSm9GNVdhZGloaTFXLUFuOUJDVmhpbnRBU3FFWVBRTDdTRlJVWGZJaDdzRm85aHB0ZnhlcFlqX1QtM0I1cW1CVkxDcWVXemo3SjlTcW5oalpyM1JIYmdSSERKUGtOM0hOXzdVeFJWS3JHMmJIbFZFN2tKS1c4cDVFMldOR3lYYlM1LXd4dEJRQVBIc3ZYTWFvUjVqSTRMa0lfU2FWQ3ExN3A3Z2tVU2hkTjdhTF9ndjllVmtvYnZaLUJZbFdVV2wzZTcySk5BRnVldW8xeWJ1N1E?oc=5",
-   "source": "kr.benzinga.com",
+   "source": "Benzinga",
    "date": "2026-08-03"
   },
   {
@@ -411,9 +411,9 @@ window.HOLDING_NEWS = {
    "date": "2026-04-16"
   },
   {
-   "title": "뉴욕증시 나스닥100 '하락'...반도체주 '뛰고' vs 빅테크주 '뚝' - 초이스경제",
+   "title": "뉴욕증시 나스닥100 '하락'...반도체주 '뛰고' vs 빅테크주 '뚝' - choicenews.co.kr",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFAxWEt5WmhOTklQX0RNVUJpUUNpUVFyZG10bHJoSTg1aFZvNjgtQ1dfQlpjYWJsUENPQlJqbXc1Y1Y4LWptUlNhaTBJMmd4eWZyTFVLaUFlSzctc2ZaNXRhVXVZZHhYZlFMc2Jidjg1Z9IBc0FVX3lxTFBPSEhZM3pLaElUdjNOZXEySU9VU2YzQzk1S2N6Z3BCR2x0eVFOczZCYTFTY2swbXY3RzU4V1lfczFKaVJ3N2Z3ZXZ2YXlua1g4QnNCQXdGM2FzTVgwbEdOdHZPWkRiYWp5WUp0bXFxdUZVaTQ?oc=5",
-   "source": "초이스경제",
+   "source": "choicenews.co.kr",
    "date": "2026-06-23"
   }
  ],
@@ -541,9 +541,9 @@ window.HOLDING_NEWS = {
    "date": "2026-01-23"
   },
   {
-   "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - Investing.com 한국어",
+   "title": "4월 및 5월 배당지급 전에 매수할 만한 유럽 배당주 3종목 - kr.investing.com",
    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE00TFZNWmR2UFI2bmpzd1hMRDBVSmhkUVJuRVB0bnRkM0tVcExnZmJwRWNsekRqUldVMDhSZjEzU1Zsaks2VkoyV2pYWUhXVGhFcXJlaHdkOEJZZVQxTmppQw?oc=5",
-   "source": "Investing.com 한국어",
+   "source": "kr.investing.com",
    "date": "2024-04-05"
   }
  ]
