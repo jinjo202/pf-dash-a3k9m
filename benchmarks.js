@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-08-05",
-  "generated_utc": "2026-08-05T23:12:44Z",
+  "generated_utc": "2026-08-05T23:27:27Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-08-05",
       "decimals": 2,
       "valuation": {
-        "pe": 18.84,
+        "pe": 18.85,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -565,11 +565,11 @@ window.BENCHMARKS = {
       "decimals": 2,
       "valuation": {
         "pe": 6.67,
-        "pb": 1.25,
+        "pb": null,
         "roe": null,
         "src": "EEM (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -1112,11 +1112,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 4.15,
-        "pb": 1.92,
+        "pb": null,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -2205,7 +2205,7 @@ window.BENCHMARKS = {
       "as_of": "2026-08-05",
       "decimals": 2,
       "valuation": {
-        "pe": 19.85,
+        "pe": 19.86,
         "pb": 1.79,
         "roe": null,
         "src": "SPY (top derived)",
@@ -4394,11 +4394,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 22.9,
-        "pb": 1.41,
+        "pb": null,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -4940,7 +4940,7 @@ window.BENCHMARKS = {
       "as_of": "2026-08-04",
       "decimals": 2,
       "valuation": {
-        "pe": 13.03,
+        "pe": 13.06,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 75.05,
+      "current": 74.94,
       "baseline": 57.42,
       "mtd_baseline": 84.67,
-      "ytd_pct": 30.7036,
-      "mtd_pct": -11.3618,
-      "daily_pct": -0.9502,
+      "ytd_pct": 30.512,
+      "mtd_pct": -11.4917,
+      "daily_pct": -1.0954,
       "as_of": "2026-08-05",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           84.67,
           80.34,
           75.77,
-          75.05
+          74.94
         ]
       }
     },
