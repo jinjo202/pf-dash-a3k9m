@@ -1,11 +1,17 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-06T09:44:51
+// 갱신: 2026-08-06T09:54:25
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
-   "title": "[AI MY 증시전망] \"코스피 보합권 숨고르기…순환매 확산 주목\" - newspim.com",
+   "title": "\"코스피 1만2000 전망 유지…비관론 과도해\"-골드만삭스 - 머니투데이 - 머니투데이",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5xOXlIeDZLMUhCemlxRHl3QzBQZUhsRnc3RFlzM0pET1dfWmFXSkw1QWZwV1M4aVQyMkJ5cDM0WHkyNzVnb0RsSS0yY2hJLWlGSUQzVmY4aVdzWXVyZXN4cEhoUUI2TWVI0gFuQVVfeXFMTldqZDNIQVFleDJjNUVNZmhQcjNVcWR1WWF6aUVOSWZibjBJQjQ1WUFrOVIzaEJicmVaV1ZKR3ctTEh6WUJKT3hIZ3k4a0xVVUZieGkxMWFrRGJLaEQybHdGNmlBdDd1WEpHUlN1dUE?oc=5",
+   "source": "머니투데이",
+   "date": "2026-08-06"
+  },
+  {
+   "title": "[AI MY 증시전망] \"코스피 보합권 숨고르기…순환매 확산 주목\" - 뉴스핌",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5WcGI0TmhEUjk3SVVlS2FlcHBuMk5aN2kxdFZHQkhhUzBvaHZFQzI4bHhtZUNiZDJzOG5EWVUxUk9ZSkUwV0xFSEVQdkJ6aERSc0FGaDZzcWRiaGJo?oc=5",
-   "source": "newspim.com",
+   "source": "뉴스핌",
    "date": "2026-08-05"
   },
   {
@@ -15,16 +21,10 @@ window.HOLDING_NEWS = {
    "date": "2026-08-01"
   },
   {
-   "title": "[굿모닝증시]\"변동성은 완화되고 있다\"…코스피, 숨고르기 장세 전망 - 아시아경제",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1vMk9ZZWgwQ3AyN0pWT3A5bUF5elBwdlRwZ3I2Wmp0LWNOTUlSdHBnc05oT2VsX3RLU0JTZk02LXdPRXhXQmFLeUljZHhKWFVSSTBKekJ4TlRyamx0aGhvNlRn?oc=5",
-   "source": "아시아경제",
+   "title": "국내 낮추고 해외 올리고…엇갈린 코스피 전망에 개미 '혼란' - 데일리안",
+   "url": "https://news.google.com/rss/articles/CBMiowJBVV95cUxNenpwWVg5YW5wdzNOcURBckhyRXQwVVV4S2t4T3VtNERSVzM3OC0zc2N0TDJHbzFVYmpNNTJCWThhcy1aajNRQ1RoYWs3dGlVUWVoRmZKMkdUcjlkTWM2S2toX25WNUJFRm1yWUhscnVTVkpvUVpVemsyUmpYbE9LYkJRd1dZd3p1THFuTnBPbHdmc2pmd3ZNaFNTMXBZdWRuak8wY2E1cE9ndmlHclJQc1g2MUdMZjRYN1RZWjliN0otZWFuZ2FuNkVCZk53VUhCNEtFb2k2RGdER2Z2RlNraXNYdk5BejE0aGZnM0hSYnlYdnl5THpqRTRZSWZZbFUwTVlsUGxjQzJaTWtqQ04ydzBsVkNxdFZ0Qzd4QnhlQlVET3c?oc=5",
+   "source": "데일리안",
    "date": "2026-08-05"
-  },
-  {
-   "title": "[주간증시전망] 코스피 6500선까지 반등했지만… 널뛰는 증시에 웃지 못하는 개미들 - 조선비즈 - Chosunbiz",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUk1TMC02NFJkRDB6WGFGaHpOTWZZZUZHWUo1aFFHLVpYX3o4bXFyM3ZTU00xb1F5aWp0QWN5TjZEcFNKNjF0b3VzdjRPZE5Yem9PREdweGlvQkVzN3p2THQ2dXJuS1F1Vzc1MTRaWXE3aDBoaUhiSHpxdVJ4UllkaFFoOUdDZlZC0gGcAUFVX3lxTE5zTjVvME5SbFhUSEhVYklrdzRxZFZrck52b0xnTU9KaUVGTGhvSnF5STF4ak5KSWx5T2tob1VpRWN6RzV1Z2pab3dQeHVZWnJqX0ZuMnJCS0ZMNDV3bzhxTVdJZHE3eE1XOVpvWF9FbzdzNFZ6cWpsLXlvM1V6WTZCa09GS29MTkhIeEJodi1uUHFoQWdvZ3NPUWZfUg?oc=5",
-   "source": "Chosunbiz",
-   "date": "2026-08-02"
   }
  ],
  "KODEX 코스닥150 ETF": [
@@ -93,9 +93,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-04"
   },
   {
-   "title": "코스닥 제약업종 톱50 외국인 주식 보유액 전년비 1.9조원↓ - bosa.co.kr",
+   "title": "코스닥 제약업종 톱50 외국인 주식 보유액 전년비 1.9조원↓ - 의학신문",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1fMFhFcm8yYTFOYXBsMEljdU9YcmFLcW1rZUIzMGwweTk2dnVkT0lvc2lVbktVMU4xbWVQQy1ITWo2V0RDUHkzZUFHOGxRZjl1VnEtYWFOdnh1SG44d21Fa0Y5U1duNG5KdFE?oc=5",
-   "source": "bosa.co.kr",
+   "source": "의학신문",
    "date": "2026-07-23"
   },
   {
@@ -151,10 +151,10 @@ window.HOLDING_NEWS = {
    "date": "2026-03-26"
   },
   {
-   "title": "방산주, 종전 임박에 조정받나···증권가 “오히려 K-방산기업에 기회” - 증권일보",
-   "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBsTkdiX1hfdUxrQVJCRkhHZ1hVaWNMYmxPVlQ2V1MxUFY1V3Jod1I3OXhMYWI4bFNtQ0xlWVpvMUw5Unh0RDlnR2xmMnVfazI4MjBRVF9zcS15WU9vQm1WRA?oc=5",
-   "source": "증권일보",
-   "date": "2026-06-16"
+   "title": "지금이 저점매수 기회일까?…“앞으로 주가 오를 일만 남았다”는 K방산주 - 서울경제",
+   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5IMVpYSk1rSk9raE1OVTlkMURsbEV2b3oxbFkwZG9xWUJTVkNoUUFhaHpCMXhFSGRnVkx3ZjBRUU16c090MENMVEhON2ZpVGVtWVHSAVNBVV95cUxQOGdtdjliQ3NxTXFTeHROVFBqMzY0Y0wxV0ZPNTRIQ2Vic2VBZjU3TWhPLWUzNWtrTEtRUFphUlpxeWRmTU5ra0tVWHFXUjZKb2M4bw?oc=5",
+   "source": "서울경제",
+   "date": "2026-06-10"
   }
  ],
  "KoAct 글로벌AI&로봇액티브 ETF": [
@@ -163,12 +163,6 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBLLVF4QzJLSUhWNzZnTHc1OGRkaHpSM0N5RXJZRWx4QzdBV2JZamkwM1o4bktrdkxTNDJoVTAwTHY2d3pvYzItczZjdFJuN3g5UGRHRFAwMENoQ3ctSFIwZ3VTUGdqd19vUGJzd3pwSQ?oc=5",
    "source": "서울신문",
    "date": "2026-08-03"
-  },
-  {
-   "title": "테슬라 AI5 칩, 옵티머스·로보택시 승부수 - 초이스스탁US",
-   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE01b2ZmRGt3SEJJQWZOWmJXdm8tQ21wTVJqc0lMNVRkbHdYamNqWGhYRnJTZEFLUUhQdVBUSEJZbGlHU0QyS1lVYWxHWVJ6TDREMWlOcVlVWkRxbXAyNW9FaUxB?oc=5",
-   "source": "초이스스탁US",
-   "date": "2026-07-31"
   },
   {
    "title": "AI·반도체·로봇…中 기술주 올라탈까 - 매일경제",
@@ -181,6 +175,12 @@ window.HOLDING_NEWS = {
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9JRi1JZ2YyaG1vdUxDbklkSFB2MUk4aFpqTURSMFA0SVZiejZ2ZXdLdWF1VFZndkJHMDR1RHFPQTJFem5GWDRYT0NaM0dDVGpRLTczMGI4Q2hRRTjSAWBBVV95cUxOdkV4d2VIQ3o3VG5lY0ZVdV9KNk91SXJWM3RTalpFQjNhdEV1a2FtVVhISHVCSUxIekN0TWd0MXk0bWNYU3YwbTg1M3BXVzdJMmh6dmVJSmU0YjdHOTlfcHA?oc=5",
    "source": "연합뉴스",
    "date": "2026-06-03"
+  },
+  {
+   "title": "반도체서 광통신·우주·로봇까지…차세대 AI ETF 격돌 - 더구루",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFB6TUR6UldwVGtoZkpydm5UdjhYdDgzN0RwTE1wajRmbFdlcEdNbDdnNm9RRHhTemRZMllZOFFvdVBnZjlzWDg0V1ZWZ1dZc0tPa3VFSlVpQWVrZDBHd05mTnlqdw?oc=5",
+   "source": "더구루",
+   "date": "2026-07-17"
   }
  ],
  "삼성 ESG 착한 책임투자": [
@@ -217,9 +217,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-11"
   },
   {
-   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
+   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - biz.heraldcorp.com",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
-   "source": "헤럴드경제",
+   "source": "biz.heraldcorp.com",
    "date": "2022-04-12"
   },
   {
@@ -237,9 +237,9 @@ window.HOLDING_NEWS = {
  ],
  "KODEX 자동차": [
   {
-   "title": "6천대 무너진 코스피…자동차주 눈높이 줄하향 - KB Think",
+   "title": "6천대 무너진 코스피…자동차주 눈높이 줄하향 - kbthink.com",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1yVHI1RElSWHVwZFpsZEk1LTlES19DbUtGODNoVnZDdlFaS1lESHNFQlRXaXJlRU5ZQ2tvbW82bm10MHUxSHVqd3RtUUh2bk1ud2E4dDlKdlQ4cDdfVVpOeWhxbzExbWd1S2dxdDNfb2JxQQ?oc=5",
-   "source": "KB Think",
+   "source": "kbthink.com",
    "date": "2026-07-30"
   },
   {
@@ -347,10 +347,10 @@ window.HOLDING_NEWS = {
    "date": "2026-05-14"
   },
   {
-   "title": "과열 신호가 깜빡인다?…증시 조정에 대비하는 법 [빈난새의 빈틈없이월가] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBrNFVGX29CVU1DbXpfME5Ob3hlQ3JaZ1J0QllNT0kyOFNtbkpyc0hXNTcyRjlhMlY1dmVxei1oMHlIYjJWLW1Wem5zU3VWV2JTdW5IS2RXNm9xUQ?oc=5",
+   "title": "올리브영 미국 가더니…K뷰티 주가 줄줄이 '불기둥' [종목+] - 한국경제",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE52ZV9YbEpOT3A2dXNWRVlyYjdWLVJROHhvaXMxSHpfN2JvdEJwZ2YxYW1SQW1mT190cUJRMXhiXzdqUE5CYThKZjcwaUlYNXk0RVlTbFM3WEIyZw?oc=5",
    "source": "한국경제",
-   "date": "2026-01-13"
+   "date": "2026-06-10"
   },
   {
    "title": "2026년 원자재 ETF TOP 8: 무엇을 사야 하고, 왜 사야 하나 - EBC Financial Group",
@@ -439,9 +439,9 @@ window.HOLDING_NEWS = {
  ],
  "iShares MSCI Emerging (EEM)": [
   {
-   "title": "중동발 리스크…글로벌 헤지펀드, 이머징마켓 베팅 전면 재검토 - KB Think",
+   "title": "중동발 리스크…글로벌 헤지펀드, 이머징마켓 베팅 전면 재검토 - kbthink.com",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE0xel9RdVlIajBaakljbkVYUVFtVDYzZ3psUU1kVXNDWXd1bVFiMGlwdkhnVVBGd3ROUGcyRUlzblZnTFhtcUUtS1VXZXN5a0tGUTVyQkstamU1RjcwTEcyaWRLcXJFbGk1dmMtM0hLcDdhdw?oc=5",
-   "source": "KB Think",
+   "source": "kbthink.com",
    "date": "2026-03-03"
   },
   {
@@ -509,17 +509,17 @@ window.HOLDING_NEWS = {
    "date": "2026-08-03"
   },
   {
-   "title": "유럽증시, 예상보다 부진한 미국 고용지표 소화하며 일제히 상승… 독일은 2.2%↑ - newspim.com",
+   "title": "유럽증시, 예상보다 부진한 미국 고용지표 소화하며 일제히 상승… 독일은 2.2%↑ - 뉴스핌",
    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1pdXlZQi02cS0wcVF3SzhXMHBDNWxGNVdrdE1pcXBuOGNLdmhVNVpPS2xrb1B5SHdmUjZSV3YxTm9MXzRRZFAwRGRsVmVjTHBXdjBnY2x0cTNib0tV?oc=5",
-   "source": "newspim.com",
+   "source": "뉴스핌",
    "date": "2026-07-03"
   }
  ],
  "Fidelity European Dividend": [
   {
-   "title": "JP모건 \"코카콜라·P&G 등 외면받던 배당주 주목…진입 매력 최고조\" - KB Think",
+   "title": "JP모건 \"코카콜라·P&G 등 외면받던 배당주 주목…진입 매력 최고조\" - kbthink.com",
    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE42ZTd4RTJqMG9uT0NVdXJtb0djOVBjamRpY2k2c19NSXplMEdTcEJHYmxSZHAtazdnT1B6WGNaeFJqTnlVLUtaZVh5RmZVcXo4Q1dQNFFNaE5tbVozS0JJSkRUcTR1UzBudFB0VjU5b3J4Zw?oc=5",
-   "source": "KB Think",
+   "source": "kbthink.com",
    "date": "2026-05-27"
   },
   {
@@ -529,9 +529,9 @@ window.HOLDING_NEWS = {
    "date": "2025-12-12"
   },
   {
-   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - joseilbo.com",
+   "title": "대신증권, DPS 1200원·비과세 배당주에도 수익력 지적...목표가 '유지' [주가동향] - 조세일보",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxclZCMnRkRFp0VkltS3NzWXI2R1RWYUxfcW9jN2RvZ0s2dURXR3lsc1JESGx5cFM2YTF1RlJSTFY0UDhSUmFqZFAtX3NMSFlFWng5djBsTUVCMWM2c2Vn?oc=5",
-   "source": "joseilbo.com",
+   "source": "조세일보",
    "date": "2026-01-23"
   },
   {
