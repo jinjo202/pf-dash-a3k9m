@@ -7,6 +7,11 @@ calendar-holdings.plain.js
 dividend-watch.plain.js
 .password
 
+# 로컬 자격증명 (API 키·토큰) — 절대 커밋 금지
+.env
+.env.local
+.vercel/
+
 # 별개 프로젝트 (배당 공시 스크래퍼)
 config.json
 fetch_disclosures.ps1
