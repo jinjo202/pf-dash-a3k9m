@@ -1,5 +1,5 @@
 // ETF 상위 구성종목별 최신 뉴스 (Google News RSS). fetch_constituent_news.py 로 자동 갱신.
-// 갱신: 2026-08-07T15:30:06
+// 갱신: 2026-08-07T15:49:48
 // 총 91개 종목.
 window.CONSTITUENT_NEWS = {
  "삼성전자": [
@@ -160,15 +160,15 @@ window.CONSTITUENT_NEWS = {
  ],
  "알테오젠": [
   {
-   "title": "알테오젠, 2분기 영업익 342억원…흑자전환·예상치 상회 | - 연합인포맥스",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE8tV1BtSUtmbVpTQklqUXE3UkstN3dwbThkTUNXbk1rZEV0OWN3SElnd3Z0NG1Wa1F5SlBEdXlFTFJRazV5dHJ6dS1xOUJkZ3dXWHBaejdOQjFfX3ppM2hOcU5RRjFvOTUzN2xjcUU3Ym9XaDVM?oc=5",
-   "source": "연합인포맥스",
-   "date": "2026-08-07"
-  },
-  {
    "title": "[주식] 알테오젠·리가켐 상승…파마리서치 실적 올라도 4%↓ - 히트뉴스",
    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1nRER4MTh0VFE1ZjNHbDI5VW5uT2FLTTR3Nk9iQ3pJUlVUcXBhaHhmejhIX3lSbVhYOUtGYUdZZ096RnNURUpwR3Y4T1JaeEZaMXlKRHFKc3dPX3cwWWZsbTRCY2VYcm5KVXAw?oc=5",
    "source": "히트뉴스",
+   "date": "2026-08-07"
+  },
+  {
+   "title": "알테오젠, 2분기 영업익 342억원…흑자전환·예상치 상회 | - 연합인포맥스",
+   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE8tV1BtSUtmbVpTQklqUXE3UkstN3dwbThkTUNXbk1rZEV0OWN3SElnd3Z0NG1Wa1F5SlBEdXlFTFJRazV5dHJ6dS1xOUJkZ3dXWHBaejdOQjFfX3ppM2hOcU5RRjFvOTUzN2xjcUU3Ym9XaDVM?oc=5",
+   "source": "연합인포맥스",
    "date": "2026-08-07"
   },
   {
@@ -178,10 +178,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-07"
   },
   {
-   "title": "1조8000억 '겹호재' 터졌다…'주가 28% 상승' 반전 쓴 회사 [종목+] - 한국경제",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBpYmF3X0cwY3hzNDNXZERQUHJ1VUU4THVRZHM1SXI1NFhOTDFpVTA4a2g3bWZqY184VnVxMnYyWUZvV1hSRjJXZ0pHZ2wyU3NwVnpMNkhTM0RxUQ?oc=5",
-   "source": "한국경제",
-   "date": "2026-08-05"
+   "title": "기술료 들어오는 알테오젠...상반기 영업이익 37%↑ 호실적 - 메디칼타임즈",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5EUzJBVU9nVVRIdkU3MFhjY04zYWNqN3NlYWFWR1ZBdVBGZlFaRjY2YWNPUkQzbFhMQjBIcHc1WDM0Um96eDlRZl9vckFGb1BqbWFDdGZYMktoN2NhcjJvbVQ1Vm5TNzluWEFFQXhyUXJqVjQ?oc=5",
+   "source": "메디칼타임즈",
+   "date": "2026-08-07"
   }
  ],
  "에코프로비엠": [
@@ -218,16 +218,16 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-08-06"
   },
   {
-   "title": "에코프로 주가, 8월 7일 장중 82,500원 1.32% 하락 - 톱스타뉴스",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5OU1p6Z0ZKbWlMbGFHTG1ONTZrMmhPU2VwRmNtNFZJc3dKV2hmTENXblluNXVfZkVXZ3pveDhBcXVtQjVKc3dsYzlJMnZ6a0s3VmlNUXk3MjVwOUdPSW5hQTVNbzFYRHNOZmJzSTBTTldMUQ?oc=5",
-   "source": "톱스타뉴스",
-   "date": "2026-08-07"
-  },
-  {
    "title": "유진證 “에코프로비엠, 과도한 주가 하락에도 시장 가치 반영… 목표가 25만→20만원 하향” - 조선비즈 - Chosunbiz",
    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOcFNpUnNxbU9jYmtvcDJWUS1sN1c4UGhBbmVFc1VyN09IZEh5VWFaZG11allRd2RaZFhoMU5BazU0TTlMeGlpWDd5SFk3N041aDR0aE1YbkVITndVZFF5a1BRakUxRHBGWDhMaFR2X2xpNFFTdmZJUU5TTElKbVZTWFZZRXo2MHhf0gGcAUFVX3lxTFBua1lmSTRXLVpkT3ktclY3NGZ3dVZhTmh5ODJnbU1DMVp4Tk0zOXZsZkYzX3c3d09acUZDbW5ZYzNWNjVQajFJZGJKUGRQcFduWTV5eVppQXZqTi1nUDdWd1pMQUtSVy1USTI4TkNLazMteHRsdndsSTdPSEF3N2VtSWE4MmNoUVJ6czJmc2lIS2hxVWF3Qk1HeVNPdg?oc=5",
    "source": "Chosunbiz",
    "date": "2026-08-02"
+  },
+  {
+   "title": "에코프로 주가, 8월 7일 장중 82,500원 1.32% 하락 - 톱스타뉴스",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5OU1p6Z0ZKbWlMbGFHTG1ONTZrMmhPU2VwRmNtNFZJc3dKV2hmTENXblluNXVfZkVXZ3pveDhBcXVtQjVKc3dsYzlJMnZ6a0s3VmlNUXk3MjVwOUdPSW5hQTVNbzFYRHNOZmJzSTBTTldMUQ?oc=5",
+   "source": "톱스타뉴스",
+   "date": "2026-08-07"
   },
   {
    "title": "[에코프로비엠 유상증자] 1.2조 증자하는 에코프로비엠…주가급락에 시계제로 : 네이버 블로그 - Naver Blog",
@@ -316,16 +316,16 @@ window.CONSTITUENT_NEWS = {
  ],
  "효성중공업": [
   {
-   "title": "효성중공업 주가, 8월 7일 장중 2,771,000원 2.33% 상승 - 톱스타뉴스",
-   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBoTmZQZEFxOHhpYmtUZ25wWGg0aGFJZDEwZTU1b3pkbFoxekZKWHp3eWVVVE44Q3RXeUxZaW5peTQwaDl4WW95all1M3B4RGlqNzhYeVhCSF9iaHhRQVkxZGFrMGJlWVlvZWY1TUYxRzhUQQ?oc=5",
-   "source": "톱스타뉴스",
-   "date": "2026-08-07"
-  },
-  {
    "title": "효성중공업 주가 장중 10%대 상승, 전력 인프라 기대감에 전력기기주 강세 - 비즈니스포스트",
    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBLQm5hZ1pUaDdzbFVIY2dwNWo0ZFFHdU44OUVfNDlaR05pdG5rMDYwSXNZT3NOOFZBR0RwdDFVTEJ4S3BZdTR6NVZBTDFUZk1lR24xaHhvZTdqVFpDRXY1MG0tYmJCSDVuNUVLOEVmSkJMdkE?oc=5",
    "source": "비즈니스포스트",
    "date": "2026-08-05"
+  },
+  {
+   "title": "효성중공업 주가, 8월 7일 장중 2,771,000원 2.33% 상승 - 톱스타뉴스",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBoTmZQZEFxOHhpYmtUZ25wWGg0aGFJZDEwZTU1b3pkbFoxekZKWHp3eWVVVE44Q3RXeUxZaW5peTQwaDl4WW95all1M3B4RGlqNzhYeVhCSF9iaHhRQVkxZGFrMGJlWVlvZWY1TUYxRzhUQQ?oc=5",
+   "source": "톱스타뉴스",
+   "date": "2026-08-07"
   },
   {
    "title": "\"효성중공업, 주가 후퇴에 목표가도 내리지만…실적 전망 상향\"-대신 - 한국경제",
@@ -2098,10 +2098,10 @@ window.CONSTITUENT_NEWS = {
    "date": "2026-05-13"
   },
   {
-   "title": "HSBC, 2026년 2분기 실적 예상치 상회…자사주 매입 재개 - Investing.com 한국어",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1KN1Ewb0t1N2NnWHRyUjRNYjg1VHFBMURpcHhIUHNnV0JQOXpjS0ZuVnc5OUFZdkRBUGE1eXVOLVJIc0dXWHJ4bVBTVWp6ZzZ0R1ZMLWNvNjlldHItenBZVWFpTjAzYVJXYlhQbGVidw?oc=5",
-   "source": "Investing.com 한국어",
-   "date": "2026-08-04"
+   "title": "HSBC 홀딩스, 총 67억 5000만 달러 규모 선순위 무담보 채권 발행 - 데이터투자",
+   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE13dk9WcURsNnpOV0RTd1JMMmN4NmFDdTZDRkdidzRLRE16bUVRQkhDYXlfVk1uZUlrX1JFS3hURVVSMXhHek01MzN2ajlBdjMyQUdYUHhKR2xRYkthYnk1MnoyUmtZZDAwMUtmdjh6TjhCd2M?oc=5",
+   "source": "데이터투자",
+   "date": "2026-08-07"
   }
  ],
  "ASML Holding NV ADR": [
