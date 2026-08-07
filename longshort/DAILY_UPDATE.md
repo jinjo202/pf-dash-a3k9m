@@ -1,5 +1,8 @@
 # 일일 업데이트 런북 (Claude용)
 
+> **역할 분담 (2026-08-07부터)**: 시세·레그 last·NAV(navHistory)·asOfPrice/usdkrw는 **GitHub Actions**(`longshort-daily.yml` + `daily_update.py`, 매일 07:15 KST, 양 시장 확정 종가, PC 무관)가 **단독 소유**한다.
+> Claude 스케줄 작업(16:00)은 **가격·NAV·asOfPrice를 절대 수정하지 않는다** — 16:00에 당일 KR 종가로 asOfPrice를 올리면 그날 밤 미국 종가(같은 달력 날짜)가 다음날 Actions에서 `d > asOfPrice` 가드에 걸려 누락된다. Claude 몫: **아이디어 작성, 레짐 서사/판정, 스톱·룰 집행 판단, 포지션 변경(weightPct/status/entry), 주간 어트리뷰션**. 시작 전 반드시 `git pull` 최신본 기준으로 작업.
+
 매일 "업데이트해줘" 한 마디로 실행되는 절차. 모든 결과는 `data.js` 한 파일에만 기록한다.
 **두 북 모두 갱신한다**: `books[0]` = 전략 A (마켓 뉴트럴), `books[1]` = 전략 B (디렉셔널 L/S).
 
