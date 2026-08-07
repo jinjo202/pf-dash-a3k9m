@@ -1,11 +1,11 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-07T22:52:21
+// 갱신: 2026-08-07T23:01:56
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
-   "title": "[주간증시전망] 다음주 코스피 6000~7000⋯“外人 수급은 정책이 변수” - 이투데이",
+   "title": "[주간증시전망] 다음주 코스피 6000~7000⋯“外人 수급은 정책이 변수” - etoday.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE12OUdWRjlERnFCUWoyVV9FOWhuYnhrVVBIUjhfVEUyazdjZERqZXZFalR3UXJEOVNEbnM1TVJ0aHlfbWZYLXN5ek9WUGJaU2hpZkxuZA?oc=5",
-   "source": "이투데이",
+   "source": "etoday.co.kr",
    "date": "2026-08-07"
   },
   {
@@ -139,9 +139,9 @@ window.HOLDING_NEWS = {
    "date": "2026-04-08"
   },
   {
-   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
+   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - news1.kr",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
-   "source": "뉴스1",
+   "source": "news1.kr",
    "date": "2026-06-05"
   },
   {
@@ -171,9 +171,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "20조+α 전략형 국부펀드 윤곽…公企 주식 활용해 AI·반도체 장기투자 - 아주경제",
+   "title": "20조+α 전략형 국부펀드 윤곽…公企 주식 활용해 AI·반도체 장기투자 - ajunews.com",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBUQVdtekNFa1MxTGlxaUx4OUNXNUs1QUxENE9pVjlBb2FFbFRqcW5XcjhvajFDNmhCU0IzdlJsVExrQlJaelQzSktiNXh0aGhzSk5UUkJGaW0zd9IBWEFVX3lxTFB4WnRtOVJyeS1aelFwYmZMcUVFUDJCVjdYOG1sbzExNFA2WnF4cWFQcVZkenZybWVJa1E2U3NJdXRqX19xSkEwcHdkcVRaU1F3bkRXQkZJNGE?oc=5",
-   "source": "아주경제",
+   "source": "ajunews.com",
    "date": "2026-07-30"
   },
   {
@@ -223,9 +223,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-18"
   },
   {
-   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
+   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - biz.heraldcorp.com",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
-   "source": "헤럴드경제",
+   "source": "biz.heraldcorp.com",
    "date": "2022-04-12"
   },
   {
@@ -405,9 +405,9 @@ window.HOLDING_NEWS = {
    "date": "2026-04-16"
   },
   {
-   "title": "뉴욕증시 나스닥100 '하락'...반도체주 '뛰고' vs 빅테크주 '뚝' - 초이스경제",
+   "title": "뉴욕증시 나스닥100 '하락'...반도체주 '뛰고' vs 빅테크주 '뚝' - choicenews.co.kr",
    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFAxWEt5WmhOTklQX0RNVUJpUUNpUVFyZG10bHJoSTg1aFZvNjgtQ1dfQlpjYWJsUENPQlJqbXc1Y1Y4LWptUlNhaTBJMmd4eWZyTFVLaUFlSzctc2ZaNXRhVXVZZHhYZlFMc2Jidjg1Z9IBc0FVX3lxTFBPSEhZM3pLaElUdjNOZXEySU9VU2YzQzk1S2N6Z3BCR2x0eVFOczZCYTFTY2swbXY3RzU4V1lfczFKaVJ3N2Z3ZXZ2YXlua1g4QnNCQXdGM2FzTVgwbEdOdHZPWkRiYWp5WUp0bXFxdUZVaTQ?oc=5",
-   "source": "초이스경제",
+   "source": "choicenews.co.kr",
    "date": "2026-06-23"
   }
  ],
@@ -425,9 +425,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-11"
   },
   {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - ytn.co.kr",
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
-   "source": "ytn.co.kr",
+   "source": "YTN",
    "date": "2026-06-07"
   },
   {
@@ -497,9 +497,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-04"
   },
   {
-   "title": "독일 DAX 지수, 중동 군사갈등 완화 기대감에 ‘사상 최고’ - 이투데이",
+   "title": "독일 DAX 지수, 중동 군사갈등 완화 기대감에 ‘사상 최고’ - etoday.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBFWnJZc3VRUzg3TE90Q1BET3NzdlhuLXhXU24zcTRNTDhHSGw5T09GR2hoWThWdVBQb0FGQjRacVRYNTNwYmNlQ0VfMVNzSEpWenBrZQ?oc=5",
-   "source": "이투데이",
+   "source": "etoday.co.kr",
    "date": "2026-08-03"
   },
   {
