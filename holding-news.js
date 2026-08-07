@@ -1,5 +1,5 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-07T22:29:00
+// 갱신: 2026-08-07T22:52:21
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
@@ -151,9 +151,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-26"
   },
   {
-   "title": "지금이 저점매수 기회일까?…“앞으로 주가 오를 일만 남았다”는 K방산주 - sedaily.com",
+   "title": "지금이 저점매수 기회일까?…“앞으로 주가 오를 일만 남았다”는 K방산주 - 서울경제",
    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5IMVpYSk1rSk9raE1OVTlkMURsbEV2b3oxbFkwZG9xWUJTVkNoUUFhaHpCMXhFSGRnVkx3ZjBRUU16c090MENMVEhON2ZpVGVtWVHSAVNBVV95cUxQOGdtdjliQ3NxTXFTeHROVFBqMzY0Y0wxV0ZPNTRIQ2Vic2VBZjU3TWhPLWUzNWtrTEtRUFphUlpxeWRmTU5ra0tVWHFXUjZKb2M4bw?oc=5",
-   "source": "sedaily.com",
+   "source": "서울경제",
    "date": "2026-06-10"
   }
  ],
@@ -203,9 +203,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-02"
   },
   {
-   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - esgeconomy.com",
+   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
-   "source": "esgeconomy.com",
+   "source": "ESG경제",
    "date": "2026-03-23"
   }
  ],
@@ -301,9 +301,9 @@ window.HOLDING_NEWS = {
    "date": "2025-02-16"
   },
   {
-   "title": "KB스타 미국 나스닥100 인덱스(H) - brunch.co.kr",
+   "title": "KB스타 미국 나스닥100 인덱스(H) - 브런치",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBSZlYwb2ZRWG1wV18zano4bUc4STVGR1h0UUY3eHNYVFQ4QVR4RE8ydjUzcHk4RjhIZ1NMb01uZWFFa2x0RzNxQlZHZ3dxNzBUM1lZ?oc=5",
-   "source": "brunch.co.kr",
+   "source": "브런치",
    "date": "2024-07-04"
   }
  ],
@@ -425,9 +425,9 @@ window.HOLDING_NEWS = {
    "date": "2026-05-11"
   },
   {
-   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - YTN",
+   "title": "\"스페이스X, S&P 500지수 편입 2028년 이후 가능 전망\" - ytn.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9QTEpkNHZuUnQybGJqX3Z4LUhHOXFUTTJkOTNFbFhlNW5Sem1xWVV4NVFEbl9IWEhQZEt2QkNxTnJRUmFHbnhERmEyNDhaTXdTb1RtQlUyc1NiVFpyWnc?oc=5",
-   "source": "YTN",
+   "source": "ytn.co.kr",
    "date": "2026-06-07"
   },
   {
