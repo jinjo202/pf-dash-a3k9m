@@ -27,6 +27,11 @@ PROXIES = {
     "MSCI ACWI": "ACWI",   # iShares MSCI ACWI ETF
     "S&P 500":   "IVV",    # iShares Core S&P 500 ETF
     "KOSPI":     "EWY",    # iShares MSCI South Korea ETF (KOSPI 대용)
+    # 아래 3개는 country_model.py의 '사이클 정점 가드'용 후행 PER 소스.
+    # 전에는 한국·미국만 있어 유럽·일본·중국은 이익 정점을 못 잡았다.
+    "STOXX 600": "IEUR",   # iShares Core MSCI Europe ETF
+    "니케이 225":  "EWJ",    # iShares MSCI Japan ETF
+    "상해종합":     "MCHI",   # iShares MSCI China ETF (중국 펀더멘털 대용)
 }
 
 FRESH_DAYS = 3

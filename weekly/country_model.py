@@ -108,7 +108,8 @@ def drawdown_vol(idx):
 
 
 # bm-factors.js(Morningstar 후행 집계) 지수명 → 국가코드. 후행 PER이 있는 나라만.
-_BMF_TO_CODE = {"KOSPI": "KR", "S&P 500": "US"}
+_BMF_TO_CODE = {"KOSPI": "KR", "S&P 500": "US", "STOXX 600": "EU",
+                "니케이 225": "JP", "상해종합": "CN"}
 CYC_RATIO_WARN = 0.60      # fwd/trailing 이 이보다 낮으면 이익 정점 의심
 CYC_MAX_CUT = 0.70         # 밸류 플러스분 최대 차감 비율
 

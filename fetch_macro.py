@@ -1905,7 +1905,11 @@ COUNTRY_PREF_CFG = {
     "CN": {"name": "중국", "cli": "CHNLOLITOAASTSAM", "fx": "DEXCHUS", "fx_invert": True, "mon_note": "인민은행 부양(+)"},
 }
 COUNTRY_FAIR_PE = {"US": 19.0, "KR": 11.0, "EU": 14.0, "JP": 15.0, "CN": 13.0}
-COUNTRY_VAL_PE_SEED = {"EU": 14.5, "JP": 15.0, "CN": 11.0}  # US/KR은 라이브
+COUNTRY_VAL_PE_SEED = {"EU": 14.5, "JP": 15.0, "CN": 11.0}  # 라이브 실패 시 폴백
+# 국가 → benchmarks.js 지수명(라이브 12M fwd PER 소스). 전에는 US/KR만 라이브였고
+# EU/JP/CN은 시드 고정이라 밸류 팩터가 몇 달째 안 움직였다(사이클 정점 가드도 무의미).
+COUNTRY_PE_BENCH = {"US": "S&P 500", "KR": "KOSPI", "EU": "STOXX 600",
+                    "JP": "니케이 225", "CN": "상해종합"}
 MON_SEED = {"US": -0.1, "KR": 0.1, "EU": 0.3, "JP": -0.4, "CN": 0.3}
 PREF_WEIGHTS = {
     "m1":  {"fx": 0.35, "earn": 0.30, "cycle": 0.20, "mon": 0.15, "val": 0.00},
@@ -1966,11 +1970,14 @@ def _yf_12m_chg(ticker):
 def build_country_pref(earn, bench):
     """국가 선호도: 밸류·이익·환율·통화정책·경기 종합 → 1·3·12개월 점수."""
     print("=== 국가 선호도 ===")
-    us_pe = (bench.get("S&P 500", {}).get("valuation") or {}).get("pe")
-    kr_pe = (bench.get("KOSPI", {}).get("valuation") or {}).get("pe")
+    live_pe = {}
+    for _cc, _nm in COUNTRY_PE_BENCH.items():
+        _v = (bench.get(_nm, {}).get("valuation") or {}).get("pe")
+        if _v:
+            live_pe[_cc] = _v
     out = {}
     for cc, cfg in COUNTRY_PREF_CFG.items():
-        pe = us_pe if cc == "US" else kr_pe if cc == "KR" else COUNTRY_VAL_PE_SEED.get(cc)
+        pe = live_pe.get(cc) or COUNTRY_VAL_PE_SEED.get(cc)
         fair = COUNTRY_FAIR_PE[cc]
         val = clamp((fair - pe) / (fair * 0.3)) if pe else 0.0
         ec = earn.get("countries", {}).get(cc, {})
