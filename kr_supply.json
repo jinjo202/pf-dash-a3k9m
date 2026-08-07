@@ -1,6 +1,6 @@
 {
   "as_of": "2026-08-07",
-  "generated_utc": "2026-08-07T15:09:13Z",
+  "generated_utc": "2026-08-07T15:25:53Z",
   "source": "naver ETF API(순자산) + yfinance(가격·거래량) + kr_deposit.json(신용)",
   "설명": "레버리지·인버스 ETF와 신용융자로 본 기계적 수급(디레버리징·숏커버) 지표",
   "leverage_etf": {
@@ -15,12 +15,12 @@
         "turnover_naver": 1541578,
         "price": 90690,
         "nav": 90639.0,
-        "r_1d": NaN,
-        "r_5d": NaN,
-        "turnover_억": NaN,
+        "r_1d": -1.64,
+        "r_5d": -18.26,
+        "turnover_억": 15481.0,
         "turnover_기준선20_억": 20116.0,
         "turnover_기준선5_억": 22711.0,
-        "turnover_대비기준선_배": NaN
+        "turnover_대비기준선_배": 0.77
       },
       {
         "code": "233740",
@@ -31,12 +31,12 @@
         "turnover_naver": 771674,
         "price": 6650,
         "nav": 6653.0,
-        "r_1d": NaN,
-        "r_5d": NaN,
-        "turnover_억": NaN,
+        "r_1d": 0.53,
+        "r_5d": 27.39,
+        "turnover_억": 7973.0,
         "turnover_기준선20_억": 6568.0,
         "turnover_기준선5_억": 7714.0,
-        "turnover_대비기준선_배": NaN
+        "turnover_대비기준선_배": 1.21
       },
       {
         "code": "252670",
@@ -47,12 +47,12 @@
         "turnover_naver": 909404,
         "price": 97,
         "nav": 97.0,
-        "r_1d": NaN,
-        "r_5d": NaN,
-        "turnover_억": NaN,
+        "r_1d": 1.04,
+        "r_5d": 18.29,
+        "turnover_억": 9224.0,
         "turnover_기준선20_억": 10716.0,
         "turnover_기준선5_억": 9749.0,
-        "turnover_대비기준선_배": NaN
+        "turnover_대비기준선_배": 0.86
       },
       {
         "code": "114800",
@@ -63,12 +63,12 @@
         "turnover_naver": 1446202,
         "price": 1137,
         "nav": 1140.0,
-        "r_1d": NaN,
-        "r_5d": NaN,
-        "turnover_억": NaN,
+        "r_1d": 0.71,
+        "r_5d": 8.7,
+        "turnover_억": 14512.0,
         "turnover_기준선20_억": 12450.0,
         "turnover_기준선5_억": 13556.0,
-        "turnover_대비기준선_배": NaN
+        "turnover_대비기준선_배": 1.17
       },
       {
         "code": "251340",
@@ -79,16 +79,17 @@
         "turnover_naver": 163115,
         "price": 2520,
         "nav": 2538.0,
-        "r_1d": NaN,
-        "r_5d": NaN,
-        "turnover_억": NaN,
+        "r_1d": -0.2,
+        "r_5d": -12.5,
+        "turnover_억": 1627.0,
         "turnover_기준선20_억": 1440.0,
         "turnover_기준선5_억": 1902.0,
-        "turnover_대비기준선_배": NaN
+        "turnover_대비기준선_배": 1.13
       }
     ],
-    "레버리지_거래대금_억": NaN,
-    "인버스_거래대금_억": NaN,
+    "레버리지_거래대금_억": 23454.0,
+    "인버스_거래대금_억": 25363.0,
+    "롱숏_거래대금비율": 0.92,
     "롱숏_거래대금비율_평시": 1.08
   },
   "credit": {
@@ -104,8 +105,8 @@
   },
   "short_cover": {
     "한계": "KRX 정보데이터시스템이 2025-12-27부터 로그인 필수로 전환되어 공매도 잔고·거래대금 직접 수집 불가. 아래는 인버스 ETF 자금·지수 반등 조합에 기반한 간접 추정이며, 실제 공매도 잔고와 다를 수 있다.",
-    "인버스ETF_당일평균수익률_%": NaN,
-    "인버스ETF_거래대금_대비평시_배": NaN,
+    "인버스ETF_당일평균수익률_%": 0.52,
+    "인버스ETF_거래대금_대비평시_배": 1.03,
     "KOSPI_당일_%": NaN,
     "정황": "특이 정황 없음"
   }
