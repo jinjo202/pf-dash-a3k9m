@@ -85,6 +85,7 @@ jobs:
         continue-on-error: true
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          KRX_API_KEY: ${{ secrets.KRX_API_KEY }}   # VKOSPI(파생상품지수 시세정보)
 
       - name: Fetch historical valuations (S&P 500 PE/PB from multpl.com)
         run: python fetch_historical_valuations.py

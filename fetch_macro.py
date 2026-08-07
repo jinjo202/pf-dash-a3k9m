@@ -19,7 +19,7 @@ import io
 import math
 import os
 import urllib.request
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
@@ -239,47 +239,71 @@ _INVESTING_CURL_HEADERS = [
 ]
 
 
-def fetch_vkospi():
-    """VKOSPI(코스피200 변동성지수) 자동 조회.
+VKOSPI_IDX_NM = "코스피 200 변동성지수"      # drvprod_dd_trd 응답의 IDX_CLSS='옵션지수'
+KRX_DRVPROD = "https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?basDd={dd}"
 
-    investing.com 내부 API(instrumentId=956761, KSVKOSPI)에서 일별 종가를 가져온다.
-    이 엔드포인트는 Cloudflare가 Python urllib/requests의 TLS 지문을 차단하지만
-    curl은 통과시킨다(투자자·개발자 커뮤니티에 알려진 동작) — 그래서 curl subprocess로 호출.
-    KRX 데이터포털은 이 정보를 로그인 계정 없이는 조회 불가(확인됨)라 대안으로 사용.
+
+def _krx_vkospi_one(dd, key):
+    """특정 영업일(YYYYMMDD)의 VKOSPI 종가. 데이터 없으면(휴장·미공시) None."""
+    req = urllib.request.Request(KRX_DRVPROD.format(dd=dd),
+                                 headers={"AUTH_KEY": key, "User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=25) as r:
+        rows = json.loads(r.read().decode("utf-8", "replace")).get("OutBlock_1") or []
+    for x in rows:
+        if x.get("IDX_NM") == VKOSPI_IDX_NM:
+            try:
+                return round(float(str(x.get("CLSPRC_IDX")).replace(",", "")), 2)
+            except (TypeError, ValueError):
+                return None
+    return None
+
+
+def fetch_vkospi(days=90):
+    """VKOSPI(코스피200 변동성지수) 자동 조회 — KRX Open API.
+
+    소스 변경 이력: investing.com은 2026-08 기준 GH Actions뿐 아니라 **로컬 IP에서도
+    403**이 되어 완전히 죽었다(그 결과 값이 2026-06-03에 65일간 고정돼 있었다).
+    대체로 KRX Open API `apis/idx/drvprod_dd_trd`(파생상품지수)를 쓴다 —
+    VKOSPI는 IDX_CLSS='옵션지수', IDX_NM='코스피 200 변동성지수'로 들어 있다.
+    KRX_API_KEY 필요(openapi.krx.co.kr — 인증키 신청 + API별 이용신청 둘 다 승인돼야 함).
+
+    이 API는 **날짜당 1콜**이라 히스토리는 날짜를 거슬러 올라가며 모은다.
+    당일 데이터는 익영업일 08:00에 올라오므로 최신일은 역추적해야 한다.
     실패 시 None → 호출부에서 기존 시드값 유지(fail-safe).
     반환: {"current": float, "prev": float, "as_of": "YYYY-MM-DD",
            "history": {"dates": [...], "values": [...]}} 또는 None.
     """
-    import subprocess, json as _json
-    url = ("https://api.investing.com/api/financialdata/956761/historical/chart/"
-           "?interval=P1D&pointscount=70")
-    try:
-        r = subprocess.run(
-            ["curl", "-s", "--max-time", "20"] + _INVESTING_CURL_HEADERS + [
-             "-H", "Referer: https://kr.investing.com/indices/kospi-volatility", url],
-            capture_output=True, timeout=25, check=True,
-        )
-        body = r.stdout.decode("utf-8", errors="replace").strip()
-        # 차단 시 본문이 그냥 "403" 같은 스칼라로 오기도 한다(2026-08 확인).
-        # 그대로 json.loads하면 int가 나와 'int has no attribute get'이라는 엉뚱한 에러가 뜬다.
-        if body in ("403", "401", "429") or not body:
-            raise ValueError(f"차단 또는 빈 응답 (body={body!r})")
-        data = _json.loads(body)
-        if not isinstance(data, dict):
-            raise ValueError(f"예상 밖 응답 타입 {type(data).__name__} (body 앞부분={body[:60]!r})")
-        rows = data.get("data") or []
-        if len(rows) < 2:
-            raise ValueError("데이터 부족")
-        dates, vals = [], []
-        for ts, o, h, l, c, *_ in rows:
-            d = datetime.fromtimestamp(ts / 1000, timezone.utc).date().isoformat()
-            dates.append(d)
-            vals.append(round(float(c), 2))
-        return {"current": vals[-1], "prev": vals[-2], "as_of": dates[-1],
-                "history": {"dates": dates, "values": vals}}
-    except Exception as e:
-        print(f"  [err] VKOSPI 자동조회 실패(시드값 유지): {e}")
+    key = os.environ.get("KRX_API_KEY") or ""
+    if not key:
+        print("  [err] VKOSPI: KRX_API_KEY 없음(시드값 유지)")
         return None
+    dates, vals = [], []
+    d = datetime.now(timezone.utc).date()
+    misses = 0
+    for _ in range(days):
+        if d.weekday() < 5:                      # 주말은 조회 자체를 건너뛴다(콜 절약)
+            try:
+                v = _krx_vkospi_one(d.strftime("%Y%m%d"), key)
+            except Exception as e:               # noqa: BLE001 — 개별 날짜 실패는 건너뛴다
+                print(f"  [warn] VKOSPI {d}: {type(e).__name__}: {str(e)[:60]}")
+                v = None
+            if v is not None:
+                dates.append(d.isoformat())
+                vals.append(v)
+                misses = 0
+            elif dates:                          # 수집 시작 후의 결측은 휴장일 — 계속 진행
+                misses += 1
+            else:                                # 아직 최신일도 못 찾음(미공시 구간)
+                misses += 1
+                if misses > 10:                  # 10영업일 연속 없으면 권한·장애로 판단
+                    break
+        d -= timedelta(days=1)
+    if len(vals) < 2:
+        print("  [err] VKOSPI: 유효 데이터 부족(시드값 유지)")
+        return None
+    dates.reverse(); vals.reverse()              # 과거→최신 순
+    return {"current": vals[-1], "prev": vals[-2], "as_of": dates[-1],
+            "history": {"dates": dates, "values": vals}}
 
 
 def fetch_ism_pmi_te():
@@ -2224,9 +2248,9 @@ def build_stress(indicators, kospi_vals, kosdaq_vals):
         # 7일 초과면 판정을 보류(watch)하고 라벨에 명시.
         if vk_age is not None and vk_age > 7:
             add("vkospi", "VKOSPI (한국 변동성)", vk, "", "watch", "데이터 낡음 — 판정 보류",
-                f"기준일 {vk_as_of} ({vk_age}일 경과). investing.com이 GitHub Actions IP를 차단해 "
-                "cron에선 갱신되지 않고 로컬 스케줄러(하루 2회)에서만 갱신된다. "
-                "이 값으로 한국 변동성을 판단하지 말 것 — 실제 급등 국면에도 낮게 보일 수 있다.")
+                f"기준일 {vk_as_of} ({vk_age}일 경과). KRX Open API 조회가 실패해 시드값이 유지된 상태 "
+                "(인증키 만료·API 이용신청 만료·장애 등). 이 값으로 한국 변동성을 판단하지 말 것 "
+                "— 실제 급등 국면에도 낮게 보일 수 있다.")
         else:
             st = "safe" if vk < 30 else ("watch" if vk < 45 else "alert")
             add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "30 주의 · 45 경보",
@@ -2743,8 +2767,8 @@ def build():
         seed = MANUAL["vkospi"]
         sent_manual["vkospi"] = {**seed, "current": vk["current"], "prev": vk["prev"],
                                   "as_of": vk["as_of"], "history": vk["history"],
-                                  "source": {"name": "investing.com (KSVKOSPI)",
-                                             "url": "https://kr.investing.com/indices/kospi-volatility"}}
+                                  "source": {"name": "KRX Open API (파생상품지수 시세정보)",
+                                             "url": "https://openapi.krx.co.kr"}}
         print(f"  [ok] VKOSPI {vk['current']} (직전 {vk['prev']}, {vk['as_of']})")
     else:
         print("  [skip] VKOSPI 시드값 유지")
