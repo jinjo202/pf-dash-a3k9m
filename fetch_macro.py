@@ -2359,6 +2359,155 @@ def build_stress(indicators, kospi_vals, kosdaq_vals):
                     "한국(낙폭·VKOSPI)과 글로벌(HY·VIX)을 나란히 놓아 급락이 국지적인지 시스템적인지 판별."}
 
 
+# ── 섹터 로테이션 모델 ────────────────────────────────────────────────────
+# GICS 섹터(sector-history.js 가격) ↔ 이익 바스켓(earnings.sectors) 매핑.
+# 이익 바스켓이 없는 섹터는 None(이익 팩터 중립 0 처리).
+_SEC_EARN_MAP = {
+    "US": {"정보기술": ["반도체·AI HW", "소프트웨어·IT"], "커뮤니케이션": ["커뮤니케이션"],
+           "금융": ["금융"], "헬스케어": ["헬스케어"], "경기소비재": ["임의소비재"],
+           "에너지": ["에너지"], "산업재": ["산업재"]},
+    "KR": {"정보기술": ["반도체", "인터넷·IT"], "소재": ["2차전지·소재", "철강·소재"],
+           "경기소비재": ["자동차"], "금융": ["금융"], "헬스케어": ["바이오"],
+           "산업재": ["방산·조선"], "커뮤니케이션": ["엔터·미디어", "통신"],
+           "필수소비재": ["유통·필수소비재"]},
+}
+
+# Investment Clock 국면별 섹터 성향(+1 순풍 / -1 역풍) — Merrill Lynch(2004) 표준 매핑.
+# quadrant 국면과 직접 연결되는 지점: 국면이 바뀌면 이 팩터가 로테이션을 민다.
+_CLOCK_FIT = {
+    "회복 (Recovery)":               {"정보기술": 1, "경기소비재": 1, "산업재": 1, "금융": 1,
+                                      "필수소비재": -1, "유틸리티": -1, "헬스케어": -1},
+    "과열 (Overheat)":               {"에너지": 1, "소재": 1, "산업재": 1,
+                                      "부동산": -1, "유틸리티": -1, "커뮤니케이션": -1},
+    "스태그플레이션 (Stagflation)":   {"에너지": 1, "필수소비재": 1, "헬스케어": 1, "유틸리티": 1,
+                                      "경기소비재": -1, "정보기술": -1, "금융": -1},
+    "디스인플레 둔화 (Reflation)":    {"유틸리티": 1, "부동산": 1, "필수소비재": 1, "헬스케어": 1,
+                                      "에너지": -1, "소재": -1},
+}
+
+SECTOR_WEIGHTS = {"momentum": 0.30, "earnings": 0.25, "risk": 0.25, "regime_fit": 0.20}
+
+
+def load_sector_history():
+    """sector-history.js → {region: {섹터명: [일별지수]}} 또는 {}."""
+    try:
+        import re as _re
+        t = (HERE / "sector-history.js").read_text(encoding="utf-8")
+        d = json.loads(_re.search(r"=\s*(\{.*\})\s*;?\s*\Z", t, _re.S).group(1))
+        return {rg: v.get("series") or {} for rg, v in (d.get("regions") or {}).items()}
+    except Exception as e:
+        print(f"  [err] sector-history 로드 실패: {e}")
+        return {}
+
+
+def build_sector_rotation(quadrant, earn_data):
+    """섹터 로테이션 — 국가모델과 같은 횡단면 z 합성 + 이번에 배운 원칙 적용.
+
+    팩터(리전 내 횡단면 z):
+      · momentum 30% — 6M-1M(최근 1개월 skip) + 1M 등가중. 12M은 히스토리(1년)가 짧아 불가.
+      · earnings 25% — ERR 0.7 + 1M수정 0.3 (rev는 ±30 클램프 — KR 2차전지 rev30 -187이
+        z 분포를 통째로 왜곡하는 것 방지). 바스켓 없는 섹터는 중립 0.
+      · risk    25% — 52주 고점대비 낙폭 + 20일 실현변동성. 모멘텀의 사각지대(직전 급락) 보완
+        — 국가모델에서 검증된 구성(Sharpe 1.03→1.16).
+      · regime_fit 20% — Investment Clock 국면별 성향(±1). quadrant가 없으면 0.
+
+    적용된 교훈:
+      · 밸류 팩터 없음(의도) — 섹터 fwd PER 데이터가 없고, 있어도 사이클 정점 PER은
+        밸류트랩(한국 반도체 PER 3.7 사례)이라 추가 안 함.
+      · 종합점수와 별개로 임계 플래그 병렬(_flags) — 평균에 희석되지 않게:
+        낙폭 ≤−25% '낙폭경보', rev90 >+50%면서 모멘텀 둔화 '이익정점 경계'.
+      · 낙폭 플래그는 절대기준(실현 손실), 팩터 점수는 상대(z) — 지표 성격별 이원화.
+    """
+    hist = load_sector_history()
+    if not hist:
+        return None
+    region_map = {"US": "us", "KR": "korea"}
+    earn_sec = (earn_data or {}).get("sectors") or {}
+    out = {}
+    for cc, rg in region_map.items():
+        series = hist.get(rg) or {}
+        if not series:
+            continue
+        ebask = {b["name"]: b for b in (earn_sec.get(cc) or []) if isinstance(b, dict)}
+        emap = _SEC_EARN_MAP.get(cc, {})
+        fit_map = (_CLOCK_FIT.get((quadrant or {}).get("phase", {}).get("name", "")) or {})
+        rows = []
+        for name, v in series.items():
+            v = [x for x in v if isinstance(x, (int, float))]
+            if len(v) < 130:
+                continue
+            mom6 = (v[-21] / v[-126] - 1) * 100 if v[-126] else None   # 6M-1M
+            mom1 = (v[-1] / v[-21] - 1) * 100 if v[-21] else None
+            peak = max(v)
+            ddown = (v[-1] / peak - 1) * 100 if peak else None
+            lr = [math.log(v[i] / v[i - 1]) for i in range(len(v) - 20, len(v)) if v[i - 1]]
+            vol = (sum((x - sum(lr) / len(lr)) ** 2 for x in lr) / len(lr)) ** 0.5 * (252 ** 0.5) * 100 if len(lr) > 1 else None
+            # earnings: 매핑된 바스켓 평균
+            errs, revs, rev90s, moms = [], [], [], []
+            for bn in emap.get(name, []):
+                b = ebask.get(bn)
+                if not b:
+                    continue
+                if b.get("err") is not None:
+                    errs.append(b["err"])
+                if b.get("rev30") is not None:
+                    revs.append(clamp(b["rev30"], -30.0, 30.0))
+                if b.get("rev90") is not None:
+                    rev90s.append(b["rev90"])
+                if b.get("momentum"):
+                    moms.append(b["momentum"])
+            earn_v = (0.7 * (sum(errs) / len(errs)) + 0.3 * (sum(revs) / len(revs)) / 30.0) if errs else None
+            flags = []
+            if ddown is not None and ddown <= -25:
+                flags.append("낙폭경보")
+            if rev90s and max(rev90s) > 50 and "둔화" in moms:
+                flags.append("이익정점 경계")
+            rows.append({"name": name, "mom6": mom6, "mom1": mom1, "ddown": ddown, "vol": vol,
+                         "earn": earn_v, "fit": fit_map.get(name, 0), "flags": flags,
+                         "has_earn": bool(errs)})
+        if len(rows) < 5:
+            continue
+
+        def zs(key, invert=False):
+            vals = {r["name"]: r[key] for r in rows}
+            xs = [x for x in vals.values() if x is not None]
+            if len(xs) < 2:
+                return {n: 0.0 for n in vals}
+            m = sum(xs) / len(xs)
+            sd = (sum((x - m) ** 2 for x in xs) / len(xs)) ** 0.5 or 1.0
+            return {n: (((x - m) / sd) * (-1 if invert else 1) if x is not None else 0.0)
+                    for n, x in vals.items()}
+
+        z6, z1 = zs("mom6"), zs("mom1")
+        zdd, zvol = zs("ddown"), zs("vol", invert=True)   # 낙폭 얕을수록·변동성 낮을수록 +
+        zearn = zs("earn")
+        for r in rows:
+            n = r["name"]
+            z = {"momentum": round((z6[n] + z1[n]) / 2, 2),
+                 "earnings": round(zearn[n], 2),
+                 "risk": round((zdd[n] + zvol[n]) / 2, 2),
+                 "regime_fit": float(r["fit"])}
+            score = round(sum(z[f] * w for f, w in SECTOR_WEIGHTS.items()), 3)
+            r["z"] = z
+            r["score"] = score
+            r["pref"] = "비중확대" if score >= 0.30 else ("축소" if score <= -0.30 else "중립")
+        rows.sort(key=lambda r: r["score"], reverse=True)
+        out[cc] = [{"name": r["name"], "score": r["score"], "pref": r["pref"], "z": r["z"],
+                    "mom1": round(r["mom1"], 1) if r["mom1"] is not None else None,
+                    "ddown": round(r["ddown"], 1) if r["ddown"] is not None else None,
+                    "flags": r["flags"], "has_earn": r["has_earn"]} for r in rows]
+    if not out:
+        return None
+    ph = (quadrant or {}).get("phase", {}).get("name")
+    return {"regions": out, "phase": ph, "weights": SECTOR_WEIGHTS,
+            "note": "리전 내 횡단면 z 합성(모멘텀30·이익25·리스크25·국면적합20). "
+                    "모멘텀=6M-1M+1M, 리스크=52주낙폭+20일변동성(직전 급락 사각지대 보완), "
+                    "이익=ERR+1M수정(±30 클램프, 바스켓 없는 섹터 중립), "
+                    f"국면적합=Investment Clock '{ph}' 성향(±1). "
+                    "밸류 팩터는 의도적으로 없음 — 사이클 정점 PER 밸류트랩 방지. "
+                    "플래그(낙폭경보·이익정점 경계)는 절대기준이라 종합점수에 희석되지 않고 병렬 표시."}
+
+
 def build_recession(monthly):
     """침체확률 대시보드 — 독립 4신호 병렬.
 
@@ -3036,6 +3185,11 @@ def build():
               f"인플레Δ {quadrant['trail'][-1]['i']:+.2f})")
     recession = build_recession(monthly)
     stress = build_stress(indicators, kospi_vals, kosdaq_vals)
+    sector_rot = build_sector_rotation(quadrant, earn["data"])
+    if sector_rot:
+        tops = {cc: rows[0]["name"] for cc, rows in sector_rot["regions"].items()}
+        print(f"  [sector] 국면 {sector_rot['phase']} | 1위: " +
+              ", ".join(f"{cc} {n}" for cc, n in tops.items()))
     if stress:
         print(f"  [stress] {stress['verdict']['label']} — " +
               ", ".join(f"{x['name']} {x['value']}{x['unit']}({x['status_ko']})" for x in stress["signals"]))
@@ -3063,6 +3217,7 @@ def build():
         "quadrant": quadrant,
         "recession": recession,
         "stress": stress,
+        "sector_rotation": sector_rot,
         "monthly_factors": build_monthly(today),
         "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-08-03a";</script>
+<script>window.CODE_VERSION = "2026-08-08a";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -977,6 +977,43 @@ function renderRecession(M) {
 }
 
 // 시장 스트레스 경보 — 레짐 평균에 희석되지 않는 임계 경보. 침체 패널과 카드 스타일 공유.
+// 섹터 로테이션 — 국가모델과 같은 z-테이블 스타일. 플래그는 점수와 병렬(희석 방지).
+function renderSectorRotation(M) {
+  if (!M.sector_rotation) return '';
+  var sr = M.sector_rotation;
+  var facList = [['momentum', '모멘텀'], ['earnings', '이익'], ['risk', '리스크'], ['regime_fit', '국면']];
+  function prefCls(p) { return p === '비중확대' ? 'pm-pos' : p === '축소' ? 'pm-neg' : 'pm-neu'; }
+  function tbl(cc, rows) {
+    var trs = rows.map(function (r) {
+      var chips = facList.map(function (o) {
+        var z = r.z[o[0]] == null ? 0 : r.z[o[0]];
+        var cls = z >= 0.3 ? 'cm-pos' : z <= -0.3 ? 'cm-neg' : 'cm-neu';
+        return '<span class="cm-fchip ' + cls + '">' + o[1] + ' ' + (z > 0 ? '+' : '') + z.toFixed(1) + '</span>';
+      }).join('');
+      var flags = (r.flags || []).map(function (f) {
+        return '<span class="cm-fchip cm-neg">⚑ ' + f + '</span>';
+      }).join('');
+      var note = [];
+      if (r.mom1 != null) note.push('1M ' + (r.mom1 > 0 ? '+' : '') + r.mom1 + '%');
+      if (r.ddown != null) note.push('고점比 ' + r.ddown + '%');
+      if (!r.has_earn) note.push('이익데이터 없음(중립)');
+      return '<tr><td class="nm">' + r.name + '</td>' +
+        '<td><span class="pm-badge ' + prefCls(r.pref) + '">' + r.pref + '</span></td>' +
+        '<td class="sc tnum"><b>' + (r.score > 0 ? '+' : '') + r.score.toFixed(2) + '</b></td>' +
+        '<td><div class="cm-fchips">' + chips + (flags ? ' ' + flags : '') + '</div></td>' +
+        '<td class="pref-note">' + note.join(' · ') + '</td></tr>';
+    }).join('');
+    return '<h3 style="font-size:13px;margin:14px 0 6px">' + (cc === 'US' ? '🇺🇸 미국' : '🇰🇷 한국') + '</h3>' +
+      '<div style="overflow-x:auto"><table class="cm-table"><thead><tr><th>섹터</th><th>판정</th><th>점수</th><th>팩터(z) · 플래그</th><th class="pref-note">메모</th></tr></thead><tbody>' + trs + '</tbody></table></div>';
+  }
+  var html = '<div class="panel"><h2>🔄 섹터 로테이션 — 국면 연동 멀티팩터' +
+    (sr.phase ? ' <span class="rebal-badge">' + sr.phase + '</span>' : '') + '</h2>' +
+    '<p class="hint">모멘텀 30 · 이익수정 25 · 리스크(낙폭·변동성) 25 · 국면적합 20 — 리전 내 횡단면 z 합성. ⚑ 플래그는 절대 임계라 점수에 희석되지 않음.</p>';
+  ['US', 'KR'].forEach(function (cc) { if (sr.regions[cc]) html += tbl(cc, sr.regions[cc]); });
+  html += '<p class="disclaimer">' + sr.note + '</p></div>';
+  return html;
+}
+
 function renderStress(M) {
   if (!M.stress) return '';
   var r = M.stress, v = r.verdict;
@@ -1362,6 +1399,7 @@ function render(M) {
   html += renderTimeMachine(M);
   if (window.COUNTRY_MODEL) html += renderCountryModel(window.COUNTRY_MODEL);
   html += renderCountryPref(M);
+  html += renderSectorRotation(M);
   if (M.kr_flows_ts) html += renderKrFlows(M);
 
   /* ── Outlook ── */
