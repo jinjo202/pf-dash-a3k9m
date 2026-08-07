@@ -1,0 +1,61 @@
+name: Longshort Daily Update
+
+# 롱숏포트 기계적 일일 갱신 — 시세/NAV/재무를 GitHub 러너에서 갱신 (PC/앱 꺼져 있어도 동작).
+# 아이디어·레짐 서사·포지션 변경은 로컬 Claude 스케줄 작업 몫 (얹히는 구조, 순서 무관 멱등).
+
+on:
+  schedule:
+    # GitHub 무료 스케줄러는 자주 skip → 백업 크론 (다른 워크플로와 동일 전략)
+    - cron: '15 22 * * *'   # 07:15 KST 다음날 — 미국 마감 반영 후
+    - cron: '0 23 * * *'    # 08:00 KST (백업)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: longshort-daily
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 순수 stdlib — pip 불필요
+      - name: 시세/NAV 갱신 (data.js)
+        working-directory: longshort
+        run: python daily_update.py
+
+      - name: 재무 스냅샷 갱신 (fundamentals.js) — 실패/열화 시 기존본 유지
+        working-directory: longshort
+        run: |
+          python fetch_fundamentals.py || true
+          # crumb 차단 등으로 forward PER이 대부분 비면 열화 — 기존본 롤백
+          if [ "$(grep -o '"perFwd": [0-9]' fundamentals.js | wc -l)" -lt 5 ]; then
+            echo "fundamentals 열화 감지 — 기존본 유지"
+            git checkout -- fundamentals.js
+          fi
+
+      - name: 커밋·푸시 (변경 있을 때만)
+        run: |
+          if git diff --quiet -- longshort; then
+            echo "변경 없음 — 종료"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add longshort
+          git commit -m "auto: 롱숏포트 시세/NAV 갱신 $(TZ=Asia/Seoul date +%F)"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin main && exit 0
+            sleep 10
+          done
+          exit 1
