@@ -2210,13 +2210,52 @@ def build_quadrant(monthly):
                     "인플레=근원/헤드라인CPI·유가. 각 축은 z-컴포지트의 3개월 변화."}
 
 
-def build_stress(indicators, kospi_vals, kosdaq_vals):
-    """시장 스트레스 경보 — 하드 임계 기반 독립 신호.
+_ST_RANK = {"safe": 0, "watch": 1, "alert": 2}
 
-    레짐 점수(42개 지표 가중평균)는 설계상 어떤 단일 경보도 평균에 희석된다.
-    실제로 2026-07 코스피 −22% 급락 때 드로다운 지표 하나를 넣어도 총점은 2.6점밖에
-    안 움직였다. 그래서 '평균'이 아니라 '임계 돌파'를 별도로 병렬 표시한다.
+
+def _stress_band(cur, hist, warn, alert, min_obs=30, window=120):
+    """절대임계 + 자체분포 백분위를 결합해 판정. 값이 높을수록 나쁜 지표 전용.
+
+    둘 중 **약한 쪽**을 채택한다 = 절대·상대가 모두 위험할 때만 상향. 이유는 양방향 오류를
+    다 막아야 하기 때문:
+      · 절대만 쓰면 → 2026년 VKOSPI처럼 몇 달째 65~97에 상주하는 레짐에서 매일 '경보'.
+        항상 켜진 경보는 정보량 0이고 진짜 경보를 무디게 만든다.
+      · 백분위만 쓰면 → HY OAS처럼 최근 3년 범위가 2.7~4.4로 좁은 지표는 3.8%
+        (역사적으로 매우 건전)만 돼도 상위 85%라 '경보'가 뜬다. 반대 방향 오류.
+    반환: (status, pct 또는 None, 분포 설명문 또는 "")
+    """
+    a_st = "alert" if cur >= alert else ("watch" if cur >= warn else "safe")
+    h = [x for x in (hist or []) if isinstance(x, (int, float))]
+    if len(h) < min_obs:
+        return a_st, None, "(분포 판정용 히스토리 부족 — 절대기준만 적용)"
+    h = h[-window:]
+    pct = sum(1 for x in h if x < cur) / len(h) * 100.0
+    r_st = "alert" if pct >= 85 else ("watch" if pct >= 60 else "safe")
+    st = a_st if _ST_RANK[a_st] <= _ST_RANK[r_st] else r_st
+    # 표현 주의: pct는 '이 값보다 낮은 관측의 비율'. 항상 "상위 N%"로 쓰면
+    # 낮은 값이 "상위 97%"로 표시돼 위험해 보인다(HY 2.71 = 실제론 매우 안전).
+    # 가까운 쪽 꼬리로 표기 — 높으면 상위 N%, 낮으면 하위 N%.
+    side = f"상위 {100 - pct:.0f}%" if pct >= 50 else f"하위 {pct:.0f}%"
+    note = f"최근 {len(h)}관측 범위 {min(h):.4g}~{max(h):.4g} 중 {side}"
+    if _ST_RANK[a_st] != _ST_RANK[r_st]:
+        weaker = "절대수준" if _ST_RANK[a_st] < _ST_RANK[r_st] else "자체분포"
+        note += f" — 절대·상대 판정이 엇갈려 약한 쪽({weaker}) 채택"
+    return st, pct, note
+
+
+def build_stress(indicators, kospi_vals, kosdaq_vals):
+    """시장 스트레스 경보 — 임계 돌파를 레짐 평균과 별개로 병렬 표시.
+
+    레짐 점수(40여개 지표 가중평균)는 설계상 어떤 단일 경보도 평균에 희석된다.
+    2026-07 코스피 −22% 급락 때 드로다운 지표를 넣어도 총점은 2.6점밖에 안 움직였다.
+    그래서 '평균'이 아니라 '임계 돌파'를 따로 띄운다.
     build_recession과 같은 출력 형태 — 프런트 카드 렌더러를 그대로 재사용.
+
+    판정 방식이 지표군마다 다르다(의도적):
+      · 낙폭(kospi_dd·kosdaq_dd) = 절대기준. −26%는 레짐과 무관하게 실현된 손실이다.
+        여기에 백분위를 쓰면 "올해 내내 빠졌으니 정상"이라는 정확히 틀린 답이 나온다.
+      · 변동성·신용(vkospi·vix·hy_oas) = 절대+백분위 결합(_stress_band).
+        상주 수준이 레짐에 따라 통째로 바뀌므로 절대기준만으로는 오판한다.
     """
     def dd(vals):
         if len(vals) < 13:
@@ -2224,9 +2263,15 @@ def build_stress(indicators, kospi_vals, kosdaq_vals):
         peak = max(vals[-13:])
         return round((vals[-1] / peak - 1) * 100, 1) if peak else None
 
+    def ind(key):
+        return indicators.get(key) or {}
+
     def cur(key):
-        v = (indicators.get(key) or {}).get("current")
+        v = ind(key).get("current")
         return v if isinstance(v, (int, float)) else None
+
+    def hist(key):
+        return (ind(key).get("history") or {}).get("values") or []
 
     sig = []
 
@@ -2235,74 +2280,56 @@ def build_stress(indicators, kospi_vals, kosdaq_vals):
                     "status_ko": {"safe": "정상", "watch": "주의", "alert": "경보"}[status],
                     "threshold": thr, "desc": desc})
 
+    # ── 낙폭: 절대기준(위 독스트링 참조) ──
     kdd = dd(kospi_vals)
     if kdd is not None:
         st = "safe" if kdd > -10 else ("watch" if kdd > -20 else "alert")
         add("kospi_dd", "KOSPI 52주 고점대비", kdd, "%", st, "−10% 조정 · −20% 약세장",
-            "지수 낙폭. 레짐 점수는 42개 지표 평균이라 급락을 희석하지만, 낙폭 자체는 "
-            "포지션에 즉시 반영되는 실현 리스크다.")
+            "지수 낙폭. 이미 실현된 손실이라 레짐과 무관하게 절대기준으로 본다"
+            "(백분위로 보면 '올해 내내 빠졌으니 정상'이라는 틀린 답이 나온다).")
     qdd = dd(kosdaq_vals)
     if qdd is not None:
         st = "safe" if qdd > -10 else ("watch" if qdd > -20 else "alert")
         add("kosdaq_dd", "KOSDAQ 52주 고점대비", qdd, "%", st, "−10% 조정 · −20% 약세장",
             "중소형·성장주 낙폭. 코스피보다 먼저·깊게 빠지는 경향이라 위험선호 이탈의 선행 신호.")
 
+    # ── 변동성·신용: 절대 + 자체분포 결합 ──
     vk = cur("vkospi")
     if vk is not None:
-        vk_ind = indicators.get("vkospi") or {}
-        vk_as_of = str(vk_ind.get("as_of", ""))[:10]
+        vk_as_of = str(ind("vkospi").get("as_of", ""))[:10]
         vk_age = None
         try:
             vk_age = (date.today() - date.fromisoformat(vk_as_of)).days
         except Exception:
             pass
-        vh = [x for x in ((vk_ind.get("history") or {}).get("values") or [])
-              if isinstance(x, (int, float))]
         if vk_age is not None and vk_age > 7:
             add("vkospi", "VKOSPI (한국 변동성)", vk, "", "watch", "데이터 낡음 — 판정 보류",
                 f"기준일 {vk_as_of} ({vk_age}일 경과). 값이 낡아 현재 변동성을 대표하지 못한다.")
-        elif len(vh) >= 30:
-            # 절대임계 금지 — VKOSPI는 레짐에 따라 상주 수준이 통째로 바뀐다(2026년 65~97).
-            # 절대기준으로는 몇 달째 매일 '경보'가 켜져 정보량이 0. '자기 분포 내 위치'로 판단.
-            pct = sum(1 for x in vh if x < vk) / len(vh) * 100.0
-            lo, hi = min(vh), max(vh)
-            chg = vk - vh[-21] if len(vh) > 20 else None
-            trend = ("하락" if chg < -1 else "상승" if chg > 1 else "횡보") if chg is not None else "-"
-            if vk < 30:
-                st = "safe"      # 절대적으로 잠잠하면 상대위치와 무관하게 정상
-            elif pct >= 85:
-                st = "alert"
-            elif pct >= 60:
-                st = "watch"
-            else:
-                st = "safe"
-            d_txt = (f"최근 {len(vh)}거래일 범위 {lo:.0f}~{hi:.0f} 중 상위 {100 - pct:.0f}% 위치"
-                     f"(20일 전 대비 {trend}"
-                     + (f" {chg:+.1f}" if chg is not None else "") + "). ")
-            if st == "safe" and vk >= 40:
-                d_txt += ("절대수준은 높지만 자체 분포에선 중하위 — 추가 악화가 아니라 진정 국면. "
-                          "절대치만 보고 경보로 읽지 말 것.")
-            else:
-                d_txt += "한국 공포지수. VIX(미국)로는 한국 국지적 급락이 잡히지 않는다."
-            add("vkospi", "VKOSPI (한국 변동성)", vk, "", st,
-                "자체 분포 상위 15% 경보 · 40% 주의", d_txt)
         else:
-            st = "safe" if vk < 30 else ("watch" if vk < 45 else "alert")
-            add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "30 주의 · 45 경보(히스토리 부족 폴백)",
-                f"한국 공포지수(기준일 {vk_as_of}). 분포 판정용 히스토리가 부족해 절대기준 적용.")
+            vh = [x for x in hist("vkospi") if isinstance(x, (int, float))]
+            st, pct, note = _stress_band(vk, vh, warn=30, alert=45)
+            chg = (vk - vh[-21]) if len(vh) > 20 else None
+            trend = ""
+            if chg is not None:
+                trend = f" 20일 전 대비 {'하락' if chg < -1 else '상승' if chg > 1 else '횡보'} {chg:+.1f}."
+            add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "절대 30/45 + 자체분포 상위 40%/15%",
+                f"{note}.{trend} 한국 공포지수 — VIX(미국)로는 한국 국지적 급락이 안 잡힌다. "
+                "절대수준이 높아도 자체 분포에서 중하위면 추가 악화가 아니라 진정 국면.")
 
     hy = cur("hy_oas")
     if hy is not None:
-        st = "safe" if hy < 4.5 else ("watch" if hy < 6.0 else "alert")
-        add("hy_oas", "하이일드 스프레드", hy, "%p", st, "4.5%p 주의 · 6.0%p 경보",
-            "신용시장 스트레스. 주가 급락이 신용으로 번지면 실물 위기, 안 번지면 수급 이벤트 — "
-            "급락의 성격을 가르는 핵심 교차검증.")
+        st, pct, note = _stress_band(hy, hist("hy_oas"), warn=4.5, alert=6.0)
+        add("hy_oas", "하이일드 스프레드", hy, "%p", st, "절대 4.5/6.0 + 자체분포 상위 40%/15%",
+            f"{note}. 신용시장 스트레스. 주가 급락이 신용으로 번지면 실물 위기, 안 번지면 "
+            "수급 이벤트 — 급락의 성격을 가르는 핵심 교차검증. "
+            "※ FRED가 ICE BofA를 최근 3년만 제공해 분포 표본이 짧다(그래서 절대기준 병용).")
 
     vix = cur("vix")
     if vix is not None:
-        st = "safe" if vix < 25 else ("watch" if vix < 35 else "alert")
-        add("vix", "VIX (미국 변동성)", vix, "", st, "25 주의 · 35 경보",
-            "미국 공포지수. 한국만 빠지고 VIX가 잠잠하면 글로벌 위기가 아니라 한국 국지 이슈.")
+        st, pct, note = _stress_band(vix, hist("vix"), warn=25, alert=35)
+        add("vix", "VIX (미국 변동성)", vix, "", st, "절대 25/35 + 자체분포 상위 40%/15%",
+            f"{note}. 미국 공포지수. 한국만 빠지고 VIX가 잠잠하면 글로벌 위기가 아니라 "
+            "한국 국지 이슈라는 뜻.")
 
     if not sig:
         return None
@@ -2319,9 +2346,10 @@ def build_stress(indicators, kospi_vals, kosdaq_vals):
     else:
         verdict = {"label": "스트레스 없음", "cls": "pos", "desc": "전 지표 정상 구간."}
     return {"signals": sig, "verdict": verdict,
-            "note": "레짐 점수(가중평균)와 별개로 운용되는 임계 경보. 평균은 단일 급락을 희석하지만 "
-                    "이 패널은 임계를 넘는 순간 바로 켜진다. 한국(드로다운·VKOSPI)과 "
-                    "글로벌(HY·VIX)을 나란히 봐서 급락이 국지적인지 시스템적인지 판별."}
+            "note": "레짐 점수(가중평균)와 별개로 운용되는 임계 경보 — 평균은 단일 급락을 희석하지만 "
+                    "이 패널은 임계를 넘는 순간 켜진다. 낙폭은 절대기준(실현 손실), "
+                    "변동성·신용은 절대+자체분포 결합(둘 다 위험할 때만 상향)으로 판정한다. "
+                    "한국(낙폭·VKOSPI)과 글로벌(HY·VIX)을 나란히 놓아 급락이 국지적인지 시스템적인지 판별."}
 
 
 def build_recession(monthly):
