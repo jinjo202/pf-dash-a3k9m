@@ -793,7 +793,14 @@ def score_indicator(key, cur, hist_vals, ctx):
         return clamp((cur - 1.0) / 3.0)
     if key == "spx_fwd_pe":
         # Forward PER 높으면 비쌈(장기 악재). 17 적정, 22+ 부담
-        return clamp((18.0 - cur) / 4.0)
+        v = clamp((18.0 - cur) / 4.0)
+        # kospi_fwd_pe와 동일한 모멘텀 게이트 — 급락 직후엔 가격이 먼저 빠지고
+        # 추정이익은 나중에 깎여 PER이 기계적으로 싸 보인다. 낙폭 −10%까지 원점수,
+        # −25%에서 0. 싼 게 악재는 아니므로 하한 0(음수 전환 없음).
+        dd = ctx.get("spx_dd")
+        if v > 0 and dd is not None:
+            v *= clamp((dd + 25.0) / 15.0, 0.0, 1.0)
+        return v
     if key == "cape":
         # CAPE 높을수록 장기 고평가. 역사평균 ~17, 24 중립선
         return clamp((24.0 - cur) / 12.0)
@@ -2552,6 +2559,12 @@ def build():
     # 이게 없으면 KOSPI가 -20% 빠져도 5개 축 어디에도 반영 경로가 없다(2026-07 실증).
     # ※ 12M 모멘텀은 일부러 안 쓴다: 2026-07 급락 때도 전년비 +103%라 +1.00(만점 강세)이 나와
     #   드로다운 신호를 정확히 상쇄했다. 파라볼릭 장세에서 모멘텀은 리스크 게이지로 무용.
+    # S&P 52주 고점 대비 낙폭 — spx_fwd_pe 모멘텀 게이트용(지표 카드로는 안 냄).
+    spx_dd_v = []
+    if len(spx_vals) >= 13:
+        for i in range(12, len(spx_vals)):
+            peak = max(spx_vals[i - 12:i + 1])
+            spx_dd_v.append((spx_vals[i] / peak - 1) * 100 if peak else 0.0)
     kospi_dd_d, kospi_dd_v = [], []
     if len(kospi_vals) >= 13:
         for i in range(12, len(kospi_vals)):
@@ -2686,7 +2699,8 @@ def build():
         cur = vals[-1]
         z, pct = zscore(vals) if len(vals) >= 8 else (None, None)
         ctx = {"z": z, "real_rate": real_rate, "above_200d": above_200d,
-               "kospi_dd": (kospi_dd_v[-1] if kospi_dd_v else None)}
+               "kospi_dd": (kospi_dd_v[-1] if kospi_dd_v else None),
+               "spx_dd": (spx_dd_v[-1] if spx_dd_v else None)}
         score = score_indicator(key, cur, vals, ctx)
         lbl, cls = signal_label(score)
         pillar_scores[pillar].append(score)
