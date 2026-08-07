@@ -3,9 +3,9 @@
  "snapshot": {
   "유럽": {
    "pref": "중립",
-   "score": 0.143,
+   "score": 0.205,
    "factors": {
-    "value": -0.55,
+    "value": -0.24,
     "momentum": 0.03,
     "earnings": 0.17,
     "macro": 0.43,
@@ -13,23 +13,11 @@
     "risk": 0.88
    }
   },
-  "일본": {
-   "pref": "중립",
-   "score": -0.027,
-   "factors": {
-    "value": -0.43,
-    "momentum": 0.09,
-    "earnings": 1.65,
-    "macro": -1.45,
-    "currency": -0.49,
-    "risk": 0.03
-   }
-  },
   "미국": {
    "pref": "중립",
-   "score": -0.039,
+   "score": 0.086,
    "factors": {
-    "value": -1.0,
+    "value": -0.37,
     "momentum": -0.0,
     "earnings": -0.16,
     "macro": 0.13,
@@ -37,11 +25,23 @@
     "risk": 0.78
    }
   },
+  "일본": {
+   "pref": "중립",
+   "score": -0.192,
+   "factors": {
+    "value": -1.25,
+    "momentum": 0.09,
+    "earnings": 1.65,
+    "macro": -1.45,
+    "currency": -0.49,
+    "risk": 0.03
+   }
+  },
   "이머징": {
    "pref": "축소",
-   "score": -0.268,
+   "score": -0.27,
    "factors": {
-    "value": 0.05,
+    "value": 0.04,
     "momentum": -0.1,
     "earnings": -1.48,
     "macro": -0.63,
@@ -51,9 +51,9 @@
   },
   "한국": {
    "pref": "축소",
-   "score": -0.34,
+   "score": -0.318,
    "factors": {
-    "value": 0.53,
+    "value": 0.63,
     "momentum": -0.01,
     "earnings": -0.18,
     "macro": 1.52,
@@ -63,6 +63,20 @@
   }
  },
  "changes": [
+  {
+   "date": "2026-08-07",
+   "trigger": "이벤트(팩터 변화)",
+   "items": [
+    {
+     "country": "일본",
+     "from_pref": "중립",
+     "to_pref": "중립",
+     "flipped": false,
+     "d_score": -0.17,
+     "driver": "밸류 z-0.4→-1.2"
+    }
+   ]
+  },
   {
    "date": "2026-08-07",
    "trigger": "이벤트(팩터 변화)",
@@ -202,20 +216,6 @@
      "flipped": true,
      "d_score": -0.0,
      "driver": "밸류 z-0.8→-0.8"
-    }
-   ]
-  },
-  {
-   "date": "2026-07-14",
-   "trigger": "이벤트(팩터 변화)",
-   "items": [
-    {
-     "country": "미국",
-     "from_pref": "축소",
-     "to_pref": "중립",
-     "flipped": true,
-     "d_score": 0.01,
-     "driver": "이익수정 z+0.4→+0.5"
     }
    ]
   }

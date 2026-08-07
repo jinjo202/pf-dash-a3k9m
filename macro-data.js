@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-08-07T23:09:42Z",
+  "generated": "2026-08-07T23:32:54Z",
   "regime": {
     "score": 17,
     "label": "비중확대 우위",
@@ -1218,10 +1218,10 @@ window.MACRO = {
     },
     "EU": {
       "name": "유럽",
-      "pe": 14.5,
+      "pe": 15.6,
       "fair_pe": 14.0,
       "components": {
-        "val": -12,
+        "val": -39,
         "earn": 30,
         "fx": -30,
         "mon": 30,
@@ -1229,8 +1229,8 @@ window.MACRO = {
       },
       "horizon": {
         "m1": -3,
-        "m3": -3,
-        "m12": 0
+        "m3": -7,
+        "m12": -8
       },
       "fx_val": 1.16,
       "fx_chg": -1.5,
@@ -1246,10 +1246,10 @@ window.MACRO = {
     },
     "JP": {
       "name": "일본",
-      "pe": 15.0,
+      "pe": 22.5,
       "fair_pe": 15.0,
       "components": {
-        "val": 0,
+        "val": -100,
         "earn": 56,
         "fx": 0,
         "mon": -40,
@@ -1257,8 +1257,8 @@ window.MACRO = {
       },
       "horizon": {
         "m1": 16,
-        "m3": 14,
-        "m12": 13
+        "m3": 0,
+        "m12": -17
       },
       "fx_val": 157.74,
       "fx_chg": -0.0,
@@ -1274,10 +1274,10 @@ window.MACRO = {
     },
     "CN": {
       "name": "중국",
-      "pe": 11.0,
+      "pe": 12.9,
       "fair_pe": 13.0,
       "components": {
-        "val": 51,
+        "val": 3,
         "earn": -42,
         "fx": 16,
         "mon": 30,
@@ -1285,8 +1285,8 @@ window.MACRO = {
       },
       "horizon": {
         "m1": -16,
-        "m3": -12,
-        "m12": -3
+        "m3": -20,
+        "m12": -17
       },
       "fx_val": 6.74,
       "fx_chg": 0.8,
