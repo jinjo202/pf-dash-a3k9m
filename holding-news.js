@@ -1,11 +1,11 @@
 // 종목/섹터별 최신 뉴스 (Google News RSS, 평문 공개데이터). fetch_sector_news.py로 자동 갱신.
-// 갱신: 2026-08-07T23:01:56
+// 갱신: 2026-08-07T23:10:00
 window.HOLDING_NEWS = {
  "KODEX 200 ETF": [
   {
-   "title": "[주간증시전망] 다음주 코스피 6000~7000⋯“外人 수급은 정책이 변수” - etoday.co.kr",
+   "title": "[주간증시전망] 다음주 코스피 6000~7000⋯“外人 수급은 정책이 변수” - 이투데이",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE12OUdWRjlERnFCUWoyVV9FOWhuYnhrVVBIUjhfVEUyazdjZERqZXZFalR3UXJEOVNEbnM1TVJ0aHlfbWZYLXN5ek9WUGJaU2hpZkxuZA?oc=5",
-   "source": "etoday.co.kr",
+   "source": "이투데이",
    "date": "2026-08-07"
   },
   {
@@ -139,9 +139,9 @@ window.HOLDING_NEWS = {
    "date": "2026-04-08"
   },
   {
-   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - news1.kr",
+   "title": "맥 못추는 방산주, ETF도 '한숨'…하반기 실적 업고 반등 모색 - 뉴스1",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE16ZFcycEMwNHNlQ2ZKaERya2lidlljSzV4MkVfTTE3V05UQ3dOdlVKZHI4VUh5bGlOYVB2ZGZRcUZOSFlTNkpMeml1Qmd4cG1pNXhiNUlGblZpRUMzS1c4?oc=5",
-   "source": "news1.kr",
+   "source": "뉴스1",
    "date": "2026-06-05"
   },
   {
@@ -171,9 +171,9 @@ window.HOLDING_NEWS = {
    "date": "2026-06-26"
   },
   {
-   "title": "20조+α 전략형 국부펀드 윤곽…公企 주식 활용해 AI·반도체 장기투자 - ajunews.com",
+   "title": "20조+α 전략형 국부펀드 윤곽…公企 주식 활용해 AI·반도체 장기투자 - 아주경제",
    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBUQVdtekNFa1MxTGlxaUx4OUNXNUs1QUxENE9pVjlBb2FFbFRqcW5XcjhvajFDNmhCU0IzdlJsVExrQlJaelQzSktiNXh0aGhzSk5UUkJGaW0zd9IBWEFVX3lxTFB4WnRtOVJyeS1aelFwYmZMcUVFUDJCVjdYOG1sbzExNFA2WnF4cWFQcVZkenZybWVJa1E2U3NJdXRqX19xSkEwcHdkcVRaU1F3bkRXQkZJNGE?oc=5",
-   "source": "ajunews.com",
+   "source": "아주경제",
    "date": "2026-07-30"
   },
   {
@@ -203,9 +203,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-02"
   },
   {
-   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - ESG경제",
+   "title": "국민연금 ESG 책임투자 의무화…책임투자 전면 강화안 발의 - esgeconomy.com",
    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBXaEFDSm52ZjlBd2dMOEdjMWpqSUhLalc1ak1RZzhEbVJOWEFWdmlQbjJQaUdvdV8yaWgtXzh5NEV2bElXaV9SbHU1OGxDd1ZTamRra0dkbUhmVklXSFFuTXJoY085Ykt5blRJWg?oc=5",
-   "source": "ESG경제",
+   "source": "esgeconomy.com",
    "date": "2026-03-23"
   }
  ],
@@ -223,9 +223,9 @@ window.HOLDING_NEWS = {
    "date": "2026-03-18"
   },
   {
-   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - biz.heraldcorp.com",
+   "title": "모닝스타코리아, 베스트 한국 대형주 펀드로 ‘마이다스책임투자펀드’ 선정 - 헤럴드경제",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMVVhnLWlyNWVTczhxenJoN1p3M05ocTVmdzZ1a25KTF90ZDZWWHVhcWVNRXoxcWI4SGJla1Q3T0NKZFh3eGM1S1daY0RZWTA2U1l3TQ?oc=5",
-   "source": "biz.heraldcorp.com",
+   "source": "헤럴드경제",
    "date": "2022-04-12"
   },
   {
@@ -301,9 +301,9 @@ window.HOLDING_NEWS = {
    "date": "2025-02-16"
   },
   {
-   "title": "KB스타 미국 나스닥100 인덱스(H) - 브런치",
+   "title": "KB스타 미국 나스닥100 인덱스(H) - brunch.co.kr",
    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBSZlYwb2ZRWG1wV18zano4bUc4STVGR1h0UUY3eHNYVFQ4QVR4RE8ydjUzcHk4RjhIZ1NMb01uZWFFa2x0RzNxQlZHZ3dxNzBUM1lZ?oc=5",
-   "source": "브런치",
+   "source": "brunch.co.kr",
    "date": "2024-07-04"
   }
  ],
@@ -497,9 +497,9 @@ window.HOLDING_NEWS = {
    "date": "2026-08-04"
   },
   {
-   "title": "독일 DAX 지수, 중동 군사갈등 완화 기대감에 ‘사상 최고’ - etoday.co.kr",
+   "title": "독일 DAX 지수, 중동 군사갈등 완화 기대감에 ‘사상 최고’ - 이투데이",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBFWnJZc3VRUzg3TE90Q1BET3NzdlhuLXhXU24zcTRNTDhHSGw5T09GR2hoWThWdVBQb0FGQjRacVRYNTNwYmNlQ0VfMVNzSEpWenBrZQ?oc=5",
-   "source": "etoday.co.kr",
+   "source": "이투데이",
    "date": "2026-08-03"
   },
   {
