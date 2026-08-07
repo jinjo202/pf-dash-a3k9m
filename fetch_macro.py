@@ -1910,6 +1910,54 @@ COUNTRY_VAL_PE_SEED = {"EU": 14.5, "JP": 15.0, "CN": 11.0}  # 라이브 실패 �
 # EU/JP/CN은 시드 고정이라 밸류 팩터가 몇 달째 안 움직였다(사이클 정점 가드도 무의미).
 COUNTRY_PE_BENCH = {"US": "S&P 500", "KR": "KOSPI", "EU": "STOXX 600",
                     "JP": "니케이 225", "CN": "상해종합"}
+
+# ── 정책금리 자동 수집 ────────────────────────────────────────────────────────
+# 전에는 weekly/country_model.py에 POLICY_RATE가 하드코딩돼 있어, 2026-07 BOK가
+# 2.50→2.75로 올렸는데도 모델이 몇 달째 2.50으로 보고 긴축 전환을 통째로 놓쳤다.
+# FRED로 자동화하되 한계가 있다: US(DFF)·EU(ECBDFR)는 일별이라 즉시 반영되지만
+# KR·JP·CN은 OECD 월별 시리즈라 2개월가량 지연된다. 그래서 시드를 병기하고
+# **시드가 FRED보다 최신이면 시드를 쓰되, FRED가 따라잡으면 자동으로 승계**한다.
+# CN은 정책금리 시리즈가 마땅치 않아 3개월 은행간금리로 대체(캐리 프록시로는 무방).
+POLICY_FRED = {"US": "DFF", "KR": "IRSTCI01KRM156N", "EU": "ECBDFR",
+               "JP": "IRSTCI01JPM156N", "CN": "IR3TIB01CNM156N"}
+# 시드는 **FRED와 같은 개념이고 값이 검증된 나라만** 둔다.
+# 레벨은 시드에서, 6개월 변화는 FRED 시계열에서 가져오므로 둘의 개념이 다르면
+# 변화율이 엉터리가 된다(예: CN 시드 3.00 정책금리 vs FRED 1.69 은행간금리를
+# 비교하면 '+1.31 긴축'이라는 허구가 나온다). 그래서 KR만 시드를 유지한다 —
+# 2026-07 금통위 2.50→2.75 인상은 브리핑 아카이브로 확인된 값이고,
+# FRED 콜금리(IRSTCI01KRM156N)와 같은 개념이라 비교가 성립한다.
+POLICY_SEED = {"KR": (2.75, "2026-07")}
+POLICY_BIAS_PP = 0.10   # 6개월 변화가 이보다 크면 긴축/완화로 판정(±0.10%p)
+
+
+def build_policy_rates():
+    """{cc: {rate, as_of, chg6m, bias, src}} — 정책금리와 방향(긴축 −1 / 완화 +1).
+
+    bias는 주식 관점 부호: 금리 인상(긴축)이 역풍이므로 −1, 인하가 +1.
+    """
+    out = {}
+    for cc, sid in POLICY_FRED.items():
+        seed_rate, seed_asof = POLICY_SEED.get(cc, (None, "1900-01"))
+        rate, as_of, src, past = seed_rate, seed_asof, "seed", None
+        try:
+            d, v = fred_csv(sid, start="2024-01-01")
+            if v:
+                live_asof = str(d[-1])[:7]
+                past = v[-6] if len(v) >= 6 else v[0]      # 약 6관측 전
+                if live_asof >= seed_asof:                  # FRED가 시드를 따라잡음
+                    rate, as_of, src = round(float(v[-1]), 3), live_asof, sid
+                else:
+                    src = f"seed(>{sid} {live_asof})"
+        except Exception as e:                              # noqa: BLE001 — 개별 실패는 시드 유지
+            print(f"  [warn] 정책금리 {cc}({sid}) 실패: {type(e).__name__}")
+        chg = round(rate - past, 3) if (rate is not None and past is not None) else None
+        bias = 0
+        if chg is not None:
+            bias = -1 if chg > POLICY_BIAS_PP else (1 if chg < -POLICY_BIAS_PP else 0)
+        out[cc] = {"rate": rate, "as_of": as_of, "chg6m": chg, "bias": bias, "src": src}
+        print(f"  {cc}: {rate}% ({as_of}, {src}) 6M변화 {chg} → "
+              f"{'긴축' if bias < 0 else ('완화' if bias > 0 else '중립')}")
+    return out
 MON_SEED = {"US": -0.1, "KR": 0.1, "EU": 0.3, "JP": -0.4, "CN": 0.3}
 PREF_WEIGHTS = {
     "m1":  {"fx": 0.35, "earn": 0.30, "cycle": 0.20, "mon": 0.15, "val": 0.00},
@@ -3163,6 +3211,8 @@ def build():
     kospi_me = to_month_end(kospi_dates, kospi_vals)
     kosdaq_me = to_month_end(kosdaq_dates, kosdaq_vals)
     country_pref = build_country_pref(earn["data"], bench)
+    print("=== 정책금리 ===")
+    policy_rates = build_policy_rates()
     regime_history = build_regime_history(monthly, spx_me, kospi_me)
     # FRED 일별(vix/환율 등)이 차단돼 장기 히스토리가 끊기면 레짐히스토리 품질 저하
     # → 직전 좋은 값 보존(cron의 정상 실행이 갱신). 길이 급감 또는 핵심 일별 누락 시.
@@ -3221,6 +3271,7 @@ def build():
         "monthly_factors": build_monthly(today),
         "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,
+        "policy_rates": policy_rates,
         "regime_history": regime_history,
         "kr_flows_ts": kr_flows_ts,
         "kr_credit": kr_credit,

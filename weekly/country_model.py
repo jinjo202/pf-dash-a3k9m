@@ -41,16 +41,26 @@ MARKETS = [
 WEIGHTS = {"value": 0.20, "momentum": 0.20, "earnings": 0.175,
            "macro": 0.15, "currency": 0.075, "risk": 0.20}
 
-# 정책금리(%) — 캐리(KRW 대비) 근사.
-# ⚠ 수동 관리값. 금통위·FOMC 후 갱신할 것(자동 소스 없음 — ECOS 키 미보유).
-#   KR: 2026-07 금통위에서 2.50 → 2.75 인상('추가 인상 기조' 시사). 이전엔 2.50으로
-#   굳어 있어 모델이 긴축 전환을 전혀 못 봤다.
-POLICY_RATE = {"US": 3.625, "KR": 2.75, "EU": 2.25, "JP": 0.50, "CN": 3.00}
-POLICY_RATE_ASOF = "2026-07"
+# 정책금리(%)·통화정책 방향은 macro-data.js의 policy_rates(FRED 자동수집)에서 읽는다.
+# 아래는 그 키가 없는 옛 macro-data.js를 만났을 때의 폴백일 뿐 — 손으로 갱신하지 말 것.
+# (하드코딩 시절 KR이 2.50에 굳어 2026-07 금통위 인상을 몇 달간 놓친 사고가 있었다)
+POLICY_RATE_FALLBACK = {"US": 3.63, "KR": 2.75, "EU": 2.25, "JP": 0.84, "CN": 1.51}
+POLICY_BIAS_FALLBACK = {"US": 0, "KR": -1, "EU": 0, "JP": -1, "CN": 1}
 
-# 통화정책 방향 — 주식엔 긴축(+금리 인상)이 역풍. -1=긴축, 0=중립/동결, +1=완화.
-# macro 팩터에 반영된다. 위와 같이 수동 관리.
-POLICY_BIAS = {"US": 0, "KR": -1, "EU": 0, "JP": -1, "CN": 1}
+
+def policy_from(macro):
+    """(정책금리, 방향) — macro-data.js의 policy_rates 우선, 없으면 폴백.
+
+    방향(bias)은 주식 관점 부호: 긴축 −1 / 중립 0 / 완화 +1.
+    """
+    pr = (macro or {}).get("policy_rates") or {}
+    if not pr:
+        return dict(POLICY_RATE_FALLBACK), dict(POLICY_BIAS_FALLBACK)
+    rate = {c: ((pr.get(c) or {}).get("rate") or POLICY_RATE_FALLBACK.get(c))
+            for c in POLICY_RATE_FALLBACK}
+    bias = {c: (pr.get(c) or {}).get("bias", POLICY_BIAS_FALLBACK.get(c, 0))
+            for c in POLICY_BIAS_FALLBACK}
+    return rate, bias
 
 
 def _load(path, var_re):
@@ -182,6 +192,7 @@ def compute():
     cp = macro.get("country_pref") or {}
     earn = (macro.get("earnings") or {}).get("countries") or {}
     by_t = {x.get("ticker"): x for x in (bench.get("indices") or [])}
+    POLICY_RATE, POLICY_BIAS = policy_from(macro)
 
     raw = {c: {} for c, _, _ in MARKETS}
     for c, ko, tk in MARKETS:
