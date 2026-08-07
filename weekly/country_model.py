@@ -23,7 +23,7 @@
 각 팩터를 5개국 횡단면 z-score 후 가중합 → 종합점수 → 선호도(비중확대/중립/축소).
 출력: 종합점수·순위·팩터별 기여 + 한 줄 근거.
 """
-import sys, os, re, json
+import sys, os, re, json, math, statistics
 from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -38,10 +38,19 @@ MARKETS = [
     ("CN", "이머징", "EEM"),   # 이머징: 펀더멘털=중국(CN), 모멘텀=EM ETF
 ]
 
-WEIGHTS = {"value": 0.25, "momentum": 0.25, "earnings": 0.20, "macro": 0.20, "currency": 0.10}
+WEIGHTS = {"value": 0.20, "momentum": 0.20, "earnings": 0.175,
+           "macro": 0.15, "currency": 0.075, "risk": 0.20}
 
-# 정책금리(%) — 캐리(KRW 대비) 근사. (BOK 2.50 기준)
-POLICY_RATE = {"US": 3.625, "KR": 2.50, "EU": 2.25, "JP": 0.50, "CN": 3.00}
+# 정책금리(%) — 캐리(KRW 대비) 근사.
+# ⚠ 수동 관리값. 금통위·FOMC 후 갱신할 것(자동 소스 없음 — ECOS 키 미보유).
+#   KR: 2026-07 금통위에서 2.50 → 2.75 인상('추가 인상 기조' 시사). 이전엔 2.50으로
+#   굳어 있어 모델이 긴축 전환을 전혀 못 봤다.
+POLICY_RATE = {"US": 3.625, "KR": 2.75, "EU": 2.25, "JP": 0.50, "CN": 3.00}
+POLICY_RATE_ASOF = "2026-07"
+
+# 통화정책 방향 — 주식엔 긴축(+금리 인상)이 역풍. -1=긴축, 0=중립/동결, +1=완화.
+# macro 팩터에 반영된다. 위와 같이 수동 관리.
+POLICY_BIAS = {"US": 0, "KR": -1, "EU": 0, "JP": -1, "CN": 1}
 
 
 def _load(path, var_re):
@@ -71,6 +80,62 @@ def mom_12_1(idx):
     return (p_end / p_start - 1) * 100.0
 
 
+def mom_1m(idx):
+    """최근 1개월(~21거래일) 수익률(%). 12-1 모멘텀이 건너뛰는 구간을 메운다."""
+    h = (idx or {}).get("history") or {}
+    vals = [v for v in (h.get("values") or []) if v]
+    if len(vals) < 22:
+        return None
+    return (vals[-1] / vals[-22] - 1) * 100.0
+
+
+def drawdown_vol(idx):
+    """(52주 고점대비 낙폭%, 실현변동성 20일 연율화%) — 둘 다 못 구하면 (None, None).
+
+    모멘텀(12-1개월)은 최근 1개월을 설계상 건너뛰므로 **직전 한 달의 급락을 못 본다**.
+    2026-07 KOSPI가 고점 대비 -31% 급락했는데도 모델이 한국 모멘텀 z를 +1.85(5개국
+    최고)로 주고 '비중확대'를 낸 것이 그 때문이다. 낙폭·변동성은 그 사각지대를 메운다.
+    """
+    h = (idx or {}).get("history") or {}
+    v = [x for x in (h.get("values") or []) if x]
+    if len(v) < 60:
+        return None, None
+    win = v[-252:] if len(v) >= 252 else v
+    dd = (v[-1] / max(win) - 1) * 100.0
+    lr = [math.log(v[i] / v[i - 1]) for i in range(len(v) - 20, len(v)) if v[i - 1]]
+    vol = (statistics.pstdev(lr) * math.sqrt(252) * 100.0) if len(lr) > 1 else None
+    return dd, vol
+
+
+def kr_flow_overlay():
+    """한국 전용 수급 오버레이 (점수 가산·감산, 범위 ±0.25).
+
+    수급 데이터(외인 순매수·신용잔고)는 한국만 있어 5개국 횡단면 z를 만들 수 없다.
+    그래서 팩터가 아니라 **홈마켓 오버레이**로 분리한다(방법론에 명시).
+    · 외인 YTD 누적 순매도가 크면 감점
+    · 신용잔고 1개월 감소(반대매매·디레버리징 진행)면 감점
+    반환: (조정치, 설명문자열)
+    """
+    adj, notes = 0.0, []
+    try:
+        fl = json.load(open(os.path.join(REPO, "kr_flows.json"), encoding="utf-8"))
+        ytd = ((fl.get("ytd_total") or {}).get("foreign"))
+        if ytd is not None and ytd <= -50:        # 조원. 대규모 외인 이탈
+            adj -= 0.15
+            notes.append("외인 YTD %.0f조 순매도" % ytd)
+    except Exception:                             # noqa: BLE001 — 없으면 오버레이만 생략
+        pass
+    try:
+        sp = json.load(open(os.path.join(REPO, "kr_supply.json"), encoding="utf-8"))
+        cr = (sp.get("credit") or {}).get("신용잔고_1개월변화_조")
+        if cr is not None and cr <= -1.0:         # 신용잔고 급감 = 반대매매 진행
+            adj -= 0.10
+            notes.append("신용잔고 1M %+.1f조(디레버리징)" % cr)
+    except Exception:                             # noqa: BLE001
+        pass
+    return max(-0.25, adj), ("수급: " + ", ".join(notes)) if notes else ""
+
+
 def zscores(d):
     """{key: val} → {key: z}. None 은 0(중립) 처리."""
     vals = [v for v in d.values() if v is not None]
@@ -96,8 +161,11 @@ def compute():
         # Value: (fair_pe - pe)/fair_pe — 싸면 +
         pe, fpe = p.get("pe"), p.get("fair_pe")
         raw[c]["value"] = ((fpe - pe) / fpe) if (pe and fpe) else None
-        # Momentum: 12-1
-        raw[c]["momentum"] = mom_12_1(by_t.get(tk))
+        # Momentum: 12-1개월(장기 추세) + 최근 1개월(급변 반영) 등가중.
+        # 12-1만 쓰면 최근 1개월이 설계상 제외돼 직전 달 급락을 전혀 못 본다.
+        raw[c]["mom12"] = mom_12_1(by_t.get(tk))
+        raw[c]["mom1"] = mom_1m(by_t.get(tk))
+        raw[c]["momentum"] = None                  # 아래서 서브팩터 z 평균으로 채움
         # Earnings: ERR(0.7) + 1M수정(0.3)
         err, rev30 = e.get("err"), e.get("rev30")
         raw[c]["earnings"] = (0.7 * err + 0.3 * (rev30 or 0)) if err is not None else None
@@ -106,10 +174,18 @@ def compute():
         cli = p.get("cli")
         growth = (cli - 100.0) if cli is not None else None
         mon = (comp.get("mon") or 0) / 100.0
+        # 정책 방향(POLICY_BIAS)을 명시적으로 더한다 — components.mon만으로는
+        # BOK 인상 같은 긴축 전환이 반영되지 않았다(mon_note가 '동결·완화 여지'로 고정).
+        bias = POLICY_BIAS.get(c, 0) * 0.5
         if growth is not None:
-            raw[c]["macro"] = 0.6 * growth + 0.4 * (mon * 2.0)  # mon 스케일 맞춤
+            raw[c]["macro"] = 0.6 * growth + 0.4 * (mon * 2.0) + bias
         else:
-            raw[c]["macro"] = mon * 2.0
+            raw[c]["macro"] = mon * 2.0 + bias
+        # Risk: 52주 고점대비 낙폭 + 실현변동성(둘 다 낮을수록 좋음 → 아래서 z 평균)
+        dd, vol = drawdown_vol(by_t.get(tk))
+        raw[c]["ddown"] = dd                       # 음수일수록 나쁨 → 그대로 z
+        raw[c]["vol"] = (-vol) if vol is not None else None   # 높을수록 나쁨 → 부호반전
+        raw[c]["risk"] = None                      # 아래서 서브팩터 z 평균으로 채움
         # Currency 3요소 (KR=home이라 전부 0 → FX 노출 없음)
         if c == "KR":
             raw[c]["carry"] = raw[c]["fxmom"] = raw[c]["fxval"] = 0.0
@@ -120,23 +196,49 @@ def compute():
             raw[c]["fxval"] = (-rd) if rd is not None else None  # REER 고평가(−)/저평가(+)
         raw[c]["currency"] = None  # 아래서 서브팩터 z 평균으로 채움
 
-    # 팩터별 z-score (currency는 3요소 z 등가중 평균)
+    # 팩터별 z-score (currency·risk는 서브팩터 z 등가중 평균)
     zf = {}
-    for f in [k for k in WEIGHTS if k != "currency"]:
+    for f in [k for k in WEIGHTS if k not in ("currency", "risk", "momentum")]:
         zf[f] = zscores({c: raw[c][f] for c, _, _ in MARKETS})
+    _msub = [zscores({c: raw[c][k] for c, _, _ in MARKETS}) for k in ("mom12", "mom1")]
+    zf["momentum"] = {c: round(sum(s[c] for s in _msub) / 2.0, 4) for c, _, _ in MARKETS}
     _subs = [zscores({c: raw[c][k] for c, _, _ in MARKETS}) for k in ("carry", "fxmom", "fxval")]
     zf["currency"] = {c: round(sum(s[c] for s in _subs) / 3.0, 4) for c, _, _ in MARKETS}
+    _rsub = [zscores({c: raw[c][k] for c, _, _ in MARKETS}) for k in ("ddown", "vol")]
+    zf["risk"] = {c: round(sum(s[c] for s in _rsub) / 2.0, 4) for c, _, _ in MARKETS}
     for c, _, _ in MARKETS:
         raw[c]["currency"] = {k: raw[c][k] for k in ("carry", "fxmom", "fxval")}
+        raw[c]["risk"] = {"ddown": raw[c]["ddown"], "vol": raw[c]["vol"]}
+        raw[c]["momentum"] = {"mom12": raw[c]["mom12"], "mom1": raw[c]["mom1"]}
 
-    # 종합 z + 선호도
+    # 밸류 함정 가드: 급락으로 PER만 싸진 경우를 걸러낸다.
+    # 이익수정(earnings)이 마이너스인데 밸류가 플러스면, 싼 게 아니라 이익이 깎이는
+    # 중일 수 있다. 그런 조합에서 밸류 z의 플러스분을 최대 50%까지 깎는다.
+    # (2026-08 한국: 밸류 z+1.87 · 이익수정 z−0.18 — 전형적 사례)
+    trap = {}
+    for c, _, _ in MARKETS:
+        zv, ze = zf["value"][c], zf["earnings"][c]
+        if zv > 0 and ze < 0:
+            cut = min(0.5, abs(ze) / 2.0)
+            trap[c] = round(zv * cut, 4)
+            zf["value"][c] = zv - trap[c]
+
+    # 종합 z + 선호도 (한국은 수급 오버레이 가산)
+    kr_adj, kr_note = kr_flow_overlay()
     out = []
     for c, ko, tk in MARKETS:
         contrib = {f: round(zf[f][c] * WEIGHTS[f], 3) for f in WEIGHTS}
-        score = round(sum(contrib.values()), 3)
-        out.append({"code": c, "name": ko, "score": score,
-                    "z": {f: round(zf[f][c], 2) for f in WEIGHTS},
-                    "contrib": contrib, "raw": {f: raw[c][f] for f in WEIGHTS}})
+        score = sum(contrib.values())
+        row = {"code": c, "name": ko,
+               "z": {f: round(zf[f][c], 2) for f in WEIGHTS},
+               "contrib": contrib, "raw": {f: raw[c][f] for f in WEIGHTS}}
+        if c == "KR" and kr_adj:
+            score += kr_adj
+            row["overlay"] = {"adj": round(kr_adj, 3), "note": kr_note}
+        if trap.get(c):
+            row["value_trap_cut"] = trap[c]
+        row["score"] = round(score, 3)
+        out.append(row)
     out.sort(key=lambda x: x["score"], reverse=True)
 
     # 선호도: 종합 z 임계 (±0.3) — 횡단면 상대
@@ -147,7 +249,7 @@ def compute():
 
 
 _FAC_KO = {"value": "밸류", "momentum": "모멘텀", "earnings": "이익수정",
-           "macro": "매크로", "currency": "통화(FX3요소)"}
+           "macro": "매크로", "currency": "통화(FX3요소)", "risk": "리스크(낙폭·변동성)"}
 
 
 def rationale(r):
@@ -160,6 +262,10 @@ def rationale(r):
         parts.append("강점 " + "·".join(_FAC_KO[f] for f, _ in pos))
     if neg:
         parts.append("부담 " + "·".join(_FAC_KO[f] for f, _ in neg))
+    if r.get("value_trap_cut"):
+        parts.append("밸류함정 보정 −%.2f(이익수정 마이너스)" % r["value_trap_cut"])
+    if r.get("overlay"):
+        parts.append("%s(%+.2f)" % (r["overlay"]["note"], r["overlay"]["adj"]))
     verdict = {"비중확대": "→ 비중확대", "축소": "→ 축소", "중립": "→ 중립"}.get(r["pref"], "")
     return (", ".join(parts) + " " + verdict).strip()
 

@@ -116,6 +116,42 @@ def split_sentences(text):
     return out
 
 
+VKOSPI_STALE_DAYS = 7
+
+
+def vkospi_stale_warning():
+    """VKOSPI 데이터가 낡았으면 경고 문구, 아니면 None.
+
+    소스(KRX Open API)는 인증키·API 이용신청이 만료되면 조용히 401로 떨어지고
+    시드값이 그대로 유지된다. 2026-06~08에 실제로 65일간 방치되며 KOSPI 급락 국면에
+    'VKOSPI 21.0 정상'이라는 거짓 안전신호를 냈다. fail-safe가 조용해서 생긴 사고라
+    메일에 한 줄 띄워 사람이 알아채게 한다.
+    """
+    import re as _re
+    from datetime import date as _date
+    try:
+        repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        t = open(os.path.join(repo, "macro-data.js"), encoding="utf-8").read()
+        # '"vkospi"'로 찾으면 as_of가 없는 stress 패널 항목("key":"vkospi")에 걸린다.
+        # as_of를 가진 지표 딕셔너리는 '"vkospi": {' 형태다.
+        k = _re.search(r'"vkospi"\s*:\s*\{', t)
+        if not k:
+            return None
+        i = k.start()
+        m = _re.search(r'"as_of"\s*:\s*"(\d{4}-\d{2}-\d{2})"', t[i:i + 4000])
+        if not m:
+            return None
+        age = (_date.today() - _date.fromisoformat(m.group(1))).days
+        if age > VKOSPI_STALE_DAYS:
+            return ("※ [데이터 점검] VKOSPI 기준일 %s (%d일 경과). KRX Open API 조회가 "
+                    "실패해 옛 값이 유지되고 있습니다 — 인증키·API 이용신청 만료 여부를 "
+                    "확인하세요. 이 값으로 한국 변동성을 판단하지 마십시오."
+                    % (m.group(1), age))
+    except Exception:      # noqa: BLE001 — 경고 표시 실패가 메일 발송을 막으면 안 된다
+        pass
+    return None
+
+
 def build_html(brief):
     md = md_from(brief.get("as_of"))
     paragraphs = [p.strip() for p in (brief.get("paragraphs") or []) if p and p.strip()]
@@ -155,6 +191,11 @@ def build_html(brief):
             '<p style="' + BODY + '"><span style="background:transparent;'
             'font-family:바탕체,serif;color:#b45309">※ 본 메일은 장중 잠정치 기반 '
             '<b>초안</b>입니다. 마감 후 확정 수치로 최종본을 다시 보내드립니다.</span></p>')
+    _vk = vkospi_stale_warning()
+    if _vk:
+        parts.append(
+            '<p style="' + BODY + '"><span style="background:transparent;'
+            'font-family:바탕체,serif;color:#b91c1c">' + esc(_vk) + '</span></p>')
     parts.append('<p><br></p>')
 
     n = len(paragraphs)
