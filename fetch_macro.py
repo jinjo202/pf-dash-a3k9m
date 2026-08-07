@@ -17,6 +17,7 @@ import json
 import sys
 import io
 import math
+import os
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -26,6 +27,23 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 HERE = Path(__file__).parent
 OUT = HERE / "macro-data.js"
 BENCH = HERE / "benchmarks.js"
+
+
+def _load_dotenv():
+    """로컬 .env → os.environ (이미 설정된 값은 덮지 않음). CI는 Secrets를 쓰므로 무시된다.
+    python-dotenv 의존성을 추가할 만한 일이 아니라 stdlib로 처리."""
+    f = HERE / ".env"
+    if not f.exists():
+        return
+    for line in f.read_text(encoding="utf-8", errors="replace").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
+_load_dotenv()
 
 FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={id}&cosd={start}"
 FRED_API = "https://api.stlouisfed.org/fred/series/observations?series_id={id}&observation_start={start}&api_key={key}&file_type=json"
