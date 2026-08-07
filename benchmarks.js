@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-08-07",
-  "generated_utc": "2026-08-07T06:50:49Z",
+  "generated_utc": "2026-08-07T07:20:53Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -17,7 +17,7 @@ window.BENCHMARKS = {
       "as_of": "2026-08-06",
       "decimals": 2,
       "valuation": {
-        "pe": 21.45,
+        "pe": 21.44,
         "pb": null,
         "roe": null,
         "src": "ACWI (top derived)",
@@ -564,12 +564,12 @@ window.BENCHMARKS = {
       "as_of": "2026-08-06",
       "decimals": 2,
       "valuation": {
-        "pe": 6.92,
-        "pb": null,
+        "pe": 6.85,
+        "pb": 1.24,
         "roe": null,
         "src": "EEM (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1102,21 +1102,21 @@ window.BENCHMARKS = {
       "name": "KOSPI",
       "ticker": "^KS11",
       "category": "한국",
-      "current": 6258.71,
+      "current": 6258.77,
       "baseline": 4214.1699,
       "mtd_baseline": 6595.4502,
-      "ytd_pct": 48.5158,
-      "mtd_pct": -5.1056,
-      "daily_pct": -0.5983,
+      "ytd_pct": 48.5173,
+      "mtd_pct": -5.1047,
+      "daily_pct": -0.5973,
       "as_of": "2026-08-07",
       "decimals": 0,
       "valuation": {
-        "pe": 3.72,
-        "pb": null,
+        "pe": 3.68,
+        "pb": 1.86,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -1641,7 +1641,7 @@ window.BENCHMARKS = {
           6358.9502,
           6598.2598,
           6296.3799,
-          6258.71
+          6258.77
         ]
       }
     },
@@ -1649,12 +1649,12 @@ window.BENCHMARKS = {
       "name": "KOSDAQ",
       "ticker": "^KQ11",
       "category": "한국",
-      "current": 798.8,
+      "current": 798.81,
       "baseline": 925.47,
       "mtd_baseline": 719.76,
-      "ytd_pct": -13.6871,
-      "mtd_pct": 10.9814,
-      "daily_pct": -0.358,
+      "ytd_pct": -13.686,
+      "mtd_pct": 10.9828,
+      "daily_pct": -0.3568,
       "as_of": "2026-08-07",
       "decimals": 2,
       "valuation": {
@@ -2188,7 +2188,7 @@ window.BENCHMARKS = {
           780.72,
           799.59,
           801.67,
-          798.8
+          798.81
         ]
       }
     },
@@ -3837,16 +3837,16 @@ window.BENCHMARKS = {
       "name": "STOXX 600",
       "ticker": "^STOXX",
       "category": "유럽",
-      "current": 658.19,
+      "current": 659.02,
       "baseline": 592.78,
       "mtd_baseline": 649.19,
-      "ytd_pct": 11.0344,
-      "mtd_pct": 1.3863,
-      "daily_pct": 0.1598,
-      "as_of": "2026-08-06",
+      "ytd_pct": 11.1745,
+      "mtd_pct": 1.5142,
+      "daily_pct": 0.1261,
+      "as_of": "2026-08-07",
       "decimals": 2,
       "valuation": {
-        "pe": 15.57,
+        "pe": 15.64,
         "pb": null,
         "roe": null,
         "src": "IEUR (top derived)",
@@ -3855,7 +3855,6 @@ window.BENCHMARKS = {
       },
       "history": {
         "dates": [
-          "2025-07-23",
           "2025-07-24",
           "2025-07-25",
           "2025-07-28",
@@ -4114,10 +4113,10 @@ window.BENCHMARKS = {
           "2026-08-03",
           "2026-08-04",
           "2026-08-05",
-          "2026-08-06"
+          "2026-08-06",
+          "2026-08-07"
         ],
         "values": [
-          550.22,
           551.55,
           549.95,
           548.76,
@@ -4376,7 +4375,8 @@ window.BENCHMARKS = {
           652.09,
           656.86,
           657.14,
-          658.19
+          658.19,
+          659.02
         ]
       }
     },
@@ -4393,12 +4393,12 @@ window.BENCHMARKS = {
       "as_of": "2026-08-07",
       "decimals": 0,
       "valuation": {
-        "pe": 22.47,
-        "pb": null,
+        "pe": 22.52,
+        "pb": 1.41,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": null
+        "pb_kind": "ttm"
       },
       "history": {
         "dates": [
@@ -4931,16 +4931,16 @@ window.BENCHMARKS = {
       "name": "상해종합",
       "ticker": "000001.SS",
       "category": "아시아",
-      "current": 3931.1931,
+      "current": 3940.0371,
       "baseline": 3968.8401,
       "mtd_baseline": 3832.262,
-      "ytd_pct": -0.9486,
-      "mtd_pct": 2.5815,
-      "daily_pct": 0.7907,
+      "ytd_pct": -0.7257,
+      "mtd_pct": 2.8123,
+      "daily_pct": 1.0175,
       "as_of": "2026-08-07",
       "decimals": 2,
       "valuation": {
-        "pe": 12.87,
+        "pe": 12.85,
         "pb": null,
         "roe": null,
         "src": "MCHI (top derived)",
@@ -5470,7 +5470,7 @@ window.BENCHMARKS = {
           3822.2849,
           3878.4299,
           3900.3521,
-          3931.1931
+          3940.0371
         ]
       }
     },
@@ -5478,12 +5478,12 @@ window.BENCHMARKS = {
       "name": "USD/KRW",
       "ticker": "KRW=X",
       "category": "환율",
-      "current": 1416.38,
+      "current": 1417.52,
       "baseline": 1437.91,
       "mtd_baseline": 1420.6,
-      "ytd_pct": -1.4973,
-      "mtd_pct": -0.2971,
-      "daily_pct": -0.3363,
+      "ytd_pct": -1.418,
+      "mtd_pct": -0.2168,
+      "daily_pct": -0.2561,
       "as_of": "2026-08-07",
       "decimals": 2,
       "valuation": {
@@ -6017,7 +6017,7 @@ window.BENCHMARKS = {
           1428.5,
           1428.4301,
           1421.16,
-          1416.38
+          1417.52
         ]
       }
     },
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 77.96,
+      "current": 77.81,
       "baseline": 57.42,
       "mtd_baseline": 84.67,
-      "ytd_pct": 35.7715,
-      "mtd_pct": -7.9249,
-      "daily_pct": 0.8669,
+      "ytd_pct": 35.5103,
+      "mtd_pct": -8.102,
+      "daily_pct": 0.6728,
       "as_of": "2026-08-07",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           75.77,
           75.22,
           77.29,
-          77.96
+          77.81
         ]
       }
     },
