@@ -92,6 +92,10 @@ def check_reminders(reminders: list, *, smtp_user, smtp_pass, sender, recipients
             continue
         if mailer.send_email(smtp_user, smtp_pass, sender, recipients,
                              subject, mailer.build_reminder_body(r, stage)):
+            import kakao
+            when = "내일" if stage == "d1" else "오늘"
+            kakao.notify(f"[배당 리마인드] {when} {r.get('name')} 배당기준일 {r.get('record_date')}"
+                         + (f" · {r.get('amount')}" if r.get("amount") not in (None, "-") else ""))
             r["sent_stages"].append(stage)
             sent += 1
     return sent
@@ -214,6 +218,13 @@ def _send_dividend(d: Disclosure, extra: dict, *, smtp_user, smtp_pass, sender, 
             os.remove(pdf_path)
         except OSError:
             pass
+    if ok:
+        import kakao
+        per = extra.get("1주당 배당금")
+        rec = extra.get("배당기준일") or extra.get("기준일") or ""
+        kakao.notify(f"[배당공시] {d.corp_name.strip()} {d.report_nm.strip()}"
+                     + (f"\n1주당 {per}원" if per else "") + (f" · 기준일 {rec}" if rec else ""),
+                     d.dart_url)
     return ok
 
 

@@ -61,6 +61,8 @@ jobs:
           SMTP_PASS: ${{ secrets.GMAIL_APP_PASSWORD }}
           SENDER_EMAIL: ${{ secrets.GMAIL_SENDER }}
           RECIPIENT_EMAILS: ${{ secrets.RECIPIENT_EMAILS }}
+          KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
           LOOKBACK_DAYS: '2'
         run: |
           if [ "${{ inputs.test_email }}" = "true" ]; then
