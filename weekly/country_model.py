@@ -107,6 +107,34 @@ def drawdown_vol(idx):
     return dd, vol
 
 
+# bm-factors.js(Morningstar 후행 집계) 지수명 → 국가코드. 후행 PER이 있는 나라만.
+_BMF_TO_CODE = {"KOSPI": "KR", "S&P 500": "US"}
+CYC_RATIO_WARN = 0.60      # fwd/trailing 이 이보다 낮으면 이익 정점 의심
+CYC_MAX_CUT = 0.70         # 밸류 플러스분 최대 차감 비율
+
+
+def cyclical_pe_ratio():
+    """{국가코드: forward PER ÷ trailing PER}. 데이터 없는 나라는 제외.
+
+    경기민감주는 **사이클 정점에서 PER이 가장 낮게 보인다** — 이익이 최대이기 때문이다.
+    2026-08 한국이 그 전형: forward PER 3.67(삼성 3.44·하이닉스 3.12가 EWY의 45%)
+    대비 후행 19.98 → 비율 0.18. 값 자체는 정확하지만 '싸다'로 읽으면 오독이다.
+    (미국은 22.07/26.87 = 0.82로 정상 범위)
+    """
+    out = {}
+    try:
+        t = open(os.path.join(REPO, "bm-factors.js"), encoding="utf-8").read()
+        d = json.loads(re.search(r"window\.BM_FACTORS\s*=\s*(\{.*\})\s*;", t, re.S).group(1))
+    except Exception:                              # noqa: BLE001 — 없으면 가드만 생략
+        return out
+    for nm, v in (d.get("indices") or {}).items():
+        code = _BMF_TO_CODE.get(nm)
+        ttm = v.get("pe")
+        if code and ttm:
+            out[code] = ttm
+    return out
+
+
 def kr_flow_overlay():
     """한국 전용 수급 오버레이 (점수 가산·감산, 범위 ±0.25).
 
@@ -161,6 +189,7 @@ def compute():
         # Value: (fair_pe - pe)/fair_pe — 싸면 +
         pe, fpe = p.get("pe"), p.get("fair_pe")
         raw[c]["value"] = ((fpe - pe) / fpe) if (pe and fpe) else None
+        raw[c]["pe_fwd"] = pe          # 사이클 정점 가드에서 후행 PER과 대조
         # Momentum: 12-1개월(장기 추세) + 최근 1개월(급변 반영) 등가중.
         # 12-1만 쓰면 최근 1개월이 설계상 제외돼 직전 달 급락을 전혀 못 본다.
         raw[c]["mom12"] = mom_12_1(by_t.get(tk))
@@ -223,6 +252,22 @@ def compute():
             trap[c] = round(zv * cut, 4)
             zf["value"][c] = zv - trap[c]
 
+    # 사이클 정점 가드: forward PER이 후행 대비 극단적으로 낮으면 '싼 게 아니라
+    # 이익이 정점'일 수 있다. 비율이 낮을수록 밸류 플러스분을 더 깎는다.
+    cyc = {}
+    ttm_pe = cyclical_pe_ratio()
+    for c, _, _ in MARKETS:
+        fwd, ttm = raw[c].get("pe_fwd"), ttm_pe.get(c)
+        zv = zf["value"][c]
+        if not (fwd and ttm and zv > 0):
+            continue
+        ratio = fwd / ttm
+        if ratio < CYC_RATIO_WARN:
+            frac = min(CYC_MAX_CUT, (CYC_RATIO_WARN - ratio) / CYC_RATIO_WARN)
+            cyc[c] = {"ratio": round(ratio, 2), "cut": round(zv * frac, 4),
+                      "fwd": fwd, "ttm": ttm}
+            zf["value"][c] = zv - cyc[c]["cut"]
+
     # 종합 z + 선호도 (한국은 수급 오버레이 가산)
     kr_adj, kr_note = kr_flow_overlay()
     out = []
@@ -237,6 +282,8 @@ def compute():
             row["overlay"] = {"adj": round(kr_adj, 3), "note": kr_note}
         if trap.get(c):
             row["value_trap_cut"] = trap[c]
+        if cyc.get(c):
+            row["cyclical_peak"] = cyc[c]
         row["score"] = round(score, 3)
         out.append(row)
     out.sort(key=lambda x: x["score"], reverse=True)
@@ -264,6 +311,10 @@ def rationale(r):
         parts.append("부담 " + "·".join(_FAC_KO[f] for f, _ in neg))
     if r.get("value_trap_cut"):
         parts.append("밸류함정 보정 −%.2f(이익수정 마이너스)" % r["value_trap_cut"])
+    if r.get("cyclical_peak"):
+        cp = r["cyclical_peak"]
+        parts.append("사이클정점 보정 −%.2f(fwd PER %.1f vs 후행 %.1f, 비율 %.2f)"
+                     % (cp["cut"], cp["fwd"], cp["ttm"], cp["ratio"]))
     if r.get("overlay"):
         parts.append("%s(%+.2f)" % (r["overlay"]["note"], r["overlay"]["adj"]))
     verdict = {"비중확대": "→ 비중확대", "축소": "→ 축소", "중립": "→ 중립"}.get(r["pref"], "")
