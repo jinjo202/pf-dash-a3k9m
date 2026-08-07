@@ -747,12 +747,29 @@ function kxSeriesObj(){
   return { months:(KX.series&&KX.series.months)||[], s:KX.series||{} };
 }
 function kxPct(s){ if(s==null) return null; var v=parseFloat(String(s).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:null; }
+/* 관세청 자동수집(EXPORT_FLASH)이 수기 highlight보다 최신이면 하이라이트를 자동 생성 */
+function autoHighlight(){
+  var F=window.EXPORT_FLASH;
+  if(!F || !F.items || !F.month) return null;
+  if(KX.highlight && KX.highlight.month && KX.highlight.month >= F.month) return null;
+  var t=F.items.total; if(!t || t.val==null) return null;
+  var tops=Object.keys(F.items).filter(function(k){ return k!=='total' && F.items[k].yoy!=null; })
+    .sort(function(a,b){ return F.items[b].yoy-F.items[a].yoy; }).slice(0,4)
+    .map(function(k){ return (F.items[k].name||k)+" "+(F.items[k].yoy>0?"+":"")+F.items[k].yoy+"%"; });
+  return {
+    title: "📦 "+F.month+" 수출 $"+t.val+"B ("+(t.yoy>0?"+":"")+t.yoy+"% YoY)",
+    body: "증가율 상위: "+tops.join(" · ")+". 관세청 10일단위 잠정("+(F.period_end||"")+" 누계) 자동수집 — 상세 HS(품목별 금액·단가)는 익월 15일경 확정되며 확정 시 아래 섹터 상세가 자동 갱신됩니다.",
+    verified: true
+  };
+}
 function renderKX(){
   if(!KX){ $('kxPanel').style.display='none'; return; }
   $('kxNote').textContent = KX.note||"";
-  if(KX.highlight){
-    $('kxHighlight').innerHTML = '<div class="hlt">'+esc(KX.highlight.title)+(KX.highlight.verified===false?' <span class="badge chk">검증필요</span>':'')+'</div>'+
-      '<div class="hlb">'+esc(KX.highlight.body)+'</div>';
+  // 하이라이트: 자동수집(EXPORT_FLASH)이 수기 highlight보다 최신이면 자동 생성(매월 손 안 대도 최신 유지)
+  var hl = autoHighlight() || KX.highlight;
+  if(hl){
+    $('kxHighlight').innerHTML = '<div class="hlt">'+esc(hl.title)+(hl.verified===false?' <span class="badge chk">검증필요</span>':'')+'</div>'+
+      '<div class="hlb">'+esc(hl.body)+'</div>';
   } else { $('kxHighlight').style.display='none'; }
 
   // 발표 사이클 타임라인 (이번 달 export 이벤트)
@@ -937,7 +954,16 @@ function renderSectors(){
   host.querySelectorAll('.subitem').forEach(function(b){
     b.addEventListener('click', function(e){ e.stopPropagation(); openSubItem(this.dataset.k); });
   });
-  if($('kxSectorNote')) $('kxSectorNote').textContent = H&&H.cat ? ("출처: "+(H.source||"")+" · 상세 확정 최신 "+(H.latest_month||"")+" (관세청 상세는 익월 15일경 확정 — 6월분은 7/15경 자동 반영). 그 전 최신월은 ⚡신속 잠정치(산업부 익월 1일 발표 기반)로 세부항목 모달에 표시. 세부항목 클릭 → 금액·단가·YoY·MoM + 핵심분석 + 주가 영향.") : "관세청 데이터 수집 대기 — 반영 시 섹터별 실수치가 채워집니다.";
+  if($('kxSectorNote')){
+    var F=window.EXPORT_FLASH, pend="";
+    if(F && F.month && (!H.latest_month || H.latest_month < F.month)){
+      var nm=+F.month.slice(5)+1, ny=+F.month.slice(0,4); if(nm>12){nm=1;ny++;}
+      pend = " "+F.month+"분 상세는 "+nm+"/15경 확정 예정 — 그 전까지는 ⚡신속 잠정치(관세청 10일단위 자동)로 표시.";
+    }
+    $('kxSectorNote').textContent = H&&H.cat
+      ? ("출처: "+(H.source||"")+" · 상세 확정 최신 "+(H.latest_month||"")+"."+pend+" 세부항목 클릭 → 금액·단가·YoY·MoM + 핵심분석 + 주가 영향.")
+      : "관세청 데이터 수집 대기 — 반영 시 섹터별 실수치가 채워집니다.";
+  }
 }
 function openSubItem(k){
   var H=window.EXPORT_HISTORY, c=catOf(k), meta=findItemMeta(k), isRgn=k.indexOf("rgn:")===0;
@@ -954,7 +980,9 @@ function openSubItem(k){
       if(!H.latest_month || H.latest_month < flMonth){
         var fVal = auFi ? auFi.val : muFi.val;
         var fYoy = auFi ? auFi.yoy : muFi.yoy;
-        var fExtra = muFi ? muFi.extra : null;   // 뉴스 코멘트(단가 하락 등)는 자동 API에 없어 수기에서 보존
+        // 뉴스 코멘트는 자동 API에 없어 수기에서 보존하되, 수기가 표시월과 다른 달이면 버림
+        // (안 그러면 7월 자동수치 옆에 6월 서사가 붙어 오해를 부름)
+        var fExtra = (muFi && MANUAL_FL.month === flMonth) ? muFi.extra : null;
         var fparts = [];
         if(fVal!=null) fparts.push("수출 $"+fVal+"B");
         if(fYoy!=null) fparts.push("YoY <span class='"+(fYoy<0?"neg":"pos")+"'>"+(fYoy>0?"+":"")+fYoy+"%</span>");
