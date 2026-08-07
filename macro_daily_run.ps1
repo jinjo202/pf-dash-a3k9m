@@ -29,8 +29,14 @@ Log "=== macro_daily_run 시작 ==="
 
 try {
     # 1) 동기화 (cron이 하루 8회 push하므로 항상 최신에서 시작)
+    # pull 실패는 치명적이지 않다 — 이 작업 폴더는 병렬 세션과 공유돼 미커밋 변경이 있으면
+    # --ff-only가 거부한다. 그 경우에도 아래 push 재시도(fetch→reset --soft→재커밋)가
+    # 낡은 베이스를 알아서 정리하므로, 여기서 중단하지 말고 경고만 남기고 진행.
     Git-Run @("fetch", "origin", "main") "git fetch"
-    Git-Run @("pull", "--ff-only", "origin", "main") "git pull --ff-only"
+    & git pull --ff-only origin main | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        Log "경고: git pull --ff-only 스킵 (미커밋 변경/분기 추정) — push 단계에서 재정렬 시도"
+    }
 
     # 2) 매크로 데이터 갱신 (FRED_API_KEY는 영구 User 환경변수)
     & python fetch_macro.py
