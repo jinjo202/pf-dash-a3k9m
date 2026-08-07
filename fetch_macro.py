@@ -855,7 +855,19 @@ def score_indicator(key, cur, hist_vals, ctx):
         # 역발상: 높을수록(공포)→강세, 낮을수록(낙관)→약세
         return clamp((cur - 0.95) / 0.35)
     if key == "vkospi":
-        # VKOSPI 낮으면 안정(호재), 30+ 악재 (한국 변동성, VIX보다 베이스 높음)
+        # 절대임계(예전 35/45) 금지 — 2026년처럼 VKOSPI가 몇 달째 65~97에 상주하는 레짐에선
+        # 매일 '경보'가 켜져 정보량이 0이 된다. 항상 켜진 경보는 경보가 아니다.
+        # 대신 '자기 자신의 최근 분포에서 어디인가'로 판단(백분위).
+        h = [x for x in (hist_vals or []) if isinstance(x, (int, float))]
+        if len(h) >= 30:
+            pct = sum(1 for x in h if x < cur) / len(h) * 100.0   # 0=최저, 100=최고
+            v = clamp((50.0 - pct) / 50.0)      # 중앙값=0, 저점=+1, 고점=-1
+            # 단 절대수준이 객관적으로 높은 구간에선 '상대적 진정'을 호재로까지 읽지 않는다.
+            # 악화가 아닐 뿐이지 순풍은 아님 → 상한 0.
+            if cur >= 40:
+                v = min(v, 0.0)
+            return v
+        # 히스토리 부족 시에만 기존 절대기준 폴백
         if cur >= 35:
             return clamp(-1.0 + (cur - 35) / 30.0 * 0.4)
         return clamp((22 - cur) / 12.0)
@@ -2237,24 +2249,47 @@ def build_stress(indicators, kospi_vals, kosdaq_vals):
 
     vk = cur("vkospi")
     if vk is not None:
-        vk_as_of = str((indicators.get("vkospi") or {}).get("as_of", ""))[:10]
+        vk_ind = indicators.get("vkospi") or {}
+        vk_as_of = str(vk_ind.get("as_of", ""))[:10]
         vk_age = None
         try:
             vk_age = (date.today() - date.fromisoformat(vk_as_of)).days
         except Exception:
             pass
-        # VKOSPI는 investing.com이 GH Actions IP를 막아 cron에선 시드가 유지된다.
-        # 값이 낡았는데 "정상"으로 띄우면 가장 중요한 한국 신호에 거짓 안전 신호를 주게 되므로
-        # 7일 초과면 판정을 보류(watch)하고 라벨에 명시.
+        vh = [x for x in ((vk_ind.get("history") or {}).get("values") or [])
+              if isinstance(x, (int, float))]
         if vk_age is not None and vk_age > 7:
             add("vkospi", "VKOSPI (한국 변동성)", vk, "", "watch", "데이터 낡음 — 판정 보류",
-                f"기준일 {vk_as_of} ({vk_age}일 경과). KRX Open API 조회가 실패해 시드값이 유지된 상태 "
-                "(인증키 만료·API 이용신청 만료·장애 등). 이 값으로 한국 변동성을 판단하지 말 것 "
-                "— 실제 급등 국면에도 낮게 보일 수 있다.")
+                f"기준일 {vk_as_of} ({vk_age}일 경과). 값이 낡아 현재 변동성을 대표하지 못한다.")
+        elif len(vh) >= 30:
+            # 절대임계 금지 — VKOSPI는 레짐에 따라 상주 수준이 통째로 바뀐다(2026년 65~97).
+            # 절대기준으로는 몇 달째 매일 '경보'가 켜져 정보량이 0. '자기 분포 내 위치'로 판단.
+            pct = sum(1 for x in vh if x < vk) / len(vh) * 100.0
+            lo, hi = min(vh), max(vh)
+            chg = vk - vh[-21] if len(vh) > 20 else None
+            trend = ("하락" if chg < -1 else "상승" if chg > 1 else "횡보") if chg is not None else "-"
+            if vk < 30:
+                st = "safe"      # 절대적으로 잠잠하면 상대위치와 무관하게 정상
+            elif pct >= 85:
+                st = "alert"
+            elif pct >= 60:
+                st = "watch"
+            else:
+                st = "safe"
+            d_txt = (f"최근 {len(vh)}거래일 범위 {lo:.0f}~{hi:.0f} 중 상위 {100 - pct:.0f}% 위치"
+                     f"(20일 전 대비 {trend}"
+                     + (f" {chg:+.1f}" if chg is not None else "") + "). ")
+            if st == "safe" and vk >= 40:
+                d_txt += ("절대수준은 높지만 자체 분포에선 중하위 — 추가 악화가 아니라 진정 국면. "
+                          "절대치만 보고 경보로 읽지 말 것.")
+            else:
+                d_txt += "한국 공포지수. VIX(미국)로는 한국 국지적 급락이 잡히지 않는다."
+            add("vkospi", "VKOSPI (한국 변동성)", vk, "", st,
+                "자체 분포 상위 15% 경보 · 40% 주의", d_txt)
         else:
             st = "safe" if vk < 30 else ("watch" if vk < 45 else "alert")
-            add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "30 주의 · 45 경보",
-                f"한국 공포지수(기준일 {vk_as_of}). VIX(미국)로는 한국 국지적 급락이 잡히지 않는다.")
+            add("vkospi", "VKOSPI (한국 변동성)", vk, "", st, "30 주의 · 45 경보(히스토리 부족 폴백)",
+                f"한국 공포지수(기준일 {vk_as_of}). 분포 판정용 히스토리가 부족해 절대기준 적용.")
 
     hy = cur("hy_oas")
     if hy is not None:
@@ -2804,7 +2839,9 @@ def build():
         print("  [skip] CBOE Put/Call 시드값 유지")
     flows_manual, kr_flows_ts = load_kr_flows()
     for key, m in {**sent_manual, **flows_manual}.items():
-        score = score_indicator(key, m["current"], [m.get("prev", m["current"]), m["current"]], {})
+        _hv = ((m.get("history") or {}).get("values")
+               or [m.get("prev", m["current"]), m["current"]])
+        score = score_indicator(key, m["current"], _hv, {})
         lbl, cls = signal_label(score)
         pillar_scores[m["pillar"]].append(score)
         indicators[key] = {
