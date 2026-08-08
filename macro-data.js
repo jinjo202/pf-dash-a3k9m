@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-08-08T08:09:15Z",
+  "generated": "2026-08-08T09:24:52Z",
   "regime": {
     "score": 17,
     "label": "비중확대 우위",
@@ -749,341 +749,462 @@ window.MACRO = {
       "US": [
         {
           "name": "금융",
-          "score": 1.036,
+          "score": 1.024,
           "pref": "비중확대",
           "z": {
-            "momentum": 0.33,
+            "momentum": 0.32,
             "earnings": 1.7,
-            "risk": 1.25,
+            "risk": 1.21,
             "regime_fit": 1.0
           },
           "mom1": 3.4,
-          "ddown": -0.6,
+          "ddown": -0.7,
           "flags": [],
           "has_earn": true
         },
         {
           "name": "산업재",
-          "score": 0.474,
+          "score": 0.469,
           "pref": "비중확대",
           "z": {
             "momentum": 0.07,
             "earnings": 0.28,
-            "risk": 0.73,
+            "risk": 0.71,
             "regime_fit": 1.0
           },
           "mom1": 1.8,
-          "ddown": -0.6,
+          "ddown": -0.7,
           "flags": [],
           "has_earn": true
         },
         {
           "name": "정보기술",
-          "score": 0.384,
+          "score": 0.431,
           "pref": "비중확대",
           "z": {
-            "momentum": 1.27,
+            "momentum": 1.36,
             "earnings": 0.76,
-            "risk": -1.55,
+            "risk": -1.47,
             "regime_fit": 1.0
           },
-          "mom1": 0.8,
-          "ddown": -5.4,
+          "mom1": 1.2,
+          "ddown": -5.1,
           "flags": [],
           "has_earn": true
         },
         {
-          "name": "부동산",
-          "score": 0.233,
-          "pref": "중립",
-          "z": {
-            "momentum": 0.1,
-            "earnings": 0.0,
-            "risk": 0.81,
-            "regime_fit": 0.0
-          },
-          "mom1": 1.5,
-          "ddown": -1.9,
-          "flags": [],
-          "has_earn": false
-        },
-        {
           "name": "소재",
-          "score": 0.206,
+          "score": 0.215,
           "pref": "중립",
           "z": {
-            "momentum": 0.18,
+            "momentum": 0.21,
             "earnings": 0.0,
             "risk": 0.61,
             "regime_fit": 0.0
           },
-          "mom1": 3.7,
-          "ddown": -0.7,
+          "mom1": 3.9,
+          "ddown": -0.6,
+          "flags": [],
+          "has_earn": false
+        },
+        {
+          "name": "부동산",
+          "score": 0.197,
+          "pref": "중립",
+          "z": {
+            "momentum": 0.03,
+            "earnings": 0.0,
+            "risk": 0.75,
+            "regime_fit": 0.0
+          },
+          "mom1": 1.2,
+          "ddown": -2.2,
           "flags": [],
           "has_earn": false
         },
         {
           "name": "헬스케어",
-          "score": -0.126,
+          "score": -0.056,
           "pref": "중립",
           "z": {
-            "momentum": 0.04,
+            "momentum": 0.19,
             "earnings": -0.31,
-            "risk": 0.56,
+            "risk": 0.66,
             "regime_fit": -1.0
           },
-          "mom1": 2.4,
-          "ddown": -1.6,
+          "mom1": 3.0,
+          "ddown": -0.9,
           "flags": [],
           "has_earn": true
         },
         {
           "name": "에너지",
-          "score": -0.199,
+          "score": -0.249,
           "pref": "중립",
           "z": {
-            "momentum": 0.72,
+            "momentum": 0.61,
             "earnings": -0.89,
-            "risk": -0.77,
+            "risk": -0.84,
             "regime_fit": 0.0
           },
-          "mom1": 4.9,
-          "ddown": -7.0,
+          "mom1": 4.4,
+          "ddown": -7.4,
           "flags": [],
           "has_earn": true
         },
         {
           "name": "경기소비재",
-          "score": -0.32,
+          "score": -0.343,
           "pref": "축소",
           "z": {
-            "momentum": -0.1,
+            "momentum": -0.15,
             "earnings": -1.59,
-            "risk": -0.37,
+            "risk": -0.4,
             "regime_fit": 1.0
           },
-          "mom1": 2.5,
-          "ddown": -3.1,
+          "mom1": 2.2,
+          "ddown": -3.4,
           "flags": [],
           "has_earn": true
         },
         {
           "name": "필수소비재",
-          "score": -0.4,
+          "score": -0.372,
           "pref": "축소",
           "z": {
-            "momentum": -0.6,
+            "momentum": -0.55,
             "earnings": 0.0,
-            "risk": -0.08,
+            "risk": -0.03,
             "regime_fit": -1.0
           },
-          "mom1": 1.0,
-          "ddown": -4.4,
+          "mom1": 1.2,
+          "ddown": -4.2,
           "flags": [],
           "has_earn": false
         },
         {
           "name": "커뮤니케이션",
-          "score": -0.474,
+          "score": -0.497,
           "pref": "축소",
           "z": {
-            "momentum": -0.83,
+            "momentum": -0.89,
             "earnings": 0.05,
-            "risk": -0.95,
+            "risk": -0.97,
             "regime_fit": 0.0
           },
-          "mom1": -0.1,
-          "ddown": -6.6,
+          "mom1": -0.4,
+          "ddown": -6.8,
           "flags": [],
           "has_earn": true
         },
         {
           "name": "유틸리티",
-          "score": -0.617,
+          "score": -0.618,
           "pref": "축소",
           "z": {
-            "momentum": -1.19,
+            "momentum": -1.2,
             "earnings": 0.0,
-            "risk": -0.24,
+            "risk": -0.23,
             "regime_fit": -1.0
           },
-          "mom1": -3.9,
-          "ddown": -7.3,
+          "mom1": -4.0,
+          "ddown": -7.4,
           "flags": [],
           "has_earn": false
         }
       ],
       "KR": [
         {
-          "name": "금융",
-          "score": 0.866,
+          "name": "은행",
+          "score": 1.008,
           "pref": "비중확대",
           "z": {
-            "momentum": 0.17,
-            "earnings": 1.61,
-            "risk": 0.85,
+            "momentum": 0.57,
+            "earnings": 1.17,
+            "risk": 1.38,
             "regime_fit": 1.0
           },
-          "mom1": -1.6,
-          "ddown": -8.6,
+          "mom1": 7.9,
+          "ddown": -3.0,
           "flags": [],
           "has_earn": true
         },
         {
-          "name": "필수소비재",
-          "score": 0.409,
+          "name": "보험",
+          "score": 0.91,
           "pref": "비중확대",
           "z": {
-            "momentum": 0.59,
-            "earnings": 0.33,
-            "risk": 1.4,
-            "regime_fit": -1.0
+            "momentum": 0.8,
+            "earnings": 1.17,
+            "risk": 0.71,
+            "regime_fit": 1.0
           },
-          "mom1": 6.4,
-          "ddown": -4.6,
+          "mom1": 3.7,
+          "ddown": -12.3,
           "flags": [],
           "has_earn": true
         },
         {
-          "name": "헬스케어",
-          "score": 0.251,
-          "pref": "중립",
+          "name": "운송",
+          "score": 0.518,
+          "pref": "비중확대",
           "z": {
-            "momentum": 0.23,
-            "earnings": 1.14,
-            "risk": 0.39,
-            "regime_fit": -1.0
-          },
-          "mom1": 6.7,
-          "ddown": -24.4,
-          "flags": [],
-          "has_earn": true
-        },
-        {
-          "name": "부동산",
-          "score": 0.153,
-          "pref": "중립",
-          "z": {
-            "momentum": -0.09,
+            "momentum": 0.2,
             "earnings": 0.0,
-            "risk": 0.72,
-            "regime_fit": 0.0
+            "risk": 1.03,
+            "regime_fit": 1.0
           },
-          "mom1": 1.8,
-          "ddown": -23.8,
+          "mom1": 9.6,
+          "ddown": -14.2,
           "flags": [],
           "has_earn": false
         },
         {
-          "name": "에너지",
-          "score": 0.125,
+          "name": "화장품",
+          "score": 0.259,
           "pref": "중립",
           "z": {
-            "momentum": 0.5,
+            "momentum": 0.58,
             "earnings": 0.0,
-            "risk": -0.1,
-            "regime_fit": 0.0
+            "risk": 1.14,
+            "regime_fit": -1.0
           },
-          "mom1": 5.8,
-          "ddown": -20.1,
+          "mom1": 14.7,
+          "ddown": -3.9,
           "flags": [],
           "has_earn": false
         },
         {
-          "name": "정보기술",
-          "score": 0.071,
+          "name": "음식료·생활",
+          "score": 0.24,
           "pref": "중립",
           "z": {
-            "momentum": 0.52,
-            "earnings": 0.27,
-            "risk": -1.41,
-            "regime_fit": 1.0
+            "momentum": 0.25,
+            "earnings": 0.2,
+            "risk": 1.26,
+            "regime_fit": -1.0
           },
-          "mom1": -8.9,
-          "ddown": -33.3,
-          "flags": [
-            "낙폭경보"
-          ],
-          "has_earn": true
-        },
-        {
-          "name": "커뮤니케이션",
-          "score": -0.101,
-          "pref": "중립",
-          "z": {
-            "momentum": -0.22,
-            "earnings": -0.78,
-            "risk": 0.64,
-            "regime_fit": 0.0
-          },
-          "mom1": 0.2,
-          "ddown": -17.5,
+          "mom1": 10.3,
+          "ddown": -8.1,
           "flags": [],
           "has_earn": true
         },
         {
-          "name": "산업재",
-          "score": -0.126,
+          "name": "건설",
+          "score": 0.234,
           "pref": "중립",
           "z": {
-            "momentum": -0.16,
-            "earnings": -0.37,
-            "risk": -0.74,
-            "regime_fit": 1.0
-          },
-          "mom1": -1.9,
-          "ddown": -25.8,
-          "flags": [
-            "낙폭경보"
-          ],
-          "has_earn": true
-        },
-        {
-          "name": "경기소비재",
-          "score": -0.148,
-          "pref": "중립",
-          "z": {
-            "momentum": -0.62,
-            "earnings": -0.49,
-            "risk": -0.16,
-            "regime_fit": 1.0
-          },
-          "mom1": -10.8,
-          "ddown": -26.2,
-          "flags": [
-            "낙폭경보"
-          ],
-          "has_earn": true
-        },
-        {
-          "name": "유틸리티",
-          "score": -0.639,
-          "pref": "축소",
-          "z": {
-            "momentum": -0.79,
+            "momentum": 0.68,
             "earnings": 0.0,
-            "risk": -0.81,
-            "regime_fit": -1.0
+            "risk": -0.68,
+            "regime_fit": 1.0
           },
-          "mom1": -2.2,
-          "ddown": -47.1,
+          "mom1": 10.4,
+          "ddown": -33.0,
           "flags": [
             "낙폭경보"
           ],
           "has_earn": false
         },
         {
-          "name": "소재",
-          "score": -0.659,
-          "pref": "축소",
+          "name": "여행·레저",
+          "score": 0.087,
+          "pref": "중립",
+          "z": {
+            "momentum": -0.71,
+            "earnings": 0.0,
+            "risk": 0.4,
+            "regime_fit": 1.0
+          },
+          "mom1": -3.1,
+          "ddown": -32.2,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": false
+        },
+        {
+          "name": "에너지·화학",
+          "score": 0.036,
+          "pref": "중립",
+          "z": {
+            "momentum": 0.21,
+            "earnings": 0.0,
+            "risk": -0.11,
+            "regime_fit": 0.0
+          },
+          "mom1": 10.9,
+          "ddown": -28.6,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": false
+        },
+        {
+          "name": "증권",
+          "score": 0.03,
+          "pref": "중립",
+          "z": {
+            "momentum": -0.74,
+            "earnings": 1.17,
+            "risk": -0.96,
+            "regime_fit": 1.0
+          },
+          "mom1": -12.1,
+          "ddown": -45.0,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "반도체",
+          "score": 0.003,
+          "pref": "중립",
+          "z": {
+            "momentum": -0.05,
+            "earnings": 1.37,
+            "risk": -2.1,
+            "regime_fit": 1.0
+          },
+          "mom1": -23.4,
+          "ddown": -42.8,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "자동차",
+          "score": 0.003,
+          "pref": "중립",
+          "z": {
+            "momentum": -0.24,
+            "earnings": -0.43,
+            "risk": -0.07,
+            "regime_fit": 1.0
+          },
+          "mom1": -0.8,
+          "ddown": -29.3,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "조선",
+          "score": -0.004,
+          "pref": "중립",
+          "z": {
+            "momentum": -0.18,
+            "earnings": -0.34,
+            "risk": -0.26,
+            "regime_fit": 1.0
+          },
+          "mom1": 7.7,
+          "ddown": -30.2,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "바이오",
+          "score": -0.008,
+          "pref": "중립",
+          "z": {
+            "momentum": -0.26,
+            "earnings": 0.82,
+            "risk": 0.26,
+            "regime_fit": -1.0
+          },
+          "mom1": 8.1,
+          "ddown": -29.0,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "인터넷·SW",
+          "score": -0.028,
+          "pref": "중립",
+          "z": {
+            "momentum": -0.06,
+            "earnings": -1.07,
+            "risk": 0.23,
+            "regime_fit": 1.0
+          },
+          "mom1": 9.4,
+          "ddown": -25.6,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "방산",
+          "score": -0.074,
+          "pref": "중립",
           "z": {
             "momentum": -0.13,
-            "earnings": -1.71,
-            "risk": -0.77,
+            "earnings": -0.34,
+            "risk": -0.6,
+            "regime_fit": 1.0
+          },
+          "mom1": 7.8,
+          "ddown": -31.0,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "철강",
+          "score": -0.357,
+          "pref": "축소",
+          "z": {
+            "momentum": 0.1,
+            "earnings": -1.43,
+            "risk": -0.12,
             "regime_fit": 0.0
           },
-          "mom1": 3.0,
-          "ddown": -38.9,
+          "mom1": 14.6,
+          "ddown": -32.9,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "2차전지",
+          "score": -0.53,
+          "pref": "축소",
+          "z": {
+            "momentum": -0.11,
+            "earnings": -1.29,
+            "risk": -0.7,
+            "regime_fit": 0.0
+          },
+          "mom1": 9.0,
+          "ddown": -38.6,
+          "flags": [
+            "낙폭경보"
+          ],
+          "has_earn": true
+        },
+        {
+          "name": "엔터·미디어",
+          "score": -0.731,
+          "pref": "축소",
+          "z": {
+            "momentum": -0.91,
+            "earnings": -1.02,
+            "risk": -0.81,
+            "regime_fit": 0.0
+          },
+          "mom1": 0.3,
+          "ddown": -53.8,
           "flags": [
             "낙폭경보"
           ],
@@ -1098,7 +1219,7 @@ window.MACRO = {
       "risk": 0.25,
       "regime_fit": 0.2
     },
-    "note": "리전 내 횡단면 z 합성(모멘텀30·이익25·리스크25·국면적합20). 모멘텀=6M-1M+1M, 리스크=52주낙폭+20일변동성(직전 급락 사각지대 보완), 이익=ERR+1M수정(±30 클램프, 바스켓 없는 섹터 중립), 국면적합=Investment Clock '회복 (Recovery)' 성향(±1). 밸류 팩터는 의도적으로 없음 — 사이클 정점 PER 밸류트랩 방지. 플래그(낙폭경보·이익정점 경계)는 절대기준이라 종합점수에 희석되지 않고 병렬 표시."
+    "note": "리전 내 횡단면 z 합성(모멘텀30·이익25·리스크25·국면적합20). 모멘텀=6M-1M+1M, 리스크=52주낙폭+20일변동성(직전 급락 사각지대 보완), 이익=ERR+1M수정(±30 클램프, 바스켓 없는 섹터 중립), 국면적합=Investment Clock '회복 (Recovery)' 성향(±1). 밸류 팩터는 의도적으로 없음 — 사이클 정점 PER 밸류트랩 방지. 갱신·로테이션: 점수는 cron이 하루 8회 재계산하지만 6M 모멘텀·52주 낙폭 중심이라 실제 순위 교체는 완만함(백테스트 기준 월평균 상위3 중 ~1개 교체 — 하단 백테스트 참조). 판정 밴드 ±0.30이 잦은 신호 반전을 완충. KR은 실투자 ETF 섹터(KODEX 반도체·TIGER 화장품 등 18개) 기준. 플래그(낙폭경보·이익정점 경계)는 절대기준이라 종합점수에 희석되지 않고 병렬 표시."
   },
   "monthly_factors": {
     "month": "2026-08",
