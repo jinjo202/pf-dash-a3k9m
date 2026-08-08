@@ -48,12 +48,15 @@ COUNTRIES = {
 }
 
 
-def load_prev_accum():
-    """이전 pe-history.js의 축적 tail 보존 (CI는 매번 새로 clone하므로 파일이 유일한 상태)."""
+def load_prev_accum(key="accum"):
+    """이전 pe-history.js의 축적 tail 보존 (CI는 매번 새로 clone하므로 파일이 유일한 상태).
+
+    key="accum"(trailing) / "fwd_accum"(forward) 둘 다 같은 방식으로 이어붙인다.
+    """
     try:
         t = OUT.read_text(encoding="utf-8")
         d = json.loads(re.search(r"window\.PE_HISTORY\s*=\s*(\{.*\})\s*;", t, re.S).group(1))
-        return {cc: (v.get("accum") or {"dates": [], "values": []})
+        return {cc: (v.get(key) or {"dates": [], "values": []})
                 for cc, v in (d.get("countries") or {}).items()}
     except Exception:
         return {}
@@ -67,6 +70,32 @@ def load_bmf():
         return d.get("as_of"), {nm: v.get("pe") for nm, v in (d.get("indices") or {}).items()}
     except Exception as e:
         print(f"[warn] bm-factors.js 읽기 실패(축적 생략): {e}")
+        return None, {}
+
+
+BENCH = HERE / "benchmarks.js"
+# 국가코드 → benchmarks.js 지수명 (forward PER 축적 소스)
+_BENCH_NAME = {"US": "S&P 500", "KR": "KOSPI", "EU": "STOXX 600",
+               "JP": "니케이 225", "CN": "상해종합"}
+
+
+def load_bench_fwd():
+    """benchmarks.js → (as_of, {지수명: forward PE}). pe_kind='fwd'인 것만.
+
+    trailing(bm-factors, Morningstar 집계)과 정의가 완전히 다르므로 절대 섞지 않는다.
+    KOSPI 기준 trailing 15.9 vs forward 3.7 — 같은 축에 놓으면 판단이 망가진다.
+    """
+    try:
+        t = BENCH.read_text(encoding="utf-8")
+        d = json.loads(re.search(r"=\s*(\{.*\})\s*;?\s*\Z", t, re.S).group(1))
+        out = {}
+        for x in (d.get("indices") or []):
+            v = x.get("valuation") or {}
+            if v.get("pe") and v.get("pe_kind") == "fwd":
+                out[x.get("name")] = v["pe"]
+        return d.get("as_of"), out
+    except Exception as e:
+        print(f"[warn] benchmarks.js 읽기 실패(forward 축적 생략): {e}")
         return None, {}
 
 
@@ -111,8 +140,10 @@ def summarize(dates, values):
 
 
 def main():
-    prev = load_prev_accum()
+    prev = load_prev_accum("accum")
+    prev_fwd = load_prev_accum("fwd_accum")
     bmf_asof, bmf_pe = load_bmf()
+    bench_asof, bench_fwd = load_bench_fwd()
     countries = {}
     for cc, (name, bmf_name, use_accum) in COUNTRIES.items():
         dates, values, src = base_series(cc)
@@ -132,14 +163,29 @@ def main():
                 dates.append(d)
                 values.append(v)
         s = summarize(dates, values)
+        # ── forward PER 축적 (benchmarks.js, 일 단위) ──
+        # 투자 판단은 forward 기준이므로 이쪽이 주 시리즈. 다만 장기 히스토리를
+        # 무료로 구할 수 없어 지금부터 쌓는다(trailing은 장기 맥락용으로 유지).
+        fwd = prev_fwd.get(cc) or {"dates": [], "values": []}
+        pe_f = bench_fwd.get(_BENCH_NAME.get(cc, ""))
+        if bench_asof and pe_f and bench_asof not in fwd["dates"]:
+            fwd["dates"].append(bench_asof)
+            fwd["values"].append(round(pe_f, 2))
+        fs = summarize(fwd["dates"], fwd["values"]) if fwd["dates"] else None
         countries[cc] = {
             "name": name, "dates": dates, "values": values,
             "sources": srcs, "accum": accum, **(s or {}),
+            "fwd_accum": fwd,
+            "fwd": ({**fs, "source": "benchmarks.js(프록시 ETF 상위종목 가중 forward PER)"}
+                    if fs else None),
         }
         if s:
-            print(f"  {cc}({name}): n={s['n']} span={s['years']}년 중앙값={s['median']} "
+            fw = countries[cc].get("fwd")
+            ftxt = (f" | fwd {fw['current']}({fw['n']}점, "
+                    f"{'중앙값 ' + str(fw['median']) if fw['valid'] else '축적중'})") if fw else " | fwd 없음"
+            print(f"  {cc}({name}): ttm n={s['n']} span={s['years']}년 중앙값={s['median']} "
                   f"현재={s['current']}({s['current_date']}) z={s['z']} "
-                  f"{'✓유효' if s['valid'] else '✗축적중(시드 유지)'}")
+                  f"{'✓유효' if s['valid'] else '✗축적중(시드 유지)'}{ftxt}")
         else:
             print(f"  {cc}({name}): 데이터 없음 — 축적 시작 대기")
 
@@ -148,7 +194,12 @@ def main():
         "window_years": WINDOW_YEARS, "min_years": MIN_YEARS,
         "note": ("중앙값은 최근 %d년 창. span %d년 미만이면 valid=false → 모델은 시드 "
                  "fair_pe를 유지하고 히스토리만 축적한다. 소스는 나라별로 다르며(정의 혼합) "
-                 "sources에 명시.") % (WINDOW_YEARS, MIN_YEARS),
+                 "sources에 명시. "
+                 "※ forward(fwd)와 trailing은 정의가 달라 절대 같은 축에 섞지 않는다 — "
+                 "KOSPI 기준 trailing 15.9 vs forward 3.7(메모리 사이클 이익 급증분이 "
+                 "forward에만 반영). 투자 판단은 forward, 장기 밸류 맥락은 trailing. "
+                 "forward 장기 히스토리는 무료 소스가 없어 2026-08부터 일 단위 축적 중."
+                 ) % (WINDOW_YEARS, MIN_YEARS),
         "countries": countries,
     }
     OUT.write_text("// 국가별 장기 PER 히스토리 (자동생성: fetch_pe_history.py — 수동편집 금지)\n"

@@ -2832,6 +2832,107 @@ def load_benchmarks():
     return out
 
 
+# ── 모델 변화 이력 ────────────────────────────────────────────────────────
+MODEL_STATE = HERE / "macro-state.json"
+CHANGE_KEEP = 12          # 보관 이력 수
+REGIME_MOVE_MIN = 8       # 밴드가 안 바뀌어도 이 폭 이상 움직이면 기록(점수 급변)
+
+
+def _load_model_state():
+    try:
+        return json.loads(MODEL_STATE.read_text(encoding="utf-8"))
+    except Exception:
+        return {"snapshot": {}, "changes": []}
+
+
+def build_model_changes(regime_score, regime_label, quadrant, sector_rot, country_pref, today_iso):
+    """직전 스냅샷 대비 '판정이 바뀐 것'만 기록 → macro-state.json + 출력.
+
+    cron이 하루 8회 도는데 점수는 매번 미세하게 흔들린다. 그 진동을 전부 남기면
+    이력이 노이즈로 뒤덮여 "언제 실제로 바뀌었나"를 못 읽는다. 그래서
+    **밴드/국면/판정 라벨이 실제로 바뀐 경우**(+ 레짐은 8점 이상 급변)만 남긴다.
+
+    추적 대상:
+      · 레짐: 밴드 라벨(비중확대 우위/중립/...) 전환, 또는 점수 8점 이상 이동
+      · 국면: Investment Clock 사분면 전환
+      · 섹터: 섹터별 판정(비중확대/중립/축소) 전환 — 리전별
+      · 국가: 국가별 선호 전환 (country-model.js는 자체 이력이 있으나 여기선
+              매크로 화면 한 곳에서 3모델을 같이 보기 위해 요약만 중복 보관)
+    """
+    st = _load_model_state()
+    prev = st.get("snapshot") or {}
+    changes = list(st.get("changes") or [])
+    items = []
+
+    # 레짐
+    p_score, p_label = prev.get("regime_score"), prev.get("regime_label")
+    if p_label is not None:
+        moved = abs(regime_score - (p_score or 0))
+        if p_label != regime_label:
+            items.append({"kind": "레짐", "name": "종합 레짐",
+                          "from": f"{p_label} ({p_score:+d})", "to": f"{regime_label} ({regime_score:+d})",
+                          "note": "밴드 전환"})
+        elif moved >= REGIME_MOVE_MIN:
+            items.append({"kind": "레짐", "name": "종합 레짐",
+                          "from": f"{p_score:+d}", "to": f"{regime_score:+d}",
+                          "note": f"밴드 유지({regime_label}), {moved}점 이동"})
+
+    # 국면(Investment Clock)
+    ph = ((quadrant or {}).get("phase") or {}).get("name")
+    p_ph = prev.get("phase")
+    if p_ph and ph and p_ph != ph:
+        items.append({"kind": "국면", "name": "Investment Clock",
+                      "from": p_ph, "to": ph, "note": "성장×인플레 사분면 전환"})
+
+    # 섹터
+    sec_now = {}
+    for rg, rows in ((sector_rot or {}).get("regions") or {}).items():
+        for r in rows:
+            sec_now[f"{rg}:{r['name']}"] = {"pref": r["pref"], "score": r["score"]}
+    p_sec = prev.get("sectors") or {}
+    for k, v in sec_now.items():
+        pv = p_sec.get(k)
+        if pv and pv.get("pref") != v["pref"]:
+            rg, nm = k.split(":", 1)
+            items.append({"kind": "섹터", "name": f"{'🇺🇸' if rg == 'US' else '🇰🇷'} {nm}",
+                          "from": f"{pv['pref']} ({pv['score']:+.2f})",
+                          "to": f"{v['pref']} ({v['score']:+.2f})", "note": ""})
+
+    # 국가 (country_pref의 12개월 종합 부호 전환을 선호도 프록시로 사용)
+    ctry_now = {}
+    for cc, v in (country_pref or {}).items():
+        h = (v.get("horizon") or {}).get("m12")
+        if h is not None:
+            ctry_now[cc] = {"name": v.get("name", cc), "m12": h,
+                            "pref": "비중확대" if h >= 15 else ("축소" if h <= -15 else "중립")}
+    p_ctry = prev.get("countries") or {}
+    for cc, v in ctry_now.items():
+        pv = p_ctry.get(cc)
+        if pv and pv.get("pref") != v["pref"]:
+            items.append({"kind": "국가", "name": v["name"],
+                          "from": f"{pv['pref']} ({pv['m12']:+d})",
+                          "to": f"{v['pref']} ({v['m12']:+d})", "note": "12개월 종합 기준"})
+
+    if items:
+        changes.insert(0, {"date": today_iso, "items": items})
+        changes = changes[:CHANGE_KEEP]
+        print(f"  [changes] {len(items)}건 변화: " +
+              ", ".join(f"{i['kind']}·{i['name']} {i['from']}→{i['to']}" for i in items[:4]))
+
+    snap = {"regime_score": regime_score, "regime_label": regime_label, "phase": ph,
+            "sectors": sec_now, "countries": ctry_now, "as_of": today_iso}
+    try:
+        MODEL_STATE.write_text(json.dumps({"snapshot": snap, "changes": changes},
+                                          ensure_ascii=False, indent=1), encoding="utf-8")
+    except Exception as e:
+        print(f"  [warn] macro-state.json 저장 실패: {e}")
+    return {"changes": changes, "last_checked": today_iso,
+            "note": ("판정이 실제로 바뀐 것만 기록한다(레짐은 밴드 전환 또는 "
+                     f"{REGIME_MOVE_MIN}점 이상 이동). cron이 하루 8회 돌며 생기는 "
+                     "점수 미세 진동은 남기지 않는다 — 남기면 노이즈에 묻혀 "
+                     "'언제 실제로 바뀌었나'를 못 읽는다.")}
+
+
 def build():
     today = date.today()
     bench = load_benchmarks()
@@ -3122,6 +3223,9 @@ def build():
             "unit": m.get("unit", ""), "z": None, "pct": None, "score": round(score, 2),
             "signal": lbl, "signal_cls": cls, "desc": m.get("note", ""),
             "as_of": m["as_of"], "history": m.get("history"), "manual": True,
+            # 직전 발표치 — 히스토리가 없는 수동 지표(ISM·AAII·VKOSPI 등)의
+            # 축 드릴다운 '전월 대비' 비교 기준. 실제 직전 릴리즈 값이라 신뢰 가능.
+            "prev": m.get("prev"),
             "kind": m.get("kind", "release"),
             "source": m.get("source") or ({"name": "원본 데이터", "url": MANUAL_URLS[key]} if key in MANUAL_URLS else None),
         }
@@ -3277,6 +3381,8 @@ def build():
     recession = build_recession(monthly)
     stress = build_stress(indicators, kospi_vals, kosdaq_vals)
     sector_rot = build_sector_rotation(quadrant, earn["data"])
+    model_changes = build_model_changes(overall_score, regime_label, quadrant, sector_rot,
+                                        country_pref, today.isoformat())
     if sector_rot:
         tops = {cc: rows[0]["name"] for cc, rows in sector_rot["regions"].items()}
         print(f"  [sector] 국면 {sector_rot['phase']} | 1위: " +
@@ -3309,6 +3415,7 @@ def build():
         "recession": recession,
         "stress": stress,
         "sector_rotation": sector_rot,
+        "model_changes": model_changes,
         "monthly_factors": build_monthly(today),
         "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,

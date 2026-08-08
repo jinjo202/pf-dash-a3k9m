@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-08-08c";</script>
+<script>window.CODE_VERSION = "2026-08-08d";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -141,6 +141,8 @@
   @media (max-width:820px){ .pillars{ grid-template-columns:repeat(3,1fr); } }
   @media (max-width:560px){ .pillars{ grid-template-columns:repeat(2,1fr); } }
   .pillar-chip { border:1px solid var(--border); border-radius:9px; padding:10px 12px; background:var(--panel-soft); }
+  .pillar-chip.clickable { cursor:pointer; transition:border-color .12s, box-shadow .12s; }
+  .pillar-chip.clickable:hover { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-soft); }
   .pillar-chip .pn { font-size:11px; color:var(--muted); font-weight:600; }
   .pillar-chip .ps { font-size:22px; font-weight:800; letter-spacing:-.02em; }
   .pillar-bar { height:5px; border-radius:3px; background:var(--neu-soft); margin-top:6px; overflow:hidden; position:relative; }
@@ -1102,6 +1104,35 @@ function renderSectorRotation(M) {
   return html;
 }
 
+// 모델 변화 이력 — 매크로/국면/국가/섹터 판정이 '실제로 바뀐' 시점만
+function renderModelChanges(M) {
+  var mc = M.model_changes;
+  if (!mc || !mc.changes || !mc.changes.length) {
+    return '<div class="panel"><h2>🔀 모델 변화 이력</h2>' +
+      '<p class="hint">아직 기록된 판정 변화가 없습니다 — 이번 실행이 첫 스냅샷이거나, ' +
+      '직전 대비 밴드·판정이 그대로입니다. 이후 변화가 생기면 여기에 쌓입니다.</p></div>';
+  }
+  var KIND = { '레짐': 'pm-neu', '국면': 'pm-neu', '국가': 'pm-pos', '섹터': 'pm-pos' };
+  var rows = mc.changes.map(function (e) {
+    var lis = e.items.map(function (it) {
+      return '<tr><td class="nm"><span class="pm-badge ' + (KIND[it.kind] || 'pm-neu') + '">' +
+        it.kind + '</span> ' + it.name + '</td>' +
+        '<td class="pref-note" style="text-align:right;opacity:.7">' + it.from + '</td>' +
+        '<td style="text-align:center;color:var(--muted)">→</td>' +
+        '<td class="pref-note"><b>' + it.to + '</b></td>' +
+        '<td class="pref-note">' + (it.note || '') + '</td></tr>';
+    }).join('');
+    return '<tr><td colspan="5" style="padding-top:10px"><b style="font-size:12px">' + e.date +
+      '</b> <span style="font-size:11px;color:var(--muted)">' + e.items.length + '건</span></td></tr>' + lis;
+  }).join('');
+  return '<div class="panel"><h2>🔀 모델 변화 이력 <span class="rebal-badge">최근 ' +
+    mc.changes.length + '회</span></h2>' +
+    '<p class="hint">매크로 레짐 · Investment Clock 국면 · 국가배분 · 섹터 로테이션의 판정이 ' +
+    '언제 어떤 값에서 어떻게 바뀌었는지. 마지막 점검 ' + (mc.last_checked || '') + '</p>' +
+    '<div style="overflow-x:auto"><table class="cm-table"><tbody>' + rows + '</tbody></table></div>' +
+    '<p class="disclaimer">' + (mc.note || '') + '</p></div>';
+}
+
 function renderStress(M) {
   if (!M.stress) return '';
   var r = M.stress, v = r.verdict;
@@ -1177,23 +1208,32 @@ function renderCountryModel(CM) {
   // 국가별 장기 PER — 중앙값 선 + z-score (pe-history.js)
   var PH = window.PE_HISTORY;
   if (PH && PH.countries) {
-    html += '<div class="rebal-head">📊 국가별 장기 PER — 적정선(중앙값) 대비 현재 위치</div>'+
-      '<p class="hint">모델의 밸류 적정 PER = 최근 '+PH.window_years+'년 후행 PER 중앙값(자동 갱신). '+
-      'z-score는 같은 창의 평균·표준편차 기준 — +면 자기 역사 대비 비쌈. '+
-      '히스토리가 '+PH.min_years+'년 미만인 국가는 축적 중이며 그동안 시드 적정치를 사용.</p>'+
+    html += '<div class="rebal-head">📊 국가별 PER — Forward(투자 판단) · Trailing(장기 맥락)</div>'+
+      '<p class="hint"><b>Forward PER</b>가 판단 기준이다 — 프록시 ETF 상위종목 가중 12M 선행. '+
+      '한국이 대표적으로 갈리는데 후행 15.9 vs 선행 3.7로 <b>4배 이상</b> 차이가 난다'+
+      '(메모리 사이클 이익 급증이 선행에만 반영). 같은 축에 섞으면 판단이 망가지므로 좌/우축 분리. '+
+      'Trailing 중앙값(최근 '+PH.window_years+'년)은 장기 밸류 맥락용이며, 모델 fair_pe도 후행끼리 비교한다. '+
+      'Forward 장기 히스토리는 무료 소스가 없어 2026-08부터 축적 중.</p>'+
       '<div class="pe-grid">';
     Object.keys(PH.countries).forEach(function(cc){
       var p = PH.countries[cc]; if (!p || !p.dates || !p.dates.length) return;
+      var f = p.fwd;
       var zTxt = (p.z==null) ? '' :
         ' · z <b class="'+(p.z>=1?'pm-neg':p.z<=-1?'pm-pos':'')+'">'+(p.z>0?'+':'')+p.z.toFixed(1)+'</b>';
       var badge = p.valid
-        ? '중앙값 <b>'+p.median.toFixed(1)+'</b> ('+p.years+'년)'+zTxt
-        : '<span style="opacity:.65">축적 중 ('+p.n+'개 관측) — 시드 사용</span>';
-      html += '<div class="idx-box"><div class="h"><span class="t">'+p.name+
-        ' <span class="tnum" style="opacity:.8">PER '+(p.current!=null?p.current.toFixed(1):'-')+'</span></span>'+
+        ? 'ttm 중앙값 <b>'+p.median.toFixed(1)+'</b> ('+p.years+'년)'+zTxt
+        : '<span style="opacity:.65">ttm 축적 중 ('+p.n+'개) — 시드 사용</span>';
+      var fwdTxt = f
+        ? '<b style="color:var(--accent);font-size:15px">fwd '+f.current.toFixed(1)+'</b>'+
+          (f.valid ? ' <span style="opacity:.7">(중앙값 '+f.median.toFixed(1)+')</span>'
+                   : ' <span style="opacity:.6;font-size:10px">축적 '+f.n+'일</span>')
+        : '<span style="opacity:.6">fwd 없음</span>';
+      html += '<div class="idx-box"><div class="h"><span class="t">'+p.name+' '+fwdTxt+
+        ' <span class="tnum" style="opacity:.55;font-size:11px">· ttm '+(p.current!=null?p.current.toFixed(1):'-')+'</span></span>'+
         '<span style="font-size:11px">'+badge+'</span></div>'+
         '<div class="idx-chart"><canvas id="peH_'+cc+'"></canvas></div>'+
-        '<div class="hint" style="font-size:10px;margin:2px 0 0">'+(p.sources||[]).join(' + ')+'</div></div>';
+        '<div class="hint" style="font-size:10px;margin:2px 0 0">'+(p.sources||[]).join(' + ')+
+        (f ? ' | fwd: '+f.source : '')+'</div></div>';
     });
     html += '</div>';
   }
@@ -1237,24 +1277,40 @@ function drawPeCharts(PH) {
     var cv = document.getElementById('peH_' + cc);
     if (!cv || !p || !p.dates || p.dates.length < 2) return;
     var med = p.valid ? p.median : null;
-    var ds = [{ label:'PER', data:p.values, borderColor:cssVar('--accent'),
-                backgroundColor:cssVar('--accent')+'18', borderWidth:2, pointRadius:0,
-                fill:true, tension:.15 }];
-    if (med != null) ds.push({ label:'중앙값 '+med.toFixed(1)+' ('+p.years+'년)',
+    // trailing(회색·좌축)=장기 맥락 / forward(강조·우축)=판단 기준.
+    // 한국은 두 값이 4배 이상 벌어져 축을 안 나누면 forward가 바닥에 붙어 안 보인다.
+    var ds = [{ label:'ttm', data:p.values, borderColor:cssVar('--muted'),
+                backgroundColor:cssVar('--muted')+'14', borderWidth:1.4, pointRadius:0,
+                fill:true, tension:.15, yAxisID:'y' }];
+    if (med != null) ds.push({ label:'ttm 중앙값 '+med.toFixed(1)+' ('+p.years+'년)',
       data:p.values.map(function(){ return med; }), borderColor:'#c0392b',
-      borderWidth:1.5, borderDash:[6,4], pointRadius:0, fill:false });
+      borderWidth:1.3, borderDash:[6,4], pointRadius:0, fill:false, yAxisID:'y' });
+    var f = p.fwd, fa = p.fwd_accum;
+    if (f && fa && fa.dates && fa.dates.length) {
+      // 축적이 3점 미만이면 선이 안 그려지므로 현재값을 점선 상수로 표시
+      var fData = (fa.dates.length >= 3)
+        ? p.dates.map(function(d){ var i = fa.dates.indexOf(d); return i >= 0 ? fa.values[i] : null; })
+        : p.dates.map(function(){ return f.current; });
+      ds.push({ label:'fwd '+f.current.toFixed(1)+(fa.dates.length < 3 ? ' (현재값)' : ''),
+        data:fData, borderColor:cssVar('--accent'), backgroundColor:'transparent',
+        borderWidth:2.2, pointRadius:0, spanGaps:true, tension:.15, yAxisID:'yf',
+        borderDash: fa.dates.length < 3 ? [3,3] : [] });
+    }
     var c = new Chart(cv.getContext('2d'), {
       type:'line', data:{ labels:p.dates, datasets:ds },
       options:{ responsive:true, maintainAspectRatio:false, animation:false,
         interaction:{mode:'index',intersect:false},
-        plugins:{ legend:{ display:med!=null, labels:{ boxWidth:12, font:{size:10},
-                    filter:function(it){ return it.datasetIndex===1; } } },
+        plugins:{ legend:{ display:true, labels:{ boxWidth:12, font:{size:10},
+                    filter:function(it){ return it.datasetIndex>=1; } } },
           tooltip:{ callbacks:{ title:function(i){ return i[0].label.slice(0,7); },
                     label:function(i){ return i.dataset.label.split(' ')[0]+' '+(+i.raw).toFixed(1); } } } },
         scales:{ x:{ grid:{display:false}, ticks:{ maxTicksLimit:6, font:{size:8},
                      color:cssVar('--muted'),
                      callback:function(v){ var l=this.getLabelForValue(v); return l?l.slice(0,7):''; } } },
-          y:{ grid:{ color:cssVar('--border') }, ticks:{ font:{size:8}, color:cssVar('--muted') } } } }
+          y:{ position:'left', grid:{ color:cssVar('--border') },
+              ticks:{ font:{size:8}, color:cssVar('--muted') } },
+          yf:{ position:'right', grid:{ display:false },
+               ticks:{ font:{size:8}, color:cssVar('--accent') } } } }
     });
     CHARTS.push(c);
   });
@@ -1330,6 +1386,99 @@ function updateTimeMachine(idx) {
     '<div><div class="tm-date">' + h.date.slice(0, 7) + '</div><div class="tm-score" style="color:' + col + '">' + (h.score > 0 ? '+' : '') + h.score + '</div></div>' +
     '<div style="flex:1;min-width:240px"><div class="tm-phase">' + (h.phase || '-') + '</div><div class="tm-pills" style="margin-top:6px">' + pills + '</div>' +
     '<div class="tm-price">📈 당시 주가 ' + price + '</div></div>';
+}
+
+// 축(pillar) 드릴다운 — 그 점수가 어떤 지표에서 나왔는지, 각 지표가 전월 대비 어떻게 변했는지
+var PILLAR_MODAL_OPEN = false;
+function pillarPrevValue(d) {
+  // history에서 as_of 기준 약 1개월 전 값을 찾는다(일별/월별 시리즈 모두 대응)
+  var h = d && d.history;
+  if (!h || !h.dates || h.dates.length < 2) return null;
+  var last = new Date(h.dates[h.dates.length - 1]);
+  if (isNaN(last)) return null;
+  var target = new Date(last.getTime() - 30 * 86400000);
+  var best = null, bestGap = Infinity;
+  for (var i = 0; i < h.dates.length - 1; i++) {
+    var dt = new Date(h.dates[i]);
+    if (isNaN(dt)) continue;
+    var gap = Math.abs(dt - target);
+    if (gap < bestGap) { bestGap = gap; best = { v: h.values[i], d: h.dates[i] }; }
+  }
+  // 60일 넘게 벌어지면 '전월 대비'라 부를 수 없으므로 버린다
+  return (best && bestGap <= 60 * 86400000) ? best : null;
+}
+
+function showPillarModal(pkey) {
+  var M = CUR_M; if (!M) return;
+  var pl = M.regime.pillars[pkey]; if (!pl) return;
+  var inds = Object.keys(M.indicators)
+    .filter(function (k) { return M.indicators[k].pillar === pkey; })
+    .map(function (k) { return Object.assign({ key: k }, M.indicators[k]); })
+    .sort(function (a, b) { return (b.score || 0) - (a.score || 0); });
+
+  document.getElementById('mTitle').textContent = pl.name + ' ' + (pl.score > 0 ? '+' : '') + pl.score;
+  document.getElementById('mMeta').textContent =
+    '구성 지표 ' + inds.length + '개 · 축 점수 = 각 지표 점수(−1~+1) 단순평균 × 100';
+
+  var rows = inds.map(function (d) {
+    var pv = pillarPrevValue(d);
+    // 히스토리가 없는 수동 지표(ISM·AAII·VKOSPI…)는 직전 발표치(prev)로 대체 — 실제 릴리즈 값
+    if (!pv && typeof d.prev === 'number') pv = { v: d.prev, d: '직전 발표' };
+    var chg = '', chgCls = '';
+    if (pv && typeof d.current === 'number' && typeof pv.v === 'number') {
+      var diff = d.current - pv.v;
+      var pct = (Math.abs(pv.v) > 1e-9) ? (diff / Math.abs(pv.v) * 100) : null;
+      chgCls = diff > 0 ? 'cm-pos' : (diff < 0 ? 'cm-neg' : 'cm-neu');
+      chg = (diff > 0 ? '+' : '') + fmtNum(diff, 2) +
+            (pct !== null && Math.abs(pct) < 999 ? ' (' + (pct > 0 ? '+' : '') + pct.toFixed(1) + '%)' : '');
+    } else {
+      chg = '<span style="opacity:.5">비교불가</span>';
+    }
+    var sc = d.score == null ? 0 : d.score;
+    var scCls = sc >= 0.3 ? 'cm-pos' : (sc <= -0.3 ? 'cm-neg' : 'cm-neu');
+    var stale = d.stale ? ' <span class="cm-fchip cm-neg">stale</span>' : '';
+    return '<tr>' +
+      '<td class="nm" style="font-size:11.5px">' + d.name + stale + '</td>' +
+      '<td class="sc tnum"><b>' + fmtNum(d.current, 2) + '</b>' +
+        (d.unit ? '<span style="opacity:.6;font-size:10px">' + d.unit + '</span>' : '') + '</td>' +
+      '<td class="sc tnum" style="opacity:.7">' + (pv ? fmtNum(pv.v, 2) : '—') +
+        (pv && pv.d === '직전 발표' ? '<span style="font-size:9px;opacity:.6"> 직전</span>' : '') + '</td>' +
+      '<td class="sc tnum"><span class="cm-fchip ' + chgCls + '">' + chg + '</span></td>' +
+      '<td class="sc tnum"><span class="cm-fchip ' + scCls + '">' + (sc > 0 ? '+' : '') + sc.toFixed(2) + '</span></td>' +
+      '<td class="pref-note" style="font-size:10px">' + (d.as_of || '') + '</td></tr>';
+  }).join('');
+
+  document.getElementById('mDesc').innerHTML =
+    '<div style="overflow-x:auto"><table class="cm-table"><thead><tr>' +
+    '<th>지표</th><th style="text-align:right">현재</th><th style="text-align:right">약 1개월 전</th>' +
+    '<th style="text-align:right">변화</th><th style="text-align:right">점수</th><th>기준일</th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '<p class="disclaimer" style="margin-top:8px">각 지표 점수는 −1(악재)~+1(호재)로 정규화되며, 축 점수는 그 단순평균×100이다. ' +
+    '"약 1개월 전"은 각 지표 히스토리에서 30일 전에 가장 가까운 관측(60일 초과 시 비교불가). ' +
+    '히스토리가 없는 수동 지표는 직전 발표치로 대체 표기. 단일 시점 지표(ERR·PEG 등)는 비교 기준이 없어 비교불가. ' +
+    '월간 발표 지표는 기준일이 최대 2개월 전일 수 있다(정상적인 발표 지연). ' +
+    '개별 지표의 차트·해석은 아래 축별 카드에서 각 지표를 클릭.</p>';
+  document.getElementById('mSrc').innerHTML = '';
+
+  if (MODAL_CHART) { try { MODAL_CHART.destroy(); } catch (e) {} MODAL_CHART = null; }
+  var cv = document.getElementById('mChart');
+  // 지표별 점수 막대 — 무엇이 축을 밀고 당겼는지 한눈에
+  MODAL_CHART = new Chart(cv.getContext('2d'), {
+    type: 'bar',
+    data: { labels: inds.map(function (d) { return d.name; }),
+            datasets: [{ data: inds.map(function (d) { return d.score == null ? 0 : d.score; }),
+              backgroundColor: inds.map(function (d) {
+                var v = d.score == null ? 0 : d.score;
+                return v >= 0.3 ? cssVar('--pos') : (v <= -0.3 ? cssVar('--neg') : cssVar('--neu')); }),
+              borderWidth: 0, maxBarThickness: 16 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { displayColors: false,
+        callbacks: { label: function (i) { return '점수 ' + (i.raw > 0 ? '+' : '') + (+i.raw).toFixed(2); } } } },
+      scales: { x: { min: -1, max: 1, grid: { color: cssVar('--border') },
+                     ticks: { font: { size: 9 }, color: cssVar('--muted') } },
+                y: { grid: { display: false }, ticks: { font: { size: 9 }, color: cssVar('--muted') } } } }
+  });
+  document.getElementById('indModal').classList.add('open');
 }
 
 function showIndicatorModal(key) {
@@ -1525,7 +1674,8 @@ function render(M) {
     var col = pl.score > 6 ? cssVar('--pos') : (pl.score < -6 ? cssVar('--neg') : cssVar('--neu'));
     var w = Math.min(50, Math.abs(pl.score) / 2);
     var bar = '<i style="' + (pl.score >= 0 ? 'left:50%' : 'right:50%;left:auto') + ';width:' + w + '%;background:' + col + '"></i>';
-    html += '<div class="pillar-chip"><div class="pn">' + pl.name + '</div>' +
+    html += '<div class="pillar-chip clickable" data-pillar="' + p + '" title="클릭 — 구성 지표와 전월 대비 변화">' +
+      '<div class="pn">' + pl.name + ' <span style="opacity:.5">🔍</span></div>' +
       '<div class="ps" style="color:' + col + '">' + (pl.score > 0 ? '+' : '') + pl.score + '</div>' +
       '<div class="pillar-bar">' + bar + '</div></div>';
   });
@@ -1534,6 +1684,7 @@ function render(M) {
   /* ── Cycle phase + Quadrant + Recession + Monthly factors + Updates + Time machine ── */
   html += renderCycle(M);
   html += renderQuadrant(M);
+  html += renderModelChanges(M);
   html += renderStress(M);
   html += renderRecession(M);
   html += renderMonthly(M);
@@ -1670,6 +1821,9 @@ function render(M) {
     if (cv && d.history) sparkline(cv, d.history, d.score);
   });
   // 지표 카드 클릭 → 히스토리 모달
+  document.querySelectorAll('.pillar-chip.clickable').forEach(function (ch) {
+    ch.addEventListener('click', function () { showPillarModal(ch.getAttribute('data-pillar')); });
+  });
   document.querySelectorAll('.ind-card.clickable').forEach(function (card) {
     card.addEventListener('click', function () { showIndicatorModal(card.getAttribute('data-ind')); });
   });
