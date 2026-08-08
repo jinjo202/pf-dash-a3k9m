@@ -13,6 +13,9 @@
   · Earnings 20%   — 이익수정비율(ERR)+1M 수정. Causeway/MSCI: revisions 강건한 예측력.
   · Macro 20%      — Zaremba 외(2022, J.Fin.Markets): OECD CLI 변화가 국가수익률 예측
                      (월 1.43%). + 통화정책 방향(완화 +/긴축 −). AQR Macro Momentum.
+                     + Citi 경제 서프라이즈(CESI) 25% — CLI는 발표가 2개월 늦어 급변
+                     국면에서 눈이 머는데 CESI는 일간이라 그 공백을 메운다. 수준 0.6 +
+                     20일 모멘텀 0.4. 소스: macromicro 차트 45866(fetch_macro가 수집).
   · Currency 10%   — FX 3요소 등가중 (KRW 기준 무헤지 투자자 관점):
                      ① 캐리(상대 정책금리) — Menkhoff 외(2012) carry premium
                      ② 대KRW 12M 모멘텀 — Asness 외(2013) FX momentum
@@ -61,6 +64,33 @@ def policy_from(macro):
     bias = {c: (pr.get(c) or {}).get("bias", POLICY_BIAS_FALLBACK.get(c, 0))
             for c in POLICY_BIAS_FALLBACK}
     return rate, bias
+
+
+# Citi 경제 서프라이즈(CESI) — 국가코드 → macro-data.js citi_surprise_regions 지역코드.
+# 국가 단위 시리즈는 US·유로존뿐이라 JP/KR은 아시아태평양, CN은 신흥국을 프록시로 쓴다.
+# ⚠ JP와 KR은 같은 APAC 값을 받아 이 서브팩터에선 서로 구분되지 않는다(횡단면에서 동률).
+#   그래도 미국·유럽·아시아·신흥 간 차별화는 살아 있어 정보량이 0은 아니다.
+_CESI_REGION = {"US": "US", "EU": "EU", "JP": "APAC", "KR": "APAC", "CN": "EM"}
+CESI_LEVEL_SCALE = 60.0    # ±60이면 ±1로 포화(과거 분포상 대부분 −80~+80 안)
+CESI_MOM_SCALE = 40.0      # 20일 변화 ±40 → ±1
+
+
+def cesi_signal(macro, cc):
+    """(신호, 설명) — 서프라이즈 수준 0.6 + 20일 모멘텀 0.4. 데이터 없으면 (None, '').
+
+    수준만 보면 이미 반영된 뉴스를 뒤늦게 좇고, 모멘텀만 보면 바닥에서 반등하는
+    약한 경제를 과대평가한다. 둘을 섞어 '좋은데 더 좋아지는' 쪽에 가중.
+    """
+    regs = (macro or {}).get("citi_surprise_regions") or {}
+    r = regs.get(_CESI_REGION.get(cc, ""))
+    if not r or r.get("current") is None:
+        return None, ""
+    lvl = max(-1.0, min(1.0, r["current"] / CESI_LEVEL_SCALE))
+    chg = r.get("chg20")
+    mom = max(-1.0, min(1.0, chg / CESI_MOM_SCALE)) if chg is not None else 0.0
+    sig = 0.6 * lvl + 0.4 * mom
+    note = "CESI %+.0f%s" % (r["current"], (" (20d %+.0f)" % chg) if chg is not None else "")
+    return sig, note
 
 
 def _load(path, var_re):
@@ -223,10 +253,16 @@ def compute():
         # 정책 방향(POLICY_BIAS)을 명시적으로 더한다 — components.mon만으로는
         # BOK 인상 같은 긴축 전환이 반영되지 않았다(mon_note가 '동결·완화 여지'로 고정).
         bias = POLICY_BIAS.get(c, 0) * 0.5
+        # CESI(경제 서프라이즈) — CLI(월간·후행)를 일간 데이터 모멘텀으로 보완.
+        # CLI는 발표가 2개월 늦어 급변 국면에서 눈이 먼다. CESI는 매일 갱신된다.
+        cesi_v, cesi_note = cesi_signal(macro, c)
+        raw[c]["cesi"] = cesi_v
+        raw[c]["cesi_note"] = cesi_note
+        cesi_term = (cesi_v or 0.0) * 1.5      # growth(=cli−100, 대략 ±3) 스케일에 맞춤
         if growth is not None:
-            raw[c]["macro"] = 0.6 * growth + 0.4 * (mon * 2.0) + bias
+            raw[c]["macro"] = 0.45 * growth + 0.3 * (mon * 2.0) + bias + 0.25 * cesi_term
         else:
-            raw[c]["macro"] = mon * 2.0 + bias
+            raw[c]["macro"] = mon * 2.0 + bias + 0.25 * cesi_term
         # Risk: 52주 고점대비 낙폭 + 실현변동성(둘 다 낮을수록 좋음 → 아래서 z 평균)
         dd, vol = drawdown_vol(by_t.get(tk))
         raw[c]["ddown"] = dd                       # 음수일수록 나쁨 → 그대로 z

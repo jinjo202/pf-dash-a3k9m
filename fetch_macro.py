@@ -544,6 +544,83 @@ def fetch_put_call():
         return None
 
 
+# Citi 경제 서프라이즈 지수(CESI) — macromicro 차트 45866의 8개 지역 시리즈.
+# 시리즈 순서는 chart_config.seriesConfigs와 1:1 대응이므로 이름으로 매칭한다(순서 의존 금지).
+_CESI_MAP = {                      # macromicro 시리즈명 → 내부 지역코드
+    "Citigroup Economic Surprise Index: Global": "GLOBAL",
+    "Citigroup Economic Surprise Index: G10": "G10",
+    "Citigroup Economic Surprise Index: United States": "US",
+    "Citigroup Economic Surprise Index: Eurozone": "EU",
+    "Citigroup Economic Surprise Index: Asia Pacific": "APAC",
+    "Citigroup Economic Surprise Index: Latin America": "LATAM",
+    "Citigroup Economic Surprise Index: Emerging Markets": "EM",
+    "Citigroup Economic Surprise Index: BRIC": "BRIC",
+}
+CESI_KEEP = 780          # 약 3년치 일간(z-score·차트용). 원본은 2003년부터 6,000+ 포인트.
+
+
+def fetch_citi_surprise():
+    """Citi 경제 서프라이즈 지수 지역별 자동수집 (macromicro 45866).
+
+    2단계: ① 차트 페이지에서 data-stk 토큰 + 세션 쿠키 획득
+           ② 같은 세션으로 POST /charts/data/45866 (Authorization: Bearer <stk>)
+    토큰 없이 바로 호출하면 error #1200. 페이지가 공개 표시하는 값과 동일 범위만 가져온다.
+
+    반환: {지역코드: {"current","prev","chg20","as_of","history":{dates,values}}} 또는 None.
+    실패 시 None → 호출부에서 기존 시드 유지(fail-safe).
+    """
+    import subprocess, tempfile, os, re as _re
+    url = "https://en.macromicro.me/charts/45866/global-citi-surprise-index"
+    ua = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+    ck = os.path.join(tempfile.gettempdir(), "mm_cesi_cookies.txt")
+    try:
+        r1 = subprocess.run(["curl", "-s", "--compressed", "--max-time", "25", "-A", ua,
+                             "-c", ck, url], capture_output=True, timeout=30, check=True)
+        html = r1.stdout.decode("utf-8", errors="replace")
+        m = _re.search(r'data-stk="([a-f0-9]{32})"', html)
+        if not m:
+            raise ValueError("data-stk 토큰 없음(페이지 구조 변경 의심)")
+        stk = m.group(1)
+        r2 = subprocess.run(["curl", "-s", "--compressed", "--max-time", "25", "-A", ua,
+                             "-b", ck,
+                             "-H", "Content-Type: application/json",
+                             "-H", f"Authorization: Bearer {stk}",
+                             "-H", "Docref: ",
+                             "-H", f"Referer: {url}",
+                             "https://en.macromicro.me/charts/data/45866"],
+                            capture_output=True, timeout=30, check=True)
+        d = json.loads(r2.stdout.decode("utf-8", errors="replace"))
+        if not d.get("success"):
+            raise ValueError(f"success=0 ({d.get('msg')})")
+        c = (d.get("data") or {}).get("c:45866") or {}
+        cfg = ((c.get("info") or {}).get("chart_config") or {}).get("seriesConfigs") or []
+        sers = c.get("series") or []
+        out = {}
+        for sc, sv in zip(cfg, sers):
+            code = _CESI_MAP.get(sc.get("name_en", ""))
+            if not code or not sv:
+                continue
+            pts = [(x[0], float(x[1])) for x in sv if x and x[1] not in (None, "")]
+            if len(pts) < 30:
+                continue
+            pts = pts[-CESI_KEEP:]
+            vals = [round(v, 1) for _, v in pts]
+            dts = [dd for dd, _ in pts]
+            out[code] = {
+                "current": vals[-1], "prev": vals[-2],
+                "chg20": round(vals[-1] - vals[-21], 1) if len(vals) > 20 else None,
+                "as_of": dts[-1], "n": len(vals),
+                "history": {"dates": dts, "values": vals},
+            }
+        if "US" not in out:
+            raise ValueError("US 시리즈 없음")
+        return out
+    except Exception as e:
+        print(f"  [err] Citi 서프라이즈 자동조회 실패(시드값 유지): {e}")
+        return None
+
+
 def fetch_multpl(slug):
     """multpl.com 월별 테이블 → (dates[ISO], values[float]). 실패 시 ([],[])."""
     import re, html as _html
@@ -3189,6 +3266,23 @@ def build():
         print(f"  [ok] ISM PMI {ism['current']} (직전 {ism['prev']}, {ism['as_of']}, {ism['source']['name']})")
     else:
         print("  [skip] ISM PMI 시드값 유지")
+    cesi = fetch_citi_surprise()
+    if cesi:
+        us = cesi["US"]
+        seed = MANUAL["citi_surprise"]
+        sent_manual["citi_surprise"] = {
+            **seed, "current": us["current"], "prev": us["prev"], "as_of": us["as_of"],
+            "history": us["history"],
+            "note": ("실제 발표가 컨센서스를 얼마나 상회/하회하는지(+면 호조). 데이터 모멘텀 선행 지표. "
+                     f"20일 변화 {us['chg20']:+.1f}. " if us.get("chg20") is not None else "") +
+                    "macromicro(차트 45866) 자동수집 — 미국 기준.",
+            "source": {"name": "macromicro (Citi 경제 서프라이즈, 자동)",
+                       "url": "https://en.macromicro.me/charts/45866/global-citi-surprise-index"}}
+        print("  [ok] Citi 서프라이즈 " +
+              ", ".join(f"{k} {v['current']:+.1f}" for k, v in cesi.items()
+                        if k in ("US", "EU", "APAC", "EM")))
+    else:
+        print("  [skip] Citi 서프라이즈 시드값 유지")
     aaii = fetch_aaii()
     if aaii:
         seed = MANUAL["aaii_spread"]
@@ -3416,6 +3510,9 @@ def build():
         "stress": stress,
         "sector_rotation": sector_rot,
         "model_changes": model_changes,
+        # 지역별 CESI — country_model이 macro 팩터에 사용. 히스토리는 용량 때문에 US만 보관.
+        "citi_surprise_regions": ({k: {kk: vv for kk, vv in v.items() if kk != "history"}
+                                   for k, v in cesi.items()} if cesi else None),
         "monthly_factors": build_monthly(today),
         "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,
