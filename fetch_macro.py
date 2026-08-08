@@ -2438,10 +2438,22 @@ _SEC_EARN_MAP = {
     "US": {"정보기술": ["반도체·AI HW", "소프트웨어·IT"], "커뮤니케이션": ["커뮤니케이션"],
            "금융": ["금융"], "헬스케어": ["헬스케어"], "경기소비재": ["임의소비재"],
            "에너지": ["에너지"], "산업재": ["산업재"]},
-    "KR": {"정보기술": ["반도체", "인터넷·IT"], "소재": ["2차전지·소재", "철강·소재"],
-           "경기소비재": ["자동차"], "금융": ["금융"], "헬스케어": ["바이오"],
-           "산업재": ["방산·조선"], "커뮤니케이션": ["엔터·미디어", "통신"],
-           "필수소비재": ["유통·필수소비재"]},
+    # KR은 실투자 ETF 섹터명 기준(kr_etf 리전) — ETF 단위라 이익 바스켓과 1:1에 가깝다.
+    "KR": {"반도체": ["반도체"], "2차전지": ["2차전지·소재"], "자동차": ["자동차"],
+           "은행": ["금융"], "증권": ["금융"], "보험": ["금융"], "바이오": ["바이오"],
+           "인터넷·SW": ["인터넷·IT"], "엔터·미디어": ["엔터·미디어"], "철강": ["철강·소재"],
+           "방산": ["방산·조선"], "조선": ["방산·조선"], "음식료·생활": ["유통·필수소비재"]},
+}
+
+# KR ETF 섹터명 → Investment Clock 성향용 GICS 카테고리 별칭.
+# (_CLOCK_FIT은 GICS 11섹터 기준으로 정의돼 있어 ETF 섹터를 그 카테고리로 사상)
+_KR_FIT_ALIAS = {
+    "반도체": "정보기술", "인터넷·SW": "정보기술", "2차전지": "소재",
+    "자동차": "경기소비재", "여행·레저": "경기소비재",
+    "은행": "금융", "증권": "금융", "보험": "금융",
+    "바이오": "헬스케어", "화장품": "필수소비재", "음식료·생활": "필수소비재",
+    "엔터·미디어": "커뮤니케이션", "에너지·화학": "에너지",
+    "철강": "소재", "건설": "산업재", "운송": "산업재", "방산": "산업재", "조선": "산업재",
 }
 
 # Investment Clock 국면별 섹터 성향(+1 순풍 / -1 역풍) — Merrill Lynch(2004) 표준 매핑.
@@ -2493,7 +2505,7 @@ def build_sector_rotation(quadrant, earn_data):
     hist = load_sector_history()
     if not hist:
         return None
-    region_map = {"US": "us", "KR": "korea"}
+    region_map = {"US": "us", "KR": ("kr_etf" if hist.get("kr_etf") else "korea")}
     earn_sec = (earn_data or {}).get("sectors") or {}
     out = {}
     for cc, rg in region_map.items():
@@ -2534,8 +2546,9 @@ def build_sector_rotation(quadrant, earn_data):
                 flags.append("낙폭경보")
             if rev90s and max(rev90s) > 50 and "둔화" in moms:
                 flags.append("이익정점 경계")
+            fit_key = _KR_FIT_ALIAS.get(name, name) if cc == "KR" else name
             rows.append({"name": name, "mom6": mom6, "mom1": mom1, "ddown": ddown, "vol": vol,
-                         "earn": earn_v, "fit": fit_map.get(name, 0), "flags": flags,
+                         "earn": earn_v, "fit": fit_map.get(fit_key, 0), "flags": flags,
                          "has_earn": bool(errs)})
         if len(rows) < 5:
             continue
@@ -2577,6 +2590,10 @@ def build_sector_rotation(quadrant, earn_data):
                     "이익=ERR+1M수정(±30 클램프, 바스켓 없는 섹터 중립), "
                     f"국면적합=Investment Clock '{ph}' 성향(±1). "
                     "밸류 팩터는 의도적으로 없음 — 사이클 정점 PER 밸류트랩 방지. "
+                    "갱신·로테이션: 점수는 cron이 하루 8회 재계산하지만 6M 모멘텀·52주 낙폭 중심이라 "
+                    "실제 순위 교체는 완만함(백테스트 기준 월평균 상위3 중 ~1개 교체 — 하단 백테스트 참조). "
+                    "판정 밴드 ±0.30이 잦은 신호 반전을 완충. "
+                    "KR은 실투자 ETF 섹터(KODEX 반도체·TIGER 화장품 등 18개) 기준. "
                     "플래그(낙폭경보·이익정점 경계)는 절대기준이라 종합점수에 희석되지 않고 병렬 표시."}
 
 

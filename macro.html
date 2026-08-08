@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-08-08b";</script>
+<script>window.CODE_VERSION = "2026-08-08c";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -48,6 +48,7 @@
     document.write('<script src="macro-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="country-model.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="pe-history.js?v=' + v + '"></scr' + 'ipt>');
+    document.write('<script src="sector-backtest.js?v=' + v + '"></scr' + 'ipt>');
   })();
 </script>
 <style>
@@ -1072,6 +1073,31 @@ function renderSectorRotation(M) {
     (sr.phase ? ' <span class="rebal-badge">' + sr.phase + '</span>' : '') + '</h2>' +
     '<p class="hint">모멘텀 30 · 이익수정 25 · 리스크(낙폭·변동성) 25 · 국면적합 20 — 리전 내 횡단면 z 합성. ⚑ 플래그는 절대 임계라 점수에 희석되지 않음.</p>';
   ['US', 'KR'].forEach(function (cc) { if (sr.regions[cc]) html += tbl(cc, sr.regions[cc]); });
+  // 백테스트 + 로테이션 빈도 (sector-backtest.js — 월 1회 수동 갱신)
+  var BT = window.SECTOR_BACKTEST;
+  if (BT && BT.regions) {
+    html += '<h3 style="font-size:13px;margin:16px 0 6px">📊 백테스트 (가격 코어 2팩터 · 월 리밸런싱 상위3 EW)</h3>' +
+      '<div style="overflow-x:auto"><table class="cm-table"><thead><tr><th>리전</th><th>기간</th>' +
+      '<th>전략 CAGR</th><th>벤치 CAGR</th><th>Sharpe</th><th>MDD</th><th>적중률</th>' +
+      '<th>월평균 교체</th><th>무교체 달</th><th>평균 보유</th></tr></thead><tbody>';
+    ['US', 'KR'].forEach(function (cc) {
+      var r = BT.regions[cc]; if (!r) return;
+      var s = r.stats_strategy || {}, b = r.stats_benchmark || {}, ro = r.rotation || {};
+      html += '<tr><td class="nm">' + (cc === 'US' ? '🇺🇸' : '🇰🇷') + '</td>' +
+        '<td class="pref-note">' + r.period + ' (' + r.rebalances + '회)</td>' +
+        '<td class="sc tnum"><b>' + s.cagr + '%</b></td><td class="sc tnum">' + b.cagr + '%</td>' +
+        '<td class="sc tnum">' + s.sharpe + ' / ' + b.sharpe + '</td>' +
+        '<td class="sc tnum">' + s.mdd + '% / ' + b.mdd + '%</td>' +
+        '<td class="sc tnum">' + r.hit_rate + '%</td>' +
+        '<td class="sc tnum">' + ro.avg_changes + '개</td>' +
+        '<td class="sc tnum">' + ro.unchanged_pct + '%</td>' +
+        '<td class="sc tnum">' + ro.avg_tenure_m + '개월</td></tr>';
+    });
+    html += '</tbody></table></div>' +
+      '<p class="disclaimer">' + BT.method + ' 해석: 미국은 코어 2팩터만으로는 벤치와 사실상 무승부(MDD 개선이 유일한 우위) — ' +
+      '라이브 모델의 초과수익 근거는 이익수정·국면적합 팩터에 있고 이 둘은 백테스트 불가. ' +
+      '한국은 코어 팩터만으로도 유의미한 초과수익(모멘텀 효과가 강한 시장). 과최적화 방지 위해 파라미터 튜닝 안 함.</p>';
+  }
   html += '<p class="disclaimer">' + sr.note + '</p></div>';
   return html;
 }

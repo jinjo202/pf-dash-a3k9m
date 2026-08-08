@@ -25,6 +25,30 @@ OUT = HERE / "sector-history.js"
 
 KST = timezone(timedelta(hours=9))
 
+# 한국 실투자 섹터 ETF (매크로 탭 섹터 로테이션용 kr_etf 리전).
+# GICS 동일가중(korea 리전)과 별개 — 실제 매매 가능한 ETF 단위 섹터 구분.
+# 전 종목 yfinance 검증 완료(2026-08-08). 방산·조선은 2023년 상장이라 히스토리 짧음.
+KR_SECTOR_ETFS = [
+    ("091160.KS", "반도체",       "KODEX 반도체"),
+    ("305720.KS", "2차전지",      "KODEX 2차전지산업"),
+    ("091180.KS", "자동차",       "KODEX 자동차"),
+    ("091170.KS", "은행",         "KODEX 은행"),
+    ("102970.KS", "증권",         "KODEX 증권"),
+    ("140700.KS", "보험",         "KODEX 보험"),
+    ("143860.KS", "바이오",       "TIGER 헬스케어"),
+    ("228790.KS", "화장품",       "TIGER 화장품"),
+    ("227560.KS", "음식료·생활",  "TIGER 200 필수소비재"),
+    ("228810.KS", "엔터·미디어",  "TIGER 미디어컨텐츠"),
+    ("157490.KS", "인터넷·SW",    "TIGER 소프트웨어"),
+    ("117460.KS", "에너지·화학",  "KODEX 에너지화학"),
+    ("117680.KS", "철강",         "KODEX 철강"),
+    ("117700.KS", "건설",         "KODEX 건설"),
+    ("140710.KS", "운송",         "KODEX 운송"),
+    ("228800.KS", "여행·레저",    "TIGER 여행레저"),
+    ("449450.KS", "방산",         "PLUS K방산"),
+    ("466920.KS", "조선",         "SOL 조선TOP3"),
+]
+
 
 def _kst_today() -> str:
     return datetime.now(KST).strftime("%Y-%m-%d")
@@ -86,8 +110,9 @@ def main():
         return
 
     etf_tickers = [etf for etf, _, _ in US_SECTORS]
+    kr_etf_tickers = [t for t, _, _ in KR_SECTOR_ETFS]
     uni_tickers = [t for region in UNIVERSE.values() for t, _, _ in region]
-    all_tickers = list(dict.fromkeys(etf_tickers + uni_tickers))
+    all_tickers = list(dict.fromkeys(etf_tickers + kr_etf_tickers + uni_tickers))
     print(f"다운로드: {len(all_tickers)}개 티커 1년 종가...")
     df = yf.download(all_tickers, period="1y", interval="1d",
                      auto_adjust=True, progress=False, group_by="column")
@@ -109,6 +134,30 @@ def main():
         regions[key] = {"dates": dates, "series": series}
         print(f"  {key}: {len(dates)}일 × {len(series)}섹터")
     print(f"  us: {len(us_dates)}일 × {len(regions['us']['series'])}섹터")
+
+    # 한국 실투자 ETF 섹터 (kr_etf) — US와 동일하게 종가 base=100 정규화.
+    # 각 ETF의 자기 첫 유효값 기준이라 상장 시점이 달라도 시리즈 앞쪽은 None으로 유지됨.
+    kr_avail = [t for t in kr_etf_tickers if t in close.columns]
+    kr_close = close[kr_avail].dropna(how="all")
+    kr_dates = [d.strftime("%Y-%m-%d") for d in kr_close.index]
+    kr_series = {}
+    for tk, name_ko, etf_nm in KR_SECTOR_ETFS:
+        if tk not in close.columns:
+            continue
+        sr = close[tk].ffill()
+        first = sr.first_valid_index()
+        if first is None:
+            continue
+        base = sr.loc[first]
+        vals = []
+        for d in kr_close.index:
+            v = sr.loc[d]
+            vals.append(round(float(v) / base * 100, 2) if v == v and d >= first else None)
+        kr_series[name_ko] = vals
+    regions["kr_etf"] = {"dates": kr_dates, "series": kr_series,
+                          "etfs": {name: {"ticker": tk, "name": nm}
+                                   for tk, name, nm in KR_SECTOR_ETFS if name in kr_series}}
+    print(f"  kr_etf: {len(kr_dates)}일 × {len(kr_series)}섹터")
 
     payload = {
         "as_of": _kst_today(),
