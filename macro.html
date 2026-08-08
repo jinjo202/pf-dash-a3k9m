@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-08-08a";</script>
+<script>window.CODE_VERSION = "2026-08-08b";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -47,6 +47,7 @@
     var v = Math.floor(Date.now() / 60000);
     document.write('<script src="macro-data.js?v=' + v + '"></scr' + 'ipt>');
     document.write('<script src="country-model.js?v=' + v + '"></scr' + 'ipt>');
+    document.write('<script src="pe-history.js?v=' + v + '"></scr' + 'ipt>');
   })();
 </script>
 <style>
@@ -101,7 +102,23 @@
   .panel {
     background:var(--panel); border:1px solid var(--border); border-radius:12px;
     box-shadow:var(--shadow-sm); padding:18px 20px; margin-bottom:20px;
+    scroll-margin-top:70px; /* 목차 점프 시 sticky 헤더에 가리지 않게 */
   }
+  /* ===== 목차(TOC) — 넓은 화면은 우측 고정, 좁은 화면은 ☰ 버튼 토글 ===== */
+  #toc { position:fixed; top:96px; right:12px; width:190px; max-height:calc(100vh - 130px);
+         overflow-y:auto; background:var(--panel); border:1px solid var(--border); border-radius:12px;
+         box-shadow:var(--shadow-sm); padding:10px 8px; z-index:30; font-size:11.5px; display:none; }
+  @media (min-width:1600px){ #toc{ display:block; } }
+  #toc.open { display:block; }
+  #toc .t { font-weight:800; font-size:11px; color:var(--muted); margin:2px 8px 6px; }
+  #toc a { display:block; padding:4px 8px; border-radius:7px; color:var(--text-soft); text-decoration:none;
+           white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #toc a:hover { background:var(--accent-soft); }
+  #toc a.on { background:var(--accent-soft); color:var(--accent); font-weight:700; }
+  #tocBtn { position:fixed; right:14px; bottom:14px; z-index:31; width:42px; height:42px; border-radius:50%;
+            border:1px solid var(--border); background:var(--panel); color:var(--text-soft);
+            box-shadow:0 2px 10px rgba(0,0,0,.18); font-size:17px; cursor:pointer; }
+  @media (min-width:1600px){ #tocBtn{ display:none; } }
   .panel h2 { font-size:15px; margin:0 0 4px; font-weight:700; letter-spacing:-.01em; }
   .panel .hint { font-size:12px; color:var(--muted); margin:0 0 14px; }
   .section-label { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
@@ -165,6 +182,7 @@
   /* ===== big index charts ===== */
   .idx-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   @media (max-width:720px){ .idx-grid{ grid-template-columns:1fr; } }
+  .pe-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin-top:8px; }
   .idx-box { border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
   .idx-box .h { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
   .idx-box .h .t { font-weight:700; font-size:13px; }
@@ -881,6 +899,50 @@ function renderMonthly(M) {
     '<div id="mfBody">' + mfBodyHtml(body, cur) + '</div></div>';
 }
 
+// 목차 — 렌더된 패널의 h2를 스캔해 자동 생성 (넓은 화면 우측 고정, 좁은 화면 ☰ 토글)
+function buildToc() {
+  var old = document.getElementById('toc'); if (old) old.remove();
+  var oldB = document.getElementById('tocBtn'); if (oldB) oldB.remove();
+  var hs = Array.prototype.slice.call(document.querySelectorAll('#app .panel h2'));
+  if (!hs.length) return;
+  var toc = document.createElement('nav'); toc.id = 'toc';
+  toc.innerHTML = '<div class="t">목차</div>';
+  var links = [];
+  // 최상단(레짐 게이지·경기국면)은 h2가 없어 스캔에 안 잡힘 — 고정 항목으로
+  var topA = document.createElement('a'); topA.href = '#'; topA.textContent = '🎯 레짐 게이지 (맨 위)';
+  topA.addEventListener('click', function (e) {
+    e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); toc.classList.remove('open');
+  });
+  toc.appendChild(topA);
+  hs.forEach(function (h, i) {
+    var p = h.closest('.panel'); if (!p) return;
+    if (!p.id) p.id = 'sec' + i;
+    var c = h.cloneNode(true);
+    Array.prototype.slice.call(c.querySelectorAll('span,select,button,small')).forEach(function (x) { x.remove(); });
+    var label = c.textContent.replace(/\s+/g, ' ').trim();
+    if (label.length > 24) label = label.slice(0, 23) + '…';
+    var a = document.createElement('a'); a.href = '#' + p.id; a.textContent = label;
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      toc.classList.remove('open');
+    });
+    toc.appendChild(a); links.push([a, p]);
+  });
+  document.body.appendChild(toc);
+  var btn = document.createElement('button'); btn.id = 'tocBtn'; btn.textContent = '☰'; btn.title = '목차';
+  btn.addEventListener('click', function () { toc.classList.toggle('open'); });
+  document.body.appendChild(btn);
+  // 스크롤 위치 하이라이트
+  function mark() {
+    var y = window.scrollY + 110, idx = 0;
+    links.forEach(function (lp, i) { if (lp[1].offsetTop <= y) idx = i; });
+    links.forEach(function (lp, i) { lp[0].classList.toggle('on', i === idx); });
+  }
+  window.addEventListener('scroll', mark, { passive: true });
+  mark();
+}
+
 function renderCycle(M) {
   if (!M.cycle) return '';
   var c = M.cycle;
@@ -1058,7 +1120,7 @@ function renderCountryPref(M) {
 function renderCountryModel(CM) {
   if (!CM || !CM.current || !CM.current.length) return '';
   function prefCls(p){ return p==='비중확대'?'pm-pos':p==='축소'?'pm-neg':'pm-neu'; }
-  var facList = [['value','밸류'],['momentum','모멘텀'],['earnings','이익'],['macro','매크로'],['currency','통화']];
+  var facList = [['value','밸류'],['momentum','모멘텀'],['earnings','이익'],['macro','매크로'],['currency','통화'],['risk','리스크']];
   var rows = CM.current.map(function(c){
     var chips = facList.map(function(o){
       var z = c.factors[o[0]]; if (z==null) z=0;
@@ -1078,13 +1140,37 @@ function renderCountryModel(CM) {
     '<p class="hint">국가배분 학술 연구 표준 팩터를 횡단면 z-score로 가중합성 — '+
     'Value '+Math.round((w.value||0)*100)+'% · Momentum '+Math.round((w.momentum||0)*100)+'% · '+
     'Earnings '+Math.round((w.earnings||0)*100)+'% · Macro '+Math.round((w.macro||0)*100)+'% · '+
-    'Currency '+Math.round((w.currency||0)*100)+'%. '+
+    'Currency '+Math.round((w.currency||0)*100)+'%'+
+    (w.risk ? ' · Risk '+Math.round(w.risk*100)+'%' : '')+'. '+
     '<span style="opacity:.7">(Asness·Moskowitz·Pedersen 2013, Keimling 2016, Zaremba 외 2022)</span></p>'+
     (CM.last_rebalance ? '<div class="rebal-info">최근 리밸런싱 <b>'+CM.last_rebalance+'</b>'+
        (CM.rebalance_trigger ? ' · '+CM.rebalance_trigger : '')+'</div>' : '')+
     '<div style="overflow-x:auto"><table class="cm-table"><thead><tr>'+
     '<th>국가</th><th>선호</th><th>종합</th><th>팩터 z-score</th><th class="pref-note">근거</th>'+
     '</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  // 국가별 장기 PER — 중앙값 선 + z-score (pe-history.js)
+  var PH = window.PE_HISTORY;
+  if (PH && PH.countries) {
+    html += '<div class="rebal-head">📊 국가별 장기 PER — 적정선(중앙값) 대비 현재 위치</div>'+
+      '<p class="hint">모델의 밸류 적정 PER = 최근 '+PH.window_years+'년 후행 PER 중앙값(자동 갱신). '+
+      'z-score는 같은 창의 평균·표준편차 기준 — +면 자기 역사 대비 비쌈. '+
+      '히스토리가 '+PH.min_years+'년 미만인 국가는 축적 중이며 그동안 시드 적정치를 사용.</p>'+
+      '<div class="pe-grid">';
+    Object.keys(PH.countries).forEach(function(cc){
+      var p = PH.countries[cc]; if (!p || !p.dates || !p.dates.length) return;
+      var zTxt = (p.z==null) ? '' :
+        ' · z <b class="'+(p.z>=1?'pm-neg':p.z<=-1?'pm-pos':'')+'">'+(p.z>0?'+':'')+p.z.toFixed(1)+'</b>';
+      var badge = p.valid
+        ? '중앙값 <b>'+p.median.toFixed(1)+'</b> ('+p.years+'년)'+zTxt
+        : '<span style="opacity:.65">축적 중 ('+p.n+'개 관측) — 시드 사용</span>';
+      html += '<div class="idx-box"><div class="h"><span class="t">'+p.name+
+        ' <span class="tnum" style="opacity:.8">PER '+(p.current!=null?p.current.toFixed(1):'-')+'</span></span>'+
+        '<span style="font-size:11px">'+badge+'</span></div>'+
+        '<div class="idx-chart"><canvas id="peH_'+cc+'"></canvas></div>'+
+        '<div class="hint" style="font-size:10px;margin:2px 0 0">'+(p.sources||[]).join(' + ')+'</div></div>';
+    });
+    html += '</div>';
+  }
   // 최근 리밸런싱 변화 — 어떤 요인이 바뀌었나
   var chgs = (CM.changes||[]).filter(function(e){ return e.items && e.items.length; });
   if (chgs.length) {
@@ -1116,6 +1202,36 @@ function renderCountryModel(CM) {
   if (CM.methodology) html += '<p class="disclaimer"><b>📐 ' + CM.methodology + '</b></p>';
   html += '<p class="disclaimer">학술 팩터 모델(연구·교육용). 백테스트는 코어 2팩터·소표본(5개국)·거래비용 미반영 — 실제 성과를 보장하지 않습니다.</p></div>';
   return html;
+}
+
+function drawPeCharts(PH) {
+  // 국가별 장기 PER 라인 + 중앙값 점선. 중앙값은 데이터 전 구간에 상수선으로 그린다.
+  Object.keys(PH.countries || {}).forEach(function(cc){
+    var p = PH.countries[cc];
+    var cv = document.getElementById('peH_' + cc);
+    if (!cv || !p || !p.dates || p.dates.length < 2) return;
+    var med = p.valid ? p.median : null;
+    var ds = [{ label:'PER', data:p.values, borderColor:cssVar('--accent'),
+                backgroundColor:cssVar('--accent')+'18', borderWidth:2, pointRadius:0,
+                fill:true, tension:.15 }];
+    if (med != null) ds.push({ label:'중앙값 '+med.toFixed(1)+' ('+p.years+'년)',
+      data:p.values.map(function(){ return med; }), borderColor:'#c0392b',
+      borderWidth:1.5, borderDash:[6,4], pointRadius:0, fill:false });
+    var c = new Chart(cv.getContext('2d'), {
+      type:'line', data:{ labels:p.dates, datasets:ds },
+      options:{ responsive:true, maintainAspectRatio:false, animation:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{ legend:{ display:med!=null, labels:{ boxWidth:12, font:{size:10},
+                    filter:function(it){ return it.datasetIndex===1; } } },
+          tooltip:{ callbacks:{ title:function(i){ return i[0].label.slice(0,7); },
+                    label:function(i){ return i.dataset.label.split(' ')[0]+' '+(+i.raw).toFixed(1); } } } },
+        scales:{ x:{ grid:{display:false}, ticks:{ maxTicksLimit:6, font:{size:8},
+                     color:cssVar('--muted'),
+                     callback:function(v){ var l=this.getLabelForValue(v); return l?l.slice(0,7):''; } } },
+          y:{ grid:{ color:cssVar('--border') }, ticks:{ font:{size:8}, color:cssVar('--muted') } } } }
+    });
+    CHARTS.push(c);
+  });
 }
 
 function drawBacktestChart(CM) {
@@ -1516,10 +1632,12 @@ function render(M) {
   }
 
   app.innerHTML = html;
+  buildToc();
 
   /* draw charts after DOM */
   drawQuadrant(M);
   if (window.COUNTRY_MODEL) drawBacktestChart(window.COUNTRY_MODEL);
+  if (window.PE_HISTORY) drawPeCharts(window.PE_HISTORY);
   Object.keys(M.indicators).forEach(function (k) {
     var d = M.indicators[k];
     var cv = document.getElementById('spk_' + k);
