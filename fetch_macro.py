@@ -621,6 +621,25 @@ def fetch_citi_surprise():
         return None
 
 
+def keep_fresher(key, seed, prev_indicators):
+    """라이브 수집 실패 시 쓸 값 — 직전 macro-data.js가 시드보다 최신이면 그쪽.
+
+    macromicro(CESI)처럼 **로컬 IP에서만 되는 소스**는 cron(GitHub Actions)에서 항상
+    실패한다. 그때 하드코딩 시드로 되돌리면, 로컬 스케줄러가 어렵게 받아온 신선한 값을
+    cron이 하루 8회 덮어써서 로컬 실행이 통째로 무의미해진다(2026-08 CESI 실측:
+    로컬 +35.1 @08-06 → cron이 시드 −8.0 @06-12로 되돌림).
+    → 직전 산출물이 시드보다 새 값이면 그것을 이어받는다.
+    """
+    prev = (prev_indicators or {}).get(key) or {}
+    p_as_of, s_as_of = str(prev.get("as_of") or ""), str(seed.get("as_of") or "")
+    if prev.get("current") is not None and p_as_of > s_as_of:
+        return {**seed, "current": prev["current"], "prev": prev.get("prev"),
+                "as_of": prev["as_of"], "history": prev.get("history") or seed.get("history"),
+                "note": prev.get("desc") or seed.get("note"),
+                "source": prev.get("source") or seed.get("source"), "stale": True}
+    return None
+
+
 def fetch_multpl(slug):
     """multpl.com 월별 테이블 → (dates[ISO], values[float]). 실패 시 ([],[])."""
     import re, html as _html
@@ -3240,6 +3259,7 @@ def build():
     # --- 수동 지표 (센티먼트 MANUAL + 수급 MANUAL_FLOWS, 한국 수급은 자동 패치) ---
     # CNN 공포·탐욕 지수는 CNN 엔드포인트에서 자동 조회, 실패 시 시드값 유지(fail-safe).
     sent_manual = dict(MANUAL)
+    _prev_inds = (load_prev() or {}).get("indicators") or {}
     fng = fetch_cnn_fng()
     if fng:
         seed = MANUAL["cnn_fng"]
@@ -3282,7 +3302,13 @@ def build():
               ", ".join(f"{k} {v['current']:+.1f}" for k, v in cesi.items()
                         if k in ("US", "EU", "APAC", "EM")))
     else:
-        print("  [skip] Citi 서프라이즈 시드값 유지")
+        kept = keep_fresher("citi_surprise", MANUAL["citi_surprise"], _prev_inds)
+        if kept:
+            sent_manual["citi_surprise"] = kept
+            print(f"  [keep] Citi 서프라이즈 직전값 유지 {kept['current']} ({kept['as_of']}) "
+                  "— 로컬 실행분 보존(cron은 macromicro 차단)")
+        else:
+            print("  [skip] Citi 서프라이즈 시드값 유지")
     aaii = fetch_aaii()
     if aaii:
         seed = MANUAL["aaii_spread"]
@@ -3511,8 +3537,10 @@ def build():
         "sector_rotation": sector_rot,
         "model_changes": model_changes,
         # 지역별 CESI — country_model이 macro 팩터에 사용. 히스토리는 용량 때문에 US만 보관.
+        # 실패 시 직전 산출물 유지 — cron(차단)이 로컬 수집분을 지우지 않게.
         "citi_surprise_regions": ({k: {kk: vv for kk, vv in v.items() if kk != "history"}
-                                   for k, v in cesi.items()} if cesi else None),
+                                   for k, v in cesi.items()} if cesi
+                                  else (prev.get("citi_surprise_regions") or None)),
         "monthly_factors": build_monthly(today),
         "monthly_all": build_monthly_all(today),
         "country_pref": country_pref,
