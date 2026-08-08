@@ -479,17 +479,8 @@ window.MACRO = {
       "as_of": "2026-08-07"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-08-08",
-      "type": "revision",
-      "key": "oil_yoy",
-      "title": "WTI 유가 (YoY)",
-      "detail": "15.5% → 17.2% (수정)",
-      "as_of": "2026-08-07"
-    }
-  ],
-  "generated": "2026-08-08T07:23:07Z",
+  "updates_today": [],
+  "generated": "2026-08-08T07:35:47Z",
   "regime": {
     "score": 17,
     "label": "비중확대 우위",
