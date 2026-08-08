@@ -480,7 +480,7 @@ window.MACRO = {
     }
   ],
   "updates_today": [],
-  "generated": "2026-08-08T09:24:52Z",
+  "generated": "2026-08-08T09:53:53Z",
   "regime": {
     "score": 17,
     "label": "비중확대 우위",
@@ -1220,6 +1220,52 @@ window.MACRO = {
       "regime_fit": 0.2
     },
     "note": "리전 내 횡단면 z 합성(모멘텀30·이익25·리스크25·국면적합20). 모멘텀=6M-1M+1M, 리스크=52주낙폭+20일변동성(직전 급락 사각지대 보완), 이익=ERR+1M수정(±30 클램프, 바스켓 없는 섹터 중립), 국면적합=Investment Clock '회복 (Recovery)' 성향(±1). 밸류 팩터는 의도적으로 없음 — 사이클 정점 PER 밸류트랩 방지. 갱신·로테이션: 점수는 cron이 하루 8회 재계산하지만 6M 모멘텀·52주 낙폭 중심이라 실제 순위 교체는 완만함(백테스트 기준 월평균 상위3 중 ~1개 교체 — 하단 백테스트 참조). 판정 밴드 ±0.30이 잦은 신호 반전을 완충. KR은 실투자 ETF 섹터(KODEX 반도체·TIGER 화장품 등 18개) 기준. 플래그(낙폭경보·이익정점 경계)는 절대기준이라 종합점수에 희석되지 않고 병렬 표시."
+  },
+  "model_changes": {
+    "changes": [
+      {
+        "date": "2026-08-08",
+        "items": [
+          {
+            "kind": "레짐",
+            "name": "종합 레짐",
+            "from": "비중확대 (+45)",
+            "to": "비중확대 우위 (+17)",
+            "note": "밴드 전환"
+          },
+          {
+            "kind": "국면",
+            "name": "Investment Clock",
+            "from": "과열 (Overheat)",
+            "to": "회복 (Recovery)",
+            "note": "성장×인플레 사분면 전환"
+          },
+          {
+            "kind": "섹터",
+            "name": "🇺🇸 금융",
+            "from": "축소 (+1.02)",
+            "to": "비중확대 (+1.02)",
+            "note": ""
+          },
+          {
+            "kind": "섹터",
+            "name": "🇺🇸 산업재",
+            "from": "축소 (+0.47)",
+            "to": "비중확대 (+0.47)",
+            "note": ""
+          },
+          {
+            "kind": "국가",
+            "name": "미국",
+            "from": "축소 (-9)",
+            "to": "중립 (-9)",
+            "note": "12개월 종합 기준"
+          }
+        ]
+      }
+    ],
+    "last_checked": "2026-08-08",
+    "note": "판정이 실제로 바뀐 것만 기록한다(레짐은 밴드 전환 또는 8점 이상 이동). cron이 하루 8회 돌며 생기는 점수 미세 진동은 남기지 않는다 — 남기면 노이즈에 묻혀 '언제 실제로 바뀌었나'를 못 읽는다."
   },
   "monthly_factors": {
     "month": "2026-08",
@@ -23127,6 +23173,7 @@ window.MACRO = {
       "as_of": "2026-08-03",
       "history": null,
       "manual": true,
+      "prev": 53.3,
       "kind": "release",
       "source": {
         "name": "tradingeconomics.com (자동)",
@@ -23147,6 +23194,7 @@ window.MACRO = {
       "as_of": "2026-06-12",
       "history": null,
       "manual": true,
+      "prev": 5.0,
       "kind": "forward",
       "source": null
     },
@@ -23164,6 +23212,7 @@ window.MACRO = {
       "as_of": "2026-08-07",
       "history": null,
       "manual": true,
+      "prev": 60,
       "kind": "release",
       "source": {
         "name": "원본 데이터",
@@ -23184,6 +23233,7 @@ window.MACRO = {
       "as_of": "2026-08-05",
       "history": null,
       "manual": true,
+      "prev": -6.3,
       "kind": "release",
       "source": {
         "name": "aaii.com (자동)",
@@ -23204,6 +23254,7 @@ window.MACRO = {
       "as_of": "2026-08-08",
       "history": null,
       "manual": true,
+      "prev": 0.74,
       "kind": "release",
       "source": {
         "name": "cboe.com (자동)",
@@ -23353,6 +23404,7 @@ window.MACRO = {
         ]
       },
       "manual": true,
+      "prev": 77.17,
       "kind": "release",
       "source": {
         "name": "KRX Open API (파생상품지수 시세정보)",
@@ -23373,6 +23425,7 @@ window.MACRO = {
       "as_of": "2026-05-29",
       "history": null,
       "manual": true,
+      "prev": 48,
       "kind": "release",
       "source": {
         "name": "원본 데이터",
@@ -23393,6 +23446,7 @@ window.MACRO = {
       "as_of": "2026-05-29",
       "history": null,
       "manual": true,
+      "prev": 69,
       "kind": "release",
       "source": {
         "name": "원본 데이터",
@@ -23472,6 +23526,7 @@ window.MACRO = {
         ]
       },
       "manual": true,
+      "prev": 88,
       "kind": "release",
       "source": {
         "name": "네이버 증시자금추이",
@@ -23492,6 +23547,7 @@ window.MACRO = {
       "as_of": "2026-08-08",
       "history": null,
       "manual": true,
+      "prev": -30.0,
       "kind": "release",
       "source": {
         "name": "원본 데이터",
