@@ -200,7 +200,12 @@ def compute():
         e = earn.get(c) or {}
         # Value: (fair_pe - pe)/fair_pe — 싸면 +
         pe, fpe = p.get("pe"), p.get("fair_pe")
-        raw[c]["value"] = ((fpe - pe) / fpe) if (pe and fpe) else None
+        # fair가 장기 중앙값(후행 히스토리)이면 비교 대상도 후행(pe_ttm)으로 맞춘다.
+        # forward(pe)를 후행 중앙값과 비교하면 fwd<ttm 편향으로 전 국가가 싸 보인다.
+        # fair가 시드(EU/JP/CN 축적 중)면 종전대로 forward 비교.
+        cur_v = p.get("pe_ttm") if (str(p.get("fair_src") or "").startswith("후행PER")
+                                    and p.get("pe_ttm")) else pe
+        raw[c]["value"] = ((fpe - cur_v) / fpe) if (cur_v and fpe) else None
         raw[c]["pe_fwd"] = pe          # 사이클 정점 가드에서 후행 PER과 대조
         # Momentum: 12-1개월(장기 추세) + 최근 1개월(급변 반영) 등가중.
         # 12-1만 쓰면 최근 1개월이 설계상 제외돼 직전 달 급락을 전혀 못 본다.

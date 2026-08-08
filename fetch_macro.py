@@ -2015,6 +2015,17 @@ def _yf_12m_chg(ticker):
         return None
 
 
+def load_pe_history():
+    """pe-history.js(fetch_pe_history.py 산출) → {cc: summary}. 없으면 {}."""
+    try:
+        t = (HERE / "pe-history.js").read_text(encoding="utf-8")
+        import re as _re
+        d = json.loads(_re.search(r"window\.PE_HISTORY\s*=\s*(\{.*\})\s*;", t, _re.S).group(1))
+        return d.get("countries") or {}
+    except Exception:
+        return {}
+
+
 def build_country_pref(earn, bench):
     """국가 선호도: 밸류·이익·환율·통화정책·경기 종합 → 1·3·12개월 점수."""
     print("=== 국가 선호도 ===")
@@ -2023,11 +2034,22 @@ def build_country_pref(earn, bench):
         _v = (bench.get(_nm, {}).get("valuation") or {}).get("pe")
         if _v:
             live_pe[_cc] = _v
+    peh = load_pe_history()
     out = {}
     for cc, cfg in COUNTRY_PREF_CFG.items():
         pe = live_pe.get(cc) or COUNTRY_VAL_PE_SEED.get(cc)
-        fair = COUNTRY_FAIR_PE[cc]
-        val = clamp((fair - pe) / (fair * 0.3)) if pe else 0.0
+        # 적정 PER: 장기 중앙값(pe-history, 10년 창)이 유효하면 그걸 쓴다.
+        # 하드코딩 COUNTRY_FAIR_PE는 히스토리가 아직 짧은 나라(EU/JP/CN 축적 중)의 폴백.
+        # 중앙값은 후행(trailing) 히스토리이므로 비교 대상도 후행 현재값(ph.current)을
+        # 쓴다 — forward(pe)와 섞으면 fwd<ttm 편향으로 전 국가가 싸 보인다.
+        ph = peh.get(cc) or {}
+        if ph.get("valid") and ph.get("median"):
+            fair, cur_for_val = ph["median"], ph.get("current") or pe
+            fair_src = f"후행PER {ph.get('years')}년 중앙값"
+        else:
+            fair, cur_for_val = COUNTRY_FAIR_PE[cc], pe
+            fair_src = "시드(히스토리 축적 중)"
+        val = clamp((fair - cur_for_val) / (fair * 0.3)) if cur_for_val else 0.0
         ec = earn.get("countries", {}).get(cc, {})
         err, rev = ec.get("err"), ec.get("rev30")
         earn_s = clamp((err or 0) * 1.3) * 0.6 + clamp((rev or 0) / 8.0) * 0.4
@@ -2082,6 +2104,8 @@ def build_country_pref(earn, bench):
                 "mon": round(mon_s * 100), "cycle": round(cyc_s * 100)}
         horizon = {h: round(sum(comp[k] * w for k, w in wts.items())) for h, wts in PREF_WEIGHTS.items()}
         out[cc] = {"name": cfg["name"], "pe": round(pe, 1) if pe else None, "fair_pe": fair,
+                   "fair_src": fair_src,
+                   "pe_ttm": ph.get("current"), "pe_z": ph.get("z"),
                    "components": comp, "horizon": horizon, "fx_val": fx_val, "fx_chg": fx_chg,
                    "reer": reer, "fx12m": fx12,
                    "cli": cli_now, "phase": phase, "mon_note": cfg["mon_note"]}
