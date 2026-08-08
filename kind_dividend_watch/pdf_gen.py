@@ -25,6 +25,13 @@ def _font_path() -> str | None:
     for p in _FONT_CANDIDATES:
         if p and os.path.exists(p):
             return p
+    # 후보 경로가 다 빗나가면 시스템에서 한글 TTF를 찾아본다(러너 폰트 경로 변동 대비)
+    import glob
+    for pat in ("/usr/share/fonts/**/Nanum*.ttf", "/usr/share/fonts/**/NotoSansCJK*.*",
+                "/usr/share/fonts/**/*CJK*.ttf", "/usr/share/fonts/**/*Gothic*.ttf"):
+        hits = glob.glob(pat, recursive=True)
+        if hits:
+            return hits[0]
     return None
 
 
@@ -32,8 +39,11 @@ def make_dividend_pdf(d: Disclosure, extra: dict) -> str | None:
     """배당공시 요약 PDF를 임시파일로 생성하고 경로 반환. 실패 시 None."""
     font = _font_path()
     if not font:
-        print("   ⚠️ 한글폰트 없음 — PDF 생략(KOR_FONT_PATH 설정 필요)")
+        import glob
+        print(f"   ⚠️ 한글폰트 없음 — PDF 생략. /usr/share/fonts 하위: "
+              f"{glob.glob('/usr/share/fonts/**/*.tt*', recursive=True)[:5]}")
         return None
+    print(f"   🖋 PDF 폰트: {font}")
     try:
         from fpdf import FPDF
     except ImportError:

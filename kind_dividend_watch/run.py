@@ -202,6 +202,27 @@ def cmd_test_email() -> None:
     su, sp = _require("SMTP_USER"), _require("SMTP_PASS")
     sender = _clean(os.getenv("SENDER_EMAIL") or su)
     sent = 0
+
+    # 실제 최근 배당공시로 PDF 생성·첨부까지 검증(클라우드 폰트 문제 조기 발견)
+    try:
+        import dart_doc, pdf_gen, monitor as _m
+        dart = _make_dart()
+        recent = _m.backfill_matches(dart, 60)
+        if recent:
+            d = recent[-1]
+            extra = dart_doc.fetch_detail(dart.api_key, d.rcept_no)
+            pdf = pdf_gen.make_dividend_pdf(d, extra)
+            print(f"   PDF 생성: {pdf or '실패'}")
+            body = ("<div style='background:#fff3cd;padding:12px;border-radius:8px;margin-bottom:12px;font-size:13px'>"
+                    "✅ <b>테스트 메일</b>(배당 PDF 첨부 검증)</div>" + mailer.build_html_body(d, extra))
+            if mailer.send_email(su, sp, sender, recipients, "[테스트] " + mailer.build_subject(d),
+                                 body, attachment_path=pdf):
+                sent += 1
+            if pdf and os.path.exists(pdf):
+                os.remove(pdf)
+        dart.close()
+    except Exception as e:
+        print(f"   ⚠️ 배당 PDF 테스트 실패: {e}")
     # 해외 ETF: 최근 30일 실제 분배 하나로 테스트
     try:
         import overseas_etf
