@@ -479,19 +479,10 @@ window.MACRO = {
       "as_of": "2026-05-28"
     }
   ],
-  "updates_today": [
-    {
-      "date": "2026-08-08",
-      "type": "release",
-      "key": "aaii_spread",
-      "title": "AAII 불-베어 스프레드",
-      "detail": "-1.0%p → -6.3%p (2026-05-28 발표)",
-      "as_of": "2026-05-28"
-    }
-  ],
-  "generated": "2026-08-08T10:30:47Z",
+  "updates_today": [],
+  "generated": "2026-08-08T10:35:34Z",
   "regime": {
-    "score": 19,
+    "score": 18,
     "label": "비중확대 우위",
     "cls": "pos",
     "pillars": {
@@ -512,7 +503,7 @@ window.MACRO = {
       },
       "sentiment": {
         "name": "센티먼트",
-        "score": 15,
+        "score": 13,
         "n": 9
       },
       "earnings": {
@@ -24857,21 +24848,21 @@ window.MACRO = {
     "aaii_spread": {
       "name": "AAII 불-베어 스프레드",
       "pillar": "sentiment",
-      "current": -6.3,
+      "current": -1.0,
       "unit": "%p",
       "z": null,
       "pct": null,
-      "score": 0.25,
-      "signal": "호재",
-      "signal_cls": "pos",
-      "desc": "AAII 개인투자자 설문: 강세 35.6%·중립 22.6%·약세 41.9%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
-      "as_of": "2026-05-28",
+      "score": 0.04,
+      "signal": "중립",
+      "signal_cls": "neu",
+      "desc": "AAII 개인투자자 설문: 강세 37.0%·중립 25.0%·약세 38.0%(역사평균 강세 37.5%). 역발상 지표 — 비관(음수)일수록 바닥 신호. aaii.com/sentimentsurvey 주간 갱신.",
+      "as_of": "2026-08-05",
       "history": null,
       "manual": true,
-      "prev": -11.9,
+      "prev": -6.3,
       "kind": "release",
       "source": {
-        "name": "원본 데이터",
+        "name": "aaii.com (자동)",
         "url": "https://www.aaii.com/sentimentsurvey"
       }
     },
@@ -27314,21 +27305,6 @@ window.MACRO = {
               "note": "맞춤형 AI칩(ASIC)·네트워킹"
             },
             {
-              "ticker": "MU",
-              "name": "Micron Technology, Inc.",
-              "mktcap": 991121571840,
-              "fwdpe": 5.7,
-              "pbr": 9.84,
-              "rets": {
-                "w1": 6.6,
-                "m1": -11.5,
-                "m3": 35.7,
-                "ytd": 207.7
-              },
-              "rev30": 0.14851740353936105,
-              "note": "HBM·메모리 업사이클"
-            },
-            {
               "ticker": "AMD",
               "name": "Advanced Micro Devices, Inc.",
               "mktcap": 789073100800,
@@ -27342,6 +27318,21 @@ window.MACRO = {
               },
               "rev30": 2.2877890342505536,
               "note": "AI GPU 추격·MI 시리즈"
+            },
+            {
+              "ticker": "ASML",
+              "name": "ASML Holding N.V. - New York Re",
+              "mktcap": 668714270720,
+              "fwdpe": 29.4,
+              "pbr": null,
+              "rets": {
+                "w1": 6.9,
+                "m1": -3.4,
+                "m3": 14.9,
+                "ytd": 63.5
+              },
+              "rev30": 19.495547469567565,
+              "note": "EUV 노광 독점"
             }
           ]
         },
@@ -27428,19 +27419,19 @@ window.MACRO = {
               "note": "AIP 정부·기업 수요"
             },
             {
-              "ticker": "CRM",
-              "name": "Salesforce, Inc.",
-              "mktcap": 157854056448,
-              "fwdpe": 12.4,
-              "pbr": 4.61,
+              "ticker": "ADBE",
+              "name": "Adobe Inc.",
+              "mktcap": 105420972032,
+              "fwdpe": 9.6,
+              "pbr": 9.19,
               "rets": {
-                "w1": 4.7,
-                "m1": 18.6,
-                "m3": 3.7,
-                "ytd": -26.9
+                "w1": 5.9,
+                "m1": 19.1,
+                "m3": 3.4,
+                "ytd": -24.2
               },
-              "rev30": 0.04098380962560544,
-              "note": "에이전트포스 AI"
+              "rev30": -0.04532835417536685,
+              "note": "생성형 AI 크리에이티브"
             }
           ]
         },
@@ -27712,7 +27703,7 @@ window.MACRO = {
             {
               "ticker": "MRK",
               "name": "Merck & Company, Inc.",
-              "mktcap": 317570056192,
+              "mktcap": null,
               "fwdpe": 13.4,
               "pbr": 6.92,
               "rets": {
@@ -27779,9 +27770,24 @@ window.MACRO = {
               "note": "FSD·로보택시 기대"
             },
             {
+              "ticker": "NKE",
+              "name": "Nike, Inc.",
+              "mktcap": 61861900288,
+              "fwdpe": 18.2,
+              "pbr": 4.16,
+              "rets": {
+                "w1": -0.0,
+                "m1": -2.5,
+                "m3": -5.3,
+                "ytd": -33.5
+              },
+              "rev30": -0.4964342267993582,
+              "note": "리브랜딩·중국"
+            },
+            {
               "ticker": "HD",
               "name": "Home Depot, Inc. (The)",
-              "mktcap": 354594619392,
+              "mktcap": null,
               "fwdpe": 22.1,
               "pbr": 25.55,
               "rets": {
@@ -27796,7 +27802,7 @@ window.MACRO = {
             {
               "ticker": "MCD",
               "name": "McDonald's Corporation",
-              "mktcap": 195019653120,
+              "mktcap": null,
               "fwdpe": 19.6,
               "pbr": null,
               "rets": {
@@ -27807,21 +27813,6 @@ window.MACRO = {
               },
               "rev30": -0.5008165906569717,
               "note": "가성비 메뉴"
-            },
-            {
-              "ticker": "NKE",
-              "name": "Nike, Inc.",
-              "mktcap": 61861900288,
-              "fwdpe": 18.2,
-              "pbr": 4.16,
-              "rets": {
-                "w1": -0.0,
-                "m1": -2.5,
-                "m3": -5.3,
-                "ytd": -33.5
-              },
-              "rev30": -0.4964342267993582,
-              "note": "리브랜딩·중국"
             }
           ]
         },
@@ -27847,21 +27838,6 @@ window.MACRO = {
           "issue": "이란 전쟁發 유가 $100+ 고착. EPS 상향이지만 지정학 변동성 큼.",
           "indicators": "WTI/Brent, 정제마진, 호르무즈 리스크, 리그수",
           "holdings": [
-            {
-              "ticker": "XOM",
-              "name": "ExxonMobil Holdings Corporation",
-              "mktcap": 634342670336,
-              "fwdpe": 14.5,
-              "pbr": 2.43,
-              "rets": {
-                "w1": -1.5,
-                "m1": 11.3,
-                "m3": 5.1,
-                "ytd": 28.9
-              },
-              "rev30": 2.7306973806821455,
-              "note": "유가 레버리지·정제"
-            },
             {
               "ticker": "CVX",
               "name": "Chevron Corporation",
@@ -27906,6 +27882,21 @@ window.MACRO = {
               },
               "rev30": -2.335524266400857,
               "note": "유전서비스"
+            },
+            {
+              "ticker": "XOM",
+              "name": "ExxonMobil Holdings Corporation",
+              "mktcap": null,
+              "fwdpe": 14.5,
+              "pbr": 2.43,
+              "rets": {
+                "w1": -1.5,
+                "m1": 11.3,
+                "m3": 5.1,
+                "ytd": 28.9
+              },
+              "rev30": 2.7306973806821455,
+              "note": "유가 레버리지·정제"
             }
           ]
         },
@@ -28471,21 +28462,6 @@ window.MACRO = {
               "note": "K팝 신인·투어"
             },
             {
-              "ticker": "041510.KQ",
-              "name": "SME",
-              "mktcap": 1730838528000,
-              "fwdpe": 11.3,
-              "pbr": null,
-              "rets": {
-                "w1": 10.5,
-                "m1": -4.1,
-                "m3": -18.1,
-                "ytd": -44.0
-              },
-              "rev30": -9.207621693615186,
-              "note": "신인·일본"
-            },
-            {
               "ticker": "035900.KQ",
               "name": "JYP Ent.",
               "mktcap": 1550627241984,
@@ -28499,6 +28475,21 @@ window.MACRO = {
               },
               "rev30": -3.2276061897753228,
               "note": "아티스트 IP"
+            },
+            {
+              "ticker": "041510.KQ",
+              "name": "SME",
+              "mktcap": null,
+              "fwdpe": 11.3,
+              "pbr": null,
+              "rets": {
+                "w1": 10.5,
+                "m1": -4.1,
+                "m3": -18.1,
+                "ytd": -44.0
+              },
+              "rev30": -9.207621693615186,
+              "note": "신인·일본"
             }
           ]
         },
@@ -28626,7 +28617,7 @@ window.MACRO = {
             {
               "ticker": "032640.KS",
               "name": "LG Uplus",
-              "mktcap": 6349439107072,
+              "mktcap": null,
               "fwdpe": 7.7,
               "pbr": null,
               "rets": {
@@ -29757,9 +29748,9 @@ window.MACRO = {
     "macro": "[완만한 호재 우위] ISM 제조업 PMI 55.6(강한 호재)·미국 CPI (YoY) 3.5%(강한 악재)·미국 근원 CPI (YoY) 2.6%(중립)·미국 실업률 4.1%(호재)·비농업 고용 (전월비) -23.0천명(강한 악재)·장단기 금리차(10Y-2Y) 0.46%p(호재)·WTI 유가 (YoY) 17.2%(악재)",
     "valuation": "[뚜렷한 역풍] S&P500 12M Fwd PER 22.1배(강한 악재)·KOSPI 12M Fwd PER 3.7배(중립)·주식위험프리미엄(ERP) -0.16%p(악재)·미국 10Y 금리 4.66%(중립)",
     "flows": "[전반적으로 우호적] M2 통화량 (YoY) 5.5%(강한 호재)·신용 스프레드(Baa-10Y) 1.61%p(호재)·USD/KRW 1407.5원(강한 호재)·미국 CTA 주식 노출(백분위) 43%ile(중립)·미국 리테일 주식비중 70%(악재)·한국 투자자예탁금 103.2조원(강한 호재)·한국 투자자별 수급(외국인, 월) -5.9조원(중립)",
-    "sentiment": "[완만한 호재 우위] VIX 변동성 14.9(호재)·S&P500 12M 모멘텀 20.1%(강한 호재)·CNN 공포·탐욕 지수 64(호재)·AAII 불-베어 스프레드 -6.3%p(호재)·CBOE 풋/콜 비율(총) 0.76(강한 악재)",
+    "sentiment": "[완만한 호재 우위] VIX 변동성 14.9(호재)·S&P500 12M 모멘텀 20.1%(강한 호재)·CNN 공포·탐욕 지수 64(호재)·AAII 불-베어 스프레드 -1.0%p(중립)·CBOE 풋/콜 비율(총) 0.76(강한 악재)",
     "earnings": "[전반적으로 우호적] 미국 ERR(이익수정비율) 0.272(상향 우위)·미국 Fwd EPS 수정(1개월) 0.9%(둔화)·한국 ERR(이익수정비율) 0.121(상향 우위)·한국 Fwd EPS 수정(1개월) 1.2%(가속)",
-    "overall": "종합 레짐 점수 +19. 매크로 +22, 밸류 -33, 수급 +55, 센티 +15, 기업이익 +31."
+    "overall": "종합 레짐 점수 +18. 매크로 +22, 밸류 -33, 수급 +55, 센티 +13, 기업이익 +31."
   },
   "outlook": {
     "short": {
