@@ -454,14 +454,38 @@ _BILLING_ENV_STRIP = (
 )
 
 
+def _claude_cli_logged_in():
+    """로컬 Claude Code CLI가 설치·로그인돼 있는지(~/.claude/.credentials.json).
+
+    CI는 CLAUDE_CODE_OAUTH_TOKEN 환경변수로 인증하지만, 로컬 PC는 `claude /login`이
+    남긴 credentials.json을 쓴다. 이 경로를 안 보면 로컬 실행이 '자격증명 없음'으로
+    죽어서 구독 차감 생성을 로컬에서 돌릴 수 없다.
+    """
+    import shutil
+    if not (os.environ.get("CLAUDE_BIN") or shutil.which("claude")):
+        return False
+    try:
+        p = os.path.join(os.path.expanduser("~"), ".claude", ".credentials.json")
+        with open(p, encoding="utf-8") as f:
+            oauth = (json.load(f) or {}).get("claudeAiOauth") or {}
+        # 토큰 값은 절대 읽어 쓰지 않는다 — 존재 여부만 본다(만료면 CLI가 알아서 갱신).
+        return bool(oauth.get("accessToken") or oauth.get("refreshToken"))
+    except Exception:
+        return False
+
+
 def call_claude(system_prompt, user_payload):
-    """구독(CLAUDE_CODE_OAUTH_TOKEN) 우선 → 없으면 API 키(ANTHROPIC_API_KEY) 폴백."""
-    if os.environ.get("CLAUDE_CODE_OAUTH_TOKEN"):
+    """구독 우선(CI=OAuth 토큰 / 로컬=로그인된 CLI) → 없으면 API 키 폴백.
+
+    어느 경로든 _call_claude_cli는 과금 가능 env를 제거하고 호출하므로 구독으로만 차감된다.
+    """
+    if os.environ.get("CLAUDE_CODE_OAUTH_TOKEN") or _claude_cli_logged_in():
         return _call_claude_cli(system_prompt, user_payload)
     if os.environ.get("ANTHROPIC_API_KEY"):
         return _call_claude_sdk(system_prompt, user_payload)
     sys.stderr.write(
-        "자격증명 없음: CLAUDE_CODE_OAUTH_TOKEN(구독) 또는 ANTHROPIC_API_KEY(종량제) 필요\n"
+        "자격증명 없음: CLAUDE_CODE_OAUTH_TOKEN(구독)·로컬 claude 로그인·"
+        "ANTHROPIC_API_KEY(종량제) 중 하나가 필요\n"
     )
     sys.exit(2)
 

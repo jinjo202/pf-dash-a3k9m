@@ -12,6 +12,10 @@ dividend-watch.plain.js
 .env.local
 .vercel/
 
+# CIO 메일 중복발송 방지 상태 (로컬 전용)
+cio-mail-state.json
+cio_daily_mail.log
+
 # 별개 프로젝트 (배당 공시 스크래퍼)
 config.json
 fetch_disclosures.ps1

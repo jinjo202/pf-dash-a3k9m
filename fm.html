@@ -359,6 +359,7 @@
   .chain-item .ci-act { color:var(--text); margin-top:2px; }
   .nat-badge { font-size:10.5px; font-weight:800; padding:1px 7px; border-radius:99px; border:1px solid var(--border); color:var(--muted); }
   .cio-daily .dconc { font-size:13px; line-height:1.6; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+  .tg-lbl { font-size:11px; font-weight:800; color:var(--muted); letter-spacing:.03em; margin:10px 0 -2px; }
   .tech-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px; }
   @media (max-width:900px){ .tech-grid { grid-template-columns:repeat(2,1fr); } }
   @media (max-width:560px){ .tech-grid { grid-template-columns:1fr; } }
@@ -1390,6 +1391,105 @@ function techMiniCharts(){
   return '<div class="tech-grid">'+cards.join('')+'</div>';
 }
 
+// 수급·유동성 미니차트 — macro-data.js(kr_flows_ts / kr_credit_daily / indicators.vkospi)로
+// 클라이언트 계산·SVG 렌더. 판독문(technicals_read)이 글만 길어 한눈에 안 들어온다는 지적 반영.
+function supplyMiniCharts(){
+  var M=window.MACRO; if(!M) return '';
+  var W=260,H=84,PAD=3;
+  function path(pts){ var d=''; for(var i=0;i<pts.length;i++){ if(pts[i][1]==null) continue; d+=(d?'L':'M')+pts[i][0].toFixed(1)+' '+pts[i][1].toFixed(1); } return d; }
+  // 공통 렌더러: 시리즈 1~2개 + 선택적 임계선(밴드)
+  function card(o){
+    var s=o.series.filter(function(x){return x&&x.vals&&x.vals.length>1;});
+    if(!s.length) return '';
+    var lo=Infinity,hi=-Infinity;
+    s.forEach(function(x){ x.vals.forEach(function(v){ if(v==null)return; if(v<lo)lo=v; if(v>hi)hi=v; }); });
+    (o.marks||[]).forEach(function(m){ if(m.v<lo)lo=m.v; if(m.v>hi)hi=m.v; });
+    if(o.zero && lo>0) lo=0; if(o.zero && hi<0) hi=0;
+    var span=(hi-lo)||1; lo-=span*.08; hi+=span*.08; span=hi-lo;
+    var n=s[0].vals.length;
+    function X(i){ return PAD+(W-2*PAD)*i/(n-1); }
+    function Y(v){ return H-PAD-(H-2*PAD)*(v-lo)/span; }
+    function pp(a){ var r=[]; for(var i=0;i<a.length;i++) r.push([X(i),a[i]==null?null:Y(a[i])]); return r; }
+    var g='';
+    (o.marks||[]).forEach(function(m){
+      g+='<line x1="'+PAD+'" y1="'+Y(m.v).toFixed(1)+'" x2="'+(W-PAD)+'" y2="'+Y(m.v).toFixed(1)+
+         '" stroke="'+(m.col||'var(--muted-soft)')+'" stroke-dasharray="3 4" stroke-width="1" vector-effect="non-scaling-stroke"/>';
+    });
+    if(o.zero && lo<0 && hi>0)
+      g+='<line x1="'+PAD+'" y1="'+Y(0).toFixed(1)+'" x2="'+(W-PAD)+'" y2="'+Y(0).toFixed(1)+'" stroke="var(--border)" stroke-width="1" vector-effect="non-scaling-stroke"/>';
+    s.forEach(function(x){
+      if(x.fill){
+        var p0=pp(x.vals), d='M'+p0[0][0].toFixed(1)+' '+Y(o.zero?0:lo).toFixed(1);
+        for(var i=0;i<p0.length;i++){ if(p0[i][1]!=null) d+='L'+p0[i][0].toFixed(1)+' '+p0[i][1].toFixed(1); }
+        d+='L'+p0[p0.length-1][0].toFixed(1)+' '+Y(o.zero?0:lo).toFixed(1)+'Z';
+        g+='<path d="'+d+'" fill="'+x.col+'" opacity=".13"/>';
+      }
+      g+='<path d="'+path(pp(x.vals))+'" fill="none" stroke="'+x.col+'" stroke-width="'+(x.w||1.7)+
+         '"'+(x.dash?' stroke-dasharray="4 3"':'')+' vector-effect="non-scaling-stroke"/>';
+    });
+    var last=s[0].vals[n-1];
+    if(last!=null) g+='<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(last).toFixed(1)+'" r="2.4" fill="'+s[0].col+'"/>';
+    return '<div class="tech-card">'+
+      '<div class="tc-h"><b>'+esc(o.title)+'</b><span class="tc-px">'+o.cur+'</span></div>'+
+      '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="width:100%;height:64px;display:block">'+g+'</svg>'+
+      (o.badges?'<div class="tc-b">'+o.badges+'</div>':'')+
+      '<div class="tc-d">'+o.foot+'</div></div>';
+  }
+  function bd(t,c){ return '<span class="badge '+c+'" style="font-weight:700">'+t+'</span>'; }
+  function dr(ds){ return ds&&ds.length?(String(ds[0]).slice(5)+' ~ '+String(ds[ds.length-1]).slice(5)):''; }
+  var cards=[];
+
+  // ① VKOSPI — 30 주의 / 45 경보 임계선
+  var vk=((M.indicators||{}).vkospi)||{}, vh=vk.history||{};
+  if(vh.values&&vh.values.length>5){
+    var vv=vh.values.slice(-120), vd=(vh.dates||[]).slice(-120), vc=vv[vv.length-1];
+    cards.push(card({title:'VKOSPI (한국 변동성)', cur:vc.toFixed(1),
+      series:[{vals:vv,col:vc>=45?'var(--neg)':(vc>=30?'var(--warn-fg)':'var(--pos)'),fill:true}],
+      marks:[{v:30,col:'var(--warn-fg)'},{v:45,col:'var(--neg)'}],
+      badges:bd(vc>=45?'경보':(vc>=30?'주의':'정상'), vc>=45?'b-neg':(vc>=30?'b-neu':'b-pos'))+' '+
+             bd('기준일 '+String(vk.as_of||'').slice(5),'b-neu'),
+      foot:dr(vd)+' · ┄ 30 주의 · 45 경보'}));
+  }
+  // ② 신용잔고 vs KOSPI — 디레버리징(반대매매) 시각화
+  var cd=M.kr_credit_daily||{};
+  if(cd.dates&&cd.kospi_credit&&cd.kospi_credit.length>5){
+    var cc=cd.kospi_credit, ci=cd.kospi_idx||[], n2=cc.length;
+    var d1m=n2>21?(cc[n2-1]-cc[n2-22]):null;
+    // 지수는 스케일이 달라 신용잔고 범위로 정규화해 형태만 겹쳐 본다
+    var cmin=Math.min.apply(null,cc), cmax=Math.max.apply(null,cc);
+    var imin=Math.min.apply(null,ci), imax=Math.max.apply(null,ci);
+    var iScaled=ci.map(function(v){ return (imax>imin)?cmin+(v-imin)/(imax-imin)*(cmax-cmin):null; });
+    cards.push(card({title:'신용잔고 vs KOSPI', cur:cc[n2-1].toFixed(1)+'조',
+      series:[{vals:cc,col:'var(--neg)'},{vals:iScaled,col:'var(--muted)',w:1.1,dash:true}],
+      badges:(d1m!=null?bd('1M '+(d1m>=0?'+':'')+d1m.toFixed(1)+'조', d1m<=-1?'b-neg':'b-neu'):'')+' '+
+             bd(d1m!=null&&d1m<=-1?'디레버리징 진행':'안정','b-neu'),
+      foot:dr(cd.dates)+' · <span style="color:var(--neg)">─ 신용잔고(조)</span> <span style="color:var(--muted)">┄ KOSPI(형태 비교용)</span>'}));
+  }
+  // ③ 외국인 YTD 누적 순매수 — 0선 기준 이탈 규모
+  var ft=M.kr_flows_ts||{}, yc=ft.ytd_cum||{};
+  if(yc.dates&&yc.foreign&&yc.foreign.length>5){
+    var fo=yc.foreign, fcur=fo[fo.length-1];
+    cards.push(card({title:'외국인 YTD 누적 순매수', cur:fcur.toFixed(0)+'조', zero:true,
+      series:[{vals:fo,col:fcur<0?'var(--neg)':'var(--pos)',fill:true},
+              {vals:yc.retail,col:'var(--accent)',w:1.1,dash:true}],
+      badges:bd(fcur<0?'외인 이탈':'외인 유입', fcur<0?'b-neg':'b-pos')+' '+
+             (yc.retail?bd('개인 '+yc.retail[yc.retail.length-1].toFixed(0)+'조','b-neu'):''),
+      foot:dr(yc.dates)+' · <span style="color:var(--neg)">─ 외국인</span> <span style="color:var(--accent)">┄ 개인</span> (조원 누적)'}));
+  }
+  // ④ 고객예탁금 — 대기 유동성
+  var dp=ft.deposit||{};
+  if(dp.dates&&dp.values&&dp.values.length>5){
+    var dv=dp.values.slice(-180), dd=(dp.dates||[]).slice(-180), dc=dv[dv.length-1];
+    var d3=dv.length>60?(dc-dv[dv.length-61]):null;
+    cards.push(card({title:'고객예탁금 (대기 유동성)', cur:dc.toFixed(1)+'조',
+      series:[{vals:dv,col:'var(--accent)',fill:true}],
+      badges:(d3!=null?bd('3M '+(d3>=0?'+':'')+d3.toFixed(1)+'조', d3>=0?'b-pos':'b-neg'):''),
+      foot:dr(dd)+' · 증시 대기자금'}));
+  }
+  if(!cards.length) return '';
+  return '<div class="tech-grid" style="margin-top:8px">'+cards.join('')+'</div>';
+}
+
 // 티커 정규화: 해외는 거래소 접미사(US/IM/GY/LX 등) 제거, 한국은 "코드 KS"로 통일.
 // CIO 트레이드(유니버스: "XLK"/"091160 KS")와 실제 보유(PF: "XLK US"/"069500 KS")를 대조하기 위함.
 // CIO 데일리는 LLM이 생성 — 한국 티커를 "449450.KS"(점)·"449450"(맨숫자) 등으로 낼 때가 있어
@@ -1460,9 +1560,11 @@ function renderCioDaily(){
   tradeList.sort(function(a,b){ return (b.isHeld?1:0)-(a.isHeld?1:0); });
   var trades=tradeList.map(function(x){return x.html;}).join('');
   var techCharts=techMiniCharts();
-  var techHtml=(e.technicals_read||techCharts)?('<div class="cio-sec neu" style="margin-top:12px"><div class="sh">기술적·수급·유동성 판독</div>'+
-    techCharts+
-    (e.technicals_read?'<div class="sd"'+(techCharts?' style="margin-top:8px"':'')+'>'+esc(e.technicals_read)+'</div>':'')+
+  var supCharts=supplyMiniCharts();
+  var techHtml=(e.technicals_read||techCharts||supCharts)?('<div class="cio-sec neu" style="margin-top:12px"><div class="sh">기술적·수급·유동성 판독</div>'+
+    (techCharts?'<div class="tg-lbl">📈 지수 기술적</div>'+techCharts:'')+
+    (supCharts?'<div class="tg-lbl">💧 수급·유동성</div>'+supCharts:'')+
+    (e.technicals_read?'<div class="sd"'+((techCharts||supCharts)?' style="margin-top:10px"':'')+'>'+esc(e.technicals_read)+'</div>':'')+
   '</div>'):'';
   var heldCnt=tradeList.filter(function(x){return x.isHeld;}).length;
   var tradeLegend = (p.trades&&p.trades.length)
