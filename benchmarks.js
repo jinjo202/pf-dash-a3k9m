@@ -2,7 +2,7 @@
 // KR 10Y는 수동 입력 (MANUAL_OVERRIDES) — 한국은행/금융투자협회에서 확인 후 갱신 필요.
 window.BENCHMARKS = {
   "as_of": "2026-08-08",
-  "generated_utc": "2026-08-08T03:56:23Z",
+  "generated_utc": "2026-08-08T07:20:38Z",
   "indices": [
     {
       "name": "MSCI ACWI",
@@ -565,11 +565,11 @@ window.BENCHMARKS = {
       "decimals": 2,
       "valuation": {
         "pe": 6.83,
-        "pb": 1.25,
+        "pb": null,
         "roe": null,
         "src": "EEM (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -1112,11 +1112,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 3.67,
-        "pb": 1.88,
+        "pb": null,
         "roe": null,
         "src": "EWY (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -2743,7 +2743,7 @@ window.BENCHMARKS = {
       "name": "NASDAQ",
       "ticker": "^IXIC",
       "category": "미국",
-      "current": 26690.6152,
+      "current": 26690.6191,
       "baseline": 23241.9902,
       "mtd_baseline": 25373.8496,
       "ytd_pct": 14.8379,
@@ -3282,7 +3282,7 @@ window.BENCHMARKS = {
           26584.9902,
           26363.4395,
           26348.3496,
-          26690.6152
+          26690.6191
         ]
       }
     },
@@ -3290,7 +3290,7 @@ window.BENCHMARKS = {
       "name": "필라델피아 반도체",
       "ticker": "^SOX",
       "category": "미국",
-      "current": 12356.7871,
+      "current": 12356.79,
       "baseline": 7083.1299,
       "mtd_baseline": 11311.0801,
       "ytd_pct": 74.4538,
@@ -3829,7 +3829,7 @@ window.BENCHMARKS = {
           12179.2598,
           12008.8799,
           12048.6904,
-          12356.7871
+          12356.79
         ]
       }
     },
@@ -4394,11 +4394,11 @@ window.BENCHMARKS = {
       "decimals": 0,
       "valuation": {
         "pe": 22.52,
-        "pb": 1.43,
+        "pb": null,
         "roe": null,
         "src": "EWJ (top derived)",
         "pe_kind": "fwd",
-        "pb_kind": "ttm"
+        "pb_kind": null
       },
       "history": {
         "dates": [
@@ -6572,12 +6572,12 @@ window.BENCHMARKS = {
       "name": "WTI 유가",
       "ticker": "CL=F",
       "category": "원자재",
-      "current": 77.08,
+      "current": 78.18,
       "baseline": 57.42,
       "mtd_baseline": 84.67,
-      "ytd_pct": 34.2389,
-      "mtd_pct": -8.9642,
-      "daily_pct": -0.2717,
+      "ytd_pct": 36.1547,
+      "mtd_pct": -7.6651,
+      "daily_pct": 1.1515,
       "as_of": "2026-08-07",
       "decimals": 2,
       "valuation": {
@@ -7111,7 +7111,7 @@ window.BENCHMARKS = {
           75.77,
           75.22,
           77.29,
-          77.08
+          78.18
         ]
       }
     },
