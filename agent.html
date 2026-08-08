@@ -251,6 +251,9 @@
   .etf-hold-row .ehw { font-weight:800; font-variant-numeric:tabular-nums; text-align:right; }
   .etf-hold-row .ehbar { height:7px; border-radius:4px; background:var(--panel-soft); border:1px solid var(--border); overflow:hidden; }
   .etf-hold-row .ehbar i { display:block; height:100%; background:var(--accent); }
+  .etf-hold-ret { font-size:11px; color:var(--text-soft); margin:1px 0 6px; font-variant-numeric:tabular-nums; }
+  .etf-hold-ret .ehrl { color:var(--muted); font-weight:600; }
+  .etf-hold-ret .ehr-sep { color:var(--muted); }
   .etf-link { display:inline-block; margin-top:12px; padding:8px 13px; border:1px solid var(--border); border-radius:9px; background:var(--panel-soft); color:var(--accent); font-size:13px; font-weight:700; text-decoration:none; }
   .etf-link:hover { border-color:var(--accent); background:var(--accent-soft); }
 
@@ -1398,10 +1401,16 @@ function techMiniCharts(){
 
 // 티커 정규화: 해외는 거래소 접미사(US/IM/GY/LX 등) 제거, 한국(KS)은 유지.
 // CIO 트레이드(유니버스: "XLK"/"091160 KS")와 실제 보유(PF: "XLK US"/"069500 KS")를 대조하기 위함.
+// CIO 트레이드(유니버스: "XLK"/"091160 KS")와 실제 보유(PF: "XLK US"/"069500 KS")를 대조하기 위함.
+// CIO 데일리는 LLM이 생성 — 한국 티커를 "069500.KS"(점)·"069500"(맨숫자) 등으로 낼 때가 있어
+// "069500 KS"(공백, fm-data/PF 표기)만 보던 예전 버전은 매칭 실패 → 미보유로 오판했었다.
+// (fm.html과 동일 구현을 유지할 것 — 이 파일만 옛 버전이라 KODEX 200이 미보유로 떴다)
 function normTicker(t){
   t=String(t||'').trim();
-  if (/\sKS$/.test(t)) return t;                 // 한국 상장 — 그대로
-  return t.replace(/\s+[A-Z]{2,3}$/, '');        // "XLK US"→"XLK", "CSMIB IM"→"CSMIB"
+  var mKR = t.match(/^(\d{6})(?:[\s.]?(?:KS|KQ))?$/i);   // 6자리 코드 + 선택적 공백/점+KS/KQ
+  if (mKR) return mKR[1] + ' KS';                         // 전부 "코드 KS"로 통일(이 repo 표기 관례)
+  if (/\sKS$/.test(t)) return t;                          // (이미 위에서 처리되지만 방어적으로 유지)
+  return t.replace(/\s+[A-Z]{2,3}$/, '');                 // "XLK US"→"XLK", "CSMIB IM"→"CSMIB"
 }
 // 복호화된 실제 보유 → {정규화티커: {name, mkt, w}}
 function pfHeldMap(){
@@ -1789,17 +1798,20 @@ function openEtfFactsheet(ticker){
   var retHtml = (d.r_1m!=null||d.r_3m!=null||d.r_ytd!=null)
     ? '<div class="etf-ret-grid">'+rcell('1개월',d.r_1m)+rcell('3개월',d.r_3m)+rcell('YTD',d.r_ytd)+'</div>' : '';
 
-  // 상위 구성종목 + 비중
+  // 상위 구성종목 + 비중 + 개별 수익률(1M/3M/YTD)
   var th=(d.top_holdings||[]);
   var holdHtml='';
+  function hret(l,v){ if(v==null) return ''; var c=v<0?'var(--neg)':'var(--pos)'; return '<span class="ehr"><span class="ehrl">'+l+'</span> <span style="color:'+c+';font-weight:700">'+(v>=0?'+':'')+v+'%</span></span>'; }
   if (th.length){
-    holdHtml='<div class="fin-sec">🧬 상위 구성종목 (비중)</div><div class="etf-hold-list">'+
+    holdHtml='<div class="fin-sec">🧬 상위 구성종목 (비중 · 1M/3M/YTD)</div><div class="etf-hold-list">'+
       th.map(function(h){
         var w=(h.weight_pct!=null)?h.weight_pct:0;
+        var rets=[hret('1M',h.r_1m),hret('3M',h.r_3m),hret('YTD',h.r_ytd)].filter(Boolean).join(' <span class="ehr-sep">·</span> ');
         return '<div class="etf-hold-row"><span class="ehn">'+esc(h.name||h.ticker||'')+
           (h.ticker&&h.name?' <span class="eht">'+esc(h.ticker)+'</span>':'')+'</span>'+
           '<span class="ehw">'+(h.weight_pct!=null?h.weight_pct.toFixed(2)+'%':'—')+'</span>'+
-          '<span class="ehbar"><i style="width:'+Math.min(100,w).toFixed(1)+'%"></i></span></div>';
+          '<span class="ehbar"><i style="width:'+Math.min(100,w).toFixed(1)+'%"></i></span></div>'+
+          (rets?'<div class="etf-hold-ret">'+rets+'</div>':'');
       }).join('')+'</div>';
   }
 
