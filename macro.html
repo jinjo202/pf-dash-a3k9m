@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>매크로 레짐 모니터</title>
-<script>window.CODE_VERSION = "2026-08-08d";</script>
+<script>window.CODE_VERSION = "2026-08-08e";</script>
 <!-- 자동 캐시 무력화: GitHub Pages가 이 HTML을 캐시(최대 10분)할 수 있어,
      로드 직후 서버의 진짜 Last-Modified와 비교해 더 최신이면 1회 강제 새로고침 -->
 <script>
@@ -1182,7 +1182,10 @@ function renderCountryModel(CM) {
     var chips = facList.map(function(o){
       var z = c.factors[o[0]]; if (z==null) z=0;
       var cls = z>=0.3?'cm-pos':z<=-0.3?'cm-neg':'cm-neu';
-      return '<span class="cm-fchip '+cls+'">'+o[1]+' '+(z>0?'+':'')+z.toFixed(1)+'</span>';
+      // 매크로 칩엔 CESI(경제 서프라이즈) 실측을 툴팁으로 — CLI가 2개월 후행이라
+      // 매크로 z가 왜 그 값인지 CLI만으론 설명이 안 된다.
+      var tip = (o[0]==='macro' && c.cesi) ? ' title="' + c.cesi + '"' : '';
+      return '<span class="cm-fchip '+cls+'"'+tip+'>'+o[1]+' '+(z>0?'+':'')+z.toFixed(1)+(tip?'*':'')+'</span>';
     }).join('');
     return '<tr><td class="nm">'+c.name+'</td>'+
       '<td><span class="pm-badge '+prefCls(c.pref)+'">'+c.pref+'</span></td>'+

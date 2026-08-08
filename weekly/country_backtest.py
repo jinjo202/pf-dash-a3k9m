@@ -212,7 +212,10 @@ def main():
         "히스토리 3년 미만인 국가는 12M Fwd PER vs 시드 적정치로 폴백), "
         "Momentum=12-1개월(추세)과 최근 1개월(급변) 등가중, "
         "Earnings=이익수정비율(ERR)+1M수정, "
-        "Macro=OECD CLI 수준+통화정책 방향(긴축 −/완화 +), "
+        "Macro=OECD CLI 수준+통화정책 방향(긴축 −/완화 +)"
+        "+Citi 경제 서프라이즈(CESI, 25%: 수준 0.6·20일 모멘텀 0.4 — CLI는 발표가 "
+        "2개월 늦어 급변 국면에 눈이 멀고, CESI는 일간이라 그 공백을 메운다. "
+        "국가 시리즈는 미국·유로존뿐이라 일·한은 아시아태평양, 중국은 신흥국 프록시), "
         "Currency=FX 3요소 등가중(정책금리 캐리 + 대KRW 12M 모멘텀 + BIS REER 10년평균 대비 밸류), "
         "Risk=52주 고점대비 낙폭과 실현변동성(20일) 등가중. "
         "밸류 함정 가드 2단: ①이익수정이 마이너스면 밸류 z 플러스분 최대 50% 차감(급락으로 "
@@ -234,7 +237,8 @@ def main():
         "methodology": methodology,
         "weights": cm.WEIGHTS,
         "current": [{"name": r["name"], "pref": r["pref"], "score": r["score"],
-                     "factors": r["z"], "rationale": cm.rationale(r)} for r in current],
+                     "factors": r["z"], "rationale": cm.rationale(r),
+                     "cesi": r.get("cesi")} for r in current],
         "backtest": bt,
     }
     dest = os.path.join(REPO, "country-model.js")

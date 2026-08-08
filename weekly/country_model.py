@@ -337,6 +337,8 @@ def compute():
             row["value_trap_cut"] = trap[c]
         if cyc.get(c):
             row["cyclical_peak"] = cyc[c]
+        if raw[c].get("cesi_note"):
+            row["cesi"] = raw[c]["cesi_note"]   # 매크로 팩터 근거 표시용
         row["score"] = round(score, 3)
         out.append(row)
     out.sort(key=lambda x: x["score"], reverse=True)
